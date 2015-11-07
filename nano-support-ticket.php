@@ -2,12 +2,12 @@
 /**
  * @link              http://nanodesignsbd.com/
  * @since             1.0.0
- * @package           Nanodesigns Support Ticket
+ * @package           Nano Support Ticket
  *
  * @wordpress-plugin
- * Plugin Name:       Nanodesigns Support Ticket
+ * Plugin Name:       Nano Support Ticket
  * Plugin URI:        http://nst.nanodesignsbd.com/
- * Description:       Create a COMPLETE Support Center within your WordPress site
+ * Description:       Create a fully featured Support Center within your WordPress environment without any third party software
  * Version:           1.0.0
  * Author:            nanodesigns
  * Author URI:        http://nanodesignsbd.com/
@@ -15,7 +15,7 @@
  * Tested up to:      4.3.1
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       nanodesigns-nst
+ * Text Domain:       'nano-support-ticket'
  * Domain Path:       /i18n/languages/
  */
 
@@ -31,6 +31,7 @@ if ( ! class_exists( 'NST' ) ) :
  * Main NST Class
  *
  * @class NST
+ * -----------------------------------------------------------------------
  */
 final class NST {
 
@@ -94,9 +95,26 @@ endif;
 
 
 /**
+ * Translation-ready
+ * 
+ * Make the plugin translation-ready.
+ * -----------------------------------------------------------------------
+ */
+function nst_load_textdomain() {
+    load_plugin_textdomain(
+    	'nano-support-ticket',
+    	FALSE,
+    	dirname( plugin_basename( __FILE__ ) ) .'/i18n/languages/'
+    );
+}
+add_action( 'init', 'nst_load_textdomain', 1 );
+
+
+/**
  * Require additional files
  * 
  * @package Nano Support Ticket
+ * -----------------------------------------------------------------------
  */
 require_once 'includes/nst-core-functions.php';
 require_once 'includes/nst-setup.php';
@@ -105,4 +123,8 @@ require_once 'includes/nst-metaboxes-control.php';
 require_once 'includes/nst-metaboxes-responses.php';
 require_once 'includes/nst-responses.php';
 
+require_once 'includes/shortcodes/nst-support-desk.php';
+
 require_once 'includes/nst-helper-functions.php';
+
+require_once '__TEST.php';

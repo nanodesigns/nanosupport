@@ -12,7 +12,7 @@
 function nst_control_meta_box() {
     add_meta_box(
         'nanosupport-control',                      // metabox ID
-        __('Ticket Control', 'nanodesigns-nst'),    // metabox title
+        __('Ticket Control', 'nano-support-ticket'),    // metabox title
         'nst_control_specifics',                    // callback function
         'nanosupport',                              // post type (+ CPT)
         'side',                                     // 'normal', 'advanced', or 'side'
@@ -47,14 +47,14 @@ function nst_control_specifics() {
 
         <div class="nst-row">
             <div class="nst-head-col">
-                <span class="dashicons dashicons-shield"></span> <?php _e( 'Ticket Status', 'nanodesigns-nst' ); ?>
+                <span class="dashicons dashicons-shield"></span> <?php _e( 'Ticket Status', 'nano-support-ticket' ); ?>
             </div>
             <div class="nst-body-col">
                 <div class="nst-field">
                     <select name="nst_ticket_status" class="nst-field-item" id="nst-ticket-status">
-                        <option value="open" <?php selected( $nst_control_array['status'], 'open' ); ?>><?php _e( 'Open', 'nanodesigns-nst' ); ?></option>
-                        <option value="inspection"<?php selected( $nst_control_array['status'], 'inspection' ); ?>><?php _e( 'Under Inspection', 'nanodesigns-nst' ); ?></option>
-                        <option value="solved"<?php selected( $nst_control_array['status'], 'solved' ); ?>><?php _e( 'Solved', 'nanodesigns-nst' ); ?></option>
+                        <option value="open" <?php selected( $nst_control_array['status'], 'open' ); ?>><?php _e( 'Open', 'nano-support-ticket' ); ?></option>
+                        <option value="inspection"<?php selected( $nst_control_array['status'], 'inspection' ); ?>><?php _e( 'Under Inspection', 'nano-support-ticket' ); ?></option>
+                        <option value="solved"<?php selected( $nst_control_array['status'], 'solved' ); ?>><?php _e( 'Solved', 'nano-support-ticket' ); ?></option>
                     </select>
                 </div> <!-- /.nst-field -->                    
             </div>
@@ -62,15 +62,15 @@ function nst_control_specifics() {
 
         <div class="nst-row">
             <div class="nst-head-col">
-                <span class="dashicons dashicons-sort"></span> <?php _e( 'Priority', 'nanodesigns-nst' ); ?>
+                <span class="dashicons dashicons-sort"></span> <?php _e( 'Priority', 'nano-support-ticket' ); ?>
             </div>
             <div class="nst-body-col">
                 <div class="nst-field">
                     <select name="nst_ticket_priority" class="nst-field-item" id="nst-ticket-priority">
-                        <option value="low" <?php selected( $nst_control_array['priority'], 'low' ); ?>><?php _e( 'Low', 'nanodesigns-nst' ); ?></option>
-                        <option value="medium" <?php selected( $nst_control_array['priority'], 'medium' ); ?>><?php _e( 'Medium', 'nanodesigns-nst' ); ?></option>
-                        <option value="high" <?php selected( $nst_control_array['priority'], 'high' ); ?>><?php _e( 'High', 'nanodesigns-nst' ); ?></option>
-                        <option value="critical" <?php selected( $nst_control_array['priority'], 'critical' ); ?>><?php _e( 'Critical', 'nanodesigns-nst' ); ?></option>
+                        <option value="low" <?php selected( $nst_control_array['priority'], 'low' ); ?>><?php _e( 'Low', 'nano-support-ticket' ); ?></option>
+                        <option value="medium" <?php selected( $nst_control_array['priority'], 'medium' ); ?>><?php _e( 'Medium', 'nano-support-ticket' ); ?></option>
+                        <option value="high" <?php selected( $nst_control_array['priority'], 'high' ); ?>><?php _e( 'High', 'nano-support-ticket' ); ?></option>
+                        <option value="critical" <?php selected( $nst_control_array['priority'], 'critical' ); ?>><?php _e( 'Critical', 'nano-support-ticket' ); ?></option>
                     </select>
                 </div> <!-- /.nst-field -->                    
             </div>
@@ -78,7 +78,7 @@ function nst_control_specifics() {
 
         <div class="nst-row">
             <div class="nst-head-col">
-                <span class="dashicons dashicons-businessman"></span> <?php _e( 'Agent', 'nanodesigns-nst' ); ?>
+                <span class="dashicons dashicons-businessman"></span> <?php _e( 'Agent', 'nano-support-ticket' ); ?>
             </div>
             <div class="nst-body-col">
                 <?php
@@ -92,12 +92,12 @@ function nst_control_specifics() {
                     <select name="nst_ticket_agent" class="nst-field-item" id="nst-ticket-agent">
                         <?php
                         if ( ! empty( $agent_query->results ) ) {
-                            echo '<option value="">'. __( 'Assign an agent', 'nanodesigns-nst' ) .'</option>';
+                            echo '<option value="">'. __( 'Assign an agent', 'nano-support-ticket' ) .'</option>';
                             foreach ( $agent_query->results as $user ) {
                                 echo '<option value="'. $user->ID .'" '. selected( $nst_control_array['agent'], $user->ID ) .'>'. $user->display_name .'</option>';
                             }
                         } else {
-                            echo '<option value="">'. __( 'No agent found', 'nanodesigns-nst' ) .'</option>';
+                            echo '<option value="">'. __( 'No agent found', 'nano-support-ticket' ) .'</option>';
                         }
                         ?>
                     </select>

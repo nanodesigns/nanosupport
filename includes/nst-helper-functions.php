@@ -177,13 +177,13 @@ function nst_time_elapsed( $time ) {
     $time = time() - $time; // to get the time since that moment
 
     $tokens = array (
-        31536000 => __( 'year','nanodesigns-nst' ),
-        2592000 => __( 'month','nanodesigns-nst' ),
-        604800 => __( 'week','nanodesigns-nst' ),
-        86400 => __( 'day','nanodesigns-nst' ),
-        3600 => __( 'hour','nanodesigns-nst' ),
-        60 => __( 'minute','nanodesigns-nst' ),
-        1 => __( 'second','nanodesigns-nst' )
+        31536000 => __( 'year', 'nano-support-ticket' ),
+        2592000 => __( 'month', 'nano-support-ticket' ),
+        604800 => __( 'week', 'nano-support-ticket' ),
+        86400 => __( 'day', 'nano-support-ticket' ),
+        3600 => __( 'hour', 'nano-support-ticket' ),
+        60 => __( 'minute', 'nano-support-ticket' ),
+        1 => __( 'second', 'nano-support-ticket' )
     );
 
     foreach ( $tokens as $unit => $text ) {

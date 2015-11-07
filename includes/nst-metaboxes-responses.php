@@ -12,7 +12,7 @@
 function nst_responses_meta_box() {
     add_meta_box(
         'nanosupport-responses',                // metabox ID
-        __('Responses', 'nanodesigns-nst'),     // metabox title
+        __('Responses', 'nano-support-ticket'),     // metabox title
         'nst_reply_specifics',                  // callback function
         'nanosupport',                          // post type (+ CPT)
         'normal',                               // 'normal', 'advanced', or 'side'
@@ -49,7 +49,7 @@ function nst_reply_specifics() {
     $response_array = get_comments( $args ); ?>
     
     <div class="row nst-holder">
-        <h2><?php _e('Responses to the ticket', 'nanodesigns-nst' ); ?></h2>
+        <h2><?php _e('Responses to the ticket', 'nano-support-ticket' ); ?></h2>
 
         <?php if( $response_array ) {
 
@@ -72,7 +72,7 @@ function nst_reply_specifics() {
 		        			echo ' &mdash; ';
                             echo '<span>'. esc_html( $date_human_readable ) .'</span>';
                             ?>
-		        			<span class="go-right"><?php _e( 'Response', 'nanodesigns-nst' ); ?>
+		        			<span class="go-right"><?php _e( 'Response', 'nano-support-ticket' ); ?>
                                 <?php echo ' #', $counter; ?>
                                 <a id="<?php echo $response->comment_ID; ?>" class="delete-response dashicons dashicons-dismiss" onclick="return confirm('Are you sure you want to delete the response?');" href="<?php echo admin_url('/post.php?post='. $post->ID .'&action=edit&resID='. $response->comment_ID .'&del=true'); ?>"></a>
                             </span>
@@ -93,8 +93,8 @@ function nst_reply_specifics() {
     </div> <!-- .nst-holder -->
 	
 	<br>
-	<div id="nst-add-response" class="button button-large button-primary nst-btn"><span class="dashicons dashicons-plus"></span> <?php _e('Add New Response', 'nanodesigns-nst' ); ?></div>
-	<div id="nst-remove-response" style="display:none;" class="button button-large button-default nst-btn"><span class="dashicons dashicons-minus"></span> <?php _e('Remove Last Response', 'nanodesigns-nst' ); ?></div>
+	<div id="nst-add-response" class="button button-large button-primary nst-btn"><span class="dashicons dashicons-plus"></span> <?php _e('Add New Response', 'nano-support-ticket' ); ?></div>
+	<div id="nst-remove-response" style="display:none;" class="button button-large button-default nst-btn"><span class="dashicons dashicons-minus"></span> <?php _e('Remove Last Response', 'nano-support-ticket' ); ?></div>
 
     <script type="text/javascript" charset="utf-8">
     jQuery(document).ready(function($) {

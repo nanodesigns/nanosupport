@@ -19,25 +19,25 @@
 function nst_register_cpt_nanosupport() {
 
     $labels = array(
-        'name'					=> __( 'Tickets', 'nanodesigns-nst' ),
-        'singular_name'			=> __( 'Ticket', 'nanodesigns-nst' ),
-        'add_new'				=> __( 'Add New', 'nanodesigns-nst' ),
-        'add_new_item'			=> __( 'Add New Ticket', 'nanodesigns-nst' ),
-        'edit_item'				=> __( 'Edit Ticket', 'nanodesigns-nst' ),
-        'new_item'				=> __( 'New Ticket', 'nanodesigns-nst' ),
-        'view_item'				=> __( 'View Ticket', 'nanodesigns-nst' ),
-        'search_items'			=> __( 'Search Ticket', 'nanodesigns-nst' ),
-        'not_found'				=> __( 'No Ticket found', 'nanodesigns-nst' ),
-        'not_found_in_trash'	=> __( 'No Ticket found in Trash', 'nanodesigns-nst' ),
-        'parent_item_colon'		=> __( 'Parent Ticket:', 'nanodesigns-nst' ),
-        'menu_name'				=> __( 'Supports', 'nanodesigns-nst' ),
+        'name'					=> __( 'Tickets', 'nano-support-ticket' ),
+        'singular_name'			=> __( 'Ticket', 'nano-support-ticket' ),
+        'add_new'				=> __( 'Add New', 'nano-support-ticket' ),
+        'add_new_item'			=> __( 'Add New Ticket', 'nano-support-ticket' ),
+        'edit_item'				=> __( 'Edit Ticket', 'nano-support-ticket' ),
+        'new_item'				=> __( 'New Ticket', 'nano-support-ticket' ),
+        'view_item'				=> __( 'View Ticket', 'nano-support-ticket' ),
+        'search_items'			=> __( 'Search Ticket', 'nano-support-ticket' ),
+        'not_found'				=> __( 'No Ticket found', 'nano-support-ticket' ),
+        'not_found_in_trash'	=> __( 'No Ticket found in Trash', 'nano-support-ticket' ),
+        'parent_item_colon'		=> __( 'Parent Ticket:', 'nano-support-ticket' ),
+        'menu_name'				=> __( 'Supports', 'nano-support-ticket' ),
     );
 
     $args = array(
         'labels'				=> $labels,
         'hierarchical'			=> false,
-        'description'			=> __( 'To get ticket information', 'nanodesigns-nst' ),
-        'supports'				=> array( 'title', 'editor', 'author' ), //'title', 'editor' (content), 'author', 'thumbnail' (featured image), 'excerpt', 'trackbacks', 'custom-fields', 'comments', 'revisions', 'page-attributes' (menu order, hierarchical must be true to show Parent option), 'post-formats'
+        'description'			=> __( 'Get the ticket information', 'nano-support-ticket' ),
+        'supports'				=> array( 'title', 'editor', 'author' ),
         'taxonomies'            => array( 'nanosupport_departments' ),
         'menu_icon'				=> 'dashicons-universal-access-alt',
         'public'				=> true,
@@ -51,10 +51,21 @@ function nst_register_cpt_nanosupport() {
         'query_var'				=> true,
         'can_export'			=> true,
         'rewrite'				=> array( 'slug' => 'nanosupport' ),
-        'capability_type'		=> 'post'
+        'capability_type'       => 'post',
+        /*'capabilities'          => array(
+                                    'edit_post'             => 'edit_nst',
+                                    'edit_posts'            => 'edit_nsts',
+                                    'edit_others_posts'     => 'edit_other_nsts',
+                                    'publish_posts'         => 'publish_nsts',
+                                    'read_post'             => 'read_nst',
+                                    'read_private_posts'    => 'read_private_nsts',
+                                    'delete_post'           => 'delete_nst'
+                                ),
+        'map_meta_cap'          => true*/
     );
 
-    register_post_type( 'nanosupport', $args );
+    if( !post_type_exists( 'nanosupport' ) )
+        register_post_type( 'nanosupport', $args );
 
     /**
      * To activate CPT Single page
@@ -89,9 +100,9 @@ function nst_show_pending_count_in_cpt() {
     $pending_count  = nst_pending_tickets_count();
     $pending_title  = sprintf( '%d Pending Tickets', $pending_count );
 
-    $menu_label     = sprintf( __( 'Supports %s', 'nanodesigns-nst' ), '<span class="update-plugins count-$pending_count" title="'. esc_attr( $pending_title ) .'"><span class="pending-count">'. number_format_i18n($pending_count) .'</span></span>' );
+    $menu_label     = sprintf( __( 'Supports %s', 'nano-support-ticket' ), '<span class="update-plugins count-$pending_count" title="'. esc_attr( $pending_title ) .'"><span class="pending-count">'. number_format_i18n($pending_count) .'</span></span>' );
 
-    $fallback_label = __( 'Supports', 'nanodesigns-nst' );
+    $fallback_label = __( 'Supports', 'nano-support-ticket' );
 
     $menu[29][0] = $pending_count ? $menu_label : $fallback_label;
 }
@@ -105,10 +116,10 @@ add_action( 'admin_menu', 'nst_show_pending_count_in_cpt' );
  */
 function nst_set_custom_columns( $columns ) {
     $new_columns = array(
-            'ticket_priority'   => __( 'Priority', 'nanodesigns-nst' ),
+            'ticket_priority'   => __( 'Priority', 'nano-support-ticket' ),
             'ticket_responses'  => '<span class="dashicons dashicons-format-chat" title="Responses"></span>',
-            'ticket_status'     => __( 'Ticket Status', 'nanodesigns-nst' ),
-            'last_response'     => __( 'Last Response by', 'nanodesigns-nst' )
+            'ticket_status'     => __( 'Ticket Status', 'nano-support-ticket' ),
+            'last_response'     => __( 'Last Response by', 'nano-support-ticket' )
         );
     return array_merge( $columns, $new_columns );
 } 
@@ -126,13 +137,13 @@ function nst_populate_custom_columns( $column, $post_id ) {
         case 'ticket_priority' :
             $ticket_priority = $ticket_control['priority'];
             if( $ticket_priority === 'low' ) {
-                echo '<strong>'. __( 'Low', 'nanodesigns-nst' ) .'</strong>';
+                echo '<strong>'. __( 'Low', 'nano-support-ticket' ) .'</strong>';
             } else if( $ticket_priority === 'medium' ) {
-                echo '<strong class="text-info">' , __( 'Medium', 'nanodesigns-nst' ) , '</strong>';
+                echo '<strong class="text-info">' , __( 'Medium', 'nano-support-ticket' ) , '</strong>';
             } else if( $ticket_priority === 'high' ) {
-                echo '<strong class="text-warning">' , __( 'High', 'nanodesigns-nst' ) , '</strong>';
+                echo '<strong class="text-warning">' , __( 'High', 'nano-support-ticket' ) , '</strong>';
             } else if( $ticket_priority === 'critical' ) {
-                echo '<strong class="text-danger">' , __( 'Critical', 'nanodesigns-nst' ) , '</strong>';
+                echo '<strong class="text-danger">' , __( 'Critical', 'nano-support-ticket' ) , '</strong>';
             }
             break;
 
@@ -142,7 +153,7 @@ function nst_populate_custom_columns( $column, $post_id ) {
 
             if( !empty($response_count) ) {
                 echo '<span class="responses-count" aria-hidden="true">'. $response_count .'</span>';
-                echo '<span class="screen-reader-text">'. sprintf( _n( '%s response', '%s responses', $response_count, 'nanodesigns-nst' ), $response_count ) .'</span>';
+                echo '<span class="screen-reader-text">'. sprintf( _n( '%s response', '%s responses', $response_count, 'nano-support-ticket' ), $response_count ) .'</span>';
             } else {
                 echo '&mdash;';
             }
@@ -152,11 +163,11 @@ function nst_populate_custom_columns( $column, $post_id ) {
             $ticket_status = $ticket_control['status'];
             if( $ticket_status ) {
                 if( $ticket_status == 'solved' ) {
-                    $status = '<span class="label label-success">'. __( 'Solved', 'nanodesigns-nst' ) .'</span>';
+                    $status = '<span class="label label-success">'. __( 'Solved', 'nano-support-ticket' ) .'</span>';
                 } else if( $ticket_status == 'inspection' ) {
-                    $status = '<span class="label label-primary">'. __( 'Under Inspection', 'nanodesigns-nst' ) .'</span>';
+                    $status = '<span class="label label-primary">'. __( 'Under Inspection', 'nano-support-ticket' ) .'</span>';
                 } else {
-                    $status = '<span class="label label-warning">'. __( 'Open', 'nanodesigns-nst' ) .'</span>';
+                    $status = '<span class="label label-warning">'. __( 'Open', 'nano-support-ticket' ) .'</span>';
                 }
             } else {
                 $status = '';
@@ -190,17 +201,17 @@ add_action( 'manage_nanosupport_posts_custom_column' , 'nst_populate_custom_colu
 function nst_create_nanosupport_taxonomies() {
 
     $labels = array(
-        'name'              => __( 'Departments', 'nanodesigns-nst' ),
-        'singular_name'     => __( 'Department Type', 'nanodesigns-nst' ),
-        'search_items'      => __( 'Search Departments', 'nanodesigns-nst' ),
-        'all_items'         => __( 'All Departments', 'nanodesigns-nst' ),
-        'parent_item'       => __( 'Parent Department Type', 'nanodesigns-nst' ),
-        'parent_item_colon' => __( 'Parent Department Type:', 'nanodesigns-nst' ),
-        'edit_item'         => __( 'Edit Departments', 'nanodesigns-nst' ),
-        'update_item'       => __( 'Update Departments', 'nanodesigns-nst' ),
-        'add_new_item'      => __( 'Add New Department Type', 'nanodesigns-nst' ),
-        'new_item_name'     => __( 'New Department Type Name', 'nanodesigns-nst' ),
-        'menu_name'         => __( 'Departments', 'nanodesigns-nst' ),
+        'name'              => __( 'Departments', 'nano-support-ticket' ),
+        'singular_name'     => __( 'Department Type', 'nano-support-ticket' ),
+        'search_items'      => __( 'Search Departments', 'nano-support-ticket' ),
+        'all_items'         => __( 'All Departments', 'nano-support-ticket' ),
+        'parent_item'       => __( 'Parent Department Type', 'nano-support-ticket' ),
+        'parent_item_colon' => __( 'Parent Department Type:', 'nano-support-ticket' ),
+        'edit_item'         => __( 'Edit Departments', 'nano-support-ticket' ),
+        'update_item'       => __( 'Update Departments', 'nano-support-ticket' ),
+        'add_new_item'      => __( 'Add New Department Type', 'nano-support-ticket' ),
+        'new_item_name'     => __( 'New Department Type Name', 'nano-support-ticket' ),
+        'menu_name'         => __( 'Departments', 'nano-support-ticket' ),
     );
 
     $args = array(
@@ -214,7 +225,8 @@ function nst_create_nanosupport_taxonomies() {
         'rewrite'           => array( 'slug' => 'support-departments' ),
     );
 
-    register_taxonomy( 'nanosupport_departments', array( 'nanosupport' ), $args );
+    if( !taxonomy_exists( 'nanosupport_departments' ) )
+        register_taxonomy( 'nanosupport_departments', array( 'nanosupport' ), $args );
 
 
 
@@ -224,7 +236,6 @@ function nst_create_nanosupport_taxonomies() {
      * Insert default term 'Support' to the taxonomy 'nanosupport_departments'.
      *
      * Term: Support
-     * ---
      */
     wp_insert_term(
         'Support', // the term 

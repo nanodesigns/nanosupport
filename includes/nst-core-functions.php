@@ -34,17 +34,17 @@ function nst_get_template_part( $slug, $name = '' ) {
 
 	// Look in yourtheme/slug-name.php and yourtheme/NST/slug-name.php
 	if ( $name ) {
-		$template = locate_template( array( "{$slug}-{$name}.php", NST()->template_path() . "{$slug}-{$name}.php" ) );
+		$template = locate_template( array( "{$slug}-{$name}.php", NST()->template_path() ."{$slug}-{$name}.php" ) );
 	}
 
 	// Get default slug-name.php
 	if ( ! $template && $name && file_exists( NST()->plugin_path() . "/templates/{$slug}-{$name}.php" ) ) {
-		$template = NST()->plugin_path() . "/templates/{$slug}-{$name}.php";
+		$template = NST()->plugin_path() ."/templates/{$slug}-{$name}.php";
 	}
 
 	// If template file doesn't exist, look in yourtheme/slug.php and yourtheme/NST/slug.php
 	if ( ! $template ) {
-		$template = locate_template( array( "{$slug}.php", NST()->template_path() . "{$slug}.php" ) );
+		$template = locate_template( array( "{$slug}.php", NST()->template_path() ."{$slug}.php" ) );
 	}
 
 	// Allow 3rd party plugin filter template file from their plugin

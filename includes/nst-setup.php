@@ -48,13 +48,10 @@ add_action( 'admin_enqueue_scripts', 'nst_admin_scripts' );
  * -----------------------------------------------------------------------
  */
 function nst_scripts() {
-    //if( is_page($nst_basic_options['support_desk']) || is_page($nst_basic_options['submit_ticket']) ) {
-    $bootstrap = 1;
-        if( 1 === $bootstrap ) {
-            wp_enqueue_style( 'nst-bootstrap', NST()->plugin_url() .'/assets/css/bootstrap.min.css', array(), NST()->version, 'all' );
-        }
+    if( is_page('support-desk') || is_page('submit-ticket') ) {
+        wp_enqueue_style( 'nst-bootstrap', NST()->plugin_url() .'/assets/css/bootstrap.min.css', array(), NST()->version, 'all' );
 		wp_enqueue_style( 'nst-styles', NST()->plugin_url() .'/assets/css/nst-styles.css', array(), NST()->version, 'all' );
-	//}
+	}
 }
 add_action( 'wp_enqueue_scripts', 'nst_scripts' );
 
@@ -68,16 +65,16 @@ add_action( 'wp_enqueue_scripts', 'nst_scripts' );
  * -----------------------------------------------------------------------
  */
 function nst_user_fields( $user ) { ?>
-        <h3><?php _e( 'Nanodesigns Support', 'nanodesigns-nst' ); ?></h3>
+        <h3><?php _e( 'Nanodesigns Support', 'nano-support-ticket' ); ?></h3>
 
         <table class="form-table">
             <tr>
                 <th scope="row">
-                	<span class="dashicons dashicons-businessman"></span> <?php _e( 'Make Support Agent', 'nanodesigns-nst' ); ?>
+                	<span class="dashicons dashicons-businessman"></span> <?php _e( 'Make Support Agent', 'nano-support-ticket' ); ?>
                 </th>
                 <td>
                 	<label>
-                		<input type="checkbox" name="nst_make_agent" id="nst-make-agent" value="1" <?php checked( get_the_author_meta( 'nst_make_agent', $user->ID ), 1 ); ?> /> <?php _e( 'Yes, make this user a Support Agent', 'nanodesigns-nst' ); ?>
+                		<input type="checkbox" name="nst_make_agent" id="nst-make-agent" value="1" <?php checked( get_the_author_meta( 'nst_make_agent', $user->ID ), 1 ); ?> /> <?php _e( 'Yes, make this user a Support Agent', 'nano-support-ticket' ); ?>
                 	</label>
                 </td>
             </tr>
