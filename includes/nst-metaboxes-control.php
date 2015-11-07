@@ -1,10 +1,10 @@
 <?php
 /**
- * Ticket control meta box.
+ * Ticket control meta box
  * 
  * Adding control fields per support ticket.
  *
- * @package  nano_support_ticket
+ * @package  Nano Support Ticket
  * =======================================================================
  */
 

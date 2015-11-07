@@ -1,10 +1,10 @@
 <?php
 /**
- * Responses meta box.
+ * Responses meta box
  * 
  * Adding repeating fields as per the responses.
  *
- * @package  nano_support_ticket
+ * @package  Nano Support Ticket
  * =======================================================================
  */
 
@@ -61,9 +61,11 @@ function nst_reply_specifics() {
 		        <div id="nst-responses-info-<?php echo $counter; ?>" class="nst-response-group">
 		        	<div class="nst-row">
 		        		<div class="response-user">
+
                             <input type="hidden" id="nst-responseid" name="nst_responseid[]" value="<?php echo intval( $response->comment_ID ); ?>">
                             <input type="hidden" id="nst-user" name="nst_user[]" value="<?php echo esc_html( $response->user_id ); ?>">
 		        			<input type="hidden" id="nst-date" name="nst_date[]" value="<?php echo esc_html( $response->comment_date ); ?>">
+
 		        			<?php
 		        			//echo get_avatar( $response['u'], 10 );
 		        			echo $response->comment_author;
@@ -96,7 +98,7 @@ function nst_reply_specifics() {
 
     <script type="text/javascript" charset="utf-8">
     jQuery(document).ready(function($) {
-        var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
+        var ajaxurl = '<?php echo esc_js(admin_url('admin-ajax.php')); ?>';
         $(document).on('click', '.delete-response', function () {
             var id = this.id;
             //$('.bubble span.count').html( '<img src="'+ nano.theme_path +'/images/count-loader.gif" alt="loading">' );
@@ -188,3 +190,24 @@ function nst_save_reply_meta_data( $post_id ) {
 
 add_action( 'save_post', 'nst_save_reply_meta_data' );
 add_action( 'new_to_publish', 'nst_save_reply_meta_data' );
+
+
+/**
+ * Delete Response in admin panel.
+ * AJAX powered deletion of response.
+ * -----------------------------------------------------------------------
+ */
+function nst_del_response() {
+    if( isset( $_POST['id'] ) ) {
+        $comment_id = $_POST['id'];
+        wp_delete_comment( $comment_id, false ); //trash it only
+        wp_set_comment_status( $comment_id, 'trash' );
+        echo $comment_id;
+        die;
+    } else {
+        echo false;
+        die;
+    }
+}
+add_action( 'wp_ajax_delete_response', 'nst_del_response' );
+//add_action( 'wp_ajax_nopriv_delete_response', 'nst_del_response' ); //not logged in users

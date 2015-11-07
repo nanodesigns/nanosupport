@@ -1,16 +1,16 @@
 <?php
 /**
- * Helper Functions.
+ * Helper Functions
  *
  * Stored all the helper functions that are ocassionally used
  * for specific purposes only.
  *
- * @package nano_support_ticket
+ * @package Nano Support Ticket
  * =======================================================================
  */
 
 /**
- * Create Pages.
+ * Create Pages
  * 
  * Create necessary pages for the plugin.
  * 
@@ -58,7 +58,7 @@ function nst_create_necessary_page( $title, $slug, $content ) {
 
 
 /**
- * Get last response information.
+ * Get last response information
  *
  * Get the last response informatin including response ID, user ID,
  * and response date.
@@ -95,7 +95,7 @@ function nst_get_last_response( $ticket_id ) {
 
 
 /**
- * Response exists or not.
+ * Response exists or not
  * 
  * Check whether the Response is already exists or not.
  * 
@@ -115,7 +115,7 @@ function nst_response_exists( $comment_ID ) {
 
 
 /**
- * Pagination.
+ * Pagination
  * 
  * Paginate_links enabled with Bootstrap Pagination.
  *
@@ -160,7 +160,7 @@ function nst_bootstrap_pagination( $query ) {
 
 
 /**
- * Elapsed time.
+ * Elapsed time
  *
  * Calculates how much time elapsed from a time mentioned.
  *
@@ -198,7 +198,7 @@ function nst_time_elapsed( $time ) {
 
 
 /**
- * Get pending ticket counts.
+ * Get pending ticket counts
  * 
  * @return integer Total number of pending tickets.
  * -----------------------------------------------------------------------
