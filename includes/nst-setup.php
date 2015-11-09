@@ -48,7 +48,7 @@ add_action( 'admin_enqueue_scripts', 'nst_admin_scripts' );
  * -----------------------------------------------------------------------
  */
 function nst_scripts() {
-    if( is_page('support-desk') || is_page('submit-ticket') ) {
+    if( is_page('support-desk') || is_page('submit-ticket') || is_singular('nanosupport') ) {
         wp_enqueue_style( 'nst-bootstrap', NST()->plugin_url() .'/assets/css/bootstrap.min.css', array(), NST()->version, 'all' );
 		wp_enqueue_style( 'nst-styles', NST()->plugin_url() .'/assets/css/nst-styles.css', array(), NST()->version, 'all' );
 	}
@@ -96,3 +96,87 @@ function nst_saving_user_fields( $user_id ) {
 }
 add_action( 'personal_options_update', 	'nst_saving_user_fields' );
 add_action( 'edit_user_profile_update', 'nst_saving_user_fields' );
+
+
+/**
+ * Force Post Status to Private.
+ *
+ * Force all the ticket post status default to 'Private' instead of 'Publish'.
+ *
+ * @link http://wpsnipp.com/index.php/functions-php/force-custom-post-type-to-be-private/
+ * 
+ * @param  object $post Post object.
+ * @return object       Modified post object.
+ * -----------------------------------------------------------------------
+ */
+function nst_force_ticket_post_status_to_private( $post ) {
+    if ( 'nanosupport' === $post['post_type'] )
+        $post['post_status'] = 'private';
+    return $post;
+}
+add_filter( 'wp_insert_post_data', 'nst_force_ticket_post_status_to_private' );
+
+
+if ( ! function_exists( 'nst_content' ) ) {
+
+    /**
+     * Output WooCommerce content.
+     *
+     * This function is only used in the optional 'woocommerce.php' template
+     * which people can add to their themes to add basic woocommerce support
+     * without hooks or modifying core templates.
+     *
+     */
+    function nst_content() {
+
+        if ( is_singular( 'nanosupport' ) ) {
+
+            while ( have_posts() ) : the_post();
+
+                nst_get_template_part( 'content', 'single-nanosupport' );
+
+            endwhile;
+
+        } else { ?>
+
+            <h1 class="page-title"><?php the_title(); ?></h1>
+
+            <?php if ( have_posts() ) : ?>
+
+                    <?php while ( have_posts() ) : the_post(); ?>
+
+                        <?php nst_get_template_part( 'content', 'ticket' ); ?>
+
+                    <?php endwhile; // end of the loop. ?>
+
+                <?php _e('Ticket has no content'); ?>
+
+            <?php endif;
+
+        }
+    }
+}
+
+
+function template_loader( $template ) {
+    $find = array('nano-support-ticket.php');
+    $file = '';
+
+    if ( is_single() && get_post_type() == 'nanosupport' ) {
+
+        $file   = 'single-nanosupport.php';
+        $find[] = $file;
+        $find[] = NST()->template_path() . $file;
+
+    }
+
+    if ( $file ) {
+        $template       = locate_template( array_unique( $find ) );
+        if ( ! $template ) {
+            $template = NST()->plugin_path() .'/templates/'. $file;
+        }
+    }
+
+    return $template;
+}
+add_filter( 'template_include', 'template_loader' );
