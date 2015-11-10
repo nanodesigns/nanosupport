@@ -1,11 +1,11 @@
 <?php
 /**
- * CPT and Taxonomy
+ * CPT 'nanosupport' and Taxonomy
  *
- * Functions to initiate the Custom Post Type and Taxonomy.
+ * Functions to initiate the Custom Post Type 'nanosupport'
+ * and Taxonomy 'nanosupport_departments'.
  *
  * @package Nano Support Ticket
- * =======================================================================
  */
 
 /**
