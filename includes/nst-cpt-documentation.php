@@ -81,3 +81,75 @@ function nst_register_cpt_nanodoc() {
 
 }
 add_action( 'init', 'nst_register_cpt_nanodoc' );
+
+
+
+/**
+ * Register Custom Taxonomy
+ * 
+ * Create Custom Taxonomy 'nanodoc_category' to sort out the tickets.
+ * 
+ * @return array To register the custom taxonomy.
+ * -----------------------------------------------------------------------
+ */
+function nst_create_nanodoc_taxonomies() {
+
+    $cat_labels = array(
+        'name'              => __( 'Categories', 'nano-support-ticket' ),
+        'singular_name'     => __( 'Category', 'nano-support-ticket' ),
+        'search_items'      => __( 'Search Categories', 'nano-support-ticket' ),
+        'all_items'         => __( 'All Categories', 'nano-support-ticket' ),
+        'parent_item'       => __( 'Parent Category', 'nano-support-ticket' ),
+        'parent_item_colon' => __( 'Parent Category:', 'nano-support-ticket' ),
+        'edit_item'         => __( 'Edit Categories', 'nano-support-ticket' ),
+        'update_item'       => __( 'Update Categories', 'nano-support-ticket' ),
+        'add_new_item'      => __( 'Add New Category', 'nano-support-ticket' ),
+        'new_item_name'     => __( 'New Category Name', 'nano-support-ticket' ),
+        'menu_name'         => __( 'Categories', 'nano-support-ticket' ),
+    );
+
+    $cat_args = array(
+        'hierarchical'      => true,
+        'public'            => true,
+        'show_tagcloud'     => false,
+        'labels'            => $cat_labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'doc-category' ),
+    );
+
+    if( !taxonomy_exists( 'nanodoc_category' ) )
+        register_taxonomy( 'nanodoc_category', array( 'nanodoc' ), $cat_args );
+
+
+    $tag_labels = array(
+        'name'              => __( 'Tags', 'nano-support-ticket' ),
+        'singular_name'     => __( 'Tag', 'nano-support-ticket' ),
+        'search_items'      => __( 'Search Tags', 'nano-support-ticket' ),
+        'all_items'         => __( 'All Tags', 'nano-support-ticket' ),
+        'parent_item'       => __( 'Parent Tag', 'nano-support-ticket' ),
+        'parent_item_colon' => __( 'Parent Tag:', 'nano-support-ticket' ),
+        'edit_item'         => __( 'Edit Tags', 'nano-support-ticket' ),
+        'update_item'       => __( 'Update Tags', 'nano-support-ticket' ),
+        'add_new_item'      => __( 'Add New Tag', 'nano-support-ticket' ),
+        'new_item_name'     => __( 'New Tag Name', 'nano-support-ticket' ),
+        'menu_name'         => __( 'Tags', 'nano-support-ticket' ),
+    );
+
+    $tag_args = array(
+        'hierarchical'      => false,
+        'public'            => true,
+        'show_tagcloud'     => true,
+        'labels'            => $tag_labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'doc-tag' ),
+    );
+
+    if( !taxonomy_exists( 'nanodoc_tag' ) )
+        register_taxonomy( 'nanodoc_tag', array( 'nanodoc' ), $tag_args );
+
+}
+add_action( 'init', 'nst_create_nanodoc_taxonomies', 0 );

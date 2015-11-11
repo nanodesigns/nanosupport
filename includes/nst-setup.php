@@ -5,7 +5,6 @@
  * Functions that are used for Setting up the plugin.
  *
  * @package  Nano Support Ticket
- * =======================================================================
  */
 
 /**

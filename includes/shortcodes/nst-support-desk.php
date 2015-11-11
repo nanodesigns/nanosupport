@@ -27,7 +27,22 @@ function nst_support_desk_page() {
 				_e( "<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible.", 'nano-support-ticket' );
 		    echo '</div>';		
 		}
+		?>
 
+		<div class="well well-sm">
+			<div class="row">
+				<div class="col-sm-8 text-muted">
+					<small><?php _e( 'Only Public tickets here. Private tickets are visible to the admins and to the ticket owner only.', 'nanodesigns-nst' ); ?></small>
+				</div>
+				<div class="col-sm-4 text-right">
+					<a class="btn btn-sm btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( get_page_by_path('submit-ticket') ) ); ?>">
+						<span class="nst-icon-tag"></span> <?php _e( 'Submit a Ticket', 'nanodesigns-nst' ); ?>
+					</a>
+				</div>
+			</div>
+		</div>
+		
+		<?php
 		/*if( is_user_logged_in() ) {
 
 			if( isset( $_GET['my-tickets'] ) ) {

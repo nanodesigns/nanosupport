@@ -118,6 +118,7 @@ add_action( 'init', 'nst_load_textdomain', 1 );
  */
 require_once 'includes/nst-core-functions.php';
 require_once 'includes/nst-setup.php';
+require_once 'includes/nst-settings.php';
 require_once 'includes/nst-cpt-nanosupport.php';
 require_once 'includes/nst-cpt-documentation.php';
 require_once 'includes/nst-metaboxes-control.php';
@@ -125,6 +126,7 @@ require_once 'includes/nst-metaboxes-responses.php';
 require_once 'includes/nst-responses.php';
 
 require_once 'includes/shortcodes/nst-support-desk.php';
+require_once 'includes/shortcodes/nst-submit-ticket.php';
 
 require_once 'includes/nst-helper-functions.php';
 
