@@ -31,15 +31,15 @@
 					<div class="ns-ticket-status-bar">
 						<div class="row">
 							<div class="col-sm-3">
-								<strong><?php _e( 'Created', 'nano-support-ticket' ); ?></strong><br>
+								<strong><?php _e( 'Created', 'nanosupport' ); ?></strong><br>
 								<?php echo date( 'd F Y h:iA', strtotime( $post->post_date ) ); ?>
 							</div>
 							<div class="col-sm-3">
-								<strong><?php _e( 'Updated', 'nano-support-ticket' ); ?></strong><br>
+								<strong><?php _e( 'Updated', 'nanosupport' ); ?></strong><br>
 								<?php echo date( 'd F Y h:iA', strtotime( $post->post_modified ) ); ?>
 							</div>
 							<div class="col-sm-2">
-								<strong><?php _e( 'Department', 'nano-support-ticket' ); ?></strong><br>
+								<strong><?php _e( 'Department', 'nanosupport' ); ?></strong><br>
 								<?php
 								$departments = get_the_terms( get_the_ID(), 'nanosupport_departments' );
 								if ( $departments && ! is_wp_error( $departments ) ) :
@@ -50,15 +50,15 @@
 								?>
 							</div>
 							<div class="col-sm-2">
-								<strong><?php _e( 'Status', 'nano-support-ticket' ); ?></strong><br>
+								<strong><?php _e( 'Status', 'nanosupport' ); ?></strong><br>
 								<?php
 								if( $ticket_status ) {
 									if( $ticket_status == 'solved' ) {
-										$status = '<span class="label label-success">'. __( 'Solved', 'nano-support-ticket' ) .'</span>';
+										$status = '<span class="label label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
 									} else if( $ticket_status == 'inspection' ) {
-										$status = '<span class="label label-primary">'. __( 'Under Inspection', 'nano-support-ticket' ) .'</span>';
+										$status = '<span class="label label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
 									} else {
-										$status = '<span class="label label-warning">'. __( 'Open', 'nano-support-ticket' ) .'</span>';
+										$status = '<span class="label label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
 									}
 								} else {
 									$status = '';
@@ -67,17 +67,17 @@
 								<?php echo $status; ?>
 							</div>
 							<div class="col-sm-2">
-								<strong><?php _e( 'Priority', 'nano-support-ticket' ); ?></strong><br>
+								<strong><?php _e( 'Priority', 'nanosupport' ); ?></strong><br>
 								<?php
 								$ticket_priority = $ticket_control['priority'];
 								if( $ticket_priority === 'low' ) {
-									_e( 'Low', 'nano-support-ticket' );
+									_e( 'Low', 'nanosupport' );
 								} else if( $ticket_priority === 'medium' ) {
-									echo '<span class="text-info">'. __( 'Medium', 'nano-support-ticket' ) .'</span>';
+									echo '<span class="text-info">'. __( 'Medium', 'nanosupport' ) .'</span>';
 								} else if( $ticket_priority === 'high' ) {
-									echo '<span class="text-warning">'. __( 'High', 'nano-support-ticket' ) .'</span>';
+									echo '<span class="text-warning">'. __( 'High', 'nanosupport' ) .'</span>';
 								} else if( $ticket_priority === 'critical' ) {
-									echo '<span class="text-danger">'. __( 'Critical', 'nano-support-ticket' ) .'</span>';
+									echo '<span class="text-danger">'. __( 'Critical', 'nanosupport' ) .'</span>';
 								}
 								?>
 							</div>
@@ -121,7 +121,7 @@
 
 				if( $response_array ) {
 
-					echo '<div class="ticket-separator"><span>'. __('Responses', 'nano-support-ticket') .'</span></div>';
+					echo '<div class="ticket-separator"><span>'. __('Responses', 'nanosupport') .'</span></div>';
 
 					$counter = 1;
 
@@ -168,7 +168,7 @@
 					    		 * Reopen the Ticket
 					    		 */
 					    		$ropen_url = add_query_arg( 'reopen', '', get_the_permalink() );
-								echo __( 'This ticket is already solved.', 'nano-support-ticket' ) . ' <a class="btn btn-sm btn-warning" href="'. esc_url( $ropen_url ) .'#write-message"><span class="ns-icon-reopen"></span> Reopen Ticket</a>';
+								echo __( 'This ticket is already solved.', 'nanosupport' ) . ' <a class="btn btn-sm btn-warning" href="'. esc_url( $ropen_url ) .'#write-message"><span class="ns-icon-reopen"></span> Reopen Ticket</a>';
 							echo '</div>';
 
 					    } else {
@@ -229,7 +229,7 @@
 						    	
 									if( ! is_wp_error( $comment_id ) ) {
 										echo '<div class="alert alert-success" role="alert">';
-											echo __( 'Your response is successfully submitted to this ticket.', 'nano-support-ticket' ) . ' <a class="btn btn-sm btn-info" href="'. get_the_permalink() .'"><span class="glyphicon glyphicon-refresh"></span> Reload</a>';
+											echo __( 'Your response is successfully submitted to this ticket.', 'nanosupport' ) . ' <a class="btn btn-sm btn-info" href="'. get_the_permalink() .'"><span class="glyphicon glyphicon-refresh"></span> Reload</a>';
 										echo '</div>';
 										$hide_form = true;
 									} else {
@@ -260,17 +260,17 @@
 										</div>
 										<div class="panel-body">
 											<div class="form-group">
-												<textarea name="ns_response_msg" id="write-message" class="form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nano-support-ticket'); ?>" rows="6"><?php echo isset($_POST['ns_response_msg']) ? html_entity_decode( $_POST['ns_response_msg'] ) : ''; ?></textarea>
+												<textarea name="ns_response_msg" id="write-message" class="form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nanosupport'); ?>" rows="6"><?php echo isset($_POST['ns_response_msg']) ? html_entity_decode( $_POST['ns_response_msg'] ) : ''; ?></textarea>
 											</div>
 											<?php wp_nonce_field( 'response_nonce', 'nanosupport_response_nonce' ); ?>
 											<?php
 											if( 'solved' == $ticket_status && isset( $_GET['reopen'] ) ) {
 												echo '<div class="alert alert-warning" role="alert">';
-													_e( '<strong>Just to inform:</strong> you are about to Reopen the ticket.', 'nano-support-ticket' );
+													_e( '<strong>Just to inform:</strong> you are about to Reopen the ticket.', 'nanosupport' );
 												echo '</div>';
 											}
 											?>
-											<button type="submit" name="send" class="btn btn-primary"><?php _e( 'Submit', 'nano-support-ticket' ); ?></button>
+											<button type="submit" name="send" class="btn btn-primary"><?php _e( 'Submit', 'nanosupport' ); ?></button>
 										</div>
 									</div>
 								</form>
@@ -285,9 +285,9 @@
 					<div class="alert alert-info text-center" role="alert">
 						<?php
 						if( 'solved' == $ticket_status ) {
-							_e( '<strong>Resolved!</strong> New Responses to this ticket is already closed. Only ticket author can reopen a closed ticket.', 'nano-support-ticket' );
+							_e( '<strong>Resolved!</strong> New Responses to this ticket is already closed. Only ticket author can reopen a closed ticket.', 'nanosupport' );
 						} else {
-							_e( '<strong>Sorry!</strong> Tickets are open for responses only to the Ticket Author.', 'nano-support-ticket' );
+							_e( '<strong>Sorry!</strong> Tickets are open for responses only to the Ticket Author.', 'nanosupport' );
 						}
 						?>
 					</div>
@@ -298,7 +298,7 @@
 
 		</article> <!-- /#post-<?php the_ID(); ?> -->
 
-		<a class="btn btn-sm btn-default" href="<?php echo esc_url(get_permalink( $ticket_list_page->ID )); ?>"><span class="ns-icon-chevron-left"></span> <?php _e( 'Back to ticket index', 'nano-support-ticket' ); ?></a>			
+		<a class="btn btn-sm btn-default" href="<?php echo esc_url(get_permalink( $ticket_list_page->ID )); ?>"><span class="ns-icon-chevron-left"></span> <?php _e( 'Back to ticket index', 'nanosupport' ); ?></a>			
 
 	<?php //wp_reset_postdata(); ?>
 	

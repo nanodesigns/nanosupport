@@ -4,7 +4,7 @@
  *
  * Responses are actually comments with the `comment_type` = 'nanosupport_response'.
  *
- * @package Nano Support
+ * @package NanoSupport
  */
 
 /**

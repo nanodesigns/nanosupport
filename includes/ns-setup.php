@@ -4,7 +4,7 @@
  * 
  * Functions that are used for Setting up the plugin.
  *
- * @package  Nano Support
+ * @package  NanoSupport
  */
 
 /**
@@ -64,16 +64,16 @@ add_action( 'wp_enqueue_scripts', 'ns_scripts' );
  * -----------------------------------------------------------------------
  */
 function ns_user_fields( $user ) { ?>
-        <h3><?php _e( 'Nano Support', 'nano-support-ticket' ); ?></h3>
+        <h3><?php _e( 'NanoSupport', 'nanosupport' ); ?></h3>
 
         <table class="form-table">
             <tr>
                 <th scope="row">
-                	<span class="dashicons dashicons-businessman"></span> <?php _e( 'Make Support Agent', 'nano-support-ticket' ); ?>
+                	<span class="dashicons dashicons-businessman"></span> <?php _e( 'Make Support Agent', 'nanosupport' ); ?>
                 </th>
                 <td>
                 	<label>
-                		<input type="checkbox" name="ns_make_agent" id="ns-make-agent" value="1" <?php checked( get_the_author_meta( 'ns_make_agent', $user->ID ), 1 ); ?> /> <?php _e( 'Yes, make this user a Support Agent', 'nano-support-ticket' ); ?>
+                		<input type="checkbox" name="ns_make_agent" id="ns-make-agent" value="1" <?php checked( get_the_author_meta( 'ns_make_agent', $user->ID ), 1 ); ?> /> <?php _e( 'Yes, make this user a Support Agent', 'nanosupport' ); ?>
                 	</label>
                 </td>
             </tr>
@@ -183,7 +183,7 @@ add_filter( 'template_include', 'ns_template_loader' );
 
 function ns_the_title_trim( $title ) {
 
-    $title = attribute_escape($title);
+    $title = esc_attr($title);
 
     $findthese = array(
         '#Protected:#',

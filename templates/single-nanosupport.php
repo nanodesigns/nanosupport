@@ -6,7 +6,7 @@
  *
  * @author  	nanodesigns
  * @category 	core
- * @package 	Nano Support
+ * @package 	NanoSupport
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

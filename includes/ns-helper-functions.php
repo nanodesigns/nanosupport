@@ -5,7 +5,7 @@
  * Stored all the helper functions that are ocassionally used
  * for specific purposes only.
  *
- * @package Nano Support
+ * @package NanoSupport
  */
 
 /**
@@ -176,13 +176,13 @@ function ns_time_elapsed( $time ) {
     $time = time() - $time; // to get the time since that moment
 
     $tokens = array (
-        31536000 => __( 'year', 'nano-support-ticket' ),
-        2592000 => __( 'month', 'nano-support-ticket' ),
-        604800 => __( 'week', 'nano-support-ticket' ),
-        86400 => __( 'day', 'nano-support-ticket' ),
-        3600 => __( 'hour', 'nano-support-ticket' ),
-        60 => __( 'minute', 'nano-support-ticket' ),
-        1 => __( 'second', 'nano-support-ticket' )
+        31536000 => __( 'year', 'nanosupport' ),
+        2592000 => __( 'month', 'nanosupport' ),
+        604800 => __( 'week', 'nanosupport' ),
+        86400 => __( 'day', 'nanosupport' ),
+        3600 => __( 'hour', 'nanosupport' ),
+        60 => __( 'minute', 'nanosupport' ),
+        1 => __( 'second', 'nanosupport' )
     );
 
     foreach ( $tokens as $unit => $text ) {

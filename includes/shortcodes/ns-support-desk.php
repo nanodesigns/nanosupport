@@ -7,7 +7,7 @@
  *
  * @author  	nanodesigns
  * @category 	Shortcode
- * @package 	Nano Support
+ * @package 	NanoSupport
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,7 +24,7 @@ function ns_support_desk_page() {
 
 		if( isset($_GET['success']) && $_GET['success'] == 1 ) {
 			echo '<div class="alert alert-success" role="alert">';
-				_e( "<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible.", 'nano-support-ticket' );
+				_e( "<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible.", 'nanosupport' );
 		    echo '</div>';		
 		}
 		?>
@@ -98,14 +98,14 @@ function ns_support_desk_page() {
 				<table id="ns-support-tickets" class="table table-striped">
 					<thead>
 						<tr>
-							<th><?php _e( 'ID', 'nano-support-ticket' ); ?></th>
-							<th><?php _e( 'Subject', 'nano-support-ticket' ); ?></th>
-							<th><?php _e( 'Priority', 'nano-support-ticket' ); ?></th>
-							<th><?php _e( 'Department', 'nano-support-ticket' ); ?></th>
-							<th><span class="ns-icon-responses" title="<?php esc_attr_e( 'Responses', 'nano-support-ticket' ); ?>"></span></th>
-							<th><?php _e( 'Ticket Status', 'nano-support-ticket' ); ?></th>
-							<th><?php _e( 'Author', 'nano-support-ticket' ); ?></th>
-							<th><?php _e( 'Modified', 'nano-support-ticket' ); ?></th>
+							<th><?php _e( 'ID', 'nanosupport' ); ?></th>
+							<th><?php _e( 'Subject', 'nanosupport' ); ?></th>
+							<th><?php _e( 'Priority', 'nanosupport' ); ?></th>
+							<th><?php _e( 'Department', 'nanosupport' ); ?></th>
+							<th><span class="ns-icon-responses" title="<?php esc_attr_e( 'Responses', 'nanosupport' ); ?>"></span></th>
+							<th><?php _e( 'Ticket Status', 'nanosupport' ); ?></th>
+							<th><?php _e( 'Author', 'nanosupport' ); ?></th>
+							<th><?php _e( 'Modified', 'nanosupport' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -118,20 +118,20 @@ function ns_support_desk_page() {
 					</td>
 					<td>
 						<a href="<?php the_permalink(); ?>"><strong><?php the_title(); ?></strong></a><br>
-						<small class="text-muted"><?php echo __( 'Originally Posted: ', 'nano-support-ticket' ), date( 'd F Y h:i A', strtotime( $post->post_date ) ); ?></small>
+						<small class="text-muted"><?php echo __( 'Originally Posted: ', 'nanosupport' ), date( 'd F Y h:i A', strtotime( $post->post_date ) ); ?></small>
 					</td>
 					<?php $ticket_control = get_post_meta( get_the_ID(), 'ns_control', true ); ?>
 					<td>
 						<?php
 						$ticket_priority = $ticket_control['priority'];
 						if( 'low' === $ticket_priority ) {
-							_e( 'Low', 'nano-support-ticket' );
+							_e( 'Low', 'nanosupport' );
 						} else if( 'medium' === $ticket_priority ) {
-							echo '<span class="text-info">' , __( 'Medium', 'nano-support-ticket' ) , '</span>';
+							echo '<span class="text-info">' , __( 'Medium', 'nanosupport' ) , '</span>';
 						} else if( 'high' === $ticket_priority ) {
-							echo '<span class="text-warning">' , __( 'High', 'nano-support-ticket' ) , '</span>';
+							echo '<span class="text-warning">' , __( 'High', 'nanosupport' ) , '</span>';
 						} else if( 'critical' === $ticket_priority ) {
-							echo '<span class="text-danger">' , __( 'Critical', 'nano-support-ticket' ) , '</span>';
+							echo '<span class="text-danger">' , __( 'Critical', 'nanosupport' ) , '</span>';
 						}
 						?>
 					</td>
@@ -156,11 +156,11 @@ function ns_support_desk_page() {
 						$ticket_status = $ticket_control['status'];
 						if( $ticket_status ) {
 							if( 'solved' === $ticket_status ) {
-								$status = '<span class="label label-success">'. __( 'Solved', 'nano-support-ticket' ) .'</span>';
+								$status = '<span class="label label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
 							} else if( 'inspection' === $ticket_status ) {
-								$status = '<span class="label label-primary">'. __( 'Under Inspection', 'nano-support-ticket' ) .'</span>';
+								$status = '<span class="label label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
 							} else {
-								$status = '<span class="label label-warning">'. __( 'Open', 'nano-support-ticket' ) .'</span>';
+								$status = '<span class="label label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
 							}
 						} else {
 							$status = '';
@@ -185,14 +185,14 @@ function ns_support_desk_page() {
 					</tbody>
 					<tfoot>
 						<tr>
-							<th><?php _e( 'ID', 'nano-support-ticket' ); ?></th>
-							<th><?php _e( 'Subject', 'nano-support-ticket' ); ?></th>
-							<th><?php _e( 'Priority', 'nano-support-ticket' ); ?></th>
-							<th><?php _e( 'Department', 'nano-support-ticket' ); ?></th>
+							<th><?php _e( 'ID', 'nanosupport' ); ?></th>
+							<th><?php _e( 'Subject', 'nanosupport' ); ?></th>
+							<th><?php _e( 'Priority', 'nanosupport' ); ?></th>
+							<th><?php _e( 'Department', 'nanosupport' ); ?></th>
 							<th><span class="ns-icon-responses"></span></th>
-							<th><?php _e( 'Ticket Status', 'nano-support-ticket' ); ?></th>
-							<th><?php _e( 'Author', 'nano-support-ticket' ); ?></th>
-							<th><?php _e( 'Modified', 'nano-support-ticket' ); ?></th>
+							<th><?php _e( 'Ticket Status', 'nanosupport' ); ?></th>
+							<th><?php _e( 'Author', 'nanosupport' ); ?></th>
+							<th><?php _e( 'Modified', 'nanosupport' ); ?></th>
 						</tr>
 					</tfoot>
 				</table> <!-- #ns-support-tickets -->
@@ -208,14 +208,14 @@ function ns_support_desk_page() {
 
 		else :
 			echo '<div class="alert alert-success" role="alert">';
-				_e( '<strong>Nice!</strong> You do not have any support ticket to display.', 'nano-support-ticket' );
+				_e( '<strong>Nice!</strong> You do not have any support ticket to display.', 'nanosupport' );
 			echo '</div>';
 		endif;
 		wp_reset_postdata();
 
 	else :
 		//User is not logged in
-		printf( __( 'Sorry, you cannot see your tickets without being logged in.<br><a class="btn btn-default btn-sm" href="%1s" title="Site Login"><span class="ns-icon-lock"></span> Login</a> or <a class="btn btn-default btn-sm" href="%2s" title="Site Registration"><span class="ns-icon-lock"></span> Create an account</a>', 'nano-support-ticket' ), wp_login_url(), wp_registration_url() );
+		printf( __( 'Sorry, you cannot see your tickets without being logged in.<br><a class="btn btn-default btn-sm" href="%1s" title="Site Login"><span class="ns-icon-lock"></span> Login</a> or <a class="btn btn-default btn-sm" href="%2s" title="Site Registration"><span class="ns-icon-lock"></span> Create an account</a>', 'nanosupport' ), wp_login_url(), wp_registration_url() );
 		
 	endif; //if( is_user_logged_in() )
 	

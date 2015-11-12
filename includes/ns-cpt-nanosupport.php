@@ -5,7 +5,7 @@
  * Functions to initiate the Custom Post Type 'nanosupport'
  * and Taxonomy 'nanosupport_departments'.
  *
- * @package Nano Support
+ * @package NanoSupport
  */
 
 /**
@@ -19,24 +19,24 @@
 function ns_register_cpt_nanosupport() {
 
     $labels = array(
-        'name'					=> __( 'Tickets', 'nano-support-ticket' ),
-        'singular_name'			=> __( 'Ticket', 'nano-support-ticket' ),
-        'add_new'				=> __( 'Add New', 'nano-support-ticket' ),
-        'add_new_item'			=> __( 'Add New Ticket', 'nano-support-ticket' ),
-        'edit_item'				=> __( 'Edit Ticket', 'nano-support-ticket' ),
-        'new_item'				=> __( 'New Ticket', 'nano-support-ticket' ),
-        'view_item'				=> __( 'View Ticket', 'nano-support-ticket' ),
-        'search_items'			=> __( 'Search Ticket', 'nano-support-ticket' ),
-        'not_found'				=> __( 'No Ticket found', 'nano-support-ticket' ),
-        'not_found_in_trash'	=> __( 'No Ticket found in Trash', 'nano-support-ticket' ),
-        'parent_item_colon'		=> __( 'Parent Ticket:', 'nano-support-ticket' ),
-        'menu_name'				=> __( 'Supports', 'nano-support-ticket' ),
+        'name'					=> __( 'Tickets', 'nanosupport' ),
+        'singular_name'			=> __( 'Ticket', 'nanosupport' ),
+        'add_new'				=> __( 'Add New', 'nanosupport' ),
+        'add_new_item'			=> __( 'Add New Ticket', 'nanosupport' ),
+        'edit_item'				=> __( 'Edit Ticket', 'nanosupport' ),
+        'new_item'				=> __( 'New Ticket', 'nanosupport' ),
+        'view_item'				=> __( 'View Ticket', 'nanosupport' ),
+        'search_items'			=> __( 'Search Ticket', 'nanosupport' ),
+        'not_found'				=> __( 'No Ticket found', 'nanosupport' ),
+        'not_found_in_trash'	=> __( 'No Ticket found in Trash', 'nanosupport' ),
+        'parent_item_colon'		=> __( 'Parent Ticket:', 'nanosupport' ),
+        'menu_name'				=> __( 'Supports', 'nanosupport' ),
     );
 
     $args = array(
         'labels'				=> $labels,
         'hierarchical'			=> false,
-        'description'			=> __( 'Get the ticket information', 'nano-support-ticket' ),
+        'description'			=> __( 'Get the ticket information', 'nanosupport' ),
         'supports'				=> array( 'title', 'editor', 'author' ),
         'taxonomies'            => array( 'nanosupport_departments' ),
         'menu_icon'				=> 'dashicons-universal-access-alt',
@@ -100,9 +100,9 @@ function ns_show_pending_count_in_cpt() {
     $pending_count  = ns_pending_tickets_count();
     $pending_title  = sprintf( '%d Pending Tickets', $pending_count );
 
-    $menu_label     = sprintf( __( 'Supports %s', 'nano-support-ticket' ), '<span class="update-plugins count-$pending_count" title="'. esc_attr( $pending_title ) .'"><span class="pending-count">'. number_format_i18n($pending_count) .'</span></span>' );
+    $menu_label     = sprintf( __( 'Supports %s', 'nanosupport' ), '<span class="update-plugins count-$pending_count" title="'. esc_attr( $pending_title ) .'"><span class="pending-count">'. number_format_i18n($pending_count) .'</span></span>' );
 
-    $fallback_label = __( 'Supports', 'nano-support-ticket' );
+    $fallback_label = __( 'Supports', 'nanosupport' );
 
     $menu[29][0] = $pending_count ? $menu_label : $fallback_label;
 }
@@ -116,10 +116,10 @@ add_action( 'admin_menu', 'ns_show_pending_count_in_cpt' );
  */
 function ns_set_custom_columns( $columns ) {
     $new_columns = array(
-            'ticket_priority'   => __( 'Priority', 'nano-support-ticket' ),
+            'ticket_priority'   => __( 'Priority', 'nanosupport' ),
             'ticket_responses'  => '<span class="dashicons dashicons-format-chat" title="Responses"></span>',
-            'ticket_status'     => __( 'Ticket Status', 'nano-support-ticket' ),
-            'last_response'     => __( 'Last Response by', 'nano-support-ticket' )
+            'ticket_status'     => __( 'Ticket Status', 'nanosupport' ),
+            'last_response'     => __( 'Last Response by', 'nanosupport' )
         );
     return array_merge( $columns, $new_columns );
 } 
@@ -137,13 +137,13 @@ function ns_populate_custom_columns( $column, $post_id ) {
         case 'ticket_priority' :
             $ticket_priority = $ticket_control ? $ticket_control['priority'] : false;
             if( $ticket_priority && 'low' === $ticket_priority ) {
-                echo '<strong>'. __( 'Low', 'nano-support-ticket' ) .'</strong>';
+                echo '<strong>'. __( 'Low', 'nanosupport' ) .'</strong>';
             } else if( $ticket_priority && 'medium' === $ticket_priority ) {
-                echo '<strong class="text-info">' , __( 'Medium', 'nano-support-ticket' ) , '</strong>';
+                echo '<strong class="text-info">' , __( 'Medium', 'nanosupport' ) , '</strong>';
             } else if( $ticket_priority && 'high' === $ticket_priority ) {
-                echo '<strong class="text-warning">' , __( 'High', 'nano-support-ticket' ) , '</strong>';
+                echo '<strong class="text-warning">' , __( 'High', 'nanosupport' ) , '</strong>';
             } else if( $ticket_priority && 'critical' === $ticket_priority ) {
-                echo '<strong class="text-danger">' , __( 'Critical', 'nano-support-ticket' ) , '</strong>';
+                echo '<strong class="text-danger">' , __( 'Critical', 'nanosupport' ) , '</strong>';
             }
             break;
 
@@ -153,7 +153,7 @@ function ns_populate_custom_columns( $column, $post_id ) {
 
             if( !empty($response_count) ) {
                 echo '<span class="responses-count" aria-hidden="true">'. $response_count .'</span>';
-                echo '<span class="screen-reader-text">'. sprintf( _n( '%s response', '%s responses', $response_count, 'nano-support-ticket' ), $response_count ) .'</span>';
+                echo '<span class="screen-reader-text">'. sprintf( _n( '%s response', '%s responses', $response_count, 'nanosupport' ), $response_count ) .'</span>';
             } else {
                 echo '&mdash;';
             }
@@ -163,11 +163,11 @@ function ns_populate_custom_columns( $column, $post_id ) {
             $ticket_status = $ticket_control ? $ticket_control['status'] : false;
             if( $ticket_status ) {
                 if( 'solved' === $ticket_status ) {
-                    $status = '<span class="label label-success">'. __( 'Solved', 'nano-support-ticket' ) .'</span>';
+                    $status = '<span class="label label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
                 } else if( 'inspection' === $ticket_status ) {
-                    $status = '<span class="label label-primary">'. __( 'Under Inspection', 'nano-support-ticket' ) .'</span>';
+                    $status = '<span class="label label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
                 } else {
-                    $status = '<span class="label label-warning">'. __( 'Open', 'nano-support-ticket' ) .'</span>';
+                    $status = '<span class="label label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
                 }
             } else {
                 $status = '';
@@ -201,17 +201,17 @@ add_action( 'manage_nanosupport_posts_custom_column' , 'ns_populate_custom_colum
 function ns_create_nanosupport_taxonomies() {
 
     $labels = array(
-        'name'              => __( 'Departments', 'nano-support-ticket' ),
-        'singular_name'     => __( 'Department Type', 'nano-support-ticket' ),
-        'search_items'      => __( 'Search Departments', 'nano-support-ticket' ),
-        'all_items'         => __( 'All Departments', 'nano-support-ticket' ),
-        'parent_item'       => __( 'Parent Department Type', 'nano-support-ticket' ),
-        'parent_item_colon' => __( 'Parent Department Type:', 'nano-support-ticket' ),
-        'edit_item'         => __( 'Edit Departments', 'nano-support-ticket' ),
-        'update_item'       => __( 'Update Departments', 'nano-support-ticket' ),
-        'add_new_item'      => __( 'Add New Department Type', 'nano-support-ticket' ),
-        'new_item_name'     => __( 'New Department Type Name', 'nano-support-ticket' ),
-        'menu_name'         => __( 'Departments', 'nano-support-ticket' ),
+        'name'              => __( 'Departments', 'nanosupport' ),
+        'singular_name'     => __( 'Department Type', 'nanosupport' ),
+        'search_items'      => __( 'Search Departments', 'nanosupport' ),
+        'all_items'         => __( 'All Departments', 'nanosupport' ),
+        'parent_item'       => __( 'Parent Department Type', 'nanosupport' ),
+        'parent_item_colon' => __( 'Parent Department Type:', 'nanosupport' ),
+        'edit_item'         => __( 'Edit Departments', 'nanosupport' ),
+        'update_item'       => __( 'Update Departments', 'nanosupport' ),
+        'add_new_item'      => __( 'Add New Department Type', 'nanosupport' ),
+        'new_item_name'     => __( 'New Department Type Name', 'nanosupport' ),
+        'menu_name'         => __( 'Departments', 'nanosupport' ),
     );
 
     $args = array(

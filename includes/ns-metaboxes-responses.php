@@ -4,14 +4,14 @@
  * 
  * Adding repeating fields as per the responses.
  *
- * @package  Nano Support
+ * @package  NanoSupport
  */
 
 
 function ns_responses_meta_box() {
     add_meta_box(
         'nanosupport-responses',                // metabox ID
-        __('Responses', 'nano-support-ticket'),     // metabox title
+        __('Responses', 'nanosupport'),     // metabox title
         'ns_reply_specifics',                  // callback function
         'nanosupport',                          // post type (+ CPT)
         'normal',                               // 'normal', 'advanced', or 'side'
@@ -48,7 +48,7 @@ function ns_reply_specifics() {
     $response_array = get_comments( $args ); ?>
     
     <div class="row ns-holder">
-        <h2><?php _e('Responses to the ticket', 'nano-support-ticket' ); ?></h2>
+        <h2><?php _e('Responses to the ticket', 'nanosupport' ); ?></h2>
 
         <?php if( $response_array ) {
 
@@ -71,7 +71,7 @@ function ns_reply_specifics() {
 		        			echo ' &mdash; ';
                             echo '<span>'. esc_html( $date_human_readable ) .'</span>';
                             ?>
-		        			<span class="go-right"><?php _e( 'Response', 'nano-support-ticket' ); ?>
+		        			<span class="go-right"><?php _e( 'Response', 'nanosupport' ); ?>
                                 <?php echo ' #', $counter; ?>
                                 <a id="<?php echo $response->comment_ID; ?>" class="delete-response dashicons dashicons-dismiss" onclick="return confirm('Are you sure you want to delete the response?');" href="<?php echo admin_url('/post.php?post='. $post->ID .'&action=edit&resID='. $response->comment_ID .'&del=true'); ?>"></a>
                             </span>
@@ -92,8 +92,8 @@ function ns_reply_specifics() {
     </div> <!-- .ns-holder -->
 	
 	<br>
-	<div id="ns-add-response" class="button button-large button-primary ns-btn"><span class="dashicons dashicons-plus"></span> <?php _e('Add New Response', 'nano-support-ticket' ); ?></div>
-	<div id="ns-remove-response" style="display:none;" class="button button-large button-default ns-btn"><span class="dashicons dashicons-minus"></span> <?php _e('Remove Last Response', 'nano-support-ticket' ); ?></div>
+	<div id="ns-add-response" class="button button-large button-primary ns-btn"><span class="dashicons dashicons-plus"></span> <?php _e('Add New Response', 'nanosupport' ); ?></div>
+	<div id="ns-remove-response" style="display:none;" class="button button-large button-default ns-btn"><span class="dashicons dashicons-minus"></span> <?php _e('Remove Last Response', 'nanosupport' ); ?></div>
 
     <script type="text/javascript" charset="utf-8">
     jQuery(document).ready(function($) {

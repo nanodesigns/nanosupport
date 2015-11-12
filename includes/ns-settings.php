@@ -6,7 +6,7 @@
  *
  * @author  	nanodesigns
  * @category 	core
- * @package 	Nano Support
+ * @package 	NanoSupport
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,13 +15,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function ns_settings_page() {
     add_menu_page(
-        __('Nano Support', 'nano-support' ),			//$page_title
-        __('Nano Support', 'nano-support' ),			//$menu_title
-        'manage_options',								//$capability
-        'ns-settings',									//$menu_slug
-        'nanosupport_settings_page_callback',			//callback function
-        'dashicons-shield',								//icon
-        28												//position
+        __('NanoSupport', 'nano-support' ),     //$page_title
+        __('NanoSupport', 'nano-support' ),     //$menu_title
+        'manage_options',                       //$capability
+        'ns-settings',                          //$menu_slug
+        'nanosupport_settings_page_callback',   //callback function
+        'dashicons-shield',                     //icon
+        28                                      //position
     );
 }
 add_action( 'admin_menu', 'ns_settings_page' );
+
+function nanosupport_settings_page_callback() {
+?>
+    <div class="wrap">
+        <h2><?php _e( 'NanoSupport Settings', 'nano-support' ); ?></h2>
+    </div>
+<?php
+}

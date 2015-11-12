@@ -4,14 +4,14 @@
  * 
  * Adding control fields per support ticket.
  *
- * @package  Nano Support
+ * @package  NanoSupport
  */
 
 
 function ns_control_meta_box() {
     add_meta_box(
         'nanosupport-control',                      // metabox ID
-        __('Ticket Control', 'nano-support-ticket'),    // metabox title
+        __('Ticket Control', 'nanosupport'),    // metabox title
         'ns_control_specifics',                    // callback function
         'nanosupport',                              // post type (+ CPT)
         'side',                                     // 'normal', 'advanced', or 'side'
@@ -46,14 +46,14 @@ function ns_control_specifics() {
 
         <div class="ns-row">
             <div class="ns-head-col">
-                <span class="dashicons dashicons-shield"></span> <?php _e( 'Ticket Status', 'nano-support-ticket' ); ?>
+                <span class="dashicons dashicons-shield"></span> <?php _e( 'Ticket Status', 'nanosupport' ); ?>
             </div>
             <div class="ns-body-col">
                 <div class="ns-field">
                     <select name="ns_ticket_status" class="ns-field-item" id="ns-ticket-status">
-                        <option value="open" <?php selected( $ns_control_array['status'], 'open' ); ?>><?php _e( 'Open', 'nano-support-ticket' ); ?></option>
-                        <option value="inspection"<?php selected( $ns_control_array['status'], 'inspection' ); ?>><?php _e( 'Under Inspection', 'nano-support-ticket' ); ?></option>
-                        <option value="solved"<?php selected( $ns_control_array['status'], 'solved' ); ?>><?php _e( 'Solved', 'nano-support-ticket' ); ?></option>
+                        <option value="open" <?php selected( $ns_control_array['status'], 'open' ); ?>><?php _e( 'Open', 'nanosupport' ); ?></option>
+                        <option value="inspection"<?php selected( $ns_control_array['status'], 'inspection' ); ?>><?php _e( 'Under Inspection', 'nanosupport' ); ?></option>
+                        <option value="solved"<?php selected( $ns_control_array['status'], 'solved' ); ?>><?php _e( 'Solved', 'nanosupport' ); ?></option>
                     </select>
                 </div> <!-- /.ns-field -->                    
             </div>
@@ -61,15 +61,15 @@ function ns_control_specifics() {
 
         <div class="ns-row">
             <div class="ns-head-col">
-                <span class="dashicons dashicons-sort"></span> <?php _e( 'Priority', 'nano-support-ticket' ); ?>
+                <span class="dashicons dashicons-sort"></span> <?php _e( 'Priority', 'nanosupport' ); ?>
             </div>
             <div class="ns-body-col">
                 <div class="ns-field">
                     <select name="ns_ticket_priority" class="ns-field-item" id="ns-ticket-priority">
-                        <option value="low" <?php selected( $ns_control_array['priority'], 'low' ); ?>><?php _e( 'Low', 'nano-support-ticket' ); ?></option>
-                        <option value="medium" <?php selected( $ns_control_array['priority'], 'medium' ); ?>><?php _e( 'Medium', 'nano-support-ticket' ); ?></option>
-                        <option value="high" <?php selected( $ns_control_array['priority'], 'high' ); ?>><?php _e( 'High', 'nano-support-ticket' ); ?></option>
-                        <option value="critical" <?php selected( $ns_control_array['priority'], 'critical' ); ?>><?php _e( 'Critical', 'nano-support-ticket' ); ?></option>
+                        <option value="low" <?php selected( $ns_control_array['priority'], 'low' ); ?>><?php _e( 'Low', 'nanosupport' ); ?></option>
+                        <option value="medium" <?php selected( $ns_control_array['priority'], 'medium' ); ?>><?php _e( 'Medium', 'nanosupport' ); ?></option>
+                        <option value="high" <?php selected( $ns_control_array['priority'], 'high' ); ?>><?php _e( 'High', 'nanosupport' ); ?></option>
+                        <option value="critical" <?php selected( $ns_control_array['priority'], 'critical' ); ?>><?php _e( 'Critical', 'nanosupport' ); ?></option>
                     </select>
                 </div> <!-- /.ns-field -->                    
             </div>
@@ -77,7 +77,7 @@ function ns_control_specifics() {
 
         <div class="ns-row">
             <div class="ns-head-col">
-                <span class="dashicons dashicons-businessman"></span> <?php _e( 'Agent', 'nano-support-ticket' ); ?>
+                <span class="dashicons dashicons-businessman"></span> <?php _e( 'Agent', 'nanosupport' ); ?>
             </div>
             <div class="ns-body-col">
                 <?php
@@ -91,12 +91,12 @@ function ns_control_specifics() {
                     <select name="ns_ticket_agent" class="ns-field-item" id="ns-ticket-agent">
                         <?php
                         if ( ! empty( $agent_query->results ) ) {
-                            echo '<option value="">'. __( 'Assign an agent', 'nano-support-ticket' ) .'</option>';
+                            echo '<option value="">'. __( 'Assign an agent', 'nanosupport' ) .'</option>';
                             foreach ( $agent_query->results as $user ) {
                                 echo '<option value="'. $user->ID .'" '. selected( $ns_control_array['agent'], $user->ID ) .'>'. $user->display_name .'</option>';
                             }
                         } else {
-                            echo '<option value="">'. __( 'No agent found', 'nano-support-ticket' ) .'</option>';
+                            echo '<option value="">'. __( 'No agent found', 'nanosupport' ) .'</option>';
                         }
                         ?>
                     </select>

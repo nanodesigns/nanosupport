@@ -1,12 +1,12 @@
 <?php
 /**
- * Nano Support Core Functions
+ * NanoSupport Core Functions
  *
  * General core functions available on both fornt end and admin.
  *
  * @author  	nanodesigns
  * @category 	Core
- * @package 	Nano Support
+ * @package 	NanoSupport
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

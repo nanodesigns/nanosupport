@@ -2,10 +2,10 @@
 /**
  * @link              http://nanodesignsbd.com/
  * @since             1.0.0
- * @package           Nano Support
+ * @package           NanoSupport
  *
  * @wordpress-plugin
- * Plugin Name:       Nano Support
+ * Plugin Name:       NanoSupport
  * Plugin URI:        http://ns.nanodesignsbd.com/
  * Description:       Create a fully featured Support Center within your WordPress environment without any third party software
  * Version:           1.0.0
@@ -15,7 +15,7 @@
  * Tested up to:      4.3.1
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       'nano-support'
+ * Text Domain:       'nanosupport'
  * Domain Path:       /i18n/languages/
  */
 
@@ -51,9 +51,9 @@ final class NS {
 	protected static $_instance = null;
 
 	/**
-	 * Main Nano Support Ticket Instance.
+	 * Main NanoSupport Instance.
 	 *
-	 * Ensures only one instance of Nano Support Ticket is loaded or can be loaded.
+	 * Ensures only one instance of NanoSupport Ticket is loaded or can be loaded.
 	 * 
 	 * @static
 	 * @see NS()
@@ -102,7 +102,7 @@ endif;
  */
 function ns_load_textdomain() {
     load_plugin_textdomain(
-    	'nano-support-ticket',
+    	'nanosupport',
     	FALSE,
     	dirname( plugin_basename( __FILE__ ) ) .'/i18n/languages/'
     );
@@ -113,14 +113,14 @@ add_action( 'init', 'ns_load_textdomain', 1 );
 /**
  * Require additional files
  * 
- * @package Nano Support Ticket
+ * @package NanoSupport
  * -----------------------------------------------------------------------
  */
 require_once 'includes/ns-core-functions.php';
 require_once 'includes/ns-setup.php';
 require_once 'includes/ns-settings.php';
 require_once 'includes/ns-cpt-nanosupport.php';
-require_once 'includes/ns-cpt-documentation.php';
+require_once 'includes/ns-cpt-knowledgebase.php';
 require_once 'includes/ns-metaboxes-control.php';
 require_once 'includes/ns-metaboxes-responses.php';
 require_once 'includes/ns-responses.php';
