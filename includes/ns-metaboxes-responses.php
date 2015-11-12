@@ -4,26 +4,25 @@
  * 
  * Adding repeating fields as per the responses.
  *
- * @package  Nano Support Ticket
- * =======================================================================
+ * @package  Nano Support
  */
 
 
-function nst_responses_meta_box() {
+function ns_responses_meta_box() {
     add_meta_box(
         'nanosupport-responses',                // metabox ID
         __('Responses', 'nano-support-ticket'),     // metabox title
-        'nst_reply_specifics',                  // callback function
+        'ns_reply_specifics',                  // callback function
         'nanosupport',                          // post type (+ CPT)
         'normal',                               // 'normal', 'advanced', or 'side'
         'high'                                  // 'high', 'core', 'default' or 'low'
     );
 }
-add_action( 'add_meta_boxes', 'nst_responses_meta_box' );
+add_action( 'add_meta_boxes', 'ns_responses_meta_box' );
 
 
 // The Callback
-function nst_reply_specifics() {
+function ns_reply_specifics() {
     global $post;
 
     if( isset( $_REQUEST['resID'] ) && $_REQUEST['del'] ) {
@@ -37,7 +36,7 @@ function nst_reply_specifics() {
     }
 
     // Use nonce for verification
-    wp_nonce_field( basename( __FILE__ ), 'nst_responses_nonce' );
+    wp_nonce_field( basename( __FILE__ ), 'ns_responses_nonce' );
 
     $args = array(
         'post_id'   => $post->ID,
@@ -48,7 +47,7 @@ function nst_reply_specifics() {
     );
     $response_array = get_comments( $args ); ?>
     
-    <div class="row nst-holder">
+    <div class="row ns-holder">
         <h2><?php _e('Responses to the ticket', 'nano-support-ticket' ); ?></h2>
 
         <?php if( $response_array ) {
@@ -58,13 +57,13 @@ function nst_reply_specifics() {
 	        foreach( $response_array as $response ) {
                 $date_human_readable = date( 'd F Y h:i:s A - l', strtotime( $response->comment_date ) );
                 ?>
-		        <div id="nst-responses-info-<?php echo $counter; ?>" class="nst-response-group">
-		        	<div class="nst-row">
+		        <div id="ns-responses-info-<?php echo $counter; ?>" class="ns-response-group">
+		        	<div class="ns-row">
 		        		<div class="response-user">
 
-                            <input type="hidden" id="nst-responseid" name="nst_responseid[]" value="<?php echo intval( $response->comment_ID ); ?>">
-                            <input type="hidden" id="nst-user" name="nst_user[]" value="<?php echo esc_html( $response->user_id ); ?>">
-		        			<input type="hidden" id="nst-date" name="nst_date[]" value="<?php echo esc_html( $response->comment_date ); ?>">
+                            <input type="hidden" id="ns-responseid" name="ns_responseid[]" value="<?php echo intval( $response->comment_ID ); ?>">
+                            <input type="hidden" id="ns-user" name="ns_user[]" value="<?php echo esc_html( $response->user_id ); ?>">
+		        			<input type="hidden" id="ns-date" name="ns_date[]" value="<?php echo esc_html( $response->comment_date ); ?>">
 
 		        			<?php
 		        			//echo get_avatar( $response['u'], 10 );
@@ -77,24 +76,24 @@ function nst_reply_specifics() {
                                 <a id="<?php echo $response->comment_ID; ?>" class="delete-response dashicons dashicons-dismiss" onclick="return confirm('Are you sure you want to delete the response?');" href="<?php echo admin_url('/post.php?post='. $post->ID .'&action=edit&resID='. $response->comment_ID .'&del=true'); ?>"></a>
                             </span>
 		        		</div>
-		                <div class="nst-box">
-		                    <div class="nst-field">
-		                        <textarea class="nst-field-item" name="nst_response[]" id="nst-response-<?php echo $counter; ?>" rows="5"><?php echo html_entity_decode( $response->comment_content ); ?></textarea>
-		                    </div> <!-- /.nst-field -->
-		                </div> <!-- /.nst-box -->
-		            </div> <!-- /.nst-row -->
-		        </div> <!-- /#nst-responses-info .nst-response-group -->
+		                <div class="ns-box">
+		                    <div class="ns-field">
+		                        <textarea class="ns-field-item" name="ns_response[]" id="ns-response-<?php echo $counter; ?>" rows="5"><?php echo html_entity_decode( $response->comment_content ); ?></textarea>
+		                    </div> <!-- /.ns-field -->
+		                </div> <!-- /.ns-box -->
+		            </div> <!-- /.ns-row -->
+		        </div> <!-- /#ns-responses-info .ns-response-group -->
 	        <?php
 	        $counter++;
 	        } //endforeach ?>
 
 		<?php } //endif ?>
 
-    </div> <!-- .nst-holder -->
+    </div> <!-- .ns-holder -->
 	
 	<br>
-	<div id="nst-add-response" class="button button-large button-primary nst-btn"><span class="dashicons dashicons-plus"></span> <?php _e('Add New Response', 'nano-support-ticket' ); ?></div>
-	<div id="nst-remove-response" style="display:none;" class="button button-large button-default nst-btn"><span class="dashicons dashicons-minus"></span> <?php _e('Remove Last Response', 'nano-support-ticket' ); ?></div>
+	<div id="ns-add-response" class="button button-large button-primary ns-btn"><span class="dashicons dashicons-plus"></span> <?php _e('Add New Response', 'nano-support-ticket' ); ?></div>
+	<div id="ns-remove-response" style="display:none;" class="button button-large button-default ns-btn"><span class="dashicons dashicons-minus"></span> <?php _e('Remove Last Response', 'nano-support-ticket' ); ?></div>
 
     <script type="text/javascript" charset="utf-8">
     jQuery(document).ready(function($) {
@@ -112,8 +111,8 @@ function nst_reply_specifics() {
                 success: function (data) {
                     if( data != false ) {
                         var target_btn = $('#'+data);
-                        target_btn.closest('.nst-response-group').slideUp();
-                        target_btn.closest('.nst-response-group').find('textarea').val('');
+                        target_btn.closest('.ns-response-group').slideUp();
+                        target_btn.closest('.ns-response-group').find('textarea').val('');
                     }
                 }
             });
@@ -125,10 +124,10 @@ function nst_reply_specifics() {
 }
 
 // Save the Data
-function nst_save_reply_meta_data( $post_id ) {
+function ns_save_reply_meta_data( $post_id ) {
      
     // verify nonce
-    if (!isset($_POST['nst_responses_nonce']) || !wp_verify_nonce($_POST['nst_responses_nonce'], basename(__FILE__)))
+    if (!isset($_POST['ns_responses_nonce']) || !wp_verify_nonce($_POST['ns_responses_nonce'], basename(__FILE__)))
         return $post_id;
     
     // check autosave
@@ -145,10 +144,10 @@ function nst_save_reply_meta_data( $post_id ) {
             return $post_id;
     }
 
-    $response_id_array      = $_POST['nst_responseid'];
-    $response_msgs_array	= $_POST['nst_response'];
-    $response_date_array    = $_POST['nst_date'];
-    $response_users_array	= $_POST['nst_user'];
+    $response_id_array      = $_POST['ns_responseid'];
+    $response_msgs_array	= $_POST['ns_response'];
+    $response_date_array    = $_POST['ns_date'];
+    $response_users_array	= $_POST['ns_user'];
 
     foreach ( $response_msgs_array as $key => $message ) {
         
@@ -167,7 +166,7 @@ function nst_save_reply_meta_data( $post_id ) {
                             'comment_approved'      => '1' //approve by default
                         );
 
-        $existing_comment_ID = nst_response_exists( $response_id_array[$key] );
+        $existing_comment_ID = ns_response_exists( $response_id_array[$key] );
 
         if( ! $existing_comment_ID ) {
             //insert a new response
@@ -188,8 +187,8 @@ function nst_save_reply_meta_data( $post_id ) {
     } //endforeach
 }
 
-add_action( 'save_post', 'nst_save_reply_meta_data' );
-add_action( 'new_to_publish', 'nst_save_reply_meta_data' );
+add_action( 'save_post', 'ns_save_reply_meta_data' );
+add_action( 'new_to_publish', 'ns_save_reply_meta_data' );
 
 
 /**
@@ -197,7 +196,7 @@ add_action( 'new_to_publish', 'nst_save_reply_meta_data' );
  * AJAX powered deletion of response.
  * -----------------------------------------------------------------------
  */
-function nst_del_response() {
+function ns_del_response() {
     if( isset( $_POST['id'] ) ) {
         $comment_id = $_POST['id'];
         wp_delete_comment( $comment_id, false ); //trash it only
@@ -209,5 +208,5 @@ function nst_del_response() {
         die;
     }
 }
-add_action( 'wp_ajax_delete_response', 'nst_del_response' );
-//add_action( 'wp_ajax_nopriv_delete_response', 'nst_del_response' ); //not logged in users
+add_action( 'wp_ajax_delete_response', 'ns_del_response' );
+//add_action( 'wp_ajax_nopriv_delete_response', 'ns_del_response' ); //not logged in users

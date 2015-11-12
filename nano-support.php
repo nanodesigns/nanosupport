@@ -2,11 +2,11 @@
 /**
  * @link              http://nanodesignsbd.com/
  * @since             1.0.0
- * @package           Nano Support Ticket
+ * @package           Nano Support
  *
  * @wordpress-plugin
- * Plugin Name:       Nano Support Ticket
- * Plugin URI:        http://nst.nanodesignsbd.com/
+ * Plugin Name:       Nano Support
+ * Plugin URI:        http://ns.nanodesignsbd.com/
  * Description:       Create a fully featured Support Center within your WordPress environment without any third party software
  * Version:           1.0.0
  * Author:            nanodesigns
@@ -15,7 +15,7 @@
  * Tested up to:      4.3.1
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       'nano-support-ticket'
+ * Text Domain:       'nano-support'
  * Domain Path:       /i18n/languages/
  */
 
@@ -25,15 +25,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-if ( ! class_exists( 'NST' ) ) :
+if ( ! class_exists( 'NS' ) ) :
 
 /**
- * Main NST Class
+ * Main NS Class
  *
- * @class NST
+ * @class NS
  * -----------------------------------------------------------------------
  */
-final class NST {
+final class NS {
 
 	/**
 	 * @var string
@@ -43,10 +43,10 @@ final class NST {
 	/**
 	 * @var string
 	 */
-	public $prefix = 'nst_';
+	public $prefix = 'ns_';
 
 	/**
-	 * @var NST The single instance of the class
+	 * @var NS The single instance of the class
 	 */
 	protected static $_instance = null;
 
@@ -56,8 +56,8 @@ final class NST {
 	 * Ensures only one instance of Nano Support Ticket is loaded or can be loaded.
 	 * 
 	 * @static
-	 * @see NST()
-	 * @return NST - Main instance
+	 * @see NS()
+	 * @return NS - Main instance
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -87,7 +87,7 @@ final class NST {
 	 * @return string
 	 */
 	public function template_path() {
-		return apply_filters( 'nst_template_path', 'NST/' );
+		return apply_filters( 'ns_template_path', 'NS/' );
 	}
 }
 
@@ -100,14 +100,14 @@ endif;
  * Make the plugin translation-ready.
  * -----------------------------------------------------------------------
  */
-function nst_load_textdomain() {
+function ns_load_textdomain() {
     load_plugin_textdomain(
     	'nano-support-ticket',
     	FALSE,
     	dirname( plugin_basename( __FILE__ ) ) .'/i18n/languages/'
     );
 }
-add_action( 'init', 'nst_load_textdomain', 1 );
+add_action( 'init', 'ns_load_textdomain', 1 );
 
 
 /**
@@ -116,18 +116,18 @@ add_action( 'init', 'nst_load_textdomain', 1 );
  * @package Nano Support Ticket
  * -----------------------------------------------------------------------
  */
-require_once 'includes/nst-core-functions.php';
-require_once 'includes/nst-setup.php';
-require_once 'includes/nst-settings.php';
-require_once 'includes/nst-cpt-nanosupport.php';
-require_once 'includes/nst-cpt-documentation.php';
-require_once 'includes/nst-metaboxes-control.php';
-require_once 'includes/nst-metaboxes-responses.php';
-require_once 'includes/nst-responses.php';
+require_once 'includes/ns-core-functions.php';
+require_once 'includes/ns-setup.php';
+require_once 'includes/ns-settings.php';
+require_once 'includes/ns-cpt-nanosupport.php';
+require_once 'includes/ns-cpt-documentation.php';
+require_once 'includes/ns-metaboxes-control.php';
+require_once 'includes/ns-metaboxes-responses.php';
+require_once 'includes/ns-responses.php';
 
-require_once 'includes/shortcodes/nst-support-desk.php';
-require_once 'includes/shortcodes/nst-submit-ticket.php';
+require_once 'includes/shortcodes/ns-support-desk.php';
+require_once 'includes/shortcodes/ns-submit-ticket.php';
 
-require_once 'includes/nst-helper-functions.php';
+require_once 'includes/ns-helper-functions.php';
 
 require_once '__TEST.php';

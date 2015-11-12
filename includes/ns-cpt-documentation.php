@@ -5,7 +5,7 @@
  * Functions to initiate the Custom Post Type 'nanodoc'
  * and Taxonomy 'nanodoc_category'.
  *
- * @package Nano Support Ticket
+ * @package Nano Support
  */
 
 /**
@@ -16,7 +16,7 @@
  * @return array to register a post type.
  * -----------------------------------------------------------------------
  */
-function nst_register_cpt_nanodoc() {
+function ns_register_cpt_nanodoc() {
 
     $labels = array(
         'name'					=> __( 'Documentations', 'nano-support-ticket' ),
@@ -53,13 +53,13 @@ function nst_register_cpt_nanodoc() {
         'rewrite'				=> array( 'slug' => 'nanodoc' ),
         'capability_type'       => 'post',
         /*'capabilities'          => array(
-                                    'edit_post'             => 'edit_nst',
-                                    'edit_posts'            => 'edit_nsts',
-                                    'edit_others_posts'     => 'edit_other_nsts',
-                                    'publish_posts'         => 'publish_nsts',
-                                    'read_post'             => 'read_nst',
-                                    'read_private_posts'    => 'read_private_nsts',
-                                    'delete_post'           => 'delete_nst'
+                                    'edit_post'             => 'edit_ns',
+                                    'edit_posts'            => 'edit_nss',
+                                    'edit_others_posts'     => 'edit_other_nss',
+                                    'publish_posts'         => 'publish_nss',
+                                    'read_post'             => 'read_ns',
+                                    'read_private_posts'    => 'read_private_nss',
+                                    'delete_post'           => 'delete_ns'
                                 ),
         'map_meta_cap'          => true*/
     );
@@ -80,7 +80,7 @@ function nst_register_cpt_nanodoc() {
     }
 
 }
-add_action( 'init', 'nst_register_cpt_nanodoc' );
+add_action( 'init', 'ns_register_cpt_nanodoc' );
 
 
 
@@ -92,7 +92,7 @@ add_action( 'init', 'nst_register_cpt_nanodoc' );
  * @return array To register the custom taxonomy.
  * -----------------------------------------------------------------------
  */
-function nst_create_nanodoc_taxonomies() {
+function ns_create_nanodoc_taxonomies() {
 
     $cat_labels = array(
         'name'              => __( 'Categories', 'nano-support-ticket' ),
@@ -152,4 +152,4 @@ function nst_create_nanodoc_taxonomies() {
         register_taxonomy( 'nanodoc_tag', array( 'nanodoc' ), $tag_args );
 
 }
-add_action( 'init', 'nst_create_nanodoc_taxonomies', 0 );
+add_action( 'init', 'ns_create_nanodoc_taxonomies', 0 );

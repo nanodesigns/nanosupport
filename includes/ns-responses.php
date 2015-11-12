@@ -4,8 +4,7 @@
  *
  * Responses are actually comments with the `comment_type` = 'nanosupport_response'.
  *
- * @package Nano Support Ticket
- * =======================================================================
+ * @package Nano Support
  */
 
 /**
@@ -17,7 +16,7 @@
  * @return array           Filtering 'nanosupport_response' hiding them.
  * -----------------------------------------------------------------------
  */
-function nst_filter_comments_for_responses( $comments ) {
+function ns_filter_comments_for_responses( $comments ) {
     global $pagenow;
     if( 'edit-comments.php' === $pagenow  ) {
         foreach( $comments as $i => $comment ) {
@@ -28,4 +27,4 @@ function nst_filter_comments_for_responses( $comments ) {
     }
     return $comments;
 }
-add_filter( 'the_comments', 'nst_filter_comments_for_responses' );
+add_filter( 'the_comments', 'ns_filter_comments_for_responses' );

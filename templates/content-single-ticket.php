@@ -4,31 +4,31 @@
 		<?php
 		global $post;
 		$author = get_user_by( 'id', $post->post_author );
-		$ticket_control = get_post_meta( get_the_ID(), 'nst_control', true );
+		$ticket_control = get_post_meta( get_the_ID(), 'ns_control', true );
 		$ticket_status = $ticket_control['status'];
 		$ticket_list_page = get_page_by_path('support-desk');
 		?>
 
-		<article id="post-<?php the_ID(); ?>" <?php post_class('nst-single'); ?>>
+		<article id="post-<?php the_ID(); ?>" <?php post_class('ns-single'); ?>>
 			
 			<div class="panel panel-default panel-<?php echo esc_attr($ticket_status); ?>">
 				<div class="panel-heading">
-					<header class="nst-header">
+					<header class="ns-header">
 						<h1 class="ticket-head">
 							<a href="<?php echo esc_url(get_the_permalink()); ?>">
-								<span class="nst-icon-link"></span>
+								<span class="ns-icon-link"></span>
 							</a>
 							&nbsp;
 							<?php the_title(); ?>
 
-							<a class="off-ticket pull-right" href="<?php echo esc_url(get_permalink( $ticket_list_page->ID )); ?>"><span class="nst-icon-remove"></span></a>
-							<?php edit_post_link( '<span class="edit-ticket nst-icon-edit"></span>', '<div class="pull-right">', '</div>', get_the_ID() ); ?>
-							<div class="nst-clearfix"></div>
+							<a class="off-ticket pull-right" href="<?php echo esc_url(get_permalink( $ticket_list_page->ID )); ?>"><span class="ns-icon-remove"></span></a>
+							<?php edit_post_link( '<span class="edit-ticket ns-icon-edit"></span>', '<div class="pull-right">', '</div>', get_the_ID() ); ?>
+							<div class="ns-clearfix"></div>
 						</h1>
 					</header>
 				</div>
 				<div class="panel-body">
-					<div class="nst-ticket-status-bar">
+					<div class="ns-ticket-status-bar">
 						<div class="row">
 							<div class="col-sm-3">
 								<strong><?php _e( 'Created', 'nano-support-ticket' ); ?></strong><br>
@@ -82,7 +82,7 @@
 								?>
 							</div>
 						</div>
-					</div> <!-- /.nst-ticket-status-bar -->
+					</div> <!-- /.ns-ticket-status-bar -->
 					<hr>
 					<div class="panel panel-default panel-question panel-sm">
 						<div class="panel-heading">
@@ -168,7 +168,7 @@
 					    		 * Reopen the Ticket
 					    		 */
 					    		$ropen_url = add_query_arg( 'reopen', '', get_the_permalink() );
-								echo __( 'This ticket is already solved.', 'nano-support-ticket' ) . ' <a class="btn btn-sm btn-warning" href="'. esc_url( $ropen_url ) .'#write-message"><span class="nst-icon-reopen"></span> Reopen Ticket</a>';
+								echo __( 'This ticket is already solved.', 'nano-support-ticket' ) . ' <a class="btn btn-sm btn-warning" href="'. esc_url( $ropen_url ) .'#write-message"><span class="ns-icon-reopen"></span> Reopen Ticket</a>';
 							echo '</div>';
 
 					    } else {
@@ -177,7 +177,7 @@
 
 								$error = new WP_Error();
 
-								$response_msg = $_POST['nst_response_msg'];
+								$response_msg = $_POST['ns_response_msg'];
 
 								if( empty( $response_msg ) ) {
 									$error->add( 'message_empty', __("Response field can't be empty.") );
@@ -212,19 +212,19 @@
 									 * make the ticket status to 'Open'
 									 */
 							    	if( 'solved' == $ticket_status && isset( $_GET['reopen'] ) ) {
-										$nst_control_array = get_post_meta( get_the_ID(), 'nst_control', true );
+										$ns_control_array = get_post_meta( get_the_ID(), 'ns_control', true );
 
-									    $nst_ticket_status      = 'open'; //force open again
-									    $nst_ticket_priority    = $nst_control_array['priority'];
-									    $nst_ticket_agent       = $nst_control_array['agent'] ? $nst_control_array['agent'] : '';
+									    $ns_ticket_status      = 'open'; //force open again
+									    $ns_ticket_priority    = $ns_control_array['priority'];
+									    $ns_ticket_agent       = $ns_control_array['agent'] ? $ns_control_array['agent'] : '';
 
-									    $nst_control = array(
-									            'status'    => sanitize_text_field( $nst_ticket_status ),
-									            'priority'  => sanitize_text_field( $nst_ticket_priority ),
-									            'agent'     => absint( $nst_ticket_agent )
+									    $ns_control = array(
+									            'status'    => sanitize_text_field( $ns_ticket_status ),
+									            'priority'  => sanitize_text_field( $ns_ticket_priority ),
+									            'agent'     => absint( $ns_ticket_agent )
 									        );
 
-								    	update_post_meta( get_the_ID(), 'nst_control', $nst_control );
+								    	update_post_meta( get_the_ID(), 'ns_control', $ns_control );
 								    }
 						    	
 									if( ! is_wp_error( $comment_id ) ) {
@@ -260,7 +260,7 @@
 										</div>
 										<div class="panel-body">
 											<div class="form-group">
-												<textarea name="nst_response_msg" id="write-message" class="form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nano-support-ticket'); ?>" rows="6"><?php echo isset($_POST['nst_response_msg']) ? html_entity_decode( $_POST['nst_response_msg'] ) : ''; ?></textarea>
+												<textarea name="ns_response_msg" id="write-message" class="form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nano-support-ticket'); ?>" rows="6"><?php echo isset($_POST['ns_response_msg']) ? html_entity_decode( $_POST['ns_response_msg'] ) : ''; ?></textarea>
 											</div>
 											<?php wp_nonce_field( 'response_nonce', 'nanosupport_response_nonce' ); ?>
 											<?php
@@ -298,7 +298,7 @@
 
 		</article> <!-- /#post-<?php the_ID(); ?> -->
 
-		<a class="btn btn-sm btn-default" href="<?php echo esc_url(get_permalink( $ticket_list_page->ID )); ?>"><span class="nst-icon-chevron-left"></span> <?php _e( 'Back to ticket index', 'nano-support-ticket' ); ?></a>			
+		<a class="btn btn-sm btn-default" href="<?php echo esc_url(get_permalink( $ticket_list_page->ID )); ?>"><span class="ns-icon-chevron-left"></span> <?php _e( 'Back to ticket index', 'nano-support-ticket' ); ?></a>			
 
 	<?php //wp_reset_postdata(); ?>
 	

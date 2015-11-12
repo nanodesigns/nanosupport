@@ -5,8 +5,7 @@
  * Stored all the helper functions that are ocassionally used
  * for specific purposes only.
  *
- * @package Nano Support Ticket
- * =======================================================================
+ * @package Nano Support
  */
 
 /**
@@ -20,16 +19,16 @@
  * @return integer         ID of the page that is created or already exists.
  * -----------------------------------------------------------------------
  */
-function nst_create_necessary_page( $title, $slug, $content ) {
+function ns_create_necessary_page( $title, $slug, $content ) {
 
     global $current_user;
 
     //set a default so that we can check nothing happend
     $page_id = -1;
 
-    $nst_check_page = get_page_by_path( $slug ); //default post type 'page'
+    $ns_check_page = get_page_by_path( $slug ); //default post type 'page'
 
-    if( null === $nst_check_page ) {
+    if( null === $ns_check_page ) {
 
         //set the page_id as the page created
         $page_id = wp_insert_post( array(
@@ -47,7 +46,7 @@ function nst_create_necessary_page( $title, $slug, $content ) {
 
     } else {
 
-        return $nst_check_page->ID;
+        return $ns_check_page->ID;
 
         //arbitrarily taken -2 so that we can understand the given page already exists
         //$page_id = -2
@@ -67,7 +66,7 @@ function nst_create_necessary_page( $title, $slug, $content ) {
  * @return array 				comment_ID, user_id, comment_date
  * -----------------------------------------------------------------------
  */
-function nst_get_last_response( $ticket_id ) {
+function ns_get_last_response( $ticket_id ) {
     
     global $wpdb;
     $query = "SELECT comment_ID, user_id, comment_date
@@ -103,7 +102,7 @@ function nst_get_last_response( $ticket_id ) {
  * @return integer The comment_ID if it exists.
  * -----------------------------------------------------------------------
  */
-function nst_response_exists( $comment_ID ) {
+function ns_response_exists( $comment_ID ) {
     
     global $wpdb;
 
@@ -125,12 +124,12 @@ function nst_response_exists( $comment_ID ) {
  * @param  object $query the query where the pagination is called.
  * -----------------------------------------------------------------------
  */
-function nst_bootstrap_pagination( $query ) {
+function ns_bootstrap_pagination( $query ) {
 
 	global $wp_query;
 	$query = $query ? $query : $wp_query;
 
-	echo '<nav class="nst-pagination">';
+	echo '<nav class="ns-pagination">';
 		$big = 999999999; // need an unlikely integer
 		$total = $query->max_num_pages;
 		if( $total > 1 ) {
@@ -171,7 +170,7 @@ function nst_bootstrap_pagination( $query ) {
  * @return string       Elapsed time.
  * -----------------------------------------------------------------------
  */
-function nst_time_elapsed( $time ) {
+function ns_time_elapsed( $time ) {
 	$time = strtotime( $time );
 
     $time = time() - $time; // to get the time since that moment
@@ -203,7 +202,7 @@ function nst_time_elapsed( $time ) {
  * @return integer Total number of pending tickets.
  * -----------------------------------------------------------------------
  */
-function nst_pending_tickets_count() {
+function ns_pending_tickets_count() {
 	$get_pending_posts = new WP_Query( array(
 								'post_type'			=> 'nanosupport',
 								'post_status'		=> 'pending',

@@ -3,23 +3,23 @@
  * Shortcode: Submit Ticket
  *
  * Showing the functionality for submitting a ticket from the the front end
- * using shortcode [nst_submit_ticket]
+ * using shortcode [ns_submit_ticket]
  *
  * @author  	nanodesigns
  * @category 	Shortcode
- * @package 	Nano Support Ticket
+ * @package 	Nano Support
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-function nst_submit_support_ticket() {
+function ns_submit_support_ticket() {
 
-	global $nst_errors;
+	global $ns_errors;
     
-    if( !empty( $nst_errors ) ){
-        foreach( $nst_errors as $error ){
+    if( !empty( $ns_errors ) ){
+        foreach( $ns_errors as $error ){
     		echo '<div class="alert alert-danger" role="alert">';
             	printf( '<strong>Error:</strong> %s', $error );
         	echo '</div>';
@@ -33,7 +33,7 @@ function nst_submit_support_ticket() {
 		<div class="row">
 			<div class="col-sm-2">
 				<a href="<?php echo esc_url( get_permalink( get_page_by_path( 'support-desk' ) ) ); ?>" class="btn btn-sm btn-primary">
-					<span class="nst-icon-tag"></span> <?php _e( 'All the Tickets', 'nano-support-ticket' ); ?>
+					<span class="ns-icon-tag"></span> <?php _e( 'All the Tickets', 'nano-support-ticket' ); ?>
 				</a>
 			</div>
 			<div class="col-sm-10 text-muted">
@@ -49,30 +49,30 @@ function nst_submit_support_ticket() {
 				<form class="form-horizontal" method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
 
 					<div class="form-group">
-						<label for="nst-ticket-subject" class="col-sm-2 control-label">
+						<label for="ns-ticket-subject" class="col-sm-2 control-label">
 							<?php _e( 'Subject', 'nano-support-ticket' ); ?>
 						</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" name="nst_ticket_subject" id="nst-ticket-subject" placeholder="<?php esc_attr_e( 'Subject', 'nano-support-ticket' ); ?>" value="<?php echo !empty($_POST['nst_ticket_subject']) ? $_POST['nst_ticket_subject'] : ''; ?>" required>
+							<input type="text" class="form-control" name="ns_ticket_subject" id="ns-ticket-subject" placeholder="<?php esc_attr_e( 'Subject', 'nano-support-ticket' ); ?>" value="<?php echo !empty($_POST['ns_ticket_subject']) ? $_POST['ns_ticket_subject'] : ''; ?>" required>
 						</div>
 					</div> <!-- /.form-group -->
 
 					<div class="form-group">
-						<label for="nst-ticket-details" class="col-sm-2 control-label">
+						<label for="ns-ticket-details" class="col-sm-2 control-label">
 							<?php _e( 'Description', 'nano-support-ticket' ); ?>
 						</label>
 						<div class="col-sm-10">
-							<textarea class="form-control" name="nst_ticket_details" id="nst-ticket-details" placeholder="<?php _e( 'Details of the issue', 'nano-support-ticket' ); ?>" rows="5" required><?php echo !empty($_POST['nst_ticket_details']) ? html_entity_decode( stripslashes( $_POST['nst_ticket_details'] ) ) : ''; ?></textarea>
+							<textarea class="form-control" name="ns_ticket_details" id="ns-ticket-details" placeholder="<?php _e( 'Details of the issue', 'nano-support-ticket' ); ?>" rows="5" required><?php echo !empty($_POST['ns_ticket_details']) ? html_entity_decode( stripslashes( $_POST['ns_ticket_details'] ) ) : ''; ?></textarea>
 						</div>
 					</div> <!-- /.form-group -->
 
 					<div class="form-group">
-						<label for="nst-ticket-priority" class="col-sm-2 control-label">
+						<label for="ns-ticket-priority" class="col-sm-2 control-label">
 							<?php _e( 'Priority', 'nano-support-ticket' ); ?>
 						</label>
 						<div class="col-sm-10">
-							<?php $sub_val = !empty($_POST['nst_ticket_priority']) ? $_POST['nst_ticket_priority'] : ''; ?>
-							<select class="form-control" name="nst_ticket_priority" id="nst-ticket-priority">
+							<?php $sub_val = !empty($_POST['ns_ticket_priority']) ? $_POST['ns_ticket_priority'] : ''; ?>
+							<select class="form-control" name="ns_ticket_priority" id="ns-ticket-priority">
 								<option value="low" <?php selected( $sub_val, 'low' ); ?>>
 									⇩ <?php _e( 'Low', 'nano-support-ticket' ); ?>
 								</option>
@@ -113,7 +113,7 @@ function nst_submit_support_ticket() {
 
 							<div class="form-group">
 								<p class="col-sm-12 text-center">
-									<span class="nst-icon-info-circled"></span> <?php _e( '<strong>Note:</strong> With these information below, we will create an account on your behalf to track the ticket for further enquiry.', 'nano-support-ticket' ); ?>
+									<span class="ns-icon-info-circled"></span> <?php _e( '<strong>Note:</strong> With these information below, we will create an account on your behalf to track the ticket for further enquiry.', 'nano-support-ticket' ); ?>
 								</p>
 							</div> <!-- /.form-group -->
 
@@ -151,7 +151,7 @@ function nst_submit_support_ticket() {
 							</div> <!-- /.form-group -->
 
 							<!-- HIDDEN INPUT TO TREAT FORM SUBMIT APPROPRIATELY -->
-							<input type="hidden" name="nst_registration_submit">
+							<input type="hidden" name="ns_registration_submit">
 
 						<?php } else {
 							/**
@@ -179,7 +179,7 @@ function nst_submit_support_ticket() {
 							</div> <!-- /.form-group -->
 
 							<!-- HIDDEN INPUT TO TREAT FORM SUBMIT APPROPRIATELY -->
-							<input type="hidden" name="nst_login_submit">
+							<input type="hidden" name="ns_login_submit">
 
 						<?php } //endif( ! $login ) ?>
 
@@ -187,7 +187,7 @@ function nst_submit_support_ticket() {
 					
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" name="nst_submit" class="btn btn-primary">
+							<button type="submit" name="ns_submit" class="btn btn-primary">
 								<?php _e( 'Submit', 'nano-support-ticket' ); ?>
 							</button>
 						</div>
@@ -202,4 +202,4 @@ function nst_submit_support_ticket() {
 	<?php
 	return ob_get_clean();
 }
-add_shortcode( 'nst_submit_ticket', 'nst_submit_support_ticket' );
+add_shortcode( 'ns_submit_ticket', 'ns_submit_support_ticket' );

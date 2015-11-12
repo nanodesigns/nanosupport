@@ -5,7 +5,7 @@
  * Functions to initiate the Custom Post Type 'nanosupport'
  * and Taxonomy 'nanosupport_departments'.
  *
- * @package Nano Support Ticket
+ * @package Nano Support
  */
 
 /**
@@ -16,7 +16,7 @@
  * @return array to register a post type.
  * -----------------------------------------------------------------------
  */
-function nst_register_cpt_nanosupport() {
+function ns_register_cpt_nanosupport() {
 
     $labels = array(
         'name'					=> __( 'Tickets', 'nano-support-ticket' ),
@@ -53,13 +53,13 @@ function nst_register_cpt_nanosupport() {
         'rewrite'				=> array( 'slug' => 'nanosupport' ),
         'capability_type'       => 'post',
         /*'capabilities'          => array(
-                                    'edit_post'             => 'edit_nst',
-                                    'edit_posts'            => 'edit_nsts',
-                                    'edit_others_posts'     => 'edit_other_nsts',
-                                    'publish_posts'         => 'publish_nsts',
-                                    'read_post'             => 'read_nst',
-                                    'read_private_posts'    => 'read_private_nsts',
-                                    'delete_post'           => 'delete_nst'
+                                    'edit_post'             => 'edit_ns',
+                                    'edit_posts'            => 'edit_nss',
+                                    'edit_others_posts'     => 'edit_other_nss',
+                                    'publish_posts'         => 'publish_nss',
+                                    'read_post'             => 'read_ns',
+                                    'read_private_posts'    => 'read_private_nss',
+                                    'delete_post'           => 'delete_ns'
                                 ),
         'map_meta_cap'          => true*/
     );
@@ -80,7 +80,7 @@ function nst_register_cpt_nanosupport() {
     }
 
 }
-add_action( 'init', 'nst_register_cpt_nanosupport' );
+add_action( 'init', 'ns_register_cpt_nanosupport' );
 
 
 /**
@@ -89,15 +89,15 @@ add_action( 'init', 'nst_register_cpt_nanosupport' );
  * @author  Samik Chattopadhyay
  * @link http://stackoverflow.com/a/8625696/1743124
  *
- * @see  nst_pending_tickets_count()
+ * @see  ns_pending_tickets_count()
  * 
  * @return string Menu texts with Pending count.
  * -----------------------------------------------------------------------
  */
-function nst_show_pending_count_in_cpt() {
+function ns_show_pending_count_in_cpt() {
     global $menu;
 
-    $pending_count  = nst_pending_tickets_count();
+    $pending_count  = ns_pending_tickets_count();
     $pending_title  = sprintf( '%d Pending Tickets', $pending_count );
 
     $menu_label     = sprintf( __( 'Supports %s', 'nano-support-ticket' ), '<span class="update-plugins count-$pending_count" title="'. esc_attr( $pending_title ) .'"><span class="pending-count">'. number_format_i18n($pending_count) .'</span></span>' );
@@ -106,7 +106,7 @@ function nst_show_pending_count_in_cpt() {
 
     $menu[29][0] = $pending_count ? $menu_label : $fallback_label;
 }
-add_action( 'admin_menu', 'nst_show_pending_count_in_cpt' );
+add_action( 'admin_menu', 'ns_show_pending_count_in_cpt' );
 
 
 /**
@@ -114,7 +114,7 @@ add_action( 'admin_menu', 'nst_show_pending_count_in_cpt' );
  * @param  array $columns Default columns.
  * @return array          Merged with new columns.
  */
-function nst_set_custom_columns( $columns ) {
+function ns_set_custom_columns( $columns ) {
     $new_columns = array(
             'ticket_priority'   => __( 'Priority', 'nano-support-ticket' ),
             'ticket_responses'  => '<span class="dashicons dashicons-format-chat" title="Responses"></span>',
@@ -123,7 +123,7 @@ function nst_set_custom_columns( $columns ) {
         );
     return array_merge( $columns, $new_columns );
 } 
-add_filter( 'manage_nanosupport_posts_columns', 'nst_set_custom_columns' );
+add_filter( 'manage_nanosupport_posts_columns', 'ns_set_custom_columns' );
 
 /**
  * Populate columns with respective contents.
@@ -131,18 +131,18 @@ add_filter( 'manage_nanosupport_posts_columns', 'nst_set_custom_columns' );
  * @param  integer $post_id Each of the post ID.
  * @return array            Columns with information.
  */
-function nst_populate_custom_columns( $column, $post_id ) {
-    $ticket_control = get_post_meta( $post_id, 'nst_control', true );
+function ns_populate_custom_columns( $column, $post_id ) {
+    $ticket_control = get_post_meta( $post_id, 'ns_control', true );
     switch ( $column ) {
         case 'ticket_priority' :
-            $ticket_priority = $ticket_control['priority'];
-            if( $ticket_priority === 'low' ) {
+            $ticket_priority = $ticket_control ? $ticket_control['priority'] : false;
+            if( $ticket_priority && 'low' === $ticket_priority ) {
                 echo '<strong>'. __( 'Low', 'nano-support-ticket' ) .'</strong>';
-            } else if( $ticket_priority === 'medium' ) {
+            } else if( $ticket_priority && 'medium' === $ticket_priority ) {
                 echo '<strong class="text-info">' , __( 'Medium', 'nano-support-ticket' ) , '</strong>';
-            } else if( $ticket_priority === 'high' ) {
+            } else if( $ticket_priority && 'high' === $ticket_priority ) {
                 echo '<strong class="text-warning">' , __( 'High', 'nano-support-ticket' ) , '</strong>';
-            } else if( $ticket_priority === 'critical' ) {
+            } else if( $ticket_priority && 'critical' === $ticket_priority ) {
                 echo '<strong class="text-danger">' , __( 'Critical', 'nano-support-ticket' ) , '</strong>';
             }
             break;
@@ -160,11 +160,11 @@ function nst_populate_custom_columns( $column, $post_id ) {
             break;
 
         case 'ticket_status' :
-            $ticket_status = $ticket_control['status'];
+            $ticket_status = $ticket_control ? $ticket_control['status'] : false;
             if( $ticket_status ) {
-                if( $ticket_status == 'solved' ) {
+                if( 'solved' === $ticket_status ) {
                     $status = '<span class="label label-success">'. __( 'Solved', 'nano-support-ticket' ) .'</span>';
-                } else if( $ticket_status == 'inspection' ) {
+                } else if( 'inspection' === $ticket_status ) {
                     $status = '<span class="label label-primary">'. __( 'Under Inspection', 'nano-support-ticket' ) .'</span>';
                 } else {
                     $status = '<span class="label label-warning">'. __( 'Open', 'nano-support-ticket' ) .'</span>';
@@ -176,18 +176,18 @@ function nst_populate_custom_columns( $column, $post_id ) {
             break;
 
         case 'last_response' :
-            $last_response = nst_get_last_response( $post_id );
+            $last_response = ns_get_last_response( $post_id );
             $last_responder = get_userdata( $last_response['user_id'] );
             if ( $last_responder ) {
                 echo $last_responder->display_name, '<br>';
-                echo nst_time_elapsed($last_response['comment_date']), ' ago';
+                echo ns_time_elapsed($last_response['comment_date']), ' ago';
             } else {
                 echo '-';
             }
             break;
     }
 }
-add_action( 'manage_nanosupport_posts_custom_column' , 'nst_populate_custom_columns', 10, 2 );
+add_action( 'manage_nanosupport_posts_custom_column' , 'ns_populate_custom_columns', 10, 2 );
 
 
 /**
@@ -198,7 +198,7 @@ add_action( 'manage_nanosupport_posts_custom_column' , 'nst_populate_custom_colu
  * @return array To register the custom taxonomy.
  * -----------------------------------------------------------------------
  */
-function nst_create_nanosupport_taxonomies() {
+function ns_create_nanosupport_taxonomies() {
 
     $labels = array(
         'name'              => __( 'Departments', 'nano-support-ticket' ),
@@ -247,7 +247,7 @@ function nst_create_nanosupport_taxonomies() {
     );
 
 }
-add_action( 'init', 'nst_create_nanosupport_taxonomies', 0 );
+add_action( 'init', 'ns_create_nanosupport_taxonomies', 0 );
 
 
 /**
@@ -264,7 +264,7 @@ add_action( 'init', 'nst_create_nanosupport_taxonomies', 0 );
  * @license   GPLv2
  * -----------------------------------------------------------------------
  */
-function nst_set_default_object_terms( $post_id, $post ) {
+function ns_set_default_object_terms( $post_id, $post ) {
     if ( 'publish' === $post->post_status ) {
         $defaults = array(
                 'nanosupport_departments' => array( 'support' )
@@ -279,4 +279,4 @@ function nst_set_default_object_terms( $post_id, $post ) {
         }
     }
 }
-add_action( 'save_post', 'nst_set_default_object_terms', 100, 2 );
+add_action( 'save_post', 'ns_set_default_object_terms', 100, 2 );

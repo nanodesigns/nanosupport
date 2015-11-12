@@ -3,18 +3,18 @@
  * Shortcode: Support Desk
  *
  * Showing the common ticket center of all the support tickets to the respective privileges.
- * Show all the tickets at the front end using shortcode [nst_support_desk]
+ * Show all the tickets at the front end using shortcode [ns_desk]
  *
  * @author  	nanodesigns
  * @category 	Shortcode
- * @package 	Nano Support Ticket
+ * @package 	Nano Support
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-function nst_support_desk_page() {
+function ns_support_desk_page() {
 	ob_start();
 
 	if( is_user_logged_in() ) :
@@ -32,11 +32,11 @@ function nst_support_desk_page() {
 		<div class="well well-sm">
 			<div class="row">
 				<div class="col-sm-8 text-muted">
-					<small><?php _e( 'Only Public tickets here. Private tickets are visible to the admins and to the ticket owner only.', 'nanodesigns-nst' ); ?></small>
+					<small><?php _e( 'Only Public tickets here. Private tickets are visible to the admins and to the ticket owner only.', 'nanodesigns-ns' ); ?></small>
 				</div>
 				<div class="col-sm-4 text-right">
 					<a class="btn btn-sm btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( get_page_by_path('submit-ticket') ) ); ?>">
-						<span class="nst-icon-tag"></span> <?php _e( 'Submit a Ticket', 'nanodesigns-nst' ); ?>
+						<span class="ns-icon-tag"></span> <?php _e( 'Submit a Ticket', 'nanodesigns-ns' ); ?>
 					</a>
 				</div>
 			</div>
@@ -95,14 +95,14 @@ function nst_support_desk_page() {
 
 		if( $support_ticket_query->have_posts() ) : ?>
 			<div class="table-responsive">
-				<table id="nst-support-tickets" class="table table-striped">
+				<table id="ns-support-tickets" class="table table-striped">
 					<thead>
 						<tr>
 							<th><?php _e( 'ID', 'nano-support-ticket' ); ?></th>
 							<th><?php _e( 'Subject', 'nano-support-ticket' ); ?></th>
 							<th><?php _e( 'Priority', 'nano-support-ticket' ); ?></th>
 							<th><?php _e( 'Department', 'nano-support-ticket' ); ?></th>
-							<th><span class="nst-icon-responses" title="<?php esc_attr_e( 'Responses', 'nano-support-ticket' ); ?>"></span></th>
+							<th><span class="ns-icon-responses" title="<?php esc_attr_e( 'Responses', 'nano-support-ticket' ); ?>"></span></th>
 							<th><?php _e( 'Ticket Status', 'nano-support-ticket' ); ?></th>
 							<th><?php _e( 'Author', 'nano-support-ticket' ); ?></th>
 							<th><?php _e( 'Modified', 'nano-support-ticket' ); ?></th>
@@ -120,7 +120,7 @@ function nst_support_desk_page() {
 						<a href="<?php the_permalink(); ?>"><strong><?php the_title(); ?></strong></a><br>
 						<small class="text-muted"><?php echo __( 'Originally Posted: ', 'nano-support-ticket' ), date( 'd F Y h:i A', strtotime( $post->post_date ) ); ?></small>
 					</td>
-					<?php $ticket_control = get_post_meta( get_the_ID(), 'nst_control', true ); ?>
+					<?php $ticket_control = get_post_meta( get_the_ID(), 'ns_control', true ); ?>
 					<td>
 						<?php
 						$ticket_priority = $ticket_control['priority'];
@@ -189,13 +189,13 @@ function nst_support_desk_page() {
 							<th><?php _e( 'Subject', 'nano-support-ticket' ); ?></th>
 							<th><?php _e( 'Priority', 'nano-support-ticket' ); ?></th>
 							<th><?php _e( 'Department', 'nano-support-ticket' ); ?></th>
-							<th><span class="nst-icon-responses"></span></th>
+							<th><span class="ns-icon-responses"></span></th>
 							<th><?php _e( 'Ticket Status', 'nano-support-ticket' ); ?></th>
 							<th><?php _e( 'Author', 'nano-support-ticket' ); ?></th>
 							<th><?php _e( 'Modified', 'nano-support-ticket' ); ?></th>
 						</tr>
 					</tfoot>
-				</table> <!-- #nst-support-tickets -->
+				</table> <!-- #ns-support-tickets -->
 
 			</div> <!-- .table-responsive -->			
 
@@ -204,7 +204,7 @@ function nst_support_desk_page() {
 			 * Pagination
 			 * @see  includes/helper-functions.php
 			 */
-			nst_bootstrap_pagination( $support_ticket_query );
+			ns_bootstrap_pagination( $support_ticket_query );
 
 		else :
 			echo '<div class="alert alert-success" role="alert">';
@@ -215,10 +215,10 @@ function nst_support_desk_page() {
 
 	else :
 		//User is not logged in
-		printf( __( 'Sorry, you cannot see your tickets without being logged in.<br><a class="btn btn-default btn-sm" href="%1s" title="Site Login"><span class="nst-icon-lock"></span> Login</a> or <a class="btn btn-default btn-sm" href="%2s" title="Site Registration"><span class="nst-icon-lock"></span> Create an account</a>', 'nano-support-ticket' ), wp_login_url(), wp_registration_url() );
+		printf( __( 'Sorry, you cannot see your tickets without being logged in.<br><a class="btn btn-default btn-sm" href="%1s" title="Site Login"><span class="ns-icon-lock"></span> Login</a> or <a class="btn btn-default btn-sm" href="%2s" title="Site Registration"><span class="ns-icon-lock"></span> Create an account</a>', 'nano-support-ticket' ), wp_login_url(), wp_registration_url() );
 		
 	endif; //if( is_user_logged_in() )
 	
 	return ob_get_clean();
 }
-add_shortcode( 'nst_support_desk', 'nst_support_desk_page' );
+add_shortcode( 'ns_desk', 'ns_support_desk_page' );

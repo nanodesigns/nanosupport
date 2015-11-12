@@ -6,7 +6,7 @@
  *
  * @author  	nanodesigns
  * @category 	core
- * @package 	Nano Support Ticket
+ * @package 	Nano Support
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,7 +18,7 @@ get_header();
 
 	<?php while ( have_posts() ) : the_post(); ?>
 
-		<?php nst_get_template_part( 'content', 'single-ticket' ); ?>
+		<?php ns_get_template_part( 'content', 'single-ticket' ); ?>
 
 	<?php endwhile; // end of the loop. ?>
 

@@ -4,7 +4,7 @@
  * 
  * Functions that are used for Setting up the plugin.
  *
- * @package  Nano Support Ticket
+ * @package  Nano Support
  */
 
 /**
@@ -13,7 +13,7 @@
  * Necessary JavaScripts and Styles for Admin panel tweaks.
  * -----------------------------------------------------------------------
  */
-function nst_admin_scripts() {
+function ns_admin_scripts() {
     $screen = get_current_screen();
     if( 'nanosupport' === $screen->post_type ) {
 
@@ -22,13 +22,13 @@ function nst_admin_scripts() {
         $date_time_row          = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
         $date_time_formatted    = date( 'd F Y h:i:s A - l', current_time( 'timestamp' ) );
 
-		wp_enqueue_style( 'nst-admin-styles', NST()->plugin_url() .'/assets/css/nst-admin.css', array(), NST()->version, 'all' );
+		wp_enqueue_style( 'ns-admin-styles', NS()->plugin_url() .'/assets/css/ns-admin.css', array(), NS()->version, 'all' );
 		
-		wp_enqueue_script( 'nst-admin-scripts', NST()->plugin_url() .'/assets/js/nst-admin.min.js', array('jquery'), NST()->version, true );
+		wp_enqueue_script( 'ns-admin-scripts', NS()->plugin_url() .'/assets/js/ns-admin.min.js', array('jquery'), NS()->version, true );
 
 		wp_localize_script(
-			'nst-admin-scripts',
-			'nst',
+			'ns-admin-scripts',
+			'ns',
 			array(
                 'current_user'          => $current_user->display_name,
                 'user_id'               => $current_user->ID,
@@ -37,7 +37,7 @@ function nst_admin_scripts() {
             ) );		
 	}
 }
-add_action( 'admin_enqueue_scripts', 'nst_admin_scripts' );
+add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
 
 
 /**
@@ -46,13 +46,13 @@ add_action( 'admin_enqueue_scripts', 'nst_admin_scripts' );
  * Necessary JavaScripts and Styles for Front-end tweaks.
  * -----------------------------------------------------------------------
  */
-function nst_scripts() {
+function ns_scripts() {
     if( is_page('support-desk') || is_page('submit-ticket') || is_singular('nanosupport') ) {
-        wp_enqueue_style( 'nst-bootstrap', NST()->plugin_url() .'/assets/css/bootstrap.min.css', array(), NST()->version, 'all' );
-		wp_enqueue_style( 'nst-styles', NST()->plugin_url() .'/assets/css/nst-styles.css', array(), NST()->version, 'all' );
+        wp_enqueue_style( 'ns-bootstrap', NS()->plugin_url() .'/assets/css/bootstrap.min.css', array(), NS()->version, 'all' );
+		wp_enqueue_style( 'ns-styles', NS()->plugin_url() .'/assets/css/ns-styles.css', array(), NS()->version, 'all' );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'nst_scripts' );
+add_action( 'wp_enqueue_scripts', 'ns_scripts' );
 
 
 /**
@@ -63,8 +63,8 @@ add_action( 'wp_enqueue_scripts', 'nst_scripts' );
  * @param  obj $user Get the user data from WP_User object.
  * -----------------------------------------------------------------------
  */
-function nst_user_fields( $user ) { ?>
-        <h3><?php _e( 'Nanodesigns Support', 'nano-support-ticket' ); ?></h3>
+function ns_user_fields( $user ) { ?>
+        <h3><?php _e( 'Nano Support', 'nano-support-ticket' ); ?></h3>
 
         <table class="form-table">
             <tr>
@@ -73,15 +73,15 @@ function nst_user_fields( $user ) { ?>
                 </th>
                 <td>
                 	<label>
-                		<input type="checkbox" name="nst_make_agent" id="nst-make-agent" value="1" <?php checked( get_the_author_meta( 'nst_make_agent', $user->ID ), 1 ); ?> /> <?php _e( 'Yes, make this user a Support Agent', 'nano-support-ticket' ); ?>
+                		<input type="checkbox" name="ns_make_agent" id="ns-make-agent" value="1" <?php checked( get_the_author_meta( 'ns_make_agent', $user->ID ), 1 ); ?> /> <?php _e( 'Yes, make this user a Support Agent', 'nano-support-ticket' ); ?>
                 	</label>
                 </td>
             </tr>
         </table>
 <?php
 }
-add_action( 'show_user_profile', 'nst_user_fields' );
-add_action( 'edit_user_profile', 'nst_user_fields' );
+add_action( 'show_user_profile', 'ns_user_fields' );
+add_action( 'edit_user_profile', 'ns_user_fields' );
 
 
 /**
@@ -90,11 +90,11 @@ add_action( 'edit_user_profile', 'nst_user_fields' );
  * @param  integer $user_id User id.
  * -----------------------------------------------------------------------
  */
-function nst_saving_user_fields( $user_id ) {
-    update_user_meta( $user_id, 'nst_make_agent', intval( $_POST['nst_make_agent'] ) );
+function ns_saving_user_fields( $user_id ) {
+    update_user_meta( $user_id, 'ns_make_agent', intval( $_POST['ns_make_agent'] ) );
 }
-add_action( 'personal_options_update', 	'nst_saving_user_fields' );
-add_action( 'edit_user_profile_update', 'nst_saving_user_fields' );
+add_action( 'personal_options_update', 	'ns_saving_user_fields' );
+add_action( 'edit_user_profile_update', 'ns_saving_user_fields' );
 
 
 /**
@@ -108,15 +108,15 @@ add_action( 'edit_user_profile_update', 'nst_saving_user_fields' );
  * @return object       Modified post object.
  * -----------------------------------------------------------------------
  */
-function nst_force_ticket_post_status_to_private( $post ) {
+function ns_force_ticket_post_status_to_private( $post ) {
     if ( 'nanosupport' === $post['post_type'] )
         $post['post_status'] = 'private';
     return $post;
 }
-add_filter( 'wp_insert_post_data', 'nst_force_ticket_post_status_to_private' );
+add_filter( 'wp_insert_post_data', 'ns_force_ticket_post_status_to_private' );
 
 
-if ( ! function_exists( 'nst_content' ) ) {
+if ( ! function_exists( 'ns_content' ) ) {
 
     /**
      * Output WooCommerce content.
@@ -126,13 +126,13 @@ if ( ! function_exists( 'nst_content' ) ) {
      * without hooks or modifying core templates.
      *
      */
-    function nst_content() {
+    function ns_content() {
 
         if ( is_singular( 'nanosupport' ) ) {
 
             while ( have_posts() ) : the_post();
 
-                nst_get_template_part( 'content', 'single-nanosupport' );
+                ns_get_template_part( 'content', 'single-nanosupport' );
 
             endwhile;
 
@@ -144,7 +144,7 @@ if ( ! function_exists( 'nst_content' ) ) {
 
                     <?php while ( have_posts() ) : the_post(); ?>
 
-                        <?php nst_get_template_part( 'content', 'ticket' ); ?>
+                        <?php ns_get_template_part( 'content', 'ticket' ); ?>
 
                     <?php endwhile; // end of the loop. ?>
 
@@ -157,31 +157,31 @@ if ( ! function_exists( 'nst_content' ) ) {
 }
 
 
-function template_loader( $template ) {
-    $find = array('nano-support-ticket.php');
+function ns_template_loader( $template ) {
+    $find = array('nano-support.php');
     $file = '';
 
     if ( is_single() && get_post_type() == 'nanosupport' ) {
 
         $file   = 'single-nanosupport.php';
         $find[] = $file;
-        $find[] = NST()->template_path() . $file;
+        $find[] = NS()->template_path() . $file;
 
     }
 
     if ( $file ) {
         $template       = locate_template( array_unique( $find ) );
         if ( ! $template ) {
-            $template = NST()->plugin_path() .'/templates/'. $file;
+            $template = NS()->plugin_path() .'/templates/'. $file;
         }
     }
 
     return $template;
 }
-add_filter( 'template_include', 'template_loader' );
+add_filter( 'template_include', 'ns_template_loader' );
 
 
-function the_title_trim( $title ) {
+function ns_the_title_trim( $title ) {
 
     $title = attribute_escape($title);
 
@@ -196,9 +196,9 @@ function the_title_trim( $title ) {
     );
 
     global $post;
-    if( $post->post_type === 'nanosupport' )
+    if( 'nanosupport' === $post->post_type )
         $title = preg_replace($findthese, $replacewith, $title);
 
     return $title;
 }
-add_filter('the_title', 'the_title_trim');
+add_filter( 'the_title', 'ns_the_title_trim' );
