@@ -8,6 +8,10 @@
  * @package NanoSupport
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * CPT
  * 

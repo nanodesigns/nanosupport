@@ -7,6 +7,10 @@
  * @package  NanoSupport
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Styles & JavaScripts (Admin)
  * 
@@ -15,16 +19,20 @@
  */
 function ns_admin_scripts() {
     $screen = get_current_screen();
-    if( 'nanosupport' === $screen->post_type ) {
+    if( 'nanosupport' === $screen->post_type || 'nanosupport_page_nanosupport-settings' === $screen->base ) {
 
         global $current_user;
         
         $date_time_row          = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
         $date_time_formatted    = date( 'd F Y h:i:s A - l', current_time( 'timestamp' ) );
 
-		wp_enqueue_style( 'ns-admin-styles', NS()->plugin_url() .'/assets/css/ns-admin.css', array(), NS()->version, 'all' );
+        wp_enqueue_style( 'ns-admin-styles', NS()->plugin_url() .'/assets/css/ns-admin.css', array(), NS()->version, 'all' );
 		
-		wp_enqueue_script( 'ns-admin-scripts', NS()->plugin_url() .'/assets/js/ns-admin.min.js', array('jquery'), NS()->version, true );
+        /** Select2 **/
+        wp_enqueue_style( 'select2-styles', NS()->plugin_url() .'/assets/css/select2.min.css', array(), '4.0.1-rc-1', 'all' );
+        wp_enqueue_script( 'select2-scripts', NS()->plugin_url() .'/assets/js/select2.min.js', array('jquery'), '4.0.1-rc-1', true );
+
+        wp_enqueue_script( 'ns-admin-scripts', NS()->plugin_url() .'/assets/js/ns-admin.min.js', array('jquery'), NS()->version, true );
 
 		wp_localize_script(
 			'ns-admin-scripts',

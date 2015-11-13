@@ -3,7 +3,7 @@
  * Shortcode: Support Desk
  *
  * Showing the common ticket center of all the support tickets to the respective privileges.
- * Show all the tickets at the front end using shortcode [ns_desk]
+ * Show all the tickets at the front end using shortcode [nanosupport_desk]
  *
  * @author  	nanodesigns
  * @category 	Shortcode
@@ -221,4 +221,4 @@ function ns_support_desk_page() {
 	
 	return ob_get_clean();
 }
-add_shortcode( 'ns_desk', 'ns_support_desk_page' );
+add_shortcode( 'nanosupport_desk', 'ns_support_desk_page' );

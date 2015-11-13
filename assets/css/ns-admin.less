@@ -3,6 +3,35 @@
 .clearfix{
 	clear: both;
 }
+.ns-tooltip-icon{
+	color: #999;
+	position: relative;
+	cursor: pointer;
+
+	&:after{
+		content: attr(data-tooltip);
+		display: none;
+		position: absolute;
+		width: 200px;
+		height: auto;
+		padding: 10px;
+		text-align: center;
+		left: 20px;
+		top: 0;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		background-color: #fff;
+		box-shadow: 0 0 15px rgba(0,0,0,0.15);
+		z-index: 2;
+		font-family: "Open Sans",sans-serif;
+		font-size: 13px;
+		line-height: 1.3;
+	}
+
+	&:hover::after {
+		display: inline-block;
+	}
+}
 #nanosupport-responses{
 	border: 0;
 	background: transparent;
@@ -66,6 +95,9 @@
 .ns-field-item{
 	width: 100%;
 	border-radius: 4px;
+}
+.ns-select{
+	min-width: 300px;
 }
 .ns-btn{
 	.dashicons{

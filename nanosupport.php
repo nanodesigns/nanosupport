@@ -118,7 +118,7 @@ add_action( 'init', 'ns_load_textdomain', 1 );
  */
 require_once 'includes/ns-core-functions.php';
 require_once 'includes/ns-setup.php';
-require_once 'includes/ns-settings.php';
+
 require_once 'includes/ns-cpt-nanosupport.php';
 require_once 'includes/ns-cpt-knowledgebase.php';
 require_once 'includes/ns-metaboxes-control.php';
@@ -127,7 +127,10 @@ require_once 'includes/ns-responses.php';
 
 require_once 'includes/shortcodes/ns-support-desk.php';
 require_once 'includes/shortcodes/ns-submit-ticket.php';
+require_once 'includes/shortcodes/ns-knowledgebase.php';
 
 require_once 'includes/ns-helper-functions.php';
+
+require_once 'includes/admin-settings/ns-settings.php';
 
 require_once '__TEST.php';

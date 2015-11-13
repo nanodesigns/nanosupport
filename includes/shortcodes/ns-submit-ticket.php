@@ -3,7 +3,7 @@
  * Shortcode: Submit Ticket
  *
  * Showing the functionality for submitting a ticket from the the front end
- * using shortcode [ns_submit_ticket]
+ * using shortcode [nanosupport_submit_ticket]
  *
  * @author  	nanodesigns
  * @category 	Shortcode
@@ -202,4 +202,4 @@ function ns_submit_support_ticket() {
 	<?php
 	return ob_get_clean();
 }
-add_shortcode( 'ns_submit_ticket', 'ns_submit_support_ticket' );
+add_shortcode( 'nanosupport_submit_ticket', 'ns_submit_support_ticket' );

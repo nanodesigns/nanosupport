@@ -7,6 +7,10 @@
  * @package  NanoSupport
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 
 function ns_control_meta_box() {
     add_meta_box(

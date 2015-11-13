@@ -7,6 +7,10 @@
  * @package NanoSupport
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Hide all the Responses in Comments page (Admin Panel)
  *
