@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function ns_admin_scripts() {
     $screen = get_current_screen();
-    if( 'nanosupport' === $screen->post_type || 'nanosupport_page_nanosupport-settings' === $screen->base ) {
+    if( 'nanosupport' === $screen->post_type || 'nanodoc' === $screen->post_type || 'nanosupport_page_nanosupport-settings' === $screen->base ) {
 
         global $current_user;
         
@@ -55,7 +55,7 @@ add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
  * -----------------------------------------------------------------------
  */
 function ns_scripts() {
-    if( is_page('support-desk') || is_page('submit-ticket') || is_singular('nanosupport') ) {
+    if( is_page('support-desk') || is_page('submit-ticket') || is_page('knowledgebase') || is_singular('nanosupport') ) {
         wp_enqueue_style( 'ns-bootstrap', NS()->plugin_url() .'/assets/css/bootstrap.min.css', array(), NS()->version, 'all' );
 		wp_enqueue_style( 'ns-styles', NS()->plugin_url() .'/assets/css/ns-styles.css', array(), NS()->version, 'all' );
 	}
@@ -189,6 +189,15 @@ function ns_template_loader( $template ) {
 add_filter( 'template_include', 'ns_template_loader' );
 
 
+/**
+ * Trim "Private" & "Protected" from Title
+ * 
+ * Trim the word "Private" and "Protected" from Title of CPT 'nanosupport'.
+ * 
+ * @param  string $title Post Title.
+ * @return string        Post Title trimmed.
+ * -----------------------------------------------------------------------
+ */
 function ns_the_title_trim( $title ) {
 
     $title = esc_attr($title);
@@ -210,3 +219,41 @@ function ns_the_title_trim( $title ) {
     return $title;
 }
 add_filter( 'the_title', 'ns_the_title_trim' );
+
+
+/**
+ * Control Search result
+ * 
+ * Control search result for site search and knowledgebase search.
+ * 
+ * @param  object $query Default WordPress Query object.
+ * @return object        Modified Query object.
+ * -----------------------------------------------------------------------
+ */
+function ns_default_search_filter( $query ) {
+    if( is_admin() )
+        return $query;
+
+    if( ! $query->is_main_query() )
+        return $query;
+
+    if( ! is_search() )
+        return $query;
+
+    global $wp_post_types;
+
+    if( isset( $_REQUEST['knowledgebase'] ) ) :
+        //Knowledgebase search
+
+        //excluding default post types, we don't need to show
+        $wp_post_types['page']->exclude_from_search         = true;
+        $wp_post_types['post']->exclude_from_search         = true;
+        $wp_post_types['attachment']->exclude_from_search   = true;
+
+    else :
+        //General search
+        $wp_post_types['nanodoc']->exclude_from_search      = true;
+
+    endif;
+}
+add_filter( 'pre_get_posts', 'ns_default_search_filter' );

@@ -225,6 +225,86 @@ tfoot .ns-icon-responses{
 	font-size: 12px;
 }
 
+
+/** Knowledgebase **/
+
+.ns-search-form{
+  position: relative;
+  display: block;
+  width: 90%;
+  max-width: 515px;
+  margin-right: auto;
+  margin-left: auto;
+
+  .search-field{
+    border-radius: 20px;
+    padding-right: 27px;
+  }
+  button.search-btn{
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 6px 8px 4px 8px;
+    width: 34px;
+
+    span{
+      font-size: 16px;
+      line-height: 1;
+    }
+    &:hover{
+      text-decoration: none;
+      background: none;
+    }
+  }
+}
+@media (max-width: 600px) {
+  .ns-search-form{
+    width: 100%;
+  }
+}
+
+.nanodoc-term-box{
+  margin-bottom: 20px;
+}
+.nanodoc-term-box-inner{
+  background-color: #fff;
+  -webkit-box-shadow: 0 0 15px rgba(0,0,0,0.15);
+       -moz-box-shadow: 0 0 15px rgba(0,0,0,0.15);
+        box-shadow: 0 0 15px rgba(0,0,0,0.15);
+  padding: 10px;
+  border: 1px solid #ededed;
+  border-radius: 4px;
+
+  .ns-icon-docs{
+    font-size: 40px;
+  }
+  a{
+    &.icon-link{
+      color: #999;
+    }
+    &:hover{
+      text-decoration: none;
+    }
+  }
+}
+@media (min-width: 768px) {
+  .first-on-four{
+    clear: both;
+  }
+}
+@media (max-width: 767px) {
+  .first-on-two{
+    clear: both;
+  }
+}
+@media (max-width: 350px) {
+  .nanodoc-term-box{
+    clear: both;
+    width: 100%;
+  }
+}
+
+
 /** ICON SET */
 @font-face {
   font-family: "ns-icon";

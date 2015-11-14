@@ -21,7 +21,9 @@
 		border: 1px solid #ccc;
 		border-radius: 4px;
 		background-color: #fff;
-		box-shadow: 0 0 15px rgba(0,0,0,0.15);
+		-webkit-box-shadow: 0 0 15px rgba(0,0,0,0.15);
+		   -moz-box-shadow: 0 0 15px rgba(0,0,0,0.15);
+				box-shadow: 0 0 15px rgba(0,0,0,0.15);
 		z-index: 2;
 		font-family: "Open Sans",sans-serif;
 		font-size: 13px;
@@ -237,4 +239,12 @@ div#ns-remove-response{
 	    border-top: 5px solid #72777c;
 	    border-right: 5px solid transparent;
     }
+}
+.column-featured{
+	.dashicons-star-filled{
+		color: #0073aa;
+	}
+	.dashicons-star-empty{
+		color: #ccc;
+	}
 }

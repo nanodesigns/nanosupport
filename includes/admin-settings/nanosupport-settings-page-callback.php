@@ -51,6 +51,7 @@ function nanosupport_settings_options_init(){
             'ns_general'								// Section
         );
 
+    
     /**
      * Tab: Email Settings
      * 	- Enable email notifications
@@ -74,76 +75,41 @@ function nanosupport_settings_options_init(){
 	        'nanosupport_email_settings',				// Page (Plugin)*
 	        'nanosupport_email'							// Section
 	    );
+
+
+    /**
+     * Tab: Knowledgebase Settings
+     *  - Enable email notifications
+     * ----------------------------------
+     */
+    add_settings_section(
+        'nanosupport_knowledgebase',                            // ID/Slug*
+        __( 'Knowledgebase Settings', 'nanosupport' ),          // Name*
+        'ns_knowledgebase_settings_section_callback',           // Callback*
+        'nanosupport_knowledgebase_settings'                    // Page/Tab where to add the section of options*
+    );
+    register_setting(
+        'nanosupport_knowledgebase_settings',                   // Option group*
+        'nanosupport_knowledgebase_settings',                   // Option Name*
+        'ns_knowledgebase_settings_validate'                    // Sanitize Callback Function
+    );
+        add_settings_field(
+            'knowledgebase',                                    // ID*
+            __( 'Knowledgebase', 'nanosupport' ),               // Title*
+            'ns_doc_terms_field',                           // Callback Function*
+            'nanosupport_knowledgebase_settings',               // Page (Plugin)*
+            'nanosupport_knowledgebase'                         // Section
+        );
 }
 add_action( 'admin_init', 'nanosupport_settings_options_init' );
 
-function ns_general_settings_section_callback() {
-	//echo "Basic Section Here";
-}
 
-function ns_support_desk_field() {
-	$options = get_option( 'nanosupport_settings' );
-
-    $args = array(
-        'hierarchical'	=> 0,
-        'post_type'		=> 'page',
-        'post_status'	=> 'publish'
-    );
-    $pages = get_pages( $args );
-
-    if( $pages ) {
-        echo '<select name="nanosupport_settings[support_desk]" id="ns_support_desk" class="ns-select">';
-            echo '<option value="">'. __( 'Select a page', 'nanosupport' ) .'</option>';                
-            foreach ( $pages as $page ) {
-                if( has_shortcode( $page->post_content, 'nanosupport_desk' ) ) {
-                    echo '<option value="'. $page->ID .'" '. selected( $page->ID, $options['support_desk'], false ) .'>'. $page->post_title .'</option>';
-                }
-            }
-        echo '</select>';
-        echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Choose the page where you want to display the Support Desk. If no page is in the list, create one with the shortcode [nanosupport_desk] in it.', 'nanosupport' ) .'"></span>';
-    }
-}
-
-function ns_submit_ticket_field() {
-	$options = get_option( 'nanosupport_settings' );
-
-    $args = array(
-        'hierarchical'  => 0,
-        'post_type'     => 'page',
-        'post_status'   => 'publish'
-    ); 
-    $pages = get_pages($args);
-
-    if( $pages ) {
-        echo '<select name="nanosupport_settings[submit_page]" id="ns_submit_ticket" class="ns-select">';
-            echo '<option value="">'. __( 'Select a page', 'nanosupport' ) .'</option>';                
-            foreach ( $pages as $page ) {
-                if( has_shortcode( $page->post_content, 'nanosupport_submit_ticket' ) ) {
-                    echo '<option value="'. $page->ID .'" '. selected( $page->ID, $options['submit_page'], false ) .'>'. $page->post_title .'</option>';
-                }
-            }
-        echo '</select>';
-        echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Choose the page where you want show the Ticket Submission page. If no page is in the list, create one with the shortcode [nanosupport_submit_ticket] in it.', 'nanosupport' ) .'"></span>';
-    }
-}
-
-function ns_bootstrap_field() {
-	$options = get_option( 'nanosupport_settings' );
-
-	echo '<input name="nanosupport_settings[bootstrap]" id="ns_bootstrap" type="checkbox" value="1" '. checked( 1, $options['bootstrap'], false ) . '/> <label for="ns_bootstrap">'. __( 'Load Bootstrap CSS (default)', 'nanosupport' ) .'</label>';
-	echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'If your theme is designed in Bootstrap, just uncheck here to not to load the file again.', 'nanosupport' ) .'"></span>';
-}
-
-
-function ns_email_settings_section_callback() {
-	//echo "Email section";
-}
-
-function ns_email_field() {
-    $options = get_option('nanosupport_email_settings');
-    echo "<input name='nanosupport_email_settings[email_check]' id='email' type='checkbox' value='1' ".checked( 1, $options['email_check'], false ) . " /> <label for='email'>". __( 'Load jQuery from plugin', 'nanosupport' ) ."</label>";
-}
-
+//General Settings Fields
+require_once 'ns-settings-general-fields.php';
+//Email Settings Fields
+require_once 'ns-settings-emails-fields.php';
+//Knowledgebase Settings Fields
+require_once 'ns-settings-knowledgebase-fields.php';
 
 
 /**
@@ -159,8 +125,9 @@ function nanosupport_settings_page_callback() {
         <?php
         //tabs
         $tabs = array(
-			'general_settings'	=> __( 'General', 'nanosupport' ),
-			'email_settings'	=> __( 'Emails', 'nanosupport' ),
+            'general_settings'          => __( 'General', 'nanosupport' ),
+            'email_settings'            => __( 'Emails', 'nanosupport' ),
+            'knowledgebase_settings'	=> __( 'Knowledgebase', 'nanosupport' ),
 		);
         $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'general_settings';
 
@@ -211,9 +178,25 @@ function nanosupport_settings_page_callback() {
 				</div> <!-- /.nanosupport-right-column -->
                 <div class="clearfix"></div>
 
+            <?php } else if( 'knowledgebase_settings' === $active_tab ) { ?>
+
+                <div class="nanosupport-left-column">
+
+                    <?php settings_fields('nanosupport_knowledgebase_settings'); ?>
+                    <?php do_settings_sections('nanosupport_knowledgebase_settings'); ?>
+
+                </div> <!-- /.nanosupport-left-column -->
+                <div class="nanosupport-right-column">
+                    
+                    <?php printf( __( '<strong>NanoSupport</strong> is a complete package for a front-end Support Ticketing System in a complete WordPress\' way. It has a rich back end for ticket maintenance and management.<hr><a href="%s"><strong>nano</strong>designs</a>', 'nanosupport' ), 'http://nanodesignsbd.com/' ); ?>
+
+                </div> <!-- /.nanosupport-right-column -->
+                <div class="clearfix"></div>
+
 			<?php } //endif ?>
 
 			<?php submit_button(); ?>
+
         </form>
 
     </div> <!-- /.wrap -->
