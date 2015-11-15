@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function nanosupport_page_callback() { ?>
     <div class="wrap">
-        <h2><?php _e( 'NanoSupport', 'nanosupport' ); ?></h2>
+        <h2><span class="ns-icon-nanosupport"></span> <?php _e( 'NanoSupport', 'nanosupport' ); ?></h2>
     </div>
 <?php
 }

@@ -27,8 +27,8 @@ function ns_settings_page() {
         'manage_options',                       //$capability
         'nanosupport',                          //$menu_slug
         'nanosupport_page_callback',            //callback function
-        'dashicons-shield',                     //icon
-        28                                      //position
+        null,                 //icon
+        '28.5'                                      //position
     );
 
     add_submenu_page(

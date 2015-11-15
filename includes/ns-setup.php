@@ -18,6 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * -----------------------------------------------------------------------
  */
 function ns_admin_scripts() {
+
+    wp_enqueue_style( 'ns-icon-styles', NS()->plugin_url() .'/assets/css/ns-icon-styles.css', array(), NS()->version, 'all' );
+
     $screen = get_current_screen();
     if( 'nanosupport' === $screen->post_type || 'nanodoc' === $screen->post_type || 'nanosupport_page_nanosupport-settings' === $screen->base ) {
 
@@ -257,3 +260,15 @@ function ns_default_search_filter( $query ) {
     endif;
 }
 add_filter( 'pre_get_posts', 'ns_default_search_filter' );
+
+
+function ns_redirect_user_to_correct_place() {
+    if( ! is_user_logged_in() ) {
+        if( is_page('support-desk') ) {
+            // /knowledgebase?from=sd
+            wp_redirect( add_query_arg( 'from', 'sd', get_permalink(get_page_by_path('knowledgebase')) ) );
+            exit();
+        }
+    }
+}
+add_action( 'pre_get_posts', 'ns_redirect_user_to_correct_place' );
