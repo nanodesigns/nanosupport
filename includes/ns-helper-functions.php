@@ -198,22 +198,3 @@ function ns_time_elapsed( $time ) {
         return $number_of_units .' '. $text . ( ( $number_of_units > 1 ) ? 's' : '' );
     }
 }
-
-
-/**
- * Get pending ticket counts
- * 
- * @return integer Total number of pending tickets.
- * -----------------------------------------------------------------------
- */
-function ns_pending_tickets_count() {
-	$get_pending_posts = new WP_Query( array(
-								'post_type'			=> 'nanosupport',
-								'post_status'		=> 'pending',
-								'posts_per_page'	=> -1
-							) );
-	$pending_ticket_count = $get_pending_posts->found_posts;
-	wp_reset_postdata();
-
-	return (int) $pending_ticket_count;
-}

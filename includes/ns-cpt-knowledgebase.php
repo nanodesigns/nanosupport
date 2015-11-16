@@ -126,101 +126,16 @@ function ns_create_nanodoc_taxonomies() {
     if( !taxonomy_exists( 'nanodoc_category' ) )
         register_taxonomy( 'nanodoc_category', array( 'nanodoc' ), $cat_args );
 
-
-    $tag_labels = array(
-        'name'              => __( 'Tags', 'nanosupport' ),
-        'singular_name'     => __( 'Tag', 'nanosupport' ),
-        'search_items'      => __( 'Search Tags', 'nanosupport' ),
-        'all_items'         => __( 'All Tags', 'nanosupport' ),
-        'parent_item'       => __( 'Parent Tag', 'nanosupport' ),
-        'parent_item_colon' => __( 'Parent Tag:', 'nanosupport' ),
-        'edit_item'         => __( 'Edit Tags', 'nanosupport' ),
-        'update_item'       => __( 'Update Tags', 'nanosupport' ),
-        'add_new_item'      => __( 'Add New Tag', 'nanosupport' ),
-        'new_item_name'     => __( 'New Tag Name', 'nanosupport' ),
-        'menu_name'         => __( 'Tags', 'nanosupport' ),
-    );
-
-    $tag_args = array(
-        'hierarchical'      => false,
-        'public'            => true,
-        'show_tagcloud'     => true,
-        'labels'            => $tag_labels,
-        'show_ui'           => true,
-        'show_admin_column' => true,
-        'query_var'         => true,
-        'rewrite'           => array( 'slug' => 'kb-tag' ),
-    );
-
-    if( !taxonomy_exists( 'nanodoc_tag' ) )
-        register_taxonomy( 'nanodoc_tag', array( 'nanodoc' ), $tag_args );
-
 }
 add_action( 'init', 'ns_create_nanodoc_taxonomies', 0 );
 
 
-
-function ns_nanodoc_meta_box() {
-    add_meta_box(
-        'nanodoc-specifics',        // metabox ID
-        __('Knowledgebase control', 'nanosupport'),       // metabox title
-        'ns_nanodoc_metabox_callback',         // callback function
-        'nanodoc',                  // post type (+ CPT)
-        'side',                       // 'normal', 'advanced', or 'side'
-        'high'                          // 'high', 'core', 'default' or 'low'
-    );
-}
-add_action( 'add_meta_boxes', 'ns_nanodoc_meta_box' );
-
-function ns_nanodoc_metabox_callback() {
-
-    global $post;
-
-    // Use nonce for verification
-    wp_nonce_field( basename( __FILE__ ), 'cpt_nanodoc_nonce' );
-
-    $existing_data = get_post_meta( $post->ID, "ns_nanodoc_featured", true ); ?>
-    
-    <table style="width:100%">
-        <tr>
-            <td><label for="ns-nanodoc-featured"><span class="dashicons dashicons-star-filled"></span> <?php _e( 'Featured Document', 'nanosupport' ); ?></label></td>
-            <td style="text-align: right"><input type="checkbox" id="ns-nanodoc-featured" name="ns_nanodoc_featured" <?php checked( $existing_data, 1 ); ?> value="1"></td>
-        </tr>
-    </table>    
-
-    <?php
-
-}
-
-function nanodoc_data_save( $post_id ) {
-
-    // verify nonce
-    if (!isset($_POST['cpt_nanodoc_nonce']) || !wp_verify_nonce($_POST['cpt_nanodoc_nonce'], basename(__FILE__)))
-        return $post_id;
-    
-    // check autosave
-    if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
-        return $post_id;
-
-    // check permissions
-    if ( 'nanodoc' == $_POST['post_type'] && !current_user_can('edit_post', $post_id) )
-        return $post_id;
-
-
-    $ns_nanodoc_featured = isset($_POST['ns_nanodoc_featured']) ? 1 : null;
-    $existing_data = get_post_meta( $post_id, "ns_nanodoc_featured", true );
-
-    if( $ns_nanodoc_featured && $ns_nanodoc_featured != $existing_data ) {
-        update_post_meta( $post_id, 'ns_nanodoc_featured', wp_strip_all_tags( $ns_nanodoc_featured ) );
-    } elseif( '' == $ns_nanodoc_featured && $existing_data ) {
-        delete_post_meta( $post_id, 'ns_nanodoc_featured', $existing_data );
-    }
-
-}
-add_action( 'save_post',        'nanodoc_data_save' );
-add_action( 'new_to_publish',   'nanodoc_data_save' );
-
-
+/**
+ * Change the 'Post Title' in Admin.
+ * @param  string $title Default string.
+ * @return string        Modified string.
+ * -----------------------------------------------------------------------
+ */
 function ns_change_nanodoc_title_text( $title ){
      $screen = get_current_screen();
  
@@ -231,44 +146,3 @@ function ns_change_nanodoc_title_text( $title ){
      return $title;
 } 
 add_filter( 'enter_title_here', 'ns_change_nanodoc_title_text' );
-
-
-/**
- * Add more columns to the 'nanodoc' CPT
- * 
- * @param  array $columns Default columns.
- * @return array          Modified columns.
- * --------------------------------------------------------------------------
- */
-function ns_nanodoc_columns( $columns ) {
-    
-    $new_columns = array(
-        'featured'  => __( 'Featured', 'nanosupport' ),
-    );
-    return array_merge( $columns, $new_columns );
-}
-add_filter( 'manage_nanodoc_posts_columns', 'ns_nanodoc_columns' );
-
-
-/**
- * Populate the columns with the respective data.
- * 
- * @param  array $column    Default columns.
- * @param  integer $post_id That particular post_ID.
- * --------------------------------------------------------------------------
- */
-function ns_nanodoc_table_columns_data( $column, $post_id ) {
-
-    switch ( $column ) {
-        case 'featured':
-            $featured_data = get_post_meta( $post_id, 'ns_nanodoc_featured', true );
-
-            if( 1 == $featured_data )
-                echo '<span class="dashicons dashicons-star-filled" title="Featured Document"></span>';
-            else
-                echo '<span class="dashicons dashicons-star-empty" title="Not Featured"></span>';
-
-            break;
-    }
-}
-add_action( 'manage_nanodoc_posts_custom_column', 'ns_nanodoc_table_columns_data', 10, 2 );

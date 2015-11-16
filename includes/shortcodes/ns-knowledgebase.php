@@ -28,72 +28,57 @@ function ns_knowledgebase_page() {
 	}
 
 	/**
+	 * HOOK
+	 * nanosupport_knowledgebase_serachform
+	 * 
 	 * Knowledgebase Searchform
 	 * 
 	 * Display a searchform capable of searching specific
 	 * only to the knowledgebase.
 	 */
-	ns_get_template_part( 'ns', 'knowledgebase-searchform' );
+	do_action( 'nanosupport_knowledgebase_serachform' );
 
-	//dynamic values
-	$terms = array(227,230,231,232,233);
+	/**
+	 * Necessary values in vars.
+	 */
 	$show_all_doc = true; //default: false (only featured)
-	$kb_posts_per_page = 20;
 
-	if( $terms ) {
+	/**
+	 * HOOK : FILTER HOOK
+	 * nanosupport_kb_posts_per_page
+	 *
+	 * Modify Knowledgebase posts_per_page.
+	 */
+	$kb_posts_per_page = apply_filters( 'nanosupport_kb_posts_per_page', get_option('posts_per_page') );
 
-		echo '<div class="row">';
-		$total_terms = count( $terms );
 
-		$_counter = 1;
-		foreach( $terms as $term_id ) {
-			$term = get_term_by( 'id', $term_id, 'nanodoc_category' );
-			$term_link = get_term_link( $term_id, 'nanodoc_category' );
-			$term_link = !is_wp_error( $term_link ) ? $term_link : '#';
+	/**
+	 * HOOK
+	 * nanosupport_knowledgebase_categories
+	 *
+	 * Hook categories into display.
+	 */
+	do_action( 'nanosupport_knowledgebase_categories' );
 
-			// Dynamic classes
-			$class_on_four 	= $_counter % 4 === 1 ? ' first-on-four' : '';
-			$class_on_two 	= $_counter % 2 === 1 ? ' first-on-two' : '';
-
-			echo '<div class="col-sm-3 col-xs-6 nanodoc-term-box'. esc_attr($class_on_four), esc_attr($class_on_two) .'">';
-				echo '<div class="nanodoc-term-box-inner text-center">';
-					printf(	'<a class="icon-link" href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term->name), '<span class="ns-icon-docs"></span>' );
-					echo '<h4 class="nanodoc-term-title">';
-						printf(	'<a href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term->name), $term->name );
-					echo '</h4>';
-				echo '</div> <!-- /.nanodoc-term-box-inner -->';
-			echo '</div> <!-- /.nanodoc-term-box -->';
-
-			$_counter++;
-		}
-		echo '</div> <!-- /.row -->';
-
-		echo '<hr>';
-	} //endif( $terms )
+	
 
 	echo '<section id="knowledgebase-entries">';
 
-		//Arguments for Featured Knowledgebase doc
-		$featured_args = array(
-				'meta_key'			=> 'ns_nanodoc_featured',
-				'meta_value'		=> 1,
-				'meta_compare'		=> '='
-			);
-
 		//Arguments for Default Knowledgebase doc
+		//Show all the docs
 		$args = array(
 				'post_type'			=> 'nanodoc',
 				'posts_per_page'	=> $kb_posts_per_page,
 				'post_status'		=> 'publish',
 			);
 
-		if( ! $show_all_doc )
-			$kb_args = $args + $featured_args; 	//featured docs only
-		else
-			$kb_args = $args; 					//all docs
-
-		//with dynamic arguments
-		$knowledgebase = new WP_Query( $kb_args );
+		/**
+		 * HOOK : FILTER HOOK
+		 * nanosupport_knowledgebase_query
+		 *
+		 * Hook to modify the Knowledgebase query.
+		 */
+		$knowledgebase = new WP_Query( apply_filters( 'nanosupport_knowledgebase_query', $args ) );
 
 		if( $knowledgebase->found_posts > 5 && $kb_posts_per_page > 5 )
 			$column_count = $kb_posts_per_page / 2; //half, if posts more than 5
@@ -121,7 +106,7 @@ function ns_knowledgebase_page() {
 
 		else :
 			
-			echo '<p>'. _e( '', 'nanosupport' ) .'</p>';
+			echo '<p>'. _e( 'No Knowledgebase entries till now to display.', 'nanosupport' ) .'</p>';
 
 		endif;
 

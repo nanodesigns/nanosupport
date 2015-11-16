@@ -1,0 +1,89 @@
+ToDos:
+  Primary:
+    ☐ Ticket Single Page (single-nanosupport.php)
+    ✔ Public Ticket / Private Ticket flag @done (15-06-18 16:41)
+    ✔ Settings Page @done (15-06-18 16:41)
+    ☐ jQuery Validation
+    ✔ Default Theme (+) Bootstrap (+/-) Custom Icon using fontastic.me @done (15-05-16 13:01)
+
+    Dynamic:
+      ✔ inc/setups/cpt-and-taxonomy.php ---> nanodesigns_nst_nanosupport_update_messages() | array (1) > esc_url @done (15-06-18 16:43)
+
+   Secondary:
+    ☐ Statistics
+    ☐ Email Notifications on ticket submit &/ ticket response
+    ☐ Action and Filter Hooks
+    ☐ File Attachment (Max number file + Upload limit + File types)
+    ☐ WP Editor
+
+   Advanced:
+    ☐ Email to Ticket
+
+   Paid:
+
+
+KNOWN BUGS:
+  ✔ In a Ticket, Delete a Response using AJAX, now without page reload Save/Update the ticket - the deleted response is back @done (15-05-16 08:21)
+
+
+BOOTSTRAP CUSTOMIZED PACK:
+ ☐ grid system
+ ☐ tables
+ ☐ forms
+ ☐ buttons
+ ☐ pagination
+ ☐ labels
+ ☐ badges
+ ☐ alerts
+ ☐ panels
+ ☐ 
+ ☐ well
+ ☐ 
+ ☐ images
+ ☐ helper classes
+
+Customized URL:
+http://getbootstrap.com/customize/?id=b86dce5a156fb4bff360
+
+
+FEATURES:
+  FREE FEATURES:
+   ☐ Auto creation of necessary pages with Shortcode
+   ✔ Make Agents from Registered Users @done (15-11-17 00:56)
+   ✔ Assign ticket to a single Support Agent @done (15-11-17 00:56)
+   ☐ Answering Tickets within WordPress' Database Schema
+   ☐ Answer Tickets from Back end and Front end
+   ✔ Complete Ticketing in WordPress database Schema @done (15-11-17 00:56)
+   ☐ Knowledgebase
+   ☐ Knowledgebase Categories (only on back end - no archive)
+   ✔ Settings: Choose the Submit Ticket page @done (15-11-17 00:56)
+   ✔ Settings: Choose the Support Desk page @done (15-11-17 00:56)
+   ☐ Settings: Choose the Knowledgebase page
+  
+  PRO FEATURES:
+   ✔ Knowledgebase Tags @done (15-11-17 00:56)
+   ☐ Knowledgebase Tags Archive
+   ☐ Knowledgebase Categories Archive
+   ☐ Settings: Knowledgebase Posts per Page control
+   ✔ Featured Knowledgebase Items @done (15-11-17 00:56)
+   ☐ Settings: Promote Knowledgebase Categories to Knowledgebase Layout
+   ☐ Settings: Change Layout of Knowledgebase
+   ☐ Searching Knowledgebase
+   ☐ File upload and attachments
+   ☐ Email > Support Ticket
+   ☐ Really Simple Captcha integration
+   ☐ Copy content from Support Ticket to Knowledgebase
+   ☐ Macros (Predefined Responses)
+   ☐ Multiple Support Agents
+   ☐ Front-end Desk for Ticket Maintenance
+   ☐ Rich Text Support to Ticket
+   ✔ Show pending ticket count @done (15-11-17 00:54)
+   ✔ single.php template overlapping from plugin @done (15-11-17 00:54)
+   ✔ Support Departments @done (15-11-17 00:54)
+   ✔ Automatic Assignment of Support Ticket to a Department 'support' @done (15-11-17 00:54)
+   ☐ Settings: Let the user choose the automatic Department
+   ☐ Notify Support Agent on ticket assignment within WordPress
+   ☐ Notify Support Agent on ticket assignment via Email - wp_mail() and POP3 email
+
+  FEATURES? NOT SURE:
+   ☐ Faster Knowledgebase Searching (?) - Creating separate database with cron-powered daily/weekly updgradation for better searching
