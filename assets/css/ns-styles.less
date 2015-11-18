@@ -5,6 +5,19 @@
  * @package NanoSupport
  */
 
+/** COLOR VARIABLES */
+
+  @red: #da4453;
+  @red-hover: #ed5565;
+  @orange: #f6bb42;
+  @orange-hover: #ffce54;
+  @green: #37bc9b;
+  @green-hover: #48cfad;
+  @blue: #4a89dc;
+  @blue-hover: #5d9cec;
+
+/** /COLOR VARIABLES */
+
 @charset "UTF-8";
 
 html{
@@ -176,6 +189,47 @@ tfoot .ns-icon-responses{
 }
 .ns-ticket-status-bar{
   margin-bottom: 20px;
+}
+
+.ticket-cards{
+  background-color: #fff;
+  -webkit-box-shadow: 0 0 25px rgba(0,0,0,0.2);
+     -moz-box-shadow: 0 0 25px rgba(0,0,0,0.2);
+          box-shadow: 0 0 25px rgba(0,0,0,0.2);
+  padding: 10px 15px;
+  border-left-width: 10px;
+  border-style: solid;
+  border-color: #333;
+  margin-bottom: 20px;
+
+  h3.ticket-question{
+    margin-top: 0;
+  }
+  .text-blocks{
+    margin-bottom: 10px;
+  }
+  &.status-open{
+    border-color: @orange;
+  }
+  &.status-inspection{
+    border-color: @blue;
+  }
+  &.status-solved{
+    border-color: @green;
+  }
+}
+@media (max-width:400px){
+  .ticket-cards{
+    border-left-width: 0;
+    border-top-width: 10px;
+    border-bottom-width: 1px;
+    border-bottom-color: #999 !important;
+
+    .col-xs-4{
+      clear: both;
+      width: 100%;
+    }
+  }
 }
 
 

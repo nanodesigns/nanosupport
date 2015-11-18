@@ -1,7 +1,7 @@
 <?php
-function pw_sample_shortcode() {
+function ns_sample_shortcode() {
 	ob_start();
-		ns_get_template_part( 'ns', 'header' );
+		echo "THIS";
 	return ob_get_clean();
 }
-add_shortcode( 'pw_sample', 'pw_sample_shortcode' );
+add_shortcode( 'ns_sample', 'ns_sample_shortcode' );

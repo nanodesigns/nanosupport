@@ -94,112 +94,110 @@ function ns_support_desk_page() {
 			) );
 
 		if( $support_ticket_query->have_posts() ) : ?>
-			<div class="table-responsive">
-				<table id="ns-support-tickets" class="table table-striped">
-					<thead>
-						<tr>
-							<th><?php _e( 'ID', 'nanosupport' ); ?></th>
-							<th><?php _e( 'Subject', 'nanosupport' ); ?></th>
-							<th><?php _e( 'Priority', 'nanosupport' ); ?></th>
-							<th><?php _e( 'Department', 'nanosupport' ); ?></th>
-							<th><span class="ns-icon-responses" title="<?php esc_attr_e( 'Responses', 'nanosupport' ); ?>"></span></th>
-							<th><?php _e( 'Ticket Status', 'nanosupport' ); ?></th>
-							<th><?php _e( 'Author', 'nanosupport' ); ?></th>
-							<th><?php _e( 'Modified', 'nanosupport' ); ?></th>
-						</tr>
-					</thead>
-					<tbody>
+
 			<?php
 			while( $support_ticket_query->have_posts() ) : $support_ticket_query->the_post();
-			?>
-				<tr>
-					<td>
-						<a href="<?php the_permalink(); ?>"><?php echo '#', get_the_ID(); ?></a>
-					</td>
-					<td>
-						<a href="<?php the_permalink(); ?>"><strong><?php the_title(); ?></strong></a><br>
-						<small class="text-muted"><?php echo __( 'Originally Posted: ', 'nanosupport' ), date( 'd F Y h:i A', strtotime( $post->post_date ) ); ?></small>
-					</td>
-					<?php $ticket_control = get_post_meta( get_the_ID(), 'ns_control', true ); ?>
-					<td>
-						<?php
-						$ticket_priority = $ticket_control['priority'];
-						if( 'low' === $ticket_priority ) {
-							_e( 'Low', 'nanosupport' );
-						} else if( 'medium' === $ticket_priority ) {
-							echo '<span class="text-info">' , __( 'Medium', 'nanosupport' ) , '</span>';
-						} else if( 'high' === $ticket_priority ) {
-							echo '<span class="text-warning">' , __( 'High', 'nanosupport' ) , '</span>';
-						} else if( 'critical' === $ticket_priority ) {
-							echo '<span class="text-danger">' , __( 'Critical', 'nanosupport' ) , '</span>';
-						}
-						?>
-					</td>
-					<td>
-						<?php
-						$departments = get_the_terms( get_the_ID(), 'nanosupport_departments' );
-						if ( $departments && ! is_wp_error( $departments ) ) :
-							foreach ( $departments as $department ) {
-								echo $department->name;
-							}
-						endif;
-						?>
-					</td>
-					<td class="text-center">
-						<?php
-						$response_count = wp_count_comments( get_the_ID() );
-						echo $response_count->approved;
-						?>
-					</td>
-					<td>
-						<?php
-						$ticket_status = $ticket_control['status'];
-						if( $ticket_status ) {
-							if( 'solved' === $ticket_status ) {
-								$status = '<span class="label label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
-							} else if( 'inspection' === $ticket_status ) {
-								$status = '<span class="label label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
-							} else {
-								$status = '<span class="label label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
-							}
-						} else {
-							$status = '';
-						}
 
-						echo $status;
-						?>
-					</td>
-					<td>
-						<?php
-						$author = get_user_by( 'id', $post->post_author );
-						echo $author->display_name;
-						?>
-					</td>
-					<td>
-						<?php echo date( 'd F Y h:ia', strtotime( $post->post_modified ) ); ?>
-					</td>
-				</tr>
+				$ticket_control = get_post_meta( get_the_ID(), 'ns_control', true );
+
+				$ticket_status = $ticket_control['status'];
+
+				if( $ticket_status && 'solved' === $ticket_status )
+					$status_class = 'status-solved';
+				elseif( $ticket_status && 'inspection' === $ticket_status )
+					$status_class = 'status-inspection';
+				elseif( $ticket_status && 'open' === $ticket_status )
+					$status_class = 'status-open';
+				?>
+				<div class="ticket-cards <?php echo esc_attr($status_class); ?>">
+					<div class="row">
+						<div class="col-sm-4 col-xs-12">
+							<h3 class="ticket-question">
+								<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
+									<small class="ticket-id"><?php printf( '#%s', get_the_ID() ); ?></small> &mdash; <?php the_title(); ?>
+								</a>
+							</h3>
+							<div>
+								<em>
+									<?php
+									$author = get_user_by( 'id', $post->post_author );
+									echo $author->display_name;
+									?>
+								</em>
+							</div>
+						</div>
+						<div class="col-sm-3 col-xs-4">
+							<div class="text-blocks">
+								<strong><?php _e('Department:', 'nanosupport'); ?></strong><br>
+								<?php
+								$departments = get_the_terms( get_the_ID(), 'nanosupport_departments' );
+								if ( $departments && ! is_wp_error( $departments ) ) :
+									foreach ( $departments as $department ) {
+										echo $department->name;
+									}
+								endif;
+								?>
+							</div>
+							<div class="text-blocks">
+								<strong><?php _e('Created:', 'nanosupport'); ?></strong><br>
+								<?php echo date( 'd F Y h:i A', strtotime( $post->post_date ) ); ?>
+							</div>
+						</div>
+						<div class="col-sm-3 col-xs-4">
+							<div class="text-blocks">
+								<strong><?php _e('Ticket Status:', 'nanosupport'); ?></strong><br>
+								<?php
+								if( $ticket_status ) {
+									if( 'solved' === $ticket_status ) {
+										$status = '<span class="label label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
+									} else if( 'inspection' === $ticket_status ) {
+										$status = '<span class="label label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
+									} else {
+										$status = '<span class="label label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
+									}
+								} else {
+									$status = '';
+								}
+
+								echo $status;
+								?>
+							</div>
+							<div class="text-blocks">
+								<strong><?php _e('Modified:', 'nanosupport'); ?></strong><br>
+								<?php echo date( 'd F Y h:ia', strtotime( $post->post_modified ) ); ?>
+							</div>
+						</div>
+						<div class="col-sm-2 col-xs-4">
+							<div class="text-blocks">
+								<strong><?php _e('Priority:', 'nanosupport'); ?></strong><br>
+								<?php
+								$ticket_priority = $ticket_control['priority'];
+								if( 'low' === $ticket_priority ) {
+									_e( 'Low', 'nanosupport' );
+								} else if( 'medium' === $ticket_priority ) {
+									echo '<span class="text-info">' , __( 'Medium', 'nanosupport' ) , '</span>';
+								} else if( 'high' === $ticket_priority ) {
+									echo '<span class="text-warning">' , __( 'High', 'nanosupport' ) , '</span>';
+								} else if( 'critical' === $ticket_priority ) {
+									echo '<span class="text-danger">' , __( 'Critical', 'nanosupport' ) , '</span>';
+								}
+								?>
+							</div>
+							<div class="text-blocks">
+								<strong><?php _e('Replies:', 'nanosupport'); ?></strong><br>
+								<?php
+								$response_count = wp_count_comments( get_the_ID() );
+								echo $response_count->approved;
+								?>
+							</div>
+						</div>
+					</div>
+				</div> <!-- /.ticket-cards -->
+
 			<?php
 			endwhile;
-			?>
-					</tbody>
-					<tfoot>
-						<tr>
-							<th><?php _e( 'ID', 'nanosupport' ); ?></th>
-							<th><?php _e( 'Subject', 'nanosupport' ); ?></th>
-							<th><?php _e( 'Priority', 'nanosupport' ); ?></th>
-							<th><?php _e( 'Department', 'nanosupport' ); ?></th>
-							<th><span class="ns-icon-responses"></span></th>
-							<th><?php _e( 'Ticket Status', 'nanosupport' ); ?></th>
-							<th><?php _e( 'Author', 'nanosupport' ); ?></th>
-							<th><?php _e( 'Modified', 'nanosupport' ); ?></th>
-						</tr>
-					</tfoot>
-				</table> <!-- #ns-support-tickets -->
 
-			</div> <!-- .table-responsive -->			
 
-			<?php
 			/**
 			 * Pagination
 			 * @see  includes/helper-functions.php

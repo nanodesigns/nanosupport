@@ -39,11 +39,6 @@ function ns_knowledgebase_page() {
 	do_action( 'nanosupport_knowledgebase_serachform' );
 
 	/**
-	 * Necessary values in vars.
-	 */
-	$show_all_doc = true; //default: false (only featured)
-
-	/**
 	 * HOOK : FILTER HOOK
 	 * nanosupport_kb_posts_per_page
 	 *
@@ -80,27 +75,25 @@ function ns_knowledgebase_page() {
 		 */
 		$knowledgebase = new WP_Query( apply_filters( 'nanosupport_knowledgebase_query', $args ) );
 
-		if( $knowledgebase->found_posts > 5 && $kb_posts_per_page > 5 )
-			$column_count = $kb_posts_per_page / 2; //half, if posts more than 5
-		else
-			$column_count = false;
-
-		if( $column_count )
-			$col_class = 'col-sm-6';
-		else
-			$col_class = 'col-sm-12';
-
 		if( $knowledgebase->have_posts() ) :
 
-			echo '<h3 class="ns-section-title">'. __( 'Documentation', 'nanosupport' ) .'</h3>';
+			/**
+			 * HOOK : FILTER HOOK
+			 * nanosupport_kb_header_title
+			 *
+			 * @param string  $text Header text. Default 'Documentaion'.
+			 */
+			$knowledgebase_title = apply_filters( 'nanosupport_kb_header_title', __( 'Documentation', 'nanosupport' ) );
+
+			echo '<h3 class="ns-section-title">'. $knowledgebase_title .'</h3>';
 			echo '<div class="row">';
-				echo '<div class="'. esc_attr($col_class) .'">';
+				echo '<div class="col-sm-12">';
 					echo '<ul class="ns-doc-list">';
 						while( $knowledgebase->have_posts() ) : $knowledgebase->the_post();
 							echo '<li><a href="'. get_the_permalink() .'">'. get_the_title() .'</a></li>';
 						endwhile;
 					echo '</ul> <!-- /.ns-doc-list -->';
-				echo '</div> <!-- /.'. esc_attr($col_class) .' -->';
+				echo '</div> <!-- /.col-sm-12 -->';
 			echo '</div> <!-- /row -->';
 			wp_reset_postdata();
 
