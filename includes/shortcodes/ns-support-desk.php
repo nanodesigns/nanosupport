@@ -98,6 +98,7 @@ function ns_support_desk_page() {
 			<?php
 			while( $support_ticket_query->have_posts() ) : $support_ticket_query->the_post();
 
+				//Get ticket information
 				$ticket_control = get_post_meta( get_the_ID(), 'ns_control', true );
 
 				$ticket_status = $ticket_control['status'];
@@ -129,14 +130,7 @@ function ns_support_desk_page() {
 						<div class="col-sm-3 col-xs-4">
 							<div class="text-blocks">
 								<strong><?php _e('Department:', 'nanosupport'); ?></strong><br>
-								<?php
-								$departments = get_the_terms( get_the_ID(), 'nanosupport_departments' );
-								if ( $departments && ! is_wp_error( $departments ) ) :
-									foreach ( $departments as $department ) {
-										echo $department->name;
-									}
-								endif;
-								?>
+								<?php echo ns_get_ticket_departments(); ?>
 							</div>
 							<div class="text-blocks">
 								<strong><?php _e('Created:', 'nanosupport'); ?></strong><br>

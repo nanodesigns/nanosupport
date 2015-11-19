@@ -198,3 +198,34 @@ function ns_time_elapsed( $time ) {
         return $number_of_units .' '. $text . ( ( $number_of_units > 1 ) ? 's' : '' );
     }
 }
+
+
+/**
+ * Get the ticket departments
+ * 
+ * @param  integer $post_id Ticket Post ID.
+ * @return string           Comma-separated names of the departments.
+ * -----------------------------------------------------------------------
+ */
+function ns_get_ticket_departments( $post_id = null ) {
+    
+    $post_id = ( null === $post_id ) ? get_the_ID() : $post_id;
+
+    $_departments = get_the_terms( $post_id, 'nanosupport_departments' );
+
+    $department_count = count($_departments);
+    $departments = '';
+
+    if ( $_departments && ! is_wp_error( $_departments ) ) :
+        $counter = 1;
+        foreach ( $_departments as $department ) {
+           $departments .= $department->name;
+           if( $department_count != $counter )
+                $departments .= ', ';
+
+           $counter++;
+        }
+    endif;
+
+    return $departments;
+}
