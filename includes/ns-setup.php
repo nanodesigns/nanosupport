@@ -59,7 +59,8 @@ add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
  */
 function ns_scripts() {
     if( is_page('support-desk') || is_page('submit-ticket') || is_page('knowledgebase') || is_singular('nanosupport') ) {
-        wp_enqueue_style( 'ns-bootstrap', NS()->plugin_url() .'/assets/css/bootstrap.min.css', array(), NS()->version, 'all' );
+        wp_enqueue_style( 'ns-bootstrap', NS()->plugin_url() .'/assets/css/bootstrap.min.css', array(), '3.3.4', 'all' );
+        wp_enqueue_style( 'ns-bootflat', NS()->plugin_url() .'/assets/css/bootflat.min.css', array(), '2.0.4', 'all' );
 		wp_enqueue_style( 'ns-styles', NS()->plugin_url() .'/assets/css/ns-styles.css', array(), NS()->version, 'all' );
 	}
 }
@@ -120,8 +121,11 @@ add_action( 'edit_user_profile_update', 'ns_saving_user_fields' );
  * -----------------------------------------------------------------------
  */
 function ns_force_ticket_post_status_to_private( $post ) {
-    if ( 'nanosupport' === $post['post_type'] )
-        $post['post_status'] = 'private';
+    if ( 'nanosupport' === $post['post_type'] ) :
+        if( 'publish' === $post['post_status'] )
+            $post['post_status'] = 'private';
+    endif;
+    
     return $post;
 }
 add_filter( 'wp_insert_post_data', 'ns_force_ticket_post_status_to_private' );
@@ -272,3 +276,24 @@ function ns_redirect_user_to_correct_place() {
     }
 }
 add_action( 'pre_get_posts', 'ns_redirect_user_to_correct_place' );
+
+
+/**
+ * Add class to Ticket Edit button
+ * @param  string $output Default link.
+ * @return string         Modified link with modified class.
+ * -----------------------------------------------------------------------
+ */
+function ns_ticket_edit_post_link( $output ) {
+    global $post;
+    if( is_single() && 'nanosupport' === $post->post_type ) {
+        $output = str_replace(
+                    'class="post-edit-link"',
+                    'class="post-edit-link btn btn-primary btn-xs ns-round-btn edit-ticket-btn"',
+                    $output
+                );        
+    }
+
+    return $output;
+}
+add_filter( 'edit_post_link', 'ns_ticket_edit_post_link' );

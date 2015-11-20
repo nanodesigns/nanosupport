@@ -11,10 +11,10 @@
   @red-hover: #ed5565;
   @orange: #f6bb42;
   @orange-hover: #ffce54;
-  @green: #37bc9b;
-  @green-hover: #48cfad;
-  @blue: #4a89dc;
-  @blue-hover: #5d9cec;
+  @green: #8cc152;
+  @green-hover: #a0d468;
+  @blue: #3bafda;
+  @blue-hover: #4fc1e9;
 
 /** /COLOR VARIABLES */
 
@@ -38,47 +38,42 @@ body{
 .ns-icon-responses{
   font-size: 18px;
 }
-thead .ns-icon-responses{
-  vertical-align: bottom;
-}
-tfoot .ns-icon-responses{
-  vertical-align: top;
-}
 .ticket-head{
   margin: 0;
   padding: 0;
   line-height: 1;
-  font-size: 20px;
+  font-size: 25px;
   
   a:hover{
     text-decoration: none;
   }
-  .ns-icon-link{
-    font-size: 18px;
-    vertical-align: middle;
+}
+.response-head{
+  .ticket-head{
+    font-size: 14px;
   }
 }
-.ticket-date-right{
-  text-align: right;
+.ticket-author{
+  font-style: italic;
+  font-size: 18px;
 }
-@media (max-width:767px){
-  .ticket-date-right{
-    text-align: left;
-  }
-}
-.off-ticket,
-.edit-ticket{
-  width: 25px;
-  height: 25px;
-  background-color: #fff;
+.btn.ns-round-btn{
+  width: 27px;
+  height: 27px;
   -webkit-border-radius: 100%;
      -moz-border-radius: 100%;
-      border-radius: 100%;
-  font-size: 12px;
-  padding: 6px;
-  text-align: center;
-  margin-left: 5px;
-  display: inline-block;
+          border-radius: 100%;
+  padding-top: 3px;
+}
+@media (min-width: 768px) {
+  .ns-right-portion{
+    text-align: right;
+  }
+  .off-ticket-btn,
+  .ticket-link-btn,
+  .edit-ticket-btn{
+    margin-bottom: 5px;
+  }
 }
 .off-ticket{
   background-color: #333;
@@ -88,87 +83,10 @@ tfoot .ns-icon-responses{
     text-decoration: none;
   }
 }
-.panel.panel-open{
-  @open-color: #f9bf3b;
 
-  border-color: darken(@open-color, 10%);
-
-  & > .panel-heading{
-    background-color: @open-color;
-    border-color: darken(@open-color, 10%);
-  }
-  .ticket-head,
-  .ticket-head a{
-    color: #333;
-  }
-}
-.panel.panel-inspection{
-  @inspection-color: #3498db;
-
-  border-color: darken(@inspection-color, 10%);
-
-  & > .panel-heading{
-    background-color: @inspection-color;
-    border-color: darken(@inspection-color, 10%);
-  }
-  .ticket-head,
-  .ticket-head a{
-    color: #fff;
-  }
-  & .panel-question .ticket-head,
-  & .panel-question .ticket-head a{
-    color: #333;
-  }
-  .edit-ticket{
-    background-color: #333;
-  }
-}
-.panel.panel-solved{
-  @solved-color: #87d37c;
-
-  border-color: darken(@solved-color, 10%);
-
-  & > .panel-heading{
-    background-color: @solved-color;
-    border-color: darken(@solved-color, 10%);
-  }
-  .ticket-head,
-  .ticket-head a{
-    color: #333;
-  }
-}
-.panel-sm{
-  & > .panel-heading{
-    padding: 3px 10px;
-  }
-  & > .panel-body{
-    padding: 10px;
-  }
-}
-.panel.panel-question{
-  margin-bottom: 0;
-  
-  & > .panel-heading{
-    background-color: #e1e1e1;
-  }
-  & > .panel-body{
-    background-color: #ededed;
-  }
-}
-.panel.panel-response{
-  & > .panel-heading{
-    background-color: #ededed;
-  }
-}
-.response-bookmark{
-  display: none;
-}
-.panel-response:hover .response-bookmark{
-  display: inline-block;
-}
 .ticket-separator{
   position: relative;
-  margin: 10px auto 20px auto;
+  margin: 30px auto 30px auto;
   text-align: center;
   text-transform: uppercase;
   color: #999;
@@ -191,45 +109,150 @@ tfoot .ns-icon-responses{
   margin-bottom: 20px;
 }
 
-.ticket-cards{
+.ns-cards{
   background-color: #fff;
   -webkit-box-shadow: 0 0 25px rgba(0,0,0,0.2);
      -moz-box-shadow: 0 0 25px rgba(0,0,0,0.2);
           box-shadow: 0 0 25px rgba(0,0,0,0.2);
+}
+.ticket-cards{
   padding: 10px 15px;
-  border-left-width: 10px;
+  border-width: 1px;
   border-style: solid;
-  border-color: #333;
+  border-color: #e1e1e1;
   margin-bottom: 20px;
 
-  h3.ticket-question{
-    margin-top: 0;
+  .ticket-id{
+    color: #666;
   }
   .text-blocks{
     margin-bottom: 10px;
   }
-  &.status-open{
-    border-color: @orange;
-  }
-  &.status-inspection{
-    border-color: @blue;
-  }
-  &.status-solved{
-    border-color: @green;
+}
+@media (min-width:401px){
+  .ticket-cards{
+    border-left-width: 10px;
+
+    &.status-open{
+      border-left-color: @orange;
+    }
+    &.status-inspection{
+      border-left-color: @blue;
+    }
+    &.status-solved{
+      border-left-color: @green;
+    }
   }
 }
 @media (max-width:400px){
   .ticket-cards{
-    border-left-width: 0;
     border-top-width: 10px;
     border-bottom-width: 1px;
     border-bottom-color: #999 !important;
+
+    &.status-open{
+      border-top-color: @orange;
+    }
+    &.status-inspection{
+      border-top-color: @blue;
+    }
+    &.status-solved{
+      border-top-color: @green;
+    }
 
     .col-xs-4{
       clear: both;
       width: 100%;
     }
   }
+}
+.responses-count{
+  display: inline-block;
+  padding: 0 8px;
+  height: 2em;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #72777c;
+  color: #fff;
+  font-size: 11px;
+  line-height: 21px;
+  text-align: center;
+  vertical-align: top;
+  margin-top: 5px;
+
+  &:after{
+    content: "";
+    display: block;
+    margin-left: 8px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid #72777c;
+    border-right: 5px solid transparent;
+  }
+}
+
+/** SINGLE PAGE CARDS **/
+.ns-single{
+  .ticket-question-card,
+  .ticket-response-cards{
+    line-height: 1.4;
+  }
+}
+.ticket-question-card{
+  padding: 15px 10px;
+  border: 1px solid #e1e1e1;
+  border-top-width: 10px;
+  border-top-color: #333;
+  border-top-style: solid;
+
+  &.open{ border-top-color: @orange; }
+  &.inspection{ border-top-color: @blue; }
+  &.solved{ border-top-color: @green; }
+
+  .ticket-head{
+    margin-bottom: 10px;
+  }
+  p{
+    margin: 0 0 10px 0;
+  }
+}
+.ticket-question-card,
+.ticket-response{
+  p{
+    margin-bottom: 10px;
+  }
+}
+.ticket-question{
+  border-top: 1px solid #e1e1e1;
+  margin-top: 20px;
+  padding-top: 20px;
+}
+.ticket-meta{
+  color: #777;
+}
+.ticket-response-cards{
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #e1e1e1;
+  border-top-width: 5px;
+  border-top-color: #ccc;
+}
+.response-dates{
+  text-align: right;
+
+  a{
+    color: #333;
+  }
+}
+@media (max-width:767px){
+  .response-dates{
+    text-align: left;
+  }
+}
+.ticket-response{
+  border-top: 1px solid #e1e1e1;
+  margin-top: 10px;
+  padding-top: 20px;
 }
 
 
@@ -278,6 +301,8 @@ tfoot .ns-icon-responses{
 .btn-sm [class*=" ns-icon-"]:before{
 	font-size: 12px;
 }
+
+
 
 
 /** Knowledgebase **/

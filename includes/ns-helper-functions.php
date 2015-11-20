@@ -66,11 +66,13 @@ function ns_create_necessary_page( $title, $slug, $content ) {
  * Get the last response informatin including response ID, user ID,
  * and response date.
  * 
- * @param  integer 	$ticket_id 	Nanosupport post ID.
+ * @param  integer 	$ticket_id 	NanoSupport post ID.
  * @return array 				comment_ID, user_id, comment_date
  * -----------------------------------------------------------------------
  */
-function ns_get_last_response( $ticket_id ) {
+function ns_get_last_response( $ticket_id = null ) {
+
+    $post_id = ( null === $ticket_id ) ? get_the_ID() : $ticket_id;
     
     global $wpdb;
     $query = "SELECT comment_ID, user_id, comment_date
@@ -78,7 +80,7 @@ function ns_get_last_response( $ticket_id ) {
                 WHERE comment_ID = ( SELECT MAX(comment_ID)
                                         FROM $wpdb->comments
                                         WHERE comment_type = 'nanosupport_response'
-                                            AND comment_post_ID = $ticket_id
+                                            AND comment_post_ID = $post_id
                                             AND comment_approved = 1
                                     )";
     $max_comment_array = $wpdb->get_results( $query, ARRAY_A );
@@ -175,9 +177,11 @@ function ns_bootstrap_pagination( $query ) {
  * -----------------------------------------------------------------------
  */
 function ns_time_elapsed( $time ) {
-	$time = strtotime( $time );
 
-    $time = time() - $time; // to get the time since that moment
+    $time   = strtotime( $time );
+    $now    = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
+
+    $time   = strtotime($now) - $time; // to get the time since that moment
 
     $tokens = array (
         31536000 => __( 'year', 'nanosupport' ),

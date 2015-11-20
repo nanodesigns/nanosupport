@@ -121,7 +121,6 @@ require_once 'includes/ns-setup.php';
 
 require_once 'includes/ns-cpt-nanosupport.php';
 require_once 'includes/ns-cpt-knowledgebase.php';
-require_once 'includes/ns-metaboxes-control.php';
 require_once 'includes/ns-metaboxes-responses.php';
 require_once 'includes/ns-responses.php';
 

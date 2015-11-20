@@ -110,58 +110,55 @@ function ns_support_desk_page() {
 				elseif( $ticket_status && 'open' === $ticket_status )
 					$status_class = 'status-open';
 				?>
-				<div class="ticket-cards <?php echo esc_attr($status_class); ?>">
+				<div class="ticket-cards ns-cards <?php echo esc_attr($status_class); ?>">
 					<div class="row">
 						<div class="col-sm-4 col-xs-12">
-							<h3 class="ticket-question">
+							<h3 class="ticket-head">
 								<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
 									<small class="ticket-id"><?php printf( '#%s', get_the_ID() ); ?></small> &mdash; <?php the_title(); ?>
 								</a>
 							</h3>
-							<div>
-								<em>
-									<?php
-									$author = get_user_by( 'id', $post->post_author );
-									echo $author->display_name;
-									?>
-								</em>
+							<div class="ticket-author">
+								<?php
+								$author = get_user_by( 'id', $post->post_author );
+								echo '<span class="ns-icon-lock"></span> '. $author->display_name;
+								?>
 							</div>
 						</div>
-						<div class="col-sm-3 col-xs-4">
+						<div class="col-sm-3 col-xs-4 ticket-meta">
 							<div class="text-blocks">
 								<strong><?php _e('Department:', 'nanosupport'); ?></strong><br>
 								<?php echo ns_get_ticket_departments(); ?>
 							</div>
 							<div class="text-blocks">
-								<strong><?php _e('Created:', 'nanosupport'); ?></strong><br>
-								<?php echo date( 'd F Y h:i A', strtotime( $post->post_date ) ); ?>
+								<strong><?php _e('Created & Updated:', 'nanosupport'); ?></strong><br>
+								<?php echo date( 'd M Y h:i A', strtotime( $post->post_date ) ); ?><br>
+								<?php echo date( 'd M Y h:i A', strtotime( $post->post_modified ) ); ?>
 							</div>
 						</div>
-						<div class="col-sm-3 col-xs-4">
+						<div class="col-sm-3 col-xs-4 ticket-meta">
 							<div class="text-blocks">
-								<strong><?php _e('Ticket Status:', 'nanosupport'); ?></strong><br>
+								<strong><?php _e('Responses:', 'nanosupport'); ?></strong><br>
 								<?php
-								if( $ticket_status ) {
-									if( 'solved' === $ticket_status ) {
-										$status = '<span class="label label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
-									} else if( 'inspection' === $ticket_status ) {
-										$status = '<span class="label label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
-									} else {
-										$status = '<span class="label label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
-									}
-								} else {
-									$status = '';
-								}
-
-								echo $status;
+								$response_count = wp_count_comments( get_the_ID() );
+								echo '<span class="responses-count">'. $response_count->approved .'</span>';
 								?>
 							</div>
 							<div class="text-blocks">
-								<strong><?php _e('Modified:', 'nanosupport'); ?></strong><br>
-								<?php echo date( 'd F Y h:ia', strtotime( $post->post_modified ) ); ?>
+								<strong><?php _e('Last Replied by:', 'nanosupport'); ?></strong><br>
+								<?php
+								$last_response = ns_get_last_response();
+					            $last_responder = get_userdata( $last_response['user_id'] );
+					            if ( $last_responder ) {
+					                echo $last_responder->display_name, '<br>';
+					                echo ns_time_elapsed($last_response['comment_date']), ' ago';
+					            } else {
+					                echo '-';
+					            }
+					            ?>
 							</div>
 						</div>
-						<div class="col-sm-2 col-xs-4">
+						<div class="col-sm-2 col-xs-4 ticket-meta">
 							<div class="text-blocks">
 								<strong><?php _e('Priority:', 'nanosupport'); ?></strong><br>
 								<?php
@@ -178,10 +175,21 @@ function ns_support_desk_page() {
 								?>
 							</div>
 							<div class="text-blocks">
-								<strong><?php _e('Replies:', 'nanosupport'); ?></strong><br>
+								<strong><?php _e('Ticket Status:', 'nanosupport'); ?></strong><br>
 								<?php
-								$response_count = wp_count_comments( get_the_ID() );
-								echo $response_count->approved;
+								if( $ticket_status ) {
+									if( 'solved' === $ticket_status ) {
+										$status = '<span class="label label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
+									} else if( 'inspection' === $ticket_status ) {
+										$status = '<span class="label label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
+									} else {
+										$status = '<span class="label label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
+									}
+								} else {
+									$status = '';
+								}
+
+								echo $status;
 								?>
 							</div>
 						</div>
