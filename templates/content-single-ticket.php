@@ -91,7 +91,7 @@
 					</div>
 					<div class="col-sm-1 ns-right-portion">
 						<a class="btn btn-danger btn-xs ns-round-btn off-ticket-btn" href="<?php echo esc_url(get_permalink( $ticket_list_page->ID )); ?>"><span class="ns-icon-remove"></span></a>
-						<a class="btn btn-info btn-xs ns-round-btn ticket-link-btn" href="<?php echo esc_url(get_the_permalink()); ?>">
+						<a class="btn btn-default btn-xs ns-round-btn ticket-link-btn" href="<?php echo esc_url(get_the_permalink()); ?>">
 							<span class="ns-icon-link"></span>
 						</a>
 						<?php edit_post_link( '<span class="ns-icon-edit"></span>', '', '', get_the_ID() ); ?>
@@ -245,20 +245,21 @@
 
 							<?php if( ! $hide_form ) { ?>
 						    	<form method="post" enctype="multipart/form-data">
-								    <div class="panel panel-default panel-sm">
-										<div class="panel-heading">
-											<div class="row">
-												<div class="col-sm-8">
-													<h3 class="ticket-head">
-														<?php echo $current_user->display_name; ?>
+
+									<div class="ns-cards ns-feedback">
+										<div class="row">
+											<div class="col-sm-9">
+												<div class="response-head">
+													<h3 class="ticket-head" id="response-<?php echo esc_attr($counter); ?>">
+														<?php printf( __('Responding as: %s','nanosupport'), $current_user->display_name ); ?>
 													</h3>
-												</div>
-												<div class="col-sm-4 ticket-date-right">
-													<small><?php echo date( 'd F Y h:iA', current_time( 'timestamp' ) ); ?></small>
-												</div>
+												</div> <!-- /.response-head -->
+											</div>
+											<div class="col-sm-3 response-dates">
+												<small><?php echo date( 'd M Y h:iA', current_time( 'timestamp' ) ); ?></small>
 											</div>
 										</div>
-										<div class="panel-body">
+										<div class="ns-feedback-form">
 											<div class="form-group">
 												<textarea name="ns_response_msg" id="write-message" class="form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nanosupport'); ?>" rows="6"><?php echo isset($_POST['ns_response_msg']) ? html_entity_decode( $_POST['ns_response_msg'] ) : ''; ?></textarea>
 											</div>
@@ -272,7 +273,8 @@
 											?>
 											<button type="submit" name="send" class="btn btn-primary"><?php _e( 'Submit', 'nanosupport' ); ?></button>
 										</div>
-									</div>
+									</div> <!-- /.ns-feedback-form -->
+
 								</form>
 							<?php } //endif( ! $hide_form ) ?>
 
@@ -284,7 +286,7 @@
 
 					<div class="alert alert-info text-center" role="alert">
 						<?php
-						if( 'solved' == $ticket_status ) {
+						if( 'solved' === $ticket_status ) {
 							_e( '<strong>Resolved!</strong> New Responses to this ticket is already closed. Only ticket author can reopen a closed ticket.', 'nanosupport' );
 						} else {
 							_e( '<strong>Sorry!</strong> Tickets are open for responses only to the Ticket Author.', 'nanosupport' );
@@ -298,9 +300,7 @@
 
 		</article> <!-- /#post-<?php the_ID(); ?> -->
 
-		<a class="btn btn-sm btn-default" href="<?php echo esc_url(get_permalink( $ticket_list_page->ID )); ?>"><span class="ns-icon-chevron-left"></span> <?php _e( 'Back to ticket index', 'nanosupport' ); ?></a>			
-
-	<?php //wp_reset_postdata(); ?>
+		<a class="btn btn-sm btn-default" href="<?php echo esc_url(get_permalink( $ticket_list_page->ID )); ?>"><span class="ns-icon-chevron-left"></span> <?php _e( 'Back to ticket index', 'nanosupport' ); ?></a>
 	
 	</div> <!-- .col-md-12 -->
 </div> <!-- /.row -->

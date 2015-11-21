@@ -41,7 +41,7 @@ function ns_register_cpt_nanosupport() {
         'labels'				=> $labels,
         'hierarchical'			=> false,
         'description'			=> __( 'Get the ticket information', 'nanosupport' ),
-        'supports'				=> array( 'title', 'editor', 'author' ),
+        'supports'				=> array( 'title', 'editor' ),
         'taxonomies'            => array(),
         'menu_icon'				=> 'dashicons-universal-access-alt',
         'public'				=> true,

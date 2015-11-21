@@ -38,6 +38,7 @@ body{
 .ns-icon-responses{
   font-size: 18px;
 }
+.ticket-cards .ticket-head,
 .ticket-head{
   margin: 0;
   padding: 0;
@@ -47,6 +48,10 @@ body{
   a:hover{
     text-decoration: none;
   }
+}
+.ticket-cards .ticket-head{
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 .response-head{
   .ticket-head{
@@ -199,7 +204,7 @@ body{
   }
 }
 .ticket-question-card{
-  padding: 15px 10px;
+  padding: 20px;
   border: 1px solid #e1e1e1;
   border-top-width: 10px;
   border-top-color: #333;
@@ -231,7 +236,7 @@ body{
   color: #777;
 }
 .ticket-response-cards{
-  padding: 10px;
+  padding: 20px;
   margin-bottom: 20px;
   border: 1px solid #e1e1e1;
   border-top-width: 5px;
@@ -239,6 +244,7 @@ body{
 }
 .response-dates{
   text-align: right;
+  text-transform: uppercase;
 
   a{
     color: #333;
@@ -249,10 +255,20 @@ body{
     text-align: left;
   }
 }
-.ticket-response{
+.ticket-response,
+.ns-feedback-form{
   border-top: 1px solid #e1e1e1;
   margin-top: 10px;
   padding-top: 20px;
+}
+.ns-feedback{
+  background-color: #ededed;
+  padding: 20px;
+  border: 1px solid #e1e1e1;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-top-width: 5px;
+  border-top-color: #ccc;
 }
 
 

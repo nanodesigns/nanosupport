@@ -1,6 +1,6 @@
 ToDos:
   Primary:
-    ☐ Ticket Single Page (single-nanosupport.php)
+    ✔ Ticket Single Page (single-nanosupport.php) @done (15-11-22 00:19)
     ✔ Public Ticket / Private Ticket flag @done (15-06-18 16:41)
     ✔ Settings Page @done (15-06-18 16:41)
     ☐ jQuery Validation
@@ -54,21 +54,22 @@ FEATURES:
    ☐ Answering Tickets within WordPress' Database Schema
    ☐ Answer Tickets from Back end and Front end
    ✔ Complete Ticketing in WordPress database Schema @done (15-11-17 00:56)
-   ☐ Knowledgebase
-   ☐ Knowledgebase Categories (only on back end - no archive)
+   ✔ Knowledgebase @done (15-11-22 00:20)
+   ✔ Knowledgebase Categories (only on back end - no archive) @done (15-11-22 00:20)
    ✔ Settings: Choose the Submit Ticket page @done (15-11-17 00:56)
    ✔ Settings: Choose the Support Desk page @done (15-11-17 00:56)
-   ☐ Settings: Choose the Knowledgebase page
+   ✔ Settings: Choose the Knowledgebase page @done (15-11-22 00:21)
   
   PRO FEATURES:
    ✔ Knowledgebase Tags @done (15-11-17 00:56)
    ☐ Knowledgebase Tags Archive
    ☐ Knowledgebase Categories Archive
-   ☐ Settings: Knowledgebase Posts per Page control
+   ☐ Settings: Let the user choose Department on ticket submission
+   ✔ Settings: Knowledgebase Posts per Page control @done (15-11-22 00:44)
    ✔ Featured Knowledgebase Items @done (15-11-17 00:56)
-   ☐ Settings: Promote Knowledgebase Categories to Knowledgebase Layout
+   ✔ Settings: Promote Knowledgebase Categories to Knowledgebase Layout @done (15-11-22 00:44)
    ☐ Settings: Change Layout of Knowledgebase
-   ☐ Searching Knowledgebase
+   ✔ Searching Knowledgebase @done (15-11-22 00:44)
    ☐ File upload and attachments
    ☐ Email > Support Ticket
    ☐ Really Simple Captcha integration

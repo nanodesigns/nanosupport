@@ -12,6 +12,65 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Initiate the plugin
+ * 
+ * Register all the necessary things when the plugin get activated.
+ * -----------------------------------------------------------------------
+ */
+function ns_activate() {   
+
+    //create a page to view the ticketing system
+    $support_desk_page_id = ns_create_necessary_page(
+                                    'Support Desk',                 //page title
+                                    'support-desk',                 //page slug
+                                    '[nanosupport_desk]'            //content (shortcode)
+                                );
+
+    //create another page to show support ticket-taking form to get the support tickets
+    $submit_ticket_page_id = ns_create_necessary_page(
+                                    'Submit a Ticket',              //page title
+                                    'submit-ticket',                //page slug
+                                    '[nanosupport_submit_ticket]'   //content (shortcode)
+                                );
+
+    //create another page to show the knowledgebase
+    $knowledgebase_page_id = ns_create_necessary_page(
+                                    'Knowledgebase',                //page title
+                                    'knowledgebase',                //page slug
+                                    '[nanosupport_knowledgebase]'   //content (shortcode)
+                                );
+
+    //Update Options table with basic settings
+    /*$nst_basic_options = array(
+            'nst_bootstrap_check'   => 1,
+            'support_desk'          => $support_desk_page_id,
+            'submit_ticket'         => $submit_ticket_page_id
+        );
+
+    update_option( 'nst_basic_options', $nst_basic_options );*/
+    
+}
+register_activation_hook( __FILE__, 'ns_activate' );
+
+
+/**
+ * Redirect to Settings page
+ * 
+ * Redirect to Plugin Settings page on Plugin activation.
+ * 
+ * @param  string $plugin
+ * -----------------------------------------------------------------------
+ */
+/*function ns_activation_redirect( $plugin ) {
+    if( $plugin == plugin_basename( __FILE__ ) ) {
+        $url = add_query_arg( array( 'post_type' => 'nanosupport', 'page' => 'settings' ), admin_url( '/edit.php' ) );
+        exit( wp_safe_redirect( $url ) );
+    }
+}
+add_action( 'activated_plugin', 'ns_activation_redirect' );*/
+
+
+/**
  * Styles & JavaScripts (Admin)
  * 
  * Necessary JavaScripts and Styles for Admin panel tweaks.
@@ -289,7 +348,7 @@ function ns_ticket_edit_post_link( $output ) {
     if( is_single() && 'nanosupport' === $post->post_type ) {
         $output = str_replace(
                     'class="post-edit-link"',
-                    'class="post-edit-link btn btn-primary btn-xs ns-round-btn edit-ticket-btn"',
+                    'class="post-edit-link btn btn-default btn-xs ns-round-btn edit-ticket-btn"',
                     $output
                 );        
     }
