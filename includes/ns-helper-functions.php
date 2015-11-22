@@ -165,46 +165,6 @@ function ns_bootstrap_pagination( $query ) {
 
 
 /**
- * Elapsed time
- *
- * Calculates how much time elapsed from a time mentioned.
- *
- * @author  arnorhs
- * @link 	http://stackoverflow.com/a/2916189/1743124
- * 
- * @param  string $time Date & Time string.
- * @return string       Elapsed time.
- * -----------------------------------------------------------------------
- */
-function ns_time_elapsed( $time ) {
-
-    $time   = strtotime( $time );
-    $now    = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
-
-    $time   = strtotime($now) - $time; // to get the time since that moment
-
-    $tokens = array (
-        31536000 => __( 'year', 'nanosupport' ),
-        2592000 => __( 'month', 'nanosupport' ),
-        604800 => __( 'week', 'nanosupport' ),
-        86400 => __( 'day', 'nanosupport' ),
-        3600 => __( 'hour', 'nanosupport' ),
-        60 => __( 'minute', 'nanosupport' ),
-        1 => __( 'second', 'nanosupport' )
-    );
-
-    foreach ( $tokens as $unit => $text ) {
-        if ( $time < $unit )
-        	continue;
-        
-        $number_of_units = floor( $time / $unit );
-
-        return $number_of_units .' '. $text . ( ( $number_of_units > 1 ) ? 's' : '' );
-    }
-}
-
-
-/**
  * Get the ticket departments
  * 
  * @param  integer $post_id Ticket Post ID.

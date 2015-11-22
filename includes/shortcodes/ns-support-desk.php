@@ -35,10 +35,10 @@ function ns_support_desk_page() {
 					<?php _e( 'Tickets are visible to the admins, designated support assistant and/or to the ticket owner only.', 'nanosupport' ); ?>
 				</div>
 				<div class="col-sm-4 text-right">
-					<a class="btn btn-sm btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( get_page_by_path('knowledgebase') ) ); ?>">
+					<a class="btn btn-sm btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( get_page_by_path( 'knowledgebase' ) ) ); ?>">
 						<span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
 					</a>
-					<a class="btn btn-sm btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( get_page_by_path('submit-ticket') ) ); ?>">
+					<a class="btn btn-sm btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( get_page_by_path( 'submit-ticket' ) ) ); ?>">
 						<span class="ns-icon-tag"></span> <?php _e( 'Submit a Ticket', 'nanosupport' ); ?>
 					</a>
 				</div>
@@ -154,7 +154,7 @@ function ns_support_desk_page() {
 					            $last_responder = get_userdata( $last_response['user_id'] );
 					            if ( $last_responder ) {
 					                echo $last_responder->display_name, '<br>';
-					                echo ns_time_elapsed($last_response['comment_date']), ' ago';
+					                printf( __( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
 					            } else {
 					                echo '-';
 					            }

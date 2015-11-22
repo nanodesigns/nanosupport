@@ -161,7 +161,7 @@ function ns_populate_custom_columns( $column, $post_id ) {
             $last_responder = get_userdata( $last_response['user_id'] );
             if ( $last_responder ) {
                 echo $last_responder->display_name, '<br>';
-                echo ns_time_elapsed($last_response['comment_date']), ' ago';
+                printf( __( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
             } else {
                 echo '-';
             }
