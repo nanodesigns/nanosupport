@@ -27,8 +27,8 @@ function ns_create_necessary_page( $title, $slug, $content ) {
 
     global $current_user;
 
-    //set a default so that we can check nothing happend
-    $page_id = -1;
+    //set a default so that we can check nothing happened
+    $page_id = false;
 
     $ns_check_page = get_page_by_path( $slug ); //default post type 'page'
 
@@ -192,4 +192,100 @@ function ns_get_ticket_departments( $post_id = null ) {
     endif;
 
     return $departments;
+}
+
+
+/**
+ * Front end Login Form
+ * 
+ * @author Agbonghama Collins
+ * @link http://designmodo.com/wordpress-custom-login/
+ */
+function nanosupport_login_auth( $username, $password ) {
+    global $user, $ns_errors;
+
+    $creds = array();
+    $creds['user_login']    = $username;
+    $creds['user_password'] = $password;
+    $creds['remember']      = true;
+
+    $user = wp_signon( $creds, false );
+
+    if ( is_wp_error( $user ) ) {
+        $ns_errors[] = $user->get_error_message();
+    }
+
+    if ( ! is_wp_error( $user ) ) {     
+        return $user;
+    }
+}
+
+
+/**
+ * Custom Registration Form
+ *
+ * A customized front-end registration form
+ * especially for Nanodesigns Support Ticket front-end registration.
+ *
+ * @author  Agbonghama Collins
+ * @link http://designmodo.com/wordpress-custom-registration/
+ */
+function nanosupport_reg_validate( $ns_reg_username, $ns_reg_email, $ns_reg_password ) {
+
+    if ( empty( $ns_reg_username ) || empty( $ns_reg_password ) || empty( $ns_reg_email ) ) {
+        return new WP_Error('field', 'Required form field is missing');
+    }
+
+    if ( strlen( $ns_reg_username ) < 4 ) {
+        return new WP_Error('username_length', 'Username is too short. At least 4 characters is required');
+    }
+
+    if ( strlen( $ns_reg_password ) < 5 ) {
+        return new WP_Error('password', 'Password length must be greater than 5');
+    }
+
+    if ( ! is_email( $ns_reg_email ) ) {
+        return new WP_Error('email_invalid', 'Email is not valid');
+    }
+
+    if ( email_exists( $ns_reg_email ) ) {
+        return new WP_Error('email', 'Email already in use');
+    }
+
+    $details = array(
+        'Username' => $ns_reg_username
+    );
+
+    foreach ( $details as $field => $detail ) {
+        if ( ! validate_username( $detail ) ) {
+            return new WP_Error('name_invalid', 'Sorry, the "'. $field .'" you entered is not valid');
+        }
+    }
+}
+
+
+/**
+ * Get Knowledgebase Titles.
+ *
+ * Knowledgebase Titles for assisting search.
+ * 
+ * @return array All the published titles.
+ * -----------------------------------------------------------------------
+ */
+function ns_get_knowledgebase_posts() {
+    global $wpdb;
+    $_published_titles = array();
+    $query_string = "SELECT np.ID, np.post_title FROM $wpdb->posts AS np
+                    WHERE np.post_type = 'nanodoc'
+                        AND ( np.post_status = 'publish' )
+                    GROUP BY np.ID
+                    ORDER BY np.post_title ASC";
+    $_published_titles[] = $wpdb->get_results( $query_string, ARRAY_A );
+    $published_titles = array();
+    foreach ($_published_titles['0'] as $_post) {
+        //$link = get_permalink( (int) $_post['ID'] );
+        $published_titles[] = $_post['post_title'];
+    }
+    return $published_titles;
+    $wpdb->flush();
 }

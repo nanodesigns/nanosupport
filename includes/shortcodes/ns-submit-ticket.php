@@ -31,20 +31,42 @@ function ns_submit_support_ticket() {
 
 	<div class="well well-sm">
 		<div class="row">
-			<div class="col-sm-2">
+			<div class="col-sm-5">
+				<?php
+				if( current_user_can('administrator') || current_user_can('editor') )
+					$all_tickets_label = __( 'All the Tickets', 'nanosupport' );
+				else
+					$all_tickets_label = __( 'My Tickets', 'nanosupport' );				
+				?>
+
 				<a href="<?php echo esc_url( get_permalink( get_page_by_path( 'support-desk' ) ) ); ?>" class="btn btn-sm btn-primary">
-					<span class="ns-icon-tag"></span> <?php _e( 'All the Tickets', 'nanosupport' ); ?>
+					<span class="ns-icon-tag"></span> <?php echo $all_tickets_label; ?>
+				</a>
+				<a class="btn btn-sm btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( get_page_by_path( 'knowledgebase' ) ) ); ?>">
+					<span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
 				</a>
 			</div>
-			<div class="col-sm-10 text-muted">
-				<small><?php _e( 'See all the Public support tickets to see already resolved issues. If they are <em>not</em> close to you, then submit a new ticket here.', 'nanosupport' ); ?></small>
+			<div class="col-sm-7 text-muted">
+				<small><?php _e( 'Consult the Knowledgebase for your query. If they are <em>not</em> close to you, then submit a new ticket here.', 'nanosupport' ); ?></small>
 			</div>
 		</div>
 	</div>
 
-	<div class="nano-support-ticket nano-add-ticket">
+	<div id="nanosupport-add-ticket" class="nano-support-ticket nano-add-ticket">
 		<div class="row">
 			<div class="col-md-12">
+
+				<?php
+				/**
+				 * -----------------------------------------------------------------------
+				 * HOOK : ACTION HOOK
+				 * nanosupport_pre_new_ticket
+				 *
+				 * To Hook anything before the Add New Ticket Form.
+				 * -----------------------------------------------------------------------
+				 */
+				do_action( 'nanosupport_pre_new_ticket' );
+				?>
 				
 				<form class="form-horizontal" method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
 
@@ -59,10 +81,36 @@ function ns_submit_support_ticket() {
 
 					<div class="form-group">
 						<label for="ns-ticket-details" class="col-sm-2 control-label">
-							<?php _e( 'Description', 'nanosupport' ); ?>
+							<?php _e( 'Details', 'nanosupport' ); ?>
 						</label>
 						<div class="col-sm-10">
-							<textarea class="form-control" name="ns_ticket_details" id="ns-ticket-details" placeholder="<?php _e( 'Details of the issue', 'nanosupport' ); ?>" rows="5" required><?php echo !empty($_POST['ns_ticket_details']) ? html_entity_decode( stripslashes( $_POST['ns_ticket_details'] ) ) : ''; ?></textarea>
+							<?php
+							$details_val = !empty($_POST['ns_ticket_details']) ? $_POST['ns_ticket_details'] : '';
+
+							/**
+							 * -----------------------------------------------------------------------
+							 * HOOK : FILTER HOOK
+							 * nanosupport_editor_config
+							 *
+							 * Modify Editor configuration.
+							 * -----------------------------------------------------------------------
+							 */
+							$editor_args = apply_filters( 'nanosupport_editor_config' , array(
+											'media_buttons'		=> false,
+											'teeny'				=> true,
+											'textarea_name'		=> 'ns_ticket_details',
+											'textarea_rows'		=> 5,
+											'editor_class'		=> 'form-control',
+											'quicktags'			=> false,
+											'tinymce'			=> false
+										) );
+
+							wp_editor(
+								$details_val,			//content
+								'ns-ticket-details',	//editor ID
+								$editor_args			//arguments
+							);
+							?>
 						</div>
 					</div> <!-- /.form-group -->
 
@@ -74,16 +122,16 @@ function ns_submit_support_ticket() {
 							<?php $sub_val = !empty($_POST['ns_ticket_priority']) ? $_POST['ns_ticket_priority'] : ''; ?>
 							<select class="form-control" name="ns_ticket_priority" id="ns-ticket-priority">
 								<option value="low" <?php selected( $sub_val, 'low' ); ?>>
-									⇩ <?php _e( 'Low', 'nanosupport' ); ?>
+									<?php _e( 'Low', 'nanosupport' ); ?>
 								</option>
 								<option value="medium" <?php selected( $sub_val, 'medium' ); ?>>
-									⇔ <?php _e( 'Medium', 'nanosupport' ); ?>
+									<?php _e( 'Medium', 'nanosupport' ); ?>
 								</option>
 								<option value="high" <?php selected( $sub_val, 'high' ); ?>>
-									⇧ <?php _e( 'High', 'nanosupport' ); ?>
+									<?php _e( 'High', 'nanosupport' ); ?>
 								</option>
 								<option value="critical" <?php selected( $sub_val, 'critical' ); ?>>
-									⇪ <?php _e( 'Critical', 'nanosupport' ); ?>
+									<?php _e( 'Critical', 'nanosupport' ); ?>
 								</option>
 							</select>
 						</div>

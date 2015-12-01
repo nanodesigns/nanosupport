@@ -93,6 +93,14 @@ final class NS {
 
 endif;
 
+/**
+ * Returns the main instance of NS to prevent the need to use globals.
+ * @return NS
+ */
+function NS() {
+	return NS::instance();
+}
+
 
 /**
  * Translation-ready
@@ -122,7 +130,7 @@ require_once 'includes/ns-setup.php';
 require_once 'includes/ns-cpt-nanosupport.php';
 require_once 'includes/ns-cpt-knowledgebase.php';
 require_once 'includes/ns-metaboxes-responses.php';
-require_once 'includes/ns-responses.php';
+require_once 'includes/ns-functions.php';
 
 require_once 'includes/shortcodes/ns-support-desk.php';
 require_once 'includes/shortcodes/ns-submit-ticket.php';

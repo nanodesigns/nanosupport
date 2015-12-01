@@ -28,30 +28,36 @@ function ns_knowledgebase_page() {
 	}
 
 	/**
-	 * HOOK
+	 * -----------------------------------------------------------------------
+	 * HOOK : ACTION HOOK
 	 * nanosupport_knowledgebase_serachform
 	 * 
 	 * Knowledgebase Searchform
 	 * 
 	 * Display a searchform capable of searching specific
 	 * only to the knowledgebase.
+	 * -----------------------------------------------------------------------
 	 */
 	do_action( 'nanosupport_knowledgebase_serachform' );
 
 	/**
+	 * -----------------------------------------------------------------------
 	 * HOOK : FILTER HOOK
 	 * nanosupport_kb_posts_per_page
 	 *
 	 * Modify Knowledgebase posts_per_page.
+	 * -----------------------------------------------------------------------
 	 */
 	$kb_posts_per_page = apply_filters( 'nanosupport_kb_posts_per_page', get_option('posts_per_page') );
 
 
 	/**
+	 * -----------------------------------------------------------------------
 	 * HOOK
 	 * nanosupport_knowledgebase_categories
 	 *
 	 * Hook categories into display.
+	 * -----------------------------------------------------------------------
 	 */
 	do_action( 'nanosupport_knowledgebase_categories' );
 
@@ -68,20 +74,24 @@ function ns_knowledgebase_page() {
 			);
 
 		/**
+		 * -----------------------------------------------------------------------
 		 * HOOK : FILTER HOOK
 		 * nanosupport_knowledgebase_query
 		 *
 		 * Hook to modify the Knowledgebase query.
+		 * -----------------------------------------------------------------------
 		 */
 		$knowledgebase = new WP_Query( apply_filters( 'nanosupport_knowledgebase_query', $args ) );
 
 		if( $knowledgebase->have_posts() ) :
 
 			/**
+			 * -----------------------------------------------------------------------
 			 * HOOK : FILTER HOOK
 			 * nanosupport_kb_header_title
 			 *
 			 * @param string  $text Header text. Default 'Documentaion'.
+			 * -----------------------------------------------------------------------
 			 */
 			$knowledgebase_title = apply_filters( 'nanosupport_kb_header_title', __( 'Documentation', 'nanosupport' ) );
 

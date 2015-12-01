@@ -31,10 +31,10 @@ function ns_support_desk_page() {
 
 		<div class="well well-sm">
 			<div class="row">
-				<div class="col-sm-8 text-muted">
+				<div class="col-sm-7 text-muted">
 					<?php _e( 'Tickets are visible to the admins, designated support assistant and/or to the ticket owner only.', 'nanosupport' ); ?>
 				</div>
-				<div class="col-sm-4 text-right">
+				<div class="col-sm-5 text-right">
 					<a class="btn btn-sm btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( get_page_by_path( 'knowledgebase' ) ) ); ?>">
 						<span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
 					</a>

@@ -13,14 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
- * Returns the main instance of NS to prevent the need to use globals.
- * @return NS
- */
-function NS() {
-	return NS::instance();
-}
-
 
 /**
  * Get template part (for templates like the ns-loop).

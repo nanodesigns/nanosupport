@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Register all the necessary things when the plugin get activated.
  * -----------------------------------------------------------------------
  */
-function ns_activate() {   
+function nanosupport_activate() {   
 
     //create a page to view the ticketing system
     $support_desk_page_id = ns_create_necessary_page(
@@ -28,7 +28,7 @@ function ns_activate() {
 
     //create another page to show support ticket-taking form to get the support tickets
     $submit_ticket_page_id = ns_create_necessary_page(
-                                    'Submit a Ticket',              //page title
+                                    'Submit Ticket',                //page title
                                     'submit-ticket',                //page slug
                                     '[nanosupport_submit_ticket]'   //content (shortcode)
                                 );
@@ -50,7 +50,7 @@ function ns_activate() {
     update_option( 'nst_basic_options', $nst_basic_options );*/
     
 }
-register_activation_hook( __FILE__, 'ns_activate' );
+register_activation_hook( __FILE__, 'nanosupport_activate' );
 
 
 /**
@@ -94,17 +94,17 @@ function ns_admin_scripts() {
         wp_enqueue_style( 'select2-styles', NS()->plugin_url() .'/assets/css/select2.min.css', array(), '4.0.1-rc-1', 'all' );
         wp_enqueue_script( 'select2-scripts', NS()->plugin_url() .'/assets/js/select2.min.js', array('jquery'), '4.0.1-rc-1', true );
 
-        wp_enqueue_script( 'ns-admin-scripts', NS()->plugin_url() .'/assets/js/ns-admin.min.js', array('jquery'), NS()->version, true );
+        wp_enqueue_script( 'ns-admin-scripts', NS()->plugin_url() .'/assets/js/nanosupport-admin.min.js', array('jquery'), NS()->version, true );
 
 		wp_localize_script(
-			'ns-admin-scripts',
-			'ns',
-			array(
+    		'ns-admin-scripts',
+    		'ns',
+    		array(
                 'current_user'          => $current_user->display_name,
                 'user_id'               => $current_user->ID,
                 'date_time_now'         => $date_time_row,
-                'date_time_formatted'   => $date_time_formatted
-            ) );		
+                'date_time_formatted'   => $date_time_formatted,
+            ) );
 	}
 }
 add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
@@ -117,10 +117,19 @@ add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
  * -----------------------------------------------------------------------
  */
 function ns_scripts() {
-    if( is_page('support-desk') || is_page('submit-ticket') || is_page('knowledgebase') || is_singular('nanosupport') ) {
+    if( is_page( array('support-desk', 'submit-ticket', 'knowledgebase') ) || is_singular('nanosupport') ) {
         wp_enqueue_style( 'ns-bootstrap', NS()->plugin_url() .'/assets/css/bootstrap.min.css', array(), '3.3.4', 'all' );
         wp_enqueue_style( 'ns-bootflat', NS()->plugin_url() .'/assets/css/bootflat.min.css', array(), '2.0.4', 'all' );
 		wp_enqueue_style( 'ns-styles', NS()->plugin_url() .'/assets/css/ns-styles.css', array(), NS()->version, 'all' );
+
+        wp_enqueue_script( 'ns-scripts', NS()->plugin_url() .'/assets/js/nanosupport.min.js', array('jquery', 'jquery-ui-autocomplete'), NS()->version, true );
+
+        wp_localize_script(
+            'ns-scripts',
+            'ns',
+            array(
+                
+            ) );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'ns_scripts' );
@@ -326,12 +335,10 @@ add_filter( 'pre_get_posts', 'ns_default_search_filter' );
 
 
 function ns_redirect_user_to_correct_place() {
-    if( ! is_user_logged_in() ) {
-        if( is_page('support-desk') ) {
-            // /knowledgebase?from=sd
-            wp_redirect( add_query_arg( 'from', 'sd', get_permalink(get_page_by_path('knowledgebase')) ) );
-            exit();
-        }
+    if( ! is_user_logged_in() && is_page('support-desk') ) {
+        // /knowledgebase?from=sd
+        wp_redirect( add_query_arg( 'from', 'sd', get_permalink(get_page_by_path('knowledgebase')) ) );
+        exit();
     }
 }
 add_action( 'pre_get_posts', 'ns_redirect_user_to_correct_place' );
