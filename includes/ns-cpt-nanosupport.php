@@ -308,3 +308,95 @@ function ns_save_control_meta_data( $post_id ) {
 
 add_action( 'save_post',        'ns_save_control_meta_data' );
 add_action( 'new_to_publish',   'ns_save_control_meta_data' );
+
+
+/**
+ * Register Custom Taxonomy
+ * 
+ * Create Custom Taxonomy 'nanosupport_departments' to sort out the tickets.
+ * 
+ * @return array To register the custom taxonomy.
+ * -----------------------------------------------------------------------
+ */
+function ns_create_nanosupport_taxonomies() {
+
+    $labels = array(
+        'name'              => __( 'Departments', 'nanosupport' ),
+        'singular_name'     => __( 'Department', 'nanosupport' ),
+        'search_items'      => __( 'Search Departments', 'nanosupport' ),
+        'all_items'         => __( 'All Departments', 'nanosupport' ),
+        'parent_item'       => __( 'Parent Department', 'nanosupport' ),
+        'parent_item_colon' => __( 'Parent Department:', 'nanosupport' ),
+        'edit_item'         => __( 'Edit Departments', 'nanosupport' ),
+        'update_item'       => __( 'Update Departments', 'nanosupport' ),
+        'add_new_item'      => __( 'Add New Department', 'nanosupport' ),
+        'new_item_name'     => __( 'New Department Name', 'nanosupport' ),
+        'menu_name'         => __( 'Departments', 'nanosupport' ),
+    );
+
+    $args = array(
+        'hierarchical'      => true,
+        'public'            => false,
+        'show_tagcloud'     => false,
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'support-departments' ),
+    );
+
+    if( !taxonomy_exists( 'nanosupport_departments' ) )
+        register_taxonomy( 'nanosupport_departments', array( 'nanosupport' ), $args );
+
+
+
+    /**
+     * Insert default term
+     *
+     * Insert default term 'Support' to the taxonomy 'nanosupport_departments'.
+     *
+     * Term: Support
+     */
+    wp_insert_term(
+        'Support', // the term 
+        'nanosupport_departments', // the taxonomy
+        array(
+            'description'=> 'Support department is dedicated to provide the necessary support',
+            'slug' => 'support'
+        )
+    );
+
+}
+add_action( 'init', 'ns_create_nanosupport_taxonomies', 0 );
+
+
+/**
+ * Make a Default Taxonomy Term for 'nanosupport_departments'
+ *
+ * @link http://wordpress.mfields.org/2010/set-default-terms-for-your-custom-taxonomies-in-wordpress-3-0/
+ *
+ * @author    Michael Fields     http://wordpress.mfields.org/
+ * @props     John P. Bloch      http://www.johnpbloch.com/
+ *
+ * @since     2010-09-13
+ * @alter     2010-09-14
+ *
+ * @license   GPLv2
+ * -----------------------------------------------------------------------
+ */
+function ns_set_default_object_terms( $post_id, $post ) {
+    if ( 'publish' === $post->post_status ) {
+        $defaults = array(
+                'nanosupport_departments' => array( 'support' )
+            );
+        
+        $taxonomies = get_object_taxonomies( $post->post_type );
+        foreach ( (array) $taxonomies as $taxonomy ) {
+            $terms = wp_get_post_terms( $post_id, $taxonomy );
+            if ( empty( $terms ) && array_key_exists( $taxonomy, $defaults ) ) {
+                wp_set_object_terms( $post_id, $defaults[$taxonomy], $taxonomy );
+            }
+        }
+    }
+}
+add_action( 'save_post', 'ns_set_default_object_terms', 100, 2 );

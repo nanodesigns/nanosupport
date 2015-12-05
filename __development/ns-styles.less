@@ -335,6 +335,18 @@ body{
 
 /** Knowledgebase **/
 
+#nanosupport-knowledgebase{
+  line-height: 1.2;
+  
+  a{
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+  }
+  .nanodoc-term-title{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 15px;
+  }
+}
 .ns-search-form{
   position: relative;
   display: block;
@@ -375,12 +387,18 @@ body{
 }
 .nanodoc-term-box-inner{
   background-color: #fff;
-  -webkit-box-shadow: 0 0 15px rgba(0,0,0,0.15);
-       -moz-box-shadow: 0 0 15px rgba(0,0,0,0.15);
-        box-shadow: 0 0 15px rgba(0,0,0,0.15);
+  -webkit-box-shadow: 0 0 15px rgba(0,0,0,0.20);
+       -moz-box-shadow: 0 0 15px rgba(0,0,0,0.20);
+        box-shadow: 0 0 15px rgba(0,0,0,0.20);
   padding: 10px;
   border: 1px solid #ededed;
   border-radius: 4px;
+
+  &:hover{
+    -webkit-box-shadow: 0 0 100px rgba(0,0,0,0.20);
+       -moz-box-shadow: 0 0 100px rgba(0,0,0,0.20);
+        box-shadow: 0 0 100px rgba(0,0,0,0.20);
+  }
 
   .ns-icon-docs{
     font-size: 40px;
@@ -389,13 +407,13 @@ body{
     &.icon-link{
       color: #999;
     }
-    &:hover{
+    /* &:hover{
       text-decoration: none;
-    }
+    } */
   }
 }
 @media (min-width: 768px) {
-  .first-on-four{
+  .first-on-three{
     clear: both;
   }
 }
@@ -517,4 +535,7 @@ body{
 }
 .ns-icon-nanosupport:before {
   content: "u";
+}
+.ns-icon-user:before {
+  content: "v";
 }

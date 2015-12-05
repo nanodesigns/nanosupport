@@ -103,6 +103,48 @@ function NS() {
 
 
 /**
+ * Initiate the plugin
+ * 
+ * Register all the necessary things when the plugin get activated.
+ * -----------------------------------------------------------------------
+ */
+function nanosupport_activate() {   
+
+    //create a page to view the ticketing system
+    $support_desk_page_id = ns_create_necessary_page(
+                                    'Support Desk',                 //page title
+                                    'support-desk',                 //page slug
+                                    '[nanosupport_desk]'            //content (shortcode)
+                                );
+
+    //create another page to show support ticket-taking form to get the support tickets
+    $submit_ticket_page_id = ns_create_necessary_page(
+                                    'Submit Ticket',                //page title
+                                    'submit-ticket',                //page slug
+                                    '[nanosupport_submit_ticket]'   //content (shortcode)
+                                );
+
+    //create another page to show the knowledgebase
+    $knowledgebase_page_id = ns_create_necessary_page(
+                                    'Knowledgebase',                //page title
+                                    'knowledgebase',                //page slug
+                                    '[nanosupport_knowledgebase]'   //content (shortcode)
+                                );
+
+    //Update Options table with basic settings
+    /*$nst_basic_options = array(
+            'nst_bootstrap_check'   => 1,
+            'support_desk'          => $support_desk_page_id,
+            'submit_ticket'         => $submit_ticket_page_id
+        );
+
+    update_option( 'nst_basic_options', $nst_basic_options );*/
+    
+}
+register_activation_hook( __FILE__, 'nanosupport_activate' );
+
+
+/**
  * Translation-ready
  * 
  * Make the plugin translation-ready.

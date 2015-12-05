@@ -17,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ns_knowledgebase_page() {
 	ob_start();
 
+	echo '<div id="nanosupport-knowledgebase">';
+
 	/**
 	 * Show a Redirection Message
 	 * while redirected.
@@ -114,6 +116,8 @@ function ns_knowledgebase_page() {
 		endif;
 
 	echo '</section> <!-- /#knowledgebase-entries -->';
+
+	echo '</div> <!-- /#nanosupport-knowledgebase -->';
 	
 	return ob_get_clean();
 }

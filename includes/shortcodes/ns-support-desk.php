@@ -39,7 +39,7 @@ function ns_support_desk_page() {
 						<span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
 					</a>
 					<a class="btn btn-sm btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( get_page_by_path( 'submit-ticket' ) ) ); ?>">
-						<span class="ns-icon-tag"></span> <?php _e( 'Submit a Ticket', 'nanosupport' ); ?>
+						<span class="ns-icon-tag"></span> <?php _e( 'Submit Ticket', 'nanosupport' ); ?>
 					</a>
 				</div>
 			</div>
@@ -124,7 +124,7 @@ function ns_support_desk_page() {
 							<div class="ticket-author">
 								<?php
 								$author = get_user_by( 'id', $post->post_author );
-								echo '<span class="ns-icon-lock"></span> '. $author->display_name;
+								echo '<span class="ns-icon-user"></span> '. $author->display_name;
 								?>
 							</div>
 						</div>

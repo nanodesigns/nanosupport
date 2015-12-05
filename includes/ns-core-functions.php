@@ -29,8 +29,13 @@ function ns_get_template_part( $slug, $name = '' ) {
 		$template = locate_template( array( "{$slug}-{$name}.php", NS()->template_path() ."{$slug}-{$name}.php" ) );
 	}
 
+	// Get template from pro version
+	if( ! $template && $name && class_exists( 'NSPro' ) && file_exists( NSPro()->plugin_path() ."/templates/{$slug}-{$name}.php" ) ) {
+		$template = NSPro()->plugin_path() ."/templates/{$slug}-{$name}.php";
+	}
+
 	// Get default slug-name.php
-	if ( ! $template && $name && file_exists( NS()->plugin_path() . "/templates/{$slug}-{$name}.php" ) ) {
+	if ( ! $template && $name && file_exists( NS()->plugin_path() ."/templates/{$slug}-{$name}.php" ) ) {
 		$template = NS()->plugin_path() ."/templates/{$slug}-{$name}.php";
 	}
 
