@@ -1,19 +1,29 @@
 <?php
+/**
+ * Settings: Knowledgebase Settings
+ *
+ * Showing Knowledgebase settings callback, fields, and validation.
+ *
+ * @author  	nanodesigns
+ * @category 	Settings API
+ * @package 	NanoSupport
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 function ns_knowledgebase_settings_section_callback() {
-	//echo "Knowledgebase section";
+    //echo "Knowledgebase section";
 }
 
 function ns_knowledgebase_page_field() {
     $options = get_option('nanosupport_knowledgebase_settings');
 
     $args = array(
-        'hierarchical'	=> 0,
-        'post_type'		=> 'page',
-        'post_status'	=> 'publish'
+        'hierarchical'  => 0,
+        'post_type'     => 'page',
+        'post_status'   => 'publish'
     );
     $pages = get_pages( $args );
 

@@ -59,6 +59,8 @@ FEATURES:
    ✔ Settings: Choose the Submit Ticket page @done (15-11-17 00:56)
    ✔ Settings: Choose the Support Desk page @done (15-11-17 00:56)
    ✔ Settings: Choose the Knowledgebase page @done (15-11-22 00:21)
+   ✔ Support Departments @done (15-11-17 00:54)
+   ✔ Automatic Assignment of Support Ticket to a Department 'support' @done (15-11-17 00:54)
   
   PRO FEATURES:
    ✔ Knowledgebase Tags @done (15-11-17 00:56)
@@ -70,7 +72,7 @@ FEATURES:
    ✔ Settings: Promote Knowledgebase Categories to Knowledgebase Layout @done (15-11-22 00:44)
    ☐ Settings: Change Layout of Knowledgebase
    ✔ Searching Knowledgebase @done (15-11-22 00:44)
-   ☐ File upload and attachments
+   ☐ Drag-Drop File upload and attachments
    ☐ Email > Support Ticket
    ☐ Really Simple Captcha integration
    ☐ Copy content from Support Ticket to Knowledgebase
@@ -80,11 +82,14 @@ FEATURES:
    ☐ Rich Text Support to Ticket
    ✔ Show pending ticket count @done (15-11-17 00:54)
    ✔ single.php template overlapping from plugin @done (15-11-17 00:54)
-   ✔ Support Departments @done (15-11-17 00:54)
-   ✔ Automatic Assignment of Support Ticket to a Department 'support' @done (15-11-17 00:54)
    ☐ Settings: Let the user choose the automatic Department
    ☐ Notify Support Agent on ticket assignment within WordPress
    ☐ Notify Support Agent on ticket assignment via Email - wp_mail() and POP3 email
+   ☐ Well documented
+   ☐ Translation-ready
+   ☐ Clean code
+   ☐ Settings Control
+   ☐ Regular Product Updates
 
   FEATURES? NOT SURE:
    ☐ Faster Knowledgebase Searching (?) - Creating separate database with cron-powered daily/weekly updgradation for better searching

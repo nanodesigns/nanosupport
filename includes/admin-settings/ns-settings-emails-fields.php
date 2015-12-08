@@ -1,10 +1,21 @@
 <?php
+/**
+ * Settings: Email Settings
+ *
+ * Showing Email settings callback, fields, and validation.
+ *
+ * @author  	nanodesigns
+ * @category 	Settings API
+ * @package 	NanoSupport
+ */
+
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 function ns_email_settings_section_callback() {
-	//echo "Email section";
+    //echo "Email section";
 }
 
 function ns_email_field() {

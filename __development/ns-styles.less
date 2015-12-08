@@ -33,23 +33,20 @@ body{
 #ns-ticket-details{
   border: 1px solid #d1d1d1;
 }
-#wp-ns-ticket-details-wrap.tmce-active{
-  border: 1px solid #d1d1d1;
-  border-radius: 4px;
-
-  .mce-container.mce-panel{
-    border-radius: 4px;
-    overflow: hidden;
-  }  
-}
-.ns-header{
-  background: none; //normalize
-  margin: 0;
-  padding: 0;
-}
 .ns-icon-responses{
   font-size: 18px;
 }
+
+/** ---------- SUPPORT DESK ---------- **/
+#nanosupport-desk{
+  .ticket-head{
+    a{
+      text-decoration: none;
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+    }
+  }
+}
+
 .ticket-cards .ticket-head,
 .ticket-head{
   margin: 0;
@@ -90,6 +87,8 @@ body{
   .ticket-link-btn,
   .edit-ticket-btn{
     margin-bottom: 5px;
+    float: right;
+    clear: both;
   }
 }
 .off-ticket{

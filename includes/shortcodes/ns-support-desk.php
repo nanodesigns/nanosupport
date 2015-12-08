@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ns_support_desk_page() {
 	ob_start();
 
+	echo '<div id="nanosupport-desk">';
 	if( is_user_logged_in() ) :
 		//User is Logged in
 
@@ -96,9 +97,8 @@ function ns_support_desk_page() {
 				'paged'				=> $paged
 			) );
 
-		if( $support_ticket_query->have_posts() ) : ?>
+		if( $support_ticket_query->have_posts() ) :
 
-			<?php
 			while( $support_ticket_query->have_posts() ) : $support_ticket_query->the_post();
 
 				//Get ticket information
@@ -221,6 +221,7 @@ function ns_support_desk_page() {
 		printf( __( 'Sorry, you cannot see your tickets without being logged in.<br><a class="btn btn-default btn-sm" href="%1s" title="Site Login"><span class="ns-icon-lock"></span> Login</a> or <a class="btn btn-default btn-sm" href="%2s" title="Site Registration"><span class="ns-icon-lock"></span> Create an account</a>', 'nanosupport' ), wp_login_url(), wp_registration_url() );
 		
 	endif; //if( is_user_logged_in() )
+	echo '</div> <!-- /#nanosupport-desk -->';
 	
 	return ob_get_clean();
 }

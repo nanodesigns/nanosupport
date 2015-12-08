@@ -5,7 +5,7 @@
  * Showing a settings page for the Plugin setup.
  *
  * @author  	nanodesigns
- * @category 	core
+ * @category 	Settings API
  * @package 	NanoSupport
  */
 
@@ -138,11 +138,13 @@ function nanosupport_settings_options_init(){
 add_action( 'admin_init', 'nanosupport_settings_options_init' );
 
 
-//General Settings Fields
+//Tab 1: General Settings Fields
 require_once 'ns-settings-general-fields.php';
-//Email Settings Fields
+
+//Tab 2: Email Settings Fields
 require_once 'ns-settings-emails-fields.php';
-//Knowledgebase Settings Fields
+
+//Tab 3: Knowledgebase Settings Fields
 require_once 'ns-settings-knowledgebase-fields.php';
 
 
