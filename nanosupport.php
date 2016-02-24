@@ -11,8 +11,8 @@
  * Version:           1.0.0
  * Author:            nanodesigns
  * Author URI:        http://nanodesignsbd.com/
- * Requires at least: 4.0
- * Tested up to:      4.3.1
+ * Requires at least: 3.9.0
+ * Tested up to:      4.4.2
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       'nanosupport'
@@ -34,6 +34,12 @@ if ( ! class_exists( 'NS' ) ) :
  * -----------------------------------------------------------------------
  */
 final class NS {
+
+	/**
+	 * @var string
+	 */
+	public $plugin = 'NanoSupport';
+	
 
 	/**
 	 * @var string
@@ -96,10 +102,53 @@ endif;
 /**
  * Returns the main instance of NS to prevent the need to use globals.
  * @return NS
+ * -----------------------------------------------------------------------
  */
 function NS() {
 	return NS::instance();
 }
+
+
+/**
+ * Cross Check Requirements when active
+ *
+ * Cross check for Current WordPress version is
+ * greater than 3.5. Cross check whether the user
+ * has privilege to activate_plugins, so that notice
+ * cannot be visible to any non-admin user.
+ *
+ * @link   http://10up.com/blog/2012/wordpress-plug-in-self-deactivation/
+ * 
+ * @since  1.0.0
+ * @return void
+ */
+function ns_cross_check_things_on_activation() {
+	if ( version_compare( get_bloginfo( 'version' ), '3.9.0', '<=' ) ) {
+
+		if ( current_user_can( 'activate_plugins' ) ) {
+
+			add_action( 'admin_init',		'ns_force_deactivate' );
+			add_action( 'admin_notices',	'ns_fail_dependency_admin_notice' );
+
+			function ns_force_deactivate() {
+				deactivate_plugins( plugin_basename( __FILE__ ) );
+			}
+
+			function ns_fail_dependency_admin_notice() {
+				echo '<div class="updated"><p>';
+					printf( __('<strong>%1s</strong> requires WordPress core version <strong>3.9.0</strong> or greater. The plugin has been <strong>deactivated</strong>. Consider <a href="%2s">upgrading WordPress</a>.', 'nanosupport' ), NS()->plugin, admin_url('/update-core.php') );
+				echo '</p></div>';
+
+				if ( isset( $_GET['activate'] ) )
+					unset( $_GET['activate'] );
+			}
+
+		}
+
+	}
+}
+
+add_action( 'plugins_loaded', 'ns_cross_check_things_on_activation' );
 
 
 /**
@@ -108,10 +157,9 @@ function NS() {
  * Register all the necessary things when the plugin get activated.
  * -----------------------------------------------------------------------
  */
-function nanosupport_activate() {   
+function nanosupport_activate() {
 
-    //create a page to view the ticketing system
-    $support_desk_page_id = ns_create_necessary_page(
+	$support_desk_page_id = ns_create_necessary_page(
                                     'Support Desk',                 //page title
                                     'support-desk',                 //page slug
                                     '[nanosupport_desk]'            //content (shortcode)
@@ -141,6 +189,7 @@ function nanosupport_activate() {
     update_option( 'nst_basic_options', $nst_basic_options );*/
     
 }
+
 register_activation_hook( __FILE__, 'nanosupport_activate' );
 
 
@@ -148,6 +197,8 @@ register_activation_hook( __FILE__, 'nanosupport_activate' );
  * Translation-ready
  * 
  * Make the plugin translation-ready.
+ *
+ * @since  1.0.0
  * -----------------------------------------------------------------------
  */
 function ns_load_textdomain() {
@@ -157,6 +208,7 @@ function ns_load_textdomain() {
     	dirname( plugin_basename( __FILE__ ) ) .'/i18n/languages/'
     );
 }
+
 add_action( 'init', 'ns_load_textdomain', 1 );
 
 
@@ -181,5 +233,3 @@ require_once 'includes/shortcodes/ns-knowledgebase.php';
 require_once 'includes/ns-helper-functions.php';
 
 require_once 'includes/admin-settings/ns-settings.php';
-
-require_once '__TEST.php';

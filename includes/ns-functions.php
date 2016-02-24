@@ -190,8 +190,10 @@ function ns_registration_login_redirection(){
         return;
     }
 
-    //$ns_basic_options = get_option( 'ns_basic_options' );
-    $args = add_query_arg( 'success', 1, get_permalink( get_page_by_path('support-desk') ) );
+    //Get the NanoSupport Settings from Database
+    $ns_general_settings = get_option( 'nanosupport_settings' );
+
+    $args = add_query_arg( 'success', 1, get_permalink( $ns_general_settings['support_desk'] ) );
     wp_redirect( esc_url( $args ) );
     exit();
 }

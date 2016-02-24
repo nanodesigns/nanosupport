@@ -20,6 +20,9 @@ function ns_support_desk_page() {
 	echo '<div id="nanosupport-desk">';
 	if( is_user_logged_in() ) :
 		//User is Logged in
+		
+		//Get the NanoSupport Settings from Database
+    	$ns_general_settings = get_option( 'nanosupport_settings' );
 
 		global $post, $current_user;
 
@@ -39,7 +42,7 @@ function ns_support_desk_page() {
 					<a class="btn btn-sm btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( get_page_by_path( 'knowledgebase' ) ) ); ?>">
 						<span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
 					</a>
-					<a class="btn btn-sm btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( get_page_by_path( 'submit-ticket' ) ) ); ?>">
+					<a class="btn btn-sm btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( $ns_general_settings['submit_page'] ) ); ?>">
 						<span class="ns-icon-tag"></span> <?php _e( 'Submit Ticket', 'nanosupport' ); ?>
 					</a>
 				</div>

@@ -2,12 +2,15 @@
 	<div class="col-md-12">
 
 		<?php
+		//Get the NanoSupport Settings from Database
+    	$ns_general_settings = get_option( 'nanosupport_settings' );
+    	
 		global $post;
 		$author 			= get_user_by( 'id', $post->post_author );
 		$ticket_control 	= get_post_meta( $post->ID, 'ns_control', true );
 		$ticket_status 		= $ticket_control['status'];
 		$ticket_agent       = $ticket_control['agent'];
-		$ticket_list_page 	= get_page_by_path('support-desk');
+		$ticket_list_page 	= $ns_general_settings['support_desk'];
 		?>
 
 		<article id="post-<?php echo $post->ID; ?>" <?php post_class('ns-single'); ?>>
@@ -90,7 +93,7 @@
 						</div>
 					</div>
 					<div class="col-sm-1 ns-right-portion">
-						<a class="btn btn-danger btn-xs ns-round-btn off-ticket-btn" href="<?php echo esc_url(get_permalink( $ticket_list_page->ID )); ?>"><span class="ns-icon-remove"></span></a>
+						<a class="btn btn-danger btn-xs ns-round-btn off-ticket-btn" href="<?php echo esc_url(get_permalink( $ticket_list_page )); ?>"><span class="ns-icon-remove"></span></a>
 						<a class="btn btn-default btn-xs ns-round-btn ticket-link-btn" href="<?php echo esc_url(get_the_permalink()); ?>">
 							<span class="ns-icon-link"></span>
 						</a>
@@ -300,7 +303,7 @@
 
 		</article> <!-- /#post-<?php the_ID(); ?> -->
 
-		<a class="btn btn-sm btn-default" href="<?php echo esc_url(get_permalink( $ticket_list_page->ID )); ?>"><span class="ns-icon-chevron-left"></span> <?php _e( 'Back to ticket index', 'nanosupport' ); ?></a>
+		<a class="btn btn-sm btn-default" href="<?php echo esc_url(get_permalink( $ticket_list_page )); ?>"><span class="ns-icon-chevron-left"></span> <?php _e( 'Back to ticket index', 'nanosupport' ); ?></a>
 	
 	</div> <!-- .col-md-12 -->
 </div> <!-- /.row -->

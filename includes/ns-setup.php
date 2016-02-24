@@ -37,7 +37,7 @@ add_action( 'activated_plugin', 'ns_activation_redirect' );*/
  */
 function ns_admin_scripts() {
 
-    wp_enqueue_style( 'ns-icon-styles', NS()->plugin_url() .'/assets/css/ns-icon-styles.css', array(), NS()->version, 'all' );
+    wp_enqueue_style( 'ns-icon-styles', NS()->plugin_url() .'/assets/css/nanosupport-icon-styles.css', array(), NS()->version, 'all' );
 
     $screen = get_current_screen();
     if( 'nanosupport' === $screen->post_type || 'nanodoc' === $screen->post_type || 'nanosupport_page_nanosupport-settings' === $screen->base ) {
@@ -47,7 +47,7 @@ function ns_admin_scripts() {
         $date_time_row          = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
         $date_time_formatted    = date( 'd F Y h:i:s A - l', current_time( 'timestamp' ) );
 
-        wp_enqueue_style( 'ns-admin-styles', NS()->plugin_url() .'/assets/css/ns-admin.css', array(), NS()->version, 'all' );
+        wp_enqueue_style( 'ns-admin-styles', NS()->plugin_url() .'/assets/css/nanosupport-admin.css', array(), NS()->version, 'all' );
 		
         /** Select2 **/
         wp_enqueue_style( 'select2-styles', NS()->plugin_url() .'/assets/css/select2.min.css', array(), '4.0.1-rc-1', 'all' );
@@ -76,10 +76,13 @@ add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
  * -----------------------------------------------------------------------
  */
 function ns_scripts() {
-    if( is_page( array('support-desk', 'submit-ticket', 'knowledgebase') ) || is_singular('nanosupport') ) {
+    //Get the NanoSupport Settings from Database
+    $ns_general_settings = get_option( 'nanosupport_settings' );
+
+    if( is_page( array( $ns_general_settings['support_desk'], $ns_general_settings['submit_page'], 'knowledgebase') ) || is_singular('nanosupport') ) {
         wp_enqueue_style( 'ns-bootstrap', NS()->plugin_url() .'/assets/css/bootstrap.min.css', array(), '3.3.4', 'all' );
         wp_enqueue_style( 'ns-bootflat', NS()->plugin_url() .'/assets/css/bootflat.min.css', array(), '2.0.4', 'all' );
-		wp_enqueue_style( 'ns-styles', NS()->plugin_url() .'/assets/css/ns-styles.css', array(), NS()->version, 'all' );
+		wp_enqueue_style( 'ns-styles', NS()->plugin_url() .'/assets/css/nanosupport-styles.css', array(), NS()->version, 'all' );
 
         wp_enqueue_script( 'ns-scripts', NS()->plugin_url() .'/assets/js/nanosupport.min.js', array('jquery', 'jquery-ui-autocomplete'), NS()->version, true );
 
@@ -294,7 +297,10 @@ add_filter( 'pre_get_posts', 'ns_default_search_filter' );
 
 
 function ns_redirect_user_to_correct_place() {
-    if( ! is_user_logged_in() && is_page('support-desk') ) {
+    //Get the NanoSupport Settings from Database
+    $ns_general_settings = get_option( 'nanosupport_settings' );
+    
+    if( ! is_user_logged_in() && is_page($ns_general_settings['support_desk']) ) {
         // /knowledgebase?from=sd
         wp_redirect( add_query_arg( 'from', 'sd', get_permalink(get_page_by_path('knowledgebase')) ) );
         exit();

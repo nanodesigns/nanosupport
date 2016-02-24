@@ -19,11 +19,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @link http://ottopress.com/2009/wordpress-settings-api-tutorial/
  * @link http://www.chipbennett.net/2011/02/17/incorporating-the-settings-api-in-wordpress-themes/?all=1
  * @link http://wordpress.stackexchange.com/a/127499/22728
+ * -----------------------------------------------------------------------
  */
 function ns_settings_page() {
     add_menu_page(
-        __('NanoSupport', 'nanosupport' ),      //$page_title
-        __('NanoSupport', 'nanosupport' ),      //$menu_title
+        __( 'NanoSupport', 'nanosupport' ),      //$page_title
+        __( 'NanoSupport', 'nanosupport' ),      //$menu_title
         'manage_options',                       //$capability
         'nanosupport',                          //$menu_slug
         'nanosupport_page_callback',            //callback function
@@ -33,8 +34,8 @@ function ns_settings_page() {
 
     add_submenu_page(
         'nanosupport',                          //$parent_slug
-        __('Settings', 'nanosupport' ),         //$page_title
-        __('Settings', 'nanosupport' ),         //$menu_title
+        __( 'Settings', 'nanosupport' ),         //$page_title
+        __( 'Settings', 'nanosupport' ),         //$menu_title
         'manage_options',                       //$capability
         'nanosupport-settings',                 //$menu_slug
         'nanosupport_settings_page_callback'    //callback function
