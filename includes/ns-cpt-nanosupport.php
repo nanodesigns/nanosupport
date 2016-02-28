@@ -34,7 +34,8 @@ function ns_register_cpt_nanosupport() {
         'not_found'				=> __( 'No Ticket found', 'nanosupport' ),
         'not_found_in_trash'	=> __( 'No Ticket found in Trash', 'nanosupport' ),
         'parent_item_colon'		=> __( 'Parent Ticket:', 'nanosupport' ),
-        'menu_name'				=> __( 'Supports', 'nanosupport' ),
+        'menu_name'				=> __( 'NanoSupport', 'nanosupport' ),
+        'name_admin_bar'        => __( 'Support Ticket', 'nanosupport' ),
     );
 
     $args = array(
@@ -43,27 +44,27 @@ function ns_register_cpt_nanosupport() {
         'description'			=> __( 'Get the ticket information', 'nanosupport' ),
         'supports'				=> array( 'title', 'editor' ),
         'taxonomies'            => array(),
-        'menu_icon'				=> 'dashicons-universal-access-alt',
+        'menu_icon'				=> '', //setting this using CSS
         'public'				=> true,
         'show_ui'				=> true,
         'show_in_menu'			=> true,
-        'menu_position'			=> 29,
+        'menu_position'			=> 28.5,
         	'show_in_nav_menus'		=> false,
         'publicly_queryable'	=> true,
         'exclude_from_search'	=> false,
         	'has_archive'			=> false,
         'query_var'				=> true,
         'can_export'			=> true,
-        'rewrite'				=> array( 'slug' => 'nanosupport' ),
+        'rewrite'				=> array( 'slug' => 'support' ),
         'capability_type'       => 'post',
         /*'capabilities'          => array(
-                                    'edit_post'             => 'edit_ns',
-                                    'edit_posts'            => 'edit_nss',
-                                    'edit_others_posts'     => 'edit_other_nss',
-                                    'publish_posts'         => 'publish_nss',
-                                    'read_post'             => 'read_ns',
-                                    'read_private_posts'    => 'read_private_nss',
-                                    'delete_post'           => 'delete_ns'
+                                    'edit_post'             => 'edit_nanosupport_ticket',
+                                    'edit_posts'            => 'edit_nanosupport_ticket',
+                                    'edit_others_posts'     => 'edit_other_nanosupport_ticket',
+                                    'publish_posts'         => 'publish_nanosupport_ticket',
+                                    'read_post'             => 'read_nanosupport_ticket',
+                                    'read_private_posts'    => 'read_private_nanosupport_ticket',
+                                    'delete_post'           => 'delete_nanosupport_ticket'
                                 ),
         'map_meta_cap'          => true*/
     );
@@ -157,7 +158,7 @@ function ns_populate_custom_columns( $column, $post_id ) {
             break;
 
         case 'last_response' :
-            $last_response = ns_get_last_response( $post_id );
+            $last_response  = ns_get_last_response( $post_id );
             $last_responder = get_userdata( $last_response['user_id'] );
             if ( $last_responder ) {
                 echo $last_responder->display_name, '<br>';

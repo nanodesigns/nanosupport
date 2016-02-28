@@ -429,112 +429,16 @@ body{
 }
 
 
-/** ICON SET */
-@font-face {
-  font-family: "ns-icon";
-  src:url("../fonts/nanosupport-icon.eot");
-  src:url("../fonts/nanosupport-icon.eot?#iefix") format("embedded-opentype"),
-    url("../fonts/nanosupport-icon.woff") format("woff"),
-    url("../fonts/nanosupport-icon.ttf") format("truetype"),
-    url("../fonts/nanosupport-icon.svg#ns-icon") format("svg");
-  font-weight: normal;
-  font-style: normal;
-
-}
-
-[data-icon]:before {
-  font-family: "ns-icon" !important;
-  content: attr(data-icon);
-  font-style: normal !important;
-  font-weight: normal !important;
-  font-variant: normal !important;
-  text-transform: none !important;
-  speak: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  vertical-align: middle;
-}
-
-[class^="ns-icon-"]:before,
-[class*=" ns-icon-"]:before {
-  font-family: "ns-icon" !important;
-  font-style: normal !important;
-  font-weight: normal !important;
-  font-variant: normal !important;
-  text-transform: none !important;
-  speak: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  vertical-align: middle;
-}
-
-.ns-icon-responses:before {
-  content: "a";
-}
-.ns-icon-search:before {
-  content: "b";
-}
-.ns-icon-trashcan:before {
-  content: "c";
-}
-.ns-icon-question:before {
-  content: "d";
-}
-.ns-icon-notification:before {
-  content: "e";
-}
-.ns-icon-remove:before {
-  content: "f";
-}
-.ns-icon-edit:before {
-  content: "g";
-}
-.ns-icon-plus-square:before {
-  content: "h";
-}
-.ns-icon-refresh:before {
-  content: "i";
-}
-.ns-icon-reopen:before {
-  content: "j";
-}
-.ns-icon-chevron-left:before {
-  content: "k";
-}
-.ns-icon-chevron-right:before {
-  content: "l";
-}
-.ns-icon-link:before {
-  content: "m";
-}
-.ns-icon-tag:before {
-  content: "n";
-}
-.ns-icon-docs:before {
-  content: "o";
-}
-.ns-icon-attachment:before {
-  content: "p";
-}
-.ns-icon-lock:before {
-  content: "q";
-}
-.ns-icon-settings:before {
-  content: "r";
-}
-.ns-icon-info-circled:before {
-  content: "s";
-}
-.ns-icon-graph-pie:before {
-  content: "t";
-}
-.ns-icon-nanosupport:before {
-  content: "u";
-}
-.ns-icon-user:before {
-  content: "v";
-}
+/**
+ * ---------------------------------------------
+ * NannoSupport Icon Font
+ *
+ * Based on Ionicons, Font Awesome, Entypo with
+ * Octicons, Foundation Icons, Steadysets etc.
+ *
+ * Built with Fontastic.me
+ *
+ * @since 1.0.0
+ * ---------------------------------------------
+ */
+@import (less) "../css/nanosupport-icon-styles.css";

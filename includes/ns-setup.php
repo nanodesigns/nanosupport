@@ -37,8 +37,6 @@ add_action( 'activated_plugin', 'ns_activation_redirect' );*/
  */
 function ns_admin_scripts() {
 
-    wp_enqueue_style( 'ns-icon-styles', NS()->plugin_url() .'/assets/css/nanosupport-icon-styles.css', array(), NS()->version, 'all' );
-
     $screen = get_current_screen();
     if( 'nanosupport' === $screen->post_type || 'nanodoc' === $screen->post_type || 'nanosupport_page_nanosupport-settings' === $screen->base ) {
 
@@ -79,20 +77,60 @@ function ns_scripts() {
     //Get the NanoSupport Settings from Database
     $ns_general_settings = get_option( 'nanosupport_settings' );
 
-    if( is_page( array( $ns_general_settings['support_desk'], $ns_general_settings['submit_page'], 'knowledgebase') ) || is_singular('nanosupport') ) {
+    if( is_page( array( $ns_general_settings['support_desk'], $ns_general_settings['submit_page'], 'knowledgebase') ) || is_singular('nanosupport') ) :
+
+        /**
+         * Bootstrap CSS v3.3.4
+         * @link http://getbootstrap.com
+         * ...
+         */
         wp_enqueue_style( 'ns-bootstrap', NS()->plugin_url() .'/assets/css/bootstrap.min.css', array(), '3.3.4', 'all' );
+
+        /**
+         * BootFlat CSS v2.0.4
+         * @link http://bootflat.github.io/
+         * ...
+         */
         wp_enqueue_style( 'ns-bootflat', NS()->plugin_url() .'/assets/css/bootflat.min.css', array(), '2.0.4', 'all' );
+
+        /**
+         * NanoSupport CSS
+         * Compiled and minified from LESS CSS Preprocessor.
+         * ...
+         */
 		wp_enqueue_style( 'ns-styles', NS()->plugin_url() .'/assets/css/nanosupport-styles.css', array(), NS()->version, 'all' );
 
+        /**
+         * NanoSupport JavaScripts
+         * Compiled and minified. Depends on 'jQuery' and 'jQuery UI AutoComplete'.
+         * ...
+         */
         wp_enqueue_script( 'ns-scripts', NS()->plugin_url() .'/assets/js/nanosupport.min.js', array('jquery', 'jquery-ui-autocomplete'), NS()->version, true );
 
+        /**
+         * NanoSupport Localize Scripts
+         * Translation-ready JS strings and other dynamic parameters.
+         * ...
+         */
         wp_localize_script(
             'ns-scripts',
             'ns',
             array(
-                
+                'plugin_url'    => NS()->plugin_url()
             ) );
-	}
+
+	endif;
+
+    if( is_page('knowledgebase') ) :
+
+        /**
+         * MatchHeight JS v0.7.0
+         * @link http://brm.io/jquery-match-height/
+         * ...
+         */
+        wp_enqueue_script( 'equal-height-js', NS()->plugin_url() .'/assets/js/jquery.matchHeight-min.js', array('jquery'), '0.7.0', true );
+
+    endif;
 }
 add_action( 'wp_enqueue_scripts', 'ns_scripts' );
 

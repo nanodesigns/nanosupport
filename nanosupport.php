@@ -28,18 +28,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'NS' ) ) :
 
 /**
- * Main NS Class
+ * -----------------------------------------------------------------------
+ * Main NanoSupport Class
  *
  * @class NS
  * -----------------------------------------------------------------------
  */
 final class NS {
-
-	/**
-	 * @var string
-	 */
-	public $plugin = 'NanoSupport';
-	
 
 	/**
 	 * @var string
@@ -100,6 +95,7 @@ final class NS {
 endif;
 
 /**
+ * -----------------------------------------------------------------------
  * Returns the main instance of NS to prevent the need to use globals.
  * @return NS
  * -----------------------------------------------------------------------
@@ -110,10 +106,11 @@ function NS() {
 
 
 /**
+ * -----------------------------------------------------------------------
  * Cross Check Requirements when active
  *
  * Cross check for Current WordPress version is
- * greater than 3.5. Cross check whether the user
+ * greater than 3.9.0. Cross check whether the user
  * has privilege to activate_plugins, so that notice
  * cannot be visible to any non-admin user.
  *
@@ -121,6 +118,7 @@ function NS() {
  * 
  * @since  1.0.0
  * @return void
+ * -----------------------------------------------------------------------
  */
 function ns_cross_check_things_on_activation() {
 	if ( version_compare( get_bloginfo( 'version' ), '3.9.0', '<=' ) ) {
@@ -136,7 +134,7 @@ function ns_cross_check_things_on_activation() {
 
 			function ns_fail_dependency_admin_notice() {
 				echo '<div class="updated"><p>';
-					printf( __('<strong>%1s</strong> requires WordPress core version <strong>3.9.0</strong> or greater. The plugin has been <strong>deactivated</strong>. Consider <a href="%2s">upgrading WordPress</a>.', 'nanosupport' ), NS()->plugin, admin_url('/update-core.php') );
+					printf( __('<strong>NanoSupport</strong> requires WordPress core version <strong>3.9.0</strong> or greater. The plugin has been <strong>deactivated</strong>. Consider <a href="%s">upgrading WordPress</a>.', 'nanosupport' ), admin_url('/update-core.php') );
 				echo '</p></div>';
 
 				if ( isset( $_GET['activate'] ) )
@@ -152,6 +150,7 @@ add_action( 'plugins_loaded', 'ns_cross_check_things_on_activation' );
 
 
 /**
+ * -----------------------------------------------------------------------
  * Initiate the plugin
  * 
  * Register all the necessary things when the plugin get activated.
@@ -194,6 +193,7 @@ register_activation_hook( __FILE__, 'nanosupport_activate' );
 
 
 /**
+ * -----------------------------------------------------------------------
  * Translation-ready
  * 
  * Make the plugin translation-ready.
@@ -213,7 +213,11 @@ add_action( 'init', 'ns_load_textdomain', 1 );
 
 
 /**
+ * -----------------------------------------------------------------------
  * Require additional files
+ *
+ * Making all the features decentralized for feture-specific
+ * orientation or organization of resources.
  * 
  * @package NanoSupport
  * -----------------------------------------------------------------------

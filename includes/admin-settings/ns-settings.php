@@ -22,18 +22,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * -----------------------------------------------------------------------
  */
 function ns_settings_page() {
-    add_menu_page(
-        __( 'NanoSupport', 'nanosupport' ),      //$page_title
-        __( 'NanoSupport', 'nanosupport' ),      //$menu_title
-        'manage_options',                       //$capability
-        'nanosupport',                          //$menu_slug
-        'nanosupport_page_callback',            //callback function
-        null,                 //icon
-        '28.5'                                      //position
-    );
-
     add_submenu_page(
-        'nanosupport',                          //$parent_slug
+        'edit.php?post_type=nanosupport',                          //$parent_slug
         __( 'Settings', 'nanosupport' ),         //$page_title
         __( 'Settings', 'nanosupport' ),         //$menu_title
         'manage_options',                       //$capability
@@ -128,12 +118,29 @@ function nanosupport_settings_options_init(){
         'nanosupport_knowledgebase_settings',                   // Option Name*
         'ns_knowledgebase_settings_validate'                    // Sanitize Callback Function
     );
+        /**
+         * Tab: Knowledgebase Settings
+         *  - Knowledgebase page
+         * ----------------------------------
+         */
         add_settings_field(
-            'knowledgebase',                        // ID*
-            __( 'Knowledgebase Page', 'nanosupport' ),   // Title*
-            'ns_knowledgebase_page_field',                    // Callback Function*
-            'nanosupport_knowledgebase_settings',                     // Page (Plugin)*
-            'nanosupport_knowledgebase'                                // Section
+            'knowledgebase',                                    // ID*
+            __( 'Knowledgebase Page', 'nanosupport' ),          // Title*
+            'ns_knowledgebase_page_field',                      // Callback Function*
+            'nanosupport_knowledgebase_settings',               // Page (Plugin)*
+            'nanosupport_knowledgebase'                         // Section
+        );
+        /**
+         * Tab: Knowledgebase Settings
+         *  - Knowledgebase chosen terms
+         * ----------------------------------
+         */
+        add_settings_field(
+            'knowledgebase_terms',                              // ID*
+            __( 'Featured Categories', 'nanosupport' ),         // Title*
+            'ns_doc_terms_field',                               // Callback Function*
+            'nanosupport_knowledgebase_settings',               // Page (Plugin)*
+            'nanosupport_knowledgebase'                         // Section
         );
 }
 add_action( 'admin_init', 'nanosupport_settings_options_init' );
@@ -148,17 +155,6 @@ require_once 'ns-settings-emails-fields.php';
 //Tab 3: Knowledgebase Settings Fields
 require_once 'ns-settings-knowledgebase-fields.php';
 
-
-/**
- * THE NANOSUPPORT PAGE
- * Showing the NanoSupport page.
- */
-function nanosupport_page_callback() { ?>
-    <div class="wrap">
-        <h2><span class="ns-icon-nanosupport"></span> <?php _e( 'NanoSupport', 'nanosupport' ); ?></h2>
-    </div>
-<?php
-}
 
 /**
  * THE SETTINGS PAGE

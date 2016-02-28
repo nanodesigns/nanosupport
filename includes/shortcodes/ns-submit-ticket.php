@@ -16,6 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function ns_submit_support_ticket() {
 
+	//Get the NanoSupport Settings from Database
+    $ns_general_settings = get_option( 'nanosupport_settings' );
+
 	global $ns_errors;
     
     if( !empty( $ns_errors ) ){
@@ -39,7 +42,7 @@ function ns_submit_support_ticket() {
 					$all_tickets_label = __( 'My Tickets', 'nanosupport' );				
 				?>
 
-				<a href="<?php echo esc_url( get_permalink( get_page_by_path( 'support-desk' ) ) ); ?>" class="btn btn-sm btn-primary">
+				<a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="btn btn-sm btn-primary">
 					<span class="ns-icon-tag"></span> <?php echo $all_tickets_label; ?>
 				</a>
 				<a class="btn btn-sm btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( get_page_by_path( 'knowledgebase' ) ) ); ?>">

@@ -93,11 +93,13 @@
 						</div>
 					</div>
 					<div class="col-sm-1 ns-right-portion">
-						<a class="btn btn-danger btn-xs ns-round-btn off-ticket-btn" href="<?php echo esc_url(get_permalink( $ticket_list_page )); ?>"><span class="ns-icon-remove"></span></a>
-						<a class="btn btn-default btn-xs ns-round-btn ticket-link-btn" href="<?php echo esc_url(get_the_permalink()); ?>">
+						<a class="btn btn-danger btn-xs ns-round-btn off-ticket-btn" href="<?php echo esc_url(get_permalink( $ticket_list_page )); ?>" title="<?php esc_attr_e('Close the ticket', 'nanosupport'); ?>">
+							<span class="ns-icon-remove"></span>
+						</a>
+						<a class="btn btn-default btn-xs ns-round-btn ticket-link-btn" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e('Permanent link to the Ticket', 'nanosupport'); ?>">
 							<span class="ns-icon-link"></span>
 						</a>
-						<?php edit_post_link( '<span class="ns-icon-edit"></span>', '', '', get_the_ID() ); ?>
+						<?php edit_post_link( '<span class="ns-icon-edit" title="'. esc_attr__('Edit the Ticket', 'nanosupport') .'"></span>', '', '', get_the_ID() ); ?>
 					</div>
 				</div>
 				<div class="ticket-question">
@@ -264,7 +266,7 @@
 										</div>
 										<div class="ns-feedback-form">
 											<div class="form-group">
-												<textarea name="ns_response_msg" id="write-message" class="form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nanosupport'); ?>" rows="6"><?php echo isset($_POST['ns_response_msg']) ? html_entity_decode( $_POST['ns_response_msg'] ) : ''; ?></textarea>
+												<textarea name="ns_response_msg" id="write-message" class="form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nanosupport'); ?>" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>"><?php echo isset($_POST['ns_response_msg']) ? html_entity_decode( $_POST['ns_response_msg'] ) : ''; ?></textarea>
 											</div>
 											<?php wp_nonce_field( 'response_nonce', 'nanosupport_response_nonce' ); ?>
 											<?php
