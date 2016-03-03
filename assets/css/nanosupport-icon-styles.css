@@ -410,3 +410,10 @@
 .ns-icon-ming:before {
   content: "\e07a";
 }
+
+
+/** NanoSupport Admin Menu Icon */
+#adminmenu #menu-posts-nanosupport div.wp-menu-image:before{
+    font-family: "ns-icon";
+    content: "\e000";
+}

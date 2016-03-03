@@ -23,9 +23,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function ns_settings_page() {
     add_submenu_page(
-        'edit.php?post_type=nanosupport',                          //$parent_slug
-        __( 'Settings', 'nanosupport' ),         //$page_title
-        __( 'Settings', 'nanosupport' ),         //$menu_title
+        'edit.php?post_type=nanosupport',       //$parent_slug
+        __( 'Settings', 'nanosupport' ),        //$page_title
+        __( 'Settings', 'nanosupport' ),        //$menu_title
         'manage_options',                       //$capability
         'nanosupport-settings',                 //$menu_slug
         'nanosupport_settings_page_callback'    //callback function
@@ -78,31 +78,6 @@ function nanosupport_settings_options_init(){
 
     
     /**
-     * Tab: Email Settings
-     *  - Enable email notifications
-     * ----------------------------------
-     */
-    add_settings_section(
-        'nanosupport_email',                            // ID/Slug*
-        __( 'Email Settings', 'nanosupport' ),          // Name*
-        'ns_email_settings_section_callback',           // Callback*
-        'nanosupport_email_settings'                    // Page/Tab where to add the section of options*
-    );
-    register_setting(
-        'nanosupport_email_settings',                   // Option group*
-        'nanosupport_email_settings',                   // Option Name*
-        'ns_email_settings_validate'                    // Sanitize Callback Function
-    );
-        add_settings_field(
-            'email',                                    // ID*
-            __( 'Email', 'nanosupport' ),               // Title*
-            'ns_email_field',                           // Callback Function*
-            'nanosupport_email_settings',               // Page (Plugin)*
-            'nanosupport_email'                         // Section
-        );
-
-
-    /**
      * Tab: Knowledgebase Settings
      *  - Enable email notifications
      * ----------------------------------
@@ -142,6 +117,31 @@ function nanosupport_settings_options_init(){
             'nanosupport_knowledgebase_settings',               // Page (Plugin)*
             'nanosupport_knowledgebase'                         // Section
         );
+
+
+    /**
+     * Tab: Email Settings
+     *  - Enable email notifications
+     * ----------------------------------
+     */
+    add_settings_section(
+        'nanosupport_email',                            // ID/Slug*
+        __( 'Email Settings', 'nanosupport' ),          // Name*
+        'ns_email_settings_section_callback',           // Callback*
+        'nanosupport_email_settings'                    // Page/Tab where to add the section of options*
+    );
+    register_setting(
+        'nanosupport_email_settings',                   // Option group*
+        'nanosupport_email_settings',                   // Option Name*
+        'ns_email_settings_validate'                    // Sanitize Callback Function
+    );
+        add_settings_field(
+            'email',                                    // ID*
+            __( 'Email', 'nanosupport' ),               // Title*
+            'ns_email_field',                           // Callback Function*
+            'nanosupport_email_settings',               // Page (Plugin)*
+            'nanosupport_email'                         // Section
+        );
 }
 add_action( 'admin_init', 'nanosupport_settings_options_init' );
 
@@ -149,11 +149,11 @@ add_action( 'admin_init', 'nanosupport_settings_options_init' );
 //Tab 1: General Settings Fields
 require_once 'ns-settings-general-fields.php';
 
-//Tab 2: Email Settings Fields
-require_once 'ns-settings-emails-fields.php';
-
-//Tab 3: Knowledgebase Settings Fields
+//Tab 2: Knowledgebase Settings Fields
 require_once 'ns-settings-knowledgebase-fields.php';
+
+//Tab 3: Email Settings Fields
+require_once 'ns-settings-emails-fields.php';
 
 
 /**
@@ -170,14 +170,14 @@ function nanosupport_settings_page_callback() {
         //tabs
         $tabs = array(
             'general_settings'          => __( 'General', 'nanosupport' ),
-            'email_settings'            => __( 'Emails', 'nanosupport' ),
             'knowledgebase_settings'    => __( 'Knowledgebase', 'nanosupport' ),
+            'email_settings'            => __( 'Emails', 'nanosupport' ),
         );
         $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'general_settings';
 
         foreach( $tabs as $tab => $name ) :
             $active_class = $active_tab == $tab ? 'nav-tab-active' : '';
-            $tab_links[] = '<a class="nav-tab '. esc_attr($active_class) .'" href="?page='. $plugin_page .'&tab='. $tab .'">'. $name .'</a>';
+            $tab_links[] = '<a class="nav-tab '. esc_attr($active_class) .'" href="edit.php?post_type=nanosupport&page='. $plugin_page .'&tab='. $tab .'">'. $name .'</a>';
         endforeach;
         ?>
         
@@ -207,12 +207,12 @@ function nanosupport_settings_page_callback() {
                 </div> <!-- /.nanosupport-right-column -->
                 <div class="clearfix"></div>
 
-            <?php } else if( 'email_settings' === $active_tab ) { ?>
+            <?php } else if( 'knowledgebase_settings' === $active_tab ) { ?>
 
                 <div class="nanosupport-left-column">
 
-                    <?php settings_fields('nanosupport_email_settings'); ?>
-                    <?php do_settings_sections('nanosupport_email_settings'); ?>
+                    <?php settings_fields('nanosupport_knowledgebase_settings'); ?>
+                    <?php do_settings_sections('nanosupport_knowledgebase_settings'); ?>
 
                 </div> <!-- /.nanosupport-left-column -->
                 <div class="nanosupport-right-column">
@@ -222,12 +222,12 @@ function nanosupport_settings_page_callback() {
                 </div> <!-- /.nanosupport-right-column -->
                 <div class="clearfix"></div>
 
-            <?php } else if( 'knowledgebase_settings' === $active_tab ) { ?>
+            <?php } else if( 'email_settings' === $active_tab ) { ?>
 
                 <div class="nanosupport-left-column">
 
-                    <?php settings_fields('nanosupport_knowledgebase_settings'); ?>
-                    <?php do_settings_sections('nanosupport_knowledgebase_settings'); ?>
+                    <?php settings_fields('nanosupport_email_settings'); ?>
+                    <?php do_settings_sections('nanosupport_email_settings'); ?>
 
                 </div> <!-- /.nanosupport-left-column -->
                 <div class="nanosupport-right-column">

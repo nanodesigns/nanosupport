@@ -229,6 +229,7 @@ require_once 'includes/ns-cpt-nanosupport.php';
 require_once 'includes/ns-cpt-knowledgebase.php';
 require_once 'includes/ns-metaboxes-responses.php';
 require_once 'includes/ns-functions.php';
+require_once 'includes/ns-hooked-functions.php';
 
 require_once 'includes/shortcodes/ns-support-desk.php';
 require_once 'includes/shortcodes/ns-submit-ticket.php';

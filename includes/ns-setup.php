@@ -63,6 +63,19 @@ function ns_admin_scripts() {
                 'date_time_formatted'   => $date_time_formatted,
             ) );
 	}
+
+    /**
+     * NannoSupport Icon Font
+     *
+     * Based on Ionicons, Font Awesome, Entypo with
+     * Octicons, Foundation Icons, Steadysets etc.
+     *
+     * Built with Fontastic.me
+     *
+     * @since 1.0.0
+     * ---------------------------------------------
+     */
+    wp_enqueue_style( 'nanosupport-icon-styles', NS()->plugin_url() .'/assets/css/nanosupport-icon-styles.css', array(), NS()->version, 'all' );
 }
 add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
 

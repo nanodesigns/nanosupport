@@ -121,7 +121,7 @@ function ns_support_desk_page() {
 						<div class="col-sm-4 col-xs-12">
 							<h3 class="ticket-head">
 								<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
-									<small class="ticket-id"><?php printf( '#%s', get_the_ID() ); ?></small> &mdash; <?php the_title(); ?>
+									<?php the_title(); ?><small class="ticket-id"> &mdash; <?php printf( '#%s', get_the_ID() ); ?></small>
 								</a>
 							</h3>
 							<div class="ticket-author">
@@ -174,9 +174,9 @@ function ns_support_desk_page() {
 								} else if( 'medium' === $ticket_priority ) {
 									echo '<span class="text-info">' , __( 'Medium', 'nanosupport' ) , '</span>';
 								} else if( 'high' === $ticket_priority ) {
-									echo '<span class="text-warning">' , __( 'High', 'nanosupport' ) , '</span>';
+									echo '<strong class="text-warning">' , __( 'High', 'nanosupport' ) , '</strong>';
 								} else if( 'critical' === $ticket_priority ) {
-									echo '<span class="text-danger">' , __( 'Critical', 'nanosupport' ) , '</span>';
+									echo '<strong class="text-danger">' , __( 'Critical', 'nanosupport' ) , '</strong>';
 								}
 								?>
 							</div>

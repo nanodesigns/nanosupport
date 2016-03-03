@@ -29,12 +29,12 @@ function ns_knowledgebase_page_field() {
 
     if( $pages ) :
     
-        echo '<select name="nanosupport_settings[knowledgebase]" id="ns_knowledgebase" class="ns-select">';
+        echo '<select name="nanosupport_knowledgebase_settings[page]" id="ns_knowledgebase" class="ns-select">';
 
             echo '<option value="">'. __( 'Select a page', 'nanosupport' ) .'</option>';                
             foreach ( $pages as $page ) :
                 if( has_shortcode( $page->post_content, 'nanosupport_knowledgebase' ) ) {
-                    echo '<option value="'. $page->ID .'" '. selected( $page->ID, $options['knowledgebase'], false ) .'>'. $page->post_title .'</option>';
+                    echo '<option value="'. esc_attr($page->ID) .'" '. selected( $page->ID, $options['page'], false ) .'>'. $page->post_title .'</option>';
                 }
             endforeach;
             
@@ -51,15 +51,31 @@ function ns_doc_terms_field() {
 
     if( $ns_doc_terms ) :
 
-        echo '<select name="nanosupport_knowledgebase_settings[terms]" id="ns_doc_terms" class="ns-select" multiple="multiple">';
+        echo '<select name="nanosupport_knowledgebase_settings[terms][]" id="ns_doc_terms" class="ns-select" multiple="multiple">';
 
             echo '<option value="">'. __( 'Select Categories', 'nanosupport' ) .'</option>';
             foreach ( $ns_doc_terms as $term ) :
-                echo '<option value="'. esc_attr($term->term_id) .'" '. selected( $term->term_id, $options['terms'], false ) .'>'. $term->name .'</option>';
+                $selected = is_array($options['terms']) && in_array( $term->term_id, $options['terms'] ) ? ' selected="selected" ' : '';
+                echo '<option value="'. esc_attr($term->term_id) .'" '. $selected .'>'. $term->name .'</option>';
             endforeach;
 
         echo '</select>';
         echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Choose the Knowledgebase categories you want to promote to the knowledgebase head section.', 'nanosupport' ) .'"></span>';
 
     endif;
+}
+
+// Validate Knowledgebase Settings
+function ns_knowledgebase_settings_validate( $input ) {
+    $options = get_option('nanosupport_knowledgebase_settings');
+
+    //Knowledgebase page selection
+    $kb_page_selection_val = $input['page'] ? absint( $input['page'] ) : '';
+    //KB Categories selection
+    $kb_categories = $input['terms'] ? (array) $input['terms'] : '';
+
+    $options['page'] = absint( $kb_page_selection_val );
+    $options['terms'] = (array) $kb_categories;
+
+    return $options;
 }

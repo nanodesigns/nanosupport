@@ -83,9 +83,9 @@
 									} else if( 'medium' === $ticket_priority ) {
 										echo '<span class="text-info">' , __( 'Medium', 'nanosupport' ) , '</span>';
 									} else if( 'high' === $ticket_priority ) {
-										echo '<span class="text-warning">' , __( 'High', 'nanosupport' ) , '</span>';
+										echo '<strong class="text-warning">' , __( 'High', 'nanosupport' ) , '</strong>';
 									} else if( 'critical' === $ticket_priority ) {
-										echo '<span class="text-danger">' , __( 'Critical', 'nanosupport' ) , '</span>';
+										echo '<strong class="text-danger">' , __( 'Critical', 'nanosupport' ) , '</strong>';
 									}
 									?>
 								</p>
