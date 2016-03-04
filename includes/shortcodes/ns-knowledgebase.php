@@ -43,6 +43,8 @@ function ns_knowledgebase_page() {
 		 * 
 		 * To display anything before the knowledgebase.
 		 *
+		 * @since  1.0.0
+		 *
 		 * 10	- ns_knowledgebase_navigation()
 		 * 20	- nspro_autocomplete_search_form()
 		 * 20	- nspro_enqueue_knowledgebase_searchform()
@@ -108,11 +110,13 @@ function ns_knowledgebase_page() {
 				 * -----------------------------------------------------------------------
 				 * HOOK : FILTER HOOK
 				 * nanosupport_kb_header_title
+				 * 
+				 * @since  1.0.0
 				 *
 				 * @param string  $text Header text. Default 'Documentaion'.
 				 * -----------------------------------------------------------------------
 				 */
-				echo '<h3 class="ns-section-title ns-inline-title text-center"><span>';
+				echo '<h3 class="ticket-separator"><span>';
 					echo esc_html( apply_filters( 'nanosupport_kb_header_title', __( 'Documentation', 'nanosupport' ) ) );
 				echo '</span></h3>';
 
@@ -158,6 +162,8 @@ function ns_knowledgebase_page() {
 						 * nanosupport_knowledgebase_query
 						 *
 						 * Hook to modify the Knowledgebase query.
+						 *
+						 * @since  1.0.0
 						 * -----------------------------------------------------------------------
 						 */
 						$kb_entries = new WP_Query(apply_filters( 'nanosupport_knowledgebase_query', $args ));
@@ -210,6 +216,8 @@ function ns_knowledgebase_page() {
 		 * nanosupport_after_knowledgebase
 		 * 
 		 * To display anything after the knowledgebase.
+		 *
+		 * @since  1.0.0
 		 * -----------------------------------------------------------------------
 		 */
 		do_action( 'nanosupport_after_knowledgebase' );

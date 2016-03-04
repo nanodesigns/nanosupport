@@ -42,6 +42,8 @@ function ns_submit_support_ticket() {
 		 *
 		 * To Hook anything before the Add New Ticket Form.
 		 *
+		 * @since  1.0.0
+		 *
 		 * 10	- ns_new_ticket_navigation()
 		 * -----------------------------------------------------------------------
 		 */
@@ -76,6 +78,8 @@ function ns_submit_support_ticket() {
 							 * nanosupport_editor_config
 							 *
 							 * Modify Editor configuration.
+							 *
+							 * @since  1.0.0
 							 * -----------------------------------------------------------------------
 							 */
 							$editor_args = apply_filters( 'nanosupport_editor_config' , array(
@@ -236,6 +240,8 @@ function ns_submit_support_ticket() {
 		 * nanosupport_after_new_ticket
 		 * 
 		 * To Hook anything after the Add New Ticket Form.
+		 *
+		 * @since  1.0.0
 		 * -----------------------------------------------------------------------
 		 */
 		do_action( 'nanosupport_after_new_ticket' );

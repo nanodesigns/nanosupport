@@ -104,3 +104,43 @@ function ns_new_ticket_navigation() {
 }
 
 add_action( 'nanosupport_before_new_ticket', 'ns_new_ticket_navigation', 10 );
+
+
+/**
+ * Navigation on Support Desk
+ *
+ * Disply a NanoSupport navigation on the Support Desk page.
+ *
+ * hooked: nanosupport_before_support_desk (10)
+ * 
+ * @return void
+ * -----------------------------------------------------------------------
+ */
+function ns_support_desk_navigation() {
+
+    //Get the NanoSupport Settings from Database
+    $ns_general_settings = get_option( 'nanosupport_settings' );
+
+    ob_start(); ?>
+
+    <div class="well well-sm">
+        <div class="row">
+            <div class="col-sm-7 text-muted">
+                <?php _e( 'Tickets are visible to the admins, designated support assistant and/or to the ticket owner only.', 'nanosupport' ); ?>
+            </div>
+            <div class="col-sm-5 text-right">
+                <a class="btn btn-sm btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( get_page_by_path( 'knowledgebase' ) ) ); ?>">
+                    <span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
+                </a>
+                <a class="btn btn-sm btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( $ns_general_settings['submit_page'] ) ); ?>">
+                    <span class="ns-icon-tag"></span> <?php _e( 'Submit Ticket', 'nanosupport' ); ?>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <?php
+    echo ob_get_clean();
+}
+
+add_action( 'nanosupport_before_support_desk', 'ns_support_desk_navigation', 10 );

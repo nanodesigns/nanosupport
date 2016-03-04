@@ -86,8 +86,8 @@ body{
   }
 }
 .ticket-author{
-  font-style: italic;
-  font-size: 18px;
+  //font-style: italic;
+  color: #999;
 }
 .btn.ns-round-btn{
   width: 27px;
@@ -227,7 +227,9 @@ body{
 }
 
 /** SINGLE PAGE CARDS **/
-.ns-single{
+article.ns-single.type-nanosupport{
+  //background-color: transparent;
+
   .ticket-question-card,
   .ticket-response-cards{
     line-height: 1.4;
@@ -272,12 +274,18 @@ body{
   border-top-width: 5px;
   border-top-color: #ccc;
 }
+.ns-hash{
+  visibility: hidden;
+}
 .response-dates{
   text-align: right;
   text-transform: uppercase;
 
   a{
     color: #333;
+  }
+  &:hover .ns-hash{
+    visibility: visible;
   }
 }
 @media (max-width:767px){
@@ -475,35 +483,8 @@ body{
     margin: 0 5px 5px 0;
   }
 }
-#knowledgebase-entries .ns-section-title{
-  font-size: 18px;
-  text-transform: uppercase;
-  margin-top: 20px;
-  margin-bottom: 40px;
-}
 .ns-kb-cat-box ul li{
   margin-bottom: 10px;
-}
-.ns-inline-title{
-  position: relative;
-
-  &:after{
-    display: block;
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 50%;
-    background-color: #ccc;
-    width: 100%;
-    height: 3px;
-  }
-  span{
-    background-color: #fff;
-    display: inline-block;
-    position: relative;
-    z-index: 1;
-    padding: 0 10px;
-  }
 }
 
 
