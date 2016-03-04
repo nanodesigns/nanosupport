@@ -107,13 +107,25 @@ function nanosupport_settings_options_init(){
         );
         /**
          * Tab: Knowledgebase Settings
-         *  - Knowledgebase chosen terms
+         *  - Knowledgebase featured terms
          * ----------------------------------
          */
         add_settings_field(
             'knowledgebase_terms',                              // ID*
             __( 'Featured Categories', 'nanosupport' ),         // Title*
             'ns_doc_terms_field',                               // Callback Function*
+            'nanosupport_knowledgebase_settings',               // Page (Plugin)*
+            'nanosupport_knowledgebase'                         // Section
+        );
+        /**
+         * Tab: Knowledgebase Settings
+         *  - Knowledgebase posts per category
+         * ----------------------------------
+         */
+        add_settings_field(
+            'knowledgebase_ppc',                                // ID*
+            __( 'No. of items per category', 'nanosupport' ),   // Title*
+            'ns_doc_ppc_field',                                 // Callback Function*
             'nanosupport_knowledgebase_settings',               // Page (Plugin)*
             'nanosupport_knowledgebase'                         // Section
         );

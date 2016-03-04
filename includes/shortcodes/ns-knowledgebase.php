@@ -20,7 +20,8 @@ function ns_knowledgebase_page() {
 	echo '<div id="nanosupport-knowledgebase">';
 
 		//Get the NanoSupport Settings from Database
-    	$ns_general_settings = get_option( 'nanosupport_settings' );
+    	$ns_general_settings 		= get_option( 'nanosupport_settings' );
+    	$ns_knowledgebase_settings 	= get_option( 'nanosupport_knowledgebase_settings' );
 
 		/**
 		 * Show a Redirection Message
@@ -40,40 +41,31 @@ function ns_knowledgebase_page() {
 		 * HOOK : ACTION HOOK
 		 * nanosupport_before_knowledgebase
 		 * 
-		 * Display a searchform capable of searching specific
-		 * only to the knowledgebase.
-		 *
-		 * 10	ns_knowledgebase_navigation()
+		 * To display anything before the knowledgebase.
 		 * -----------------------------------------------------------------------
 		 */
 		do_action( 'nanosupport_before_knowledgebase' );
 
+		
 		/**
-		 * -----------------------------------------------------------------------
-		 * HOOK : FILTER HOOK
-		 * nanosupport_kb_posts_per_page
-		 *
-		 * Modify Knowledgebase posts_per_page.
+		 * Featured Knowledgebase Terms
+		 * Get values from Knowledgebase Settings
 		 * -----------------------------------------------------------------------
 		 */
-		$kb_posts_per_page = apply_filters( 'nanosupport_kb_posts_per_page', get_option('posts_per_page') );
+		$featured_terms = isset($ns_knowledgebase_settings['terms']) ? $ns_knowledgebase_settings['terms'] : '';
 
-
-		//Dynamic values
-		$terms = array(227,230,231,232,233);
-
-		if( $terms ) {
+		if( $featured_terms ) {
 
 			echo '<div class="row">';
-			$total_terms = count( $terms );
+			$total_terms = count( $featured_terms );
 
 			$_counter = 1;
-			foreach( $terms as $term_id ) {
+			foreach( $featured_terms as $term_id ) {
 				$term 		= get_term_by( 'id', $term_id, 'nanodoc_category' );
 				$term_link 	= get_term_link( $term_id, 'nanodoc_category' );
 				$term_link 	= !is_wp_error( $term_link ) ? $term_link : '#';
 
-				// Dynamic classes
+				// Dynamic classes for global responsiveness
 				if( $_counter % 3 === 1 )
 					$column_class = ' first-on-three';
 				elseif( $_counter % 2 === 1 )
@@ -99,33 +91,14 @@ function ns_knowledgebase_page() {
 			}
 			echo '</div> <!-- /.row -->';
 
-		} //endif( $terms )
-
-
-		echo '<hr>';
+		} //endif( $featured_terms )
 		
 
 		echo '<section id="knowledgebase-entries">';
 
-			//Arguments for Default Knowledgebase doc
-			//Show all the docs
-			$args = array(
-					'post_type'			=> 'nanodoc',
-					'posts_per_page'	=> $kb_posts_per_page,
-					'post_status'		=> 'publish',
-				);
+			$kb_terms = get_terms( 'nanodoc_category' );
 
-			/**
-			 * -----------------------------------------------------------------------
-			 * HOOK : FILTER HOOK
-			 * nanosupport_knowledgebase_query
-			 *
-			 * Hook to modify the Knowledgebase query.
-			 * -----------------------------------------------------------------------
-			 */
-			$knowledgebase = new WP_Query( apply_filters( 'nanosupport_knowledgebase_query', $args ) );
-
-			if( $knowledgebase->have_posts() ) :
+			if( $kb_terms ) :
 
 				/**
 				 * -----------------------------------------------------------------------
@@ -135,27 +108,107 @@ function ns_knowledgebase_page() {
 				 * @param string  $text Header text. Default 'Documentaion'.
 				 * -----------------------------------------------------------------------
 				 */
-				$knowledgebase_title = apply_filters( 'nanosupport_kb_header_title', __( 'Documentation', 'nanosupport' ) );
+				echo '<h3 class="ns-section-title ns-inline-title text-center"><span>';
+					echo esc_html( apply_filters( 'nanosupport_kb_header_title', __( 'Documentation', 'nanosupport' ) ) );
+				echo '</span></h3>';
 
-				echo '<h3 class="ns-section-title">'. esc_html($knowledgebase_title) .'</h3>';
 				echo '<div class="row">';
-					echo '<div class="col-sm-12">';
-						echo '<ul class="ns-doc-list">';
-							while( $knowledgebase->have_posts() ) : $knowledgebase->the_post();
-								echo '<li><a href="'. get_the_permalink() .'">'. get_the_title() .'</a></li>';
-							endwhile;
-						echo '</ul> <!-- /.ns-doc-list -->';
-					echo '</div> <!-- /.col-sm-12 -->';
-				echo '</div> <!-- /row -->';
-				wp_reset_postdata();
 
-			else :
-				
-				echo '<p>'. _e( 'No Knowledgebase entries till now to display.', 'nanosupport' ) .'</p>';
+				$_entry_counter = 1;
+				foreach( $kb_terms as $kb_term ) :
+
+					// Dynamic classes for global responsiveness
+					if( $_entry_counter % 3 === 1 )
+						$col_class = ' first-on-three';
+					elseif( $_entry_counter % 2 === 1 )
+						$col_class = ' first-on-two';
+					else
+						$col_class = '';
+
+					echo '<div class="ns-kb-cat-box col-sm-4 col-xs-6'. esc_attr($col_class) .'">';
+
+						echo '<h4 class="ns-kb-category-title">';
+							echo '<span class="ns-icon-docs"></span>&nbsp;';
+							echo $kb_term->name;
+						echo '</h4>';
+
+						// Get knowledgebase settings. Fallback 'posts_per_page'.
+						$kb_posts_per_category = isset($ns_knowledgebase_settings['ppc']) ? $ns_knowledgebase_settings['ppc'] : get_option( 'posts_per_page' );
+
+						$args = array(
+							'post_type'		=> 'nanodoc',
+							'post_status'	=> 'publish',
+							'posts_per_page' => -1,	//all to display 'All entries' button with a single db query
+							'tax_query'		=> array(
+									array(
+										'taxonomy'	=> 'nanodoc_category',
+										'field'		=> 'term_id',
+										'terms'		=> $kb_term->term_id,
+									)
+								)
+						);
+
+						/**
+						 * -----------------------------------------------------------------------
+						 * HOOK : FILTER HOOK
+						 * nanosupport_knowledgebase_query
+						 *
+						 * Hook to modify the Knowledgebase query.
+						 * -----------------------------------------------------------------------
+						 */
+						$kb_entries = new WP_Query(apply_filters( 'nanosupport_knowledgebase_query', $args ));
+
+						//Count how many doc items are fetched
+						$kb_found_entries = $kb_entries->found_posts;
+
+						if( $kb_entries->have_posts() ) :
+
+							echo '<ul>';
+								$per_category_counter = 1;
+								while( $kb_entries->have_posts() ) : $kb_entries->the_post();
+									echo '<li><a href="'. esc_url(get_the_permalink()) .'" title="'. the_title_attribute( array('echo' => false) ) .'" >'. get_the_title() .'</a></li>';
+
+									//Display the maximum numbers set
+									if( $kb_posts_per_category === $per_category_counter )
+										break;
+
+									$per_category_counter++;
+								endwhile;
+							echo '</ul>';
+
+							// If the found entries exceeds the preset maximum entries, display the 'See all' button
+							if( $kb_found_entries > $kb_posts_per_category ) :
+								echo '<a class="btn btn-xs btn-primary" href="'. esc_url(get_term_link( $kb_term, 'nanodoc_category' )) .'"><strong>';
+									_e( 'All entries &raquo;', 'nanosupport' );
+								echo '</strong></a>';
+							endif;
+
+						else :
+
+							echo '<p>'. _e( 'No Knowledgebase entries till now to display in this category.', 'nanosupport' ) .'</p>';
+
+						endif;
+						wp_reset_postdata();
+					echo '</div> <!-- /.ns-kb-cat-box col-sm-4 col-xs-6 -->';
+
+					$_entry_counter++;
+
+				endforeach;
+				echo '</div> <!-- /.row -->';
 
 			endif;
 
 		echo '</section> <!-- /#knowledgebase-entries -->';
+
+		/**
+		 * -----------------------------------------------------------------------
+		 * HOOK : ACTION HOOK
+		 * nanosupport_after_knowledgebase
+		 * 
+		 * To display anything after the knowledgebase.
+		 * -----------------------------------------------------------------------
+		 */
+		do_action( 'nanosupport_after_knowledgebase' );
 
 	echo '</div> <!-- /#nanosupport-knowledgebase -->';
 	

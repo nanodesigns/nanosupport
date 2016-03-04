@@ -65,17 +65,35 @@ function ns_doc_terms_field() {
     endif;
 }
 
-// Validate Knowledgebase Settings
+function ns_doc_ppc_field() {
+    $options        = get_option('nanosupport_knowledgebase_settings');
+
+    //set the default to Settings > Reading > Posts Per Page
+    $value = isset($options['ppc']) ? $options['ppc'] : get_option('posts_per_page');
+
+    echo '<input type="number" name="nanosupport_knowledgebase_settings[ppc]" step="1" min="1" id="ns_doc_ppc" class="small-text" value="'. intval($value) .'">';
+
+    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Choose the number of entries to display per Knowledgebase category. Default is Settings > Reading > Blog pages show at most.', 'nanosupport' ) .'"></span>';
+}
+
+/**
+ * Validate Knowledgebase Settings
+ * @param  array $input  Array of all the settings fields' value.
+ * @return array         Validated settings fields.
+ */
 function ns_knowledgebase_settings_validate( $input ) {
     $options = get_option('nanosupport_knowledgebase_settings');
 
     //Knowledgebase page selection
     $kb_page_selection_val = $input['page'] ? absint( $input['page'] ) : '';
-    //KB Categories selection
+    //Knowledgebase Featured Categories choice
     $kb_categories = $input['terms'] ? (array) $input['terms'] : '';
+    //Knowledgebase items per category
+    $kb_posts_per_category = $input['ppc'] ? (int) $input['ppc'] : '';
 
-    $options['page'] = absint( $kb_page_selection_val );
-    $options['terms'] = (array) $kb_categories;
+    $options['page']    = absint( $kb_page_selection_val );
+    $options['terms']   = (array) $kb_categories;
+    $options['ppc']     = intval($kb_posts_per_category);
 
     return $options;
 }

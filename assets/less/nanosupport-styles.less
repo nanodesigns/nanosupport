@@ -428,7 +428,7 @@ body{
   }
 
   .ns-icon-docs{
-    font-size: 40px;
+    font-size: 50px;
   }
   a{
     &.icon-link{
@@ -449,10 +449,55 @@ body{
     clear: both;
   }
 }
-@media (max-width: 350px) {
-  .nanodoc-term-box{
+@media (max-width: 400px) {
+  .nanodoc-term-box,
+  .ns-kb-cat-box{
     clear: both;
     width: 100%;
+  }
+}
+
+.ns-kb-category-title{
+  span{
+    background-color: #e1e1e1;
+    color: #333;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    display: inline-block;
+    -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+            border-radius: 50%;
+    line-height: 1.5;
+    float: left;
+    margin: 0 5px 5px 0;
+  }
+}
+#knowledgebase-entries .ns-section-title{
+  font-size: 18px;
+  text-transform: uppercase;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+.ns-inline-title{
+  position: relative;
+
+  &:after{
+    display: block;
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    background-color: #ccc;
+    width: 100%;
+    height: 3px;
+  }
+  span{
+    background-color: #fff;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    padding: 0 10px;
   }
 }
 
