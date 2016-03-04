@@ -231,6 +231,8 @@ require_once 'includes/ns-metaboxes-responses.php';
 require_once 'includes/ns-functions.php';
 require_once 'includes/ns-hooked-functions.php';
 
+require_once 'includes/ns-email-functions.php';
+
 require_once 'includes/shortcodes/ns-support-desk.php';
 require_once 'includes/shortcodes/ns-submit-ticket.php';
 require_once 'includes/shortcodes/ns-knowledgebase.php';

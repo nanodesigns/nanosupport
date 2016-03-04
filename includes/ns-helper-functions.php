@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Create Pages
  * 
  * Create necessary pages for the plugin.
+ *
+ * @since  1.0.0
  * 
  * @param  string $title   Title of the page.
  * @param  string $slug    Hyphenated slug of the page.
@@ -52,9 +54,6 @@ function ns_create_necessary_page( $title, $slug, $content ) {
 
         return $ns_check_page->ID;
 
-        //arbitrarily taken -2 so that we can understand the given page already exists
-        //$page_id = -2
-
     }
 
 }
@@ -65,6 +64,8 @@ function ns_create_necessary_page( $title, $slug, $content ) {
  *
  * Get the last response informatin including response ID, user ID,
  * and response date.
+ *
+ * @since  1.0.0
  * 
  * @param  integer 	$ticket_id 	NanoSupport post ID.
  * @return array 				comment_ID, user_id, comment_date
@@ -103,15 +104,15 @@ function ns_get_last_response( $ticket_id = null ) {
  * Response exists or not
  * 
  * Check whether the Response is already exists or not.
+ *
+ * @since  1.0.0
  * 
  * @param  integer $comment_ID.
  * @return integer The comment_ID if it exists.
  * -----------------------------------------------------------------------
  */
 function ns_response_exists( $comment_ID ) {
-    
     global $wpdb;
-
     $comment_ID = absint( $comment_ID );
  
     return $wpdb->get_var( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments
@@ -123,6 +124,8 @@ function ns_response_exists( $comment_ID ) {
  * Pagination
  * 
  * Paginate_links enabled with Bootstrap Pagination.
+ *
+ * @since  1.0.0
  *
  * @author  Erik Larsson
  * @link http://www.ordinarycoder.com/paginate_links-class-ul-li-bootstrap/
@@ -166,6 +169,8 @@ function ns_bootstrap_pagination( $query ) {
 
 /**
  * Get the ticket departments
+ *
+ * @since  1.0.0
  * 
  * @param  integer $post_id Ticket Post ID.
  * @return string           Comma-separated names of the departments.
@@ -197,9 +202,12 @@ function ns_get_ticket_departments( $post_id = null ) {
 
 /**
  * Front end Login Form
+ *
+ * @since  1.0.0
  * 
  * @author Agbonghama Collins
  * @link http://designmodo.com/wordpress-custom-login/
+ * ------------------------------------------------------------------------------
  */
 function nanosupport_login_auth( $username, $password ) {
     global $user, $ns_errors;
@@ -227,8 +235,11 @@ function nanosupport_login_auth( $username, $password ) {
  * A customized front-end registration form
  * especially for Nanodesigns Support Ticket front-end registration.
  *
+ * @since  1.0.0
+ *
  * @author  Agbonghama Collins
  * @link http://designmodo.com/wordpress-custom-registration/
+ * ------------------------------------------------------------------------------
  */
 function nanosupport_reg_validate( $ns_reg_username, $ns_reg_email, $ns_reg_password ) {
 
@@ -265,27 +276,21 @@ function nanosupport_reg_validate( $ns_reg_username, $ns_reg_email, $ns_reg_pass
 
 
 /**
- * Get Knowledgebase Titles.
- *
- * Knowledgebase Titles for assisting search.
+ * Making onDomain Email from Host URL.
  * 
- * @return array All the published titles.
- * -----------------------------------------------------------------------
+ * @author  Sisir Kanti Adhikari
+ * @link https://github.com/nanodesigns/download-via-email/
+ *
+ * @since  1.0.0
+ *
+ * @param  string $username Email username. Default: 'noreply'.
+ * @return string noreply@yourdomain.dom
+ * ------------------------------------------------------------------------------
  */
-function ns_get_knowledgebase_posts() {
-    global $wpdb;
-    $_published_titles = array();
-    $query_string = "SELECT np.ID, np.post_title FROM $wpdb->posts AS np
-                    WHERE np.post_type = 'nanodoc'
-                        AND ( np.post_status = 'publish' )
-                    GROUP BY np.ID
-                    ORDER BY np.post_title ASC";
-    $_published_titles[] = $wpdb->get_results( $query_string, ARRAY_A );
-    $published_titles = array();
-    foreach ($_published_titles['0'] as $_post) {
-        //$link = get_permalink( (int) $_post['ID'] );
-        $published_titles[] = $_post['post_title'];
-    }
-    return $published_titles;
-    $wpdb->flush();
+function nanosupport_ondomain_email( $username = 'noreply' ){
+    $info   = parse_url( home_url() );
+    $host   = $info['host'];
+    $domain = preg_replace( '/^www./', '', $host );
+
+    return $username .'@'. $domain;
 }

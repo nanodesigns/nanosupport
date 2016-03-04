@@ -258,7 +258,7 @@
 									<div class="row">
 										<div class="col-sm-9">
 											<div class="response-head">
-												<h3 class="ticket-head" id="response-<?php echo esc_attr($counter); ?>">
+												<h3 class="ticket-head" id="new-response">
 													<?php printf( __('Responding as: %s','nanosupport'), $current_user->display_name ); ?>
 												</h3>
 											</div> <!-- /.response-head -->
