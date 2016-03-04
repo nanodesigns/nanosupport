@@ -32,45 +32,25 @@ function ns_submit_support_ticket() {
 	ob_start();
 	?>
 
-	<div class="well well-sm">
-		<div class="row">
-			<div class="col-sm-5">
-				<?php
-				if( current_user_can('administrator') || current_user_can('editor') )
-					$all_tickets_label = __( 'All the Tickets', 'nanosupport' );
-				else
-					$all_tickets_label = __( 'My Tickets', 'nanosupport' );				
-				?>
-
-				<a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="btn btn-sm btn-primary">
-					<span class="ns-icon-tag"></span> <?php echo $all_tickets_label; ?>
-				</a>
-				<a class="btn btn-sm btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( get_page_by_path( 'knowledgebase' ) ) ); ?>">
-					<span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
-				</a>
-			</div>
-			<div class="col-sm-7 text-muted">
-				<small><?php _e( 'Consult the Knowledgebase for your query. If they are <em>not</em> close to you, then submit a new ticket here.', 'nanosupport' ); ?></small>
-			</div>
-		</div>
-	</div>
-
 	<div id="nanosupport-add-ticket" class="nano-support-ticket nano-add-ticket">
+
+		<?php
+		/**
+		 * -----------------------------------------------------------------------
+		 * HOOK : ACTION HOOK
+		 * nanosupport_before_new_ticket
+		 *
+		 * To Hook anything before the Add New Ticket Form.
+		 *
+		 * 10	- ns_new_ticket_navigation()
+		 * -----------------------------------------------------------------------
+		 */
+		do_action( 'nanosupport_before_new_ticket' );
+		?>
+
 		<div class="row">
 			<div class="col-md-12">
 
-				<?php
-				/**
-				 * -----------------------------------------------------------------------
-				 * HOOK : ACTION HOOK
-				 * nanosupport_pre_new_ticket
-				 *
-				 * To Hook anything before the Add New Ticket Form.
-				 * -----------------------------------------------------------------------
-				 */
-				do_action( 'nanosupport_pre_new_ticket' );
-				?>
-				
 				<form class="form-horizontal" method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
 
 					<div class="form-group">
@@ -121,7 +101,7 @@ function ns_submit_support_ticket() {
 						<label for="ns-ticket-priority" class="col-sm-2 control-label">
 							<?php _e( 'Priority', 'nanosupport' ); ?>
 						</label>
-						<div class="col-sm-10">
+						<div class="col-sm-10 form-inline">
 							<?php $sub_val = !empty($_POST['ns_ticket_priority']) ? $_POST['ns_ticket_priority'] : ''; ?>
 							<select class="form-control" name="ns_ticket_priority" id="ns-ticket-priority">
 								<option value="low" <?php selected( $sub_val, 'low' ); ?>>
@@ -248,9 +228,23 @@ function ns_submit_support_ticket() {
 
 			</div>
 		</div>
+
+		<?php
+		/**
+		 * -----------------------------------------------------------------------
+		 * HOOK : ACTION HOOK
+		 * nanosupport_after_new_ticket
+		 * 
+		 * To Hook anything after the Add New Ticket Form.
+		 * -----------------------------------------------------------------------
+		 */
+		do_action( 'nanosupport_after_new_ticket' );
+		?>
+
 	</div> <!-- /.nano-support-ticket .nano-add-ticket -->
 	
 	<?php
 	return ob_get_clean();
 }
+
 add_shortcode( 'nanosupport_submit_ticket', 'ns_submit_support_ticket' );

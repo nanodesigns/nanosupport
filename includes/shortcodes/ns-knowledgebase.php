@@ -42,6 +42,10 @@ function ns_knowledgebase_page() {
 		 * nanosupport_before_knowledgebase
 		 * 
 		 * To display anything before the knowledgebase.
+		 *
+		 * 10	- ns_knowledgebase_navigation()
+		 * 20	- nspro_autocomplete_search_form()
+		 * 20	- nspro_enqueue_knowledgebase_searchform()
 		 * -----------------------------------------------------------------------
 		 */
 		do_action( 'nanosupport_before_knowledgebase' );
@@ -166,7 +170,7 @@ function ns_knowledgebase_page() {
 							echo '<ul>';
 								$per_category_counter = 1;
 								while( $kb_entries->have_posts() ) : $kb_entries->the_post();
-									echo '<li><a href="'. esc_url(get_the_permalink()) .'" title="'. the_title_attribute( array('echo' => false) ) .'" >'. get_the_title() .'</a></li>';
+									echo '<li class="small"><a href="'. esc_url(get_the_permalink()) .'" title="'. the_title_attribute( array('echo' => false) ) .'" >'. get_the_title() .'</a></li>';
 
 									//Display the maximum numbers set
 									if( $kb_posts_per_category === $per_category_counter )

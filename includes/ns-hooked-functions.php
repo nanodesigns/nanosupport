@@ -13,12 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Hide all the Responses in Comments page (Admin Panel)
+ * Navigation on Knowledgebase
  *
- * @link http://wordpress.stackexchange.com/a/56657/22728
+ * Disply a NanoSupport navigation on the Knowledgebase.
+ *
+ * hooked: nanosupport_before_knowledgebase (10)
  * 
- * @param  array $comments All the comments from comments table.
- * @return array           Filtering 'nanosupport_response' hiding them.
+ * @return void
  * -----------------------------------------------------------------------
  */
 function ns_knowledgebase_navigation() {
@@ -27,6 +28,7 @@ function ns_knowledgebase_navigation() {
     $ns_general_settings = get_option( 'nanosupport_settings' );
 
     ob_start(); ?>
+
     <div class="well well-sm">
         <div class="row">
             <div class="col-sm-7 text-muted">
@@ -49,7 +51,56 @@ function ns_knowledgebase_navigation() {
             </div>
         </div>
     </div>
+
     <?php
     echo ob_get_clean();
 }
+
 add_action( 'nanosupport_before_knowledgebase', 'ns_knowledgebase_navigation', 10 );
+
+
+/**
+ * Navigation on New Ticket
+ *
+ * Disply a NanoSupport navigation on the New Ticket page.
+ *
+ * hooked: nanosupport_before_new_ticket (10)
+ * 
+ * @return void
+ * -----------------------------------------------------------------------
+ */
+function ns_new_ticket_navigation() {
+
+    //Get the NanoSupport Settings from Database
+    $ns_general_settings = get_option( 'nanosupport_settings' );
+
+    ob_start(); ?>
+
+    <div class="well well-sm">
+        <div class="row">
+            <div class="col-sm-5">
+                <?php
+                if( current_user_can('administrator') || current_user_can('editor') )
+                    $all_tickets_label = __( 'All the Tickets', 'nanosupport' );
+                else
+                    $all_tickets_label = __( 'My Tickets', 'nanosupport' );             
+                ?>
+
+                <a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="btn btn-sm btn-primary">
+                    <span class="ns-icon-tag"></span> <?php esc_html_e( $all_tickets_label ); ?>
+                </a>
+                <a class="btn btn-sm btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( get_page_by_path( 'knowledgebase' ) ) ); ?>">
+                    <span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
+                </a>
+            </div>
+            <div class="col-sm-7 text-muted">
+                <small><?php _e( 'Consult the Knowledgebase for your query. If they are <em>not</em> close to you, then submit a new ticket here.', 'nanosupport' ); ?></small>
+            </div>
+        </div>
+    </div>
+    
+    <?php
+    echo ob_get_clean();
+}
+
+add_action( 'nanosupport_before_new_ticket', 'ns_new_ticket_navigation', 10 );
