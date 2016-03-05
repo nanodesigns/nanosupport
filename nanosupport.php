@@ -191,7 +191,7 @@ function nanosupport_activate() {
     $ns_gen_settings = array(
             'bootstrap'   	=> 1,
             'support_desk'	=> $support_desk_page_id,
-            'submit_ticket'	=> $submit_ticket_page_id
+            'submit_page'	=> $submit_ticket_page_id
         );
     update_option( 'nanosupport_settings', $ns_gen_settings );
 

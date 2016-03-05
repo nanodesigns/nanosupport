@@ -51,20 +51,16 @@ function ns_doc_terms_field() {
     $options        = get_option('nanosupport_knowledgebase_settings');
     $ns_doc_terms   = get_terms( 'nanodoc_category', array( 'hide_empty' => false ) );
 
-    if( $ns_doc_terms ) :
+    echo '<select name="nanosupport_knowledgebase_settings[terms][]" id="ns_doc_terms" class="ns-select" multiple="multiple">';
 
-        echo '<select name="nanosupport_knowledgebase_settings[terms][]" id="ns_doc_terms" class="ns-select" multiple="multiple">';
+        echo '<option value="">'. __( 'Select Categories', 'nanosupport' ) .'</option>';
+        foreach ( $ns_doc_terms as $term ) :
+            $selected = is_array($options['terms']) && in_array( $term->term_id, $options['terms'] ) ? ' selected="selected" ' : '';
+            echo '<option value="'. esc_attr($term->term_id) .'" '. $selected .'>'. $term->name .'</option>';
+        endforeach;
 
-            echo '<option value="">'. __( 'Select Categories', 'nanosupport' ) .'</option>';
-            foreach ( $ns_doc_terms as $term ) :
-                $selected = is_array($options['terms']) && in_array( $term->term_id, $options['terms'] ) ? ' selected="selected" ' : '';
-                echo '<option value="'. esc_attr($term->term_id) .'" '. $selected .'>'. $term->name .'</option>';
-            endforeach;
-
-        echo '</select>';
-        echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Choose the Knowledgebase categories you want to promote to the knowledgebase head section.', 'nanosupport' ) .'"></span>';
-
-    endif;
+    echo '</select>';
+    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Choose the Knowledgebase categories you want to promote to the knowledgebase head section.', 'nanosupport' ) .'"></span>';
 }
 
 // Knowledgebase Settings : Field 3 : Posts per Category

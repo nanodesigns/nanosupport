@@ -68,30 +68,36 @@ function ns_knowledgebase_page() {
 			$_counter = 1;
 			foreach( $featured_terms as $term_id ) {
 				$term 		= get_term_by( 'id', $term_id, 'nanodoc_category' );
-				$term_link 	= get_term_link( (int) $term_id, 'nanodoc_category' );
-				$term_link 	= !is_wp_error( $term_link ) ? $term_link : '#';
 
-				// Dynamic classes for global responsiveness
-				if( $_counter % 3 === 1 )
-					$column_class = ' first-on-three';
-				elseif( $_counter % 2 === 1 )
-					$column_class = ' first-on-two';
-				else
-					$column_class = '';
+				if( $term ) :
+					$term_name  = $term ? $term->name : '';
+					$term_desc  = $term ? $term->description : '';
+					$term_link 	= get_term_link( (int) $term_id, 'nanodoc_category' );
+					$term_link 	= !is_wp_error( $term_link ) ? $term_link : '#';
 
-				echo '<div class="col-sm-4 col-xs-6 nanodoc-term-box'. esc_attr($column_class) .'">';
-					echo '<div class="nanodoc-term-box-inner text-center">';
-						printf(	'<a class="icon-link" href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term->name), '<span class="ns-icon-docs"></span>' );
-						echo '<h4 class="nanodoc-term-title">';
-							printf(	'<a href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term->name), $term->name );
-						echo '</h4>';
-						if( $term->description ) {
-							echo '<div class="nanodoc-term-desc"><small>';
-								echo $term->description;
-							echo '</small></div>';
-						}
-					echo '</div> <!-- /.nanodoc-term-box-inner -->';
-				echo '</div> <!-- /.nanodoc-term-box -->';
+					// Dynamic classes for global responsiveness
+					if( $_counter % 3 === 1 )
+						$column_class = ' first-on-three';
+					elseif( $_counter % 2 === 1 )
+						$column_class = ' first-on-two';
+					else
+						$column_class = '';
+
+					echo '<div class="col-sm-4 col-xs-6 nanodoc-term-box'. esc_attr($column_class) .'">';
+						echo '<div class="nanodoc-term-box-inner text-center">';
+							printf(	'<a class="icon-link" href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term_name), '<span class="ns-icon-docs"></span>' );
+							echo '<h4 class="nanodoc-term-title">';
+								printf(	'<a href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term_name), $term_name );
+							echo '</h4>';
+							if( $term_desc ) {
+								echo '<div class="nanodoc-term-desc"><small>';
+									echo $term_desc;
+								echo '</small></div>';
+							}
+						echo '</div> <!-- /.nanodoc-term-box-inner -->';
+					echo '</div> <!-- /.nanodoc-term-box -->';
+
+				endif;
 
 				$_counter++;
 			}
@@ -205,6 +211,10 @@ function ns_knowledgebase_page() {
 
 				endforeach;
 				echo '</div> <!-- /.row -->';
+
+			else :
+
+				_e( 'Nothing to display on Knowledgebase. Please add some documentation first.', 'nanosupport' );
 
 			endif;
 
