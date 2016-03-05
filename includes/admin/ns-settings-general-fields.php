@@ -13,11 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// Callback: General Settings page
 function ns_general_settings_section_callback() {
-    //echo "Basic Section Here";
+    echo '<p>'. __( 'All the general settings including the Support Desk and Support Ticket submission page setup, and other plugin-specific setups.', 'nanosupport' ) .'</p>';
 }
 
-// General Settings : Field 1
+// General Settings : Field 1 : Support Desk
 function ns_support_desk_field() {
     $options = get_option( 'nanosupport_settings' );
 
@@ -41,7 +42,7 @@ function ns_support_desk_field() {
     }
 }
 
-// General Settings : Field 2
+// General Settings : Field 2 : Submit Ticket
 function ns_submit_ticket_field() {
     $options = get_option( 'nanosupport_settings' );
 
@@ -65,7 +66,7 @@ function ns_submit_ticket_field() {
     }
 }
 
-// General Settings : Field 3
+// General Settings : Field 3 : Bootstrap
 function ns_bootstrap_field() {
     $options = get_option( 'nanosupport_settings' );
 
@@ -74,7 +75,11 @@ function ns_bootstrap_field() {
 }
 
 
-// Validate General Settings
+/**
+ * Validate General Settings
+ * @param  array $input  Array of all the settings fields' value.
+ * @return array         Validated settings fields.
+ */
 function ns_general_settings_validate( $input ) {
     $options = get_option('nanosupport_settings');
 
@@ -85,9 +90,9 @@ function ns_general_settings_validate( $input ) {
     //Bootstrap checkbox
     $bootstrap_check_val = (int) $input['bootstrap'] === 1 ? (int) $input['bootstrap'] : '';
 
-    $options['support_desk'] = absint( $support_desk_selection_val );
-    $options['submit_page'] = absint( $nano_add_support_ticket_val );
-    $options['bootstrap'] = absint( $bootstrap_check_val );
+    $options['support_desk']    = absint( $support_desk_selection_val );
+    $options['submit_page']     = absint( $nano_add_support_ticket_val );
+    $options['bootstrap']       = absint( $bootstrap_check_val );
 
     return $options;
 }

@@ -2,7 +2,7 @@
 /**
  * NanoSupport Core Functions
  *
- * General core functions available on both fornt end and admin.
+ * General core functions available on both front end and admin.
  *
  * @author  	nanodesigns
  * @category 	Core
@@ -17,9 +17,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Get template part (for templates like the ns-loop).
  *
- * @access public
- * @param mixed $slug
- * @param string $name (default: '')
+ * @since  	1.0.0
+ *
+ * @access 	public
+ * 
+ * @param 	mixed $slug
+ * @param 	string $name (default: '')
+ * @return  void
+ * -----------------------------------------------------------------------
  */
 function ns_get_template_part( $slug, $name = '' ) {
 	$template = '';
@@ -46,7 +51,20 @@ function ns_get_template_part( $slug, $name = '' ) {
 
 	// Allow 3rd party plugin filter template file from their plugin
 	if ( $template ) {
-		$template = apply_filters( 'ns_get_template_part', $template, $slug, $name );
+
+		/**
+		 * -----------------------------------------------------------------------
+		 * HOOK : FILTER HOOK
+		 * nanosupport_get_template_part
+		 * 
+		 * @since  1.0.0
+		 *
+		 * @param string  $template The template that is being loaded.
+		 * @param string  $slug 	The page slug.
+		 * @param string  $name 	The page name.
+		 * -----------------------------------------------------------------------
+		 */
+		$template = apply_filters( 'nanosupport_get_template_part', $template, $slug, $name );
 	}
 
 	if ( $template ) {

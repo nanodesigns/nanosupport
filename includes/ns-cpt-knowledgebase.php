@@ -3,9 +3,11 @@
  * CPT 'nanodoc' and Taxonomy
  *
  * Functions to initiate the Custom Post Type 'nanodoc'
- * and Taxonomy 'nanodoc_category'.
+ * and the Taxonomy 'nanodoc_category'.
  *
- * @package NanoSupport
+ * @author      nanodesigns
+ * @category    Knowledgebase
+ * @package     NanoSupport
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,9 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CPT
+ * Register CPT Knowledgebase
  * 
- * Creating the 'nanosupport' CPT for tickets.
+ * Creating the custom post type 'nanosupport' for tickets.
+ *
+ * @since  1.0.0
  * 
  * @return array to register a post type.
  * -----------------------------------------------------------------------
@@ -84,14 +88,18 @@ function ns_register_cpt_nanodoc() {
     }
 
 }
+
 add_action( 'init', 'ns_register_cpt_nanodoc' );
 
 
 
 /**
- * Register Custom Taxonomy
+ * Register Custom Taxonomy Knowledgebase Category
  * 
- * Create Custom Taxonomy 'nanodoc_category' to sort out the tickets.
+ * Create Custom Taxonomy 'nanodoc_category' to sort out the
+ * knowledgebase documents.
+ *
+ * @since  1.0.0
  * 
  * @return array To register the custom taxonomy.
  * -----------------------------------------------------------------------
@@ -127,11 +135,15 @@ function ns_create_nanodoc_taxonomies() {
         register_taxonomy( 'nanodoc_category', array( 'nanodoc' ), $cat_args );
 
 }
+
 add_action( 'init', 'ns_create_nanodoc_taxonomies', 0 );
 
 
 /**
- * Change the 'Post Title' in Admin.
+ * Change the 'Post Title' in Admin
+ *
+ * @since  1.0.0
+ * 
  * @param  string $title Default string.
  * @return string        Modified string.
  * -----------------------------------------------------------------------
@@ -140,9 +152,10 @@ function ns_change_nanodoc_title_text( $title ){
      $screen = get_current_screen();
  
      if  ( 'nanodoc' === $screen->post_type ) {
-          $title = 'Knowledgebase Question';
+          $title = __( 'Knowledgebase Question', 'nanosupport' );
      }
  
      return $title;
-} 
+}
+
 add_filter( 'enter_title_here', 'ns_change_nanodoc_title_text' );

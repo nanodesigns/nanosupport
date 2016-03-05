@@ -5,7 +5,9 @@
  * Stored all the helper functions that are ocassionally used
  * for specific purposes only.
  *
- * @package NanoSupport
+ * @author      nanodesigns
+ * @category    Helpers
+ * @package     NanoSupport
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -107,8 +109,8 @@ function ns_get_last_response( $ticket_id = null ) {
  *
  * @since  1.0.0
  * 
- * @param  integer $comment_ID.
- * @return integer The comment_ID if it exists.
+ * @param  integer $comment_ID  Comment ID.
+ * @return integer              The comment_ID if it exists.
  * -----------------------------------------------------------------------
  */
 function ns_response_exists( $comment_ID ) {

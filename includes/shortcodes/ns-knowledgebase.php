@@ -68,7 +68,7 @@ function ns_knowledgebase_page() {
 			$_counter = 1;
 			foreach( $featured_terms as $term_id ) {
 				$term 		= get_term_by( 'id', $term_id, 'nanodoc_category' );
-				$term_link 	= get_term_link( $term_id, 'nanodoc_category' );
+				$term_link 	= get_term_link( (int) $term_id, 'nanodoc_category' );
 				$term_link 	= !is_wp_error( $term_link ) ? $term_link : '#';
 
 				// Dynamic classes for global responsiveness

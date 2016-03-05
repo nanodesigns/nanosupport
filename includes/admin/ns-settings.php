@@ -16,9 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Settings page using WP Settings API.
  *
- * @link http://ottopress.com/2009/wordpress-settings-api-tutorial/
- * @link http://www.chipbennett.net/2011/02/17/incorporating-the-settings-api-in-wordpress-themes/?all=1
- * @link http://wordpress.stackexchange.com/a/127499/22728
+ * @since  1.0.0
+ *
+ * @link   http://ottopress.com/2009/wordpress-settings-api-tutorial/
+ * @link   http://www.chipbennett.net/2011/02/17/incorporating-the-settings-api-in-wordpress-themes/?all=1
+ * @link   http://wordpress.stackexchange.com/a/127499/22728
  * -----------------------------------------------------------------------
  */
 function ns_settings_page() {
@@ -33,7 +35,11 @@ function ns_settings_page() {
 }
 add_action( 'admin_menu', 'ns_settings_page' );
 
-
+/**
+ * Register the Settings Options.
+ * @return void
+ * ...
+ */
 function nanosupport_settings_options_init(){
 
     /**
@@ -150,11 +156,12 @@ function nanosupport_settings_options_init(){
         add_settings_field(
             'email',                                    // ID*
             __( 'Email', 'nanosupport' ),               // Title*
-            'ns_email_field',                           // Callback Function*
+            'ns_notification_email_field',              // Callback Function*
             'nanosupport_email_settings',               // Page (Plugin)*
             'nanosupport_email'                         // Section
         );
 }
+
 add_action( 'admin_init', 'nanosupport_settings_options_init' );
 
 
@@ -169,8 +176,10 @@ require_once 'ns-settings-emails-fields.php';
 
 
 /**
- * THE SETTINGS PAGE
+ * Callback: Settings Page
+ * 
  * Showing the complete Settings page.
+ * ...
  */
 function nanosupport_settings_page_callback() {
     global $plugin_page; ?>
@@ -211,10 +220,12 @@ function nanosupport_settings_page_callback() {
                     <?php settings_fields('nanosupport_settings'); ?>
                     <?php do_settings_sections('nanosupport_settings'); ?>
 
+                    <?php submit_button(); ?>
+
                 </div> <!-- /.nanosupport-left-column -->
                 <div class="nanosupport-right-column">
 
-                    <?php printf( __( '<strong>NanoSupport</strong> is a complete package for a front-end Support Ticketing System in a complete WordPress\' way. It has a rich back end for ticket maintenance and management.<hr><a href="%s"><strong>nano</strong>designs</a>', 'nanosupport' ), 'http://nanodesignsbd.com/' ); ?>
+                    <?php require_once '__nanodesigns.php'; ?>
 
                 </div> <!-- /.nanosupport-right-column -->
                 <div class="clearfix"></div>
@@ -226,10 +237,12 @@ function nanosupport_settings_page_callback() {
                     <?php settings_fields('nanosupport_knowledgebase_settings'); ?>
                     <?php do_settings_sections('nanosupport_knowledgebase_settings'); ?>
 
+                    <?php submit_button(); ?>
+
                 </div> <!-- /.nanosupport-left-column -->
                 <div class="nanosupport-right-column">
                     
-                    <?php printf( __( '<strong>NanoSupport</strong> is a complete package for a front-end Support Ticketing System in a complete WordPress\' way. It has a rich back end for ticket maintenance and management.<hr><a href="%s"><strong>nano</strong>designs</a>', 'nanosupport' ), 'http://nanodesignsbd.com/' ); ?>
+                    <?php require_once '__nanodesigns.php'; ?>
 
                 </div> <!-- /.nanosupport-right-column -->
                 <div class="clearfix"></div>
@@ -241,17 +254,17 @@ function nanosupport_settings_page_callback() {
                     <?php settings_fields('nanosupport_email_settings'); ?>
                     <?php do_settings_sections('nanosupport_email_settings'); ?>
 
+                    <?php submit_button(); ?>
+
                 </div> <!-- /.nanosupport-left-column -->
                 <div class="nanosupport-right-column">
                     
-                    <?php printf( __( '<strong>NanoSupport</strong> is a complete package for a front-end Support Ticketing System in a complete WordPress\' way. It has a rich back end for ticket maintenance and management.<hr><a href="%s"><strong>nano</strong>designs</a>', 'nanosupport' ), 'http://nanodesignsbd.com/' ); ?>
+                    <?php require_once '__nanodesigns.php'; ?>
 
                 </div> <!-- /.nanosupport-right-column -->
                 <div class="clearfix"></div>
 
             <?php } //endif ?>
-
-            <?php submit_button(); ?>
 
         </form>
 

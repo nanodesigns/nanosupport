@@ -4,7 +4,9 @@
  *
  * All the responsible functions for emailing for NanoSupport.
  *
- * @package NanoSupport
+ * @author      nanodesigns
+ * @category    Email
+ * @package     NanoSupport
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

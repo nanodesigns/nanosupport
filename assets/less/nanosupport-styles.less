@@ -118,7 +118,8 @@ body{
   }
 }
 
-.ticket-separator{
+.ticket-separator,
+#knowledgebase-entries .ticket-separator{
   position: relative;
   margin: 30px auto 30px auto;
   text-align: center;
@@ -155,6 +156,11 @@ body{
   border-style: solid;
   border-color: #e1e1e1;
   margin-bottom: 20px;
+  -webkit-transition: all 0.5s ease;
+     -moz-transition: all 0.5s ease;
+       -o-transition: all 0.5s ease;
+      -ms-transition: all 0.5s ease;
+          transition: all 0.5s ease;
 
   .ticket-id{
     color: #666;
@@ -162,6 +168,19 @@ body{
   .text-blocks{
     margin-bottom: 10px;
     font-size: 14px;
+  }
+
+  &:hover{
+    background-color: #ededed;
+    -webkit-box-shadow: 0 0 25px rgba(0,0,0,0.5);
+     -moz-box-shadow: 0 0 25px rgba(0,0,0,0.5);
+          box-shadow: 0 0 25px rgba(0,0,0,0.5);
+    -webkit-transition: all 0.5s ease;
+       -moz-transition: all 0.5s ease;
+         -o-transition: all 0.5s ease;
+        -ms-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+    border-color: #bbb;
   }
 }
 @media (min-width:401px){

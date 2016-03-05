@@ -13,10 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Callback: Knowledgebase Settings Page
 function ns_knowledgebase_settings_section_callback() {
-    //echo "Knowledgebase section";
+    echo '<p>'. __( 'Knowledgebase is to store all the Frequently Asked Questions (FAQs) for public access to learn/research deeply about your products/services.', 'nanosupport' ) .'</p>';
 }
 
+// Knowledgebase Settings : Field 1 : Knowledgebase
 function ns_knowledgebase_page_field() {
     $options = get_option('nanosupport_knowledgebase_settings');
 
@@ -44,7 +46,7 @@ function ns_knowledgebase_page_field() {
     endif;
 }
 
-
+// Knowledgebase Settings : Field 2 : Featured Categories
 function ns_doc_terms_field() {
     $options        = get_option('nanosupport_knowledgebase_settings');
     $ns_doc_terms   = get_terms( 'nanodoc_category', array( 'hide_empty' => false ) );
@@ -65,6 +67,7 @@ function ns_doc_terms_field() {
     endif;
 }
 
+// Knowledgebase Settings : Field 3 : Posts per Category
 function ns_doc_ppc_field() {
     $options        = get_option('nanosupport_knowledgebase_settings');
 

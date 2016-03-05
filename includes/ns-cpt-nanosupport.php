@@ -5,7 +5,9 @@
  * Functions to initiate the Custom Post Type 'nanosupport'
  * and Taxonomy 'nanosupport_departments'.
  *
- * @package NanoSupport
+ * @author      nanodesigns
+ * @category    Tickets
+ * @package     NanoSupport
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,9 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CPT
+ * Register CPT Tickets
  * 
- * Creating the 'nanosupport' CPT for tickets.
+ * Creating the custom post type 'nanosupport' for tickets.
+ *
+ * @since  1.0.0
  * 
  * @return array to register a post type.
  * -----------------------------------------------------------------------
@@ -85,11 +89,17 @@ function ns_register_cpt_nanosupport() {
     }
 
 }
+
 add_action( 'init', 'ns_register_cpt_nanosupport' );
 
 
 /**
  * Declare custom columns
+ *
+ * Made custom columns specific to the Support Tickets.
+ *
+ * @since  1.0.0
+ * 
  * @param  array $columns Default columns.
  * @return array          Merged with new columns.
  * -----------------------------------------------------------------------
@@ -102,12 +112,18 @@ function ns_set_custom_columns( $columns ) {
             'last_response'     => __( 'Last Response by', 'nanosupport' )
         );
     return array_merge( $columns, $new_columns );
-} 
+}
+
 add_filter( 'manage_nanosupport_posts_columns', 'ns_set_custom_columns' );
 
 
 /**
- * Populate columns with respective contents.
+ * Populate columns with contents
+ *
+ * Populate support ticket columns with respective contents.
+ *
+ * @since  1.0.0
+ * 
  * @param  array $column    Columns.
  * @param  integer $post_id Each of the post ID.
  * @return array            Columns with information.
@@ -118,15 +134,14 @@ function ns_populate_custom_columns( $column, $post_id ) {
     switch ( $column ) {
         case 'ticket_priority' :
             $ticket_priority = $ticket_control ? $ticket_control['priority'] : false;
-            if( $ticket_priority && 'low' === $ticket_priority ) {
+            if( $ticket_priority && 'low' === $ticket_priority )
                 echo '<strong>'. __( 'Low', 'nanosupport' ) .'</strong>';
-            } else if( $ticket_priority && 'medium' === $ticket_priority ) {
+            else if( $ticket_priority && 'medium' === $ticket_priority )
                 echo '<strong class="text-info">' , __( 'Medium', 'nanosupport' ) , '</strong>';
-            } else if( $ticket_priority && 'high' === $ticket_priority ) {
+            else if( $ticket_priority && 'high' === $ticket_priority )
                 echo '<strong class="text-warning">' , __( 'High', 'nanosupport' ) , '</strong>';
-            } else if( $ticket_priority && 'critical' === $ticket_priority ) {
+            else if( $ticket_priority && 'critical' === $ticket_priority )
                 echo '<strong class="text-danger">' , __( 'Critical', 'nanosupport' ) , '</strong>';
-            }
             break;
 
         case 'ticket_responses' :
@@ -169,12 +184,21 @@ function ns_populate_custom_columns( $column, $post_id ) {
             break;
     }
 }
+
 add_action( 'manage_nanosupport_posts_custom_column' , 'ns_populate_custom_columns', 10, 2 );
 
 
 /**
  * NS Ticket Control Meta Fields.
- * hooked into: 'post_submitbox_misc_actions'
+ *
+ * Ticket controlling elements in a custom meta box, hooked on to the
+ * admin edit post page, on the side meta widgets.
+ *
+ * @since  1.0.0
+ * 
+ * hooked: 'post_submitbox_misc_actions' (10)
+ *
+ * @return  void
  * -----------------------------------------------------------------------
  */
 function ns_control_specifics() {
@@ -266,11 +290,18 @@ function ns_control_specifics() {
 
     endif;
 }
+
 add_action('post_submitbox_misc_actions', 'ns_control_specifics');
 
 
 /**
- * Save NS Ticket Control Meta Fields.
+ * Save NS Ticket Control Meta Fields
+ *
+ * Saving the NanoSupport Ticket Control meta fields' values to the
+ * postmeta table.
+ *
+ * @since  1.0.0
+ * 
  * @param  integer $post_id Ticket Post ID.
  * -----------------------------------------------------------------------
  */
@@ -315,6 +346,8 @@ add_action( 'new_to_publish',   'ns_save_control_meta_data' );
  * Register Custom Taxonomy
  * 
  * Create Custom Taxonomy 'nanosupport_departments' to sort out the tickets.
+ *
+ * @since  1.0.0
  * 
  * @return array To register the custom taxonomy.
  * -----------------------------------------------------------------------
@@ -356,18 +389,20 @@ function ns_create_nanosupport_taxonomies() {
      *
      * Insert default term 'Support' to the taxonomy 'nanosupport_departments'.
      *
-     * Term: Support
+     * Term: 'support'
+     * ...
      */
     wp_insert_term(
-        'Support', // the term 
-        'nanosupport_departments', // the taxonomy
+        __( 'Support', 'nanosupport' ), // the term 
+        'nanosupport_departments',      // the taxonomy
         array(
-            'description'=> 'Support department is dedicated to provide the necessary support',
+            'description'=> __( 'Support department is dedicated to provide the necessary support', 'nanosupport' ),
             'slug' => 'support'
         )
     );
 
 }
+
 add_action( 'init', 'ns_create_nanosupport_taxonomies', 0 );
 
 
@@ -381,6 +416,8 @@ add_action( 'init', 'ns_create_nanosupport_taxonomies', 0 );
  *
  * @since     2010-09-13
  * @alter     2010-09-14
+ *
+ * @since     1.0.0
  *
  * @license   GPLv2
  * -----------------------------------------------------------------------
@@ -400,4 +437,5 @@ function ns_set_default_object_terms( $post_id, $post ) {
         }
     }
 }
+
 add_action( 'save_post', 'ns_set_default_object_terms', 100, 2 );

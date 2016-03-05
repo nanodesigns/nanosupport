@@ -4,29 +4,14 @@
  * 
  * Functions that are used for Setting up the plugin.
  *
- * @package  NanoSupport
+ * @author      nanodesigns
+ * @category    Core
+ * @package     NanoSupport
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
-
-
-/**
- * Redirect to Settings page
- * 
- * Redirect to Plugin Settings page on Plugin activation.
- * 
- * @param  string $plugin
- * -----------------------------------------------------------------------
- */
-/*function ns_activation_redirect( $plugin ) {
-    if( $plugin == plugin_basename( __FILE__ ) ) {
-        $url = add_query_arg( array( 'post_type' => 'nanosupport', 'page' => 'settings' ), admin_url( '/edit.php' ) );
-        exit( wp_safe_redirect( $url ) );
-    }
-}
-add_action( 'activated_plugin', 'ns_activation_redirect' );*/
 
 
 /**
@@ -40,18 +25,32 @@ function ns_admin_scripts() {
     $screen = get_current_screen();
     if( 'nanosupport' === $screen->post_type || 'nanodoc' === $screen->post_type || 'nanosupport_page_nanosupport-settings' === $screen->base ) {
 
+        wp_enqueue_style( 'ns-admin-styles', NS()->plugin_url() .'/assets/css/nanosupport-admin.css', array(), NS()->version, 'all' );
+		
+        /**
+         * Select2 v4.0.1-rc-1
+         * @link https://github.com/select2/select2/
+         * ...
+         */
+        wp_enqueue_style( 'select2-styles', NS()->plugin_url() .'/assets/css/select2.min.css', array(), '4.0.1-rc-1', 'all' );
+        wp_enqueue_script( 'select2-scripts', NS()->plugin_url() .'/assets/js/select2.min.js', array('jquery'), '4.0.1-rc-1', true );
+
+        /**
+         * NanoSupport Admin-specific JavaScripts
+         * Compiled and minified. Depends on 'jQuery'.
+         * ...
+         */
+        wp_enqueue_script( 'ns-admin-scripts', NS()->plugin_url() .'/assets/js/nanosupport-admin.min.js', array('jquery'), NS()->version, true );
+
+        /**
+         * NanoSupport Admin-specific Localize Scripts
+         * Translation-ready JS strings and other dynamic parameters.
+         * ...
+         */
         global $current_user;
         
         $date_time_row          = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
         $date_time_formatted    = date( 'd F Y h:i:s A - l', current_time( 'timestamp' ) );
-
-        wp_enqueue_style( 'ns-admin-styles', NS()->plugin_url() .'/assets/css/nanosupport-admin.css', array(), NS()->version, 'all' );
-		
-        /** Select2 **/
-        wp_enqueue_style( 'select2-styles', NS()->plugin_url() .'/assets/css/select2.min.css', array(), '4.0.1-rc-1', 'all' );
-        wp_enqueue_script( 'select2-scripts', NS()->plugin_url() .'/assets/js/select2.min.js', array('jquery'), '4.0.1-rc-1', true );
-
-        wp_enqueue_script( 'ns-admin-scripts', NS()->plugin_url() .'/assets/js/nanosupport-admin.min.js', array('jquery'), NS()->version, true );
 
 		wp_localize_script(
     		'ns-admin-scripts',
@@ -77,6 +76,7 @@ function ns_admin_scripts() {
      */
     wp_enqueue_style( 'nanosupport-icon-styles', NS()->plugin_url() .'/assets/css/nanosupport-icon-styles.css', array(), NS()->version, 'all' );
 }
+
 add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
 
 
@@ -145,6 +145,7 @@ function ns_scripts() {
 
     endif;
 }
+
 add_action( 'wp_enqueue_scripts', 'ns_scripts' );
 
 
@@ -152,6 +153,8 @@ add_action( 'wp_enqueue_scripts', 'ns_scripts' );
  * Support Agent User Meta Field
  * 
  * Support Agent selection user meta field.
+ *
+ * @since  1.0.0
  * 
  * @param  obj $user Get the user data from WP_User object.
  * -----------------------------------------------------------------------
@@ -173,12 +176,17 @@ function ns_user_fields( $user ) { ?>
         </table>
 <?php
 }
+
 add_action( 'show_user_profile', 'ns_user_fields' );
 add_action( 'edit_user_profile', 'ns_user_fields' );
 
 
 /**
  * Saving the user meta fields
+ *
+ * Saving the user agent checkmarking choice to the user meta table.
+ *
+ * @since  1.0.0
  * 
  * @param  integer $user_id User id.
  * -----------------------------------------------------------------------
@@ -186,16 +194,20 @@ add_action( 'edit_user_profile', 'ns_user_fields' );
 function ns_saving_user_fields( $user_id ) {
     update_user_meta( $user_id, 'ns_make_agent', intval( $_POST['ns_make_agent'] ) );
 }
+
 add_action( 'personal_options_update', 	'ns_saving_user_fields' );
 add_action( 'edit_user_profile_update', 'ns_saving_user_fields' );
 
 
 /**
- * Force Post Status to Private.
+ * Force Post Status to Private
  *
  * Force all the ticket post status default to 'Private' instead of 'Publish'.
+ * As to make tickets outstand from Knowledgebase (public) docs domain.
  *
  * @link http://wpsnipp.com/index.php/functions-php/force-custom-post-type-to-be-private/
+ *
+ * @since  1.0.0
  * 
  * @param  object $post Post object.
  * @return object       Modified post object.
@@ -209,7 +221,42 @@ function ns_force_ticket_post_status_to_private( $post ) {
     
     return $post;
 }
+
 add_filter( 'wp_insert_post_data', 'ns_force_ticket_post_status_to_private' );
+
+
+/**
+ * Template loader
+ *
+ * @since  1.0.0
+ * 
+ * @param  string $template The template that is called.
+ * @return string           Template, that is thrown per modification.
+ * -----------------------------------------------------------------------
+ */
+function ns_template_loader( $template ) {
+    $find = array('nano-support.php');
+    $file = '';
+
+    if ( is_single() && 'nanosupport' === get_post_type() ) {
+
+        $file   = 'single-nanosupport.php';
+        $find[] = $file;
+        $find[] = NS()->template_path() . $file;
+
+    }
+
+    if ( $file ) {
+        $template = locate_template( array_unique( $find ) );
+        if ( ! $template ) {
+            $template = NS()->plugin_path() .'/templates/'. $file;
+        }
+    }
+
+    return $template;
+}
+
+add_filter( 'template_include', 'ns_template_loader' );
 
 
 if ( ! function_exists( 'ns_content' ) ) {
@@ -244,7 +291,7 @@ if ( ! function_exists( 'ns_content' ) ) {
 
                     <?php endwhile; // end of the loop. ?>
 
-                <?php _e('Ticket has no content'); ?>
+                <?php _e( 'Ticket has no content', 'nanosupport' ); ?>
 
             <?php endif;
 
@@ -253,34 +300,14 @@ if ( ! function_exists( 'ns_content' ) ) {
 }
 
 
-function ns_template_loader( $template ) {
-    $find = array('nano-support.php');
-    $file = '';
-
-    if ( is_single() && get_post_type() == 'nanosupport' ) {
-
-        $file   = 'single-nanosupport.php';
-        $find[] = $file;
-        $find[] = NS()->template_path() . $file;
-
-    }
-
-    if ( $file ) {
-        $template       = locate_template( array_unique( $find ) );
-        if ( ! $template ) {
-            $template = NS()->plugin_path() .'/templates/'. $file;
-        }
-    }
-
-    return $template;
-}
-add_filter( 'template_include', 'ns_template_loader' );
-
-
 /**
  * Trim "Private" & "Protected" from Title
  * 
- * Trim the word "Private" and "Protected" from Title of CPT 'nanosupport'.
+ * WordPress displays these terms beside post titles on the front-end.
+ * We don't want to show them on our tickets. So, trim the word "Private"
+ * and "Protected" from Title of CPT 'nanosupport'.
+ *
+ * @since  1.0.0
  * 
  * @param  string $title Post Title.
  * @return string        Post Title trimmed.
@@ -306,62 +333,44 @@ function ns_the_title_trim( $title ) {
 
     return $title;
 }
+
 add_filter( 'the_title', 'ns_the_title_trim' );
 
 
 /**
- * Control Search result
+ * Redirect visitors from Support Desk
+ *
+ * Redirect non-logged-in users to the Knowledgebase, from the support desk.
+ * Only the logged in users are allowed to see the Support Desk page.
+ *
+ * @since  1.0.0
  * 
- * Control search result for site search and knowledgebase search.
- * 
- * @param  object $query Default WordPress Query object.
- * @return object        Modified Query object.
+ * @return void
  * -----------------------------------------------------------------------
  */
-function ns_default_search_filter( $query ) {
-    if( is_admin() )
-        return $query;
-
-    if( ! $query->is_main_query() )
-        return $query;
-
-    if( ! is_search() )
-        return $query;
-
-    global $wp_post_types;
-
-    if( isset( $_REQUEST['knowledgebase'] ) ) :
-        //Knowledgebase search
-
-        //excluding default post types, we don't need to show
-        $wp_post_types['page']->exclude_from_search         = true;
-        $wp_post_types['post']->exclude_from_search         = true;
-        $wp_post_types['attachment']->exclude_from_search   = true;
-
-    else :
-        //General search
-        $wp_post_types['nanodoc']->exclude_from_search      = true;
-
-    endif;
-}
-add_filter( 'pre_get_posts', 'ns_default_search_filter' );
-
-
 function ns_redirect_user_to_correct_place() {
     //Get the NanoSupport Settings from Database
-    $ns_general_settings = get_option( 'nanosupport_settings' );
+    $ns_general_settings    = get_option( 'nanosupport_settings' );
+    $ns_kb_settings         = get_option( 'nanosupport_knowledgebase_settings' );
     
     if( ! is_user_logged_in() && is_page($ns_general_settings['support_desk']) ) {
-        // /knowledgebase?from=sd
-        wp_redirect( add_query_arg( 'from', 'sd', get_permalink(get_page_by_path('knowledgebase')) ) );
+        //i.e. http://example.com/knowledgebase?from=sd
+        wp_redirect( add_query_arg( 'from', 'sd', get_permalink($ns_kb_settings['page']) ) );
         exit();
     }
 }
+
 add_action( 'pre_get_posts', 'ns_redirect_user_to_correct_place' );
 
 
 /**
  * Add class to Ticket Edit button
+ *
+ * Add some bootstrap classes to the WP-default post edit link on the
+ * front end to match the UI.
+ *
+ * @since  1.0.0
+ * 
  * @param  string $output Default link.
  * @return string         Modified link with modified class.
  * -----------------------------------------------------------------------
@@ -378,4 +387,5 @@ function ns_ticket_edit_post_link( $output ) {
 
     return $output;
 }
+
 add_filter( 'edit_post_link', 'ns_ticket_edit_post_link' );

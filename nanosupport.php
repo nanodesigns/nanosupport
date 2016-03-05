@@ -7,7 +7,7 @@
  * @wordpress-plugin
  * Plugin Name:       NanoSupport
  * Plugin URI:        http://ns.nanodesignsbd.com/
- * Description:       Create a fully featured Support Center within your WordPress environment without any third party software
+ * Description:       Create a fully featured Support Center within your WordPress environment without any third party software, completely FREE
  * Version:           1.0.0
  * Author:            nanodesigns
  * Author URI:        http://nanodesignsbd.com/
@@ -154,6 +154,10 @@ add_action( 'plugins_loaded', 'ns_cross_check_things_on_activation' );
  * Initiate the plugin
  * 
  * Register all the necessary things when the plugin get activated.
+ *
+ * @since   1.0.0
+ *
+ * @return  void
  * -----------------------------------------------------------------------
  */
 function nanosupport_activate() {
@@ -214,6 +218,31 @@ add_action( 'init', 'ns_load_textdomain', 1 );
 
 /**
  * -----------------------------------------------------------------------
+ * Add Settings link on plugin page
+ *
+ * Add a 'Settings' link to the Admin Plugin page after the activation
+ * of the plugin. So the user can easily get to the Settings page, and
+ * can setup the plugin as necessary.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $links  Links on the plugin page per plugin.
+ * @return array         Modified with our link.
+ * -----------------------------------------------------------------------
+ */
+function ns_plugin_settings_link( $links ) {
+  //$settings_link = '/wp-admin/edit.php?post_type=nanosupport&page=nanosupport-settings';
+  $settings_link = '<a href="'. esc_url( admin_url( 'edit.php?post_type=nanosupport&page=nanosupport-settings' ) ) .'" title="'. esc_attr__( 'Set the NanoSupport settings', 'nanosupport' ) .'">'. __( 'Settings', 'nanosupport' ) .'</a>';
+
+  array_unshift($links, $settings_link); //make the settings link be first item
+  return $links;
+}
+
+add_filter( 'plugin_action_links_'. plugin_basename(__FILE__), 'ns_plugin_settings_link' );
+
+
+/**
+ * -----------------------------------------------------------------------
  * Require additional files
  *
  * Making all the features decentralized for feture-specific
@@ -222,21 +251,32 @@ add_action( 'init', 'ns_load_textdomain', 1 );
  * @package NanoSupport
  * -----------------------------------------------------------------------
  */
+/** Core Functions **/
 require_once 'includes/ns-core-functions.php';
+/** Functions specific to setup the environments **/
 require_once 'includes/ns-setup.php';
 
+/** CPT Tickets **/
 require_once 'includes/ns-cpt-nanosupport.php';
+/** CPT Knowledgebase **/
 require_once 'includes/ns-cpt-knowledgebase.php';
+/** Metaboxes: Responses **/
 require_once 'includes/ns-metaboxes-responses.php';
+/** Miscellaneous functions **/
 require_once 'includes/ns-functions.php';
-require_once 'includes/ns-hooked-functions.php';
 
+/** Handling emails **/
 require_once 'includes/ns-email-functions.php';
 
+/** Shortcode: Support Desk **/
 require_once 'includes/shortcodes/ns-support-desk.php';
+/** Shortcode: Submit Ticket **/
 require_once 'includes/shortcodes/ns-submit-ticket.php';
+/** Shortcode: Knowledgebase **/
 require_once 'includes/shortcodes/ns-knowledgebase.php';
 
+/** Helper functions **/
 require_once 'includes/ns-helper-functions.php';
 
-require_once 'includes/admin-settings/ns-settings.php';
+/** Settings API **/
+require_once 'includes/admin/ns-settings.php';
