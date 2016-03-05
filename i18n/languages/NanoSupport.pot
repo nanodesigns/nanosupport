@@ -1,16 +1,12 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR nanodesigns
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# Copyright (C) 2016 nanodesigns
+# This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
 "Project-Id-Version: NanoSupport 1.0.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-05 23:03+0600\n"
-"PO-Revision-Date: 2016-03-05 23:03+0600\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: nanodesigns <info@nanodesignsbd.com>\n"
+"POT-Creation-Date: 2016-03-06 02:28+0100\n"
+"PO-Revision-Date: 2016-03-06 02:23+0600\n"
+"Last-Translator: Mayeenul Islam <wz.islam@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -27,11 +23,11 @@ msgid ""
 "Consider <a href=\"%s\">upgrading WordPress</a>."
 msgstr ""
 
-#: nanosupport.php:253
+#: nanosupport.php:259
 msgid "Set the NanoSupport settings"
 msgstr ""
 
-#: nanosupport.php:253 includes/admin/ns-settings.php:29
+#: nanosupport.php:259 includes/admin/ns-settings.php:29
 #: includes/admin/ns-settings.php:30
 msgid "Settings"
 msgstr ""
@@ -485,17 +481,17 @@ msgid ""
 "in the list, create one with the shortcode [nanosupport_knowledgebase] in it."
 msgstr ""
 
-#: includes/admin/ns-settings-knowledgebase-fields.php:58
+#: includes/admin/ns-settings-knowledgebase-fields.php:56
 msgid "Select Categories"
 msgstr ""
 
-#: includes/admin/ns-settings-knowledgebase-fields.php:65
+#: includes/admin/ns-settings-knowledgebase-fields.php:63
 msgid ""
 "Choose the Knowledgebase categories you want to promote to the knowledgebase "
 "head section."
 msgstr ""
 
-#: includes/admin/ns-settings-knowledgebase-fields.php:79
+#: includes/admin/ns-settings-knowledgebase-fields.php:75
 msgid ""
 "Choose the number of entries to display per Knowledgebase category. Default "
 "is Settings > Reading > Blog pages show at most."
@@ -593,16 +589,21 @@ msgid ""
 "have no permission to view any ticket."
 msgstr ""
 
-#: includes/shortcodes/ns-knowledgebase.php:120
+#: includes/shortcodes/ns-knowledgebase.php:126
 msgid "Documentation"
 msgstr ""
 
-#: includes/shortcodes/ns-knowledgebase.php:192
+#: includes/shortcodes/ns-knowledgebase.php:198
 msgid "All entries &raquo;"
 msgstr ""
 
-#: includes/shortcodes/ns-knowledgebase.php:198
+#: includes/shortcodes/ns-knowledgebase.php:204
 msgid "No Knowledgebase entries till now to display in this category."
+msgstr ""
+
+#: includes/shortcodes/ns-knowledgebase.php:217
+msgid ""
+"Nothing to display on Knowledgebase. Please add some documentation first."
 msgstr ""
 
 #: includes/shortcodes/ns-submit-ticket.php:60

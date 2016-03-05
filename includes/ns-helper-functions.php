@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return integer         ID of the page that is created or already exists.
  * -----------------------------------------------------------------------
  */
-function ns_create_necessary_page( $title, $slug, $content ) {
+function ns_create_page( $title, $slug, $content ) {
 
     global $current_user;
 

@@ -162,25 +162,25 @@ add_action( 'plugins_loaded', 'ns_cross_check_things_on_activation' );
  */
 function nanosupport_activate() {
 
-	$support_desk_page_id = ns_create_necessary_page(
-                                    'Support Desk',                 //page title
-                                    'support-desk',                 //page slug
-                                    '[nanosupport_desk]'            //content (shortcode)
-                                );
+	$support_desk_page_id = ns_create_page(
+                                'Support Desk',                 //page title
+                                'support-desk',                 //page slug
+                                '[nanosupport_desk]'            //content (shortcode)
+                            );
 
     //create another page to show support ticket-taking form to get the support tickets
-    $submit_ticket_page_id = ns_create_necessary_page(
-                                    'Submit Ticket',                //page title
-                                    'submit-ticket',                //page slug
-                                    '[nanosupport_submit_ticket]'   //content (shortcode)
-                                );
+    $submit_ticket_page_id = ns_create_page(
+                                'Submit Ticket',                //page title
+                                'submit-ticket',                //page slug
+                                '[nanosupport_submit_ticket]'   //content (shortcode)
+                            );
 
     //create another page to show the knowledgebase
-    $knowledgebase_page_id = ns_create_necessary_page(
-                                    'Knowledgebase',                //page title
-                                    'knowledgebase',                //page slug
-                                    '[nanosupport_knowledgebase]'   //content (shortcode)
-                                );
+    $knowledgebase_page_id = ns_create_page(
+                                'Knowledgebase',                //page title
+                                'knowledgebase',                //page slug
+                                '[nanosupport_knowledgebase]'   //content (shortcode)
+                            );
 
     /**
      * Set up the default Settings
@@ -208,6 +208,12 @@ function nanosupport_activate() {
             'notification_email'	=> get_option( 'admin_email' )
         );
     update_option( 'nanosupport_email_settings', $ns_email_settings );
+
+    /**
+     * Update db version to current
+     */
+    delete_option( 'nanosupport_version' );
+	add_option( 'nanosupport_version', NS()->version );
     
 }
 
