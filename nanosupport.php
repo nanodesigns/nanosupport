@@ -182,14 +182,32 @@ function nanosupport_activate() {
                                     '[nanosupport_knowledgebase]'   //content (shortcode)
                                 );
 
-    //Update Options table with basic settings
-    /*$nst_basic_options = array(
-            'nst_bootstrap_check'   => 1,
-            'support_desk'          => $support_desk_page_id,
-            'submit_ticket'         => $submit_ticket_page_id
+    /**
+     * Set up the default Settings
+     * ...
+     */
+    
+    // General Settings
+    $ns_gen_settings = array(
+            'bootstrap'   	=> 1,
+            'support_desk'	=> $support_desk_page_id,
+            'submit_ticket'	=> $submit_ticket_page_id
         );
+    update_option( 'nanosupport_settings', $ns_gen_settings );
 
-    update_option( 'nst_basic_options', $nst_basic_options );*/
+    // Knowledgebase settings
+    $ns_kb_settings = array(
+            'page'   		=> $knowledgebase_page_id,
+            'terms'			=> array(''),
+            'ppc'			=> get_option( 'posts_per_page' )
+        );
+    update_option( 'nanosupport_knowledgebase_settings', $ns_kb_settings );
+
+    // Email settings
+    $ns_email_settings = array(
+            'notification_email'	=> get_option( 'admin_email' )
+        );
+    update_option( 'nanosupport_email_settings', $ns_email_settings );
     
 }
 
