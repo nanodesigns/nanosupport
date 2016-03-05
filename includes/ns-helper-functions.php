@@ -158,7 +158,7 @@ function ns_bootstrap_pagination( $query ) {
 
 			if( $pages ) {
 				$paged = ( get_query_var( 'paged' ) ) ? absint( get_query_var( 'paged' ) ) : 1;
-				echo '<ul class="pagination pagination-sm">';
+				echo '<ul class="bs-pagination pagination-sm">';
 				foreach ( $pages as $page ) {
 					echo '<li>'. $page .'</li>';
 				}

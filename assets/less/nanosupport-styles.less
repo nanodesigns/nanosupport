@@ -333,10 +333,6 @@ article.ns-single.type-nanosupport{
   border-top-color: #ccc;
 }
 
-
-/** Bootstrap Additionals */
-.small,small{font-size:85%}.mark,mark{padding:.2em;background-color:#fcf8e3}.text-left{text-align:left}.text-right{text-align:right}.text-center{text-align:center}.text-justify{text-align:justify}.text-nowrap{white-space:nowrap}.text-lowercase{text-transform:lowercase}.text-uppercase{text-transform:uppercase}.text-capitalize{text-transform:capitalize}.text-muted{color:#777}.text-primary{color:#337ab7}a.text-primary:hover{color:#286090}.text-success{color:#3c763d}a.text-success:hover{color:#2b542c}.text-info{color:#31708f}a.text-info:hover{color:#245269}.text-warning{color:#8a6d3b}a.text-warning:hover{color:#66512c}.text-danger{color:#a94442}a.text-danger:hover{color:#843534}
-
 /* Pagination */
 .ns-pagination{
 	text-align: center;
@@ -368,7 +364,13 @@ article.ns-single.type-nanosupport{
 		color: #fff;
 		padding: 5px 10px;
 	}
+  .bs-pagination a{
+    box-shadow: 0 0 0 0 transparent;
+  }
 }
+
+/* work-around on bootstrap */
+.bs-pagination{display:inline-block;padding-left:0;margin:20px 0;border-radius:4px}.bs-pagination>li{display:inline}.bs-pagination>li>a,.bs-pagination>li>span{position:relative;float:left;padding:6px 12px;line-height:1.42857143;text-decoration:none;color:#337ab7;background-color:#fff;border:1px solid #ddd;margin-left:-1px}.bs-pagination>li:first-child>a,.bs-pagination>li:first-child>span{margin-left:0;border-bottom-left-radius:4px;border-top-left-radius:4px}.bs-pagination>li:last-child>a,.bs-pagination>li:last-child>span{border-bottom-right-radius:4px;border-top-right-radius:4px}.bs-pagination>li>a:hover,.bs-pagination>li>span:hover,.bs-pagination>li>a:focus,.bs-pagination>li>span:focus{z-index:2;color:#23527c;background-color:#eee;border-color:#ddd}.bs-pagination>.active>a,.bs-pagination>.active>span,.bs-pagination>.active>a:hover,.bs-pagination>.active>span:hover,.bs-pagination>.active>a:focus,.bs-pagination>.active>span:focus{z-index:3;color:#fff;background-color:#337ab7;border-color:#337ab7;cursor:default}.bs-pagination>.disabled>span,.bs-pagination>.disabled>span:hover,.bs-pagination>.disabled>span:focus,.bs-pagination>.disabled>a,.bs-pagination>.disabled>a:hover,.bs-pagination>.disabled>a:focus{color:#777;background-color:#fff;border-color:#ddd;cursor:not-allowed}.bs-pagination-lg>li>a,.bs-pagination-lg>li>span{padding:10px 16px;font-size:18px;line-height:1.3333333}.bs-pagination-lg>li:first-child>a,.bs-pagination-lg>li:first-child>span{border-bottom-left-radius:6px;border-top-left-radius:6px}.bs-pagination-lg>li:last-child>a,.bs-pagination-lg>li:last-child>span{border-bottom-right-radius:6px;border-top-right-radius:6px}.bs-pagination-sm>li>a,.bs-pagination-sm>li>span{padding:5px 10px;font-size:12px;line-height:1.5}.bs-pagination-sm>li:first-child>a,.bs-pagination-sm>li:first-child>span{border-bottom-left-radius:3px;border-top-left-radius:3px}.bs-pagination-sm>li:last-child>a,.bs-pagination-sm>li:last-child>span{border-bottom-right-radius:3px;border-top-right-radius:3px}
 
 .btn [class^="ns-icon-"]:before,
 .btn [class*=" ns-icon-"]:before{
