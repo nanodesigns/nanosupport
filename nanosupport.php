@@ -162,6 +162,7 @@ add_action( 'plugins_loaded', 'ns_cross_check_things_on_activation' );
  */
 function nanosupport_activate() {
 
+    //create a page to display all the tickets or my tickets
 	$support_desk_page_id = ns_create_page(
                                 'Support Desk',                 //page title
                                 'support-desk',                 //page slug
@@ -211,9 +212,24 @@ function nanosupport_activate() {
 
     /**
      * Update db version to current
+     * @since  1.0.0
+     * ...
      */
     delete_option( 'nanosupport_version' );
 	add_option( 'nanosupport_version', NS()->version );
+
+    /**
+     * Flush the rewrite rules, soft
+     * 
+     * To activate custom post types' single templates,
+     * we are flushing the rewrite rules, once.
+     *
+     * @since  1.0.0
+     * ...
+     */
+    ns_register_cpt_nanosupport();
+    ns_register_cpt_nanodoc();
+    flush_rewrite_rules( false );
     
 }
 

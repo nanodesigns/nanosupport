@@ -76,18 +76,6 @@ function ns_register_cpt_nanosupport() {
     if( !post_type_exists( 'nanosupport' ) )
         register_post_type( 'nanosupport', $args );
 
-    /**
-     * To activate CPT Single page
-     * @author  Bainternet
-     * @link http://en.bainternet.info/2011/custom-post-type-getting-404-on-permalinks
-     * ---
-     */
-    $set = get_option( 'post_type_rules_flased_nanosupport' );
-    if ( $set !== true ){
-		flush_rewrite_rules( false );
-		update_option( 'post_type_rules_flased_nanosupport', true );
-    }
-
 }
 
 add_action( 'init', 'ns_register_cpt_nanosupport' );

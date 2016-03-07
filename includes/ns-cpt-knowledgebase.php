@@ -75,18 +75,6 @@ function ns_register_cpt_nanodoc() {
     if( !post_type_exists( 'nanodoc' ) )
         register_post_type( 'nanodoc', $args );
 
-    /**
-     * To activate CPT Single page
-     * @author  Bainternet
-     * @link http://en.bainternet.info/2011/custom-post-type-getting-404-on-permalinks
-     * ---
-     */
-    $set = get_option( 'post_type_rules_flased_nanodoc' );
-    if ( $set !== true ){
-		flush_rewrite_rules( false );
-		update_option( 'post_type_rules_flased_nanodoc', true );
-    }
-
 }
 
 add_action( 'init', 'ns_register_cpt_nanodoc' );

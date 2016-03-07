@@ -65,14 +65,17 @@ foreach ( array( 'nanosupport_departments', 'nanodoc_category' ) as $taxonomy ) 
 $wpdb->delete( $wpdb->usermeta, array( 'meta_key' => 'ns_make_agent' ), array( '%s' ) );
 
 /**
+ * Flush the rewrite rules once again
+ */
+flush_rewrite_rules();
+
+/**
  * Delete all the options
  */
 delete_option( 'nanosupport_version' );
 delete_option( 'nanosupport_settings' );
 delete_option( 'nanosupport_knowledgebase_settings' );
 delete_option( 'nanosupport_email_settings' );
-delete_option( 'post_type_rules_flased_nanosupport' );
-delete_option( 'post_type_rules_flased_nanodoc' );
 
 /* ...? */
 delete_option( 'nanosupport_departments_children' );
