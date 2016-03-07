@@ -82,11 +82,11 @@ function ns_support_desk_page() {
 			if( current_user_can('administrator') || current_user_can('editor') ) {
 				//Admin users
 				$author_id 		= '';
-				$ticket_status 	= array('publish', 'private');
+				$ticket_status 	= array('publish', 'private', 'pending');
 			} else {
 				//General users
 				$author_id		= $current_user->ID;
-				$ticket_status 	= array('private');
+				$ticket_status 	= array('private', 'pending');
 			}
 
 			$posts_per_page = get_option( 'posts_per_page' );
@@ -107,22 +107,32 @@ function ns_support_desk_page() {
 					//Get ticket information
 					$ticket_control = get_post_meta( get_the_ID(), 'ns_control', true );
 
-					$ticket_status = $ticket_control['status'];
+					$ticket_status 	= $ticket_control['status'];
+					$post_status	= get_post_status(get_the_ID());
+					$status_class	= '';
 
-					if( $ticket_status && 'solved' === $ticket_status )
-						$status_class = 'status-solved';
-					elseif( $ticket_status && 'inspection' === $ticket_status )
-						$status_class = 'status-inspection';
-					elseif( $ticket_status && 'open' === $ticket_status )
-						$status_class = 'status-open';
+					if( 'pending' === $post_status )
+						$status_class = 'status-pending';
+					else {
+						if( $ticket_status && 'solved' === $ticket_status )
+							$status_class = 'status-solved';
+						elseif( $ticket_status && 'inspection' === $ticket_status )
+							$status_class = 'status-inspection';
+						elseif( $ticket_status && 'open' === $ticket_status )
+							$status_class = 'status-open';
+					}
 					?>
 					<div class="ticket-cards ns-cards <?php echo esc_attr($status_class); ?>">
 						<div class="row">
 							<div class="col-sm-4 col-xs-12">
 								<h3 class="ticket-head">
-									<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
+									<?php if( 'pending' === $post_status ) : ?>
 										<?php the_title(); ?><small class="ticket-id"> &mdash; <?php printf( '#%s', get_the_ID() ); ?></small>
-									</a>
+									<?php else : ?>
+										<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
+											<?php the_title(); ?><small class="ticket-id"> &mdash; <?php printf( '#%s', get_the_ID() ); ?></small>
+										</a>
+									<?php endif; ?>
 								</h3>
 								<div class="ticket-author">
 									<?php
@@ -183,16 +193,19 @@ function ns_support_desk_page() {
 								<div class="text-blocks">
 									<strong><?php _e('Ticket Status:', 'nanosupport'); ?></strong><br>
 									<?php
-									if( $ticket_status ) {
-										if( 'solved' === $ticket_status ) {
-											$status = '<span class="label label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
-										} else if( 'inspection' === $ticket_status ) {
-											$status = '<span class="label label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
-										} else {
-											$status = '<span class="label label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
+									$status = '';
+									if( 'pending' === $post_status )
+										$status = '<span class="label label-normal">'. __( 'Pending', 'nanosupport' ) .'</span>';
+									else {
+										if( $ticket_status ) {
+											if( 'solved' === $ticket_status ) {
+												$status = '<span class="label label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
+											} else if( 'inspection' === $ticket_status ) {
+												$status = '<span class="label label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
+											} else {
+												$status = '<span class="label label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
+											}
 										}
-									} else {
-										$status = '';
 									}
 
 									echo $status;

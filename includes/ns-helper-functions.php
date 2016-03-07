@@ -127,12 +127,12 @@ function ns_response_exists( $comment_ID ) {
  * 
  * Paginate_links enabled with Bootstrap Pagination.
  *
- * @since  1.0.0
+ * @since   1.0.0
  *
  * @author  Erik Larsson
- * @link http://www.ordinarycoder.com/paginate_links-class-ul-li-bootstrap/
+ * @link    http://www.ordinarycoder.com/paginate_links-class-ul-li-bootstrap/
  * 
- * @param  object $query the query where the pagination is called.
+ * @param   object $query the query where the pagination is called.
  * -----------------------------------------------------------------------
  */
 function ns_bootstrap_pagination( $query ) {
@@ -205,10 +205,10 @@ function ns_get_ticket_departments( $post_id = null ) {
 /**
  * Front end Login Form
  *
- * @since  1.0.0
+ * @since   1.0.0
  * 
- * @author Agbonghama Collins
- * @link http://designmodo.com/wordpress-custom-login/
+ * @author  Agbonghama Collins
+ * @link    http://designmodo.com/wordpress-custom-login/
  * ------------------------------------------------------------------------------
  */
 function nanosupport_login_auth( $username, $password ) {
@@ -237,10 +237,10 @@ function nanosupport_login_auth( $username, $password ) {
  * A customized front-end registration form
  * especially for Nanodesigns Support Ticket front-end registration.
  *
- * @since  1.0.0
+ * @since   1.0.0
  *
  * @author  Agbonghama Collins
- * @link http://designmodo.com/wordpress-custom-registration/
+ * @link    http://designmodo.com/wordpress-custom-registration/
  * ------------------------------------------------------------------------------
  */
 function nanosupport_reg_validate( $ns_reg_username, $ns_reg_email, $ns_reg_password ) {
@@ -281,12 +281,12 @@ function nanosupport_reg_validate( $ns_reg_username, $ns_reg_email, $ns_reg_pass
  * Making onDomain Email from Host URL.
  * 
  * @author  Sisir Kanti Adhikari
- * @link https://github.com/nanodesigns/download-via-email/
+ * @link    https://github.com/nanodesigns/download-via-email/
  *
- * @since  1.0.0
+ * @since   1.0.0
  *
- * @param  string $username Email username. Default: 'noreply'.
- * @return string noreply@yourdomain.dom
+ * @param   string $username Email username. Default: 'noreply'.
+ * @return  string noreply@yourdomain.dom
  * ------------------------------------------------------------------------------
  */
 function nanosupport_ondomain_email( $username = 'noreply' ){

@@ -43,24 +43,22 @@ body{
     a{
       text-decoration: none;
       box-shadow: 0 0 0 rgba(0,0,0,0);
-
-      small{
-        opacity: 0;
-        -webkit-transition: all 0.5s ease;
-           -moz-transition: all 0.5s ease;
-             -o-transition: all 0.5s ease;
-            -ms-transition: all 0.5s ease;
-                transition: all 0.5s ease;
-      }
-
-      &:hover small{
-        opacity: 1;
-        -webkit-transition: all 0.5s ease;
-           -moz-transition: all 0.5s ease;
-             -o-transition: all 0.5s ease;
-            -ms-transition: all 0.5s ease;
-                transition: all 0.5s ease;
-      }
+    }
+    small{
+      opacity: 0;
+      -webkit-transition: all 0.5s ease;
+         -moz-transition: all 0.5s ease;
+           -o-transition: all 0.5s ease;
+          -ms-transition: all 0.5s ease;
+              transition: all 0.5s ease;
+    }
+    &:hover small{
+      opacity: 1;
+      -webkit-transition: all 0.5s ease;
+         -moz-transition: all 0.5s ease;
+           -o-transition: all 0.5s ease;
+          -ms-transition: all 0.5s ease;
+              transition: all 0.5s ease;
     }
   }
 }
@@ -169,6 +167,9 @@ body{
     margin-bottom: 10px;
     font-size: 14px;
   }
+  .label-normal{
+    color: #333;
+  }
 
   &:hover{
     background-color: #ededed;
@@ -195,6 +196,9 @@ body{
     }
     &.status-solved{
       border-left-color: @green;
+    }
+    &.status-pending{
+      border-left-color: #666;
     }
   }
 }

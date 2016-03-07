@@ -315,6 +315,9 @@ if ( ! function_exists( 'ns_content' ) ) {
  */
 function ns_the_title_trim( $title ) {
 
+    if( is_admin() )
+        return $title;
+
     $title = esc_attr($title);
 
     $findthese = array(
