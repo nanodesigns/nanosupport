@@ -69,35 +69,8 @@ function ns_submit_support_ticket() {
 							<?php _e( 'Details', 'nanosupport' ); ?>
 						</label>
 						<div class="col-sm-10">
-							<?php
-							$details_val = !empty($_POST['ns_ticket_details']) ? $_POST['ns_ticket_details'] : '';
-
-							/**
-							 * -----------------------------------------------------------------------
-							 * HOOK : FILTER HOOK
-							 * nanosupport_editor_config
-							 *
-							 * Modify Editor configuration.
-							 *
-							 * @since  1.0.0
-							 * -----------------------------------------------------------------------
-							 */
-							$editor_args = apply_filters( 'nanosupport_editor_config' , array(
-											'media_buttons'		=> false,
-											'teeny'				=> true,
-											'textarea_name'		=> 'ns_ticket_details',
-											'textarea_rows'		=> 5,
-											'editor_class'		=> 'form-control',
-											'quicktags'			=> false,
-											'tinymce'			=> false
-										) );
-
-							wp_editor(
-								$details_val,			//content
-								'ns-ticket-details',	//editor ID
-								$editor_args			//arguments
-							);
-							?>
+							<?php $details_val = !empty($_POST['ns_ticket_details']) ? $_POST['ns_ticket_details'] : ''; ?>
+							<textarea id="ns-ticket-details" class="form-control" name="ns_ticket_details" cols="30" rows="10"><?php echo $details_val; ?></textarea>
 						</div>
 					</div> <!-- /.form-group -->
 
