@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ns_responses_meta_box() {
     add_meta_box(
         'nanosupport-responses',                // metabox ID
-        __('Responses', 'nanosupport'),     // metabox title
-        'ns_reply_specifics',                  // callback function
+        __('Responses', 'nanosupport'),         // metabox title
+        'ns_reply_specifics',                   // callback function
         'nanosupport',                          // post type (+ CPT)
         'normal',                               // 'normal', 'advanced', or 'side'
         'high'                                  // 'high', 'core', 'default' or 'low'

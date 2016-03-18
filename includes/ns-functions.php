@@ -10,33 +10,31 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+    exit;
 }
 
 /**
  * Hide all the Responses in Comments page (Admin Panel)
  *
- * @link http://wordpress.stackexchange.com/a/56657/22728
+ * @author gmazzap <https://twitter.com/gmazzap>
+ * @link   http://wordpress.stackexchange.com/a/186281/22728
  *
  * @since  1.0.0
- * 
- * @param  array $comments All the comments from comments table.
- * @return array           Filtering 'nanosupport_response' hiding them.
+ *
+ * hooked: pre_get_comments (10)
+ *
+ * @param  \WP_Comment_Query $query All the comments from comments table.
+ * @return \WP_Comment_Query        Filtering 'nanosupport_response' hiding them.
  * -----------------------------------------------------------------------
  */
-function ns_filter_comments_for_responses( $comments ) {
-    global $pagenow;
-    if( 'edit-comments.php' === $pagenow  ) {
-        foreach( $comments as $i => $comment ) {
-            $the_post = get_post( $comment->comment_post_ID );
-            if( 'nanosupport_response' === $comment->comment_type || 'nanosupport' === $the_post->post_type )
-                unset( $comments[$i] );
-        }
+function ns_exclude_responses_in_comments(\WP_Comment_Query $query) {
+    /* only allow 'nanosupport_response' when is required explicitly */
+    if ( $query->query_vars['type'] !== 'nanosupport_response' ) {
+        $query->query_vars['type__not_in'] = array_merge((array) $query->query_vars['type__not_in'], array('nanosupport_response'));
     }
-    return $comments;
 }
 
-add_filter( 'the_comments', 'ns_filter_comments_for_responses' );
+add_action( 'pre_get_comments', 'ns_exclude_responses_in_comments' );
 
 
 /**
@@ -44,12 +42,12 @@ add_filter( 'the_comments', 'ns_filter_comments_for_responses' );
  *
  * Process Ticket Submission including Login/Registration.
  *
- * @since  1.0.0
+ * @since   1.0.0
  *
  * @return  void
  * -----------------------------------------------------------------------
  */
-function ns_registration_login_redirection(){
+function ns_registration_login_ticket_submission_redir() {
     if( !isset( $_POST['ns_submit'] ) )
         return;
 
@@ -61,7 +59,7 @@ function ns_registration_login_redirection(){
 
     //Ticket Subject
     if( empty( $_POST['ns_ticket_subject'] ) ) {
-        $ns_errors[] = __( "Ticket subject can't be empty", "nanosupport" );
+        $ns_errors[]    = __( "Ticket subject can't be empty", "nanosupport" );
     } else {
         $ticket_subject = $_POST['ns_ticket_subject'];        
     }
@@ -70,7 +68,7 @@ function ns_registration_login_redirection(){
     if( empty( $_POST['ns_ticket_details'] ) ){
         $ns_errors[] = __( "Ticket details can't be empty", "nanosupport" );
     } else if( ! empty( $_POST['ns_ticket_details'] ) && strlen( $_POST['ns_ticket_details'] ) < 30 ) {
-        $ns_errors[] = __( 'Ticket details must be at least 30 characters long', 'nanosupport' );
+        $ns_errors[]    = __( 'Ticket details must be at least 30 characters long', 'nanosupport' );
     } else {
         $ticket_details = $_POST['ns_ticket_details'];
     }
@@ -78,7 +76,7 @@ function ns_registration_login_redirection(){
 
     //Ticket Priority
     if( empty( $_POST['ns_ticket_priority'] ) ){
-        $ns_errors[] = __( 'Ticket priority must be set', 'nanosupport' );
+        $ns_errors[]        = __( 'Ticket priority must be set', 'nanosupport' );
     } else {
         $ticket_priority    = $_POST['ns_ticket_priority'];
     }
@@ -217,7 +215,7 @@ function ns_registration_login_redirection(){
     exit();
 }
 
-add_action( 'template_redirect', 'ns_registration_login_redirection' );
+add_action( 'template_redirect', 'ns_registration_login_ticket_submission_redir' );
 
 
 /**
