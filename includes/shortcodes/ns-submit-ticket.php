@@ -57,30 +57,30 @@ function ns_submit_support_ticket() {
 
 					<div class="ns-form-group">
 						<label for="ns-ticket-subject" class="ns-col-sm-2 ns-control-label">
-							<?php _e( 'Subject', 'nanosupport' ); ?>
+							<?php _e( 'Subject', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
 						<div class="ns-col-sm-10">
-							<input type="text" class="ns-form-control" name="ns_ticket_subject" id="ns-ticket-subject" placeholder="<?php esc_attr_e( 'Subject', 'nanosupport' ); ?>" value="<?php echo !empty($_POST['ns_ticket_subject']) ? $_POST['ns_ticket_subject'] : ''; ?>" required>
+							<input type="text" class="ns-form-control" name="ns_ticket_subject" id="ns-ticket-subject" placeholder="<?php esc_attr_e( 'Subject in brief', 'nanosupport' ); ?>" value="<?php echo !empty($_POST['ns_ticket_subject']) ? $_POST['ns_ticket_subject'] : ''; ?>" required>
 						</div>
 					</div> <!-- /.ns-form-group -->
 
 					<div class="ns-form-group">
 						<label for="ns-ticket-details" class="ns-col-sm-2 ns-control-label">
-							<?php _e( 'Details', 'nanosupport' ); ?>
+							<?php _e( 'Details', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
 						<div class="ns-col-sm-10">
 							<?php $details_val = !empty($_POST['ns_ticket_details']) ? $_POST['ns_ticket_details'] : ''; ?>
-							<textarea id="ns-ticket-details" class="ns-form-control" name="ns_ticket_details" cols="30" rows="10"><?php echo $details_val; ?></textarea>
+							<textarea id="ns-ticket-details" class="ns-form-control" name="ns_ticket_details" cols="30" rows="10" placeholder="<?php esc_attr_e( 'Write down your issue in details... At least 30 characters is a must.', 'nanosupport' ); ?>" required><?php echo $details_val; ?></textarea>
 						</div>
 					</div> <!-- /.ns-form-group -->
 
 					<div class="ns-form-group">
 						<label for="ns-ticket-priority" class="ns-col-sm-2 ns-control-label">
-							<?php _e( 'Priority', 'nanosupport' ); ?>
+							<?php _e( 'Priority', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
 						<div class="ns-col-sm-10 ns-form-inline">
 							<?php $sub_val = !empty($_POST['ns_ticket_priority']) ? $_POST['ns_ticket_priority'] : ''; ?>
-							<select class="ns-form-control" name="ns_ticket_priority" id="ns-ticket-priority">
+							<select class="ns-form-control" name="ns_ticket_priority" id="ns-ticket-priority" required>
 								<option value="low" <?php selected( $sub_val, 'low' ); ?>>
 									<?php _e( 'Low', 'nanosupport' ); ?>
 								</option>
@@ -127,7 +127,7 @@ function ns_submit_support_ticket() {
 
 							<div class="ns-form-group">
 								<label for="reg-name" class="ns-col-sm-2 ns-control-label">
-									<?php _e( 'Username', 'nanosupport' ); ?>
+									<?php _e( 'Username', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 								</label>
 								<div class="ns-col-sm-10">
 									<input name="reg_name" type="text" class="ns-form-control login-field" value="<?php echo( isset($_POST['reg_name']) ? $_POST['reg_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="reg-name" required/>
@@ -136,7 +136,7 @@ function ns_submit_support_ticket() {
 
 							<div class="ns-form-group">
 								<label for="reg-email" class="ns-col-sm-2 ns-control-label">
-									<?php _e( 'Your email', 'nanosupport' ); ?>
+									<?php _e( 'Your email', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 								</label>
 								<div class="ns-col-sm-10">
 									<input name="reg_email" type="email" class="ns-form-control login-field" value="<?php echo( isset($_POST['reg_email']) ? $_POST['reg_email'] : null ); ?>" placeholder="<?php esc_attr_e( 'Email', 'nanosupport' ); ?>" id="reg-email" required/>
@@ -145,7 +145,7 @@ function ns_submit_support_ticket() {
 
 							<div class="ns-form-group">
 								<label for="reg-pass" class="ns-col-sm-2 ns-control-label">
-									<?php _e( 'Password', 'nanosupport' ); ?>
+									<?php _e( 'Password', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 								</label>
 								<div class="ns-col-sm-10">
 									<input name="reg_password" type="password" class="ns-form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="reg-pass" required/>
@@ -169,14 +169,18 @@ function ns_submit_support_ticket() {
 							?>
 
 							<div class="ns-form-group">
-								<label for="login-name" class="ns-col-sm-2 ns-control-label"><?php _e( 'Username', 'nanosupport' ); ?></label>
+								<label for="login-name" class="ns-col-sm-2 ns-control-label">
+									<?php _e( 'Username', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+								</label>
 								<div class="ns-col-sm-10">
 									<input name="login_name" type="text" class="ns-form-control login-field" value="<?php echo( isset($_POST['login_name']) ? $_POST['login_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="login-name" required />
 								</div>
 							</div> <!-- /.ns-form-group -->
 
 							<div class="ns-form-group">
-								<label for="login-pass" class="ns-col-sm-2 ns-control-label"><?php _e( 'Password', 'nanosupport' ); ?></label>
+								<label for="login-pass" class="ns-col-sm-2 ns-control-label">
+									<?php _e( 'Password', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+								</label>
 								<div class="ns-col-sm-10">
 									<input name="login_password" type="password" class="ns-form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="login-pass" required />
 								</div>

@@ -32,20 +32,6 @@ function ns_scripts() {
                 ) ) || is_singular('nanosupport') ) :
 
         /**
-         * Bootstrap CSS v3.3.4
-         * @link http://getbootstrap.com
-         * ...
-         */
-        //wp_enqueue_style( 'ns-bootstrap', NS()->plugin_url() .'/assets/css/bootstrap.min.css', array(), '3.3.4', 'all' );
-
-        /**
-         * BootFlat CSS v2.0.4
-         * @link http://bootflat.github.io/
-         * ...
-         */
-        //wp_enqueue_style( 'ns-bootflat', NS()->plugin_url() .'/assets/css/bootflat.min.css', array(), '2.0.4', 'all' );
-
-        /**
          * NanoSupport CSS
          * Compiled and minified from LESS CSS Preprocessor.
          * ...
@@ -54,10 +40,10 @@ function ns_scripts() {
 
         /**
          * NanoSupport JavaScripts
-         * Compiled and minified. Depends on 'jQuery' and 'jQuery UI AutoComplete'.
+         * Compiled and minified. Depends on 'jQuery'.
          * ...
          */
-        wp_enqueue_script( 'ns-scripts', NS()->plugin_url() .'/assets/js/nanosupport.min.js', array('jquery', 'jquery-ui-autocomplete'), NS()->version, true );
+        wp_enqueue_script( 'ns-scripts', NS()->plugin_url() .'/assets/js/nanosupport.min.js', array('jquery'), NS()->version, true );
 
         /**
          * NanoSupport Localize Scripts

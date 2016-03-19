@@ -1,6 +1,6 @@
 /**
  * NanoSupport Layout
- * Based on Bootstrap v3.3.5 and Bootflat
+ * Based on Bootstrap v3.3.5 and Bootflat v2.0.4
  *
  * @package NanoSupport
  * @since 	1.0.0
@@ -906,6 +906,7 @@ fieldset[disabled] .ns-checkbox label {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  color: white;
 }
 .ns-btn:focus,
 .ns-btn:active:focus,
@@ -1002,26 +1003,26 @@ fieldset[disabled] .ns-btn-default.focus {
 }
 .ns-btn-primary {
   color: #ffffff;
-  background-color: #337ab7;
-  border-color: #2e6da4;
+  background-color: #3bafda;
+  border-color: #3bafda;
 }
 .ns-btn-primary:focus,
 .ns-btn-primary.focus {
   color: #ffffff;
-  background-color: #286090;
+  background-color: #4fc1e9;
   border-color: #122b40;
 }
 .ns-btn-primary:hover {
   color: #ffffff;
-  background-color: #286090;
-  border-color: #204d74;
+  background-color: #4fc1e9;
+  border-color: #4fc1e9;
 }
 .ns-btn-primary:active,
 .ns-btn-primary.ns-active,
 .open > .dropdown-toggle.ns-btn-primary {
   color: #ffffff;
-  background-color: #286090;
-  border-color: #204d74;
+  background-color: #4fc1e9;
+  border-color: #4fc1e9;
 }
 .ns-btn-primary:active:hover,
 .ns-btn-primary.ns-active:hover,
@@ -1033,7 +1034,7 @@ fieldset[disabled] .ns-btn-default.focus {
 .ns-btn-primary.ns-active.focus,
 .open > .dropdown-toggle.ns-btn-primary.focus {
   color: #ffffff;
-  background-color: #204d74;
+  background-color: #4fc1e9;
   border-color: #122b40;
 }
 .ns-btn-primary:active,
@@ -1050,34 +1051,34 @@ fieldset[disabled] .ns-btn-primary:focus,
 .ns-btn-primary.ns-disabled.focus,
 .ns-btn-primary[disabled].focus,
 fieldset[disabled] .ns-btn-primary.focus {
-  background-color: #337ab7;
-  border-color: #2e6da4;
+  background-color: #3bafda;
+  border-color: #3bafda;
 }
 .ns-btn-primary .badge {
-  color: #337ab7;
+  color: #3bafda;
   background-color: #ffffff;
 }
 .ns-btn-success {
   color: #ffffff;
-  background-color: #5cb85c;
-  border-color: #4cae4c;
+  background-color: #8cc152;
+  border-color: #8cc152;
 }
 .ns-btn-success:focus,
 .ns-btn-success.focus {
   color: #ffffff;
-  background-color: #449d44;
-  border-color: #255625;
+  background-color: #a0d468;
+  border-color: #a0d468;
 }
 .ns-btn-success:hover {
   color: #ffffff;
-  background-color: #449d44;
+  background-color: #a0d468;
   border-color: #398439;
 }
 .ns-btn-success:active,
 .ns-btn-success.ns-active,
 .open > .dropdown-toggle.ns-btn-success {
   color: #ffffff;
-  background-color: #449d44;
+  background-color: #a0d468;
   border-color: #398439;
 }
 .ns-btn-success:active:hover,
@@ -1091,7 +1092,7 @@ fieldset[disabled] .ns-btn-primary.focus {
 .open > .dropdown-toggle.ns-btn-success.focus {
   color: #ffffff;
   background-color: #398439;
-  border-color: #255625;
+  border-color: #a0d468;
 }
 .ns-btn-success:active,
 .ns-btn-success.ns-active,
@@ -1107,35 +1108,35 @@ fieldset[disabled] .ns-btn-success:focus,
 .ns-btn-success.ns-disabled.focus,
 .ns-btn-success[disabled].focus,
 fieldset[disabled] .ns-btn-success.focus {
-  background-color: #5cb85c;
-  border-color: #4cae4c;
+  background-color: #8cc152;
+  border-color: #8cc152;
 }
 .ns-btn-success .badge {
-  color: #5cb85c;
+  color: #8cc152;
   background-color: #ffffff;
 }
 .ns-btn-info {
   color: #ffffff;
-  background-color: #5bc0de;
-  border-color: #46b8da;
+  background-color: #37bc9b;
+  border-color: #37bc9b;
 }
 .ns-btn-info:focus,
 .ns-btn-info.focus {
   color: #ffffff;
-  background-color: #31b0d5;
+  background-color: #48cfad;
   border-color: #1b6d85;
 }
 .ns-btn-info:hover {
   color: #ffffff;
-  background-color: #31b0d5;
-  border-color: #269abc;
+  background-color: #48cfad;
+  border-color: #48cfad;
 }
 .ns-btn-info:active,
 .ns-btn-info.ns-active,
 .open > .dropdown-toggle.ns-btn-info {
   color: #ffffff;
-  background-color: #31b0d5;
-  border-color: #269abc;
+  background-color: #48cfad;
+  border-color: #48cfad;
 }
 .ns-btn-info:active:hover,
 .ns-btn-info.ns-active:hover,
@@ -1147,7 +1148,7 @@ fieldset[disabled] .ns-btn-success.focus {
 .ns-btn-info.ns-active.focus,
 .open > .dropdown-toggle.ns-btn-info.focus {
   color: #ffffff;
-  background-color: #269abc;
+  background-color: #48cfad;
   border-color: #1b6d85;
 }
 .ns-btn-info:active,
@@ -1164,11 +1165,11 @@ fieldset[disabled] .ns-btn-info:focus,
 .ns-btn-info.ns-disabled.focus,
 .ns-btn-info[disabled].focus,
 fieldset[disabled] .ns-btn-info.focus {
-  background-color: #5bc0de;
-  border-color: #46b8da;
+  background-color: #37bc9b;
+  border-color: #37bc9b;
 }
 .ns-btn-info .badge {
-  color: #5bc0de;
+  color: #37bc9b;
   background-color: #ffffff;
 }
 .ns-btn-warning {
@@ -1230,26 +1231,26 @@ fieldset[disabled] .ns-btn-warning.focus {
 }
 .ns-btn-danger {
   color: #ffffff;
-  background-color: #d9534f;
-  border-color: #d43f3a;
+  background-color: #da4453;
+  border-color: #da4453;
 }
 .ns-btn-danger:focus,
 .ns-btn-danger.focus {
   color: #ffffff;
-  background-color: #c9302c;
+  background-color: #ed5565;
   border-color: #761c19;
 }
 .ns-btn-danger:hover {
   color: #ffffff;
-  background-color: #c9302c;
-  border-color: #ac2925;
+  background-color: #ed5565;
+  border-color: #ed5565;
 }
 .ns-btn-danger:active,
 .ns-btn-danger.ns-active,
 .open > .dropdown-toggle.ns-btn-danger {
   color: #ffffff;
-  background-color: #c9302c;
-  border-color: #ac2925;
+  background-color: #ed5565;
+  border-color: #ed5565;
 }
 .ns-btn-danger:active:hover,
 .ns-btn-danger.ns-active:hover,
@@ -1261,7 +1262,7 @@ fieldset[disabled] .ns-btn-warning.focus {
 .ns-btn-danger.ns-active.focus,
 .open > .dropdown-toggle.ns-btn-danger.focus {
   color: #ffffff;
-  background-color: #ac2925;
+  background-color: #ed5565;
   border-color: #761c19;
 }
 .ns-btn-danger:active,
@@ -1278,15 +1279,15 @@ fieldset[disabled] .ns-btn-danger:focus,
 .ns-btn-danger.ns-disabled.focus,
 .ns-btn-danger[disabled].focus,
 fieldset[disabled] .ns-btn-danger.focus {
-  background-color: #d9534f;
-  border-color: #d43f3a;
+  background-color: #da4453;
+  border-color: #da4453;
 }
 .ns-btn-danger .badge {
-  color: #d9534f;
+  color: #da4453;
   background-color: #ffffff;
 }
 .ns-btn-link {
-  color: #337ab7;
+  color: #3bafda;
   font-weight: normal;
   border-radius: 0;
 }
@@ -1365,7 +1366,7 @@ input[type="button"].ns-btn-block {
   padding: 6px 12px;
   line-height: 1.42857143;
   text-decoration: none;
-  color: #337ab7;
+  color: #3bafda;
   background-color: #ffffff;
   border: 1px solid #dddddd;
   margin-left: -1px;
@@ -1398,8 +1399,8 @@ input[type="button"].ns-btn-block {
 .ns-pagination > .ns-active > span:focus {
   z-index: 3;
   color: #ffffff;
-  background-color: #337ab7;
-  border-color: #337ab7;
+  background-color: #3bafda;
+  border-color: #3bafda;
   cursor: default;
 }
 .ns-pagination > .ns-disabled > span,
@@ -1437,11 +1438,12 @@ input[type="button"].ns-btn-block {
   font-size: 75%;
   font-weight: bold;
   line-height: 1;
-  color: #ffffff;
+  color: #333;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: .25em;
+  background-color: #aab2bd;
 }
 a.ns-label:hover,
 a.ns-label:focus {
@@ -1464,39 +1466,47 @@ a.ns-label:focus {
   background-color: #5e5e5e;
 }
 .ns-label-primary {
-  background-color: #337ab7;
+  background-color: #3bafda;
+  border-color: #3bafda;
+  color: #fff;
 }
 .ns-label-primary[href]:hover,
 .ns-label-primary[href]:focus {
-  background-color: #286090;
+  background-color: #4fc1e9;
 }
 .ns-label-success {
-  background-color: #5cb85c;
+  background-color: #8cc152;
+  border-color: #8cc152;
+  color: #fff;
 }
 .ns-label-success[href]:hover,
 .ns-label-success[href]:focus {
-  background-color: #449d44;
+  background-color: #a0d468;
 }
 .ns-label-info {
-  background-color: #5bc0de;
+  background-color: #37bc9b;
+  border-color: #37bc9b;
 }
 .ns-label-info[href]:hover,
 .ns-label-info[href]:focus {
-  background-color: #31b0d5;
+  background-color: #48cfad;
 }
 .ns-label-warning {
-  background-color: #f0ad4e;
+  background-color: #f6bb42;
+  border-color: #f6bb42;
+  color: #333;
 }
 .ns-label-warning[href]:hover,
 .ns-label-warning[href]:focus {
   background-color: #ec971f;
 }
 .ns-label-danger {
-  background-color: #d9534f;
+  background-color: #da4453;
+  border-color: #da4453;
 }
 .ns-label-danger[href]:hover,
 .ns-label-danger[href]:focus {
-  background-color: #c9302c;
+  background-color: #ed5565;
 }
 
 
@@ -1637,11 +1647,11 @@ mark,
   color: #777;
 }
 .ns-text-primary {
-  color: #337ab7;
+  color: #3bafda;
 }
 a.ns-text-primary:hover,
 a.ns-text-primary:focus {
-  color: #286090;
+  color: #4fc1e9;
 }
 .ns-text-success {
   color: #3c763d;
