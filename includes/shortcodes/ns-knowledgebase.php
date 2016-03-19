@@ -28,7 +28,7 @@ function ns_knowledgebase_page() {
 		 * while redirected.
 		 */
 		if( isset($_GET['from']) && 'sd' === $_GET['from'] ) {
-			echo '<div class="alert alert-info" role="alert">';
+			echo '<div class="ns-alert ns-alert-info" role="alert">';
 				_e( 'You are redirected from the Support Desk, because you are not logged in, and have no permission to view any ticket.', 'nanosupport' );
 			echo '</div>';
 		}
@@ -62,7 +62,7 @@ function ns_knowledgebase_page() {
 
 		if( $featured_terms ) {
 
-			echo '<div class="row">';
+			echo '<div class="ns-row">';
 			$total_terms = count( $featured_terms );
 
 			$_counter = 1;
@@ -83,16 +83,16 @@ function ns_knowledgebase_page() {
 					else
 						$column_class = '';
 
-					echo '<div class="col-sm-4 col-xs-6 nanodoc-term-box'. esc_attr($column_class) .'">';
-						echo '<div class="nanodoc-term-box-inner text-center">';
+					echo '<div class="ns-col-sm-4 ns-col-xs-6 nanodoc-term-box'. esc_attr($column_class) .'">';
+						echo '<div class="nanodoc-term-box-inner ns-text-center">';
 							printf(	'<a class="icon-link" href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term_name), '<span class="ns-icon-docs"></span>' );
 							echo '<h4 class="nanodoc-term-title">';
 								printf(	'<a href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term_name), $term_name );
 							echo '</h4>';
 							if( $term_desc ) {
-								echo '<div class="nanodoc-term-desc"><small>';
+								echo '<div class="nanodoc-term-desc ns-small">';
 									echo $term_desc;
-								echo '</small></div>';
+								echo '</div>';
 							}
 						echo '</div> <!-- /.nanodoc-term-box-inner -->';
 					echo '</div> <!-- /.nanodoc-term-box -->';
@@ -101,7 +101,7 @@ function ns_knowledgebase_page() {
 
 				$_counter++;
 			}
-			echo '</div> <!-- /.row -->';
+			echo '</div> <!-- /.ns-row -->';
 
 		} //endif( $featured_terms )
 		
@@ -126,7 +126,7 @@ function ns_knowledgebase_page() {
 					echo esc_html( apply_filters( 'nanosupport_kb_header_title', __( 'Documentation', 'nanosupport' ) ) );
 				echo '</span></h3>';
 
-				echo '<div class="row">';
+				echo '<div class="ns-row">';
 
 				$_entry_counter = 1;
 				foreach( $kb_terms as $kb_term ) :
@@ -139,7 +139,7 @@ function ns_knowledgebase_page() {
 					else
 						$col_class = '';
 
-					echo '<div class="ns-kb-cat-box col-sm-4 col-xs-6'. esc_attr($col_class) .'">';
+					echo '<div class="ns-kb-cat-box ns-col-sm-4 ns-col-xs-6'. esc_attr($col_class) .'">';
 
 						echo '<h4 class="ns-kb-category-title">';
 							echo '<span class="ns-icon-docs"></span>&nbsp;';
@@ -182,7 +182,7 @@ function ns_knowledgebase_page() {
 							echo '<ul>';
 								$per_category_counter = 1;
 								while( $kb_entries->have_posts() ) : $kb_entries->the_post();
-									echo '<li class="small"><a href="'. esc_url(get_the_permalink()) .'" title="'. the_title_attribute( array('echo' => false) ) .'" >'. get_the_title() .'</a></li>';
+									echo '<li class="ns-small"><a href="'. esc_url(get_the_permalink()) .'" title="'. the_title_attribute( array('echo' => false) ) .'" >'. get_the_title() .'</a></li>';
 
 									//Display the maximum numbers set
 									if( $kb_posts_per_category === $per_category_counter )
@@ -194,7 +194,7 @@ function ns_knowledgebase_page() {
 
 							// If the found entries exceeds the preset maximum entries, display the 'See all' button
 							if( $kb_found_entries > $kb_posts_per_category ) :
-								echo '<a class="btn btn-xs btn-primary" href="'. esc_url(get_term_link( $kb_term, 'nanodoc_category' )) .'"><strong>';
+								echo '<a class="ns-btn ns-btn-xs ns-btn-primary" href="'. esc_url(get_term_link( $kb_term, 'nanodoc_category' )) .'"><strong>';
 									_e( 'All entries &raquo;', 'nanosupport' );
 								echo '</strong></a>';
 							endif;
@@ -205,12 +205,12 @@ function ns_knowledgebase_page() {
 
 						endif;
 						wp_reset_postdata();
-					echo '</div> <!-- /.ns-kb-cat-box col-sm-4 col-xs-6 -->';
+					echo '</div> <!-- /.ns-kb-cat-box ns-col-sm-4 ns-col-xs-6 -->';
 
 					$_entry_counter++;
 
 				endforeach;
-				echo '</div> <!-- /.row -->';
+				echo '</div> <!-- /.ns-row -->';
 
 			else :
 

@@ -140,7 +140,7 @@ function ns_bootstrap_pagination( $query ) {
 	global $wp_query;
 	$query = $query ? $query : $wp_query;
 
-	echo '<nav class="ns-pagination">';
+	echo '<nav class="nanosupport-pagination">';
 		$big = 999999999; // need an unlikely integer
 		$total = $query->max_num_pages;
 		if( $total > 1 ) {
@@ -158,7 +158,7 @@ function ns_bootstrap_pagination( $query ) {
 
 			if( $pages ) {
 				$paged = ( get_query_var( 'paged' ) ) ? absint( get_query_var( 'paged' ) ) : 1;
-				echo '<ul class="bs-pagination pagination-sm">';
+				echo '<ul class="ns-pagination ns-pagination-sm">';
 				foreach ( $pages as $page ) {
 					echo '<li>'. $page .'</li>';
 				}

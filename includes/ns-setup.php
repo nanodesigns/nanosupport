@@ -15,6 +15,80 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
+ * Styles & JavaScripts (Front End)
+ * 
+ * Necessary JavaScripts and Styles for Front-end tweaks.
+ * -----------------------------------------------------------------------
+ */
+function ns_scripts() {
+    //Get the NanoSupport Settings from Database
+    $ns_general_settings        = get_option( 'nanosupport_settings' );
+    $ns_knowledgebase_settings  = get_option( 'nanosupport_knowledgebase_settings' );
+
+    if( is_page( array(
+                    $ns_general_settings['support_desk'],
+                    $ns_general_settings['submit_page'],
+                    $ns_knowledgebase_settings['page']
+                ) ) || is_singular('nanosupport') ) :
+
+        /**
+         * Bootstrap CSS v3.3.4
+         * @link http://getbootstrap.com
+         * ...
+         */
+        //wp_enqueue_style( 'ns-bootstrap', NS()->plugin_url() .'/assets/css/bootstrap.min.css', array(), '3.3.4', 'all' );
+
+        /**
+         * BootFlat CSS v2.0.4
+         * @link http://bootflat.github.io/
+         * ...
+         */
+        //wp_enqueue_style( 'ns-bootflat', NS()->plugin_url() .'/assets/css/bootflat.min.css', array(), '2.0.4', 'all' );
+
+        /**
+         * NanoSupport CSS
+         * Compiled and minified from LESS CSS Preprocessor.
+         * ...
+         */
+        wp_enqueue_style( 'ns-styles', NS()->plugin_url() .'/assets/css/nanosupport.css', array(), NS()->version, 'all' );
+
+        /**
+         * NanoSupport JavaScripts
+         * Compiled and minified. Depends on 'jQuery' and 'jQuery UI AutoComplete'.
+         * ...
+         */
+        wp_enqueue_script( 'ns-scripts', NS()->plugin_url() .'/assets/js/nanosupport.min.js', array('jquery', 'jquery-ui-autocomplete'), NS()->version, true );
+
+        /**
+         * NanoSupport Localize Scripts
+         * Translation-ready JS strings and other dynamic parameters.
+         * ...
+         */
+        wp_localize_script(
+            'ns-scripts',
+            'ns',
+            array(
+                'plugin_url'    => NS()->plugin_url()
+            ) );
+
+    endif;
+
+    if( is_page('knowledgebase') ) :
+
+        /**
+         * MatchHeight JS v0.7.0
+         * @link http://brm.io/jquery-match-height/
+         * ...
+         */
+        wp_enqueue_script( 'equal-height-js', NS()->plugin_url() .'/assets/js/jquery.matchHeight-min.js', array('jquery'), '0.7.0', true );
+
+    endif;
+}
+
+add_action( 'wp_enqueue_scripts', 'ns_scripts' );
+
+
+/**
  * Styles & JavaScripts (Admin)
  * 
  * Necessary JavaScripts and Styles for Admin panel tweaks.
@@ -78,75 +152,6 @@ function ns_admin_scripts() {
 }
 
 add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
-
-
-/**
- * Styles & JavaScripts (Front End)
- * 
- * Necessary JavaScripts and Styles for Front-end tweaks.
- * -----------------------------------------------------------------------
- */
-function ns_scripts() {
-    //Get the NanoSupport Settings from Database
-    $ns_general_settings = get_option( 'nanosupport_settings' );
-
-    if( is_page( array( $ns_general_settings['support_desk'], $ns_general_settings['submit_page'], 'knowledgebase') ) || is_singular('nanosupport') ) :
-
-        /**
-         * Bootstrap CSS v3.3.4
-         * @link http://getbootstrap.com
-         * ...
-         */
-        wp_enqueue_style( 'ns-bootstrap', NS()->plugin_url() .'/assets/css/bootstrap.min.css', array(), '3.3.4', 'all' );
-
-        /**
-         * BootFlat CSS v2.0.4
-         * @link http://bootflat.github.io/
-         * ...
-         */
-        wp_enqueue_style( 'ns-bootflat', NS()->plugin_url() .'/assets/css/bootflat.min.css', array(), '2.0.4', 'all' );
-
-        /**
-         * NanoSupport CSS
-         * Compiled and minified from LESS CSS Preprocessor.
-         * ...
-         */
-		wp_enqueue_style( 'ns-styles', NS()->plugin_url() .'/assets/css/nanosupport-styles.css', array(), NS()->version, 'all' );
-
-        /**
-         * NanoSupport JavaScripts
-         * Compiled and minified. Depends on 'jQuery' and 'jQuery UI AutoComplete'.
-         * ...
-         */
-        wp_enqueue_script( 'ns-scripts', NS()->plugin_url() .'/assets/js/nanosupport.min.js', array('jquery', 'jquery-ui-autocomplete'), NS()->version, true );
-
-        /**
-         * NanoSupport Localize Scripts
-         * Translation-ready JS strings and other dynamic parameters.
-         * ...
-         */
-        wp_localize_script(
-            'ns-scripts',
-            'ns',
-            array(
-                'plugin_url'    => NS()->plugin_url()
-            ) );
-
-	endif;
-
-    if( is_page('knowledgebase') ) :
-
-        /**
-         * MatchHeight JS v0.7.0
-         * @link http://brm.io/jquery-match-height/
-         * ...
-         */
-        wp_enqueue_script( 'equal-height-js', NS()->plugin_url() .'/assets/js/jquery.matchHeight-min.js', array('jquery'), '0.7.0', true );
-
-    endif;
-}
-
-add_action( 'wp_enqueue_scripts', 'ns_scripts' );
 
 
 /**
@@ -383,7 +388,7 @@ function ns_ticket_edit_post_link( $output ) {
     if( is_single() && 'nanosupport' === $post->post_type ) {
         $output = str_replace(
                     'class="post-edit-link"',
-                    'class="post-edit-link btn btn-default btn-xs ns-round-btn edit-ticket-btn"',
+                    'class="post-edit-link ns-btn ns-btn-default ns-btn-xs ns-round-btn edit-ticket-btn"',
                     $output
                 );        
     }

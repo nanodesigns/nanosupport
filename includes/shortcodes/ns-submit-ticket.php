@@ -23,7 +23,7 @@ function ns_submit_support_ticket() {
     
     if( !empty( $ns_errors ) ){
         foreach( $ns_errors as $error ){
-    		echo '<div class="alert alert-danger" role="alert">';
+    		echo '<div class="ns-alert ns-alert-danger" role="alert">';
             	printf( '<strong>Error:</strong> %s', $error );
         	echo '</div>';
         }
@@ -50,37 +50,37 @@ function ns_submit_support_ticket() {
 		do_action( 'nanosupport_before_new_ticket' );
 		?>
 
-		<div class="row">
-			<div class="col-md-12">
+		<div class="ns-row">
+			<div class="ns-col-md-12">
 
-				<form class="form-horizontal" method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
+				<form class="ns-form-horizontal" method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
 
-					<div class="form-group">
-						<label for="ns-ticket-subject" class="col-sm-2 control-label">
+					<div class="ns-form-group">
+						<label for="ns-ticket-subject" class="ns-col-sm-2 ns-control-label">
 							<?php _e( 'Subject', 'nanosupport' ); ?>
 						</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" name="ns_ticket_subject" id="ns-ticket-subject" placeholder="<?php esc_attr_e( 'Subject', 'nanosupport' ); ?>" value="<?php echo !empty($_POST['ns_ticket_subject']) ? $_POST['ns_ticket_subject'] : ''; ?>" required>
+						<div class="ns-col-sm-10">
+							<input type="text" class="ns-form-control" name="ns_ticket_subject" id="ns-ticket-subject" placeholder="<?php esc_attr_e( 'Subject', 'nanosupport' ); ?>" value="<?php echo !empty($_POST['ns_ticket_subject']) ? $_POST['ns_ticket_subject'] : ''; ?>" required>
 						</div>
-					</div> <!-- /.form-group -->
+					</div> <!-- /.ns-form-group -->
 
-					<div class="form-group">
-						<label for="ns-ticket-details" class="col-sm-2 control-label">
+					<div class="ns-form-group">
+						<label for="ns-ticket-details" class="ns-col-sm-2 ns-control-label">
 							<?php _e( 'Details', 'nanosupport' ); ?>
 						</label>
-						<div class="col-sm-10">
+						<div class="ns-col-sm-10">
 							<?php $details_val = !empty($_POST['ns_ticket_details']) ? $_POST['ns_ticket_details'] : ''; ?>
-							<textarea id="ns-ticket-details" class="form-control" name="ns_ticket_details" cols="30" rows="10"><?php echo $details_val; ?></textarea>
+							<textarea id="ns-ticket-details" class="ns-form-control" name="ns_ticket_details" cols="30" rows="10"><?php echo $details_val; ?></textarea>
 						</div>
-					</div> <!-- /.form-group -->
+					</div> <!-- /.ns-form-group -->
 
-					<div class="form-group">
-						<label for="ns-ticket-priority" class="col-sm-2 control-label">
+					<div class="ns-form-group">
+						<label for="ns-ticket-priority" class="ns-col-sm-2 ns-control-label">
 							<?php _e( 'Priority', 'nanosupport' ); ?>
 						</label>
-						<div class="col-sm-10 form-inline">
+						<div class="ns-col-sm-10 ns-form-inline">
 							<?php $sub_val = !empty($_POST['ns_ticket_priority']) ? $_POST['ns_ticket_priority'] : ''; ?>
-							<select class="form-control" name="ns_ticket_priority" id="ns-ticket-priority">
+							<select class="ns-form-control" name="ns_ticket_priority" id="ns-ticket-priority">
 								<option value="low" <?php selected( $sub_val, 'low' ); ?>>
 									<?php _e( 'Low', 'nanosupport' ); ?>
 								</option>
@@ -95,7 +95,7 @@ function ns_submit_support_ticket() {
 								</option>
 							</select>
 						</div>
-					</div> <!-- /.form-group -->
+					</div> <!-- /.ns-form-group -->
 
 
 					<?php if( ! is_user_logged_in() ) { ?>
@@ -119,44 +119,44 @@ function ns_submit_support_ticket() {
 							 */
 							?>
 
-							<div class="form-group">
-								<p class="col-sm-12 text-center">
+							<div class="ns-form-group">
+								<p class="ns-col-sm-12 ns-text-center">
 									<span class="ns-icon-info-circled"></span> <?php _e( '<strong>Note:</strong> With these information below, we will create an account on your behalf to track the ticket for further enquiry.', 'nanosupport' ); ?>
 								</p>
-							</div> <!-- /.form-group -->
+							</div> <!-- /.ns-form-group -->
 
-							<div class="form-group">
-								<label for="reg-name" class="col-sm-2 control-label">
+							<div class="ns-form-group">
+								<label for="reg-name" class="ns-col-sm-2 ns-control-label">
 									<?php _e( 'Username', 'nanosupport' ); ?>
 								</label>
-								<div class="col-sm-10">
-									<input name="reg_name" type="text" class="form-control login-field" value="<?php echo( isset($_POST['reg_name']) ? $_POST['reg_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="reg-name" required/>
+								<div class="ns-col-sm-10">
+									<input name="reg_name" type="text" class="ns-form-control login-field" value="<?php echo( isset($_POST['reg_name']) ? $_POST['reg_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="reg-name" required/>
 								</div>
-							</div> <!-- /.form-group -->
+							</div> <!-- /.ns-form-group -->
 
-							<div class="form-group">
-								<label for="reg-email" class="col-sm-2 control-label">
+							<div class="ns-form-group">
+								<label for="reg-email" class="ns-col-sm-2 ns-control-label">
 									<?php _e( 'Your email', 'nanosupport' ); ?>
 								</label>
-								<div class="col-sm-10">
-									<input name="reg_email" type="email" class="form-control login-field" value="<?php echo( isset($_POST['reg_email']) ? $_POST['reg_email'] : null ); ?>" placeholder="<?php esc_attr_e( 'Email', 'nanosupport' ); ?>" id="reg-email" required/>
+								<div class="ns-col-sm-10">
+									<input name="reg_email" type="email" class="ns-form-control login-field" value="<?php echo( isset($_POST['reg_email']) ? $_POST['reg_email'] : null ); ?>" placeholder="<?php esc_attr_e( 'Email', 'nanosupport' ); ?>" id="reg-email" required/>
 								</div>
-							</div> <!-- /.form-group -->
+							</div> <!-- /.ns-form-group -->
 
-							<div class="form-group">
-								<label for="reg-pass" class="col-sm-2 control-label">
+							<div class="ns-form-group">
+								<label for="reg-pass" class="ns-col-sm-2 ns-control-label">
 									<?php _e( 'Password', 'nanosupport' ); ?>
 								</label>
-								<div class="col-sm-10">
-									<input name="reg_password" type="password" class="form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="reg-pass" required/>
+								<div class="ns-col-sm-10">
+									<input name="reg_password" type="password" class="ns-form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="reg-pass" required/>
 								</div>
-							</div> <!-- /.form-group -->
+							</div> <!-- /.ns-form-group -->
 
-							<div class="form-group">
-								<p class="col-sm-10 col-sm-offset-2">
+							<div class="ns-form-group">
+								<p class="ns-col-sm-10 ns-col-sm-offset-2">
 									<?php printf( __( 'Already have an account? <a href="%1s">Login</a>', 'nanosupport' ), esc_url( add_query_arg( 'action', 'login', get_the_permalink() ) ) ); ?>
 								</p>
-							</div> <!-- /.form-group -->
+							</div> <!-- /.ns-form-group -->
 
 							<!-- HIDDEN INPUT TO TREAT FORM SUBMIT APPROPRIATELY -->
 							<input type="hidden" name="ns_registration_submit">
@@ -168,23 +168,23 @@ function ns_submit_support_ticket() {
 							 */
 							?>
 
-							<div class="form-group">
-								<label for="login-name" class="col-sm-2 control-label"><?php _e( 'Username', 'nanosupport' ); ?></label>
-								<div class="col-sm-10">
-									<input name="login_name" type="text" class="form-control login-field" value="<?php echo( isset($_POST['login_name']) ? $_POST['login_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="login-name" required />
+							<div class="ns-form-group">
+								<label for="login-name" class="ns-col-sm-2 ns-control-label"><?php _e( 'Username', 'nanosupport' ); ?></label>
+								<div class="ns-col-sm-10">
+									<input name="login_name" type="text" class="ns-form-control login-field" value="<?php echo( isset($_POST['login_name']) ? $_POST['login_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="login-name" required />
 								</div>
-							</div> <!-- /.form-group -->
+							</div> <!-- /.ns-form-group -->
 
-							<div class="form-group">
-								<label for="login-pass" class="col-sm-2 control-label"><?php _e( 'Password', 'nanosupport' ); ?></label>
-								<div class="col-sm-10">
-									<input name="login_password" type="password" class="form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="login-pass" required />
+							<div class="ns-form-group">
+								<label for="login-pass" class="ns-col-sm-2 ns-control-label"><?php _e( 'Password', 'nanosupport' ); ?></label>
+								<div class="ns-col-sm-10">
+									<input name="login_password" type="password" class="ns-form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="login-pass" required />
 								</div>
-							</div> <!-- /.form-group -->
+							</div> <!-- /.ns-form-group -->
 
-							<div class="form-group">
-								<p class="col-sm-10 col-sm-offset-2"><?php printf( __( "Don't have an account? <a href=\"%1s\">Create one</a>", 'nanosupport' ), esc_url( get_the_permalink() ) ); ?></p>
-							</div> <!-- /.form-group -->
+							<div class="ns-form-group">
+								<p class="ns-col-sm-10 ns-col-sm-offset-2"><?php printf( __( "Don't have an account? <a href=\"%1s\">Create one</a>", 'nanosupport' ), esc_url( get_the_permalink() ) ); ?></p>
+							</div> <!-- /.ns-form-group -->
 
 							<!-- HIDDEN INPUT TO TREAT FORM SUBMIT APPROPRIATELY -->
 							<input type="hidden" name="ns_login_submit">
@@ -193,18 +193,18 @@ function ns_submit_support_ticket() {
 
 					<?php } //endif( ! is_user_logged_in() ) ?>
 					
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" name="ns_submit" class="btn btn-primary">
+					<div class="ns-form-group">
+						<div class="ns-col-sm-offset-2 ns-col-sm-10">
+							<button type="submit" name="ns_submit" class="ns-btn ns-btn-primary">
 								<?php _e( 'Submit', 'nanosupport' ); ?>
 							</button>
 						</div>
-					</div> <!-- /.form-group -->
+					</div> <!-- /.ns-form-group -->
 
-				</form>
+				</form> <!-- /.ns-form-horizontal -->
 
 			</div>
-		</div>
+		</div> <!-- /.ns-row -->
 
 		<?php
 		/**

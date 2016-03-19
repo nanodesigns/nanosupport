@@ -27,7 +27,7 @@ function ns_support_desk_page() {
 			global $post, $current_user;
 
 			if( isset($_GET['success']) && $_GET['success'] == 1 ) {
-				echo '<div class="alert alert-success" role="alert">';
+				echo '<div class="ns-alert ns-alert-success" role="alert">';
 					_e( "<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible.", 'nanosupport' );
 			    echo '</div>';		
 			}
@@ -123,14 +123,14 @@ function ns_support_desk_page() {
 					}
 					?>
 					<div class="ticket-cards ns-cards <?php echo esc_attr($status_class); ?>">
-						<div class="row">
-							<div class="col-sm-4 col-xs-12">
+						<div class="ns-row">
+							<div class="ns-col-sm-4 ns-col-xs-12">
 								<h3 class="ticket-head">
 									<?php if( 'pending' === $post_status ) : ?>
-										<?php the_title(); ?><small class="ticket-id"> &mdash; <?php printf( '#%s', get_the_ID() ); ?></small>
+										<?php the_title(); ?><span class="ns-small ticket-id"> &mdash; <?php printf( '#%s', get_the_ID() ); ?></span>
 									<?php else : ?>
 										<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
-											<?php the_title(); ?><small class="ticket-id"> &mdash; <?php printf( '#%s', get_the_ID() ); ?></small>
+											<?php the_title(); ?><span class="ns-small ticket-id"> &mdash; <?php printf( '#%s', get_the_ID() ); ?></span>
 										</a>
 									<?php endif; ?>
 								</h3>
@@ -141,7 +141,7 @@ function ns_support_desk_page() {
 									?>
 								</div>
 							</div>
-							<div class="col-sm-3 col-xs-4 ticket-meta">
+							<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
 								<div class="text-blocks">
 									<strong><?php _e('Department:', 'nanosupport'); ?></strong><br>
 									<?php echo ns_get_ticket_departments(); ?>
@@ -152,7 +152,7 @@ function ns_support_desk_page() {
 									<?php echo date( 'd M Y h:i A', strtotime( $post->post_modified ) ); ?>
 								</div>
 							</div>
-							<div class="col-sm-3 col-xs-4 ticket-meta">
+							<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
 								<div class="text-blocks">
 									<strong><?php _e('Responses:', 'nanosupport'); ?></strong><br>
 									<?php
@@ -174,7 +174,7 @@ function ns_support_desk_page() {
 						            ?>
 								</div>
 							</div>
-							<div class="col-sm-2 col-xs-4 ticket-meta">
+							<div class="ns-col-sm-2 ns-col-xs-4 ticket-meta">
 								<div class="text-blocks">
 									<strong><?php _e('Priority:', 'nanosupport'); ?></strong><br>
 									<?php
@@ -182,11 +182,11 @@ function ns_support_desk_page() {
 									if( 'low' === $ticket_priority ) {
 										_e( 'Low', 'nanosupport' );
 									} else if( 'medium' === $ticket_priority ) {
-										echo '<span class="text-info"><i class="ns-icon-info-circled"></i> ' , __( 'Medium', 'nanosupport' ) , '</span>';
+										echo '<span class="ns-text-info"><i class="ns-icon-info-circled"></i> ' , __( 'Medium', 'nanosupport' ) , '</span>';
 									} else if( 'high' === $ticket_priority ) {
-										echo '<strong class="text-warning"><span class="ns-icon-info-circled"></span> ' , __( 'High', 'nanosupport' ) , '</strong>';
+										echo '<strong class="ns-text-warning"><span class="ns-icon-info-circled"></span> ' , __( 'High', 'nanosupport' ) , '</strong>';
 									} else if( 'critical' === $ticket_priority ) {
-										echo '<strong class="text-danger"><span class="ns-icon-info-circled"></span> ' , __( 'Critical', 'nanosupport' ) , '</strong>';
+										echo '<strong class="ns-text-danger"><span class="ns-icon-info-circled"></span> ' , __( 'Critical', 'nanosupport' ) , '</strong>';
 									}
 									?>
 								</div>
@@ -195,15 +195,15 @@ function ns_support_desk_page() {
 									<?php
 									$status = '';
 									if( 'pending' === $post_status )
-										$status = '<span class="label label-normal">'. __( 'Pending', 'nanosupport' ) .'</span>';
+										$status = '<span class="ns-label ns-label-normal">'. __( 'Pending', 'nanosupport' ) .'</span>';
 									else {
 										if( $ticket_status ) {
 											if( 'solved' === $ticket_status ) {
-												$status = '<span class="label label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
+												$status = '<span class="ns-label ns-label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
 											} else if( 'inspection' === $ticket_status ) {
-												$status = '<span class="label label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
+												$status = '<span class="ns-label ns-label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
 											} else {
-												$status = '<span class="label label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
+												$status = '<span class="ns-label ns-label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
 											}
 										}
 									}
@@ -212,7 +212,7 @@ function ns_support_desk_page() {
 									?>
 								</div>
 							</div>
-						</div>
+						</div> <!-- /.ns-row -->
 					</div> <!-- /.ticket-cards -->
 
 				<?php
@@ -226,7 +226,7 @@ function ns_support_desk_page() {
 				ns_bootstrap_pagination( $support_ticket_query );
 
 			else :
-				echo '<div class="alert alert-info" role="alert">';
+				echo '<div class="ns-alert ns-alert-info" role="alert">';
 					_e( '<strong>Nice!</strong> You do not have any support ticket to display.', 'nanosupport' );
 				echo '</div>';
 			endif;
@@ -234,7 +234,7 @@ function ns_support_desk_page() {
 
 		else :
 			//User is not logged in
-			printf( __( 'Sorry, you cannot see your tickets without being logged in.<br><a class="btn btn-default btn-sm" href="%1s" title="Site Login"><span class="ns-icon-lock"></span> Login</a> or <a class="btn btn-default btn-sm" href="%2s" title="Site Registration"><span class="ns-icon-lock"></span> Create an account</a>', 'nanosupport' ), wp_login_url(), wp_registration_url() );
+			printf( __( 'Sorry, you cannot see your tickets without being logged in.<br><a class="ns-btn ns-btn-default ns-btn-sm" href="%1s" title="Site Login"><span class="ns-icon-lock"></span> Login</a> or <a class="ns-btn ns-btn-default ns-btn-sm" href="%2s" title="Site Registration"><span class="ns-icon-lock"></span> Create an account</a>', 'nanosupport' ), wp_login_url(), wp_registration_url() );
 			
 		endif; //if( is_user_logged_in() )
 

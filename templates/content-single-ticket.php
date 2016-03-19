@@ -15,54 +15,54 @@
 	<article id="post-<?php echo $post->ID; ?>" <?php post_class('ns-single'); ?>>
 
 		<div class="ticket-question-card ns-cards <?php echo esc_attr($ticket_status); ?>">
-			<div class="row">
-				<div class="col-sm-11">
+			<div class="ns-row">
+				<div class="ns-col-sm-11">
 					<h1 class="ticket-head"><?php the_title(); ?></h1>
 					<p class="ticket-author"><span class="ns-icon-user"></span> <?php echo $author->display_name; ?></p>
 
-					<div class="row ticket-meta">
-						<div class="col-sm-2 col-xs-6">
+					<div class="ns-row ticket-meta">
+						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
 								<strong><?php _e( 'Created:', 'nanosupport' ); ?></strong><br>
-								<span class="small"><?php echo date( 'd M Y h:iA', strtotime( $post->post_date ) ); ?></span>
+								<span class="ns-small"><?php echo date( 'd M Y h:iA', strtotime( $post->post_date ) ); ?></span>
 							</p>
 						</div>
-						<div class="col-sm-2 col-xs-6">
+						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
 								<strong><?php _e( 'Updated:', 'nanosupport' ); ?></strong><br>
-								<span class="small"><?php echo date( 'd M Y h:iA', strtotime( $post->post_modified ) ); ?></span>
+								<span class="ns-small"><?php echo date( 'd M Y h:iA', strtotime( $post->post_modified ) ); ?></span>
 							</p>
 						</div>
-						<div class="col-sm-2 col-xs-6">
+						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
 								<strong><?php _e( 'Department:', 'nanosupport' ); ?></strong><br>
-								<span class="small"><?php echo ns_get_ticket_departments(); ?></span>
+								<span class="ns-small"><?php echo ns_get_ticket_departments(); ?></span>
 							</p>
 						</div>
-						<div class="col-sm-2 col-xs-6">
+						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
 								<strong><?php _e( 'Assigned to:', 'nanosupport' ); ?></strong><br>
 								<?php
 								if( $ticket_agent ) {
 									$agent_info = get_user_by( 'id', $ticket_agent );
-									echo '<span class="small">'. $agent_info->display_name .'</span>';
+									echo '<span class="ns-small">'. $agent_info->display_name .'</span>';
 								} else {
-									echo '<span class="small">---</span>';
+									echo '<span class="ns-small">---</span>';
 								}
 								?>
 							</p>
 						</div>
-						<div class="col-sm-2 col-xs-6">
+						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
 								<strong><?php _e( 'Status:', 'nanosupport' ); ?></strong><br>
 								<?php
 								if( $ticket_status ) {
 									if( 'solved' === $ticket_status ) {
-										$status = '<span class="label label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
+										$status = '<span class="ns-label ns-label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
 									} else if( 'inspection' === $ticket_status ) {
-										$status = '<span class="label label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
+										$status = '<span class="ns-label ns-label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
 									} else {
-										$status = '<span class="label label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
+										$status = '<span class="ns-label ns-label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
 									}
 								} else {
 									$status = '';
@@ -72,7 +72,7 @@
 								?>
 							</p>
 						</div>
-						<div class="col-sm-2 col-xs-6">
+						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
 								<strong><?php _e( 'Priority:', 'nanosupport' ); ?></strong><br>
 								<?php
@@ -80,27 +80,27 @@
 								if( 'low' === $ticket_priority ) {
 									_e( 'Low', 'nanosupport' );
 								} else if( 'medium' === $ticket_priority ) {
-									echo '<span class="text-info"><i class="ns-icon-info-circled"></i> ' , __( 'Medium', 'nanosupport' ) , '</span>';
+									echo '<span class="ns-text-info"><i class="ns-icon-info-circled"></i> ' , __( 'Medium', 'nanosupport' ) , '</span>';
 								} else if( 'high' === $ticket_priority ) {
-									echo '<strong class="text-warning"><span class="ns-icon-info-circled"></span> ' , __( 'High', 'nanosupport' ) , '</strong>';
+									echo '<strong class="ns-text-warning"><span class="ns-icon-info-circled"></span> ' , __( 'High', 'nanosupport' ) , '</strong>';
 								} else if( 'critical' === $ticket_priority ) {
-									echo '<strong class="text-danger"><span class="ns-icon-info-circled"></span> ' , __( 'Critical', 'nanosupport' ) , '</strong>';
+									echo '<strong class="ns-text-danger"><span class="ns-icon-info-circled"></span> ' , __( 'Critical', 'nanosupport' ) , '</strong>';
 								}
 								?>
 							</p>
 						</div>
-					</div>
+					</div> <!-- /.ns-row -->
 				</div>
-				<div class="col-sm-1 ns-right-portion">
-					<a class="btn btn-danger btn-xs ns-round-btn off-ticket-btn" href="<?php echo esc_url(get_permalink( $ticket_list_page )); ?>" title="<?php esc_attr_e('Close the ticket', 'nanosupport'); ?>">
+				<div class="ns-col-sm-1 ns-right-portion">
+					<a class="ns-btn ns-btn-danger ns-btn-xs ns-round-btn off-ticket-btn" href="<?php echo esc_url(get_permalink( $ticket_list_page )); ?>" title="<?php esc_attr_e('Close the ticket', 'nanosupport'); ?>">
 						<span class="ns-icon-remove"></span>
 					</a>
-					<a class="btn btn-default btn-xs ns-round-btn ticket-link-btn" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e('Permanent link to the Ticket', 'nanosupport'); ?>">
+					<a class="ns-btn ns-btn-default ns-btn-xs ns-round-btn ticket-link-btn" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e('Permanent link to the Ticket', 'nanosupport'); ?>">
 						<span class="ns-icon-link"></span>
 					</a>
 					<?php edit_post_link( '<span class="ns-icon-edit" title="'. esc_attr__('Edit the Ticket', 'nanosupport') .'"></span>', '', '', get_the_ID() ); ?>
 				</div>
-			</div>
+			</div> <!-- /.ns-row -->
 			<div class="ticket-question">
 				<?php the_content(); ?>
 			</div>
@@ -134,18 +134,18 @@
 		        foreach( $response_array as $response ) { ?>
 					
 					<div class="ticket-response-cards ns-cards">
-						<div class="row">
-							<div class="col-sm-9">
+						<div class="ns-row">
+							<div class="ns-col-sm-9">
 								<div class="response-head">
 									<h3 class="ticket-head" id="response-<?php echo esc_attr($counter); ?>">
 										<?php echo $response->comment_author; ?>
 									</h3>
 								</div> <!-- /.response-head -->
 							</div>
-							<div class="col-sm-3 response-dates">
-								<a href="#response-<?php echo esc_attr($counter); ?>" class="response-bookmark"><small><strong class="ns-hash">#</strong> <?php echo date( 'd M Y h:iA', strtotime( $response->comment_date ) ); ?></small></a>
+							<div class="ns-col-sm-3 response-dates">
+								<a href="#response-<?php echo esc_attr($counter); ?>" class="response-bookmark ns-small"><strong class="ns-hash">#</strong> <?php echo date( 'd M Y h:iA', strtotime( $response->comment_date ) ); ?></a>
 							</div>
-						</div>
+						</div> <!-- /.ns-row -->
 						<div class="ticket-response">
 							<?php echo wpautop( html_entity_decode( $response->comment_content ) ); ?>
 						</div>
@@ -171,12 +171,12 @@
 
 				    if( 'solved' == $ticket_status && ! isset( $_GET['reopen'] ) ) {
 
-				    	echo '<div class="alert alert-success" role="alert">';
+				    	echo '<div class="ns-alert ns-alert-success" role="alert">';
 				    		/**
 				    		 * Reopen the Ticket
 				    		 */
 				    		$ropen_url = add_query_arg( 'reopen', '', get_the_permalink() );
-				    		printf( __( 'This ticket is already solved. <a class="btn btn-sm btn-warning" href="%s#write-message"><span class="ns-icon-reopen"></span> Reopen Ticket</a>', 'nanosupport' ), esc_url( $ropen_url ) );
+				    		printf( __( 'This ticket is already solved. <a class="ns-btn ns-btn-sm ns-btn-warning" href="%s#write-message"><span class="ns-icon-reopen"></span> Reopen Ticket</a>', 'nanosupport' ), esc_url( $ropen_url ) );
 						echo '</div>';
 
 				    } else {
@@ -195,7 +195,7 @@
 							}
 
 							if( is_wp_error( $error ) && ! empty( $error->errors ) ) {
-								echo '<div class="alert alert-danger" role="alert">';
+								echo '<div class="ns-alert ns-alert-danger" role="alert">';
 									echo $error->get_error_message();
 								echo '</div>';
 							} else {
@@ -236,12 +236,12 @@
 							    }
 					    	
 								if( ! is_wp_error( $comment_id ) ) {
-									echo '<div class="alert alert-success" role="alert">';
-										echo __( 'Your response is successfully submitted to this ticket.', 'nanosupport' ) . ' <a class="btn btn-sm btn-info" href="'. get_the_permalink() .'"><span class="glyphicon glyphicon-refresh"></span> Reload</a>';
+									echo '<div class="ns-alert ns-alert-success" role="alert">';
+										echo __( 'Your response is successfully submitted to this ticket.', 'nanosupport' ) . ' <a class="ns-btn ns-btn-sm ns-btn-info" href="'. get_the_permalink() .'"><span class="ns-icon-refresh"></span> Reload</a>';
 									echo '</div>';
 									$hide_form = true;
 								} else {
-									echo '<div class="alert alert-danger" role="alert">';
+									echo '<div class="ns-alert ns-alert-danger" role="alert">';
 										echo $comment_id->get_error_message();
 									echo '</div>';
 								}
@@ -255,31 +255,31 @@
 					    	<form method="post" enctype="multipart/form-data">
 
 								<div class="ns-cards ns-feedback">
-									<div class="row">
-										<div class="col-sm-9">
+									<div class="ns-row">
+										<div class="ns-col-sm-9">
 											<div class="response-head">
 												<h3 class="ticket-head" id="new-response">
 													<?php printf( __('Responding as: %s','nanosupport'), $current_user->display_name ); ?>
 												</h3>
 											</div> <!-- /.response-head -->
 										</div>
-										<div class="col-sm-3 response-dates">
-											<small><?php echo date( 'd M Y h:iA', current_time( 'timestamp' ) ); ?></small>
+										<div class="ns-col-sm-3 response-dates ns-small">
+											<?php echo date( 'd M Y h:iA', current_time('timestamp') ); ?>
 										</div>
-									</div>
+									</div> <!-- /.ns-row -->
 									<div class="ns-feedback-form">
-										<div class="form-group">
-											<textarea name="ns_response_msg" id="write-message" class="form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nanosupport'); ?>" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>"><?php echo isset($_POST['ns_response_msg']) ? html_entity_decode( $_POST['ns_response_msg'] ) : ''; ?></textarea>
-										</div>
+										<div class="ns-form-group">
+											<textarea name="ns_response_msg" id="write-message" class="ns-form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nanosupport'); ?>" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>"><?php echo isset($_POST['ns_response_msg']) ? html_entity_decode( $_POST['ns_response_msg'] ) : ''; ?></textarea>
+										</div> <!-- /.ns-form-group -->
 										<?php wp_nonce_field( 'response_nonce', 'nanosupport_response_nonce' ); ?>
 										<?php
 										if( 'solved' == $ticket_status && isset( $_GET['reopen'] ) ) {
-											echo '<div class="alert alert-warning" role="alert">';
+											echo '<div class="ns-alert ns-alert-warning" role="alert">';
 												_e( '<strong>Just to inform:</strong> you are about to Reopen the ticket.', 'nanosupport' );
 											echo '</div>';
 										}
 										?>
-										<button type="submit" name="send" class="btn btn-primary"><?php _e( 'Submit', 'nanosupport' ); ?></button>
+										<button type="submit" name="send" class="ns-btn ns-btn-primary"><?php _e( 'Submit', 'nanosupport' ); ?></button>
 									</div>
 								</div> <!-- /.ns-feedback-form -->
 
@@ -292,7 +292,7 @@
 
 			<?php } else { ?>
 
-				<div class="alert alert-info text-center" role="alert">
+				<div class="ns-alert ns-alert-info ns-text-center" role="alert">
 					<?php
 					if( 'solved' === $ticket_status ) {
 						_e( '<strong>Resolved!</strong> New Responses to this ticket is already closed. Only ticket author can reopen a closed ticket.', 'nanosupport' );
@@ -308,6 +308,6 @@
 
 	</article> <!-- /#post-<?php the_ID(); ?> -->
 
-	<a class="btn btn-sm btn-default" href="<?php echo esc_url(get_permalink( $ticket_list_page )); ?>"><span class="ns-icon-chevron-left"></span> <?php _e( 'Back to ticket index', 'nanosupport' ); ?></a>
+	<a class="ns-btn ns-btn-sm ns-btn-default" href="<?php echo esc_url(get_permalink( $ticket_list_page )); ?>"><span class="ns-icon-chevron-left"></span> <?php _e( 'Back to ticket index', 'nanosupport' ); ?></a>
 
 </div>

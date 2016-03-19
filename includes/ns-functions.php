@@ -237,12 +237,12 @@ function ns_knowledgebase_navigation() {
 
     ob_start(); ?>
 
-    <div class="well well-sm">
-        <div class="row">
-            <div class="col-sm-7 text-muted">
+    <div class="ns-well ns-well-sm">
+        <div class="ns-row">
+            <div class="ns-col-sm-7 ns-text-muted">
                 <?php _e( "Find your desired question in the knowledgebase. If you can't find your question, submit a new support ticket.", 'nanosupport' ); ?>
             </div>
-            <div class="col-sm-5 text-right">
+            <div class="ns-col-sm-5 ns-text-right">
                 <?php
                 if( current_user_can('administrator') || current_user_can('editor') )
                     $all_tickets_label = __( 'All the Tickets', 'nanosupport' );
@@ -250,15 +250,15 @@ function ns_knowledgebase_navigation() {
                     $all_tickets_label = __( 'My Tickets', 'nanosupport' );             
                 ?>
 
-                <a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="btn btn-sm btn-primary">
+                <a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="ns-btn ns-btn-sm ns-btn-primary">
                     <span class="ns-icon-tag"></span> <?php echo $all_tickets_label; ?>
                 </a>
-                <a class="btn btn-sm btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( $ns_general_settings['submit_page'] ) ); ?>">
+                <a class="ns-btn ns-btn-sm ns-btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( $ns_general_settings['submit_page'] ) ); ?>">
                     <span class="ns-icon-tag"></span> <?php _e( 'Submit Ticket', 'nanosupport' ); ?>
                 </a>
             </div>
         </div>
-    </div>
+    </div> <!-- /.ns-well.ns-well-sm -->
 
     <?php
     echo ob_get_clean();
@@ -287,9 +287,9 @@ function ns_new_ticket_navigation() {
 
     ob_start(); ?>
 
-    <div class="well well-sm">
-        <div class="row">
-            <div class="col-sm-5">
+    <div class="ns-well ns-well-sm">
+        <div class="ns-row">
+            <div class="ns-col-sm-5">
                 <?php
                 if( current_user_can('administrator') || current_user_can('editor') )
                     $all_tickets_label = __( 'All the Tickets', 'nanosupport' );
@@ -297,18 +297,18 @@ function ns_new_ticket_navigation() {
                     $all_tickets_label = __( 'My Tickets', 'nanosupport' );             
                 ?>
 
-                <a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="btn btn-sm btn-primary">
+                <a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="ns-btn ns-btn-sm ns-btn-primary">
                     <span class="ns-icon-tag"></span> <?php esc_html_e( $all_tickets_label ); ?>
                 </a>
-                <a class="btn btn-sm btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
+                <a class="ns-btn ns-btn-sm ns-btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
                     <span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
                 </a>
             </div>
-            <div class="col-sm-7 text-muted">
-                <small><?php _e( 'Consult the Knowledgebase for your query. If they are <em>not</em> close to you, then submit a new ticket here.', 'nanosupport' ); ?></small>
+            <div class="ns-col-sm-7 ns-text-muted">
+                <span class="ns-small"><?php _e( 'Consult the Knowledgebase for your query. If they are <em>not</em> close to you, then submit a new ticket here.', 'nanosupport' ); ?></span>
             </div>
         </div>
-    </div>
+    </div> <!-- /.ns-well.ns-well-sm -->
     
     <?php
     echo ob_get_clean();
@@ -337,21 +337,21 @@ function ns_support_desk_navigation() {
 
     ob_start(); ?>
 
-    <div class="well well-sm">
-        <div class="row">
-            <div class="col-sm-7 text-muted">
+    <div class="ns-well ns-well-sm">
+        <div class="ns-row">
+            <div class="ns-col-sm-7 ns-text-muted">
                 <?php _e( 'Tickets are visible to the admins, designated support assistant and/or to the ticket owner only.', 'nanosupport' ); ?>
             </div>
-            <div class="col-sm-5 text-right">
-                <a class="btn btn-sm btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
+            <div class="ns-col-sm-5 ns-text-right">
+                <a class="ns-btn ns-btn-sm ns-btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
                     <span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
                 </a>
-                <a class="btn btn-sm btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( $ns_general_settings['submit_page'] ) ); ?>">
+                <a class="ns-btn ns-btn-sm ns-btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( $ns_general_settings['submit_page'] ) ); ?>">
                     <span class="ns-icon-tag"></span> <?php _e( 'Submit Ticket', 'nanosupport' ); ?>
                 </a>
             </div>
         </div>
-    </div>
+    </div> <!-- /.ns-well.ns-well-sm -->
     
     <?php
     echo ob_get_clean();

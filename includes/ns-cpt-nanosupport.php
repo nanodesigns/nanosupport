@@ -125,11 +125,11 @@ function ns_populate_custom_columns( $column, $post_id ) {
             if( $ticket_priority && 'low' === $ticket_priority )
                 echo '<strong>'. __( 'Low', 'nanosupport' ) .'</strong>';
             else if( $ticket_priority && 'medium' === $ticket_priority )
-                echo '<strong class="text-info">' , __( 'Medium', 'nanosupport' ) , '</strong>';
+                echo '<strong class="ns-text-info">' , __( 'Medium', 'nanosupport' ) , '</strong>';
             else if( $ticket_priority && 'high' === $ticket_priority )
-                echo '<strong class="text-warning">' , __( 'High', 'nanosupport' ) , '</strong>';
+                echo '<strong class="ns-text-warning">' , __( 'High', 'nanosupport' ) , '</strong>';
             else if( $ticket_priority && 'critical' === $ticket_priority )
-                echo '<strong class="text-danger">' , __( 'Critical', 'nanosupport' ) , '</strong>';
+                echo '<strong class="ns-text-danger">' , __( 'Critical', 'nanosupport' ) , '</strong>';
             break;
 
         case 'ticket_responses' :
@@ -148,11 +148,11 @@ function ns_populate_custom_columns( $column, $post_id ) {
             $ticket_status = $ticket_control ? $ticket_control['status'] : false;
             if( $ticket_status ) {
                 if( 'solved' === $ticket_status ) {
-                    $status = '<span class="label label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
+                    $status = '<span class="ns-label ns-label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
                 } else if( 'inspection' === $ticket_status ) {
-                    $status = '<span class="label label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
+                    $status = '<span class="ns-label ns-label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
                 } else {
-                    $status = '<span class="label label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
+                    $status = '<span class="ns-label ns-label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
                 }
             } else {
                 $status = '';

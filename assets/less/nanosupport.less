@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /**
  * NanoSupport Stylesheet
  *
@@ -18,14 +20,19 @@
 
 /** /COLOR VARIABLES */
 
-@charset "UTF-8";
+/** Get other CSS files */
+@import (less) "../css/normalize.css";
+@import (less) "../css/nanosupport-layout.css";
 
+/*! NanoSupport Styles */
 html{
 	font-size: inherit;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body{
 	font-size: 100%;
 }
+
 .ns-clearfix{
 	clear: both;
 }
@@ -44,7 +51,7 @@ body{
       text-decoration: none;
       box-shadow: 0 0 0 rgba(0,0,0,0);
     }
-    small{
+    .ns-small{
       opacity: 0;
       -webkit-transition: all 0.5s ease;
          -moz-transition: all 0.5s ease;
@@ -52,7 +59,7 @@ body{
           -ms-transition: all 0.5s ease;
               transition: all 0.5s ease;
     }
-    &:hover small{
+    &:hover .ns-small{
       opacity: 1;
       -webkit-transition: all 0.5s ease;
          -moz-transition: all 0.5s ease;
@@ -87,7 +94,7 @@ body{
   //font-style: italic;
   color: #999;
 }
-.btn.ns-round-btn{
+.ns-btn.ns-round-btn{
   width: 27px;
   height: 27px;
   -webkit-border-radius: 100%;
@@ -338,7 +345,7 @@ article.ns-single.type-nanosupport{
 }
 
 /* Pagination */
-.ns-pagination{
+.nanosupport-pagination{
 	text-align: center;
 
 	li > span{
@@ -368,21 +375,18 @@ article.ns-single.type-nanosupport{
 		color: #fff;
 		padding: 5px 10px;
 	}
-  .bs-pagination a{
+  .ns-pagination a{
     box-shadow: 0 0 0 0 transparent;
   }
 }
 
-/* work-around on bootstrap */
-.bs-pagination{display:inline-block;padding-left:0;margin:20px 0;border-radius:4px}.bs-pagination>li{display:inline}.bs-pagination>li>a,.bs-pagination>li>span{position:relative;float:left;padding:6px 12px;line-height:1.42857143;text-decoration:none;color:#337ab7;background-color:#fff;border:1px solid #ddd;margin-left:-1px}.bs-pagination>li:first-child>a,.bs-pagination>li:first-child>span{margin-left:0;border-bottom-left-radius:4px;border-top-left-radius:4px}.bs-pagination>li:last-child>a,.bs-pagination>li:last-child>span{border-bottom-right-radius:4px;border-top-right-radius:4px}.bs-pagination>li>a:hover,.bs-pagination>li>span:hover,.bs-pagination>li>a:focus,.bs-pagination>li>span:focus{z-index:2;color:#23527c;background-color:#eee;border-color:#ddd}.bs-pagination>.active>a,.bs-pagination>.active>span,.bs-pagination>.active>a:hover,.bs-pagination>.active>span:hover,.bs-pagination>.active>a:focus,.bs-pagination>.active>span:focus{z-index:3;color:#fff;background-color:#337ab7;border-color:#337ab7;cursor:default}.bs-pagination>.disabled>span,.bs-pagination>.disabled>span:hover,.bs-pagination>.disabled>span:focus,.bs-pagination>.disabled>a,.bs-pagination>.disabled>a:hover,.bs-pagination>.disabled>a:focus{color:#777;background-color:#fff;border-color:#ddd;cursor:not-allowed}.bs-pagination-lg>li>a,.bs-pagination-lg>li>span{padding:10px 16px;font-size:18px;line-height:1.3333333}.bs-pagination-lg>li:first-child>a,.bs-pagination-lg>li:first-child>span{border-bottom-left-radius:6px;border-top-left-radius:6px}.bs-pagination-lg>li:last-child>a,.bs-pagination-lg>li:last-child>span{border-bottom-right-radius:6px;border-top-right-radius:6px}.bs-pagination-sm>li>a,.bs-pagination-sm>li>span{padding:5px 10px;font-size:12px;line-height:1.5}.bs-pagination-sm>li:first-child>a,.bs-pagination-sm>li:first-child>span{border-bottom-left-radius:3px;border-top-left-radius:3px}.bs-pagination-sm>li:last-child>a,.bs-pagination-sm>li:last-child>span{border-bottom-right-radius:3px;border-top-right-radius:3px}
-
-.btn [class^="ns-icon-"]:before,
-.btn [class*=" ns-icon-"]:before{
+.ns-btn [class^="ns-icon-"]:before,
+.ns-btn [class*=" ns-icon-"]:before{
 	font-size: 15px;
 	vertical-align: middle;
 }
-.btn-sm [class^="ns-icon-"]:before,
-.btn-sm [class*=" ns-icon-"]:before{
+.ns-btn-sm [class^="ns-icon-"]:before,
+.ns-btn-sm [class*=" ns-icon-"]:before{
 	font-size: 12px;
 }
 
@@ -511,6 +515,11 @@ article.ns-single.type-nanosupport{
     line-height: 1.5;
     float: left;
     margin: 0 5px 5px 0;
+
+    &:before{
+      line-height: 1.5;
+      font-size: 20px;
+    }
   }
 }
 .ns-kb-cat-box ul li{
