@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Hide all the Responses in Comments page (Admin Panel)
+ * Hide all the Responses in Comments queries (Admin Panel)
  *
  * @author gmazzap <https://twitter.com/gmazzap>
  * @link   http://wordpress.stackexchange.com/a/186281/22728
@@ -28,10 +28,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * -----------------------------------------------------------------------
  */
 function ns_exclude_responses_in_comments(\WP_Comment_Query $query) {
-    /* only allow 'nanosupport_response' when is required explicitly */
-    if ( $query->query_vars['type'] !== 'nanosupport_response' ) {
-        $query->query_vars['type__not_in'] = array_merge((array) $query->query_vars['type__not_in'], array('nanosupport_response'));
-    }
+    if( is_admin() ) :
+        $screen = get_current_screen();
+        if( !('edit' === $screen->parent_base && 'nanosupport' === $screen->post_type) ) :
+            /* only allow 'nanosupport_response' when is required explicitly */
+            if ( $query->query_vars['type'] !== 'nanosupport_response' ) :
+                $query->query_vars['type__not_in'] = array_merge((array) $query->query_vars['type__not_in'], array('nanosupport_response'));
+            endif;
+        endif;
+    endif;
 }
 
 add_action( 'pre_get_comments', 'ns_exclude_responses_in_comments' );

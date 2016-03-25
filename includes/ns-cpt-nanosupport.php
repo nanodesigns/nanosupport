@@ -60,17 +60,8 @@ function ns_register_cpt_nanosupport() {
         'query_var'				=> true,
         'can_export'			=> true,
         'rewrite'				=> array( 'slug' => 'support' ),
-        'capability_type'       => 'post',
-        /*'capabilities'          => array(
-                                    'edit_post'             => 'edit_nanosupport_ticket',
-                                    'edit_posts'            => 'edit_nanosupport_ticket',
-                                    'edit_others_posts'     => 'edit_other_nanosupport_ticket',
-                                    'publish_posts'         => 'publish_nanosupport_ticket',
-                                    'read_post'             => 'read_nanosupport_ticket',
-                                    'read_private_posts'    => 'read_private_nanosupport_ticket',
-                                    'delete_post'           => 'delete_nanosupport_ticket'
-                                ),
-        'map_meta_cap'          => true*/
+        'capability_type'       => 'nanosupport_ticketing',
+        'map_meta_cap'          => true
     );
 
     if( !post_type_exists( 'nanosupport' ) )

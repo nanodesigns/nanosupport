@@ -21,6 +21,8 @@ function ns_responses_meta_box() {
         'normal',                               // 'normal', 'advanced', or 'side'
         'high'                                  // 'high', 'core', 'default' or 'low'
     );
+
+    remove_meta_box( 'commentsdiv', 'nanosupport', 'normal' );
 }
 add_action( 'add_meta_boxes', 'ns_responses_meta_box' );
 
@@ -52,7 +54,6 @@ function ns_reply_specifics() {
     $response_array = get_comments( $args ); ?>
     
     <div class="row ns-holder">
-        <h2><?php _e('Responses to the ticket', 'nanosupport' ); ?></h2>
 
         <?php if( $response_array ) {
 

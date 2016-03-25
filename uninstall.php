@@ -70,6 +70,12 @@ $wpdb->delete( $wpdb->usermeta, array( 'meta_key' => 'ns_make_agent' ), array( '
 flush_rewrite_rules();
 
 /**
+ * Remove custom capabilities
+ */
+include_once( 'includes/class-ns-install.php' );
+NS_Install::remove_caps();
+
+/**
  * Delete all the options
  */
 delete_option( 'nanosupport_version' );

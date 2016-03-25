@@ -7,12 +7,12 @@
  * @author  	nanodesigns
  * @category 	Core
  * @package 	NanoSupport
+ * @version   	1.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 
 /**
  * Get template part (for templates like the ns-loop).

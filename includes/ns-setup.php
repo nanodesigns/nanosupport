@@ -59,7 +59,7 @@ function ns_scripts() {
 
     endif;
 
-    if( is_page('knowledgebase') ) :
+    if( is_page($ns_knowledgebase_settings['page']) ) :
 
         /**
          * MatchHeight JS v0.7.0

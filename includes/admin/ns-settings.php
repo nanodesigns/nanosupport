@@ -28,7 +28,7 @@ function ns_settings_page() {
         'edit.php?post_type=nanosupport',       //$parent_slug
         __( 'Settings', 'nanosupport' ),        //$page_title
         __( 'Settings', 'nanosupport' ),        //$menu_title
-        'manage_options',                       //$capability
+        'set_nanosupport',                      //$capability
         'nanosupport-settings',                 //$menu_slug
         'nanosupport_settings_page_callback'    //callback function
     );

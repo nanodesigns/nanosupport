@@ -59,17 +59,8 @@ function ns_register_cpt_nanodoc() {
         'query_var'				=> true,
         'can_export'			=> true,
         'rewrite'				=> array( 'slug' => 'knowledgebase' ),
-        'capability_type'       => 'post',
-        /*'capabilities'          => array(
-                                    'edit_post'             => 'edit_ns',
-                                    'edit_posts'            => 'edit_nss',
-                                    'edit_others_posts'     => 'edit_other_nss',
-                                    'publish_posts'         => 'publish_nss',
-                                    'read_post'             => 'read_ns',
-                                    'read_private_posts'    => 'read_private_nss',
-                                    'delete_post'           => 'delete_ns'
-                                ),
-        'map_meta_cap'          => true*/
+        'capability_type'       => 'nanodoc',
+        'map_meta_cap'          => true
     );
 
     if( !post_type_exists( 'nanodoc' ) )
