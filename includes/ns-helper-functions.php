@@ -15,53 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Create Pages
- * 
- * Create necessary pages for the plugin.
- *
- * @since  1.0.0
- * 
- * @param  string $title   Title of the page.
- * @param  string $slug    Hyphenated slug of the page.
- * @param  string $content Anything of a wide range of alphanumeric contents.
- * @return integer         ID of the page that is created or already exists.
- * -----------------------------------------------------------------------
- */
-function ns_create_page( $title, $slug, $content ) {
-
-    global $current_user;
-
-    //set a default so that we can check nothing happened
-    $page_id = false;
-
-    $ns_check_page = get_page_by_path( $slug ); //default post type 'page'
-
-    if( null === $ns_check_page ) {
-
-        //set the page_id as the page created
-        $page_id = wp_insert_post( array(
-                                        'post_title'        => sanitize_text_field( $title ),
-                                        'post_name'         => sanitize_text_field( $slug ),
-                                        'post_content'      => htmlentities( $content ),
-                                        'post_status'       => 'publish',
-                                        'post_type'         => 'page',
-                                        'post_author'       => absint( $current_user->ID ),
-                                        'comment_status'    => 'closed',
-                                        'ping_status'       => 'closed'
-                                    ) );
-
-        return $page_id;
-
-    } else {
-
-        return $ns_check_page->ID;
-
-    }
-
-}
-
-
-/**
  * Get last response information
  *
  * Get the last response informatin including response ID, user ID,

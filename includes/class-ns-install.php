@@ -18,13 +18,55 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class NS_Install {
 
-	public function __construct() {
-		register_activation_hook( __FILE__, array($this, 'install') );
+	public static function init() {
+		//add_action( 'plugins_loaded', array( __CLASS__, 'cross_check_on_activation' ) );
+		add_filter( 'plugin_action_links_'. NS_PLUGIN_BASENAME, array( __CLASS__, 'plugin_settings_link' ) );
 	}
 
-	public static function init() {
-		add_action( 'plugins_loaded', array($this, 'cross_check_on_activation') );
-		add_filter( 'plugin_action_links_'. NS_PLUGIN_BASENAME, array( __CLASS__, 'plugin_settings_link' ) );
+	/**
+	 * Create Pages
+	 * 
+	 * Create necessary pages for the plugin.
+	 *
+	 * @since  1.0.0
+	 * 
+	 * @param  string $title   Title of the page.
+	 * @param  string $slug    Hyphenated slug of the page.
+	 * @param  string $content Anything of a wide range of alphanumeric contents.
+	 * @return integer         ID of the page that is created or already exists.
+	 * -----------------------------------------------------------------------
+	 */
+	public function ns_create_page( $title, $slug, $content ) {
+
+	    global $current_user;
+
+	    //set a default so that we can check nothing happened
+	    $page_id = false;
+
+	    $ns_check_page = get_page_by_path( $slug ); //default post type 'page'
+
+	    if( null === $ns_check_page ) {
+
+	        //set the page_id as the page created
+	        $page_id = wp_insert_post( array(
+	                                        'post_title'        => sanitize_text_field( $title ),
+	                                        'post_name'         => sanitize_text_field( $slug ),
+	                                        'post_content'      => htmlentities( $content ),
+	                                        'post_status'       => 'publish',
+	                                        'post_type'         => 'page',
+	                                        'post_author'       => absint( $current_user->ID ),
+	                                        'comment_status'    => 'closed',
+	                                        'ping_status'       => 'closed'
+	                                    ) );
+
+	        return $page_id;
+
+	    } else {
+
+	        return $ns_check_page->ID;
+
+	    }
+
 	}
 
 	/**
@@ -41,7 +83,7 @@ class NS_Install {
 	 * 
 	 * @return void
 	 */
-	private function cross_check_on_activation() {
+	public function cross_check_on_activation() {
 		if ( version_compare( get_bloginfo( 'version' ), '3.9.0', '<=' ) ) {
 
 			if ( current_user_can( 'activate_plugins' ) ) {
@@ -188,24 +230,24 @@ class NS_Install {
 	 *
 	 * @return  void
 	 */
-	public function install() {
+	public static function install() {
 
 	    //create a page to display all the tickets or my tickets
-		$support_desk_page_id = ns_create_page(
+		$support_desk_page_id = $this->ns_create_page(
 	                                'Support Desk',                 //page title
 	                                'support-desk',                 //page slug
 	                                '[nanosupport_desk]'            //content (shortcode)
 	                            );
 
 	    //create another page to show support ticket-taking form to get the support tickets
-	    $submit_ticket_page_id = ns_create_page(
+	    $submit_ticket_page_id = $this->ns_create_page(
 	                                'Submit Ticket',                //page title
 	                                'submit-ticket',                //page slug
 	                                '[nanosupport_submit_ticket]'   //content (shortcode)
 	                            );
 
 	    //create another page to show the knowledgebase
-	    $knowledgebase_page_id = ns_create_page(
+	    $knowledgebase_page_id = $this->ns_create_page(
 	                                'Knowledgebase',                //page title
 	                                'knowledgebase',                //page slug
 	                                '[nanosupport_knowledgebase]'   //content (shortcode)
@@ -281,7 +323,7 @@ class NS_Install {
 	 * @param  array $links  Links on the plugin page per plugin.
 	 * @return array         Modified with our link.
 	 */
-	public function plugin_settings_link( $links ) {
+	public static function plugin_settings_link( $links ) {
 	  //$settings_link = '/wp-admin/edit.php?post_type=nanosupport&page=nanosupport-settings';
 	  $settings_link = '<a href="'. esc_url( admin_url( 'edit.php?post_type=nanosupport&page=nanosupport-settings' ) ) .'" title="'. esc_attr__( 'Set the NanoSupport settings', 'nanosupport' ) .'">'. __( 'Settings', 'nanosupport' ) .'</a>';
 

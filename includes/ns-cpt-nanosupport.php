@@ -60,7 +60,7 @@ function ns_register_cpt_nanosupport() {
         'query_var'				=> true,
         'can_export'			=> true,
         'rewrite'				=> array( 'slug' => 'support' ),
-        'capability_type'       => 'nanosupport_ticketing',
+        'capability_type'       => 'nanosupport',
         'map_meta_cap'          => true
     );
 

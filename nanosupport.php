@@ -24,17 +24,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
-
-if ( ! class_exists( 'NS' ) ) :
+define( 'NS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+if ( ! class_exists( 'NanoSupport' ) ) :
 
 /**
  * -----------------------------------------------------------------------
  * Main NanoSupport Class
  *
- * @class NS
+ * @class NanoSupport
  * -----------------------------------------------------------------------
  */
-final class NS {
+final class NanoSupport {
 
 	/**
 	 * @var string
@@ -68,7 +68,7 @@ final class NS {
 	 * 
 	 * @static
 	 * @see NS()
-	 * @return NS - Main instance
+	 * @return NanoSupport - Main instance
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -78,6 +78,8 @@ final class NS {
 	}
 
 	public function __construct() {
+		$this->define_constants();
+		$this->ns_includes();
 		$this->init();
 
 		/**
@@ -93,10 +95,71 @@ final class NS {
 		do_action( 'nanosupport_loaded' );
 	}
 
+	/**
+	 * Define constant if not yet set.
+	 *
+	 * @param string 		$name
+	 * @param string|bool 	$value
+	 */
+	private function ns_define( $name, $value ) {
+		if ( ! defined( $name ) ) {
+			define( $name, $value );
+		}
+	}
+
+	/**
+	 * Define necessary constants
+	 * @return void
+	 */
+	private function define_constants() {
+		$this->ns_define( 'NS_PLUGIN_FILE', __FILE__ );
+		$this->ns_define( 'NS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+	}
+
+	/**
+	 * Require additional files
+	 *
+	 * Making all the features decentralized for feture-specific
+	 * orientation or organization of resources.
+	 */
+	public function ns_includes() {
+		/** Classes **/
+		include_once( 'includes/class-ns-install.php' );
+
+		/** Core Functions **/
+		include_once( 'includes/ns-core-functions.php' );
+		/** Functions specific to setup the environments **/
+		include_once( 'includes/ns-setup.php' );
+
+		/** CPT Tickets **/
+		include_once( 'includes/ns-cpt-nanosupport.php' );
+		/** CPT Knowledgebase **/
+		include_once( 'includes/ns-cpt-knowledgebase.php' );
+		/** Metaboxes: Responses **/
+		include_once( 'includes/ns-metaboxes-responses.php' );
+		/** Miscellaneous functions **/
+		include_once( 'includes/ns-functions.php' );
+
+		/** Handling emails **/
+		include_once( 'includes/ns-email-functions.php' );
+
+		/** Shortcode: Support Desk **/
+		include_once( 'includes/shortcodes/ns-support-desk.php' );
+		/** Shortcode: Submit Ticket **/
+		include_once( 'includes/shortcodes/ns-submit-ticket.php' );
+		/** Shortcode: Knowledgebase **/
+		include_once( 'includes/shortcodes/ns-knowledgebase.php' );
+
+		/** Helper functions **/
+		include_once( 'includes/ns-helper-functions.php' );
+
+		/** Settings API **/
+		include_once( 'includes/admin/ns-settings.php' );
+	}
+
 	public function init() {
+		register_activation_hook( __FILE__, array('NS_Install', 'install') );
 		add_action( 'init', array( $this, 'ns_load_textdomain' ), 1 );
-		$this->define_constants();
-		$this->ns_includes();
 	}
 
 	/**
@@ -121,27 +184,6 @@ final class NS {
 	 */
 	public function template_path() {
 		return apply_filters( 'ns_template_path', 'NS/' );
-	}
-
-	/**
-	 * Define constant if not yet set.
-	 *
-	 * @param string 		$name
-	 * @param string|bool 	$value
-	 */
-	private function ns_define( $name, $value ) {
-		if ( ! defined( $name ) ) {
-			define( $name, $value );
-		}
-	}
-
-	/**
-	 * Define necessary constants
-	 * @return void
-	 */
-	private function define_constants() {
-		$this->ns_define( 'NS_PLUGIN_FILE', __FILE__ );
-		$this->ns_define( 'NS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 	}
 
 	/**
@@ -178,61 +220,16 @@ final class NS {
 	    	dirname( plugin_basename( __FILE__ ) ) .'/i18n/languages/'
 	    );
 	}
-
-	/**
-	 * -----------------------------------------------------------------------
-	 * Require additional files
-	 *
-	 * Making all the features decentralized for feture-specific
-	 * orientation or organization of resources.
-	 * 
-	 * @package NanoSupport
-	 * -----------------------------------------------------------------------
-	 */
-	public function ns_includes() {
-		/** Classes **/
-		require_once 'includes/class-ns-install.php';
-
-		/** Core Functions **/
-		require_once 'includes/ns-core-functions.php';
-		/** Functions specific to setup the environments **/
-		require_once 'includes/ns-setup.php';
-
-		/** CPT Tickets **/
-		require_once 'includes/ns-cpt-nanosupport.php';
-		/** CPT Knowledgebase **/
-		require_once 'includes/ns-cpt-knowledgebase.php';
-		/** Metaboxes: Responses **/
-		require_once 'includes/ns-metaboxes-responses.php';
-		/** Miscellaneous functions **/
-		require_once 'includes/ns-functions.php';
-
-		/** Handling emails **/
-		require_once 'includes/ns-email-functions.php';
-
-		/** Shortcode: Support Desk **/
-		require_once 'includes/shortcodes/ns-support-desk.php';
-		/** Shortcode: Submit Ticket **/
-		require_once 'includes/shortcodes/ns-submit-ticket.php';
-		/** Shortcode: Knowledgebase **/
-		require_once 'includes/shortcodes/ns-knowledgebase.php';
-
-		/** Helper functions **/
-		require_once 'includes/ns-helper-functions.php';
-
-		/** Settings API **/
-		require_once 'includes/admin/ns-settings.php';
-	}
 }
 
 endif;
 
 /**
  * -----------------------------------------------------------------------
- * Returns the main instance of NS to prevent the need to use globals.
+ * Returns the main instance of NanoSupport to prevent the need to use globals.
  * @return NS
  * -----------------------------------------------------------------------
  */
 function NS() {
-	return NS::instance();
+	return NanoSupport::instance();
 }
