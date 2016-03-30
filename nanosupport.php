@@ -24,7 +24,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
-define( 'NS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 if ( ! class_exists( 'NanoSupport' ) ) :
 
 /**
@@ -92,7 +91,16 @@ final class NanoSupport {
 		 * @since  1.0.0
 		 * -----------------------------------------------------------------------
 		 */
-		do_action( 'nanosupport_loaded' );
+		//do_action( 'nanosupport_loaded' );
+	}
+
+	/**
+	 * Define necessary constants
+	 * @return void
+	 */
+	private function define_constants() {
+		$this->ns_define( 'NS_PLUGIN_FILE', __FILE__ );
+		$this->ns_define( 'NS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 	}
 
 	/**
@@ -105,15 +113,6 @@ final class NanoSupport {
 		if ( ! defined( $name ) ) {
 			define( $name, $value );
 		}
-	}
-
-	/**
-	 * Define necessary constants
-	 * @return void
-	 */
-	private function define_constants() {
-		$this->ns_define( 'NS_PLUGIN_FILE', __FILE__ );
-		$this->ns_define( 'NS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 	}
 
 	/**
@@ -233,3 +232,37 @@ endif;
 function NS() {
 	return NanoSupport::instance();
 }
+
+define( 'NS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+/** Classes **/
+include_once( 'includes/class-ns-install.php' );
+
+/** Core Functions **/
+include_once( 'includes/ns-core-functions.php' );
+/** Functions specific to setup the environments **/
+include_once( 'includes/ns-setup.php' );
+
+/** CPT Tickets **/
+include_once( 'includes/ns-cpt-nanosupport.php' );
+/** CPT Knowledgebase **/
+include_once( 'includes/ns-cpt-knowledgebase.php' );
+/** Metaboxes: Responses **/
+include_once( 'includes/ns-metaboxes-responses.php' );
+/** Miscellaneous functions **/
+include_once( 'includes/ns-functions.php' );
+
+/** Handling emails **/
+include_once( 'includes/ns-email-functions.php' );
+
+/** Shortcode: Support Desk **/
+include_once( 'includes/shortcodes/ns-support-desk.php' );
+/** Shortcode: Submit Ticket **/
+include_once( 'includes/shortcodes/ns-submit-ticket.php' );
+/** Shortcode: Knowledgebase **/
+include_once( 'includes/shortcodes/ns-knowledgebase.php' );
+
+/** Helper functions **/
+include_once( 'includes/ns-helper-functions.php' );
+
+/** Settings API **/
+include_once( 'includes/admin/ns-settings.php' );

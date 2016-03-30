@@ -92,7 +92,7 @@ class NS_Install {
 				add_action( 'admin_notices',	'ns_fail_dependency_admin_notice' );
 
 				function ns_force_deactivate() {
-					deactivate_plugins( plugin_basename( __FILE__ ) );
+					deactivate_plugins( NS_PLUGIN_BASENAME );
 				}
 
 				function ns_fail_dependency_admin_notice() {
