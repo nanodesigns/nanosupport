@@ -24,10 +24,110 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
+
+/**
+ * Define Constants
+ */
+if( ! defined( 'NS_PLUGIN_FILE' ) )
+	define( 'NS_PLUGIN_FILE', __FILE__ );
+
+if( ! defined( 'NS_PLUGIN_BASENAME' ) )
+	define( 'NS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+
+/**
+ * Translation-ready
+ * Make the plugin translation-ready.
+ *
+ * Note:
+ * the first-loaded translation file overrides any
+ * following ones if the same translation is present.
+ *
+ * Locales found in:
+ *      - WP_LANG_DIR/nanosupport/nanosupport-LOCALE.mo
+ *      - WP_LANG_DIR/plugins/nanosupport-LOCALE.mo
+ *      
+ * @since  1.0.0
+ */
+function ns_load_textdomain() {
+
+	/**
+	 * -----------------------------------------------------------------------
+	 * WP FILTER HOOK
+	 * plugin_locale
+	 *
+	 * WordPress' core filter hook to filter a plugin's locale.
+	 *
+	 * @link   https://developer.wordpress.org/reference/hooks/plugin_locale/
+	 *
+	 * @param string $locale The plugin's current locale.
+	 * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+	 * -----------------------------------------------------------------------
+	 */
+	$locale = apply_filters( 'plugin_locale', get_locale(), 'nanosupport' );
+	
+	load_textdomain(
+		'nanosupport',
+		WP_LANG_DIR .'/nanosupport/nanosupport-'. $locale .'.mo'
+	);
+
+    load_plugin_textdomain(
+    	'nanosupport',
+    	false,
+    	dirname( plugin_basename( __FILE__ ) ) .'/i18n/languages'
+    );
+}
+
+
+/**
+ * Include all the dependencies and particles
+ * 
+ * Is to decentralize things to make things managable.
+ */
+/** Install the plugin **/
+include_once 'includes/ns-install.php';
+
+/** Core Functions **/
+include_once 'includes/ns-core-functions.php';
+/** Functions specific to setup the environments **/
+include_once 'includes/ns-set-environment.php';
+
+/** CPT Tickets **/
+include_once 'includes/ns-cpt-nanosupport.php';
+/** CPT Knowledgebase **/
+include_once 'includes/ns-cpt-knowledgebase.php';
+/** Metaboxes: Responses **/
+include_once 'includes/ns-metaboxes-responses.php';
+/** Miscellaneous functions **/
+include_once 'includes/ns-functions.php';
+
+/** Handling emails **/
+include_once 'includes/ns-email-functions.php';
+
+/** Shortcode: Support Desk **/
+include_once 'includes/shortcodes/ns-support-desk.php';
+/** Shortcode: Submit Ticket **/
+include_once 'includes/shortcodes/ns-submit-ticket.php';
+/** Shortcode: Knowledgebase **/
+include_once 'includes/shortcodes/ns-knowledgebase.php';
+
+/** Helper functions **/
+include_once 'includes/ns-utility-functions.php';
+
+/** Settings API **/
+include_once 'includes/admin/ns-settings.php';
+
+
+/**
+ * Set the plugin up
+ */
+register_activation_hook( __FILE__, 'nanosupport_install' );
+add_action( 'init', 'ns_load_textdomain', 1 );
+
+
+
 if ( ! class_exists( 'NanoSupport' ) ) :
 
 /**
- * -----------------------------------------------------------------------
  * Main NanoSupport Class
  *
  * @class NanoSupport
@@ -76,91 +176,6 @@ final class NanoSupport {
 		return self::$_instance;
 	}
 
-	public function __construct() {
-		$this->define_constants();
-		$this->ns_includes();
-		$this->init();
-
-		/**
-		 * -----------------------------------------------------------------------
-		 * HOOK : ACTION HOOK
-		 * nanosupport_loaded
-		 * 
-		 * NanoSupport Plugin is successfully loaded.
-		 *
-		 * @since  1.0.0
-		 * -----------------------------------------------------------------------
-		 */
-		//do_action( 'nanosupport_loaded' );
-	}
-
-	/**
-	 * Define necessary constants
-	 * @return void
-	 */
-	private function define_constants() {
-		$this->ns_define( 'NS_PLUGIN_FILE', __FILE__ );
-		$this->ns_define( 'NS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-	}
-
-	/**
-	 * Define constant if not yet set.
-	 *
-	 * @param string 		$name
-	 * @param string|bool 	$value
-	 */
-	private function ns_define( $name, $value ) {
-		if ( ! defined( $name ) ) {
-			define( $name, $value );
-		}
-	}
-
-	/**
-	 * Require additional files
-	 *
-	 * Making all the features decentralized for feture-specific
-	 * orientation or organization of resources.
-	 */
-	public function ns_includes() {
-		/** Classes **/
-		include_once( 'includes/class-ns-install.php' );
-
-		/** Core Functions **/
-		include_once( 'includes/ns-core-functions.php' );
-		/** Functions specific to setup the environments **/
-		include_once( 'includes/ns-setup.php' );
-
-		/** CPT Tickets **/
-		include_once( 'includes/ns-cpt-nanosupport.php' );
-		/** CPT Knowledgebase **/
-		include_once( 'includes/ns-cpt-knowledgebase.php' );
-		/** Metaboxes: Responses **/
-		include_once( 'includes/ns-metaboxes-responses.php' );
-		/** Miscellaneous functions **/
-		include_once( 'includes/ns-functions.php' );
-
-		/** Handling emails **/
-		include_once( 'includes/ns-email-functions.php' );
-
-		/** Shortcode: Support Desk **/
-		include_once( 'includes/shortcodes/ns-support-desk.php' );
-		/** Shortcode: Submit Ticket **/
-		include_once( 'includes/shortcodes/ns-submit-ticket.php' );
-		/** Shortcode: Knowledgebase **/
-		include_once( 'includes/shortcodes/ns-knowledgebase.php' );
-
-		/** Helper functions **/
-		include_once( 'includes/ns-helper-functions.php' );
-
-		/** Settings API **/
-		include_once( 'includes/admin/ns-settings.php' );
-	}
-
-	public function init() {
-		register_activation_hook( __FILE__, array('NS_Install', 'install') );
-		add_action( 'init', array( $this, 'ns_load_textdomain' ), 1 );
-	}
-
 	/**
 	 * Get the plugin url.
 	 * @return string
@@ -185,84 +200,16 @@ final class NanoSupport {
 		return apply_filters( 'ns_template_path', 'NS/' );
 	}
 
-	/**
-	 * Translation-ready
-	 * Make the plugin translation-ready.
-	 *
-	 * @since  1.0.0
-	 */
-	public function ns_load_textdomain() {
-
-		/**
-		 * -----------------------------------------------------------------------
-		 * WP FILTER HOOK
-		 * plugin_locale
-		 *
-		 * WordPress' core filter hook to filter a plugin's locale.
-		 *
-		 * @link   https://developer.wordpress.org/reference/hooks/plugin_locale/
-		 *
-		 * @param string $locale The plugin's current locale.
-		 * @param string $domain Text domain. Unique identifier for retrieving translated strings.
-		 * -----------------------------------------------------------------------
-		 */
-		$locale = apply_filters( 'plugin_locale', get_locale(), 'nanosupport' );
-		
-		load_textdomain(
-			'nanosupport',
-			WP_LANG_DIR .'/nanosupport/nanosupport-'. $locale .'.mo'
-		);
-
-	    load_plugin_textdomain(
-	    	'nanosupport',
-	    	false,
-	    	dirname( plugin_basename( __FILE__ ) ) .'/i18n/languages/'
-	    );
-	}
+	
 }
 
 endif;
 
 /**
- * -----------------------------------------------------------------------
- * Returns the main instance of NanoSupport to prevent the need to use globals.
+ * Returns the main instance of NanoSupport.
  * @return NS
  * -----------------------------------------------------------------------
  */
 function NS() {
 	return NanoSupport::instance();
 }
-
-define( 'NS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-/** Classes **/
-include_once( 'includes/class-ns-install.php' );
-
-/** Core Functions **/
-include_once( 'includes/ns-core-functions.php' );
-/** Functions specific to setup the environments **/
-include_once( 'includes/ns-setup.php' );
-
-/** CPT Tickets **/
-include_once( 'includes/ns-cpt-nanosupport.php' );
-/** CPT Knowledgebase **/
-include_once( 'includes/ns-cpt-knowledgebase.php' );
-/** Metaboxes: Responses **/
-include_once( 'includes/ns-metaboxes-responses.php' );
-/** Miscellaneous functions **/
-include_once( 'includes/ns-functions.php' );
-
-/** Handling emails **/
-include_once( 'includes/ns-email-functions.php' );
-
-/** Shortcode: Support Desk **/
-include_once( 'includes/shortcodes/ns-support-desk.php' );
-/** Shortcode: Submit Ticket **/
-include_once( 'includes/shortcodes/ns-submit-ticket.php' );
-/** Shortcode: Knowledgebase **/
-include_once( 'includes/shortcodes/ns-knowledgebase.php' );
-
-/** Helper functions **/
-include_once( 'includes/ns-helper-functions.php' );
-
-/** Settings API **/
-include_once( 'includes/admin/ns-settings.php' );

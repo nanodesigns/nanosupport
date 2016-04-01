@@ -223,7 +223,7 @@ function ns_support_desk_page() {
 				 * Pagination
 				 * @see  includes/helper-functions.php
 				 */
-				ns_bootstrap_pagination( $support_ticket_query );
+				ns_pagination( $support_ticket_query );
 
 			else :
 				echo '<div class="ns-alert ns-alert-info" role="alert">';

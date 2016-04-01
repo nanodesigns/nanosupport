@@ -106,8 +106,8 @@ function nanosupport_handle_notification_email( $ticket_id = null ) {
 
     //wp_mail() Defaults...
     $_sender        = get_bloginfo( 'name' );
-    $_from_email    = nanosupport_ondomain_email(); //noreply@yourdomain.dom
-    $to_email       = nanosupport_ondomain_email('info'); //info@yourdomain.dom
+    $_from_email    = ns_ondomain_email(); //noreply@yourdomain.dom
+    $to_email       = ns_ondomain_email('info'); //info@yourdomain.dom
 
     $headers        = "From: ". $_sender ." <". $_from_email .">\r\n";
     $headers        .= "Reply-To: ". $_from_email ."\r\n";

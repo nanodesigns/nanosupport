@@ -72,8 +72,8 @@ flush_rewrite_rules();
 /**
  * Remove custom capabilities
  */
-include_once( 'includes/class-ns-install.php' );
-NS_Install::remove_caps();
+include_once( 'includes/ns-install.php' );
+ns_remove_caps();
 
 /**
  * Delete all the options

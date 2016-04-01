@@ -76,9 +76,9 @@ function ns_response_exists( $comment_ID ) {
 
 
 /**
- * Pagination
+ * NanoSupport Pagination
  * 
- * Paginate_links enabled with Bootstrap Pagination.
+ * Paginate_links enabled with Pagination CSS.
  *
  * @since   1.0.0
  *
@@ -88,7 +88,7 @@ function ns_response_exists( $comment_ID ) {
  * @param   object $query the query where the pagination is called.
  * -----------------------------------------------------------------------
  */
-function ns_bootstrap_pagination( $query ) {
+function ns_pagination( $query ) {
 
 	global $wp_query;
 	$query = $query ? $query : $wp_query;
@@ -242,7 +242,7 @@ function nanosupport_reg_validate( $ns_reg_username, $ns_reg_email, $ns_reg_pass
  * @return  string noreply@yourdomain.dom
  * ------------------------------------------------------------------------------
  */
-function nanosupport_ondomain_email( $username = 'noreply' ){
+function ns_ondomain_email( $username = 'noreply' ){
     $info   = parse_url( home_url() );
     $host   = $info['host'];
     $domain = preg_replace( '/^www./', '', $host );
