@@ -28,7 +28,7 @@ function ns_settings_page() {
         'edit.php?post_type=nanosupport',       //$parent_slug
         __( 'Settings', 'nanosupport' ),        //$page_title
         __( 'Settings', 'nanosupport' ),        //$menu_title
-        'set_nanosupport',                      //$capability
+        'manage_nanosupport',                   //$capability
         'nanosupport-settings',                 //$menu_slug
         'nanosupport_settings_page_callback'    //callback function
     );
@@ -44,7 +44,6 @@ function nanosupport_settings_options_init(){
 
     /**
      * Tab: Basic Settings
-     *  - Bootstrap?
      *  - Support Desk Page
      *  - Submit Ticket Page
      * ----------------------------------
@@ -71,13 +70,6 @@ function nanosupport_settings_options_init(){
             'submit_ticket_page',                       // ID*
             __( 'Ticket Submission Page', 'nanosupport' ),  // Title*
             'ns_submit_ticket_field',                   // Callback Function*
-            'nanosupport_settings',                     // Page (Plugin)*
-            'ns_general'                                // Section
-        );
-        add_settings_field(
-            'bootstrap',                                // ID*
-            __( 'Load Bootstrap CSS?', 'nanosupport' ), // Title*
-            'ns_bootstrap_field',                       // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );

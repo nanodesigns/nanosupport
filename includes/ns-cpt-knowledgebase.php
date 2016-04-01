@@ -108,6 +108,12 @@ function ns_create_nanodoc_taxonomies() {
         'show_admin_column' => true,
         'query_var'         => true,
         'rewrite'           => array( 'slug' => 'kb-category' ),
+        'capabilities'      => array(
+                                'manage_terms' => 'manage_nanodoc_terms',
+                                'edit_terms'   => 'edit_nanodoc_terms',
+                                'delete_terms' => 'delete_nanodoc_terms',
+                                'assign_terms' => 'assign_nanodoc_terms',
+                            ),
     );
 
     if( !taxonomy_exists( 'nanodoc_category' ) )

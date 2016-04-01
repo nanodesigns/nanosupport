@@ -362,6 +362,12 @@ function ns_create_nanosupport_taxonomies() {
         'show_admin_column' => true,
         'query_var'         => true,
         'rewrite'           => array( 'slug' => 'support-departments' ),
+        'capabilities'      => array(
+                                'manage_terms' => 'manage_nanosupport_terms',
+                                'edit_terms'   => 'edit_nanosupport_terms',
+                                'delete_terms' => 'delete_nanosupport_terms',
+                                'assign_terms' => 'assign_nanosupport_terms',
+                            ),
     );
 
     if( !taxonomy_exists( 'nanosupport_departments' ) )

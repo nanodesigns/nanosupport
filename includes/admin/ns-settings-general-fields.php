@@ -66,14 +66,6 @@ function ns_submit_ticket_field() {
     }
 }
 
-// General Settings : Field 3 : Bootstrap
-function ns_bootstrap_field() {
-    $options = get_option( 'nanosupport_settings' );
-
-    echo '<input name="nanosupport_settings[bootstrap]" id="ns_bootstrap" type="checkbox" value="1" '. checked( 1, $options['bootstrap'], false ) . '/> <label for="ns_bootstrap">'. __( 'Load Bootstrap CSS (default)', 'nanosupport' ) .'</label>';
-    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'If your theme is designed in Bootstrap, just uncheck here to not to load the file again.', 'nanosupport' ) .'"></span>';
-}
-
 
 /**
  * Validate General Settings
@@ -87,12 +79,9 @@ function ns_general_settings_validate( $input ) {
     $support_desk_selection_val = $input['support_desk'] ? absint( $input['support_desk'] ) : '';
     //Submit Ticket page selection
     $nano_add_support_ticket_val = $input['submit_page'] ? absint( $input['submit_page'] ) : '';
-    //Bootstrap checkbox
-    $bootstrap_check_val = (int) $input['bootstrap'] === 1 ? (int) $input['bootstrap'] : '';
 
     $options['support_desk']    = absint( $support_desk_selection_val );
     $options['submit_page']     = absint( $nano_add_support_ticket_val );
-    $options['bootstrap']       = absint( $bootstrap_check_val );
 
     return $options;
 }

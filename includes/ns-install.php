@@ -52,7 +52,6 @@ function nanosupport_install() {
     
     // General Settings
     $ns_gen_settings = array(
-            'bootstrap'   	=> 1,
             'support_desk'	=> $support_desk_page_id,
             'submit_page'	=> $submit_ticket_page_id
         );
@@ -183,7 +182,7 @@ function ns_get_caps() {
 	$capabilities = array();
 
 	$capabilities['core'] = array(
-		'set_nanosupport',
+		'manage_nanosupport',
 		'view_nanosupport_reports'
 	);
 

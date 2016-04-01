@@ -360,7 +360,7 @@ add_action( 'pre_get_posts', 'ns_redirect_user_to_correct_place' );
 /**
  * Add class to Ticket Edit button
  *
- * Add some bootstrap classes to the WP-default post edit link on the
+ * Add some NS classes to the WP-default post edit link on the
  * front end to match the UI.
  *
  * @since  1.0.0

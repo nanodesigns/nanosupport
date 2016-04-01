@@ -72,7 +72,7 @@ flush_rewrite_rules();
 /**
  * Remove custom capabilities
  */
-include_once( 'includes/ns-install.php' );
+include_once 'includes/ns-install.php';
 ns_remove_caps();
 
 /**
