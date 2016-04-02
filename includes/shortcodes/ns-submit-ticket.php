@@ -16,6 +16,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function ns_submit_support_ticket() {
 
+	/**
+	 * Enqueue necessary styles and scripts accordingly
+	 */
+	wp_enqueue_style( 'nanosupport' );
+	wp_enqueue_script('nanosupport');
+
 	//Get the NanoSupport Settings from Database
     $ns_general_settings = get_option( 'nanosupport_settings' );
 

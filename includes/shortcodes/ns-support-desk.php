@@ -15,6 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function ns_support_desk_page() {
+
+	/**
+	 * Enqueue necessary styles and scripts accordingly
+	 */
+	wp_enqueue_style( 'nanosupport' );
+	wp_enqueue_script('nanosupport');
+	
 	ob_start();
 
 	echo '<div id="nanosupport-desk">';

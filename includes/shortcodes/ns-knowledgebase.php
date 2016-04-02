@@ -15,6 +15,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function ns_knowledgebase_page() {
+
+	/**
+	 * Enqueue necessary styles and scripts accordingly
+	 */
+	wp_enqueue_style( 'nanosupport' );
+	wp_enqueue_script('equal-height');
+	wp_enqueue_script('nanosupport');
+
 	ob_start();
 
 	echo '<div id="nanosupport-knowledgebase">';

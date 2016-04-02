@@ -21,54 +21,52 @@ if ( ! defined( 'ABSPATH' ) ) {
  * -----------------------------------------------------------------------
  */
 function ns_scripts() {
-    //Get the NanoSupport Settings from Database
-    $ns_general_settings        = get_option( 'nanosupport_settings' );
-    $ns_knowledgebase_settings  = get_option( 'nanosupport_knowledgebase_settings' );
 
-    if( is_page( array(
-                    $ns_general_settings['support_desk'],
-                    $ns_general_settings['submit_page'],
-                    $ns_knowledgebase_settings['page']
-                ) ) || is_singular('nanosupport') ) :
+    /**
+     * NanoSupport CSS
+     * Compiled and minified from LESS CSS Preprocessor.
+     * ...
+     */
+    wp_register_style( 'nanosupport', NS()->plugin_url() .'/assets/css/nanosupport.css', array(), NS()->version, 'all' );
 
-        /**
-         * NanoSupport CSS
-         * Compiled and minified from LESS CSS Preprocessor.
-         * ...
-         */
-        wp_enqueue_style( 'ns-styles', NS()->plugin_url() .'/assets/css/nanosupport.css', array(), NS()->version, 'all' );
+    /**
+     * MatchHeight JS v0.7.0
+     * @link http://brm.io/jquery-match-height/
+     * ...
+     */
+    wp_register_script( 'equal-height', NS()->plugin_url() .'/assets/js/jquery.matchHeight-min.js', array('jquery'), '0.7.0', true );
 
-        /**
-         * NanoSupport JavaScripts
-         * Compiled and minified. Depends on 'jQuery'.
-         * ...
-         */
-        wp_enqueue_script( 'ns-scripts', NS()->plugin_url() .'/assets/js/nanosupport.min.js', array('jquery'), NS()->version, true );
+    /**
+     * NanoSupport JavaScripts
+     * Compiled and minified. Depends on 'jQuery'.
+     * ...
+     */
+    wp_register_script(
+        'nanosupport',
+        NS()->plugin_url() .'/assets/js/nanosupport.min.js',
+        array('jquery'),
+        NS()->version,
+        true
+    );
 
-        /**
-         * NanoSupport Localize Scripts
-         * Translation-ready JS strings and other dynamic parameters.
-         * ...
-         */
-        wp_localize_script(
-            'ns-scripts',
-            'ns',
-            array(
-                'plugin_url'    => NS()->plugin_url()
-            ) );
-
+    if( is_singular('nanosupport') ) :
+        wp_enqueue_style('nanosupport');
+        wp_enqueue_script('nanosupport');
     endif;
 
-    if( is_page($ns_knowledgebase_settings['page']) ) :
+    /**
+     * NanoSupport Localize Scripts
+     * Translation-ready JS strings and other dynamic parameters.
+     * ...
+     */
+    wp_localize_script(
+        'nanosupport',
+        'ns',
+        array(
+            'plugin_url'    => NS()->plugin_url()
+        )
+    );
 
-        /**
-         * MatchHeight JS v0.7.0
-         * @link http://brm.io/jquery-match-height/
-         * ...
-         */
-        wp_enqueue_script( 'equal-height-js', NS()->plugin_url() .'/assets/js/jquery.matchHeight-min.js', array('jquery'), '0.7.0', true );
-
-    endif;
 }
 
 add_action( 'wp_enqueue_scripts', 'ns_scripts' );
