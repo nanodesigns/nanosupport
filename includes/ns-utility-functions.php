@@ -156,35 +156,6 @@ function ns_get_ticket_departments( $post_id = null ) {
 
 
 /**
- * Front end Login Form
- *
- * @since   1.0.0
- * 
- * @author  Agbonghama Collins
- * @link    http://designmodo.com/wordpress-custom-login/
- * ------------------------------------------------------------------------------
- */
-function nanosupport_login_auth( $username, $password ) {
-    global $user, $ns_errors;
-
-    $creds = array();
-    $creds['user_login']    = $username;
-    $creds['user_password'] = $password;
-    $creds['remember']      = true;
-
-    $user = wp_signon( $creds, false );
-
-    if ( is_wp_error( $user ) ) {
-        $ns_errors[] = $user->get_error_message();
-    }
-
-    if ( ! is_wp_error( $user ) ) {     
-        return $user;
-    }
-}
-
-
-/**
  * Custom Registration Form
  *
  * A customized front-end registration form

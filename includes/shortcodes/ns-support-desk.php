@@ -21,6 +21,8 @@ function ns_support_desk_page() {
 	 */
 	wp_enqueue_style( 'nanosupport' );
 	wp_enqueue_script('nanosupport');
+
+	remove_query_arg( 'ns_success', $_SERVER['REQUEST_URI'] );
 	
 	ob_start();
 
@@ -33,10 +35,10 @@ function ns_support_desk_page() {
 
 			global $post, $current_user;
 
-			if( isset($_GET['success']) && $_GET['success'] == 1 ) {
+			if( isset($_GET['ns_success']) && $_GET['ns_success'] == 1 ) {
 				echo '<div class="ns-alert ns-alert-success" role="alert">';
 					_e( "<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible.", 'nanosupport' );
-			    echo '</div>';		
+			    echo '</div>';
 			}
 			?>
 

@@ -57,60 +57,94 @@ function ns_registration_login_ticket_submission_redir() {
         return;
 
     //form validation here
-    global $ns_errors, $current_user;
+    global $ns_errors;
 
-    $ns_errors = array();
+    $ns_errors  = array();
     $data       = array();
 
     //Ticket Subject
-    if( empty( $_POST['ns_ticket_subject'] ) ) {
+    if( empty( $_POST['ns_ticket_subject'] ) )
         $ns_errors[]    = __( "Ticket subject can't be empty", "nanosupport" );
-    } else {
-        $ticket_subject = $_POST['ns_ticket_subject'];        
-    }
+    else
+        $ticket_subject = $_POST['ns_ticket_subject'];
 
     //Ticket Details
-    if( empty( $_POST['ns_ticket_details'] ) ){
+    if( empty( $_POST['ns_ticket_details'] ) )
         $ns_errors[] = __( "Ticket details can't be empty", "nanosupport" );
-    } else if( ! empty( $_POST['ns_ticket_details'] ) && strlen( $_POST['ns_ticket_details'] ) < 30 ) {
+    else if( ! empty( $_POST['ns_ticket_details'] ) && strlen( $_POST['ns_ticket_details'] ) < 30 )
         $ns_errors[]    = __( 'Ticket details must be at least 30 characters long', 'nanosupport' );
-    } else {
+    else
         $ticket_details = $_POST['ns_ticket_details'];
-    }
 
 
     //Ticket Priority
-    if( empty( $_POST['ns_ticket_priority'] ) ){
+    if( empty( $_POST['ns_ticket_priority'] ) )
         $ns_errors[]        = __( 'Ticket priority must be set', 'nanosupport' );
-    } else {
+    else
         $ticket_priority    = $_POST['ns_ticket_priority'];
-    }
 
-    //DEFAULT
-    $user_id        = ''; //setting it to blank to prevent annonymous ticket
-    $post_status    = 'pending';
 
     /**
-     * Front end Login Form
-     * 
-     * @author Agbonghama Collins
-     * @link http://designmodo.com/wordpress-custom-login/
+     * Process the Submission
+     * ...
      */
-    if ( isset( $_POST['ns_login_submit'] ) ) {
-        
-        $user = nanosupport_login_auth( $_POST['login_name'], $_POST['login_password'] );
+    if( is_user_logged_in() ) {
 
-        if( $user ) {
-            if( $user->roles[0] === 'administrator' || $user->roles[0] === 'editor' ) {
-                $post_status = 'private';
-            } else {
-                $post_status = 'pending';
-            }
-            $user_id = $user->ID; //setting the $user_id with logged in user id
+        /**
+         * AUTHENTICATED USER
+         * Ticket Submission with Registered and Logged in user
+         * ...
+         */
+        global $current_user;
+        $user_id        = $current_user->ID;
+
+        if( current_user_can( 'administrator' ) || current_user_can( 'editor' ) )
+            $post_status    = 'private';
+        else
+            $post_status    = 'pending';
+
+        //logged in submission ends
+    }
+    elseif( isset($_POST['ns_login_submit']) ) {
+
+        /**
+         * LOGIN
+         * Ticket Submission with Login
+         * ...
+         */
+
+        $creds = array();
+
+        $creds['user_login']    = $_POST['login_name'];
+        $creds['user_password'] = $_POST['login_password'];
+        $creds['remember']      = true;
+
+        //Log the user in
+        $user = wp_signon( $creds, false );
+
+        if ( is_wp_error( $user ) ) {
+            $ns_errors[] = $user->get_error_message();
         }
-    } //login ends
-    else if ( isset( $_POST['ns_registration_submit'] ) ) {
-        //REGISTRATION STARTS HERE
+
+        if( !is_wp_error($user) ) {
+            if( in_array($user->roles[0], array('administrator','editor')) )
+                $post_status = 'private';
+            else
+                $post_status = 'pending';
+            
+            //setting the $user_id with logged in user's id
+            $user_id = $user->ID;
+        }
+
+        //login submission ends
+    }
+    elseif ( isset($_POST['ns_registration_submit']) ) {
+
+        /**
+         * REGISTRATION
+         * Ticket Submission with Login
+         * ...
+         */
         $ns_reg_username   = $_POST['reg_name'];
         $ns_reg_email      = $_POST['reg_email'];
         $ns_reg_password   = $_POST['reg_password'];
@@ -146,7 +180,25 @@ function ns_registration_login_ticket_submission_redir() {
                 $ns_errors[]   = $registered_user_id->get_error_message();
             }
         }
-    } //registration ends
+
+        //registration submission ends
+    } else {
+        
+        /**
+         * DEFAULT
+         * If all the way failed
+         * ...
+         */
+        $user_id        = ''; //setting it to blank to prevent annonymous ticket
+        $post_status    = 'pending';
+
+    }
+
+    //------------------ERROR: There are errors - don't go further
+    if( !empty( $ns_errors ) ){
+        return;
+    }
+
 
     /**
      * Save Ticket Information.
@@ -154,21 +206,6 @@ function ns_registration_login_ticket_submission_redir() {
      * Finally save the ticket information into the database
      * using user credentials from above.
      */
-    //set prerequisite according to different situation
-    if( is_user_logged_in() ) {
-
-        $user_id        = $current_user->ID;
-
-        if( current_user_can( 'administrator' ) || current_user_can( 'editor' ) ) {
-            $post_status    = 'private';
-        } else {
-            $post_status    = 'pending';            
-        }
-
-    } else {
-        $user_id        = $current_user->ID;
-    }
-
     if( ! empty( $user_id ) && empty( $ns_errors ) ){
         
         $ticket_post_id = wp_insert_post( array(
@@ -207,15 +244,14 @@ function ns_registration_login_ticket_submission_redir() {
 
     }
 
-    //------------------ERROR: There are errors - don't go further
-    if( !empty( $ns_errors ) ){
-        return;
-    }
-
     //Get the NanoSupport Settings from Database
     $ns_general_settings = get_option( 'nanosupport_settings' );
 
-    $args = add_query_arg( 'success', 1, get_permalink( $ns_general_settings['support_desk'] ) );
+    $args = add_query_arg(
+                'ns_success',
+                1,
+                get_permalink( $ns_general_settings['support_desk'] )
+            );
     wp_redirect( esc_url( $args ) );
     exit();
 }
