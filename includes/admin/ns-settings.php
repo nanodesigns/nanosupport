@@ -46,6 +46,7 @@ function nanosupport_settings_options_init(){
      * Tab: Basic Settings
      *  - Support Desk Page
      *  - Submit Ticket Page
+     *  - Delete Data?
      * ----------------------------------
      */
     add_settings_section(
@@ -70,6 +71,13 @@ function nanosupport_settings_options_init(){
             'submit_ticket_page',                       // ID*
             __( 'Ticket Submission Page', 'nanosupport' ),  // Title*
             'ns_submit_ticket_field',                   // Callback Function*
+            'nanosupport_settings',                     // Page (Plugin)*
+            'ns_general'                                // Section
+        );
+        add_settings_field(
+            'delete_data',                              // ID*
+            __( 'Delete Data?', 'nanosupport' ),        // Title*
+            'ns_delete_data_field',                     // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );

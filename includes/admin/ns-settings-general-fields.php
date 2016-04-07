@@ -66,6 +66,14 @@ function ns_submit_ticket_field() {
     }
 }
 
+// General Settings : Field 3 : Delete Data?
+function ns_delete_data_field() {
+    $options = get_option( 'nanosupport_settings' );
+
+    echo '<input name="nanosupport_settings[delete_data]" id="ns_delete_data" type="checkbox" value="1" '. checked( 1, $options['delete_data'], false ) . '/> <label for="ns_delete_data">'. __( 'Delete all the Data on Uninstallation?', 'nanosupport' ) .'</label>';
+    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'If you check here, on uninstallation of the plugin, it will wipe out all the data from the database', 'nanosupport' ) .'"></span>';
+}
+
 
 /**
  * Validate General Settings
@@ -79,9 +87,12 @@ function ns_general_settings_validate( $input ) {
     $support_desk_selection_val = $input['support_desk'] ? absint( $input['support_desk'] ) : '';
     //Submit Ticket page selection
     $nano_add_support_ticket_val = $input['submit_page'] ? absint( $input['submit_page'] ) : '';
+    //Delete Data checkbox
+    $del_data_check_val = (int) $input['delete_data'] === 1 ? (int) $input['delete_data'] : '';
 
     $options['support_desk']    = absint( $support_desk_selection_val );
     $options['submit_page']     = absint( $nano_add_support_ticket_val );
+    $options['delete_data']     = absint( $del_data_check_val );
 
     return $options;
 }
