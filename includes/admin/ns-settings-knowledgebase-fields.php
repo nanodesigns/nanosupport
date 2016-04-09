@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Callback: Knowledgebase Settings Page
 function ns_knowledgebase_settings_section_callback() {
-    echo '<p>'. __( 'Knowledgebase is to store all the Frequently Asked Questions (FAQs) for public access to learn/research deeply about your products/services.', 'nanosupport' ) .'</p>';
+    echo '<p class="screen-reader-text">'. __( 'Knowledgebase is to store all the Frequently Asked Questions (FAQs) for public access to learn/research deeply about your products/services.', 'nanosupport' ) .'</p>';
 }
 
 // Knowledgebase Settings : Field 1 : Knowledgebase

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Callback: Email-specific Settings page
 function ns_email_settings_section_callback() {
-    echo '<p>'. __( 'All the settings specific to Email for the Support ticketing.', 'nanosupport' ) .'</p>';
+    echo '<p class="screen-reader-text">'. __( 'All the settings specific to Email for the Support ticketing.', 'nanosupport' ) .'</p>';
 }
 
 // Email Settings : Field 1 : Notification Email
