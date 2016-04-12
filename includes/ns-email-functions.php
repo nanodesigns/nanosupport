@@ -18,18 +18,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Handle Notification Email.
  *
  * @since  1.0.0
- * 
- * @param   string $contact_name    Name of the sender.
- * @param   string $contact_email   Email of the sender.
- * @param   string $contact_subject Subject of the message.
- * @param   string $contact_message Complete message.
- * @return  void
+ *
+ * @param  integer $ticket_id Ticket Integer.
+ * @return  boolean|string    True if sent, else error message.
  * ------------------------------------------------------------------------------
  */
 function nanosupport_handle_notification_email( $ticket_id = null ) {
 
     //If the ticket is not submitted, return
-    if( !isset( $_POST['ns_submit'] ) )
+    if( ! isset( $_POST['ns_submit'] ) )
         return;
 
     if( null === $ticket_id )
@@ -43,15 +40,27 @@ function nanosupport_handle_notification_email( $ticket_id = null ) {
 
     //Get ticket information
     $ticket_control = get_post_meta( $ticket_id, 'ns_control', true );
-    $ticket_priority = $ticket_control['priority'];
-    if( 'low' === $ticket_priority )
-        $priority = __( 'Low', 'nanosupport' );
-    else if( 'medium' === $ticket_priority )
-        $priority = __( 'Medium', 'nanosupport' );
-    else if( 'high' === $ticket_priority )
-        $priority = __( 'High', 'nanosupport' );
-    else if( 'critical' === $ticket_priority )
-        $priority = __( 'Critical', 'nanosupport' );
+    switch ($ticket_control['priority']) {
+        case 'low':
+            $priority = __( 'Low', 'nanosupport' );
+            break;
+
+        case 'medium':
+            $priority = __( 'Medium', 'nanosupport' );
+            break;
+
+        case 'high':
+            $priority = __( 'High', 'nanosupport' );
+            break;
+
+        case 'critical':
+            $priority = __( 'Critical', 'nanosupport' );
+            break;
+        
+        default:
+            $priority = '';
+            break;
+    }
     
 
     //Prepare the Message content
@@ -64,7 +73,7 @@ function nanosupport_handle_notification_email( $ticket_id = null ) {
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         </head>
 
-        <body style="line-height:1;font-family:'Book Antiqua',Georgia,'Times New Roman',serif;font-size:15px">
+        <body style="line-height:1;font-family:'Trebuchet MS', Arial, Helvetica, sans-serif;font-size:15px">
             <div style="width:95%;max-width:600px">
                 
                 <div id="container" style="border:1px solid #ccc;background-color:#fff;padding:20px;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;">
@@ -99,6 +108,151 @@ function nanosupport_handle_notification_email( $ticket_id = null ) {
 
             </div>
         </body>
+    </html>
+
+    <?php
+    $message        = ob_get_clean();
+
+    //wp_mail() Defaults...
+    $_sender        = get_bloginfo( 'name' );
+    $_from_email    = ns_ondomain_email(); //noreply@yourdomain.dom
+    $to_email       = ns_ondomain_email('info'); //info@yourdomain.dom
+
+    $headers        = "From: ". $_sender ." <". $_from_email .">\r\n";
+    $headers        .= "Reply-To: ". $_from_email ."\r\n";
+    $headers        .= "MIME-Version: 1.0\r\n";
+    $headers        .= "Content-Type: text/html; charset=UTF-8";
+
+    function nanosupport_mail_content_type() {
+        return "text/html";
+    }
+    add_filter( 'wp_mail_content_type', 'nanosupport_mail_content_type' );
+
+    //send the email
+    $ns_notification_email = wp_mail( $to_email, $subject, $message, $headers );
+     
+    // If email has been process for sending, display a success message
+    if ( ! is_wp_error($ns_notification_email) ) {
+        return true;
+    } else {
+        return $ns_notification_email->get_error_message();
+    }
+}
+
+
+/**
+ * Send Generated Password to Email.
+ *
+ * @since  1.0.0
+ *
+ * @param  integer $ticket_id Ticket Integer.
+ * @return  boolean|string    True if sent, else error message.
+ * ------------------------------------------------------------------------------
+ */
+function nanosupport_handle_generated_password_email( $ticket_id = null ) {
+
+    //If the ticket is not submitted, return
+    if( ! isset( $_POST['ns_submit'] ) )
+        return;
+
+    if( null === $ticket_id )
+        return;
+
+    /**
+     * Generate Dynamic values
+     */
+    $ticket_edit_link = get_edit_post_link( $ticket_id );
+    $ticket_view_link = get_permalink( $ticket_id );
+
+    //Get ticket information
+    $ticket_control = get_post_meta( $ticket_id, 'ns_control', true );
+    switch ($ticket_control['priority']) {
+        case 'low':
+            $priority = __( 'Low', 'nanosupport' );
+            break;
+
+        case 'medium':
+            $priority = __( 'Medium', 'nanosupport' );
+            break;
+
+        case 'high':
+            $priority = __( 'High', 'nanosupport' );
+            break;
+
+        case 'critical':
+            $priority = __( 'Critical', 'nanosupport' );
+            break;
+        
+        default:
+            $priority = '';
+            break;
+    }
+    
+
+    //Prepare the Message content
+    ob_start(); ?>
+
+    <!DOCTYPE html>
+    <html style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;">
+    <head>
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Really Simple HTML Email Template</title>
+    </head>
+    <body bgcolor="#f6f6f6" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; -webkit-font-smoothing: antialiased; height: 100%; -webkit-text-size-adjust: none; width: 100% !important; margin: 0; padding: 0;">
+
+    <!-- body -->
+    <table class="body-wrap" bgcolor="#f6f6f6" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; width: 100%; margin: 0; padding: 20px;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;">
+    <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;"></td>
+        <td class="container" bgcolor="#FFFFFF" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; clear: both !important; display: block !important; max-width: 600px !important; Margin: 0 auto; padding: 20px; border: 1px solid #f0f0f0;">
+
+          <!-- content -->
+          <div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; display: block; max-width: 600px; margin: 0 auto; padding: 0;">
+          <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;">
+    <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;">
+                <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6em; font-weight: normal; margin: 0 0 10px; padding: 0;">Hi there,</p>
+                <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6em; font-weight: normal; margin: 0 0 10px; padding: 0;">Sometimes all you want is to send a simple HTML email with a basic design.</p>
+                <h1 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 36px; line-height: 1.2em; color: #111111; font-weight: 200; margin: 40px 0 10px; padding: 0;">Really simple HTML email template</h1>
+                <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6em; font-weight: normal; margin: 0 0 10px; padding: 0;">This is a really simple email template. Its sole purpose is to get you to click the button below.</p>
+                <h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2em; color: #111111; font-weight: 200; margin: 40px 0 10px; padding: 0;">How do I use it?</h2>
+                <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6em; font-weight: normal; margin: 0 0 10px; padding: 0;">All the information you need is on GitHub.</p>
+                <!-- button -->
+                <table class="btn-primary" cellpadding="0" cellspacing="0" border="0" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; width: auto !important; Margin: 0 0 10px; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;">
+    <td style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 14px; line-height: 1.6em; border-radius: 25px; text-align: center; vertical-align: top; background: #348eda; margin: 0; padding: 0;" align="center" bgcolor="#348eda" valign="top">
+                      <a href="https://github.com/leemunroe/html-email-template" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 2; color: #ffffff; border-radius: 25px; display: inline-block; cursor: pointer; font-weight: bold; text-decoration: none; background: #348eda; margin: 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 20px;">View the source and instructions on GitHub</a>
+                    </td>
+                  </tr></table>
+    <!-- /button --><p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6em; font-weight: normal; margin: 0 0 10px; padding: 0;">Feel free to use, copy, modify this email template as you wish.</p>
+                <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6em; font-weight: normal; margin: 0 0 10px; padding: 0;">Thanks, have a lovely day.</p>
+                <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6em; font-weight: normal; margin: 0 0 10px; padding: 0;"><a href="http://twitter.com/leemunroe" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; color: #348eda; margin: 0; padding: 0;">Follow @leemunroe on Twitter</a></p>
+              </td>
+            </tr></table>
+    </div>
+          <!-- /content -->
+          
+        </td>
+        <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;"></td>
+      </tr></table>
+    <!-- /body --><!-- footer --><table class="footer-wrap" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; clear: both !important; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;">
+    <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;"></td>
+        <td class="container" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;">
+          
+          <!-- content -->
+          <div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; display: block; max-width: 600px; margin: 0 auto; padding: 0;">
+            <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;">
+    <td align="center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;">
+                  <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 12px; line-height: 1.6em; color: #666666; font-weight: normal; margin: 0 0 10px; padding: 0;">Don't like these annoying emails? <a href="#" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; color: #999999; margin: 0; padding: 0;"><unsubscribe style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;">Unsubscribe</unsubscribe></a>.
+                  </p>
+                </td>
+              </tr></table>
+    </div>
+          <!-- /content -->
+          
+        </td>
+        <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;"></td>
+      </tr></table>
+    <!-- /footer -->
+    </body>
     </html>
 
     <?php

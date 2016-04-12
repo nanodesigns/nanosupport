@@ -79,7 +79,8 @@ function ns_account_settings_section_callback() {
 function ns_enable_login_registration() {
     $options = get_option( 'nanosupport_settings' );
 
-    echo '<input name="nanosupport_settings[enable_login_reg]" id="enable_login_reg" type="checkbox" value="1" '. checked( 1, $options['enable_login_reg'], false ) . '/> <label for="enable_login_reg">'. __( 'Yes, enable Login/Registration below Submit Ticket form <strong class="ns-red">(BETA FEATURE)</strong>', 'nanosupport' ) .'</label>';
+    $enable_login_reg_val = isset($options['enable_login_reg']) ? $options['enable_login_reg'] : '';
+    echo '<input name="nanosupport_settings[enable_login_reg]" id="enable_login_reg" type="checkbox" value="1" '. checked( 1, $enable_login_reg_val, false ) . '/> <label for="enable_login_reg">'. __( 'Yes, enable Login/Registration below Submit Ticket form <strong class="ns-red">(BETA FEATURE)</strong>', 'nanosupport' ) .'</label>';
     echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'If you check here, it will enable a login/registration field below the Submit Ticket form - It is still a Beta Feature', 'nanosupport' ) .'"></span>';
 }
 
@@ -87,12 +88,14 @@ function ns_enable_login_registration() {
 function ns_account_creation_field() {
     $options = get_option( 'nanosupport_settings' );
 
-    echo '<input name="nanosupport_settings[account_creation][generate_username]" id="generate_username" type="checkbox" value="1" '. checked( 1, $options['account_creation']['generate_username'], false ) . '/> <label for="generate_username">'. __( 'Yes, automatically generate username from user email', 'nanosupport' ) .'</label>';
+    $gen_username_val = isset($options['account_creation']['generate_username']) ? $options['account_creation']['generate_username'] : '';
+    echo '<input name="nanosupport_settings[account_creation][generate_username]" id="generate_username" type="checkbox" value="1" '. checked( 1, $gen_username_val, false ) . '/> <label for="generate_username">'. __( 'Yes, automatically generate username from user email', 'nanosupport' ) .'</label>';
     echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'If you check here, an automatted username will be created for the user from their email', 'nanosupport' ) .'"></span>';
 
     echo '<br><br>';
 
-    echo '<input name="nanosupport_settings[account_creation][generate_password]" id="generate_password" type="checkbox" value="1" '. checked( 1, $options['account_creation']['generate_password'], false ) . '/> <label for="generate_password">'. __( 'Yes, automatically generate password for the user', 'nanosupport' ) .'</label>';
+    $gen_password_val = isset($options['account_creation']['generate_password']) ? $options['account_creation']['generate_password'] : '';
+    echo '<input name="nanosupport_settings[account_creation][generate_password]" id="generate_password" type="checkbox" value="1" '. checked( 1, $gen_password_val, false ) . '/> <label for="generate_password">'. __( 'Yes, automatically generate password for the user', 'nanosupport' ) .'</label>';
     echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'If you check here, a password will be automatically created for the user', 'nanosupport' ) .'"></span>';
 }
 
@@ -101,7 +104,8 @@ function ns_account_creation_field() {
 function ns_delete_data_field() {
     $options = get_option( 'nanosupport_settings' );
 
-    echo '<input name="nanosupport_settings[delete_data]" id="ns_delete_data" type="checkbox" value="1" '. checked( 1, $options['delete_data'], false ) . '/> <label for="ns_delete_data">'. __( 'Delete all the Data on Uninstallation?', 'nanosupport' ) .'</label>';
+    $del_data_val = isset($options['delete_data']) ? $options['delete_data'] : '';
+    echo '<input name="nanosupport_settings[delete_data]" id="ns_delete_data" type="checkbox" value="1" '. checked( 1, $del_data_val, false ) . '/> <label for="ns_delete_data">'. __( 'Delete all the Data on Uninstallation?', 'nanosupport' ) .'</label>';
     echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'If you check here, on uninstallation of the plugin, it will wipe out all the data from the database', 'nanosupport' ) .'"></span>';
 }
 
@@ -116,6 +120,7 @@ function ns_other_settings_section_callback() {
 
 /**
  * Validate General Settings
+ * 
  * @param  array $input  Array of all the settings fields' value.
  * @return array         Validated settings fields.
  */

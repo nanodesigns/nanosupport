@@ -121,7 +121,7 @@ function ns_submit_support_ticket() {
 
 						<?php if( ! $login ) {
 							/**
-							 * Registration
+							 * REGISTRATION
 							 * Show the user registration form.
 							 */
 							?>
@@ -132,14 +132,22 @@ function ns_submit_support_ticket() {
 								</p>
 							</div> <!-- /.ns-form-group -->
 
-							<div class="ns-form-group">
-								<label for="reg-name" class="ns-col-sm-2 ns-control-label">
-									<?php _e( 'Username', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
-								</label>
-								<div class="ns-col-sm-10">
-									<input name="reg_name" type="text" class="ns-form-control login-field" value="<?php echo( isset($_POST['reg_name']) ? $_POST['reg_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="reg-name" required aria-required="true">
-								</div>
-							</div> <!-- /.ns-form-group -->
+							<?php
+							/**
+							 * Display when Auto Username Generation is OFF
+							 */
+							if( $ns_general_settings['account_creation']['generate_username'] !== 1 ) : ?>
+
+								<div class="ns-form-group">
+									<label for="reg-name" class="ns-col-sm-2 ns-control-label">
+										<?php _e( 'Username', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+									</label>
+									<div class="ns-col-sm-10">
+										<input name="reg_name" type="text" class="ns-form-control login-field" value="<?php echo( isset($_POST['reg_name']) ? $_POST['reg_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="reg-name" required aria-required="true">
+									</div>
+								</div> <!-- /.ns-form-group -->
+
+							<?php endif; ?>
 
 							<div class="ns-form-group">
 								<label for="reg-email" class="ns-col-sm-2 ns-control-label">
@@ -150,14 +158,56 @@ function ns_submit_support_ticket() {
 								</div>
 							</div> <!-- /.ns-form-group -->
 
-							<div class="ns-form-group">
-								<label for="reg-pass" class="ns-col-sm-2 ns-control-label">
-									<?php _e( 'Password', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
-								</label>
-								<div class="ns-col-sm-10">
-									<input name="reg_password" type="password" class="ns-form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="reg-pass" required aria-required="true">
-								</div>
-							</div> <!-- /.ns-form-group -->
+							<?php
+							/**
+							 * Display when Auto Password Generation is OFF
+							 */
+							if( $ns_general_settings['account_creation']['generate_password'] !== 1 ) : ?>
+
+								<div class="ns-form-group">
+									<label for="reg-pass" class="ns-col-sm-2 ns-control-label">
+										<?php _e( 'Password', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+									</label>
+									<div class="ns-col-sm-10">
+										<input name="reg_password" type="password" class="ns-form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="reg-pass" required aria-required="true">
+									</div>
+								</div> <!-- /.ns-form-group -->
+
+							<?php endif; ?>
+
+							<!-- HoneyPot - Spam Trap -->
+							<div style="<?php echo ( (is_rtl()) ? 'right' : 'left' ); ?>: -999em; position: absolute;">
+								<label for="come-to-trap"><?php _e( 'Anti-spam HoneyPot', 'nanosupport' ); ?></label>
+								<input type="text" name="repeat_email" id="come-to-trap" tabindex="-1" />
+							</div>
+							<!-- /HoneyPot - Spam Trap -->
+
+							<?php
+							/**
+							 * -----------------------------------------------------------------------
+							 * HOOK : ACTION HOOK
+							 * nanosupport_register_form
+							 * 
+							 * To display anything below registration fields
+							 *
+							 * @since  1.0.0
+							 * -----------------------------------------------------------------------
+							 */
+							do_action( 'nanosupport_register_form' ); ?>
+
+							<?php
+							/**
+							 * -----------------------------------------------------------------------
+							 * WP ACTION HOOK
+							 * register_form
+							 *
+							 * WordPress' core action hook to display anything below user registration
+							 * form.
+							 *
+							 * @link   https://codex.wordpress.org/Plugin_API/Action_Reference/register_form
+							 * -----------------------------------------------------------------------
+							 */
+							do_action( 'register_form' ); ?>
 
 							<div class="ns-form-group">
 								<p class="ns-col-sm-10 ns-col-sm-offset-2">
@@ -167,6 +217,8 @@ function ns_submit_support_ticket() {
 
 							<!-- HIDDEN INPUT TO TREAT FORM SUBMIT APPROPRIATELY -->
 							<input type="hidden" name="ns_registration_submit">
+
+							<?php wp_nonce_field( 'nanosupport-registration' ); ?>
 
 						<?php } else {
 							/**
@@ -194,11 +246,19 @@ function ns_submit_support_ticket() {
 							</div> <!-- /.ns-form-group -->
 
 							<div class="ns-form-group">
+								<div class="ns-col-sm-10 ns-col-sm-offset-2">
+									<label><input type="checkbox" name="rememberme"> <?php _e( 'Remember me', 'nanosupport' ); ?></label>
+								</div>
+							</div> <!-- /.ns-form-group -->
+
+							<div class="ns-form-group">
 								<p class="ns-col-sm-10 ns-col-sm-offset-2"><?php printf( __( "Don't have an account? <a href=\"%1s\">Create one</a>", 'nanosupport' ), esc_url( get_the_permalink() ) ); ?></p>
 							</div> <!-- /.ns-form-group -->
 
 							<!-- HIDDEN INPUT TO TREAT FORM SUBMIT APPROPRIATELY -->
 							<input type="hidden" name="ns_login_submit">
+
+							<?php wp_nonce_field( 'nanosupport-login' ); ?>
 
 						<?php } //endif( ! $login ) ?>
 
@@ -209,6 +269,14 @@ function ns_submit_support_ticket() {
 							<button type="submit" name="ns_submit" class="ns-btn ns-btn-primary">
 								<?php _e( 'Submit', 'nanosupport' ); ?>
 							</button>
+
+							<?php if( is_user_logged_in() ) : ?>
+								<span class="ns-text-muted ns-small">
+									&nbsp;
+									<?php printf( __('<strong>Submitting as:</strong> %s', 'nanosupport'), wp_strip_all_tags(ns_user_nice_name()) ); ?>
+									&nbsp;(<a href="<?php echo wp_logout_url( get_permalink() ); ?>"><?php _e('Log out', 'nanosupport') ?></a>)
+								</span>
+							<?php endif; ?>
 						</div>
 					</div> <!-- /.ns-form-group -->
 

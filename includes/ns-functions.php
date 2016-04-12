@@ -105,7 +105,7 @@ function ns_registration_login_ticket_submission_redir() {
 
         //logged in submission ends
     }
-    elseif( isset($_POST['ns_login_submit']) ) {
+    elseif( isset($_POST['ns_login_submit']) && isset( $_POST['_wpnonce'] ) && wp_verify_nonce( $_POST['_wpnonce'], 'nanosupport-login' ) ) {
 
         /**
          * LOGIN
@@ -115,69 +115,109 @@ function ns_registration_login_ticket_submission_redir() {
 
         $creds = array();
 
-        $creds['user_login']    = $_POST['login_name'];
-        $creds['user_password'] = $_POST['login_password'];
-        $creds['remember']      = true;
+        $username = trim( $_POST['login_name'] );
+        $password = $_POST['login_password'];
 
-        //Log the user in
-        $user = wp_signon( $creds, false );
-
-        if ( is_wp_error( $user ) ) {
-            $ns_errors[] = $user->get_error_message();
+        if( empty( $username ) ) {
+            $ns_errors[] = __( 'Username cannot be empty', 'nanosupport' );
         }
 
-        if( !is_wp_error($user) ) {
-            if( in_array($user->roles[0], array('administrator','editor')) )
-                $post_status = 'private';
-            else
-                $post_status = 'pending';
+        if( empty( $password ) ) {
+            $ns_errors[] = __( 'Password must be filled', 'nanosupport' );
+        }
+
+        /**
+         * -----------------------------------------------------------------------
+         * HOOK : FILTER HOOK
+         * nanosupport_username_from_email
+         * 
+         * @since  1.0.0
+         *
+         * @param boolean  Yes/No.
+         * -----------------------------------------------------------------------
+         */
+        $get_username_from_email = apply_filters( 'nanosupport_username_from_email', true );
+
+        if( is_email($username) && $get_username_from_email ) {
+            $user = get_user_by( 'email', $username );
+
+            if( isset( $user->user_login ) ) {
+                $creds['user_login'] = $user->user_login;
+            } else {
+                $ns_errors[] = __( 'There is no user found with this email address', 'nanosupport' );
+            }
+        } else {
+            $creds['user_login'] = $username;
+        }
+
+        $creds['user_password'] = $password;
+        $creds['remember']      = isset( $_POST['rememberme'] );
+        $secure_cookie          = is_ssl() ? true : false;
+
+        if( !empty( $username ) && !empty($password) ) {
+            //Log the user in
+            $user = wp_signon(
+                        apply_filters( 'nanosupport_login_credentials', $creds ),
+                        $secure_cookie
+                    );
             
-            //setting the $user_id with logged in user's id
-            $user_id = $user->ID;
+            if( is_wp_error( $user ) ) {
+                $err_message = $user->get_error_message();
+                $err_message = str_replace( '<strong>ERROR</strong>:', '', $err_message );
+                $ns_errors[] = $err_message;
+            }
+
+            if( ! is_wp_error($user) ) {
+                if( in_array($user->roles[0], array('administrator','editor')) )
+                    $post_status = 'private';
+                else
+                    $post_status = 'pending';
+                
+                //setting the $user_id with logged in user's id
+                $user_id = $user->ID;
+            }
         }
+
+
 
         //login submission ends
     }
-    elseif ( isset($_POST['ns_registration_submit']) ) {
+    elseif ( isset($_POST['ns_registration_submit']) && isset( $_POST['_wpnonce'] ) && wp_verify_nonce( $_POST['_wpnonce'], 'nanosupport-registration' ) ) {
 
         /**
          * REGISTRATION
          * Ticket Submission with Login
          * ...
          */
-        $ns_reg_username   = $_POST['reg_name'];
-        $ns_reg_email      = $_POST['reg_email'];
-        $ns_reg_password   = $_POST['reg_password'];
+        $options    = get_option( 'nanosupport_settings' );
 
-        $userdata = array(
-            'user_login'    => esc_attr( $ns_reg_username ),
-            'user_email'    => esc_attr( $ns_reg_email ),
-            'user_pass'     => esc_attr( $ns_reg_password ),
+        //Set values according to settings
+        $username   = ( $options['account_creation']['generate_username'] !== 1 ) ? $_POST['reg_name'] : '';
+        $password   = ( $options['account_creation']['generate_password'] !== 1 ) ? $_POST['reg_password'] : '';
+        $email      = $_POST['reg_email'];
+        $spam       = $_POST['repeat_email']; //spam field (hidden from human eye)
+
+        $new_support_seeker_id = ns_create_support_seeker(
+            sanitize_email( $email ),
+            ns_sanitize_text( $username ),
+            $password,
+            $spam
         );
 
-        $reg_validate = nanosupport_reg_validate( $ns_reg_username, $ns_reg_email, $ns_reg_password );
-
-        if( is_wp_error($reg_validate) ) {
-            $ns_errors[]   = $reg_validate->get_error_message();
+        if( is_wp_error( $new_support_seeker_id ) ) {
+            $ns_errors[] = $new_support_seeker_id->get_error_message();
         } else {
-            $registered_user_id = wp_insert_user( $userdata );
+            //set the WP login cookie
+            $secure_cookie = is_ssl() ? true : false;
+            wp_set_auth_cookie( $new_support_seeker_id, true, $secure_cookie );
 
-            if ( ! is_wp_error( $registered_user_id ) ) {
-                // set the WP login cookie
-                $secure_cookie = is_ssl() ? true : false;
-                wp_set_auth_cookie( $registered_user_id, true, $secure_cookie );
+            $user_id = $new_support_seeker_id;
 
-                $user_id = $registered_user_id;
-
-                $user = get_user_by( 'id', $user_id );
-                if( 'administrator' === $user->roles[0] || 'editor' === $user->roles[0] ) {
-                    $post_status = 'private';
-                } else {
-                    $post_status = 'pending';
-                }
-
+            $user = get_user_by( 'id', $user_id );
+            if( 'administrator' === $user->roles[0] || 'editor' === $user->roles[0] ) {
+                $post_status = 'private';
             } else {
-                $ns_errors[]   = $registered_user_id->get_error_message();
+                $post_status = 'pending';
             }
         }
 

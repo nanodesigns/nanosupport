@@ -156,48 +156,124 @@ function ns_get_ticket_departments( $post_id = null ) {
 
 
 /**
- * Custom Registration Form
+ * Create a Support Seeker user account
  *
- * A customized front-end registration form
- * especially for Nanodesigns Support Ticket front-end registration.
+ * Create a Support Seeker user account on ticket submission
+ * for non-logged in users only.
  *
- * @since   1.0.0
- *
- * @author  Agbonghama Collins
- * @link    http://designmodo.com/wordpress-custom-registration/
- * ------------------------------------------------------------------------------
+ * @since  1.0.0
+ * 
+ * @param  string $email    Email provided by the user.
+ * @param  string $username Username | null
+ * @param  string $password Password | null
+ * @return integer|mixed    Registered user ID | Error
+ * -----------------------------------------------------------------------
  */
-function nanosupport_reg_validate( $ns_reg_username, $ns_reg_email, $ns_reg_password ) {
+function ns_create_support_seeker( $email, $username = '', $password = '', $antispam = '' ) {
 
-    if ( empty( $ns_reg_username ) || empty( $ns_reg_password ) || empty( $ns_reg_email ) ) {
-        return new WP_Error('field', 'Required form field is missing');
+    /**
+     * Make the email address ready
+     */
+    if ( empty($email) || ! is_email($email) ) {
+        return new WP_Error( 'reg-error-email-invalid', __( 'Please provide a valid email address', 'nanosupport' ) );
     }
 
-    if ( strlen( $ns_reg_username ) < 4 ) {
-        return new WP_Error('username_length', 'Username is too short. At least 4 characters is required');
+    if ( email_exists($email) ) {
+        return new WP_Error( 'reg-error-email-exists', __( 'An account is already registered with your email address. Please login', 'nanosupport' ) );
     }
 
-    if ( strlen( $ns_reg_password ) < 5 ) {
-        return new WP_Error('password', 'Password length must be greater than 5');
-    }
+    /**
+     * Make the username ready
+     */
+    $options = get_option( 'nanosupport_settings' );
+    if( $options['account_creation']['generate_username'] !== 1 || ! empty($username) ) {
 
-    if ( ! is_email( $ns_reg_email ) ) {
-        return new WP_Error('email_invalid', 'Email is not valid');
-    }
+        //Get the username
+        $username = sanitize_user( $username );
 
-    if ( email_exists( $ns_reg_email ) ) {
-        return new WP_Error('email', 'Email already in use');
-    }
-
-    $details = array(
-        'Username' => $ns_reg_username
-    );
-
-    foreach ( $details as $field => $detail ) {
-        if ( ! validate_username( $detail ) ) {
-            return new WP_Error('name_invalid', 'Sorry, the "'. $field .'" you entered is not valid');
+        if( empty($username) || ! validate_username($username) ) {
+            return new WP_Error( 'reg-error-username-invalid', __( 'Please enter a valid username for creating an account', 'nanosupport' ) );
         }
+
+        if( username_exists($username) ) {
+            return new WP_Error( 'reg-error-username-exists', __( 'An account is already registered with that username. Please choose another', 'nanosupport' ) );
+        }
+
+    } else {
+
+        //Generate the username from email
+        $username = sanitize_user( current( explode( '@', $email ) ), true );
+
+        //Ensure username is unique
+        $append         = 1;
+        $temp_username  = $username;
+
+        while( username_exists($username) ) {
+            $username = $temp_username . $append;
+            $append++;
+        }
+
     }
+
+    /**
+     * Make the password ready
+     */
+    if( $options['account_creation']['generate_password'] === 1 && empty($password) ) {
+
+        //Generate the password automatically
+        $password = wp_generate_password();
+        $password_generated = true;
+
+    } elseif( empty($password) ) {
+
+        return new WP_Error( 'reg-error-password-missing', __( 'Please enter a password for your account', 'nanosupport' ) );
+
+    } else {
+
+        if ( strlen($password) < 5 ) {
+            return new WP_Error( 'reg-error-password-short', __( 'Password length must be greater than 5 characters', 'nanosupport' ) );
+        }
+
+        $password_generated = false;
+
+    }
+
+    //Anti-spam HoneyPot Trap Validation
+    if ( ! empty( $antispam ) ) {
+        return new WP_Error( 'reg-error-spam-detected', __( 'Anti-spam field was filled in. Spam account cannot pass in', 'nanosupport' ) );
+    }
+
+    //WP Validation
+    $validation_errors = new WP_Error();
+
+    if( $validation_errors->get_error_code() )
+        return $validation_errors;
+
+    /**
+     * -----------------------------------------------------------------------
+     * HOOK : FILTER HOOK
+     * nanosupport_new_support_seeker_data
+     * 
+     * @since  1.0.0
+     *
+     * @param array  $text New user data to be enterred for creating account.
+     * -----------------------------------------------------------------------
+     */
+    $new_support_seeker_data = apply_filters( 'nanosupport_new_support_seeker_data', array(
+        'user_login' => $username,
+        'user_email' => $email,
+        'user_pass'  => $password,
+        'role'       => 'support_seeker'
+    ) );
+
+    $user_id = wp_insert_user( $new_support_seeker_data );
+
+    if( is_wp_error($user_id) ) {
+        return new WP_Error( 'reg-error', __( 'Couldn&#8217;t register you', 'nanosupport' ) );
+    }
+
+    return $user_id;
+
 }
 
 
@@ -219,4 +295,41 @@ function ns_ondomain_email( $username = 'noreply' ){
     $domain = preg_replace( '/^www./', '', $host );
 
     return $username .'@'. $domain;
+}
+
+/**
+ * Sanitize variables using sanitize_text_field().
+ *
+ * @since  1.0.0
+ * 
+ * @param   string|array $var
+ * @return  string|array
+ * ------------------------------------------------------------------------------
+ */
+function ns_sanitize_text( $var ) {
+    return is_array($var) ? array_map( 'ns_sanitize_text', $var ) : sanitize_text_field($var);
+}
+
+/**
+ * Show a proper name of the user.
+ * 
+ * @since 1.0.0
+ * 
+ * @return string Made up name or the display name.
+ * --------------------------------------------------------------------------
+ */
+function ns_user_nice_name( $user_id = false ) {
+    if( $user_id ) {
+        $current_user = get_user_by( 'id', (int) $user_id );
+    } else {
+        global $current_user;       
+    }
+    
+    if( $current_user->user_firstname && $current_user->user_lastname ) {
+        $user_nice_name = $current_user->user_firstname .' '. $current_user->user_lastname;
+    } else {
+        $user_nice_name = $current_user->display_name;
+    }
+
+    return wp_strip_all_tags( $user_nice_name );
 }

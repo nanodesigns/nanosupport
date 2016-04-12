@@ -21,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since   1.0.0
  *
  * @return  void
+ * -----------------------------------------------------------------------
  */
 function nanosupport_install() {
 
@@ -98,6 +99,7 @@ function nanosupport_install() {
      * Assigning all the NanoSupport user-capabilities to the Upper level users.
      * ...
      */
+    ns_create_role();
     ns_add_caps();
     
 }
@@ -115,6 +117,7 @@ function nanosupport_install() {
  * @since  1.0.0
  * 
  * @return void
+ * -----------------------------------------------------------------------
  */
 function ns_cross_check_on_activation() {
 	if ( version_compare( get_bloginfo( 'version' ), '3.9.0', '<=' ) ) {
@@ -156,6 +159,7 @@ add_action( 'plugins_loaded', 'ns_cross_check_on_activation' );
  * 
  * @param  array $links  Links on the plugin page per plugin.
  * @return array         Modified with our link.
+ * -----------------------------------------------------------------------
  */
 function ns_plugin_settings_link( $links ) {
 	//$settings_link = '/wp-admin/edit.php?post_type=nanosupport&page=nanosupport-settings';
@@ -167,6 +171,43 @@ function ns_plugin_settings_link( $links ) {
 
 add_filter( 'plugin_action_links_'. NS_PLUGIN_BASENAME, 'ns_plugin_settings_link' );
 
+/**
+ * Create role and assign capabilities
+ *
+ * Create necessary roles for the plugin.
+ * 
+ * @since  1.0.0
+ * 
+ * @return void
+ * -----------------------------------------------------------------------
+ */
+function ns_create_role() {
+    global $wp_roles;
+
+    if( ! class_exists('WP_Roles') ) {
+        return;
+    }
+
+    if( ! isset($wp_roles) ) {
+        $wp_roles = new WP_Roles();
+    }
+
+    //Role: Support Seeker
+    add_role(
+        'support_seeker',
+        __( 'Support Seeker', 'nanosupport' ),
+        array(
+            'read'                      => true,
+
+            'read_nanosupport'          => true,
+            'edit_nanosupport'          => true,
+            'edit_nanosupports'         => true,
+
+            'assign_nanosupport_terms'  => true
+        )
+    );
+}
+
 
 /**
  * Get NanoSupport capabilities
@@ -176,6 +217,7 @@ add_filter( 'plugin_action_links_'. NS_PLUGIN_BASENAME, 'ns_plugin_settings_link
  * @since  1.0.0
  *
  * @return array
+ * -----------------------------------------------------------------------
  */
 function ns_get_caps() {
 
@@ -228,6 +270,7 @@ function ns_get_caps() {
  * @since   1.0.0
  *
  * @return  void
+ * -----------------------------------------------------------------------
  */
 function ns_add_caps() {
 	global $wp_roles;
@@ -260,6 +303,7 @@ function ns_add_caps() {
  * @since   1.0.0
  *
  * @return  void
+ * -----------------------------------------------------------------------
  */
 function ns_remove_caps() {
 	global $wp_roles;
