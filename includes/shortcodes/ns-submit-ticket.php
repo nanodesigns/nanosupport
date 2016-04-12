@@ -67,7 +67,7 @@ function ns_submit_support_ticket() {
 							<?php _e( 'Subject', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
 						<div class="ns-col-sm-10">
-							<input type="text" class="ns-form-control" name="ns_ticket_subject" id="ns-ticket-subject" placeholder="<?php esc_attr_e( 'Subject in brief', 'nanosupport' ); ?>" value="<?php echo !empty($_POST['ns_ticket_subject']) ? $_POST['ns_ticket_subject'] : ''; ?>" required aria-required="true">
+							<input type="text" class="ns-form-control" name="ns_ticket_subject" id="ns-ticket-subject" placeholder="<?php esc_attr_e( 'Subject in brief', 'nanosupport' ); ?>" value="<?php echo !empty($_POST['ns_ticket_subject']) ? stripslashes_deep( $_POST['ns_ticket_subject'] ) : ''; ?>" required aria-required="true">
 						</div>
 					</div> <!-- /.ns-form-group -->
 
@@ -76,8 +76,7 @@ function ns_submit_support_ticket() {
 							<?php _e( 'Details', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
 						<div class="ns-col-sm-10">
-							<?php $details_val = !empty($_POST['ns_ticket_details']) ? $_POST['ns_ticket_details'] : ''; ?>
-							<textarea id="ns-ticket-details" class="ns-form-control" name="ns_ticket_details" cols="30" rows="10" placeholder="<?php esc_attr_e( 'Write down your issue in details... At least 30 characters is a must.', 'nanosupport' ); ?>" required aria-required="true"><?php echo $details_val; ?></textarea>
+							<textarea id="ns-ticket-details" class="ns-form-control" name="ns_ticket_details" cols="30" rows="10" placeholder="<?php esc_attr_e( 'Write down your issue in details... At least 30 characters is a must.', 'nanosupport' ); ?>" required aria-required="true"><?php if( !empty($_POST['ns_ticket_details']) ) echo stripslashes_deep( $_POST['ns_ticket_details'] ); ?></textarea>
 						</div>
 					</div> <!-- /.ns-form-group -->
 

@@ -60,7 +60,6 @@ function ns_registration_login_ticket_submission_redir() {
     global $ns_errors;
 
     $ns_errors  = array();
-    $data       = array();
 
     //Ticket Subject
     if( empty( $_POST['ns_ticket_subject'] ) )
@@ -249,12 +248,12 @@ function ns_registration_login_ticket_submission_redir() {
     if( ! empty( $user_id ) && empty( $ns_errors ) ){
         
         $ticket_post_id = wp_insert_post( array(
-                            'post_status'       => esc_html( $post_status ),
-                            'post_type'         => esc_html( 'nanosupport' ),
+                            'post_status'       => $post_status,
+                            'post_type'         => 'nanosupport',
                             'post_author'       => absint( $user_id ),
 
-                            'post_title'        => sanitize_text_field( $ticket_subject ),
-                            'post_content'      => htmlentities( $ticket_details, ENT_QUOTES ),
+                            'post_title'        => wp_strip_all_tags( $ticket_subject ),
+                            'post_content'      => $ticket_details,
                             'post_date'         => date( 'Y-m-d H:i:s', current_time( 'timestamp' ) )
                         ) );
 

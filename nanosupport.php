@@ -24,6 +24,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
+/**
+ * PHP Sesssion
+ * 
+ * To store the information into session.
+ * 
+ * @since  1.0.0
+ * --------------------------------------------------------------------------
+ */
+if( ! session_id() ) {
+	session_start();
+}
+
 
 /**
  * Define Constants
