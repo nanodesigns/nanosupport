@@ -286,10 +286,11 @@ function ns_registration_login_ticket_submission_redir() {
     //Get the NanoSupport Settings from Database
     $ns_general_settings = get_option( 'nanosupport_settings' );
 
+    //Redirect to the same page with success message
     $args = add_query_arg(
                 'ns_success',
                 1,
-                get_permalink( $ns_general_settings['support_desk'] )
+                get_permalink( $ns_general_settings['submit_page'] )
             );
     wp_redirect( esc_url( $args ) );
     exit();

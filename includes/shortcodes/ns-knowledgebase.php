@@ -130,9 +130,9 @@ function ns_knowledgebase_page() {
 				 * @param string  $text Header text. Default 'Documentaion'.
 				 * -----------------------------------------------------------------------
 				 */
-				echo '<h3 class="ticket-separator"><span>';
+				echo '<h3 class="ticket-separator ticket-separator-center ns-text-uppercase">';
 					echo esc_html( apply_filters( 'nanosupport_kb_header_title', __( 'Documentation', 'nanosupport' ) ) );
-				echo '</span></h3>';
+				echo '</h3>';
 
 				echo '<div class="ns-row">';
 

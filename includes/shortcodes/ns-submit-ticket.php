@@ -21,13 +21,14 @@ function ns_submit_support_ticket() {
 	 * Enqueue necessary styles and scripts accordingly
 	 */
 	wp_enqueue_style( 'nanosupport' );
-	wp_enqueue_script('nanosupport');
+	wp_enqueue_script( 'nanosupport' );
 
 	//Get the NanoSupport Settings from Database
     $ns_general_settings = get_option( 'nanosupport_settings' );
 
 	global $ns_errors;
     
+    //Display error message[s], if any
     if( !empty( $ns_errors ) ){
         foreach( $ns_errors as $error ){
     		echo '<div class="ns-alert ns-alert-danger" role="alert">';
@@ -35,6 +36,16 @@ function ns_submit_support_ticket() {
         	echo '</div>';
         }
     }
+
+    //Display success message, if any
+    if( isset($_GET['ns_success']) && $_GET['ns_success'] == 1 ) {
+		echo '<div class="ns-alert ns-alert-success" role="alert">';
+			_e( "<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible.", 'nanosupport' );
+	    echo '</div>';
+	}
+
+	//Clean up request URI from temporary args for alert[s].
+	$_SERVER['REQUEST_URI'] = remove_query_arg( 'ns_success', $_SERVER['REQUEST_URI'] );
 
 	ob_start();
 	?>

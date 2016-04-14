@@ -127,7 +127,7 @@
 
 			if( $response_array ) {
 
-				echo '<div class="ticket-separator"><span>'. __('Responses', 'nanosupport') .'</span></div>';
+				echo '<div class="ticket-separator ticket-separator-center ns-text-uppercase">'. __('Responses', 'nanosupport') .'</div>';
 
 				$counter = 1;
 
@@ -147,7 +147,7 @@
 							</div>
 						</div> <!-- /.ns-row -->
 						<div class="ticket-response">
-							<?php echo wpautop( html_entity_decode( $response->comment_content ) ); ?>
+							<?php echo wpautop( $response->comment_content ); ?>
 						</div>
 						
 					</div> <!-- /.ticket-response-cards -->
@@ -269,7 +269,7 @@
 									</div> <!-- /.ns-row -->
 									<div class="ns-feedback-form">
 										<div class="ns-form-group">
-											<textarea name="ns_response_msg" id="write-message" class="ns-form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nanosupport'); ?>" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>"><?php echo isset($_POST['ns_response_msg']) ? html_entity_decode( $_POST['ns_response_msg'] ) : ''; ?></textarea>
+											<textarea name="ns_response_msg" id="write-message" class="ns-form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nanosupport'); ?>" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>"><?php echo isset($_POST['ns_response_msg']) ? stripslashes_deep( $_POST['ns_response_msg'] ) : ''; ?></textarea>
 										</div> <!-- /.ns-form-group -->
 										<?php wp_nonce_field( 'response_nonce', 'nanosupport_response_nonce' ); ?>
 										<?php

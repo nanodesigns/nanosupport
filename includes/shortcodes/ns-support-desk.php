@@ -33,14 +33,7 @@ function ns_support_desk_page() {
 			//Get the NanoSupport Settings from Database
 	    	$ns_general_settings = get_option( 'nanosupport_settings' );
 
-			global $post, $current_user;
-
-			if( isset($_GET['ns_success']) && $_GET['ns_success'] == 1 ) {
-				echo '<div class="ns-alert ns-alert-success" role="alert">';
-					_e( "<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible.", 'nanosupport' );
-			    echo '</div>';
-			}
-			?>
+			global $post, $current_user; ?>
 
 			<?php
 			/**
