@@ -6,7 +6,7 @@
  * @package NanoSupport
  */
 
-.clearfix{
+.ns-clearfix{
 	clear: both;
 }
 .ns-tooltip-icon{
@@ -64,6 +64,31 @@ body.post-new-php{
 #poststuff #nanosupport-responses h2{
 	padding-left: 0;
 	padding-right: 0;
+	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+	color: #999;
+	text-align: center;
+	text-transform: uppercase;
+
+	&:before{
+      left: -1em;
+      margin: 0 0 0 -50%;
+    }
+    &:after{
+      left: 1em;
+      margin: 0 -50% 0 0;
+    }
+    &:before,
+	&:after{
+		background-color: #ccc;
+		content: '';
+		display: inline-block;
+		height: 1px;
+		position: relative;
+		vertical-align: middle;
+		width: 50%;
+	}
 }
 .ns-holder{
 	
@@ -141,6 +166,9 @@ div#ns-remove-response{
 		  box-shadow: inset 0 1px 0 rgba(120,200,230,.6);
 	}
 }
+.ns-hide-default{
+	display: none;
+}
 .ns-head-col{
 	width: 49%;
 	float: left;
@@ -217,37 +245,37 @@ div#ns-remove-response{
  	background-color: #777;
 }
 .ns-label-primary {
- 	background-color: #337ab7;
+ 	background-color: #3bafda;
 }
 .ns-label-success {
- 	background-color: #5cb85c;
+ 	background-color: #8cc152;
 }
 .ns-label-info {
- 	background-color: #5bc0de;
+ 	background-color: #37bc9b;
 }
 .ns-label-warning {
  	background-color: #f0ad4e;
 }
 .ns-label-danger {
- 	background-color: #d9534f;
+ 	background-color: #da4453;
 }
 .ns-text-muted {
  	color: #777;
 }
 .ns-text-primary {
- 	color: #337ab7;
+ 	color: #3bafda;
 }
 .ns-text-success {
- 	color: #3c763d;
+ 	color: #8cc152;
 }
 .ns-text-info {
- 	color: #31708f;
+ 	color: #37bc9b;
 }
 .ns-text-warning {
- 	color: #8a6d3b;
+ 	color: #f0ad4e;
 }
 .ns-text-danger {
- 	color: #a94442;
+ 	color: #da4453;
 }
 .ns-red{
 	color: red;

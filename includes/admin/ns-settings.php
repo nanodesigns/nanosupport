@@ -270,7 +270,7 @@ function nanosupport_settings_page_callback() {
                     <?php require_once '__nanodesigns.php'; ?>
 
                 </div> <!-- /.nanosupport-right-column -->
-                <div class="clearfix"></div>
+                <div class="ns-clearfix"></div>
 
             <?php } else if( 'knowledgebase_settings' === $active_tab ) { ?>
 
@@ -287,7 +287,7 @@ function nanosupport_settings_page_callback() {
                     <?php require_once '__nanodesigns.php'; ?>
 
                 </div> <!-- /.nanosupport-right-column -->
-                <div class="clearfix"></div>
+                <div class="ns-clearfix"></div>
 
             <?php } else if( 'email_settings' === $active_tab ) { ?>
 
@@ -304,7 +304,7 @@ function nanosupport_settings_page_callback() {
                     <?php require_once '__nanodesigns.php'; ?>
 
                 </div> <!-- /.nanosupport-right-column -->
-                <div class="clearfix"></div>
+                <div class="ns-clearfix"></div>
 
             <?php } //endif ?>
 

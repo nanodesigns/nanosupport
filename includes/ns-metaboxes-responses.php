@@ -22,6 +22,10 @@ function ns_responses_meta_box() {
         'high'                                  // 'high', 'core', 'default' or 'low'
     );
 
+    /**
+     * Remove Comment Meta Box
+     * Remove the default Comment Meta Box if exists.
+     */
     remove_meta_box( 'commentsdiv', 'nanosupport', 'normal' );
 }
 add_action( 'add_meta_boxes', 'ns_responses_meta_box' );
@@ -37,7 +41,7 @@ function ns_reply_specifics() {
             wp_set_comment_status( $_REQUEST['resID'], 'trash' );
 
             //if( ! is_wp_error( $del_success ) ) echo "Deleted";
-            ! is_wp_error( $del_success ) and print 'Response Deleted!';
+            ! is_wp_error( $del_success ) and print __( 'Response Deleted!', 'nanosupport');
         }
     }
 
@@ -67,7 +71,7 @@ function ns_reply_specifics() {
 		        		<div class="response-user">
 
                             <input type="hidden" id="ns-responseid" name="ns_responseid[]" value="<?php echo intval( $response->comment_ID ); ?>">
-                            <input type="hidden" id="ns-user" name="ns_user[]" value="<?php echo esc_html( $response->user_id ); ?>">
+                            <input type="hidden" id="ns-user" name="ns_user[]" value="<?php echo absint( $response->user_id ); ?>">
 		        			<input type="hidden" id="ns-date" name="ns_date[]" value="<?php echo esc_html( $response->comment_date ); ?>">
 
 		        			<?php
@@ -78,7 +82,7 @@ function ns_reply_specifics() {
                             ?>
 		        			<span class="go-right"><?php _e( 'Response', 'nanosupport' ); ?>
                                 <?php echo ' #', $counter; ?>
-                                <a id="<?php echo $response->comment_ID; ?>" class="delete-response dashicons dashicons-dismiss" onclick="return confirm('Are you sure you want to delete the response?');" href="<?php echo admin_url('/post.php?post='. $post->ID .'&action=edit&resID='. $response->comment_ID .'&del=true'); ?>"></a>
+                                <a id="<?php echo $response->comment_ID; ?>" class="delete-response dashicons dashicons-dismiss" href="<?php echo admin_url('/post.php?post='. $post->ID .'&action=edit&resID='. $response->comment_ID .'&del=true'); ?>"></a>
                             </span>
 		        		</div>
 		                <div class="ns-box">
@@ -97,6 +101,7 @@ function ns_reply_specifics() {
     </div> <!-- .ns-holder -->
 	
 	<br>
+    <button id="ns-save-response" style="display:none;" class="button button-large button-default ns-btn"><span class="dashicons dashicons-archive"></span> <?php _e('Save Responses', 'nanosupport' ); ?></button>
 	<div id="ns-add-response" class="button button-large button-primary ns-btn"><span class="dashicons dashicons-plus"></span> <?php _e('Add New Response', 'nanosupport' ); ?></div>
 	<div id="ns-remove-response" style="display:none;" class="button button-large button-default ns-btn"><span class="dashicons dashicons-minus"></span> <?php _e('Remove Last Response', 'nanosupport' ); ?></div>
 
@@ -104,23 +109,26 @@ function ns_reply_specifics() {
     jQuery(document).ready(function($) {
         var ajaxurl = '<?php echo esc_js(admin_url('admin-ajax.php')); ?>';
         $(document).on('click', '.delete-response', function () {
-            var id = this.id;
-            //$('.bubble span.count').html( '<img src="'+ nano.theme_path +'/images/count-loader.gif" alt="loading">' );
+            var confirmed = confirm('Are you sure you want to delete the response?');
+            if( confirmed == true ) {
+                var id = this.id;
+                //$('.bubble span.count').html( '<img src="'+ nano.theme_path +'/images/count-loader.gif" alt="loading">' );
 
-            $.ajax({
-                type: 'POST',
-                url: ajaxurl,
-                data: {"action": "delete_response",
-                            "id": id
-                        },
-                success: function (data) {
-                    if( data != false ) {
-                        var target_btn = $('#'+data);
-                        target_btn.closest('.ns-response-group').slideUp();
-                        target_btn.closest('.ns-response-group').find('textarea').val('');
+                $.ajax({
+                    type: 'POST',
+                    url: ajaxurl,
+                    data: {"action": "delete_response",
+                                "id": id
+                            },
+                    success: function (data) {
+                        if( data != false ) {
+                            var target_btn = $('#'+data);
+                            target_btn.closest('.ns-response-group').slideUp();
+                            target_btn.closest('.ns-response-group').find('textarea').val('');
+                        }
                     }
-                }
-            });
+                });
+            }
         });
     });
     </script>
@@ -145,7 +153,7 @@ function ns_save_reply_meta_data( $post_id ) {
     
     // check permissions
     if ( 'nanosupport' === $_POST['post_type'] ) {
-        if ( ! current_user_can( 'edit_post', $post_id ) )
+        if ( ! current_user_can( 'edit_nanosupport', $post_id ) )
             return $post_id;
     }
 
