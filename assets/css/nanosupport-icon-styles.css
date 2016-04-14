@@ -41,9 +41,6 @@
   vertical-align: middle;
 }
 
-.ns-icon-nanosupport:before {
-  content: "\e000";
-}
 .ns-icon-responses:before {
   content: "\e001";
 }
@@ -410,10 +407,13 @@
 .ns-icon-ming:before {
   content: "\e07a";
 }
+.ns-icon-nanosupport:before {
+  content: "\e07b";
+}
 
 
 /** NanoSupport Admin Menu Icon */
 #adminmenu #menu-posts-nanosupport div.wp-menu-image:before{
     font-family: "ns-icon";
-    content: "\e000";
+    content: "\e07b";
 }

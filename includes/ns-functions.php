@@ -320,10 +320,10 @@ function ns_knowledgebase_navigation() {
 
     <div class="ns-well ns-well-sm">
         <div class="ns-row">
-            <div class="ns-col-sm-7 ns-text-muted">
+            <div class="ns-col-md-7 ns-col-sm-6 ns-well-left ns-text-muted">
                 <?php _e( "Find your desired question in the knowledgebase. If you can't find your question, submit a new support ticket.", 'nanosupport' ); ?>
             </div>
-            <div class="ns-col-sm-5 ns-text-right">
+            <div class="ns-col-md-5 ns-col-sm-6 ns-well-right ns-text-right">
                 <?php
                 if( current_user_can('administrator') || current_user_can('editor') )
                     $all_tickets_label = __( 'All the Tickets', 'nanosupport' );
@@ -370,7 +370,7 @@ function ns_new_ticket_navigation() {
 
     <div class="ns-well ns-well-sm">
         <div class="ns-row">
-            <div class="ns-col-sm-5">
+            <div class="ns-col-md-5 ns-col-sm-6 ns-well-left">
                 <?php
                 if( current_user_can('administrator') || current_user_can('editor') )
                     $all_tickets_label = __( 'All the Tickets', 'nanosupport' );
@@ -385,7 +385,7 @@ function ns_new_ticket_navigation() {
                     <span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
                 </a>
             </div>
-            <div class="ns-col-sm-7 ns-text-muted">
+            <div class="ns-col-md-7 ns-col-sm-6 ns-well-right ns-text-muted">
                 <span class="ns-small"><?php _e( 'Consult the Knowledgebase for your query. If they are <em>not</em> close to you, then submit a new ticket here.', 'nanosupport' ); ?></span>
             </div>
         </div>
@@ -420,10 +420,10 @@ function ns_support_desk_navigation() {
 
     <div class="ns-well ns-well-sm">
         <div class="ns-row">
-            <div class="ns-col-sm-7 ns-text-muted">
+            <div class="ns-col-md-7 ns-col-sm-6 ns-well-left ns-text-muted">
                 <?php _e( 'Tickets are visible to the admins, designated support assistant and/or to the ticket owner only.', 'nanosupport' ); ?>
             </div>
-            <div class="ns-col-sm-5 ns-text-right">
+            <div class="ns-col-md-5 ns-col-sm-6 ns-well-right ns-text-right">
                 <a class="ns-btn ns-btn-sm ns-btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
                     <span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
                 </a>

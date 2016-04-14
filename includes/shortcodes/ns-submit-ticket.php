@@ -74,28 +74,28 @@ function ns_submit_support_ticket() {
 				<form class="ns-form-horizontal" method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
 
 					<div class="ns-form-group">
-						<label for="ns-ticket-subject" class="ns-col-sm-2 ns-control-label">
+						<label for="ns-ticket-subject" class="ns-col-md-2 ns-col-sm-3 ns-control-label">
 							<?php _e( 'Subject', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
-						<div class="ns-col-sm-10">
+						<div class="ns-col-md-10 ns-col-sm-9">
 							<input type="text" class="ns-form-control" name="ns_ticket_subject" id="ns-ticket-subject" placeholder="<?php esc_attr_e( 'Subject in brief', 'nanosupport' ); ?>" value="<?php echo !empty($_POST['ns_ticket_subject']) ? stripslashes_deep( $_POST['ns_ticket_subject'] ) : ''; ?>" required aria-required="true">
 						</div>
 					</div> <!-- /.ns-form-group -->
 
 					<div class="ns-form-group">
-						<label for="ns-ticket-details" class="ns-col-sm-2 ns-control-label">
+						<label for="ns-ticket-details" class="ns-col-md-2 ns-col-sm-3 ns-control-label">
 							<?php _e( 'Details', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
-						<div class="ns-col-sm-10">
+						<div class="ns-col-md-10 ns-col-sm-9">
 							<textarea id="ns-ticket-details" class="ns-form-control" name="ns_ticket_details" cols="30" rows="10" placeholder="<?php esc_attr_e( 'Write down your issue in details... At least 30 characters is a must.', 'nanosupport' ); ?>" required aria-required="true"><?php if( !empty($_POST['ns_ticket_details']) ) echo stripslashes_deep( $_POST['ns_ticket_details'] ); ?></textarea>
 						</div>
 					</div> <!-- /.ns-form-group -->
 
 					<div class="ns-form-group">
-						<label for="ns-ticket-priority" class="ns-col-sm-2 ns-control-label">
+						<label for="ns-ticket-priority" class="ns-col-md-2 ns-col-sm-3 ns-control-label">
 							<?php _e( 'Priority', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
-						<div class="ns-col-sm-10 ns-form-inline">
+						<div class="ns-col-md-10 ns-col-sm-9 ns-form-inline">
 							<?php $sub_val = !empty($_POST['ns_ticket_priority']) ? $_POST['ns_ticket_priority'] : ''; ?>
 							<select class="ns-form-control" name="ns_ticket_priority" id="ns-ticket-priority" required aria-required="true">
 								<option value="low" <?php selected( $sub_val, 'low' ); ?>>
@@ -149,10 +149,10 @@ function ns_submit_support_ticket() {
 							if( $ns_general_settings['account_creation']['generate_username'] !== 1 ) : ?>
 
 								<div class="ns-form-group">
-									<label for="reg-name" class="ns-col-sm-2 ns-control-label">
+									<label for="reg-name" class="ns-col-md-2 ns-col-sm-3 ns-control-label">
 										<?php _e( 'Username', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 									</label>
-									<div class="ns-col-sm-10">
+									<div class="ns-col-md-10 ns-col-sm-9">
 										<input name="reg_name" type="text" class="ns-form-control login-field" value="<?php echo( isset($_POST['reg_name']) ? $_POST['reg_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="reg-name" required aria-required="true">
 									</div>
 								</div> <!-- /.ns-form-group -->
@@ -160,10 +160,10 @@ function ns_submit_support_ticket() {
 							<?php endif; ?>
 
 							<div class="ns-form-group">
-								<label for="reg-email" class="ns-col-sm-2 ns-control-label">
+								<label for="reg-email" class="ns-col-md-2 ns-col-sm-3 ns-control-label">
 									<?php _e( 'Your email', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 								</label>
-								<div class="ns-col-sm-10">
+								<div class="ns-col-md-10 ns-col-sm-9">
 									<input name="reg_email" type="email" class="ns-form-control login-field" value="<?php echo( isset($_POST['reg_email']) ? $_POST['reg_email'] : null ); ?>" placeholder="<?php esc_attr_e( 'Email', 'nanosupport' ); ?>" id="reg-email" required aria-required="true">
 								</div>
 							</div> <!-- /.ns-form-group -->
@@ -175,10 +175,10 @@ function ns_submit_support_ticket() {
 							if( $ns_general_settings['account_creation']['generate_password'] !== 1 ) : ?>
 
 								<div class="ns-form-group">
-									<label for="reg-pass" class="ns-col-sm-2 ns-control-label">
+									<label for="reg-pass" class="ns-col-md-2 ns-col-sm-3 ns-control-label">
 										<?php _e( 'Password', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 									</label>
-									<div class="ns-col-sm-10">
+									<div class="ns-col-md-10 ns-col-sm-9">
 										<input name="reg_password" type="password" class="ns-form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="reg-pass" required aria-required="true">
 									</div>
 								</div> <!-- /.ns-form-group -->
@@ -220,7 +220,7 @@ function ns_submit_support_ticket() {
 							do_action( 'register_form' ); ?>
 
 							<div class="ns-form-group">
-								<p class="ns-col-sm-10 ns-col-sm-offset-2">
+								<p class="ns-col-md-10 ns-col-sm-9 ns-col-md-offset-2 ns-col-sm-offset-3">
 									<?php printf( __( 'Already have an account? <a href="%1s">Login</a>', 'nanosupport' ), esc_url( add_query_arg( 'action', 'login', get_the_permalink() ) ) ); ?>
 								</p>
 							</div> <!-- /.ns-form-group -->
@@ -238,31 +238,31 @@ function ns_submit_support_ticket() {
 							?>
 
 							<div class="ns-form-group">
-								<label for="login-name" class="ns-col-sm-2 ns-control-label">
+								<label for="login-name" class="ns-col-md-2 ns-col-sm-3 ns-control-label">
 									<?php _e( 'Username', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 								</label>
-								<div class="ns-col-sm-10">
+								<div class="ns-col-md-10 ns-col-sm-9">
 									<input name="login_name" type="text" class="ns-form-control login-field" value="<?php echo( isset($_POST['login_name']) ? $_POST['login_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="login-name" required aria-required="true">
 								</div>
 							</div> <!-- /.ns-form-group -->
 
 							<div class="ns-form-group">
-								<label for="login-pass" class="ns-col-sm-2 ns-control-label">
+								<label for="login-pass" class="ns-col-md-2 ns-col-sm-3 ns-control-label">
 									<?php _e( 'Password', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 								</label>
-								<div class="ns-col-sm-10">
+								<div class="ns-col-md-10 ns-col-sm-9">
 									<input name="login_password" type="password" class="ns-form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="login-pass" required aria-required="true">
 								</div>
 							</div> <!-- /.ns-form-group -->
 
 							<div class="ns-form-group">
-								<div class="ns-col-sm-10 ns-col-sm-offset-2">
+								<div class="ns-col-md-10 ns-col-sm-9 ns-col-md-offset-2 ns-col-sm-offset-3">
 									<label><input type="checkbox" name="rememberme"> <?php _e( 'Remember me', 'nanosupport' ); ?></label>
 								</div>
 							</div> <!-- /.ns-form-group -->
 
 							<div class="ns-form-group">
-								<p class="ns-col-sm-10 ns-col-sm-offset-2"><?php printf( __( "Don't have an account? <a href=\"%1s\">Create one</a>", 'nanosupport' ), esc_url( get_the_permalink() ) ); ?></p>
+								<p class="ns-col-md-10 ns-col-sm-9 ns-col-md-offset-2 ns-col-sm-offset-3"><?php printf( __( "Don't have an account? <a href=\"%1s\">Create one</a>", 'nanosupport' ), esc_url( get_the_permalink() ) ); ?></p>
 							</div> <!-- /.ns-form-group -->
 
 							<!-- HIDDEN INPUT TO TREAT FORM SUBMIT APPROPRIATELY -->
@@ -275,7 +275,7 @@ function ns_submit_support_ticket() {
 					<?php } //endif( ! is_user_logged_in() ) ?>
 					
 					<div class="ns-form-group">
-						<div class="ns-col-sm-offset-2 ns-col-sm-10">
+						<div class="ns-col-md-offset-2 ns-col-sm-offset-3 ns-col-md-10 ns-col-sm-9">
 							<button type="submit" name="ns_submit" class="ns-btn ns-btn-primary">
 								<?php _e( 'Submit', 'nanosupport' ); ?>
 							</button>
