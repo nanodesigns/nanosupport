@@ -274,6 +274,11 @@ function ns_create_support_seeker( $email, $username = '', $password = '', $anti
         return new WP_Error( 'reg-error', __( 'Couldn&#8217;t register you', 'nanosupport' ) );
     }
 
+    if( $password_generated )
+        $account_opening_email = nanosupport_handle_account_opening_email( $user_id, $password );
+    else
+        $account_opening_email = nanosupport_handle_account_opening_email( $user_id );
+
     return $user_id;
 
 }
