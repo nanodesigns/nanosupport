@@ -53,7 +53,7 @@ add_action( 'pre_get_comments', 'ns_exclude_responses_in_comments' );
  * -----------------------------------------------------------------------
  */
 function ns_registration_login_ticket_submission_redir() {
-    if( !isset( $_POST['ns_submit'] ) )
+    if( ! isset( $_POST['ns_submit'] ) )
         return;
 
     //form validation here

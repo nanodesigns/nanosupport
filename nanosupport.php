@@ -77,53 +77,6 @@ function ns_load_textdomain() {
 }
 
 
-/**
- * Include all the dependencies and particles
- * 
- * Is to decentralize things to make things managable.
- */
-/** Install the plugin **/
-include_once 'includes/ns-install.php';
-
-/** Core Functions **/
-include_once 'includes/ns-core-functions.php';
-/** Functions specific to setup the environments **/
-include_once 'includes/ns-set-environment.php';
-
-/** CPT Tickets **/
-include_once 'includes/ns-cpt-nanosupport.php';
-/** CPT Knowledgebase **/
-include_once 'includes/ns-cpt-knowledgebase.php';
-/** Metaboxes: Responses **/
-include_once 'includes/ns-metaboxes-responses.php';
-/** Miscellaneous functions **/
-include_once 'includes/ns-functions.php';
-
-/** Handling emails **/
-include_once 'includes/ns-email-functions.php';
-
-/** Shortcode: Support Desk **/
-include_once 'includes/shortcodes/ns-support-desk.php';
-/** Shortcode: Submit Ticket **/
-include_once 'includes/shortcodes/ns-submit-ticket.php';
-/** Shortcode: Knowledgebase **/
-include_once 'includes/shortcodes/ns-knowledgebase.php';
-
-/** Helper functions **/
-include_once 'includes/ns-utility-functions.php';
-
-/** Settings API **/
-include_once 'includes/admin/ns-settings.php';
-
-
-/**
- * Set the plugin up
- */
-register_activation_hook( __FILE__, 'nanosupport_install' );
-add_action( 'init', 'ns_load_textdomain', 1 );
-
-
-
 if ( ! class_exists( 'NanoSupport' ) ) :
 
 /**
@@ -133,6 +86,11 @@ if ( ! class_exists( 'NanoSupport' ) ) :
  * -----------------------------------------------------------------------
  */
 final class NanoSupport {
+
+	/**
+	 * @var string
+	 */
+	public $plugin = 'NanoSupport';
 
 	/**
 	 * @var string
@@ -196,7 +154,7 @@ final class NanoSupport {
 	 * @return string
 	 */
 	public function template_path() {
-		return apply_filters( 'ns_template_path', 'NS/' );
+		return apply_filters( 'ns_template_path', 'nanosupport/' );
 	}
 
 	
@@ -212,3 +170,49 @@ endif;
 function NS() {
 	return NanoSupport::instance();
 }
+
+
+/**
+ * Include all the dependencies and particles
+ * 
+ * Is to decentralize things to make things managable.
+ */
+/** Install the plugin **/
+include_once 'includes/ns-install.php';
+
+/** Core Functions **/
+include_once 'includes/ns-core-functions.php';
+/** Functions specific to setup the environments **/
+include_once 'includes/ns-set-environment.php';
+
+/** CPT Tickets **/
+include_once 'includes/ns-cpt-nanosupport.php';
+/** CPT Knowledgebase **/
+include_once 'includes/ns-cpt-knowledgebase.php';
+/** Metaboxes: Responses **/
+include_once 'includes/ns-metaboxes-responses.php';
+/** Miscellaneous functions **/
+include_once 'includes/ns-functions.php';
+
+/** Handling emails **/
+include_once 'includes/ns-email-functions.php';
+
+/** Shortcode: Support Desk **/
+include_once 'includes/shortcodes/ns-support-desk.php';
+/** Shortcode: Submit Ticket **/
+include_once 'includes/shortcodes/ns-submit-ticket.php';
+/** Shortcode: Knowledgebase **/
+include_once 'includes/shortcodes/ns-knowledgebase.php';
+
+/** Helper functions **/
+include_once 'includes/ns-utility-functions.php';
+
+/** Settings API **/
+include_once 'includes/admin/ns-settings.php';
+
+
+/**
+ * Set the plugin up
+ */
+register_activation_hook( __FILE__, 'nanosupport_install' );
+add_action( 'init', 'ns_load_textdomain', 1 );

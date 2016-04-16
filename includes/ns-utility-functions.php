@@ -228,6 +228,8 @@ function ns_create_support_seeker( $email, $username = '', $password = '', $anti
 
         return new WP_Error( 'reg-error-password-missing', __( 'Please enter a password for your account', 'nanosupport' ) );
 
+        $password_generated = false;
+
     } else {
 
         if ( strlen($password) < 5 ) {

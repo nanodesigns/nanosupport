@@ -15,23 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function ns_support_desk_page() {
-
-	/**
-	 * Enqueue necessary styles and scripts accordingly
-	 */
-	wp_enqueue_style( 'nanosupport' );
-	wp_enqueue_script('nanosupport');
-
-	remove_query_arg( 'ns_success', $_SERVER['REQUEST_URI'] );
 	
 	ob_start();
 
 	echo '<div id="nanosupport-desk">';
 		if( is_user_logged_in() ) :
 			//User is Logged in
-			
-			//Get the NanoSupport Settings from Database
-	    	$ns_general_settings = get_option( 'nanosupport_settings' );
 
 			global $post, $current_user; ?>
 

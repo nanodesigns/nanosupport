@@ -22,13 +22,21 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function ns_scripts() {
 
+    //Get the NanoSupport Settings from Database
+    $ns_general_settings        = get_option( 'nanosupport_settings' );
+    $ns_knowledgebase_settings  = get_option( 'nanosupport_knowledgebase_settings' );
+
+    $support_desk = $ns_general_settings['support_desk'];
+    $submit_ticket = $ns_general_settings['submit_page'];
+    $knowledgebase = $ns_knowledgebase_settings['page'];
+
     /**
      * NanoSupport CSS
      * Compiled and minified from LESS CSS Preprocessor.
      * ...
      */
     wp_register_style( 'nanosupport', NS()->plugin_url() .'/assets/css/nanosupport.css', array(), NS()->version, 'all' );
-
+    
     /**
      * MatchHeight JS v0.7.0
      * @link http://brm.io/jquery-match-height/
@@ -49,11 +57,6 @@ function ns_scripts() {
         true
     );
 
-    if( is_singular('nanosupport') ) :
-        wp_enqueue_style('nanosupport');
-        wp_enqueue_script('nanosupport');
-    endif;
-
     /**
      * NanoSupport Localize Scripts
      * Translation-ready JS strings and other dynamic parameters.
@@ -66,6 +69,14 @@ function ns_scripts() {
             'plugin_url'    => NS()->plugin_url()
         )
     );
+    
+    if( is_page( $knowledgebase ) )
+        wp_enqueue_script( 'equal-height' );
+    
+    if( is_page( array( $support_desk, $submit_ticket, $knowledgebase ) ) || is_singular('nanosupport') ) {
+        wp_enqueue_style( 'nanosupport' );
+        wp_enqueue_script( 'nanosupport' );
+    }
 
 }
 
