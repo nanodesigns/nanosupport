@@ -414,7 +414,7 @@ add_action( 'init', 'ns_create_nanosupport_taxonomies', 0 );
  * -----------------------------------------------------------------------
  */
 function ns_set_default_object_terms( $post_id, $post ) {
-    if ( 'publish' === $post->post_status ) {
+    if ( 'publish' === $post->post_status || 'private' === $post->post_status ) {
         $defaults = array(
                 'nanosupport_department' => array( 'support' )
             );
@@ -429,4 +429,5 @@ function ns_set_default_object_terms( $post_id, $post ) {
     }
 }
 
-add_action( 'save_post', 'ns_set_default_object_terms', 100, 2 );
+add_action( 'save_post',        'ns_set_default_object_terms', 100, 2 );
+add_action( 'new_to_publish',   'ns_set_default_object_terms', 100, 2 );
