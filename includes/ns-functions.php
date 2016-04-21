@@ -258,7 +258,7 @@ function ns_registration_login_ticket_submission_redir() {
                         ) );
 
         //set to 'support' department (whatever the user role is...)
-        wp_set_object_terms( $ticket_post_id, 'support', 'nanosupport_departments' );
+        wp_set_object_terms( $ticket_post_id, 'support', 'nanosupport_department' );
 
         //prepare the meta information array
         $meta_control = array(

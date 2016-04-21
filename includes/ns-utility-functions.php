@@ -135,7 +135,7 @@ function ns_get_ticket_departments( $post_id = null ) {
     
     $post_id = ( null === $post_id ) ? get_the_ID() : $post_id;
 
-    $_departments = get_the_terms( $post_id, 'nanosupport_departments' );
+    $_departments = get_the_terms( $post_id, 'nanosupport_department' );
 
     $department_count = count($_departments);
     $departments = '';

@@ -3,7 +3,7 @@
  * CPT 'nanosupport' and Taxonomy
  *
  * Functions to initiate the Custom Post Type 'nanosupport'
- * and Taxonomy 'nanosupport_departments'.
+ * and Taxonomy 'nanosupport_department'.
  *
  * @author      nanodesigns
  * @category    Tickets
@@ -330,7 +330,7 @@ add_action( 'new_to_publish',   'ns_save_control_meta_data' );
 /**
  * Register Custom Taxonomy
  * 
- * Create Custom Taxonomy 'nanosupport_departments' to sort out the tickets.
+ * Create Custom Taxonomy 'nanosupport_department' to sort out the tickets.
  *
  * @since  1.0.0
  * 
@@ -370,22 +370,22 @@ function ns_create_nanosupport_taxonomies() {
                             ),
     );
 
-    if( !taxonomy_exists( 'nanosupport_departments' ) )
-        register_taxonomy( 'nanosupport_departments', array( 'nanosupport' ), $args );
+    if( ! taxonomy_exists( 'nanosupport_department' ) )
+        register_taxonomy( 'nanosupport_department', array( 'nanosupport' ), $args );
 
 
 
     /**
      * Insert default term
      *
-     * Insert default term 'Support' to the taxonomy 'nanosupport_departments'.
+     * Insert default term 'Support' to the taxonomy 'nanosupport_department'.
      *
      * Term: 'support'
      * ...
      */
     wp_insert_term(
         __( 'Support', 'nanosupport' ), // the term 
-        'nanosupport_departments',      // the taxonomy
+        'nanosupport_department',      // the taxonomy
         array(
             'description'=> __( 'Support department is dedicated to provide the necessary support', 'nanosupport' ),
             'slug' => 'support'
@@ -398,7 +398,7 @@ add_action( 'init', 'ns_create_nanosupport_taxonomies', 0 );
 
 
 /**
- * Make a Default Taxonomy Term for 'nanosupport_departments'
+ * Make a Default Taxonomy Term for 'nanosupport_department'
  *
  * @link http://wordpress.mfields.org/2010/set-default-terms-for-your-custom-taxonomies-in-wordpress-3-0/
  *
@@ -416,7 +416,7 @@ add_action( 'init', 'ns_create_nanosupport_taxonomies', 0 );
 function ns_set_default_object_terms( $post_id, $post ) {
     if ( 'publish' === $post->post_status ) {
         $defaults = array(
-                'nanosupport_departments' => array( 'support' )
+                'nanosupport_department' => array( 'support' )
             );
         
         $taxonomies = get_object_taxonomies( $post->post_type );
