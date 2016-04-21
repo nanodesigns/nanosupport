@@ -68,20 +68,21 @@ function ns_submit_ticket_field() {
     }
 }
 
+// General Tab : General Settings : Field 3 : Enable Notice?
+function ns_enable_notice() {
+    $options = get_option( 'nanosupport_settings' );
+
+    $enable_notice = isset($options['enable_notice']) ? $options['enable_notice'] : '';
+    echo '<input name="nanosupport_settings[enable_notice]" id="enable_notice" type="checkbox" value="1" '. checked( 1, $enable_notice, false ) . '/> <label for="enable_notice">'. __( 'Yes, enable Notice and Navigation on top of NanoSupport Pages', 'nanosupport' ) .'</label>';
+    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'If you check here, it will enable the predefined notice on top of Support Desk, Knowledgebase, and Submit Ticket page', 'nanosupport' ) .'"></span>';
+}
+
+
 /**
  * Callback: Account Settings Section
  */
 function ns_account_settings_section_callback() {
     echo '<p class="screen-reader-text">'. __( 'All the user account related settings can be managed from here.', 'nanosupport' ) .'</p>';
-}
-
-// General Tab : Account Settings : Field 1 : Enable Login/Registration?
-function ns_enable_login_registration() {
-    $options = get_option( 'nanosupport_settings' );
-
-    $enable_login_reg_val = isset($options['enable_login_reg']) ? $options['enable_login_reg'] : '';
-    echo '<input name="nanosupport_settings[enable_login_reg]" id="enable_login_reg" type="checkbox" value="1" '. checked( 1, $enable_login_reg_val, false ) . '/> <label for="enable_login_reg">'. __( 'Yes, enable Login/Registration below Submit Ticket form <strong class="ns-red">(BETA FEATURE)</strong>', 'nanosupport' ) .'</label>';
-    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'If you check here, it will enable a login/registration field below the Submit Ticket form - It is still a Beta Feature', 'nanosupport' ) .'"></span>';
 }
 
 // General Tab : Account Settings : Field 2 : Account Creation
@@ -105,7 +106,7 @@ function ns_delete_data_field() {
     $options = get_option( 'nanosupport_settings' );
 
     $del_data_val = isset($options['delete_data']) ? $options['delete_data'] : '';
-    echo '<input name="nanosupport_settings[delete_data]" id="ns_delete_data" type="checkbox" value="1" '. checked( 1, $del_data_val, false ) . '/> <label for="ns_delete_data">'. __( 'Delete all the Data on Uninstallation?', 'nanosupport' ) .'</label>';
+    echo '<input name="nanosupport_settings[delete_data]" id="ns_delete_data" type="checkbox" value="1" '. checked( 1, $del_data_val, false ) . '/> <label for="ns_delete_data" class="ns-red"><strong>'. __( 'Delete all the Data on Uninstallation?', 'nanosupport' ) .'</strong></label>';
     echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'If you check here, on uninstallation of the plugin, it will wipe out all the data from the database', 'nanosupport' ) .'"></span>';
 }
 
@@ -131,9 +132,9 @@ function ns_general_settings_validate( $input ) {
     $support_desk_selection_val = $input['support_desk'] ? absint( $input['support_desk'] ) : '';
     //Submit Ticket page selection
     $nano_add_support_ticket_val = $input['submit_page'] ? absint( $input['submit_page'] ) : '';
+    //Enable Notice checkbox
+    $enable_notice = (int) $input['enable_notice'] === 1 ? (int) $input['enable_notice'] : '';
     
-    //Enable Login/Registration checkbox
-    $enable_login_reg = (int) $input['enable_login_reg'] === 1 ? (int) $input['enable_login_reg'] : '';
     //Generate Username checkbox
     $generate_username = (int) $input['account_creation']['generate_username'] === 1 ? (int) $input['account_creation']['generate_username'] : '';
     //Generate Password checkbox
@@ -147,8 +148,8 @@ function ns_general_settings_validate( $input ) {
      */
     $options['support_desk']        = absint( $support_desk_selection_val );
     $options['submit_page']         = absint( $nano_add_support_ticket_val );
+    $options['enable_notice']       = absint( $enable_notice );
 
-    $options['enable_login_reg']    = absint( $enable_login_reg );
     $options['account_creation']['generate_username']   = absint( $generate_username );
     $options['account_creation']['generate_password']   = absint( $generate_password );
 

@@ -73,6 +73,13 @@ function nanosupport_settings_options_init(){
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );
+        add_settings_field(
+            'enable_notice',                            // ID*
+            __( 'Enable Notice?', 'nanosupport' ),      // Title*
+            'ns_enable_notice',                         // Callback Function*
+            'nanosupport_settings',                     // Page (Plugin)*
+            'ns_general'                                // Section
+        );
 
     /**
      * Tab: Account Settings
@@ -88,13 +95,6 @@ function nanosupport_settings_options_init(){
         'ns_account_settings_section_callback',         // Callback*
         'nanosupport_settings'                          // Page/Tab where to add the section of options*
     );
-        add_settings_field(
-            'enable_login_reg',                         // ID*
-            __( 'Enable Login/Registration?', 'nanosupport' ),        // Title*
-            'ns_enable_login_registration',             // Callback Function*
-            'nanosupport_settings',                     // Page (Plugin)*
-            'ns_account'                                // Section
-        );
         add_settings_field(
             'account_creation',                         // ID*
             __( 'Account Creation', 'nanosupport' ),    // Title*

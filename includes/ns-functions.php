@@ -316,6 +316,12 @@ function ns_knowledgebase_navigation() {
     //Get the NanoSupport Settings from Database
     $ns_general_settings = get_option( 'nanosupport_settings' );
 
+    $enable_notice = isset($ns_general_settings['enable_notice']) ? absint($ns_general_settings['enable_notice']) : false;
+
+    //If not enabled, don't display the notice and navigation
+    if( ! $enable_notice )
+        return;
+
     ob_start(); ?>
 
     <div class="ns-well ns-well-sm">
@@ -366,6 +372,12 @@ function ns_new_ticket_navigation() {
     $ns_general_settings        = get_option( 'nanosupport_settings' );
     $ns_knowledgebase_settings  = get_option('nanosupport_knowledgebase_settings');
 
+    $enable_notice = isset($ns_general_settings['enable_notice']) ? absint($ns_general_settings['enable_notice']) : false;
+
+    //If not enabled, don't display the notice and navigation
+    if( ! $enable_notice )
+        return;
+
     ob_start(); ?>
 
     <div class="ns-well ns-well-sm">
@@ -415,6 +427,12 @@ function ns_support_desk_navigation() {
     //Get the NanoSupport Settings from Database
     $ns_general_settings        = get_option( 'nanosupport_settings' );
     $ns_knowledgebase_settings  = get_option('nanosupport_knowledgebase_settings');
+
+    $enable_notice = isset($ns_general_settings['enable_notice']) ? absint($ns_general_settings['enable_notice']) : false;
+
+    //If not enabled, don't display the notice and navigation
+    if( ! $enable_notice )
+        return;
 
     ob_start(); ?>
 

@@ -160,6 +160,8 @@ add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
  * -----------------------------------------------------------------------
  */
 function ns_user_fields( $user ) { ?>
+    <?php if( ! current_user_can( 'support_seeker' ) ) : ?>
+
         <h3><?php _e( 'NanoSupport', 'nanosupport' ); ?></h3>
 
         <table class="form-table">
@@ -174,6 +176,7 @@ function ns_user_fields( $user ) { ?>
                 </td>
             </tr>
         </table>
+    <?php endif; ?>
 <?php
 }
 
@@ -192,7 +195,30 @@ add_action( 'edit_user_profile', 'ns_user_fields' );
  * -----------------------------------------------------------------------
  */
 function ns_saving_user_fields( $user_id ) {
-    update_user_meta( $user_id, 'ns_make_agent', intval( $_POST['ns_make_agent'] ) );
+
+    if( ! current_user_can( 'support_seeker' ) ) {
+
+        update_user_meta( $user_id, 'ns_make_agent', intval( $_POST['ns_make_agent'] ) );
+
+        /**
+         * For an agent, enable Support Ticket
+         * @var WP_User
+         */
+        $ns_agent_user = new WP_User($user_id);
+        if( 1 == intval( $_POST['ns_make_agent'] ) ) :
+            $ns_agent_user->add_cap( 'read_nanosupport' );
+            $ns_agent_user->add_cap( 'edit_nanosupport' );
+            $ns_agent_user->add_cap( 'edit_nanosupports' );
+            $ns_agent_user->add_cap( 'assign_nanosupport_terms' );
+        else :
+            $ns_agent_user->remove_cap( 'read_nanosupport' );
+            $ns_agent_user->remove_cap( 'edit_nanosupport' );
+            $ns_agent_user->remove_cap( 'edit_nanosupports' );
+            $ns_agent_user->remove_cap( 'assign_nanosupport_terms' );
+        endif;
+        
+    }
+
 }
 
 add_action( 'personal_options_update', 	'ns_saving_user_fields' );

@@ -54,7 +54,8 @@ function nanosupport_install() {
     // General Settings
     $ns_gen_settings = array(
             'support_desk'	=> $support_desk_page_id,
-            'submit_page'	=> $submit_ticket_page_id
+            'submit_page'   => $submit_ticket_page_id,
+            'enable_notice'	=> 1,
         );
     update_option( 'nanosupport_settings', $ns_gen_settings );
 
@@ -198,12 +199,7 @@ function ns_create_role() {
         __( 'Support Seeker', 'nanosupport' ),
         array(
             'read'                      => true,
-
-            'read_nanosupport'          => true,
-            'edit_nanosupport'          => true,
-            'edit_nanosupports'         => true,
-
-            'assign_nanosupport_terms'  => true
+            'read_nanosupport'          => true
         )
     );
 }
@@ -322,6 +318,8 @@ function ns_remove_caps() {
 			$wp_roles->remove_cap( 'administrator', $cap );
 		endforeach;
 	endforeach;
+
+    remove_role( 'support_seeker' );
 
 }
 
