@@ -214,7 +214,9 @@ function ns_knowledgebase_page() {
 
 			else :
 
-				_e( 'Nothing to display on Knowledgebase. Please add some documentation first.', 'nanosupport' );
+				echo '<div class="ns-alert ns-alert-info" role="alert">';
+					_e( 'Nothing to display on Knowledgebase. Please add some documentation first.', 'nanosupport' );
+				echo '</div>';
 
 			endif;
 
