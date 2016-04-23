@@ -175,7 +175,7 @@ function nanosupport_handle_account_opening_email( $user_id = '', $generated_pas
         $message .= '<p style="margin: 0 0 20px 20px;">'. sprintf( __('Username: <strong>%1$s</strong><br>Password: <strong>%2$s</strong><br>Email: %3$s', 'nanosupport'), $username, $generated_password, $email ) .'</p>';
     else
         $message .= '<p style="margin: 0 0 20px 20px;">'. sprintf( __('Username: %1$s<br>Password: %2$s<br>Email: %3$s', 'nanosupport'), $username, '<em>'. __('Your Password', 'nanosupport') .'</em>', $email ) .'</p>';
-    $message .= '<p style="margin: 0 0 16px;">'. sprintf( __('You can edit your account details and reset your password from your <a href="%s" target="_blank">Profile</a>', 'nanosupport'), get_edit_user_link( $user_id ) ) .'</p>';
+    $message .= '<p style="margin: 0 0 16px;">'. sprintf( __('You can edit your account details and reset your password from your <a href="%s" target="_blank">Profile</a>', 'nanosupport'), get_edit_user_link( absint($user_id) ) ) .'</p>';
 
     $password_email = ns_email( ns_ondomain_email('info'), $subject, $email_subhead, $message );
 

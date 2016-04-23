@@ -1,5 +1,5 @@
 /**
- * NanoSupport Stylesheet
+ * NanoSupport Admin Stylesheet
  * For admin panel styles.
  *
  * @author 	nanodesigns
@@ -214,6 +214,21 @@ div#ns-remove-response{
 		}
 	}
 }
+.nanosupport-50-left,
+.nanosupport-50-right{
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+			box-sizing: border-box;
+}
+.nanosupport-50-left{
+	float: left;
+	width: 49%;
+	margin-right: 1%;
+}
+.nanosupport-50-right{
+	float: right;
+	width: 49%;
+}
 @media (max-width:768px){
 	.nanosupport-left-column,
 	.nanosupport-right-column{
@@ -222,8 +237,14 @@ div#ns-remove-response{
 		clear: both;
 		padding: 0;
 	}
-	.nanosupport-left-column{
-		margin-bottom: 1em;
+	.nanosupport-left-column,
+	.nanosupport-50-left{
+		margin-bottom: 20px;
+	}
+	.nanosupport-50-left,
+	.nanosupport-50-right{
+		float: left;
+		width: 100%;
 	}
 }
 
@@ -311,4 +332,49 @@ div#ns-remove-response{
 	.dashicons-star-empty{
 		color: #ccc;
 	}
+}
+
+/** Dashboard **/
+#nanosupport-widget{
+	.dashboard-head{
+		font-weight: bold;
+		border-bottom: 1px solid #e1e1e1;
+		padding-bottom: 3px;
+	}
+	.nanosupport-right-column{
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+
+	@media (min-width: 768px) {
+		.ns-button-block{
+			width: 100%;
+			text-align: center;
+			margin-bottom: 5px;
+		}
+	}
+	.ns-button-danger{
+		background: #da4453;
+	    color: #fff;
+	    border-color: #da4453;
+	    box-shadow: 0 1px 0 #730404;
+	}
+	.ns-button-info{
+		background: #37bc9b;
+	    color: #fff;
+	    border-color: #37bc9b;
+	    box-shadow: 0 1px 0 #257B66;
+	}
+}
+.ns-text-center{
+	text-align: center;
+}
+.ns-total-ticket-count{
+	font-weight: bold;
+}
+.c3-legend-item{
+	font-family: "Open Sans",sans-serif;
+	color: #444;
+	font-size: 13px;
+	line-height: 1.4em;
 }

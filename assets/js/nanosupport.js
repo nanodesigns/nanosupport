@@ -1,3 +1,10 @@
+/**!
+ * NanoSupport Scripts
+ * Scripts to decorate/manipulate NanoSupport front-end.
+ *
+ * @author  nanodesigns
+ * @package NanoSupport
+ */
 jQuery(document).ready(function($) {
 
     /**

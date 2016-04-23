@@ -1,0 +1,184 @@
+<?php
+
+function ns_dashboard_scripts() {
+    $screen = get_current_screen();
+    if( 'dashboard' === $screen->base ) {
+        wp_enqueue_style( 'ns-admin' );
+        wp_enqueue_script( 'ns-dashboard', NS()->plugin_url() .'/assets/js/nanosupport-dashboard.min.js', array('d3','c3'), NS()->version, true );
+        wp_localize_script(
+            'ns-dashboard',
+            'ns',
+            array(
+                'pending'       => ns_ticket_status_count( 'pending' ),
+                'solved'        => ns_ticket_status_count( 'solved' ),
+                'inspection'    => ns_ticket_status_count( 'inspection' ),
+                'open'          => ns_ticket_status_count( 'open' ),
+            )
+        );
+    }
+}
+
+add_action( 'admin_enqueue_scripts', 'ns_dashboard_scripts' );
+
+/**
+ * NanoSupport Widget
+ *
+ * Add a dashboard widget for the plugin to display general
+ * information as per the user privilige.
+ *
+ * @since  1.0.0
+ * -----------------------------------------------------------------------
+ */
+function nanosupport_dashboard_widget() {
+    wp_add_dashboard_widget(
+        'nanosupport_widget',                   //dashboard ID
+        '<span class="ns-icon-nanosupport"></span> '. __( 'NanoSupport', 'nanosupport' ),     //widget name
+        'nanosupport_widget_callback'           //callback function
+    );
+}
+
+add_action( 'wp_dashboard_setup', 'nanosupport_dashboard_widget' );
+
+/**
+ * NanoSupport widget callback
+ * ...
+ */
+function nanosupport_widget_callback() { ?>
+    <section id="nanosupport-widget">
+
+        <?php if( current_user_can('support_seeker') ) { ?>
+
+            <?php
+            $ns_general_settings = get_option( 'nanosupport_settings' );
+            $ns_knowledgebase_settings  = get_option( 'nanosupport_knowledgebase_settings' );
+            ?>
+
+            <div class="ns-row">
+                <div class="nanosupport-left-column">
+                    <h4 class="dashboard-head ns-text-center"><span class="ns-icon-tag"></span> <?php _e( 'Welcome to Support Ticketing', 'nanosupport' ); ?></h4>
+                    <p><?php printf( __( 'This is the back end of the support ticketing system. If you want to edit your profile, you can do that from <a href="%1$s"><span class="ns-icon-user"></span> Your Profile</a>.', 'nanosupport' ), get_edit_user_link( get_current_user_id() ) ); ?></p>
+                    <p><?php _e( 'Use the links here for exploring knowledgebase, visiting your support desk, or submitting new ticket. Before submitting new ticket, we prefer you to consider exploring the Knowledgebase for existing resources.', 'nanosupport' ); ?></p>
+                </div>
+                <div class="nanosupport-right-column ns-text-center">
+                    <h4 class="dashboard-head"><span class="ns-icon-mouse"></span> <?php _e( 'My Tools', 'nanosupport' ); ?></h4>
+                    <a class="button button-primary ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_general_settings['support_desk']) ); ?>"><span class="icon ns-icon-tag"></span> <?php _e( 'Support Desk', 'nanosupport' ); ?></a>
+                    <a class="button ns-button-danger ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_general_settings['submit_page']) ); ?>"><span class="icon ns-icon-tag"></span> <?php _e( 'Submit Ticket', 'nanosupport' ); ?></a>
+                    <a class="button ns-button-info ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_knowledgebase_settings['page']) ); ?>"><strong><span class="icon ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?></strong></a>
+                </div>
+            </div>
+
+        <?php } //support_seeker ?>
+
+        <?php if( current_user_can('administrator') || current_user_can('editor') ) { ?>
+            <div class="ns-row">
+                <div class="nanosupport-50-left">
+                    <h4 class="dashboard-head ns-text-center"><span class="ns-icon-pie-chart"></span> <?php _e( 'Current Status', 'nanosupport' ); ?></h4>
+                    <div id="chart"></div>
+                    <div class="ns-total-ticket-count ns-text-center"><?php printf( __('Total Tickets: %s', 'nanosupport' ), ns_total_ticket_count('nanosupport') ); ?></div>
+                </div>
+                <div class="nanosupport-50-right">
+                    <h4 class="dashboard-head ns-text-center"><span class="ns-icon-pulse"></span> <?php _e( 'Recent Activity', 'nanosupport' ); ?></h4>
+                    <?php
+                    $activity_arr = array();
+                    $response_activity = get_comments( array(
+                        'type'   => 'nanosupport_response',
+                        'number' => 5,
+                        'orderby'=> 'comment_date'
+                    ) );
+                    foreach( $response_activity as $response ) {
+                        $activity_arr[$response->comment_ID]['id'] = intval($response->comment_ID);
+                        $activity_arr[$response->comment_ID]['type'] = 'response';
+                        $activity_arr[$response->comment_ID]['date'] = $response->comment_date;
+                        $activity_arr[$response->comment_ID]['author_id'] = intval($response->user_id);
+                        $activity_arr[$response->comment_ID]['author'] = $response->comment_author;
+                        $activity_arr[$response->comment_ID]['ticket'] = intval($response->comment_post_ID);
+                    }
+
+                    $ticket_activity = get_posts( array(
+                        'post_type'     => 'nanosupport',
+                        'post_status'   => array('pending', 'private', 'publish'),
+                        'posts_per_page'=> 5,
+                    ) );
+                    foreach( $ticket_activity as $ticket ) {
+                        $activity_arr[$ticket->ID]['id'] = $ticket->ID;
+                        $activity_arr[$ticket->ID]['type'] = 'ticket';
+                        $activity_arr[$ticket->ID]['date'] = $ticket->post_date;
+                        $activity_arr[$ticket->ID]['author_id'] = intval($ticket->post_author);
+                        $activity_arr[$ticket->ID]['author'] = ns_user_nice_name( $ticket->post_author );
+                        $activity_arr[$ticket->ID]['modified'] = $ticket->post_modified;
+                        $activity_arr[$ticket->ID]['status'] = $ticket->post_status;
+                    }
+
+                    function date_compare($a, $b) {
+                        $date1 = strtotime($a['date']);
+                        $date2 = strtotime($b['date']);
+                        return $date2 - $date1;
+                    } 
+                    usort( $activity_arr, 'date_compare' );
+
+                    $counter = 0;
+                    foreach( $activity_arr as $activity ) {
+                        $counter++;
+
+                        if( $counter <= 5 ) { ?>
+                        
+                        <div>
+                            <strong><?php echo mysql2date( 'd M Y, h:i A', $activity['date'] ); ?></strong><br> 
+                            <?php
+                            if( 'response' === $activity['type'] ) {
+                                printf(
+                                    '<span class="ns-icon-responses"></span> '. __( 'Ticket <a href="%1$s">%2$s</a> is responded by %3$s', 'nanosupport' ),
+                                    get_edit_post_link($activity['ticket']),
+                                    get_the_title($activity['ticket']),
+                                    $activity['author']
+                                );
+                            } elseif( 'ticket' === $activity['type'] ) {
+                                printf(
+                                    '<span class="ns-icon-tag"></span> '. __( 'New Ticket <a href="%1$s">%2$s</a> submitted by %3$s', 'nanosupport' ),
+                                    get_edit_post_link($activity['id']),
+                                    get_the_title($activity['id']),
+                                    $activity['author']
+                                );
+                            }
+                            ?>
+                            <hr>
+                        </div>
+
+                        <?php } ?>
+
+                    <?php } ?>
+                </div>
+            </div>
+        <?php } //administrator/editor ?>
+
+    </section>
+<?php
+}
+
+
+/**
+ * Remove Dashboard Widgets
+ *
+ * Remove unnecessary dashboard widgets for 'support_seeker' user role.
+ * 
+ * @author  WPBeginner
+ * @author  Rajesh B
+ * 
+ * @link    http://www.wpbeginner.com/wp-tutorials/how-to-remove-wordpress-dashboard-widgets/
+ * @link    http://wpsnippy.com/how-to-remove-wordpress-dashboard-welcome-panel/
+ *
+ * @since   1.0.0
+ * -----------------------------------------------------------------------
+ */
+function ns_remove_dashboard_widgets() {
+    global $wp_meta_boxes;
+
+    if ( current_user_can('support_seeker') ) {
+        remove_action('welcome_panel', 'wp_welcome_panel');
+        unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_activity']);
+        unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_primary']); //WordPress News
+    }
+
+}
+
+add_action( 'wp_dashboard_setup', 'ns_remove_dashboard_widgets' );

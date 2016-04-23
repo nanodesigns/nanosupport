@@ -91,25 +91,27 @@ add_action( 'wp_enqueue_scripts', 'ns_scripts' );
  */
 function ns_admin_scripts() {
 
+    wp_register_style( 'ns-admin', NS()->plugin_url() .'/assets/css/nanosupport-admin.css', array(), NS()->version, 'all' );
+
     $screen = get_current_screen();
     if( 'nanosupport' === $screen->post_type || 'nanodoc' === $screen->post_type || 'nanosupport_page_nanosupport-settings' === $screen->base ) {
 
-        wp_enqueue_style( 'ns-admin-styles', NS()->plugin_url() .'/assets/css/nanosupport-admin.css', array(), NS()->version, 'all' );
+        wp_enqueue_style( 'ns-admin' );
 		
         /**
          * Select2 v4.0.1-rc-1
          * @link https://github.com/select2/select2/
          * ...
          */
-        wp_enqueue_style( 'select2-styles', NS()->plugin_url() .'/assets/css/select2.min.css', array(), '4.0.1-rc-1', 'all' );
-        wp_enqueue_script( 'select2-scripts', NS()->plugin_url() .'/assets/js/select2.min.js', array('jquery'), '4.0.1-rc-1', true );
+        wp_enqueue_style( 'select2', NS()->plugin_url() .'/assets/css/select2.min.css', array(), '4.0.1-rc-1', 'all' );
+        wp_enqueue_script( 'select2', NS()->plugin_url() .'/assets/js/select2.min.js', array('jquery'), '4.0.1-rc-1', true );
 
         /**
          * NanoSupport Admin-specific JavaScripts
          * Compiled and minified. Depends on 'jQuery'.
          * ...
          */
-        wp_enqueue_script( 'ns-admin-scripts', NS()->plugin_url() .'/assets/js/nanosupport-admin.min.js', array('jquery'), NS()->version, true );
+        wp_enqueue_script( 'ns-admin', NS()->plugin_url() .'/assets/js/nanosupport-admin.min.js', array('jquery'), NS()->version, true );
 
         /**
          * NanoSupport Admin-specific Localize Scripts
@@ -122,15 +124,27 @@ function ns_admin_scripts() {
         $date_time_formatted    = date( 'd F Y h:i:s A - l', current_time( 'timestamp' ) );
 
 		wp_localize_script(
-    		'ns-admin-scripts',
+    		'ns-admin',
     		'ns',
     		array(
                 'current_user'          => $current_user->display_name,
                 'user_id'               => $current_user->ID,
                 'date_time_now'         => $date_time_row,
                 'date_time_formatted'   => $date_time_formatted,
-            ) );
+            )
+        );
 	}
+
+    /**
+     * C3 Chart v0.4.10
+     * @link https://github.com/masayuki0812/c3/
+     * ...
+     */
+    if( 'dashboard' === $screen->base && 'dashboard' === $screen->id ) {
+        wp_enqueue_style( 'c3', NS()->plugin_url() .'/assets/libs/c3/c3.min.css', array(), '0.4.10', 'all' );
+        wp_register_script( 'd3', NS()->plugin_url() .'/assets/libs/c3/d3.min.js', array(), '3.5.16', true );
+        wp_register_script( 'c3', NS()->plugin_url() .'/assets/libs/c3/c3.min.js', array('d3'), '0.4.10', true );
+    }
 
     /**
      * NannoSupport Icon Font
@@ -418,3 +432,49 @@ function ns_ticket_edit_post_link( $output ) {
 }
 
 add_filter( 'edit_post_link', 'ns_ticket_edit_post_link' );
+
+
+/**
+ * NanoSupport Admin Bar menu.
+ *
+ * @since  1.0.0
+ * 
+ * @param  object $wp_admin_bar Default admin bar object.
+ * @return object               Admin bar object with Added menu.
+ * -----------------------------------------------------------------------
+ */
+function ns_admin_bar_menu( $wp_admin_bar ) {
+    if( ! is_admin() || ! is_user_logged_in() )
+        return;
+
+    // Show only when the user is a member of this site, or they're a super admin.
+    if( ! is_user_member_of_blog() && ! is_super_admin() )
+        return;
+
+    $ns_general_settings = get_option( 'nanosupport_settings' );
+
+    // Don't display when Support Desk is set as the Front Page.
+    if( get_option( 'page_on_front' ) == $ns_general_settings['support_desk'] )
+        return;
+
+    // Add an option to visit the Support Desk.
+    $wp_admin_bar->add_node( array(
+        'parent' => 'site-name',
+        'id'     => 'view-support-desk',
+        'title'  => __( 'Visit Support Desk', 'nanosupport' ),
+        'href'   => get_the_permalink( $ns_general_settings['support_desk'] )
+    ) );
+}
+
+/**
+ * -----------------------------------------------------------------------
+ * HOOK : FILTER HOOK
+ * nanosupport_show_admin_bar_visit_support_desk
+ * 
+ * @since  1.0.0
+ *
+ * @param boolean  True to display the Support Desk link under site name.
+ * -----------------------------------------------------------------------
+ */
+if( apply_filters( 'nanosupport_show_admin_bar_visit_support_desk', true ) )
+    add_action( 'admin_bar_menu', 'ns_admin_bar_menu', 32 );

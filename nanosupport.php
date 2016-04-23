@@ -204,6 +204,9 @@ include_once 'includes/shortcodes/ns-submit-ticket.php';
 /** Shortcode: Knowledgebase **/
 include_once 'includes/shortcodes/ns-knowledgebase.php';
 
+/** Dashboard **/
+include_once 'includes/ns-dashboard.php';
+
 /** Helper functions **/
 include_once 'includes/ns-utility-functions.php';
 

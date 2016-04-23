@@ -340,3 +340,61 @@ function ns_user_nice_name( $user_id = false ) {
 
     return wp_strip_all_tags( $user_nice_name );
 }
+
+
+/**
+ * Get count on Ticket Status
+ * Used in NanoSupport Dashboard for displaying the graph.
+ * 
+ * @since  1.0.0
+ * 
+ * @param  string $status Ticket status.
+ * @return integer        Number of tickets with that status.
+ * --------------------------------------------------------------------------
+ */
+function ns_ticket_status_count( $status = '' ) {
+    if( empty($status) )
+        return;
+
+    global $wpdb;
+    if( 'pending' === $status ) {
+        return $wpdb->get_var(
+                    $wpdb->prepare(
+                        "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'nanosupport' AND post_status = %s",
+                        $status
+                    )
+                );
+    } else {
+        return $wpdb->get_var(
+                    $wpdb->prepare(
+                        "SELECT COUNT(*)
+                        FROM $wpdb->posts
+                        INNER JOIN $wpdb->postmeta
+                            ON $wpdb->posts.ID = $wpdb->postmeta.post_id
+                        WHERE post_type = 'nanosupport'
+                            AND post_status IN('private', 'publish')
+                            AND meta_key = 'ns_control'
+                            AND meta_value LIKE %s",
+                        '%'. $wpdb->esc_like($status) .'%'
+                    )
+                );
+    }
+}
+
+
+/**
+ * Get count of all the tickets.
+ *
+ * @since  1.0.0
+ * 
+ * @param  string $post_type The support ticket post type.
+ * @return integer           The total numbers of tickets.
+ * --------------------------------------------------------------------------
+ */
+function ns_total_ticket_count( $post_type = '' ) {
+    if( empty($post_type) )
+        return;
+
+    global $wpdb;
+    return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = %s AND post_status IN('pending', 'publish', 'private')", $post_type ) );
+}
