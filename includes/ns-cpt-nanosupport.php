@@ -413,13 +413,13 @@ add_action( 'init', 'ns_create_nanosupport_taxonomies', 0 );
  * @license   GPLv2
  * -----------------------------------------------------------------------
  */
-function ns_set_default_object_terms( $post_id, $post ) {
-    if ( 'publish' === $post->post_status || 'private' === $post->post_status ) {
+function ns_set_default_object_terms( $post_id ) {
+    if ( 'publish' === get_post_status( $post_id ) || 'private' === get_post_status( $post_id ) ) {
         $defaults = array(
                 'nanosupport_department' => array( 'support' )
             );
         
-        $taxonomies = get_object_taxonomies( $post->post_type );
+        $taxonomies = get_object_taxonomies( get_post_type( $post_id ) );
         foreach ( (array) $taxonomies as $taxonomy ) {
             $terms = wp_get_post_terms( $post_id, $taxonomy );
             if ( empty( $terms ) && array_key_exists( $taxonomy, $defaults ) ) {
@@ -429,5 +429,5 @@ function ns_set_default_object_terms( $post_id, $post ) {
     }
 }
 
-add_action( 'save_post',        'ns_set_default_object_terms', 100, 2 );
-add_action( 'new_to_publish',   'ns_set_default_object_terms', 100, 2 );
+add_action( 'save_post',        'ns_set_default_object_terms', 100 );
+add_action( 'new_to_publish',   'ns_set_default_object_terms', 100 );
