@@ -52,7 +52,7 @@ function ns_register_cpt_nanosupport() {
         'public'				=> true,
         'show_ui'				=> true,
         'show_in_menu'			=> true,
-        'menu_position'			=> 28.5,
+        'menu_position'			=> 29,
         	'show_in_nav_menus'		=> false,
         'publicly_queryable'	=> true,
         'exclude_from_search'	=> false,
@@ -83,7 +83,7 @@ add_action( 'init', 'ns_register_cpt_nanosupport' );
 function ns_notification_bubble_in_nanosupport_menu() {
     global $menu;
     $pending_items = ns_ticket_status_count( 'pending' );
-    $menu[27][0] .= $pending_items ? " <span class='update-plugins count-1' title='Pending Tickets'><span class='update-count'>$pending_items</span></span>" : '';
+    $menu[29][0] .= $pending_items ? " <span class='update-plugins count-1' title='Pending Tickets'><span class='update-count'>$pending_items</span></span>" : '';
 }
 
 add_action( 'admin_menu', 'ns_notification_bubble_in_nanosupport_menu' );

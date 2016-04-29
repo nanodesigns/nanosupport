@@ -230,14 +230,14 @@ function ns_ticket_status_count( $status = '' ) {
 
     global $wpdb;
     if( 'pending' === $status ) {
-        return $wpdb->get_var(
+        $count = $wpdb->get_var(
                     $wpdb->prepare(
                         "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'nanosupport' AND post_status = %s",
                         $status
                     )
                 );
     } else {
-        return $wpdb->get_var(
+        $count = $wpdb->get_var(
                     $wpdb->prepare(
                         "SELECT COUNT(*)
                         FROM $wpdb->posts
@@ -251,6 +251,8 @@ function ns_ticket_status_count( $status = '' ) {
                     )
                 );
     }
+
+    return (int) $count;
 }
 
 
