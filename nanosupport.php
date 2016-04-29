@@ -175,6 +175,48 @@ function NS() {
 
 
 /**
+ * Cross Check Requirements when active
+ *
+ * Cross check for Current WordPress version is
+ * greater than 3.9.0. Cross check whether the user
+ * has privilege to activate_plugins, so that notice
+ * cannot be visible to any non-admin user.
+ *
+ * @link   http://10up.com/blog/2012/wordpress-plug-in-self-deactivation/
+ * 
+ * @since  1.0.0
+ * -----------------------------------------------------------------------
+ */
+function ns_cross_check_on_activation() {
+	if ( version_compare( get_bloginfo( 'version' ), NS()->wp_version, '<=' ) ) {
+
+		if ( current_user_can( 'activate_plugins' ) ) {
+
+			add_action( 'admin_init',		'ns_force_deactivate' );
+			add_action( 'admin_notices',	'ns_fail_dependency_admin_notice' );
+
+			function ns_force_deactivate() {
+				deactivate_plugins( plugin_basename( __FILE__ ) );
+			}
+
+			function ns_fail_dependency_admin_notice() {
+				echo '<div class="updated"><p>';
+					printf( __('<strong>NanoSupport</strong> requires WordPress core version <strong>3.9.0</strong> or greater. The plugin has been <strong>deactivated</strong>. Consider <a href="%s">upgrading WordPress</a>.', 'nanosupport' ), admin_url('/update-core.php') );
+				echo '</p></div>';
+
+				if ( isset( $_GET['activate'] ) )
+					unset( $_GET['activate'] );
+			}
+
+		}
+
+	}
+}
+
+add_action( 'plugins_loaded', 'ns_cross_check_on_activation' );
+
+
+/**
  * Include all the dependencies and particles
  * 
  * Is to decentralize things to make things managable.

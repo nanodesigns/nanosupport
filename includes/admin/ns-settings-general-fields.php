@@ -136,9 +136,9 @@ function ns_general_settings_validate( $input ) {
     $enable_notice = (int) $input['enable_notice'] === 1 ? (int) $input['enable_notice'] : '';
     
     //Generate Username checkbox
-    $generate_username = (int) $input['account_creation']['generate_username'] === 1 ? (int) $input['account_creation']['generate_username'] : '';
+    $generate_username = isset($input['account_creation']['generate_username']) && (int) $input['account_creation']['generate_username'] === 1 ? (int) $input['account_creation']['generate_username'] : '';
     //Generate Password checkbox
-    $generate_password = (int) $input['account_creation']['generate_password'] === 1 ? (int) $input['account_creation']['generate_password'] : '';
+    $generate_password = isset($input['account_creation']['generate_password']) && (int) $input['account_creation']['generate_password'] === 1 ? (int) $input['account_creation']['generate_password'] : '';
     
     //Delete Data checkbox
     $del_data_check_val = (int) $input['delete_data'] === 1 ? (int) $input['delete_data'] : '';

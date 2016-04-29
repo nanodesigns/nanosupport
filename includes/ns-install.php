@@ -105,49 +105,6 @@ function nanosupport_install() {
     
 }
 
-/**
- * Cross Check Requirements when active
- *
- * Cross check for Current WordPress version is
- * greater than 3.9.0. Cross check whether the user
- * has privilege to activate_plugins, so that notice
- * cannot be visible to any non-admin user.
- *
- * @link   http://10up.com/blog/2012/wordpress-plug-in-self-deactivation/
- * 
- * @since  1.0.0
- * 
- * @return void
- * -----------------------------------------------------------------------
- */
-function ns_cross_check_on_activation() {
-	if ( version_compare( get_bloginfo( 'version' ), '3.9.0', '<=' ) ) {
-
-		if ( current_user_can( 'activate_plugins' ) ) {
-
-			add_action( 'admin_init',		'ns_force_deactivate' );
-			add_action( 'admin_notices',	'ns_fail_dependency_admin_notice' );
-
-			function ns_force_deactivate() {
-				deactivate_plugins( NS_PLUGIN_BASENAME );
-			}
-
-			function ns_fail_dependency_admin_notice() {
-				echo '<div class="updated"><p>';
-					printf( __('<strong>NanoSupport</strong> requires WordPress core version <strong>3.9.0</strong> or greater. The plugin has been <strong>deactivated</strong>. Consider <a href="%s">upgrading WordPress</a>.', 'nanosupport' ), admin_url('/update-core.php') );
-				echo '</p></div>';
-
-				if ( isset( $_GET['activate'] ) )
-					unset( $_GET['activate'] );
-			}
-
-		}
-
-	}
-}
-
-add_action( 'plugins_loaded', 'ns_cross_check_on_activation' );
-
 
 /**
  * Add Settings link on plugin page
@@ -185,7 +142,7 @@ add_filter( 'plugin_action_links_'. NS_PLUGIN_BASENAME, 'ns_plugin_settings_link
 function ns_create_role() {
     global $wp_roles;
 
-    if( ! class_exists('WP_Roles') ) {
+    if( ! class_exists( 'WP_Roles' ) ) {
         return;
     }
 
@@ -271,7 +228,7 @@ function ns_get_caps() {
 function ns_add_caps() {
 	global $wp_roles;
 
-	if( ! class_exists(WP_Roles) )
+	if( ! class_exists( 'WP_Roles' ) )
 		return;
 
 	if( ! isset($wp_roles) )
@@ -304,7 +261,7 @@ function ns_add_caps() {
 function ns_remove_caps() {
 	global $wp_roles;
 
-	if( ! class_exists(WP_Roles) )
+	if( ! class_exists( 'WP_Roles' ) )
 		return;
 
 	if( ! isset($wp_roles) )
@@ -367,5 +324,134 @@ function ns_create_page( $title, $slug, $content ) {
         return $ns_check_page->ID;
 
     }
+
+}
+
+
+/**
+ * Create a Support Seeker user account
+ *
+ * Create a Support Seeker user account on ticket submission
+ * for non-logged in users only.
+ *
+ * @since  1.0.0
+ * 
+ * @param  string $email    Email provided by the user.
+ * @param  string $username Username | null
+ * @param  string $password Password | null
+ * @return integer|mixed    Registered user ID | Error
+ * -----------------------------------------------------------------------
+ */
+function ns_create_support_seeker( $email, $username = '', $password = '', $antispam = '' ) {
+
+    /**
+     * Make the email address ready
+     */
+    if ( empty($email) || ! is_email($email) ) {
+        return new WP_Error( 'reg-error-email-invalid', __( 'Please provide a valid email address', 'nanosupport' ) );
+    }
+
+    if ( email_exists($email) ) {
+        return new WP_Error( 'reg-error-email-exists', __( 'An account is already registered with your email address. Please login', 'nanosupport' ) );
+    }
+
+    /**
+     * Make the username ready
+     */
+    $options = get_option( 'nanosupport_settings' );
+    if( $options['account_creation']['generate_username'] !== 1 || ! empty($username) ) {
+
+        //Get the username
+        $username = sanitize_user( $username );
+
+        if( empty($username) || ! validate_username($username) ) {
+            return new WP_Error( 'reg-error-username-invalid', __( 'Please enter a valid username for creating an account', 'nanosupport' ) );
+        }
+
+        if( username_exists($username) ) {
+            return new WP_Error( 'reg-error-username-exists', __( 'An account is already registered with that username. Please choose another', 'nanosupport' ) );
+        }
+
+    } else {
+
+        //Generate the username from email
+        $username = sanitize_user( current( explode( '@', $email ) ), true );
+
+        //Ensure username is unique
+        $append         = 1;
+        $temp_username  = $username;
+
+        while( username_exists($username) ) {
+            $username = $temp_username . $append;
+            $append++;
+        }
+
+    }
+
+    /**
+     * Make the password ready
+     */
+    if( $options['account_creation']['generate_password'] === 1 && empty($password) ) {
+
+        //Generate the password automatically
+        $password = wp_generate_password();
+        $password_generated = true;
+
+    } elseif( empty($password) ) {
+
+        return new WP_Error( 'reg-error-password-missing', __( 'Please enter a password for your account', 'nanosupport' ) );
+
+        $password_generated = false;
+
+    } else {
+
+        if ( strlen($password) < 5 ) {
+            return new WP_Error( 'reg-error-password-short', __( 'Password length must be greater than 5 characters', 'nanosupport' ) );
+        }
+
+        $password_generated = false;
+
+    }
+
+    //Anti-spam HoneyPot Trap Validation
+    if ( ! empty( $antispam ) ) {
+        return new WP_Error( 'reg-error-spam-detected', __( 'Anti-spam field was filled in. Spam account cannot pass in', 'nanosupport' ) );
+    }
+
+    //WP Validation
+    $validation_errors = new WP_Error();
+
+    if( $validation_errors->get_error_code() )
+        return $validation_errors;
+
+    /**
+     * -----------------------------------------------------------------------
+     * HOOK : FILTER HOOK
+     * nanosupport_new_support_seeker_data
+     * 
+     * @since  1.0.0
+     *
+     * @param array  $text New user data to be enterred for creating account.
+     * -----------------------------------------------------------------------
+     */
+    $new_support_seeker_data = apply_filters( 'nanosupport_new_support_seeker_data', array(
+        'user_login' => $username,
+        'user_email' => $email,
+        'user_pass'  => $password,
+        'role'       => 'support_seeker'
+    ) );
+
+    $user_id = wp_insert_user( $new_support_seeker_data );
+
+    if( is_wp_error($user_id) ) {
+        return new WP_Error( 'reg-error', __( 'Couldn&#8217;t register you', 'nanosupport' ) );
+    }
+
+    if( $password_generated )
+        $account_opening_email = nanosupport_handle_account_opening_email( $user_id, $password );
+    else
+        $account_opening_email = nanosupport_handle_account_opening_email( $user_id );
+
+    return $user_id;
 
 }
