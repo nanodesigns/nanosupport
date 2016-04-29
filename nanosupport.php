@@ -25,15 +25,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Define Constants
- */
-if( ! defined( 'NS_PLUGIN_FILE' ) )
-	define( 'NS_PLUGIN_FILE', __FILE__ );
-
-if( ! defined( 'NS_PLUGIN_BASENAME' ) )
-	define( 'NS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-
-/**
  * Translation-ready
  * Make the plugin translation-ready.
  *
@@ -188,32 +179,56 @@ function NS() {
  * -----------------------------------------------------------------------
  */
 function ns_cross_check_on_activation() {
-	if ( version_compare( get_bloginfo( 'version' ), NS()->wp_version, '<=' ) ) {
+    if ( version_compare( get_bloginfo( 'version' ), NS()->wp_version, '<=' ) ) {
 
-		if ( current_user_can( 'activate_plugins' ) ) {
+        if ( current_user_can( 'activate_plugins' ) ) {
 
-			add_action( 'admin_init',		'ns_force_deactivate' );
-			add_action( 'admin_notices',	'ns_fail_dependency_admin_notice' );
+            add_action( 'admin_init',       'ns_force_deactivate' );
+            add_action( 'admin_notices',    'ns_fail_dependency_admin_notice' );
 
-			function ns_force_deactivate() {
-				deactivate_plugins( plugin_basename( __FILE__ ) );
-			}
+            function ns_force_deactivate() {
+                deactivate_plugins( plugin_basename( __FILE__ ) );
+            }
 
-			function ns_fail_dependency_admin_notice() {
-				echo '<div class="updated"><p>';
-					printf( __('<strong>NanoSupport</strong> requires WordPress core version <strong>3.9.0</strong> or greater. The plugin has been <strong>deactivated</strong>. Consider <a href="%s">upgrading WordPress</a>.', 'nanosupport' ), admin_url('/update-core.php') );
-				echo '</p></div>';
+            function ns_fail_dependency_admin_notice() {
+                echo '<div class="updated"><p>';
+                    printf( __('<strong>NanoSupport</strong> requires WordPress core version <strong>3.9.0</strong> or greater. The plugin has been <strong>deactivated</strong>. Consider <a href="%s">upgrading WordPress</a>.', 'nanosupport' ), admin_url('/update-core.php') );
+                echo '</p></div>';
 
-				if ( isset( $_GET['activate'] ) )
-					unset( $_GET['activate'] );
-			}
+                if ( isset( $_GET['activate'] ) )
+                    unset( $_GET['activate'] );
+            }
 
-		}
+        }
 
-	}
+    }
 }
 
 add_action( 'plugins_loaded', 'ns_cross_check_on_activation' );
+
+
+/**
+ * Add Settings link on plugin page
+ *
+ * Add a 'Settings' link to the Admin Plugin page after the activation
+ * of the plugin. So the user can easily get to the Settings page, and
+ * can setup the plugin as necessary.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $links  Links on the plugin page per plugin.
+ * @return array         Modified with our link.
+ * -----------------------------------------------------------------------
+ */
+function ns_plugin_settings_link( $links ) {
+	//$settings_link = '/wp-admin/edit.php?post_type=nanosupport&page=nanosupport-settings';
+	$settings_link = '<a href="'. esc_url( admin_url( 'edit.php?post_type=nanosupport&page=nanosupport-settings' ) ) .'" title="'. esc_attr__( 'Set the NanoSupport settings', 'nanosupport' ) .'">'. __( 'Settings', 'nanosupport' ) .'</a>';
+
+	array_unshift( $links, $settings_link ); //make the settings link be first item
+	return $links;
+}
+
+add_filter( 'plugin_action_links_'. plugin_basename( __FILE__ ), 'ns_plugin_settings_link' );
 
 
 /**

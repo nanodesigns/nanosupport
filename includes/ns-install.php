@@ -107,29 +107,6 @@ function nanosupport_install() {
 
 
 /**
- * Add Settings link on plugin page
- *
- * Add a 'Settings' link to the Admin Plugin page after the activation
- * of the plugin. So the user can easily get to the Settings page, and
- * can setup the plugin as necessary.
- *
- * @since  1.0.0
- * 
- * @param  array $links  Links on the plugin page per plugin.
- * @return array         Modified with our link.
- * -----------------------------------------------------------------------
- */
-function ns_plugin_settings_link( $links ) {
-	//$settings_link = '/wp-admin/edit.php?post_type=nanosupport&page=nanosupport-settings';
-	$settings_link = '<a href="'. esc_url( admin_url( 'edit.php?post_type=nanosupport&page=nanosupport-settings' ) ) .'" title="'. esc_attr__( 'Set the NanoSupport settings', 'nanosupport' ) .'">'. __( 'Settings', 'nanosupport' ) .'</a>';
-
-	array_unshift($links, $settings_link); //make the settings link be first item
-	return $links;
-}
-
-add_filter( 'plugin_action_links_'. NS_PLUGIN_BASENAME, 'ns_plugin_settings_link' );
-
-/**
  * Create role and assign capabilities
  *
  * Create necessary roles for the plugin.
@@ -294,36 +271,57 @@ function ns_remove_caps() {
  * @return integer         ID of the page that is created or already exists.
  * -----------------------------------------------------------------------
  */
-function ns_create_page( $title, $slug, $content ) {
+function ns_create_page( $title, $slug, $content, $post_parent = 0 ) {
 
-    global $current_user;
+    global $wpdb;
 
     //set a default so that we can check nothing happened
     $page_id = false;
 
-    $ns_check_page = get_page_by_path( $slug ); //default post type 'page'
-
-    if( null === $ns_check_page ) {
-
-        //set the page_id as the page created
-        $page_id = wp_insert_post( array(
-                                        'post_title'        => sanitize_text_field( $title ),
-                                        'post_name'         => sanitize_text_field( $slug ),
-                                        'post_content'      => htmlentities( $content ),
-                                        'post_status'       => 'publish',
-                                        'post_type'         => 'page',
-                                        'post_author'       => absint( $current_user->ID ),
-                                        'comment_status'    => 'closed',
-                                        'ping_status'       => 'closed'
-                                    ) );
-
-        return $page_id;
-
+    if( strlen( $content ) > 0 ) {
+        // Search for an existing page with the specified page content (typically a shortcode)
+        $active_page_found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' ) AND post_content LIKE %s LIMIT 1;", "%{$content}%" ) );
     } else {
-
-        return $ns_check_page->ID;
-
+        // Search for an existing page with the specified page slug
+        $active_page_found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' )  AND post_name = %s LIMIT 1;", $slug ) );
     }
+
+    if( $active_page_found )
+        return (int) $active_page_found;
+
+    // Search for a matching valid trashed page
+    if( strlen( $content ) > 0 ) {
+        // Search for an existing page with the specified page content (typically a shortcode)
+        $trashed_page_found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_content LIKE %s LIMIT 1;", "%{$content}%" ) );
+    } else {
+        // Search for an existing page with the specified page slug
+        $trashed_page_found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_name = %s LIMIT 1;", $slug ) );
+    }
+
+    if ( $trashed_page_found ) :
+
+        $page_id   = $trashed_page_found;
+        wp_update_post( array(
+                            'ID'             => $page_id,
+                            'post_status'    => 'publish',
+                        ) );
+
+    else :
+
+        $page_id = wp_insert_post( array(
+                                    'post_status'    => 'publish',
+                                    'post_type'      => 'page',
+                                    'post_author'    => 1,
+                                    'post_name'      => $slug,
+                                    'post_title'     => $title,
+                                    'post_content'   => $content,
+                                    'post_parent'    => $post_parent,
+                                    'comment_status' => 'closed'
+                                ) );
+
+    endif;
+
+    return (int) $page_id;
 
 }
 
