@@ -478,3 +478,26 @@ function ns_admin_bar_menu( $wp_admin_bar ) {
  */
 if( apply_filters( 'nanosupport_show_admin_bar_visit_support_desk', true ) )
     add_action( 'admin_bar_menu', 'ns_admin_bar_menu', 32 );
+
+
+/**
+ * Change Admin Footer Text
+ *
+ * Change the admin footer text to add advertisement of NanoSupport
+ * along with WordPress.
+ *
+ * @since  1.0.0
+ * 
+ * @param  string $text Default admin footer text.
+ * @return string       Modified admin footer text.
+ * -----------------------------------------------------------------------
+ */
+function ns_change_admin_footer_text( $text ) {
+    $text = '<span id="footer-thankyou">';
+        $text .= __( 'Powered by <a href="https://wordpress.org/" target="_blank">WordPress</a> &amp; <a href="http://nanosupport.nanodesignsbd.com" target="_blank">NanoSupport</a>', 'nanosupport' );
+    $text .= '</span>';
+
+    return $text;
+}
+
+add_filter( 'admin_footer_text', 'ns_change_admin_footer_text' );
