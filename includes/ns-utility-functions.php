@@ -344,6 +344,7 @@ function ns_user_nice_name( $user_id = false ) {
 
 /**
  * Get count on Ticket Status
+ * 
  * Used in NanoSupport Dashboard for displaying the graph.
  * 
  * @since  1.0.0
@@ -385,6 +386,8 @@ function ns_ticket_status_count( $status = '' ) {
 /**
  * Get count of all the tickets.
  *
+ * Used basically on admin dashboard.
+ *
  * @since  1.0.0
  * 
  * @param  string $post_type The support ticket post type.
@@ -397,4 +400,46 @@ function ns_total_ticket_count( $post_type = '' ) {
 
     global $wpdb;
     return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = %s AND post_status IN('pending', 'publish', 'private')", $post_type ) );
+}
+
+
+/**
+ * Tooltip
+ *
+ * The conflict-free CSS tooltip.
+ *
+ * @since  1.0.0
+ * 
+ * @param  string $message  The i18 message for tooltip.
+ * @param  string $position Position where to appear the tooltip (below|left|right).
+ * @param  string $type     Type of the tooltip icon (question|info).
+ * @return string           The formatted tooltip with its icon.
+ */
+function ns_tooltip( $message = '', $position = 'right', $type = '' ) {
+    $icon_class = 'info' === $type ? 'ns-icon-info-circled' : 'ns-icon-help-circled';
+    switch ($position) {
+        case 'left':
+            $position_class = 'ns-tooltip-message-left';
+            break;
+
+        case 'right':
+            $position_class = 'ns-tooltip-message-right';
+            break;
+
+        case 'below':
+            $position_class = 'ns-tooltip-message-below';
+            break;
+        
+        default:
+            $position_class = 'ns-tooltip-message-right';
+            break;
+    }
+
+    $tooltip = '<span class="ns-tooltip '. esc_attr($icon_class) .'">';
+        $tooltip .= '<span class="ns-tooltip-message '. esc_attr($position_class) .'">';
+            $tooltip .= $message;
+        $tooltip .= '</span>';
+    $tooltip .= '</span>';
+
+    return $tooltip;
 }

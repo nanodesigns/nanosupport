@@ -64,7 +64,7 @@ function ns_register_cpt_nanosupport() {
         'map_meta_cap'          => true
     );
 
-    if( !post_type_exists( 'nanosupport' ) )
+    if( ! post_type_exists( 'nanosupport' ) )
         register_post_type( 'nanosupport', $args );
 
 }
@@ -207,7 +207,7 @@ function ns_control_specifics() {
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
                     <span class="dashicons dashicons-shield"></span> <?php _e( 'Ticket Status', 'nanosupport' );
-                    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Change the ticket status to track unsolved tickets separately.', 'nanosupport' ) .'"></span>';
+                    echo ns_tooltip( __( 'Change the ticket status to track unsolved tickets separately.', 'nanosupport' ), 'below' );
                     ?>
                 </div>
                 <div class="ns-body-col">
@@ -224,7 +224,7 @@ function ns_control_specifics() {
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
                     <span class="dashicons dashicons-sort"></span> <?php _e( 'Priority', 'nanosupport' );
-                    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Change the priority as per the content and urgency of the ticket.', 'nanosupport' ) .'"></span>';
+                    echo ns_tooltip( __( 'Change the priority as per the content and urgency of the ticket.', 'nanosupport' ), 'below' );
                     ?>
                 </div>
                 <div class="ns-body-col">
@@ -242,7 +242,7 @@ function ns_control_specifics() {
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
                     <span class="dashicons dashicons-businessman"></span> <?php _e( 'Agent', 'nanosupport' );
-                    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ) .'"></span>';
+                    echo ns_tooltip( __( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ), 'below' );
                     ?>
                 </div>
                 <div class="ns-body-col">

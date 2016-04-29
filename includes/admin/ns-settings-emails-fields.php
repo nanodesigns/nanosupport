@@ -28,7 +28,7 @@ function ns_notification_email_field() {
 
     echo '<input type="email" class="ns-field-item ns-textbox" name="nanosupport_email_settings[notification_email]" value="'. sanitize_email($email_value) .'">';
 
-    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Write down the email to get notification of new ticket submission. Default is, admin email.', 'nanosupport' ) .'"></span>';
+    echo ns_tooltip( __( 'Write down the email to get notification of new ticket submission. Default is, admin email.', 'nanosupport' ) );
 }
 
 /**

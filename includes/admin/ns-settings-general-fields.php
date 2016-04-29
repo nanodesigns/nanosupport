@@ -40,7 +40,7 @@ function ns_support_desk_field() {
                 }
             }
         echo '</select>';
-        echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Choose the page where you want to display the Support Desk. If no page is in the list, create one with the shortcode [nanosupport_desk] in it.', 'nanosupport' ) .'"></span>';
+        echo ns_tooltip( __( 'Choose the page where you want to display the Support Desk. If no page is in the list, create one with the shortcode <code>[nanosupport_desk]</code> in it.', 'nanosupport' ) );
     }
 }
 
@@ -64,7 +64,7 @@ function ns_submit_ticket_field() {
                 }
             }
         echo '</select>';
-        echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Choose the page where you want show the Ticket Submission page. If no page is in the list, create one with the shortcode [nanosupport_submit_ticket] in it.', 'nanosupport' ) .'"></span>';
+        echo ns_tooltip( __( 'Choose the page where you want show the Ticket Submission page. If no page is in the list, create one with the shortcode <code>[nanosupport_submit_ticket]</code> in it.', 'nanosupport' ) );
     }
 }
 
@@ -74,7 +74,7 @@ function ns_enable_notice() {
 
     $enable_notice = isset($options['enable_notice']) ? $options['enable_notice'] : '';
     echo '<input name="nanosupport_settings[enable_notice]" id="enable_notice" type="checkbox" value="1" '. checked( 1, $enable_notice, false ) . '/> <label for="enable_notice">'. __( 'Yes, enable Notice and Navigation on top of NanoSupport Pages', 'nanosupport' ) .'</label>';
-    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'If you check here, it will enable the predefined notice on top of Support Desk, Knowledgebase, and Submit Ticket page', 'nanosupport' ) .'"></span>';
+    echo ns_tooltip( __( 'If you check here, it will enable the predefined notice on top of Support Desk, Knowledgebase, and Submit Ticket page', 'nanosupport' ) );
 }
 
 
@@ -91,13 +91,13 @@ function ns_account_creation_field() {
 
     $gen_username_val = isset($options['account_creation']['generate_username']) ? $options['account_creation']['generate_username'] : '';
     echo '<input name="nanosupport_settings[account_creation][generate_username]" id="generate_username" type="checkbox" value="1" '. checked( 1, $gen_username_val, false ) . '/> <label for="generate_username">'. __( 'Yes, automatically generate username from user email', 'nanosupport' ) .'</label>';
-    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'If you check here, an automatted username will be created for the user from their email', 'nanosupport' ) .'"></span>';
+    echo ns_tooltip( __( 'If you check here, an automatted username will be created for the user from their email', 'nanosupport' ) );
 
     echo '<br><br>';
 
     $gen_password_val = isset($options['account_creation']['generate_password']) ? $options['account_creation']['generate_password'] : '';
     echo '<input name="nanosupport_settings[account_creation][generate_password]" id="generate_password" type="checkbox" value="1" '. checked( 1, $gen_password_val, false ) . '/> <label for="generate_password">'. __( 'Yes, automatically generate password for the user', 'nanosupport' ) .'</label>';
-    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'If you check here, a password will be automatically created for the user', 'nanosupport' ) .'"></span>';
+    echo ns_tooltip( __( 'If you check here, a password will be automatically created for the user', 'nanosupport' ) );
 }
 
 
@@ -107,7 +107,7 @@ function ns_delete_data_field() {
 
     $del_data_val = isset($options['delete_data']) ? $options['delete_data'] : '';
     echo '<input name="nanosupport_settings[delete_data]" id="ns_delete_data" type="checkbox" value="1" '. checked( 1, $del_data_val, false ) . '/> <label for="ns_delete_data" class="ns-red"><strong>'. __( 'Delete all the Data on Uninstallation?', 'nanosupport' ) .'</strong></label>';
-    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'If you check here, on uninstallation of the plugin, it will wipe out all the data from the database', 'nanosupport' ) .'"></span>';
+    echo ns_tooltip( __( 'If you check here, on uninstallation of the plugin, it will wipe out all the data from the database', 'nanosupport' ) );
 }
 
 

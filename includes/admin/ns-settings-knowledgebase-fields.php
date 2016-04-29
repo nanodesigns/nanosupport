@@ -41,7 +41,7 @@ function ns_knowledgebase_page_field() {
             endforeach;
             
         echo '</select>';
-        echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Choose the page where you want to display the Knowledgebase. If no page is in the list, create one with the shortcode [nanosupport_knowledgebase] in it.', 'nanosupport' ) .'"></span>';
+        echo ns_tooltip( __( 'Choose the page where you want to display the Knowledgebase. If no page is in the list, create one with the shortcode <code>[nanosupport_knowledgebase]</code> in it.', 'nanosupport' ) );
     
     endif;
 }
@@ -60,7 +60,7 @@ function ns_doc_terms_field() {
         endforeach;
 
     echo '</select>';
-    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Choose the Knowledgebase categories you want to promote to the knowledgebase head section.', 'nanosupport' ) .'"></span>';
+    echo ns_tooltip( __( 'Choose the Knowledgebase categories you want to promote to the knowledgebase head section.', 'nanosupport' ) );
 }
 
 // Knowledgebase Settings : Field 3 : Posts per Category
@@ -72,7 +72,7 @@ function ns_doc_ppc_field() {
 
     echo '<input type="number" name="nanosupport_knowledgebase_settings[ppc]" step="1" min="1" id="ns_doc_ppc" class="small-text" value="'. intval($value) .'">';
 
-    echo '&nbsp;<span class="dashicons dashicons-editor-help ns-tooltip-icon" data-tooltip="'. __( 'Choose the number of entries to display per Knowledgebase category. Default is Settings > Reading > Blog pages show at most.', 'nanosupport' ) .'"></span>';
+    echo ns_tooltip( __( 'Choose the number of entries to display per Knowledgebase category. Default is Settings &raquo; Reading &raquo; Blog pages show at most.', 'nanosupport' ) );
 }
 
 /**

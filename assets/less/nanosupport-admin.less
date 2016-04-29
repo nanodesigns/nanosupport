@@ -184,6 +184,13 @@ div#ns-remove-response{
 	width: 49%;
 	float: right;
 }
+@media (max-width: 768px){
+	.ns-head-col,
+	.ns-body-col{
+		width: 100%;
+		float: none;
+	}
+}
 .ns-field-has-select{
 	
 }
@@ -377,4 +384,69 @@ div#ns-remove-response{
 	color: #444;
 	font-size: 13px;
 	line-height: 1.4em;
+}
+
+/** Tooltip **/
+.ns-tooltip{
+	position: relative;
+	font-size: 17px;
+	color: #999;
+	cursor: help;
+	margin-left: 10px;
+	margin-right: 10px;
+	float: left;
+
+	&:hover .ns-tooltip-message{
+		display: inline-block;
+	}
+}
+.ns-tooltip-message{
+	position: absolute;
+	display: none;
+	width: 220px;
+	height: auto;
+	padding: 10px;
+	top: 0;
+	font-size: 13px;
+	line-height: 17px;
+	text-align: center;
+	color: #000;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+			box-sizing: border-box;
+	-webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+			border-radius: 3px;
+	-webkit-box-shadow: 0 0 15px rgba(0,0,0,0.15);
+       -moz-box-shadow: 0 0 15px rgba(0,0,0,0.15);
+    		box-shadow: 0 0 15px rgba(0,0,0,0.15);
+    z-index: 2;
+
+	&.ns-tooltip-message-right{
+		left: 20px;
+	}
+	&.ns-tooltip-message-left{
+		right: 20px;
+	}
+	@media (min-width: 769px){
+		&.ns-tooltip-message-below{
+			top: 20px;
+			left: -100px;
+		}
+	}
+	@media (max-width: 768px){
+		&.ns-tooltip-message-below{
+			right: 20px;
+		}
+	}
+}
+.misc-pub-section{
+	.ns-tooltip{
+		float: right;
+	}
+	.ns-tooltip-message{
+		font-weight: normal;
+	}
 }
