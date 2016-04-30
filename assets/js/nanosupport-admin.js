@@ -10,6 +10,7 @@ jQuery(document).ready(function($) {
 	/**
 	 * Add/Remove responses
 	 * @scope includes/ns-metaboxes-responses.php
+     * ...
 	 */
 	var add_response_btn	= $('#ns-add-response'),
         remove_response_btn = $('#ns-remove-response'),
@@ -46,6 +47,7 @@ jQuery(document).ready(function($) {
     /**
      * Enable Select2
      * Enable Select2 to all the .ns-select fields.
+     * ...
      */
     $('select.ns-select').select2({
         minimumResultsForSearch: -1
@@ -54,5 +56,14 @@ jQuery(document).ready(function($) {
     $('#ns_doc_terms').select2({
         placeholder: 'Select categories'
     });
+
+
+    /**
+     * Enable wpColorPicker
+     * Enable Iris ColorPicker on specific color fields using WP3.5 colorPicker API.
+     * @scope includes/admin/ns-settings-email-fields.php
+     * ...
+     */
+    $('.ns-colorbox').wpColorPicker();
 
 });

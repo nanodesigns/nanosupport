@@ -31,6 +31,74 @@ function ns_notification_email_field() {
     echo ns_tooltip( __( 'Write down the email to get notification of new ticket submission. Default is, admin email.', 'nanosupport' ) );
 }
 
+
+// Callback: Email Template-specific Settings page
+function ns_email_template_section_callback() {
+    $message = '<p>';
+    $message .= sprintf( __( 'Control the Email template settings from here | <span class="dashicons dashicons-visibility"></span> <a href="%s" target="_blank">Preview email template</a>', 'nanosupport' ), wp_nonce_url( admin_url( '?nanosupport_email_preview=true' ), 'email-preview' ) );
+    $message .= '</p>';
+
+    echo $message;
+}
+
+// Email Template : Field 1 : Header Background Color
+function ns_email_header_bg_color_field() {
+    $options = get_option('nanosupport_email_settings');
+
+    $header_bg_color = isset($options['header_bg_color']) && $options['header_bg_color'] ? $options['header_bg_color'] : '#1c5daa';
+
+    echo '<input type="text" class="ns-colorbox" name="nanosupport_email_settings[header_bg_color]" value="'. $header_bg_color .'" data-default-color="#1c5daa">';
+
+    echo ns_tooltip( __( 'Choose a color for the header background of the email template. Default: NS Blue (<code>#1c5daa</code>)', 'nanosupport' ) );
+}
+
+// Email Template : Field 2 : Header Text Color
+function ns_email_header_text_color_field() {
+    $options = get_option('nanosupport_email_settings');
+
+    $header_text_color = isset($options['header_text_color']) && $options['header_text_color'] ? $options['header_text_color'] : '#fff';
+
+    echo '<input type="text" class="ns-colorbox" id="email-header-color" name="nanosupport_email_settings[header_text_color]" value="'. $header_text_color .'" data-default-color="#fff">';
+
+    echo ns_tooltip( __( 'Choose a color for the header text of the email template. Default: White (<code>#fff</code>)', 'nanosupport' ) );
+}
+
+// Email Template : Field 3 : Header Image
+function ns_email_header_image_field() {
+    $options = get_option('nanosupport_email_settings');
+
+    $header_image = isset($options['header_image']) && $options['header_image'] ? $options['header_image'] : '';
+
+    echo '<input type="text" class="ns-field-item ns-textbox" name="nanosupport_email_settings[header_image]" value="'. $header_image .'" placeholder="'. esc_attr('http://path/to/image.ext') .'">';
+
+    echo ns_tooltip( __( 'Upload an image through Media &raquo; Add New, and copy &amp; paste the image URL here. Or, you can place an abosolute URL of any image. Default: No image.', 'nanosupport' ) );
+}
+
+// Email Template : Field 4 : Header Text
+function ns_email_header_text_field() {
+    $options = get_option('nanosupport_email_settings');
+
+    $header_text = isset($options['header_text']) && $options['header_text'] ? $options['header_text'] : '';
+
+    echo '<input type="text" class="ns-field-item ns-textbox" name="nanosupport_email_settings[header_text]" value="'. $header_text .'" placeholder="'. get_bloginfo( 'name', 'display' ) .'">';
+
+    echo ns_tooltip( __( 'Write down the Header Text for the email template. Default: Site name.', 'nanosupport' ) );
+}
+
+// Email Template : Field 5 : Footer Text
+function ns_email_footer_text_field() {
+    $options = get_option('nanosupport_email_settings');
+
+    $footer_text = isset($options['footer_text']) && $options['footer_text'] ? $options['footer_text'] : '';
+
+    $default_footer_text = sprintf( __('%1$s &mdash; Powered by %2$s', 'nanosupport'), get_bloginfo( 'name', 'display' ), NS()->plugin );
+
+    echo '<input type="text" class="ns-field-item ns-textbox" name="nanosupport_email_settings[footer_text]" value="'. $footer_text .'" placeholder="'. $default_footer_text .'">';
+
+    echo ns_tooltip( __( 'Write down the Footer Text for the email template.', 'nanosupport' ) );
+
+}
+
 /**
  * Validate Email Settings
  * @param  array $input  Array of all the settings fields' value.
@@ -42,7 +110,23 @@ function ns_email_settings_validate( $input ) {
     //Notification email
     $notification_email = $input['notification_email'] ? $input['notification_email'] : '';
 
-    $options['notification_email'] = sanitize_email($notification_email);
+    //Email Header Background Color
+    $header_bg_color = isset($input['header_bg_color']) && $input['header_bg_color'] ? $input['header_bg_color'] : '#1c5daa';
+    //Email Header Text Color
+    $header_text_color = isset($input['header_text_color']) && $input['header_text_color'] ? $input['header_text_color'] : '#fff';
+    //Email Header Image
+    $header_image = isset($input['header_image']) && $input['header_image'] ? $input['header_image'] : '';
+    //Email Header Text
+    $header_text = isset($input['header_text']) && $input['header_text'] ? $input['header_text'] : '';
+    //Email Footer Text
+    $footer_text = isset($input['footer_text']) && $input['footer_text'] ? $input['footer_text'] : '';
+
+    $options['notification_email']  = sanitize_email($notification_email);
+    $options['header_bg_color']     = $header_bg_color;
+    $options['header_text_color']   = $header_text_color;
+    $options['header_image']        = $header_image;
+    $options['header_text']         = $header_text;
+    $options['footer_text']         = $footer_text;
 
     return $options;
 }

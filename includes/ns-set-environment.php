@@ -106,12 +106,32 @@ function ns_admin_scripts() {
         wp_enqueue_style( 'select2', NS()->plugin_url() .'/assets/css/select2.min.css', array(), '4.0.1-rc-1', 'all' );
         wp_enqueue_script( 'select2', NS()->plugin_url() .'/assets/js/select2.min.js', array('jquery'), '4.0.1-rc-1', true );
 
+
+        /**
+         * jQuery ColorPicker
+         * WordPress 3.5+ | jQuery dependent.
+         * @author  automattic
+         * @link    http://automattic.github.io/Iris/
+         * ...
+         */
+        wp_enqueue_style( 'wp-color-picker' );
+
+
         /**
          * NanoSupport Admin-specific JavaScripts
          * Compiled and minified. Depends on 'jQuery'.
          * ...
          */
-        wp_enqueue_script( 'ns-admin', NS()->plugin_url() .'/assets/js/nanosupport-admin.min.js', array('jquery'), NS()->version, true );
+        wp_enqueue_script(
+            'ns-admin',
+            NS()->plugin_url() .'/assets/js/nanosupport-admin.min.js',
+            array(
+                'jquery',
+                'wp-color-picker'
+            ),
+            NS()->version,
+            true
+        );
 
         /**
          * NanoSupport Admin-specific Localize Scripts

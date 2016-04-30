@@ -48,8 +48,6 @@ add_action( 'pre_get_comments', 'ns_exclude_responses_in_comments' );
  * Process Ticket Submission including Login/Registration.
  *
  * @since   1.0.0
- *
- * @return  void
  * -----------------------------------------------------------------------
  */
 function ns_registration_login_ticket_submission_redir() {
@@ -297,6 +295,46 @@ function ns_registration_login_ticket_submission_redir() {
 }
 
 add_action( 'template_redirect', 'ns_registration_login_ticket_submission_redir' );
+
+
+/**
+ * Preview email template
+ * 
+ * Display a preview of the email template according to
+ * the NanoSupport Email Template admin settings.
+ *
+ * @since  1.0.0
+ * -----------------------------------------------------------------------
+ * 
+ */
+function ns_preview_email_template() {
+    if ( isset( $_GET['nanosupport_email_preview'] ) ) {
+        if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'email-preview' ) ) {
+            die( 'Failed security check' );
+        }
+
+        ob_start();
+            //get the designated email template
+            ns_get_template_part( 'content', 'email' );
+        $email_content = ob_get_clean();
+
+        ob_start();
+            //get the email content for the preview
+            include 'admin/ns-email-template-preview.php';
+        $message = ob_get_clean();
+
+        $email_subhead = __( 'Email Template Preview', 'nanosupport' );
+
+        $email_content  = str_replace( "%%NS_MAIL_SUBHEAD%%", $email_subhead, $email_content );
+        $email_content  = str_replace( "%%NS_MAIL_CONTENT%%", $message, $email_content );
+
+        echo $email_content;
+
+        exit;
+    }
+}
+
+add_action( 'admin_init', 'ns_preview_email_template' );
 
 
 /**

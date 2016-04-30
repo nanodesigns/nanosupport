@@ -36,26 +36,25 @@ $email_settings = get_option('nanosupport_email_settings');
             <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
                 <tr>
                     <td align="center" valign="top">
-                        <?php $email_header_image = isset($email_settings['header_image']) ? $email_settings['header_image'] : false;
-                        if ( $email_header_image ) { ?>
-                            <div id="email_header_image">
-                                <?php echo '<p style="margin-top:0;"><img src="'. esc_url( $email_header_image ) .'" alt="'. get_bloginfo( 'name', 'display' ) .'" /></p>'; ?>
-                            </div>
-                        <?php } ?>
                         <table border="0" cellpadding="0" cellspacing="0" width="600" id="template_container" style="box-shadow: 0 1px 4px rgba(0,0,0,0.1) !important; background-color: #fdfdfd; border: 1px solid #dcdcdc; border-radius: 3px !important;">
                             <tr>
                                 <td align="center" valign="top">
 
                                     <!-- Header -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="600" id="template_header" style='background-color: #1c5daa; border-radius: 3px 3px 0 0 !important; color: #ffffff; border-bottom: 0; font-weight: bold; line-height: 100%; vertical-align: middle; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;'>
+                                    <?php
+                                    $email_header_image = isset($email_settings['header_image']) && !empty($email_settings['header_image']) ? $email_settings['header_image'] : false;
+                                    $email_header_bg_color = isset($email_settings['header_bg_color']) && !empty($email_settings['header_bg_color']) ? $email_settings['header_bg_color'] : '#1c5daa';
+                                    $email_header_text_color = isset($email_settings['header_text_color']) && !empty($email_settings['header_text_color']) ? $email_settings['header_text_color'] : '#ffffff';
+                                    ?>
+                                    <table border="0" cellpadding="0" cellspacing="0" width="600" id="template_header" style='background-color: <?php echo $email_header_bg_color; ?>; border-radius: 3px 3px 0 0 !important; color: <?php echo $email_header_text_color; ?>; border-bottom: 0; font-weight: bold; line-height: 100%; vertical-align: middle; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; <?php echo $email_header_image ? 'background-image: url('. $email_header_image .'); background-position: center center;' : '' ?>'>
                                         <tr>
                                             <td id="header_wrapper" style="padding: 20px 48px; display: block;">
-                                                <h1 style='color: #ffffff; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; font-size: 30px; font-weight: 300; line-height: 150%; margin: 0 0 16px 0; text-align: center; text-shadow: 0 1px 0 #7797b4; -webkit-font-smoothing: antialiased;'>
+                                                <h1 style='color: <?php echo $email_header_text_color; ?>; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; font-size: 30px; font-weight: 300; line-height: 150%; margin: 0 0 16px 0; text-align: center; text-shadow: 0 1px 0 #7797b4; -webkit-font-smoothing: antialiased;'>
                                                     <?php
-                                                    echo isset($email_settings['header_text']) ? esc_html($email_settings['header_text']) : get_bloginfo( 'name', 'display' );
+                                                    echo isset($email_settings['header_text']) && !empty($email_settings['header_text']) ? esc_html($email_settings['header_text']) : get_bloginfo( 'name', 'display' );
                                                     ?>
                                                 </h1>
-                                                <p style='color: #ffffff; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; font-size: 18px; font-weight: 300; line-height: 18px; margin: 0; text-align: center; text-shadow: 0 1px 0 #7797b4; -webkit-font-smoothing: antialiased;'>
+                                                <p style='color: <?php echo $email_header_text_color; ?>; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; font-size: 18px; font-weight: 300; line-height: 18px; margin: 0; text-align: center; text-shadow: 0 1px 0 #7797b4; -webkit-font-smoothing: antialiased;'>
                                                    %%NS_MAIL_SUBHEAD%%
                                                 </p>
                                             </td>
@@ -106,7 +105,7 @@ $email_settings = get_option('nanosupport_email_settings');
                                 <td colspan="2" valign="middle" id="footer_text" style="padding: 0 48px 48px 48px; -webkit-border-radius: 6px; border: 0; color: #99b1c7; font-family: Arial; font-size: 12px; line-height: 125%; text-align: center;">
                                     <?php
                                     $default_footer_text = sprintf( __('%1$s &mdash; Powered by %2$s', 'nanosupport'), get_bloginfo( 'name', 'display' ), NS()->plugin );
-                                    $email_footer_text = isset($email_settings['footer_text']) ? $email_settings['footer_text'] : $default_footer_text;
+                                    $email_footer_text = isset($email_settings['footer_text']) && !empty($email_settings['footer_text']) ? $email_settings['footer_text'] : $default_footer_text;
                                     ?>
                                     <p><?php echo wpautop( wp_kses_post( wptexturize($email_footer_text) ) ); ?></p>
                                 </td> <!-- /#footer_text -->
