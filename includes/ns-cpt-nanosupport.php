@@ -431,6 +431,10 @@ add_action( 'init', 'ns_create_nanosupport_taxonomies', 0 );
  * -----------------------------------------------------------------------
  */
 function ns_set_default_object_terms( $post_id ) {
+    
+    //wp_get_post_terms() doesn't take $post_id as integer, it takes $post as an object
+    $post_id = is_object($post_id) ? $post_id->ID : $post_id;
+
     if ( 'publish' === get_post_status( $post_id ) || 'private' === get_post_status( $post_id ) ) {
         $defaults = array(
                 'nanosupport_department' => array( 'support' )
