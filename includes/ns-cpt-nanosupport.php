@@ -71,24 +71,6 @@ function ns_register_cpt_nanosupport() {
 
 add_action( 'init', 'ns_register_cpt_nanosupport' );
 
-
-/**
- * Show pending count on menu.
- *
- * @since  1.0.0
- * 
- * @return integer pending count beside menu label.
- * --------------------------------------------------------------------------
- */
-function ns_notification_bubble_in_nanosupport_menu() {
-    global $menu;
-    $pending_items = ns_ticket_status_count( 'pending' );
-    $menu[29][0] .= $pending_items ? " <span class='update-plugins count-1' title='Pending Tickets'><span class='update-count'>$pending_items</span></span>" : '';
-}
-
-add_action( 'admin_menu', 'ns_notification_bubble_in_nanosupport_menu' );
-
-
 /**
  * Declare custom columns
  *
