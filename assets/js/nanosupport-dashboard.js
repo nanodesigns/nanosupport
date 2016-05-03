@@ -8,6 +8,7 @@
  * @package NanoSupport
  */
 var chart = c3.generate({
+    bindto: '#ns-chart',
     data: {
         columns: [
             ['Under Inspection', ns.inspection],

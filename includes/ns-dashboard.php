@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * NanoSupport Dashboard Scripts
+ * 
+ * Scripts specific to NanoSupport Dashboard widget only.
+ *
+ * @since  1.0.0
+ * -----------------------------------------------------------------------
+ */
 function ns_dashboard_scripts() {
     $screen = get_current_screen();
     if( 'dashboard' === $screen->base ) {
@@ -71,10 +79,21 @@ function nanosupport_widget_callback() { ?>
 
         <?php if( current_user_can('administrator') || current_user_can('editor') ) { ?>
             <div class="ns-row">
-                <div class="nanosupport-50-left">
-                    <h4 class="dashboard-head ns-text-center"><span class="ns-icon-pie-chart"></span> <?php _e( 'Current Status', 'nanosupport' ); ?></h4>
-                    <div id="chart"></div>
-                    <div class="ns-total-ticket-count ns-text-center"><?php printf( __('Total Tickets: %s', 'nanosupport' ), ns_total_ticket_count('nanosupport') ); ?></div>
+                <div class="nanosupport-50-left ns-text-center">
+                    <h4 class="dashboard-head"><span class="ns-icon-pie-chart"></span> <?php _e( 'Current Status', 'nanosupport' ); ?></h4>
+                    <?php
+                    $total_tickets = ns_total_ticket_count('nanosupport');
+                    if( 0 === $total_tickets ) : ?>
+                        <div id="ns-no-activity">
+                            <p class="smiley"></p>
+                            <p><?php _e( 'Yet nothing to display!', 'nanosupport' ) ?></p>
+                        </div>
+                    <?php else : ?>
+                        <div id="ns-chart"></div>
+                        <div class="ns-total-ticket-count ns-text-center">
+                            <?php printf( __('Total Tickets: %s', 'nanosupport' ), $total_tickets ); ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <div class="nanosupport-50-right">
                     <h4 class="dashboard-head ns-text-center"><span class="ns-icon-pulse"></span> <?php _e( 'Recent Activity', 'nanosupport' ); ?></h4>
@@ -117,36 +136,45 @@ function nanosupport_widget_callback() { ?>
                     usort( $activity_arr, 'date_compare' );
 
                     $counter = 0;
-                    foreach( $activity_arr as $activity ) {
-                        $counter++;
+                    if( empty( $activity_arr ) ) {
+                        echo '<div id="ns-no-activity">';
+                            echo '<p class="smiley"></p>';
+                            echo '<p>' . __( 'No activity yet!', 'nanosupport' ) . '</p>';
+                        echo '</div>';
+                    } else {
+                        foreach( $activity_arr as $activity ) {
+                            $counter++;
 
-                        if( $counter <= 5 ) { ?>
-                        
-                        <div>
-                            <strong><?php echo mysql2date( 'd M Y, h:i A', $activity['date'] ); ?></strong><br> 
+                            if( $counter <= 5 ) { ?>
+                            
+                            <div>
+                                <strong><?php echo mysql2date( 'd M Y, h:i A', $activity['date'] ); ?></strong><br> 
+                                <?php
+                                if( 'response' === $activity['type'] ) {
+                                    printf(
+                                        '<span class="ns-icon-responses"></span> '. __( 'Ticket <a href="%1$s">%2$s</a> is responded by %3$s', 'nanosupport' ),
+                                        get_edit_post_link($activity['ticket']),
+                                        get_the_title($activity['ticket']),
+                                        $activity['author']
+                                    );
+                                } elseif( 'ticket' === $activity['type'] ) {
+                                    printf(
+                                        '<span class="ns-icon-tag"></span> '. __( 'New Ticket <a href="%1$s">%2$s</a> submitted by %3$s', 'nanosupport' ),
+                                        get_edit_post_link($activity['id']),
+                                        get_the_title($activity['id']),
+                                        $activity['author']
+                                    );
+                                }
+                                ?>
+                                <hr>
+                            </div>
+
                             <?php
-                            if( 'response' === $activity['type'] ) {
-                                printf(
-                                    '<span class="ns-icon-responses"></span> '. __( 'Ticket <a href="%1$s">%2$s</a> is responded by %3$s', 'nanosupport' ),
-                                    get_edit_post_link($activity['ticket']),
-                                    get_the_title($activity['ticket']),
-                                    $activity['author']
-                                );
-                            } elseif( 'ticket' === $activity['type'] ) {
-                                printf(
-                                    '<span class="ns-icon-tag"></span> '. __( 'New Ticket <a href="%1$s">%2$s</a> submitted by %3$s', 'nanosupport' ),
-                                    get_edit_post_link($activity['id']),
-                                    get_the_title($activity['id']),
-                                    $activity['author']
-                                );
+                                }
+
                             }
-                            ?>
-                            <hr>
-                        </div>
-
-                        <?php } ?>
-
-                    <?php } ?>
+                        }
+                        ?>
                 </div>
             </div>
         <?php } //administrator/editor ?>

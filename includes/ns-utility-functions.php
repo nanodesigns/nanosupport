@@ -272,7 +272,9 @@ function ns_total_ticket_count( $post_type = '' ) {
         return;
 
     global $wpdb;
-    return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = %s AND post_status IN('pending', 'publish', 'private')", $post_type ) );
+    $count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = %s AND post_status IN('pending', 'publish', 'private')", $post_type ) );
+
+    return (int) $count;
 }
 
 
