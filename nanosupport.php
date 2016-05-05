@@ -12,7 +12,7 @@
  * Author:            nanodesigns
  * Author URI:        http://nanodesignsbd.com/
  * Requires at least: 3.9.0
- * Tested up to:      4.5
+ * Tested up to:      4.5.1
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       'nanosupport'
