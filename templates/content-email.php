@@ -46,17 +46,28 @@ $email_settings = get_option('nanosupport_email_settings');
                                     $email_header_bg_color = isset($email_settings['header_bg_color']) && !empty($email_settings['header_bg_color']) ? $email_settings['header_bg_color'] : '#1c5daa';
                                     $email_header_text_color = isset($email_settings['header_text_color']) && !empty($email_settings['header_text_color']) ? $email_settings['header_text_color'] : '#ffffff';
                                     ?>
-                                    <table border="0" cellpadding="0" cellspacing="0" width="600" id="template_header" style='background-color: <?php echo $email_header_bg_color; ?>; border-radius: 3px 3px 0 0 !important; color: <?php echo $email_header_text_color; ?>; border-bottom: 0; font-weight: bold; line-height: 100%; vertical-align: middle; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; <?php echo $email_header_image ? 'background-image: url('. $email_header_image .'); background-position: center center;' : '' ?>'>
+                                    <table border="0" cellpadding="0" cellspacing="0" width="600" id="template_header" style='background-color: <?php echo $email_header_bg_color; ?>; border-radius: 3px 3px 0 0 !important; color: <?php echo $email_header_text_color; ?>; border-bottom: 0; font-weight: bold; line-height: 100%; vertical-align: middle; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;'>
                                         <tr>
-                                            <td id="header_wrapper" style="padding: 20px 48px; display: block;">
-                                                <h1 style='color: <?php echo $email_header_text_color; ?>; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; font-size: 30px; font-weight: 300; line-height: 150%; margin: 0 0 16px 0; text-align: center; text-shadow: 0 1px 0 #7797b4; -webkit-font-smoothing: antialiased;'>
-                                                    <?php
-                                                    echo isset($email_settings['header_text']) && !empty($email_settings['header_text']) ? esc_html($email_settings['header_text']) : get_bloginfo( 'name', 'display' );
-                                                    ?>
-                                                </h1>
-                                                <p style='color: <?php echo $email_header_text_color; ?>; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; font-size: 18px; font-weight: 300; line-height: 18px; margin: 0; text-align: center; text-shadow: 0 1px 0 #7797b4; -webkit-font-smoothing: antialiased;'>
-                                                   %%NS_MAIL_SUBHEAD%%
-                                                </p>
+                                            <td id="header_wrapper" background="<?php if($email_header_image) echo $email_header_image; ?>" bgcolor="<?php echo $email_header_bg_color; ?>" width="600" height="120" valign="center" style="background-position: center center;">
+                                                <!--[if gte mso 9]>
+                                                <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;height:120px;">
+                                                    <v:fill type="tile" src="<?php if($email_header_image) echo $email_header_image; ?>" color="<?php echo $email_header_bg_color; ?>" />
+                                                    <v:textbox inset="0,0,0,0">
+                                                <![endif]-->
+                                                <div style="padding: 20px 48px; display: block;">
+                                                    <h1 style='color: <?php echo $email_header_text_color; ?>; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; font-size: 30px; font-weight: 300; line-height: 150%; margin: 0 0 16px 0; text-align: center; text-shadow: 0 1px 0 #7797b4; -webkit-font-smoothing: antialiased;'>
+                                                        <?php
+                                                        echo isset($email_settings['header_text']) && !empty($email_settings['header_text']) ? esc_html($email_settings['header_text']) : get_bloginfo( 'name', 'display' );
+                                                        ?>
+                                                    </h1>
+                                                    <p style='color: <?php echo $email_header_text_color; ?>; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; font-size: 18px; font-weight: 300; line-height: 18px; margin: 0; text-align: center; text-shadow: 0 1px 0 #7797b4; -webkit-font-smoothing: antialiased;'>
+                                                       %%NS_MAIL_SUBHEAD%%
+                                                    </p>
+                                                </div>
+                                                <!--[if gte mso 9]>
+                                                    </v:textbox>
+                                                    </v:rect>
+                                                <![endif]-->
                                             </td>
                                         </tr>
                                     </table>
