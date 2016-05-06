@@ -31,6 +31,21 @@ function ns_notification_email_field() {
     echo ns_tooltip( __( 'Write down the email to get notification of new ticket submission. Default is, admin email.', 'nanosupport' ) );
 }
 
+// Email Settings : Field 2 : Email Choices
+function ns_email_choices_field() {
+    $options = get_option('nanosupport_email_settings');
+
+    $new_ticket_notification = isset($options['email_choices']['new_ticket']) ? $options['email_choices']['new_ticket'] : '';
+    echo '<input name="nanosupport_email_settings[email_choices][new_ticket]" id="new_ticket" type="checkbox" value="1" '. checked( 1, $new_ticket_notification, false ) . '/> <label for="new_ticket">'. __( 'Yes, send an email on new ticket submission', 'nanosupport' ) .'</label>';
+    echo ns_tooltip( __( 'If you check here, an email will be sent to Notification email notifying about every new ticket submission. Default: <code>true</code>.', 'nanosupport' ) );
+
+    echo '<br><br>';
+
+    $response_notification = isset($options['email_choices']['response']) ? $options['email_choices']['response'] : '';
+    echo '<input name="nanosupport_email_settings[email_choices][response]" id="response" type="checkbox" value="1" '. checked( 1, $response_notification, false ) . '/> <label for="response">'. __( 'Yes, notify the ticket author when their ticket is replied', 'nanosupport' ) .'</label>';
+    echo ns_tooltip( __( 'If you check here, an email will be sent to the ticket author when their ticket is replied. Default: <code>true</code>.', 'nanosupport' ) );
+}
+
 
 // Callback: Email Template-specific Settings page
 function ns_email_template_section_callback() {
@@ -110,6 +125,11 @@ function ns_email_settings_validate( $input ) {
     //Notification email
     $notification_email = $input['notification_email'] ? $input['notification_email'] : '';
 
+    //New Ticket email checkbox
+    $new_ticket = isset($input['email_choices']['new_ticket']) && (int) $input['email_choices']['new_ticket'] === 1 ? (int) $input['email_choices']['new_ticket'] : '';
+    //Response email checkbox
+    $response = isset($input['email_choices']['response']) && (int) $input['email_choices']['response'] === 1 ? (int) $input['email_choices']['response'] : '';
+
     //Email Header Background Color
     $header_bg_color = isset($input['header_bg_color']) && $input['header_bg_color'] ? $input['header_bg_color'] : '#1c5daa';
     //Email Header Text Color
@@ -121,7 +141,10 @@ function ns_email_settings_validate( $input ) {
     //Email Footer Text
     $footer_text = isset($input['footer_text']) && $input['footer_text'] ? $input['footer_text'] : '';
 
-    $options['notification_email']  = sanitize_email($notification_email);
+    $options['notification_email']              = sanitize_email($notification_email);
+    $options['email_choices']['new_ticket']     = absint( $new_ticket );
+    $options['email_choices']['response']       = absint( $response );
+
     $options['header_bg_color']     = $header_bg_color;
     $options['header_text_color']   = $header_text_color;
     $options['header_image']        = $header_image;

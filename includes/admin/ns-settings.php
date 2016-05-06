@@ -201,6 +201,13 @@ function nanosupport_settings_options_init(){
             'nanosupport_email_settings',               // Page (Plugin)*
             'ns_email'                                  // Section
         );
+        add_settings_field(
+            'email_choice',                             // ID*
+            __( 'Email Choices', 'nanosupport' ),       // Title*
+            'ns_email_choices_field',                   // Callback Function*
+            'nanosupport_email_settings',               // Page (Plugin)*
+            'ns_email'                                  // Section
+        );
 
     /**
      * Tab: Email Template Settings
