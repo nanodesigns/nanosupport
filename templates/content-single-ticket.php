@@ -219,10 +219,13 @@
 							}
 
 							if( is_wp_error( $error ) && ! empty( $error->errors ) ) {
+
 								echo '<div class="ns-alert ns-alert-danger" role="alert">';
 									echo $error->get_error_message();
 								echo '</div>';
+
 							} else {
+
 								$commentdata = array(
 									'comment_post_ID'		=> absint( get_the_ID() )	,
 									'comment_author'		=> wp_strip_all_tags( $current_user->display_name ), 
@@ -244,7 +247,6 @@
 								 * make the ticket status to 'Open'
 								 */
 						    	if( 'solved' == $ticket_status && isset( $_GET['reopen'] ) ) {
-									//$ticket_control = get_post_meta( get_the_ID(), 'ns_control', true );
 
 								    $ns_ticket_status      = 'open'; //force open again
 								    $ns_ticket_priority    = $ticket_priority;
@@ -269,6 +271,7 @@
 										echo $comment_id->get_error_message();
 									echo '</div>';
 								}
+								
 							}
 
 

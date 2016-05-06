@@ -89,12 +89,6 @@ final class NanoSupport {
 	public $version = '1.0.0';
 
 	/**
-	 * Minimum PHP version.
-	 * @var string
-	 */
-	public $php_version = '5.0.2'; //?
-
-	/**
 	 * Minimum WordPress version.
 	 * @var string
 	 */

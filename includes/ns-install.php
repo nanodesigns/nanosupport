@@ -112,8 +112,6 @@ function nanosupport_install() {
  * Create necessary roles for the plugin.
  * 
  * @since  1.0.0
- * 
- * @return void
  * -----------------------------------------------------------------------
  */
 function ns_create_role() {

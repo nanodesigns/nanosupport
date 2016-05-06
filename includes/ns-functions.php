@@ -338,8 +338,6 @@ add_action( 'admin_init', 'ns_preview_email_template' );
  * @since  1.0.0
  *
  * hooked: nanosupport_before_knowledgebase (10)
- * 
- * @return void
  * -----------------------------------------------------------------------
  */
 function ns_knowledgebase_navigation() {
@@ -393,8 +391,6 @@ add_action( 'nanosupport_before_knowledgebase', 'ns_knowledgebase_navigation', 1
  * @since  1.0.0
  *
  * hooked: nanosupport_before_new_ticket (10)
- * 
- * @return void
  * -----------------------------------------------------------------------
  */
 function ns_new_ticket_navigation() {
@@ -449,8 +445,6 @@ add_action( 'nanosupport_before_new_ticket', 'ns_new_ticket_navigation', 10 );
  * @since  1.0.0
  *
  * hooked: nanosupport_before_support_desk (10)
- * 
- * @return void
  * -----------------------------------------------------------------------
  */
 function ns_support_desk_navigation() {

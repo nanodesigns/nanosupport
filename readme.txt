@@ -56,6 +56,7 @@ The plugin is to provide support to your users - the users those are taking prod
 
 = Contribute =
 NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contribute.
+
 * [Fork on Github](https://github.com/nanodesigns/nanosupport)
 * [Report Bug](https://github.com/nanodesigns/nanosupport/issues)
 * [Get Support](http://wordpress.org/support/plugin/nanosupport)
@@ -128,3 +129,8 @@ The plugin is completely translation-ready. You can find the \`.pot\` file under
 
 = 1.0.0 =
 * Plugin initiated
+
+== Upgrade Notice ==
+
+= 1.0.0 =
+The almost ready version of the plugin.

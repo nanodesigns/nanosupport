@@ -37,7 +37,6 @@ add_action( 'admin_menu', 'ns_settings_page' );
 
 /**
  * Register the Settings Options.
- * @return void
  * ...
  */
 function nanosupport_settings_options_init(){

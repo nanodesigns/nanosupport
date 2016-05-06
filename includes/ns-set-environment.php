@@ -407,8 +407,6 @@ add_filter( 'the_title', 'ns_the_title_trim' );
  * Only the logged in users are allowed to see the Support Desk page.
  *
  * @since  1.0.0
- * 
- * @return void
  * -----------------------------------------------------------------------
  */
 function ns_redirect_user_to_correct_place() {
@@ -514,7 +512,7 @@ if( apply_filters( 'nanosupport_show_admin_bar_visit_support_desk', true ) )
  */
 function ns_change_admin_footer_text( $text ) {
     $text = '<span id="footer-thankyou">';
-        $text .= __( 'Powered by <a href="https://wordpress.org/" target="_blank">WordPress</a> &amp; <a href="http://nanosupport.nanodesignsbd.com" target="_blank">NanoSupport</a>', 'nanosupport' );
+        $text .= __( 'Powered by <a href="https://wordpress.org/" target="_blank">WordPress</a> &amp; <a href="http://nanosupport.nanodesignsbd.com" target="_blank"><span class="ns-icon-nanosupport"></span> NanoSupport</a>', 'nanosupport' );
     $text .= '</span>';
 
     return $text;
