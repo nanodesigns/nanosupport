@@ -268,13 +268,6 @@ function ns_registration_login_ticket_submission_redir() {
         //insert the meta information into postmeta
         add_post_meta( $ticket_post_id, 'ns_control', $meta_control );
 
-        /**
-         * Notify the site admin by email, under the hood.
-         * @since  1.0.0
-         * ...
-         */
-        nanosupport_handle_notification_email( $ticket_post_id );
-
     } else {
 
         $ns_errors[]   = __( 'Sorry, your user identity is not acceptable! Your ticket is not submitted.', 'nanosupport' );
