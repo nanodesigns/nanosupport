@@ -194,7 +194,7 @@ add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
  * -----------------------------------------------------------------------
  */
 function ns_user_fields( $user ) { ?>
-    <?php if( ! current_user_can( 'support_seeker' ) ) : ?>
+    <?php if( 'support_seeker' !== $user->roles[0] ) : ?>
 
         <h3><?php _e( 'NanoSupport', 'nanosupport' ); ?></h3>
 

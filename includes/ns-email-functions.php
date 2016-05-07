@@ -100,32 +100,9 @@ function nanosupport_new_ticket_notification_email( $ticket_id, $post ) {
     /**
      * Generate Dynamic values
      */
-    $ticket_view_link = get_permalink( $ticket_id );
-    $ticket_edit_link = get_edit_post_link( $ticket_id );
-
-    //Get ticket information
-    $ticket_control   = get_post_meta( $ticket_id, 'ns_control', true );
-    switch ($ticket_control['priority']) {
-        case 'low':
-            $priority = __( 'Low', 'nanosupport' );
-            break;
-
-        case 'medium':
-            $priority = __( 'Medium', 'nanosupport' );
-            break;
-
-        case 'high':
-            $priority = __( 'High', 'nanosupport' );
-            break;
-
-        case 'critical':
-            $priority = __( 'Critical', 'nanosupport' );
-            break;
-        
-        default:
-            $priority = '';
-            break;
-    }
+    $ticket_view_link   = get_permalink( $ticket_id );
+    $ticket_edit_link   = get_edit_post_link( $ticket_id );
+    $ticket_meta        = ns_get_ticket_meta( get_the_ID() );
     
 
     $subject = sprintf ( __( 'New Ticket Submitted &mdash; %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
@@ -136,7 +113,7 @@ function nanosupport_new_ticket_notification_email( $ticket_id, $post ) {
     $message = '<p style="margin: 0 0 16px;">'. __( 'A support ticket is submitted. Please find the links below:', 'nanosupport' ) .'</p>';
     $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. esc_url($ticket_view_link) .'">'. __( 'Link to the Ticket', 'nanosupport' ) .'</a></p>';
     $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #333333;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #f6bb42;margin: 0;padding: 0;border-color: #f6bb42;border-style: solid;border-width: 1px 20px;" href="'. $ticket_edit_link .'">'. __( 'Ticket in edit mode', 'nanosupport' ) .'</a></p>';
-    $message .= '<p style="margin: 0 0 16px;">'. sprintf( __( 'Priority: <strong>%s</strong>', 'nanosupport' ), $priority ) .'</a></p>';
+    $message .= '<p style="margin: 0 0 16px;">'. sprintf( __( 'Priority: <strong>%s</strong>', 'nanosupport' ), $ticket_meta['priority']['name'] ) .'</a></p>';
 
     $nanosupport_email_settings = get_option('nanosupport_email_settings');
     $to_email = $nanosupport_email_settings['notification_email'];
@@ -184,13 +161,13 @@ function nanosupport_handle_account_opening_email( $user_id = '', $generated_pas
 
     //Email Content
     $message = '';
-    $message = '<p style="margin: 0 0 16px;">'. sprintf( __('To manage your support tickets an account has been created on %s.', 'nanosupport'), get_bloginfo( 'name', 'display' ) ) .'</p>';
+    $message = '<p style="margin: 0 0 16px;">'. sprintf( __( 'To manage your support tickets an account has been created on %s.', 'nanosupport' ), get_bloginfo( 'name', 'display' ) ) .'</p>';
     $message .= '<p style="margin: 0 0 16px;">'. __('Account credentials are as following:', 'nanosupport') .'</p>';
     if( !empty($generated_password) )
-        $message .= '<p style="margin: 0 0 20px 20px;">'. sprintf( __('Username: <strong>%1$s</strong><br>Password: <strong>%2$s</strong><br>Email: %3$s', 'nanosupport'), $username, $generated_password, $email ) .'</p>';
+        $message .= '<p style="margin: 0 0 20px 20px;">'. sprintf( __( 'Username: <strong>%1$s</strong><br>Password: <strong>%2$s</strong><br>Email: %3$s', 'nanosupport' ), $username, $generated_password, $email ) .'</p>';
     else
-        $message .= '<p style="margin: 0 0 20px 20px;">'. sprintf( __('Username: %1$s<br>Password: %2$s<br>Email: %3$s', 'nanosupport'), $username, '<em>'. __('Your Password', 'nanosupport') .'</em>', $email ) .'</p>';
-    $message .= '<p style="margin: 0 0 16px;">'. sprintf( __('You can edit your account details and reset your password from your <a href="%s" target="_blank">Profile</a>', 'nanosupport'), get_edit_user_link( absint($user_id) ) ) .'</p>';
+        $message .= '<p style="margin: 0 0 20px 20px;">'. sprintf( __( 'Username: %1$s<br>Password: %2$s<br>Email: %3$s', 'nanosupport' ), $username, '<em>'. __( 'Your Password', 'nanosupport' ) .'</em>', $email ) .'</p>';
+    $message .= '<p style="margin: 0 0 16px;">'. sprintf( __( 'You can edit your account details and reset your password from your <a href="%s" target="_blank">Profile</a>', 'nanosupport' ), get_edit_user_link( absint($user_id) ) ) .'</p>';
 
     //send the email
     $password_email = ns_email( ns_ondomain_email(), $subject, $email_subhead, $message );

@@ -30,15 +30,16 @@
 	
 	global $post;
 	$author 			= get_user_by( 'id', $post->post_author );
-	$ticket_control 	= get_post_meta( $post->ID, 'ns_control', true );
-	$ticket_status 		= $ticket_control['status'];
-	$ticket_agent       = $ticket_control['agent'];
-	$ticket_list_page 	= $ns_general_settings['support_desk'];
+	$support_desk 		= $ns_general_settings['support_desk'];
+	$highlight_choice	= isset($ns_general_settings['highlight_ticket']) ? $ns_general_settings['highlight_ticket'] : 'status';
+	$ticket_meta 		= ns_get_ticket_meta( get_the_ID() );
+
+	$highlight_class = 'priority' === $highlight_choice ? $ticket_meta['priority']['class'] : $ticket_meta['status']['class'];
 	?>
 
 	<article id="post-<?php echo $post->ID; ?>" <?php post_class('ns-single'); ?>>
 
-		<div class="ticket-question-card ns-cards <?php echo esc_attr($ticket_status); ?>">
+		<div class="ticket-question-card ns-cards <?php echo esc_attr($highlight_class); ?>">
 			<div class="ns-row">
 				<div class="ns-col-sm-11">
 					<h1 class="ticket-head"><?php the_title(); ?></h1>
@@ -67,9 +68,8 @@
 							<p>
 								<strong><?php _e( 'Assigned to:', 'nanosupport' ); ?></strong><br>
 								<?php
-								if( $ticket_agent ) {
-									$agent_info = get_user_by( 'id', $ticket_agent );
-									echo '<span class="ns-small">'. $agent_info->display_name .'</span>';
+								if( ! empty($ticket_meta['agent']) ) {
+									echo '<span class="ns-small">'. $ticket_meta['agent']['name'] .'</span>';
 								} else {
 									echo '<span class="ns-small">---</span>';
 								}
@@ -79,44 +79,19 @@
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
 								<strong><?php _e( 'Status:', 'nanosupport' ); ?></strong><br>
-								<?php
-								if( $ticket_status ) {
-									if( 'solved' === $ticket_status ) {
-										$status = '<span class="ns-label ns-label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
-									} else if( 'inspection' === $ticket_status ) {
-										$status = '<span class="ns-label ns-label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
-									} else {
-										$status = '<span class="ns-label ns-label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
-									}
-								} else {
-									$status = '';
-								}
-
-								echo $status;
-								?>
+								<?php echo $ticket_meta['status']['label']; ?>
 							</p>
 						</div>
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
 								<strong><?php _e( 'Priority:', 'nanosupport' ); ?></strong><br>
-								<?php
-								$ticket_priority = $ticket_control['priority'];
-								if( 'low' === $ticket_priority ) {
-									_e( 'Low', 'nanosupport' );
-								} else if( 'medium' === $ticket_priority ) {
-									echo '<span class="ns-text-info"><i class="ns-icon-info-circled"></i> ' , __( 'Medium', 'nanosupport' ) , '</span>';
-								} else if( 'high' === $ticket_priority ) {
-									echo '<strong class="ns-text-warning"><span class="ns-icon-info-circled"></span> ' , __( 'High', 'nanosupport' ) , '</strong>';
-								} else if( 'critical' === $ticket_priority ) {
-									echo '<strong class="ns-text-danger"><span class="ns-icon-info-circled"></span> ' , __( 'Critical', 'nanosupport' ) , '</strong>';
-								}
-								?>
+								<span class="ns-small"><?php echo $ticket_meta['priority']['label']; ?></span>
 							</p>
 						</div>
 					</div> <!-- /.ns-row -->
 				</div>
 				<div class="ns-col-sm-1 ns-right-portion">
-					<a class="ns-btn ns-btn-danger ns-btn-xs ns-round-btn off-ticket-btn" href="<?php echo esc_url(get_permalink( $ticket_list_page )); ?>" title="<?php esc_attr_e('Close the ticket', 'nanosupport'); ?>">
+					<a class="ns-btn ns-btn-danger ns-btn-xs ns-round-btn off-ticket-btn" href="<?php echo esc_url(get_permalink( $support_desk )); ?>" title="<?php esc_attr_e('Close the ticket', 'nanosupport'); ?>">
 						<span class="ns-icon-remove"></span>
 					</a>
 					<a class="ns-btn ns-btn-default ns-btn-xs ns-round-btn ticket-link-btn" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e('Permanent link to the Ticket', 'nanosupport'); ?>">
@@ -193,14 +168,14 @@
 			     */
 				if( current_user_can( 'administrator' ) || $post->post_author == $current_user->ID ) {
 
-				    if( 'solved' == $ticket_status && ! isset( $_GET['reopen'] ) ) {
+				    if( 'solved' === $ticket_meta['status']['value'] && ! isset( $_GET['reopen'] ) ) {
 
 				    	echo '<div class="ns-alert ns-alert-success" role="alert">';
 				    		/**
 				    		 * Reopen the Ticket
 				    		 */
 				    		$ropen_url = add_query_arg( 'reopen', '', get_the_permalink() );
-				    		printf( __( 'This ticket is already solved. <a class="ns-btn ns-btn-sm ns-btn-warning" href="%s#write-message"><span class="ns-icon-reopen"></span> Reopen Ticket</a>', 'nanosupport' ), esc_url( $ropen_url ) );
+				    		printf( __( 'This ticket is already solved. <a class="ns-btn ns-btn-sm ns-btn-warning" href="%s#write-message"><span class="ns-icon-repeat"></span> Reopen Ticket</a>', 'nanosupport' ), esc_url( $ropen_url ) );
 						echo '</div>';
 
 				    } else {
@@ -246,10 +221,10 @@
 								 * If ticket to ReOpen,
 								 * make the ticket status to 'Open'
 								 */
-						    	if( 'solved' == $ticket_status && isset( $_GET['reopen'] ) ) {
+						    	if( 'solved' === $ticket_meta['status']['value'] && isset( $_GET['reopen'] ) ) {
 
 								    $ns_ticket_status      = 'open'; //force open again
-								    $ns_ticket_priority    = $ticket_priority;
+								    $ns_ticket_priority    = $ticket_meta['priority']['value'];
 								    $ns_ticket_agent       = ticket_agent ? ticket_agent : '';
 
 								    $ns_control = array(
@@ -300,7 +275,7 @@
 										</div> <!-- /.ns-form-group -->
 										<?php wp_nonce_field( 'response_nonce', 'nanosupport_response_nonce' ); ?>
 										<?php
-										if( 'solved' == $ticket_status && isset( $_GET['reopen'] ) ) {
+										if( 'solved' === $ticket_meta['status']['value'] && isset( $_GET['reopen'] ) ) {
 											echo '<div class="ns-alert ns-alert-warning" role="alert">';
 												_e( '<strong>Just to inform:</strong> you are about to Reopen the ticket.', 'nanosupport' );
 											echo '</div>';
@@ -313,7 +288,7 @@
 							</form>
 						<?php } //endif( ! $hide_form ) ?>
 
-					<?php } //endif( $ticket_status == 'solved' && ! isset( $_GET['reopen'] ) ) ?>
+					<?php } //endif( 'solved' === $ticket_meta['status']['value'] && ! isset( $_GET['reopen'] ) ) ?>
 
 				<?php } //endif( current_user_can( 'administrator' ) ?>
 
@@ -321,7 +296,7 @@
 
 				<div class="ns-alert ns-alert-info ns-text-center" role="alert">
 					<?php
-					if( 'solved' === $ticket_status ) {
+					if( 'solved' === $ticket_meta['status']['value'] ) {
 						_e( '<strong>Resolved!</strong> New Responses to this ticket is already closed. Only ticket author can reopen a closed ticket.', 'nanosupport' );
 					} else {
 						_e( '<strong>Sorry!</strong> Tickets are open for responses only to the Ticket Author.', 'nanosupport' );
@@ -335,6 +310,6 @@
 
 	</article> <!-- /#post-<?php the_ID(); ?> -->
 
-	<a class="ns-btn ns-btn-sm ns-btn-default" href="<?php echo esc_url(get_permalink( $ticket_list_page )); ?>"><span class="ns-icon-chevron-left"></span> <?php _e( 'Back to ticket index', 'nanosupport' ); ?></a>
+	<a class="ns-btn ns-btn-sm ns-btn-default" href="<?php echo esc_url(get_permalink( $support_desk )); ?>"><span class="ns-icon-chevron-left"></span> <?php _e( 'Back to ticket index', 'nanosupport' ); ?></a>
 
 </div>

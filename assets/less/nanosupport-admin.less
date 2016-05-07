@@ -263,11 +263,18 @@ div#ns-remove-response{
 	font-size: 75%;
 	font-weight: bold;
 	line-height: 1;
-	color: #fff;
+  	color: #333;
 	text-align: center;
 	white-space: nowrap;
 	vertical-align: baseline;
 	border-radius: .25em;
+  	background-color: #aab2bd;
+}
+a.ns-label:hover,
+a.ns-label:focus {
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
 }
 .ns-label-default {
  	background-color: #777;
@@ -300,7 +307,7 @@ div#ns-remove-response{
  	color: #37bc9b;
 }
 .ns-text-warning {
- 	color: #f0ad4e;
+ 	color: #8a6d3b;
 }
 .ns-text-danger {
  	color: #da4453;
@@ -339,6 +346,44 @@ div#ns-remove-response{
 	.dashicons-star-empty{
 		color: #ccc;
 	}
+}
+
+.ns-dot{
+	display: inline-block;
+	margin-right: 5px;
+	width: 13px;
+	height: 13px;
+	border-radius: 100%;
+	vertical-align: middle;
+	background-color: #666;
+}
+.ns-text-danger .ns-dot{ background-color: #da4453; }
+.ns-text-info .ns-dot{ background-color: #31708f; }
+.ns-text-warning .ns-dot{ background-color: #f6bb42; }
+/**
+ * Emulating <blink> using WebKit CSS3 animation        
+ *   This code is part of John Smith's blog
+ *
+ * Copyright 2010 by John Smith, All Rights Reserved
+ *
+ * @link   http://www.john-smith.me/emulating--lt-blink-gt--using-webkit-css3-animation
+ * @date   18th October 2010 at 11:01 p.m.
+ * @author John Smith
+ */
+@-webkit-keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
+        @keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
+
+.blink {
+	text-decoration:blink;
+
+	-webkit-animation-name:blinker;
+			animation-name:blinker;  
+	-webkit-animation-iteration-count:infinite;  
+			animation-iteration-count:infinite;  
+	-webkit-animation-timing-function:cubic-bezier(1.0,0,0,1.0);
+			animation-timing-function:cubic-bezier(1.0,0,0,1.0);
+	-webkit-animation-duration:1s; 
+			animation-duration:1s; 
 }
 
 /** Dashboard **/

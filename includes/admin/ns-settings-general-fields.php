@@ -77,6 +77,19 @@ function ns_enable_notice() {
     echo ns_tooltip( __( 'If you check here, it will enable the predefined notice on top of Support Desk, Knowledgebase, and Submit Ticket page', 'nanosupport' ) );
 }
 
+// General Tab : General Settings : Field 4 : Highlight Ticket
+function ns_highlight_ticket_field() {
+    $options = get_option( 'nanosupport_settings' );
+
+    $highlight_option = isset($options['highlight_ticket']) ? $options['highlight_ticket'] : 'status';
+    echo '<select name="nanosupport_settings[highlight_ticket]" id="ns_highlight_ticket" class="ns-select">';
+        echo '<option value="status" '. selected( 'status', $highlight_option, false ) .'>'. __( 'Ticket Status', 'nanosupport' ) .'</option>';
+        echo '<option value="priority" '. selected( 'priority', $highlight_option, false ) .'>'. __( 'Ticket Priority', 'nanosupport' ) .'</option>';
+    echo '</select>';
+    echo ns_tooltip( __( 'Choose on which you want to highlight your ticket. Default: status', 'nanosupport' ) );
+
+}
+
 
 /**
  * Callback: Account Settings Section
@@ -131,9 +144,11 @@ function ns_general_settings_validate( $input ) {
     //Support Desk page selection
     $support_desk_selection_val = $input['support_desk'] ? absint( $input['support_desk'] ) : '';
     //Submit Ticket page selection
-    $nano_add_support_ticket_val = $input['submit_page'] ? absint( $input['submit_page'] ) : '';
+    $add_support_ticket_val = $input['submit_page'] ? absint( $input['submit_page'] ) : '';
     //Enable Notice checkbox
     $enable_notice = (int) $input['enable_notice'] === 1 ? (int) $input['enable_notice'] : '';
+    //Highlight ticket choice
+    $highlight_ticket_val = $input['highlight_ticket'] ? esc_html($input['highlight_ticket']) : 'status';
     
     //Generate Username checkbox
     $generate_username = isset($input['account_creation']['generate_username']) && (int) $input['account_creation']['generate_username'] === 1 ? (int) $input['account_creation']['generate_username'] : '';
@@ -147,8 +162,9 @@ function ns_general_settings_validate( $input ) {
      * Set the values finally
      */
     $options['support_desk']        = absint( $support_desk_selection_val );
-    $options['submit_page']         = absint( $nano_add_support_ticket_val );
+    $options['submit_page']         = absint( $add_support_ticket_val );
     $options['enable_notice']       = absint( $enable_notice );
+    $options['highlight_ticket']    = esc_html( $highlight_ticket_val );
 
     $options['account_creation']['generate_username']   = absint( $generate_username );
     $options['account_creation']['generate_password']   = absint( $generate_password );

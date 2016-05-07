@@ -84,9 +84,9 @@ add_action( 'init', 'ns_register_cpt_nanosupport' );
  */
 function ns_set_custom_columns( $columns ) {
     $new_columns = array(
+            'ticket_status'     => __( 'Ticket Status', 'nanosupport' ),
             'ticket_priority'   => __( 'Priority', 'nanosupport' ),
             'ticket_responses'  => '<span class="dashicons dashicons-format-chat" title="Responses"></span>',
-            'ticket_status'     => __( 'Ticket Status', 'nanosupport' ),
             'last_response'     => __( 'Last Response by', 'nanosupport' )
         );
     return array_merge( $columns, $new_columns );
@@ -108,46 +108,28 @@ add_filter( 'manage_nanosupport_posts_columns', 'ns_set_custom_columns' );
  * -----------------------------------------------------------------------
  */
 function ns_populate_custom_columns( $column, $post_id ) {
-    $ticket_control = get_post_meta( $post_id, 'ns_control', true );
+
+    $ticket_meta    = ns_get_ticket_meta( get_the_ID() );
+
     switch ( $column ) {
+        case 'ticket_status' :
+            echo $ticket_meta['status']['label'];
+            break;
+
         case 'ticket_priority' :
-            $ticket_priority = $ticket_control ? $ticket_control['priority'] : false;
-            if( $ticket_priority && 'low' === $ticket_priority )
-                echo '<strong>'. __( 'Low', 'nanosupport' ) .'</strong>';
-            else if( $ticket_priority && 'medium' === $ticket_priority )
-                echo '<strong class="ns-text-info">' , __( 'Medium', 'nanosupport' ) , '</strong>';
-            else if( $ticket_priority && 'high' === $ticket_priority )
-                echo '<strong class="ns-text-warning">' , __( 'High', 'nanosupport' ) , '</strong>';
-            else if( $ticket_priority && 'critical' === $ticket_priority )
-                echo '<strong class="ns-text-danger">' , __( 'Critical', 'nanosupport' ) , '</strong>';
+            echo $ticket_meta['priority']['label'];
             break;
 
         case 'ticket_responses' :
             $responses = wp_count_comments( $post_id );
             $response_count = $responses->approved;
 
-            if( !empty($response_count) ) {
+            if( ! empty($response_count) ) {
                 echo '<span class="responses-count" aria-hidden="true">'. $response_count .'</span>';
                 echo '<span class="screen-reader-text">'. sprintf( _n( '%s response', '%s responses', $response_count, 'nanosupport' ), $response_count ) .'</span>';
             } else {
-                echo '&mdash;';
+                echo '&mdash; <span class="screen-reader-text">'. __( 'No response yet', 'nanosupport' ) .'</span>';
             }
-            break;
-
-        case 'ticket_status' :
-            $ticket_status = $ticket_control ? $ticket_control['status'] : false;
-            if( $ticket_status ) {
-                if( 'solved' === $ticket_status ) {
-                    $status = '<span class="ns-label ns-label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
-                } else if( 'inspection' === $ticket_status ) {
-                    $status = '<span class="ns-label ns-label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
-                } else {
-                    $status = '<span class="ns-label ns-label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
-                }
-            } else {
-                $status = '';
-            }
-            echo $status;
             break;
 
         case 'last_response' :
@@ -157,7 +139,7 @@ function ns_populate_custom_columns( $column, $post_id ) {
                 echo $last_responder->display_name, '<br>';
                 printf( __( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
             } else {
-                echo '-';
+                echo '&mdash; <span class="screen-reader-text">'. __( 'No response yet', 'nanosupport' ) .'</span>';
             }
             break;
     }

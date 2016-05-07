@@ -56,6 +56,11 @@ function nanosupport_install() {
             'support_desk'	=> $support_desk_page_id,
             'submit_page'   => $submit_ticket_page_id,
             'enable_notice'	=> 1,
+            'account_creation' => array(
+                    'generate_username' => 0,
+                    'generate_password' => 0
+                ),
+            'delete_data'   => 0
         );
     update_option( 'nanosupport_settings', $ns_gen_settings );
 

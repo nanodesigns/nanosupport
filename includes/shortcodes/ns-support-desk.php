@@ -41,35 +41,6 @@ function ns_support_desk_page() {
 			?>
 			
 			<?php
-			/*if( is_user_logged_in() ) {
-
-				if( isset( $_GET['my-tickets'] ) ) {
-					$u_id = (int) $_GET['my-tickets'];
-					if( $u_id === $current_user->ID ) {
-						//only my tickets
-						$author_id		= $current_user->ID;
-						$ticket_status 	= array( 'publish', 'private' );					
-					} else {
-						$ticket_status 	= 'publish';
-						$author_id		= $u_id;				
-					}
-				} else {
-					if( current_user_can('administrator') || current_user_can('editor') ) {
-						//site admins
-						$ticket_status 	= array( 'publish', 'private' );
-						$author_id 		= '';
-					} else {
-						//general logged in users
-						$ticket_status 	= 'publish';
-						$author_id		= '';	
-					}				
-				}
-
-			} else {
-				//for visitors
-				$ticket_status 		= 'publish';
-				$author_id			= '';
-			}*/
 			if( current_user_can('administrator') || current_user_can('editor') ) {
 				//Admin users
 				$author_id 		= '';
@@ -93,31 +64,22 @@ function ns_support_desk_page() {
 
 			if( $support_ticket_query->have_posts() ) :
 
+				//Get the NanoSupport Settings from Database
+				$ns_general_settings = get_option( 'nanosupport_settings' );
+				$highlight_choice	= isset($ns_general_settings['highlight_ticket']) ? $ns_general_settings['highlight_ticket'] : 'status';
+
 				while( $support_ticket_query->have_posts() ) : $support_ticket_query->the_post();
 
 					//Get ticket information
-					$ticket_control = get_post_meta( get_the_ID(), 'ns_control', true );
-
-					$ticket_status 	= $ticket_control['status'];
-					$post_status	= get_post_status(get_the_ID());
-					$status_class	= '';
-
-					if( 'pending' === $post_status )
-						$status_class = 'status-pending';
-					else {
-						if( $ticket_status && 'solved' === $ticket_status )
-							$status_class = 'status-solved';
-						elseif( $ticket_status && 'inspection' === $ticket_status )
-							$status_class = 'status-inspection';
-						elseif( $ticket_status && 'open' === $ticket_status )
-							$status_class = 'status-open';
-					}
+					$ticket_meta = ns_get_ticket_meta( get_the_ID() );
+					$highlight_class = 'priority' === $highlight_choice ? $ticket_meta['priority']['class'] : $ticket_meta['status']['class'];
 					?>
-					<div class="ticket-cards ns-cards <?php echo esc_attr($status_class); ?>">
+
+					<div class="ticket-cards ns-cards <?php echo esc_attr($highlight_class); ?>">
 						<div class="ns-row">
 							<div class="ns-col-sm-4 ns-col-xs-12">
 								<h3 class="ticket-head">
-									<?php if( 'pending' === $post_status ) : ?>
+									<?php if( 'pending' === $ticket_meta['status']['value'] ) : ?>
 										<?php the_title(); ?><span class="ns-small ticket-id"> &mdash; <?php printf( '#%s', get_the_ID() ); ?></span>
 									<?php else : ?>
 										<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
@@ -134,25 +96,25 @@ function ns_support_desk_page() {
 							</div>
 							<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
 								<div class="text-blocks">
-									<strong><?php _e('Department:', 'nanosupport'); ?></strong><br>
+									<strong><?php _e( 'Department:', 'nanosupport' ); ?></strong><br>
 									<?php echo ns_get_ticket_departments(); ?>
 								</div>
 								<div class="text-blocks">
-									<strong><?php _e('Created & Updated:', 'nanosupport'); ?></strong><br>
+									<strong><?php _e( 'Created &amp; Updated:', 'nanosupport' ); ?></strong><br>
 									<?php echo date( 'd M Y h:i A', strtotime( $post->post_date ) ); ?><br>
 									<?php echo date( 'd M Y h:i A', strtotime( $post->post_modified ) ); ?>
 								</div>
 							</div>
 							<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
 								<div class="text-blocks">
-									<strong><?php _e('Responses:', 'nanosupport'); ?></strong><br>
+									<strong><?php _e( 'Responses:', 'nanosupport' ); ?></strong><br>
 									<?php
 									$response_count = wp_count_comments( get_the_ID() );
 									echo '<span class="responses-count">'. $response_count->approved .'</span>';
 									?>
 								</div>
 								<div class="text-blocks">
-									<strong><?php _e('Last Replied by:', 'nanosupport'); ?></strong><br>
+									<strong><?php _e( 'Last Replied by:', 'nanosupport' ); ?></strong><br>
 									<?php
 									$last_response = ns_get_last_response();
 						            $last_responder = get_userdata( $last_response['user_id'] );
@@ -167,40 +129,12 @@ function ns_support_desk_page() {
 							</div>
 							<div class="ns-col-sm-2 ns-col-xs-4 ticket-meta">
 								<div class="text-blocks">
-									<strong><?php _e('Priority:', 'nanosupport'); ?></strong><br>
-									<?php
-									$ticket_priority = $ticket_control['priority'];
-									if( 'low' === $ticket_priority ) {
-										_e( 'Low', 'nanosupport' );
-									} else if( 'medium' === $ticket_priority ) {
-										echo '<span class="ns-text-info"><i class="ns-icon-info-circled"></i> ' , __( 'Medium', 'nanosupport' ) , '</span>';
-									} else if( 'high' === $ticket_priority ) {
-										echo '<strong class="ns-text-warning"><span class="ns-icon-info-circled"></span> ' , __( 'High', 'nanosupport' ) , '</strong>';
-									} else if( 'critical' === $ticket_priority ) {
-										echo '<strong class="ns-text-danger"><span class="ns-icon-info-circled"></span> ' , __( 'Critical', 'nanosupport' ) , '</strong>';
-									}
-									?>
+									<strong><?php _e( 'Priority:', 'nanosupport' ); ?></strong><br>
+									<?php echo $ticket_meta['priority']['label']; ?>
 								</div>
 								<div class="text-blocks">
-									<strong><?php _e('Ticket Status:', 'nanosupport'); ?></strong><br>
-									<?php
-									$status = '';
-									if( 'pending' === $post_status )
-										$status = '<span class="ns-label ns-label-normal">'. __( 'Pending', 'nanosupport' ) .'</span>';
-									else {
-										if( $ticket_status ) {
-											if( 'solved' === $ticket_status ) {
-												$status = '<span class="ns-label ns-label-success">'. __( 'Solved', 'nanosupport' ) .'</span>';
-											} else if( 'inspection' === $ticket_status ) {
-												$status = '<span class="ns-label ns-label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>';
-											} else {
-												$status = '<span class="ns-label ns-label-warning">'. __( 'Open', 'nanosupport' ) .'</span>';
-											}
-										}
-									}
-
-									echo $status;
-									?>
+									<strong><?php _e( 'Ticket Status:', 'nanosupport' ); ?></strong><br>
+									<?php echo $ticket_meta['status']['label']; ?>
 								</div>
 							</div>
 						</div> <!-- /.ns-row -->
@@ -245,4 +179,5 @@ function ns_support_desk_page() {
 	
 	return ob_get_clean();
 }
+
 add_shortcode( 'nanosupport_desk', 'ns_support_desk_page' );

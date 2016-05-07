@@ -218,18 +218,15 @@ body{
   .ticket-cards{
     border-left-width: 10px;
 
-    &.status-open{
-      border-left-color: @orange;
-    }
-    &.status-inspection{
-      border-left-color: @blue;
-    }
-    &.status-solved{
-      border-left-color: @green;
-    }
-    &.status-pending{
-      border-left-color: #666;
-    }
+    &.status-open{ border-left-color: @orange; }
+    &.status-inspection{ border-left-color: @blue; }
+    &.status-solved{  border-left-color: @green; }
+    &.status-pending{ border-left-color: #666; }
+
+    &.priority-low{ border-left-color: #666; }
+    &.priority-medium{ border-left-color: #31708f; }
+    &.priority-high{ border-left-color: #f6bb42; }
+    &.priority-critical{ border-left-color: #da4453; }
   }
 }
 @media (max-width:517px){
@@ -238,15 +235,14 @@ body{
     border-bottom-width: 1px;
     border-bottom-color: #999 !important;
 
-    &.status-open{
-      border-top-color: @orange;
-    }
-    &.status-inspection{
-      border-top-color: @blue;
-    }
-    &.status-solved{
-      border-top-color: @green;
-    }
+    &.status-open{ border-top-color: @orange; }
+    &.status-inspection{ border-top-color: @blue; }
+    &.status-solved{ border-top-color: @green; }
+
+    &.priority-low{ border-top-color: #666; }
+    &.priority-medium{ border-top-color: #31708f; }
+    &.priority-high{ border-top-color: #f6bb42; }
+    &.priority-critical{ border-top-color: #da4453; }
 
     .ns-col-xs-4{
       clear: both;
@@ -295,9 +291,16 @@ article.ns-single.type-nanosupport{
   border-top-color: #333;
   border-top-style: solid;
 
-  &.open{ border-top-color: @orange; }
-  &.inspection{ border-top-color: @blue; }
-  &.solved{ border-top-color: @green; }
+  &.status-pending{ border-top-color: #666; }
+  &.status-open{ border-top-color: @orange; }
+  &.status-inspection{ border-top-color: @blue; }
+  &.status-solved{ border-top-color: @green; }
+
+  &.priority-low{ border-top-color: #666; }
+  &.priority-medium{ border-top-color: #31708f; }
+  &.priority-high{ border-top-color: #f6bb42; }
+  &.priority-critical{ border-top-color: #da4453; }
+
 
   .ticket-head{
     margin-bottom: 10px;
@@ -544,6 +547,44 @@ article.ns-single.type-nanosupport{
 }
 .ns-kb-cat-box ul li{
   margin-bottom: 10px;
+}
+
+.ns-dot{
+  display: inline-block;
+  margin-right: 5px;
+  width: 13px;
+  height: 13px;
+  border-radius: 100%;
+  vertical-align: middle;
+  background-color: #666;
+}
+.ns-text-danger .ns-dot{ background-color: #da4453; }
+.ns-text-info .ns-dot{ background-color: #31708f; }
+.ns-text-warning .ns-dot{ background-color: #f6bb42; }
+/**
+ * Emulating <blink> using WebKit CSS3 animation        
+ *   This code is part of John Smith's blog
+ *
+ * Copyright 2010 by John Smith, All Rights Reserved
+ *
+ * @link   http://www.john-smith.me/emulating--lt-blink-gt--using-webkit-css3-animation
+ * @date   18th October 2010 at 11:01 p.m.
+ * @author John Smith
+ */
+@-webkit-keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
+        @keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
+
+.blink {
+   text-decoration:blink;
+
+  -webkit-animation-name:blinker;
+          animation-name:blinker;  
+  -webkit-animation-iteration-count:infinite;  
+          animation-iteration-count:infinite;  
+  -webkit-animation-timing-function:cubic-bezier(1.0,0,0,1.0);
+          animation-timing-function:cubic-bezier(1.0,0,0,1.0);
+  -webkit-animation-duration:1s; 
+          animation-duration:1s; 
 }
 
 
