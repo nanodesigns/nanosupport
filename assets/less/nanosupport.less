@@ -214,7 +214,7 @@ body{
     border-color: #bbb;
   }
 }
-@media (min-width:401px){
+@media (min-width:518px){
   .ticket-cards{
     border-left-width: 10px;
 
@@ -229,15 +229,17 @@ body{
     &.priority-critical{ border-left-color: #da4453; }
   }
 }
+.toggle-ticket-additional{
+  display: none;
+}
 @media (max-width:517px){
   .ticket-cards{
     border-top-width: 10px;
-    border-bottom-width: 1px;
-    border-bottom-color: #999 !important;
 
     &.status-open{ border-top-color: @orange; }
     &.status-inspection{ border-top-color: @blue; }
     &.status-solved{ border-top-color: @green; }
+    &.status-pending{ border-top-color: #666; }
 
     &.priority-low{ border-top-color: #666; }
     &.priority-medium{ border-top-color: #31708f; }
@@ -248,6 +250,47 @@ body{
       clear: both;
       width: 100%;
     }
+  }
+  .toggle-ticket-additional{
+    display: block;
+    clear: both;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
+    position: relative;
+    color: #999;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:before{
+      left: -1em;
+      margin: 0 0 0 -50%;
+    }
+    &:after{
+      left: 1em;
+      margin: 0 -50% 0 0;
+    }
+    &:before,
+    &:after{
+      background-color: #ccc;
+      content: '';
+      display: inline-block;
+      height: 1px;
+      position: relative;
+      vertical-align: middle;
+      width: 50%;
+    }
+  }
+  .ticket-additional{
+    display: none;
+  }
+  .ticket-author{
+    margin-bottom: 10px;
+  }
+  .ns-question-50{
+    width: 50%;
+    float: left;
   }
 }
 .responses-count{
@@ -290,6 +333,7 @@ article.ns-single.type-nanosupport{
   border-top-width: 10px;
   border-top-color: #333;
   border-top-style: solid;
+  margin-bottom: 20px;
 
   &.status-pending{ border-top-color: #666; }
   &.status-open{ border-top-color: @orange; }

@@ -94,49 +94,54 @@ function ns_support_desk_page() {
 									?>
 								</div>
 							</div>
-							<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
-								<div class="text-blocks">
-									<strong><?php _e( 'Department:', 'nanosupport' ); ?></strong><br>
-									<?php echo ns_get_ticket_departments(); ?>
-								</div>
-								<div class="text-blocks">
-									<strong><?php _e( 'Created &amp; Updated:', 'nanosupport' ); ?></strong><br>
-									<?php echo date( 'd M Y h:i A', strtotime( $post->post_date ) ); ?><br>
-									<?php echo date( 'd M Y h:i A', strtotime( $post->post_modified ) ); ?>
-								</div>
-							</div>
-							<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
-								<div class="text-blocks">
-									<strong><?php _e( 'Responses:', 'nanosupport' ); ?></strong><br>
-									<?php
-									$response_count = wp_count_comments( get_the_ID() );
-									echo '<span class="responses-count">'. $response_count->approved .'</span>';
-									?>
-								</div>
-								<div class="text-blocks">
-									<strong><?php _e( 'Last Replied by:', 'nanosupport' ); ?></strong><br>
-									<?php
-									$last_response = ns_get_last_response();
-						            $last_responder = get_userdata( $last_response['user_id'] );
-						            if ( $last_responder ) {
-						                echo $last_responder->display_name, '<br>';
-						                printf( __( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
-						            } else {
-						                echo '-';
-						            }
-						            ?>
-								</div>
-							</div>
 							<div class="ns-col-sm-2 ns-col-xs-4 ticket-meta">
-								<div class="text-blocks">
+								<div class="text-blocks ns-question-50">
 									<strong><?php _e( 'Priority:', 'nanosupport' ); ?></strong><br>
 									<?php echo $ticket_meta['priority']['label']; ?>
 								</div>
-								<div class="text-blocks">
+								<div class="text-blocks ns-question-50">
 									<strong><?php _e( 'Ticket Status:', 'nanosupport' ); ?></strong><br>
 									<?php echo $ticket_meta['status']['label']; ?>
 								</div>
 							</div>
+							<div class="toggle-ticket-additional">
+								<span class="ns-toggle-icon ns-icon-chevron-circle-down" title="<?php esc_attr_e( 'Load more', 'nanosupport' ); ?>"></span>
+							</div>
+							<div class="ticket-additional">
+								<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
+									<div class="text-blocks">
+										<strong><?php _e( 'Department:', 'nanosupport' ); ?></strong><br>
+										<?php echo ns_get_ticket_departments(); ?>
+									</div>
+									<div class="text-blocks">
+										<strong><?php _e( 'Created &amp; Updated:', 'nanosupport' ); ?></strong><br>
+										<?php echo date( 'd M Y h:i A', strtotime( $post->post_date ) ); ?><br>
+										<?php echo date( 'd M Y h:i A', strtotime( $post->post_modified ) ); ?>
+									</div>
+								</div>
+								<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
+									<div class="text-blocks">
+										<strong><?php _e( 'Responses:', 'nanosupport' ); ?></strong><br>
+										<?php
+										$response_count = wp_count_comments( get_the_ID() );
+										echo '<span class="responses-count">'. $response_count->approved .'</span>';
+										?>
+									</div>
+									<div class="text-blocks">
+										<strong><?php _e( 'Last Replied by:', 'nanosupport' ); ?></strong><br>
+										<?php
+										$last_response = ns_get_last_response();
+							            $last_responder = get_userdata( $last_response['user_id'] );
+							            if ( $last_responder ) {
+							                echo $last_responder->display_name, '<br>';
+							                printf( __( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
+							            } else {
+							                echo '-';
+							            }
+							            ?>
+									</div>
+								</div>
+							</div> <!-- /.ticket-additional -->
 						</div> <!-- /.ns-row -->
 					</div> <!-- /.ticket-cards -->
 
