@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 //Execute emails
-add_action( 'wp_insert_post',       'nanosupport_new_ticket_notification_email',    10, 2 );
-add_action( 'wp_insert_comment',    'nanosupport_email_on_ticket_response',         99, 2 );
+add_action( 'transition_post_status', 'nanosupport_new_ticket_notification_email', 10, 3 );
+add_action( 'wp_insert_comment', 'nanosupport_email_on_ticket_response', 99, 2 );
 
 
 /**
@@ -76,7 +76,6 @@ function ns_email( $to_email, $subject, $email_subhead, $message, $reply_to_emai
     return $ns_email;
 }
 
-
 /**
  * Handle Notification Email.
  *
@@ -86,22 +85,20 @@ function ns_email( $to_email, $subject, $email_subhead, $message, $reply_to_emai
  * @return  boolean             True if sent, else false.
  * ------------------------------------------------------------------------------
  */
-function nanosupport_new_ticket_notification_email( $ticket_id, $post ) {
+function nanosupport_new_ticket_notification_email( $new_status, $old_status, $post ) {
 
-    if( 'nanosupport' !== get_post_type($ticket_id) )
+    if( 'nanosupport' !== get_post_type($post) )
         return;
 
-    /**
-     * If it's a revision, don't send.
-     */
-    if( wp_is_post_revision($ticket_id) )
+    if( 'pending' !== $new_status && 'new' !== $old_status )
         return;
+
+    $ticket_id = $post->ID;
 
     /**
      * Generate Dynamic values
      */
     $ticket_view_link   = get_permalink( $ticket_id );
-    $ticket_edit_link   = get_edit_post_link( $ticket_id );
     $ticket_meta        = ns_get_ticket_meta( get_the_ID() );
     
 
@@ -110,9 +107,8 @@ function nanosupport_new_ticket_notification_email( $ticket_id, $post ) {
     $email_subhead = __( 'New Ticket Submitted', 'nanosupport' );
 
     $message = '';
-    $message = '<p style="margin: 0 0 16px;">'. __( 'A support ticket is submitted. Please find the links below:', 'nanosupport' ) .'</p>';
+    $message = '<p style="margin: 0 0 16px;">'. __( 'A support ticket is submitted and pending. Please find the links below:', 'nanosupport' ) .'</p>';
     $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. esc_url($ticket_view_link) .'">'. __( 'Link to the Ticket', 'nanosupport' ) .'</a></p>';
-    $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #333333;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #f6bb42;margin: 0;padding: 0;border-color: #f6bb42;border-style: solid;border-width: 1px 20px;" href="'. $ticket_edit_link .'">'. __( 'Ticket in edit mode', 'nanosupport' ) .'</a></p>';
     $message .= '<p style="margin: 0 0 16px;">'. sprintf( __( 'Priority: <strong>%s</strong>', 'nanosupport' ), $ticket_meta['priority']['name'] ) .'</a></p>';
 
     $nanosupport_email_settings = get_option('nanosupport_email_settings');
