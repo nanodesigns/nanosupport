@@ -88,14 +88,16 @@ function nanosupport_install() {
     /**
      * Flush the rewrite rules, soft
      * 
-     * To activate custom post types' single templates,
-     * we are flushing the rewrite rules, once.
+     * To activate custom post types' single templates, and
+     * taxonomies, we are flushing the rewrite rules, once.
      *
      * @since  1.0.0
      * ...
      */
     ns_register_cpt_nanosupport();
     ns_register_cpt_nanodoc();
+    ns_create_nanodoc_taxonomies();
+    ns_create_nanosupport_taxonomies();
     flush_rewrite_rules( false );
 
 

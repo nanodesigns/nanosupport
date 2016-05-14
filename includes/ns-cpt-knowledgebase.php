@@ -107,7 +107,7 @@ function ns_create_nanodoc_taxonomies() {
         'show_ui'           => true,
         'show_admin_column' => true,
         'query_var'         => true,
-        'rewrite'           => array( 'slug' => 'kb-category' ),
+        'rewrite'           => array( 'slug' => 'knowledgebase-category' ),
         'capabilities'      => array(
                                 'manage_terms' => 'manage_nanodoc_terms',
                                 'edit_terms'   => 'edit_nanodoc_terms',
