@@ -28,6 +28,7 @@ function ns_responses_meta_box() {
      */
     remove_meta_box( 'commentsdiv', 'nanosupport', 'normal' );
 }
+
 add_action( 'add_meta_boxes', 'ns_responses_meta_box' );
 
 
@@ -102,7 +103,11 @@ function ns_reply_specifics() {
 	
 	<br>
     <button id="ns-save-response" style="display:none;" class="button button-large button-default ns-btn"><span class="dashicons dashicons-archive"></span> <?php _e('Save Responses', 'nanosupport' ); ?></button>
-	<div id="ns-add-response" class="button button-large button-primary ns-btn"><span class="dashicons dashicons-plus"></span> <?php _e('Add New Response', 'nanosupport' ); ?></div>
+    <?php if( 'pending' === get_post_status( $post ) ) : ?>
+        <?php _e( 'You cannot add response to a pending ticket.', 'nanosupport' ); ?>
+    <?php else : ?>
+	   <div id="ns-add-response" class="button button-large button-primary ns-btn"><span class="dashicons dashicons-plus"></span> <?php _e('Add New Response', 'nanosupport' ); ?></div>
+    <?php endif; ?>
 	<div id="ns-remove-response" style="display:none;" class="button button-large button-default ns-btn"><span class="dashicons dashicons-minus"></span> <?php _e('Remove Last Response', 'nanosupport' ); ?></div>
 
     <script type="text/javascript" charset="utf-8">
@@ -112,7 +117,6 @@ function ns_reply_specifics() {
             var confirmed = confirm('Are you sure you want to delete the response?');
             if( confirmed == true ) {
                 var id = this.id;
-                //$('.bubble span.count').html( '<img src="'+ nano.theme_path +'/images/count-loader.gif" alt="loading">' );
 
                 $.ajax({
                     type: 'POST',
@@ -140,7 +144,7 @@ function ns_reply_specifics() {
 function ns_save_reply_meta_data( $post_id ) {
      
     // verify nonce
-    if (!isset($_POST['ns_responses_nonce']) || !wp_verify_nonce($_POST['ns_responses_nonce'], basename(__FILE__)))
+    if (! isset($_POST['ns_responses_nonce']) || ! wp_verify_nonce($_POST['ns_responses_nonce'], basename(__FILE__)))
         return $post_id;
     
     // check autosave

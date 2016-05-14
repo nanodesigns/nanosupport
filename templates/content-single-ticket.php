@@ -160,6 +160,12 @@
 		    global $current_user;
 		    $hide_form = false;
 
+		    /**
+		     * Stop responding when ticket is pending.
+		     */
+		    if( 'pending' === $ticket_meta['status']['value'] )
+		    	$hide_form = true;
+
 		    if( is_user_logged_in() ) {
 
 			    /**
