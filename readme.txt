@@ -121,9 +121,14 @@ The plugin is completely translation-ready. You can find the \`.pot\` file under
 **A:** NanoSupport has smart templating. You can find all its templates inside the \`/templates/\` directory. To make your theme completely integrated with the plugin\'s templates you can simply make a directory in your theme named \`nanosupport/\` and can overrite the plugin's templates with your custom one.
 
 == Screenshots ==
-1. NanoSupport | Submit Ticket page for Visitors
-2. NanoSupport | Submit Ticket page for Logged in Users
-3. NanoSupport | Support Desk page
+1. NanoSupport | Support Desk (front end)
+2. NanoSupport | Support Tickets (back end)
+3. NanoSupport | Submit Ticket page for Visitors
+4. NanoSupport | Fully featured Settings page for complete customization
+5. NanoSupport | Knowledgebase
+6. NanoSupport | Ticketing at a glance with NanoSupport dashboard widget
+7. NanoSupport | Customizable email template
+8. NanoSupport | Easy navigation, easy ticketing using Admin bar
 
 == Changelog ==
 
