@@ -2,7 +2,7 @@
 Contributors: nanodesigns, Mayeenul Islam
 Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing
 Requires at least: 3.9.0
-Tested up to: 4.5.1
+Tested up to: 4.5.2
 Donate link: https://nanodesignsbd.com/
 Stable tag: 1.0.0
 License: GPL-2.0+

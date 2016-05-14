@@ -12,7 +12,7 @@
  * Author:            nanodesigns
  * Author URI:        http://nanodesignsbd.com/
  * Requires at least: 3.9.0
- * Tested up to:      4.5.1
+ * Tested up to:      4.5.2
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       'nanosupport'
@@ -186,7 +186,7 @@ function ns_cross_check_on_activation() {
 
             function ns_fail_dependency_admin_notice() {
                 echo '<div class="updated"><p>';
-                    printf( __('<strong>NanoSupport</strong> requires WordPress core version <strong>3.9.0</strong> or greater. The plugin has been <strong>deactivated</strong>. Consider <a href="%s">upgrading WordPress</a>.', 'nanosupport' ), admin_url('/update-core.php') );
+                    printf( __('<strong>NanoSupport</strong> requires WordPress core version <strong>%1$s</strong> or greater. The plugin has been <strong>deactivated</strong>. Consider <a href="%2$s">upgrading WordPress</a>.', 'nanosupport' ), NS()->wp_version, admin_url('/update-core.php') );
                 echo '</p></div>';
 
                 if ( isset( $_GET['activate'] ) )
