@@ -56,13 +56,8 @@ function nanosupport_install() {
             'support_desk'	=> $support_desk_page_id,
             'submit_page'   => $submit_ticket_page_id,
             'enable_notice'	=> 1,
-            'account_creation' => array(
-                    'generate_username' => 0,
-                    'generate_password' => 0
-                ),
-            'delete_data'   => 0
         );
-    update_option( 'nanosupport_settings', $ns_gen_settings );
+    add_option( 'nanosupport_settings', $ns_gen_settings );
 
     // Knowledgebase settings
     $ns_kb_settings = array(
@@ -70,7 +65,7 @@ function nanosupport_install() {
             'terms'			=> array(''),
             'ppc'			=> get_option( 'posts_per_page' )
         );
-    update_option( 'nanosupport_knowledgebase_settings', $ns_kb_settings );
+    add_option( 'nanosupport_knowledgebase_settings', $ns_kb_settings );
 
     // Email settings
     $ns_email_settings = array(
@@ -80,7 +75,7 @@ function nanosupport_install() {
                     'response'      => 1
                 )
         );
-    update_option( 'nanosupport_email_settings', $ns_email_settings );
+    add_option( 'nanosupport_email_settings', $ns_email_settings );
 
     /**
      * Update db version to current

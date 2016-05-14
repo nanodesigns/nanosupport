@@ -28,7 +28,8 @@ $knowledgebase_page_id 	= $ns_knowledgebase_settings['page'];
 /** ---------------- DELETE EVERYTHING ---------------- **/
 /** ------------------ (if permitted) ----------------- **/
 
-if( !empty($ns_general_settings['delete_data']) ) :
+$delete_data = isset($ns_general_settings['delete_data']) ? $ns_general_settings['delete_data'] : '';
+if( ! empty($delete_data) ) :
 
 	/**
 	 * Delete pages

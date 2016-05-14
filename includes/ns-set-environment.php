@@ -391,7 +391,7 @@ function ns_the_title_trim( $title ) {
     );
 
     global $post;
-    if( 'nanosupport' === $post->post_type )
+    if( 'nanosupport' === get_post_type($post) )
         $title = preg_replace($findthese, $replacewith, $title);
 
     return $title;

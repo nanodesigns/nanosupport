@@ -225,7 +225,7 @@
 
 								    $ns_ticket_status      = 'open'; //force open again
 								    $ns_ticket_priority    = $ticket_meta['priority']['value'];
-								    $ns_ticket_agent       = ticket_agent ? ticket_agent : '';
+								    $ns_ticket_agent       = isset($ticket_meta['agent']['ID']) ? $ticket_meta['agent']['ID'] : '';
 
 								    $ns_control = array(
 								            'status'    => wp_strip_all_tags( $ns_ticket_status ),

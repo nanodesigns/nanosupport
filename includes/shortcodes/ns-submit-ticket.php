@@ -132,7 +132,8 @@ function ns_submit_support_ticket() {
 							/**
 							 * Display when Auto Username Generation is OFF
 							 */
-							if( $ns_general_settings['account_creation']['generate_username'] !== 1 ) : ?>
+							$generate_username = isset($ns_general_settings['account_creation']['generate_username']) ? $ns_general_settings['account_creation']['generate_username'] : 0;
+							if( $generate_username !== 1 ) : ?>
 
 								<div class="ns-form-group">
 									<label for="reg-name" class="ns-col-md-2 ns-col-sm-3 ns-control-label">
@@ -158,7 +159,8 @@ function ns_submit_support_ticket() {
 							/**
 							 * Display when Auto Password Generation is OFF
 							 */
-							if( $ns_general_settings['account_creation']['generate_password'] !== 1 ) : ?>
+							$generate_password = isset($ns_general_settings['account_creation']['generate_password']) ? $ns_general_settings['account_creation']['generate_password'] : 0;
+							if( $generate_password !== 1 ) : ?>
 
 								<div class="ns-form-group">
 									<label for="reg-pass" class="ns-col-md-2 ns-col-sm-3 ns-control-label">
