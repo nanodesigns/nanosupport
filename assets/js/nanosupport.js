@@ -29,8 +29,9 @@ jQuery(document).ready(function($) {
     var ticket_toggle = $('.toggle-ticket-additional');
     if( ticket_toggle.length > 0 ) {
         ticket_toggle.on('click', function(){
-            $(this).next('.ticket-additional').toggle('slow');
-            $(this).find('.ns-toggle-icon').toggleClass('ns-icon-chevron-circle-down ns-icon-chevron-circle-up');
+            var additional_info = $(this);
+            additional_info.next('.ticket-additional').toggle('slow');
+            additional_info.find('.ns-toggle-icon').toggleClass('ns-icon-chevron-circle-down ns-icon-chevron-circle-up');
         });
     }
 
