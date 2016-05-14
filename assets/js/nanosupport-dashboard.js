@@ -11,10 +11,10 @@ var chart = c3.generate({
     bindto: '#ns-chart',
     data: {
         columns: [
-            ['Under Inspection', ns.inspection],
-            ['Open Tickets', ns.open],
-            ['Solved Tickets', ns.solved],
-            ['Pending Tickets', ns.pending],
+            [ns.inspection_label, ns.inspection],
+            [ns.open_label, ns.open],
+            [ns.solved_label, ns.solved],
+            [ns.pending_label, ns.pending],
         ],
         type : 'donut',
     },

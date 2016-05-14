@@ -17,10 +17,14 @@ function ns_dashboard_scripts() {
             'ns-dashboard',
             'ns',
             array(
-                'pending'       => ns_ticket_status_count( 'pending' ),
-                'solved'        => ns_ticket_status_count( 'solved' ),
-                'inspection'    => ns_ticket_status_count( 'inspection' ),
-                'open'          => ns_ticket_status_count( 'open' ),
+                'pending'           => ns_ticket_status_count( 'pending' ),
+                'solved'            => ns_ticket_status_count( 'solved' ),
+                'inspection'        => ns_ticket_status_count( 'inspection' ),
+                'open'              => ns_ticket_status_count( 'open' ),
+                'pending_label'     => __( 'Pending Tickets', 'nanosupport' ),
+                'solved_label'      => __( 'Solved Tickets', 'nanosupport' ),
+                'open_label'        => __( 'Open Tickets', 'nanosupport' ),
+                'inspection_label'  => __( 'Under Inspection', 'nanosupport' ),
             )
         );
     }
