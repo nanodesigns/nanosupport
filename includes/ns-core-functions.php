@@ -23,7 +23,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * 
  * @param 	mixed $slug
  * @param 	string $name (default: '')
- * @return  void
  * -----------------------------------------------------------------------
  */
 function ns_get_template_part( $slug, $name = '' ) {

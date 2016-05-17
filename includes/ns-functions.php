@@ -482,3 +482,252 @@ function ns_support_desk_navigation() {
 }
 
 add_action( 'nanosupport_before_support_desk', 'ns_support_desk_navigation', 10 );
+
+
+if( ! function_exists( 'get_nanosupport_response_form' ) ) :
+    /**
+     * The New Response form
+     *
+     * The form for adding new response to the ticket. The form can be
+     * overriden by calling another function with the same name.
+     *
+     * @since  1.0.0
+     * -----------------------------------------------------------------------
+     */
+    function get_nanosupport_response_form() {
+
+        if( ! is_singular( 'nanosupport' ) )
+            return;
+
+        global $current_user, $post, $response_error;
+
+        //Display error message[s], if any
+        if( is_wp_error($response_error) ) {
+            foreach( $response_error->get_error_messages() as $error ){
+                echo '<div class="ns-alert ns-alert-danger" role="alert">';
+                    printf( '<strong>Error:</strong> %s', $error );
+                echo '</div>';
+            }
+        }
+
+        //Display success message, if any
+        if( isset($_GET['ns_success']) && $_GET['ns_success'] == 1 ) {
+            echo '<div class="ns-alert ns-alert-success" role="alert">';
+                echo __( 'Your response is successfully submitted to this ticket.', 'nanosupport' );
+            echo '</div>';
+        }
+
+        // Get ticket information
+        $ticket_meta = ns_get_ticket_meta( $post->ID );
+
+        // For solved tickets, display a way to reOpen the ticket
+        if( 'solved' === $ticket_meta['status']['value'] && ! ( isset( $_GET['reopen'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'reopen-ticket' ) ) ) {
+            $reopen_url = add_query_arg( 'reopen', '', get_the_permalink() );
+            echo '<div class="ns-alert ns-alert-success" role="alert">';
+                printf( __( 'This ticket is already solved. <a class="ns-btn ns-btn-sm ns-btn-warning" href="%s#write-message"><span class="ns-icon-repeat"></span> Reopen Ticket</a>', 'nanosupport' ), wp_nonce_url( $reopen_url, 'reopen-ticket' ) );
+            echo '</div>';
+
+            // and don't display the form
+            return;
+        }
+
+        //Clean up request URI from temporary args for alert[s].
+        $_SERVER['REQUEST_URI'] = remove_query_arg( 'ns_success', $_SERVER['REQUEST_URI'] );
+
+        if( current_user_can( 'administrator' ) || current_user_can('editor') || $post->post_author == $current_user->ID ) : ?>
+
+            <form method="post" enctype="multipart/form-data" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
+
+                <div class="ns-cards ns-feedback">
+                    <div class="ns-row">
+                        <div class="ns-col-sm-9">
+                            <div class="response-head">
+                                <h3 class="ticket-head" id="new-response">
+                                    <?php printf( __('Responding as: %s','nanosupport'), $current_user->display_name ); ?>
+                                </h3>
+                            </div> <!-- /.response-head -->
+                        </div>
+                        <div class="ns-col-sm-3 response-dates ns-small">
+                            <?php echo date( 'd M Y h:iA', current_time('timestamp') ); ?>
+                        </div>
+                    </div> <!-- /.ns-row -->
+                    <div class="ns-feedback-form">
+
+                        <div class="ns-form-group">
+                            <textarea name="ns_response_msg" id="write-message" class="ns-form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nanosupport'); ?>" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>"><?php echo isset($_POST['ns_response_msg']) ? stripslashes_deep( $_POST['ns_response_msg'] ) : ''; ?></textarea>
+                        </div> <!-- /.ns-form-group -->
+
+                        <?php
+                        /**
+                         * -----------------------------------------------------------------------
+                         * HOOK : ACTION HOOK
+                         * nanosupport_after_response_form
+                         * 
+                         * To Hook anything after the New Response Form.
+                         *
+                         * @since  1.0.0
+                         * -----------------------------------------------------------------------
+                         */
+                        do_action( 'nanosupport_after_response_form' );
+                        ?>
+
+                        <?php wp_nonce_field( 'nanosupport-response-nonce' ); ?>
+
+                        <button type="submit" name="submit_response" class="ns-btn ns-btn-primary">
+                            <?php _e( 'Submit', 'nanosupport' ); ?>
+                        </button>
+
+                    </div>
+                </div> <!-- /.ns-feedback-form -->
+
+            </form>
+
+        <?php
+        else :
+
+            echo '<div class="ns-alert ns-alert-info" role="alert">';
+                if( 'solved' === $ticket_meta['status']['value'] ) {
+                    _e( '<strong>Resolved!</strong> New Responses to this ticket is already closed. Only ticket author can reopen a closed ticket.', 'nanosupport' );
+                } else {
+                    _e( '<strong>Sorry!</strong> Tickets are open for responses only to the Ticket Author.', 'nanosupport' );
+                }
+            echo '</div>';
+
+        endif;
+
+    }
+
+endif;
+
+
+/**
+ * Warn user on Opening Ticket.
+ * 
+ * Display a warning to the user on reOpening a solved ticket,
+ * on Opening a pending ticket; Display the warning after
+ * new response form.
+ *
+ * @since  1.0.0
+ * 
+ * hooked: nanosupport_after_response_form (10)
+ * -----------------------------------------------------------------------
+ */
+function ns_notify_user_on_opening_ticket() {
+    global $post;
+    $ticket_meta = ns_get_ticket_meta( $post->ID );
+
+    if( 'pending' === $ticket_meta['status']['value'] ) {
+        echo '<div class="ns-alert ns-alert-normal" role="alert">';
+            _e( '<strong>Just to inform:</strong> This ticket is still <em>pending</em>. With this response it&#8217;ll be opened.', 'nanosupport' );
+        echo '</div>';
+    }
+
+    if( 'solved' === $ticket_meta['status']['value'] && isset( $_GET['reopen'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'reopen-ticket' ) ) {
+        echo '<div class="ns-alert ns-alert-warning" role="alert">';
+            printf( __( '<strong>Just to inform:</strong> you are about to Reopen the ticket. <small><a href="%s">Cancel ReOpening</a></small>', 'nanosupport' ), get_the_permalink($post) );
+        echo '</div>';
+    }
+}
+
+add_action( 'nanosupport_after_response_form', 'ns_notify_user_on_opening_ticket' );
+
+
+/**
+ * Process Response Submission
+ *
+ * Process Response Submission and redirect with success.
+ *
+ * @since   1.0.0
+ * -----------------------------------------------------------------------
+ */
+function ns_response_submit_redir() {
+    if( ! is_user_logged_in() )
+        return;
+
+    if( isset( $_POST['submit_response'] ) && isset( $_POST['_wpnonce'] ) && wp_verify_nonce( $_POST['_wpnonce'], 'nanosupport-response-nonce' ) ) :
+
+        global $current_user, $post, $response_error;
+
+        // new error object
+        $response_error = new WP_Error();
+
+        $response_msg = $_POST['ns_response_msg'];
+
+        if( empty($response_msg) ) {
+            $response_error->add( 'response_empty', __( 'Response field can&#8217;t be empty.', 'nanosupport' ) );
+        }
+        if( strlen($response_msg) < 30 ) {
+            $response_error->add( 'response_short', __( 'Your message is too short. Write down at least 30 characters.', 'nanosupport' ) );
+        }
+
+        if( is_wp_error($response_error) && ! empty($response_error->errors) )
+            return;
+        
+        // Get ticket meta information
+        $ticket_meta = ns_get_ticket_meta( $post->ID );
+        $ticket_status = isset($ticket_meta['status']['value']) ? $ticket_meta['status']['value'] : 'open';
+
+        //Insert new response as a comment and get the comment ID
+        $commentdata = array(
+            'comment_post_ID'       => absint( $post->ID )   ,
+            'comment_author'        => wp_strip_all_tags( $current_user->display_name ), 
+            'comment_author_email'  => sanitize_email( $current_user->user_email ),
+            'comment_author_url'    => esc_url( $current_user->user_url ),
+            'comment_content'       => htmlentities( $response_msg ),
+            'comment_type'          => 'nanosupport_response',
+            'comment_parent'        => 0,
+            'user_id'               => absint( $current_user->ID ),
+            'comment_approved'      => '1'
+        );
+
+        $comment_id = wp_insert_comment( $commentdata );
+
+        //If error, return with the error message
+        if( is_wp_error($comment_id) )
+            return $comment_id->get_error_message();
+
+
+        /**
+         * ReOpen a solved ticket,
+         * or Open a pending ticket
+         * ...
+         */
+        if( ('solved' === $ticket_status && isset( $_GET['reopen'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'reopen-ticket' )) || ('pending' === $ticket_status) ) {
+
+            $ns_ticket_status      = 'open'; //force open again
+            $ns_ticket_priority    = isset($ticket_meta['priority']['value']) ? $ticket_meta['priority']['value'] : 'low';
+            $ns_ticket_agent       = isset($ticket_meta['agent']['ID']) ? $ticket_meta['agent']['ID'] : '';
+
+            $ns_control = array(
+                    'status'    => wp_strip_all_tags( $ns_ticket_status ),
+                    'priority'  => sanitize_text_field( $ns_ticket_priority ),
+                    'agent'     => absint( $ns_ticket_agent )
+                );
+
+            update_post_meta( $post->ID, 'ns_control', $ns_control );
+
+        }
+
+        // Publish a 'pending' ticket
+        if( 'pending' === $ticket_status ) {
+            wp_update_post( array(
+                    'ID'            => $post->ID,
+                    'post_status'   => 'private'
+                ) );
+        }
+
+        //Redirect to the same page with success message
+        $permalink = 'pending' === $ticket_status ? ns_get_pending_permalink( $post->ID ) : get_the_permalink( $post->ID );
+        $args = add_query_arg(
+                    'ns_success',
+                    1,
+                    $permalink
+                );
+        wp_redirect( esc_url( $args ) );
+        exit();
+
+    endif;
+
+}
+
+add_action( 'template_redirect', 'ns_response_submit_redir' );

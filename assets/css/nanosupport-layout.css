@@ -1541,6 +1541,11 @@ a.ns-label:focus {
   right: -21px;
   color: inherit;
 }
+.ns-alert-normal {
+  background-color: #d4d4d4;
+  border-color: #d4d4d4;
+  color: #333;
+}
 .ns-alert-success {
   background-color: #dff0d8;
   border-color: #d6e9c6;

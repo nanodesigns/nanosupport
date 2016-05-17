@@ -157,8 +157,6 @@ add_action( 'manage_nanosupport_posts_custom_column' , 'ns_populate_custom_colum
  * @since  1.0.0
  * 
  * hooked: 'post_submitbox_misc_actions' (10)
- *
- * @return  void
  * -----------------------------------------------------------------------
  */
 function ns_control_specifics() {

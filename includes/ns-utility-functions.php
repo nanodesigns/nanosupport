@@ -444,3 +444,22 @@ function ns_get_ticket_meta( $ticket_id = null ) {
     return $ticket_meta;
 
 }
+
+/**
+ * Predict pretty permalink for pending tickets.
+ *
+ * @since  1.0.0
+ *
+ * @link   http://wordpress.stackexchange.com/a/97606/22728
+ * 
+ * @param  integer $post_id The ticket post ID.
+ * @return string           The pretty permalink for the pending post.
+ * --------------------------------------------------------------------------
+ */
+function ns_get_pending_permalink( $post_id ) {
+
+    require_once ABSPATH . '/wp-admin/includes/post.php';
+    list( $permalink, $postname ) = get_sample_permalink( $post_id );
+
+    return str_replace( '%pagename%', $postname, $permalink );
+}

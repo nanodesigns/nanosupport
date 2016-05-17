@@ -19,8 +19,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Register all the necessary things when the plugin get activated.
  *
  * @since   1.0.0
- *
- * @return  void
  * -----------------------------------------------------------------------
  */
 function nanosupport_install() {
@@ -146,7 +144,7 @@ function ns_create_role() {
 /**
  * Get NanoSupport capabilities
  * 
- * These are assigned to administrator + editor during installation/reset.
+ * These are assigned to nanosupport users during installation/reset.
  *
  * @since  1.0.0
  *
@@ -198,12 +196,10 @@ function ns_get_caps() {
  * Adding Custom Capabilities
  * 
  * Adding Custom Capabilities to:
- * 	- 'editor', and
- * 	- 'administrator'
+ *     - 'editor', and
+ *     - 'administrator'
  *
  * @since   1.0.0
- *
- * @return  void
  * -----------------------------------------------------------------------
  */
 function ns_add_caps() {
@@ -220,7 +216,7 @@ function ns_add_caps() {
 	foreach ( $ns_capabilities as $cap_group ) :
 		foreach ( $cap_group as $cap ) :
 			$wp_roles->add_cap( 'editor', $cap );
-			$wp_roles->add_cap( 'administrator', $cap );
+            $wp_roles->add_cap( 'administrator', $cap );
 		endforeach;
 	endforeach;
 }
@@ -230,13 +226,11 @@ function ns_add_caps() {
  * Removing Custom Capabilities
  * 
  * Removing Custom Capabilities from:
- * 	- 'editor', and
- * 	- 'administrator'
+ *      - 'editor', and
+ *      - 'administrator'
  * on uninstallation of the plugin.
  *
  * @since   1.0.0
- *
- * @return  void
  * -----------------------------------------------------------------------
  */
 function ns_remove_caps() {
@@ -253,7 +247,7 @@ function ns_remove_caps() {
 	foreach( $ns_capabilities as $cap_group ) :
 		foreach( $cap_group as $cap ) :
 			$wp_roles->remove_cap( 'editor', $cap );
-			$wp_roles->remove_cap( 'administrator', $cap );
+            $wp_roles->remove_cap( 'administrator', $cap );
 		endforeach;
 	endforeach;
 
