@@ -124,15 +124,22 @@
 		    );
 		    $response_array = get_comments( $args );
 
+		    $found_count = count($response_array);
+
 			if( $response_array ) {
 
 				echo '<div class="ticket-separator ticket-separator-center ns-text-uppercase">'. __('Responses', 'nanosupport') .'</div>';
 
 				$counter = 1;
 
-		        foreach( $response_array as $response ) { ?>
+
+		        foreach( $response_array as $response ) {
 					
-					<div class="ticket-response-cards ns-cards">
+				//highlight the latest response on successful submission of new response
+	        	$fresh_response = isset($_GET['ns_success']) && 1 == $_GET['ns_success'] && $found_count == $counter ? 'new-response' : '';
+	        	 ?>
+
+					<div class="ticket-response-cards ns-cards <?php echo esc_attr($fresh_response); ?>">
 						<div class="ns-row">
 							<div class="ns-col-sm-9">
 								<div class="response-head">

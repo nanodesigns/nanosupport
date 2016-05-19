@@ -34,7 +34,7 @@ function ns_submit_support_ticket() {
     //Display success message, if any
     if( isset($_GET['ns_success']) && $_GET['ns_success'] == 1 ) {
 		echo '<div class="ns-alert ns-alert-success" role="alert">';
-			_e( "<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible.", 'nanosupport' );
+			printf( __( '<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible. <a href="%s"><span class="ns-icon-tag"></span> Check your ticket[s]</a>', 'nanosupport' ), esc_url( get_permalink( $ns_general_settings['support_desk'] ) ) );
 	    echo '</div>';
 	}
 

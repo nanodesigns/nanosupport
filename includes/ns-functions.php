@@ -624,7 +624,7 @@ function ns_notify_user_on_opening_ticket() {
 
     if( 'solved' === $ticket_meta['status']['value'] && isset( $_GET['reopen'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'reopen-ticket' ) ) {
         echo '<div class="ns-alert ns-alert-warning" role="alert">';
-            printf( __( '<strong>Just to inform:</strong> you are about to Reopen the ticket. <small><a href="%s">Cancel ReOpening</a></small>', 'nanosupport' ), get_the_permalink($post) );
+            printf( __( '<strong>Just to inform:</strong> you are about to ReOpen the ticket. <small><a href="%s">Cancel ReOpening</a></small>', 'nanosupport' ), get_the_permalink($post) );
         echo '</div>';
     }
 }
@@ -663,9 +663,6 @@ function ns_response_submit_redir() {
         if( is_wp_error($response_error) && ! empty($response_error->errors) )
             return;
         
-        // Get ticket meta information
-        $ticket_meta = ns_get_ticket_meta( $post->ID );
-        $ticket_status = isset($ticket_meta['status']['value']) ? $ticket_meta['status']['value'] : 'open';
 
         //Insert new response as a comment and get the comment ID
         $commentdata = array(
@@ -686,25 +683,25 @@ function ns_response_submit_redir() {
         if( is_wp_error($comment_id) )
             return $comment_id->get_error_message();
 
+        // Get ticket meta information
+        $ticket_meta = ns_get_ticket_meta( $post->ID );
+        $ticket_status = isset($ticket_meta['status']['value']) ? $ticket_meta['status']['value'] : 'open';
 
         /**
          * ReOpen a solved ticket,
          * or Open a pending ticket
          * ...
          */
-        if( ('solved' === $ticket_status && isset( $_GET['reopen'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'reopen-ticket' )) || ('pending' === $ticket_status) ) {
+        if( in_array( $ticket_status, array('solved', 'pending') ) ) {
 
-            $ns_ticket_status      = 'open'; //force open again
-            $ns_ticket_priority    = isset($ticket_meta['priority']['value']) ? $ticket_meta['priority']['value'] : 'low';
-            $ns_ticket_agent       = isset($ticket_meta['agent']['ID']) ? $ticket_meta['agent']['ID'] : '';
+            $priority   = isset($ticket_meta['priority']['value']) ? $ticket_meta['priority']['value'] : 'low';
+            $agent      = isset($ticket_meta['agent']['ID']) ? $ticket_meta['agent']['ID'] : '';
 
-            $ns_control = array(
-                    'status'    => wp_strip_all_tags( $ns_ticket_status ),
-                    'priority'  => sanitize_text_field( $ns_ticket_priority ),
-                    'agent'     => absint( $ns_ticket_agent )
-                );
-
-            update_post_meta( $post->ID, 'ns_control', $ns_control );
+            update_post_meta( $post->ID, 'ns_control', array(
+                    'status'    => wp_strip_all_tags( 'open' ), //force open again
+                    'priority'  => wp_strip_all_tags( $priority ),
+                    'agent'     => absint( $agent )
+                ) );
 
         }
 
