@@ -194,7 +194,9 @@ add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
  * -----------------------------------------------------------------------
  */
 function ns_user_fields( $user ) { ?>
-    <?php if( 'support_seeker' !== $user->roles[0] ) : ?>
+    <?php
+    //Don't display the section for 'support_seeker' role
+    if( 'support_seeker' !== $user->roles[0] ) : ?>
 
         <h3><?php _e( 'NanoSupport', 'nanosupport' ); ?></h3>
 
@@ -230,6 +232,7 @@ add_action( 'edit_user_profile', 'ns_user_fields' );
  */
 function ns_saving_user_fields( $user_id ) {
 
+    //Don't make a support agent from 'support_seeker' role
     if( ! current_user_can( 'support_seeker' ) ) {
 
         update_user_meta( $user_id, 'ns_make_agent', intval( $_POST['ns_make_agent'] ) );
@@ -257,6 +260,50 @@ function ns_saving_user_fields( $user_id ) {
 
 add_action( 'personal_options_update', 	'ns_saving_user_fields' );
 add_action( 'edit_user_profile_update', 'ns_saving_user_fields' );
+
+
+/**
+ * Support agent user column
+ *
+ * Add a new column to display support agent status.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $columns  Array of user columns.
+ * @return array           Modified user columns.
+ * -----------------------------------------------------------------------
+ */
+function ns_add_support_agent_user_column( $columns ) {
+    $columns['ns_agent'] = '<span class="ns-icon-nanosupport" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></span>';
+    return $columns;
+}
+
+add_filter( 'manage_users_columns', 'ns_add_support_agent_user_column' );
+
+/**
+ * Support agent user column content
+ *
+ * Display an icon if the user is a support agent.
+ *
+ * @since  1.0.0
+ * 
+ * @param  mixed $value        Default value of the columns.
+ * @param  string $column_name The ID of columns.
+ * @param  integer $user_id    The user ID of specific column.
+ * @return mixed               The column data.
+ * -----------------------------------------------------------------------
+ */
+function ns_support_agent_user_column_content( $value, $column_name, $user_id ) {
+    if ( 'ns_agent' == $column_name ) {
+        if( 1 == get_user_meta( $user_id, 'ns_make_agent', true ) )
+            return '<span class="dashicons dashicons-businessman" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></span>';
+        else
+            return '-:-';
+    }
+    return $value;
+}
+
+add_action( 'manage_users_custom_column', 'ns_support_agent_user_column_content', 10, 3 );
 
 
 /**
