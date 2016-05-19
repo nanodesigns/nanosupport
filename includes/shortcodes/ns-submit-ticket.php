@@ -250,7 +250,7 @@ function ns_submit_support_ticket() {
 							</div> <!-- /.ns-form-group -->
 
 							<div class="ns-form-group">
-								<p class="ns-col-md-10 ns-col-sm-9 ns-col-md-offset-2 ns-col-sm-offset-3"><?php printf( __( "Don't have an account? <a href=\"%1s\">Create one</a>", 'nanosupport' ), esc_url( get_the_permalink() ) ); ?></p>
+								<p class="ns-col-md-10 ns-col-sm-9 ns-col-md-offset-2 ns-col-sm-offset-3"><?php printf( __( 'Don&#8217;t have an account? <a href="%1s">Create one</a>', 'nanosupport' ), esc_url( get_the_permalink() ) ); ?></p>
 							</div> <!-- /.ns-form-group -->
 
 							<!-- HIDDEN INPUT TO TREAT FORM SUBMIT APPROPRIATELY -->

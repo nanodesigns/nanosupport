@@ -61,15 +61,15 @@ function ns_registration_login_ticket_submission_redir() {
 
     //Ticket Subject
     if( empty( $_POST['ns_ticket_subject'] ) )
-        $ns_errors[]    = __( "Ticket subject can't be empty", "nanosupport" );
+        $ns_errors[]    = __( 'Ticket subject can&#8217;t be empty', 'nanosupport' );
     else
         $ticket_subject = $_POST['ns_ticket_subject'];
 
     //Ticket Details
     if( empty( $_POST['ns_ticket_details'] ) )
-        $ns_errors[] = __( "Ticket details can't be empty", "nanosupport" );
+        $ns_errors[] = __( 'Ticket details can&#8217;t be empty', 'nanosupport' );
     else if( ! empty( $_POST['ns_ticket_details'] ) && strlen( $_POST['ns_ticket_details'] ) < 30 )
-        $ns_errors[]    = __( 'Ticket details must be at least 30 characters long', 'nanosupport' );
+        $ns_errors[]    = __( 'Write down a little detail. At least 30 characters or longer', 'nanosupport' );
     else
         $ticket_details = $_POST['ns_ticket_details'];
 
@@ -356,7 +356,7 @@ function ns_knowledgebase_navigation() {
     <div class="ns-well ns-well-sm">
         <div class="ns-row">
             <div class="ns-col-md-7 ns-col-sm-6 ns-well-left ns-text-muted">
-                <?php _e( "Find your desired question in the knowledgebase. If you can't find your question, submit a new support ticket.", 'nanosupport' ); ?>
+                <?php _e( 'Find your desired question in the knowledgebase. If you can&#8217;t find your question, submit a new support ticket.', 'nanosupport' ); ?>
             </div>
             <div class="ns-col-md-5 ns-col-sm-6 ns-well-right ns-text-right">
                 <?php

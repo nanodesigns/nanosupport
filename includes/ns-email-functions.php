@@ -158,7 +158,7 @@ function nanosupport_handle_account_opening_email( $user_id = '', $generated_pas
     //Email Content
     $message = '';
     $message = '<p style="margin: 0 0 16px;">'. sprintf( __( 'To manage your support tickets an account has been created on %s.', 'nanosupport' ), get_bloginfo( 'name', 'display' ) ) .'</p>';
-    $message .= '<p style="margin: 0 0 16px;">'. __('Account credentials are as following:', 'nanosupport') .'</p>';
+    $message .= '<p style="margin: 0 0 16px;">'. __( 'Account credentials are as following:', 'nanosupport' ) .'</p>';
     if( !empty($generated_password) )
         $message .= '<p style="margin: 0 0 20px 20px;">'. sprintf( __( 'Username: <strong>%1$s</strong><br>Password: <strong>%2$s</strong><br>Email: %3$s', 'nanosupport' ), $username, $generated_password, $email ) .'</p>';
     else

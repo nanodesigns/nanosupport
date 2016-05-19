@@ -242,8 +242,8 @@ include_once 'includes/ns-set-environment.php';
 include_once 'includes/ns-cpt-nanosupport.php';
 /** CPT Knowledgebase **/
 include_once 'includes/ns-cpt-knowledgebase.php';
-/** Metaboxes: Responses **/
-include_once 'includes/ns-metaboxes-responses.php';
+/** Metaboxes **/
+include_once 'includes/ns-metaboxes.php';
 /** Miscellaneous functions **/
 include_once 'includes/ns-functions.php';
 

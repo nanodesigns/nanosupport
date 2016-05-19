@@ -4,7 +4,9 @@
  * 
  * Adding repeating fields as per the responses.
  *
- * @package  NanoSupport
+ * @author      nanodesigns
+ * @category    Metaboxes
+ * @package     NanoSupport
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,6 +24,19 @@ function ns_responses_meta_box() {
         'high'                                  // 'high', 'core', 'default' or 'low'
     );
 
+    if( current_user_can('manage_nanosupport') ) :
+
+        add_meta_box(
+            'nanosupport-internal-notes',       // metabox ID
+            __('Internal Notes', 'nanosupport'),// metabox title
+            'ns_internal_notes_specifics',      // callback function
+            'nanosupport',                      // post type (+ CPT)
+            'side',                             // 'normal', 'advanced', or 'side'
+            'default'                           // 'high', 'core', 'default' or 'low'
+        );
+
+    endif;
+
     /**
      * Remove Comment Meta Box
      * Remove the default Comment Meta Box if exists.
@@ -32,7 +47,7 @@ function ns_responses_meta_box() {
 add_action( 'add_meta_boxes', 'ns_responses_meta_box' );
 
 
-// The Callback
+// Responses Callback
 function ns_reply_specifics() {
     global $post;
 
@@ -58,63 +73,64 @@ function ns_reply_specifics() {
     );
     $response_array = get_comments( $args ); ?>
     
-    <div class="row ns-holder">
+    <div class="ns-row ns-holder">
 
         <?php if( $response_array ) {
 
-        	$counter = 1;
+            $counter = 1;
 
-	        foreach( $response_array as $response ) {
+            foreach( $response_array as $response ) {
                 $date_human_readable = date( 'd F Y h:i:s A - l', strtotime( $response->comment_date ) );
                 ?>
-		        <div id="ns-responses-info-<?php echo $counter; ?>" class="ns-response-group">
-		        	<div class="ns-row">
-		        		<div class="response-user">
+                <div id="ns-responses-info-<?php echo $counter; ?>" class="ns-response-group">
+                    <div class="ns-row">
+                        <div class="response-user">
 
                             <input type="hidden" id="ns-responseid" name="ns_responseid[]" value="<?php echo intval( $response->comment_ID ); ?>">
                             <input type="hidden" id="ns-user" name="ns_user[]" value="<?php echo absint( $response->user_id ); ?>">
-		        			<input type="hidden" id="ns-date" name="ns_date[]" value="<?php echo esc_html( $response->comment_date ); ?>">
+                            <input type="hidden" id="ns-date" name="ns_date[]" value="<?php echo esc_html( $response->comment_date ); ?>">
 
-		        			<?php
-		        			//echo get_avatar( $response['u'], 10 );
-		        			echo $response->comment_author;
-		        			echo ' &mdash; ';
+                            <?php
+                            //echo get_avatar( $response['u'], 10 );
+                            echo $response->comment_author;
+                            echo ' &mdash; ';
                             echo '<span>'. esc_html( $date_human_readable ) .'</span>';
                             ?>
-		        			<span class="go-right"><?php _e( 'Response', 'nanosupport' ); ?>
+                            <span class="go-right"><?php _e( 'Response', 'nanosupport' ); ?>
                                 <?php echo ' #', $counter; ?>
                                 <a id="<?php echo $response->comment_ID; ?>" class="delete-response dashicons dashicons-dismiss" href="<?php echo admin_url('/post.php?post='. $post->ID .'&action=edit&resID='. $response->comment_ID .'&del=true'); ?>"></a>
                             </span>
-		        		</div>
-		                <div class="ns-box">
-		                    <div class="ns-field">
-		                        <textarea class="ns-field-item" name="ns_response[]" id="ns-response-<?php echo $counter; ?>" rows="5"><?php echo html_entity_decode( $response->comment_content ); ?></textarea>
-		                    </div> <!-- /.ns-field -->
-		                </div> <!-- /.ns-box -->
-		            </div> <!-- /.ns-row -->
-		        </div> <!-- /#ns-responses-info .ns-response-group -->
-	        <?php
-	        $counter++;
-	        } //endforeach ?>
+                        </div>
+                        <div class="ns-box">
+                            <div class="ns-field">
+                                <textarea class="ns-field-item" name="ns_response[]" id="ns-response-<?php echo $counter; ?>" rows="5"><?php echo html_entity_decode( $response->comment_content ); ?></textarea>
+                            </div> <!-- /.ns-field -->
+                        </div> <!-- /.ns-box -->
+                    </div> <!-- /.ns-row -->
+                </div> <!-- /#ns-responses-info .ns-response-group -->
+            <?php
+            $counter++;
+            } //endforeach ?>
 
-		<?php } //endif ?>
+        <?php } //endif ?>
 
     </div> <!-- .ns-holder -->
-	
-	<br>
+    
+    <br>
     <button id="ns-save-response" style="display:none;" class="button button-large button-default ns-btn"><span class="dashicons dashicons-archive"></span> <?php _e('Save Responses', 'nanosupport' ); ?></button>
     <?php if( 'pending' === get_post_status( $post ) ) : ?>
         <?php _e( 'You cannot add response to a pending ticket.', 'nanosupport' ); ?>
     <?php else : ?>
-	   <div id="ns-add-response" class="button button-large button-primary ns-btn"><span class="dashicons dashicons-plus"></span> <?php _e('Add New Response', 'nanosupport' ); ?></div>
+       <div id="ns-add-response" class="button button-large button-primary ns-btn"><span class="dashicons dashicons-plus"></span> <?php _e('Add New Response', 'nanosupport' ); ?></div>
     <?php endif; ?>
-	<div id="ns-remove-response" style="display:none;" class="button button-large button-default ns-btn"><span class="dashicons dashicons-minus"></span> <?php _e('Remove Last Response', 'nanosupport' ); ?></div>
+    <div id="ns-remove-response" style="display:none;" class="button button-large button-default ns-btn"><span class="dashicons dashicons-minus"></span> <?php _e('Remove Last Response', 'nanosupport' ); ?></div>
 
     <script type="text/javascript" charset="utf-8">
     jQuery(document).ready(function($) {
-        var ajaxurl = '<?php echo esc_js(admin_url('admin-ajax.php')); ?>';
+        var ajaxurl         = '<?php echo esc_js(admin_url('admin-ajax.php')); ?>',
+            confirmation    = '<?php _e( 'Are you sure you want to delete the response?', 'nanosupport' ); ?>';
         $(document).on('click', '.delete-response', function () {
-            var confirmed = confirm('Are you sure you want to delete the response?');
+            var confirmed = confirm(confirmation);
             if( confirmed == true ) {
                 var id = this.id;
 
@@ -140,8 +156,24 @@ function ns_reply_specifics() {
     <?php
 }
 
+
+// Internal Notes Callback
+function ns_internal_notes_specifics() {
+    global $post;
+    $meta_data = get_post_meta( $post->ID, 'ns_internal_note', true );
+    ?>
+    <div class="ns-row">
+        <div class="ns-box">
+            <div class="ns-field">
+                <textarea class="ns-field-item" name="ns_internal_note" id="ns-internal-note" rows="5" placeholder="<?php esc_attr_e( 'Write down any internal note to pass to any Support Agent internally.', 'nanosupport' ); ?>"><?php echo isset($_POST['ns_internal_note']) ? $_POST['ns_internal_note'] : $meta_data; ?></textarea>
+            </div> <!-- /.ns-field -->
+        </div> <!-- /.ns-box -->
+    </div> <!-- /.ns-row -->
+    <?php
+}
+
 // Save the Data
-function ns_save_reply_meta_data( $post_id ) {
+function ns_save_nanosupport_meta_data( $post_id ) {
      
     // verify nonce
     if (! isset($_POST['ns_responses_nonce']) || ! wp_verify_nonce($_POST['ns_responses_nonce'], basename(__FILE__)))
@@ -162,9 +194,9 @@ function ns_save_reply_meta_data( $post_id ) {
     }
 
     $response_id_array      = $_POST['ns_responseid'];
-    $response_msgs_array	= $_POST['ns_response'];
+    $response_msgs_array    = $_POST['ns_response'];
     $response_date_array    = $_POST['ns_date'];
-    $response_users_array	= $_POST['ns_user'];
+    $response_users_array   = $_POST['ns_user'];
 
     foreach ( $response_msgs_array as $key => $message ) {
         
@@ -202,10 +234,23 @@ function ns_save_reply_meta_data( $post_id ) {
         }
         
     } //endforeach
+
+    /**
+     * Save Internal Notes.
+     * ...
+     */
+    $internal_note = $_POST['ns_internal_note'];
+    $existing_internal_note = get_post_meta( $post_id, 'ns_internal_note', true );
+
+    if( $internal_note && $internal_note != $existing_internal_note ) {
+        update_post_meta( $post_id, 'ns_internal_note', esc_html( $internal_note ) );
+    } elseif( '' == $internal_note && $existing_internal_note ) {
+        delete_post_meta( $post_id, 'ns_internal_note', $existing_internal_note );
+    }
 }
 
-add_action( 'save_post', 'ns_save_reply_meta_data' );
-add_action( 'new_to_publish', 'ns_save_reply_meta_data' );
+add_action( 'save_post',        'ns_save_nanosupport_meta_data' );
+add_action( 'new_to_publish',   'ns_save_nanosupport_meta_data' );
 
 
 /**
