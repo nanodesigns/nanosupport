@@ -674,10 +674,9 @@ function ns_response_submit_redir() {
             'comment_type'          => 'nanosupport_response',
             'comment_parent'        => 0,
             'user_id'               => absint( $current_user->ID ),
-            'comment_approved'      => '1'
         );
 
-        $comment_id = wp_insert_comment( $commentdata );
+        $comment_id = wp_new_comment( $commentdata );
 
         //If error, return with the error message
         if( is_wp_error($comment_id) )
@@ -728,3 +727,26 @@ function ns_response_submit_redir() {
 }
 
 add_action( 'template_redirect', 'ns_response_submit_redir' );
+
+
+/**
+ * Make NanoSupport responses approved by default.
+ *
+ * Using wp_new_comment() won't make comments (responses) approved by default.
+ * Therefore we need to manually intervene and make them approved before saving.
+ *
+ * @author gmazzap
+ * @link   http://wordpress.stackexchange.com/a/186281/22728
+ *
+ * @since  1.0.0
+ * 
+ * @param  boolean $approved True | False.
+ * @param  array $data       Information about the comment.
+ * @return boolean           True.
+ * -----------------------------------------------------------------------
+ */
+function ns_make_responses_approved( $approved, $data ) {
+    return isset($data['type']) && $data['type'] === 'nanosupport_response' ? 1 : $approved;
+}
+
+add_filter( 'pre_comment_approved', 'ns_make_responses_approved', 20, 2 );

@@ -70,8 +70,7 @@ function ns_response_exists( $comment_ID ) {
     global $wpdb;
     $comment_ID = absint( $comment_ID );
  
-    return $wpdb->get_var( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments
-            WHERE comment_ID = %s", $comment_ID ) );
+    return $wpdb->get_var( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_ID = %s", $comment_ID ) );
 }
 
 

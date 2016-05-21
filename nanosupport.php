@@ -1,8 +1,9 @@
 <?php
 /**
- * @link              http://nanodesignsbd.com/
- * @since             1.0.0
  * @package           NanoSupport
+ * @author    		  nanodesigns <info@nanodesignsbd.com>
+ * @license   		  GPL-2.0+
+ * @link              http://nanodesignsbd.com/
  *
  * @wordpress-plugin
  * Plugin Name:       NanoSupport

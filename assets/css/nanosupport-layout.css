@@ -34,8 +34,8 @@
 .ns-row:after,
 .ns-form-horizontal .ns-form-group:before,
 .ns-form-horizontal .ns-form-group:after {
-	content: " ";
-  	display: table;
+  content: " ";
+  display: table;
 }
 .ns-row:after,
 .ns-form-horizontal .ns-form-group:after {
