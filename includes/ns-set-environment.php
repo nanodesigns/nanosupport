@@ -138,19 +138,12 @@ function ns_admin_scripts() {
          * Translation-ready JS strings and other dynamic parameters.
          * ...
          */
-        global $current_user;
-        
-        $date_time_row          = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
-        $date_time_formatted    = date( 'd F Y h:i:s A - l', current_time( 'timestamp' ) );
-
 		wp_localize_script(
     		'ns-admin',
     		'ns',
     		array(
-                'current_user'          => $current_user->display_name,
-                'user_id'               => $current_user->ID,
-                'date_time_now'         => $date_time_row,
-                'date_time_formatted'   => $date_time_formatted,
+                'doc_placeholder'   => __( 'Select categories', 'nanosupport' ),
+                'del_confirmation'  => __( 'Are you sure you want to delete the response?', 'nanosupport' ),
             )
         );
 	}

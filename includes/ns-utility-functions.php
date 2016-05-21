@@ -462,3 +462,21 @@ function ns_get_pending_permalink( $post_id ) {
 
     return str_replace( '%pagename%', $postname, $permalink );
 }
+
+/**
+ * Display date time as per WP Settings.
+ *
+ * Always pass a strtotime() UNIX string as a parameter.
+ *
+ * @since  1.0.0
+ * 
+ * @param  string $datetime UNIX timestamp.
+ * @return string           User chosen timestamp as per General Settings.
+ * --------------------------------------------------------------------------
+ */
+function ns_date_time( $datetime = null ) {
+    $date_format = get_option( 'date_format' );
+    $time_format = get_option( 'time_format' );
+
+    return date( $date_format .' '. $time_format, $datetime );
+}

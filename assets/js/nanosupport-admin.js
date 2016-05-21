@@ -1,47 +1,40 @@
 /**!
  * NanoSupport Admin Scripts
- * Scripts to decorate/manipulate NanoSupport admin-end.
+ * Scripts to decorate/manipulate and executed AJAX requests in NanoSupport admin-end.
  *
  * @author  nanodesigns
  * @package NanoSupport
  */
 jQuery(document).ready(function($) {
 
-	/**
-	 * Add/Remove responses
-	 * @scope includes/ns-metaboxes-responses.php
+    /**
+     * Delete/Remove Responses
+     * Delete/remove individual old, recorded responses from the DOM.
      * ...
-	 */
-	var add_response_btn	= $('#ns-add-response'),
-        remove_response_btn = $('#ns-remove-response'),
-        save_response_btn	= $('#ns-save-response'),
-        count               = 1;
+     */
+    $('.delete-response').on( 'click', function(e) {
+        var this_item = $(this),
+            delete_btn_id = this_item.attr('id');
+        
+        //prevent PHP deletion, and let use the AJAX.
+        e.preventDefault();
 
-    add_response_btn.on( 'click', function() {
-    	$('<div id="ns-new-response-'+ count +'" class="ns-response-group-new"><div class="ns-row"><div class="response-user ns-new-response-color"><input type="hidden" name="ns_date[]" id="ns-date" value="'+ ns.date_time_now +'"><input type="hidden" name="ns_user[]" id="ns-user" value="'+ ns.user_id +'">'+ ns.current_user +' &mdash; <span>'+ ns.date_time_formatted +'</span><span class="go-right">New Response</span></div><div class="ns-box"><div class="ns-field"><textarea class="ns-field-item" name="ns_response[]" id="ns-response" rows="5"></textarea></div></div></div></div>').appendTo($('.ns-holder'));
-    	count++;
-
-        save_response_btn.show();
-        remove_response_btn.show();
-
-    }); 
-    
-    remove_response_btn.on( 'click', function() {
-        $('.ns-response-group-new:nth-last-of-type(1)').remove();
-            
-        if( $('.ns-response-group-new').length < 1 ) {
-            save_response_btn.hide();
-            remove_response_btn.hide();
+        var confirmed = confirm( ns.del_confirmation );
+        if( true === confirmed ) {            
+            $.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: {
+                    'action': 'delete_response',
+                    'id': this.id
+                },
+                success: function (data) {
+                    if( data !== false ) {
+                        $('#'+ data).closest('.ticket-response-cards').slideUp();
+                    }
+                }
+            });
         }
-    });
-
-
-    //delete/remove individual old, recorded responses from the DOM
-    var delete_btn = $('.delete-response');
-    delete_btn.each(function(){
-        var this_item = $(this);
-        var delete_btn_id = this_item.attr('id');
-        this_item.replaceWith( '<span id="'+ delete_btn_id +'" class="delete-response dashicons dashicons-dismiss" title="Delete Response"></span>' );
     });
 
     /**
@@ -54,7 +47,7 @@ jQuery(document).ready(function($) {
     });
 
     $('#ns_doc_terms').select2({
-        placeholder: 'Select categories'
+        placeholder: ns.doc_placeholder
     });
 
 

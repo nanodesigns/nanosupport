@@ -750,3 +750,49 @@ function ns_make_responses_approved( $approved, $data ) {
 }
 
 add_filter( 'pre_comment_approved', 'ns_make_responses_approved', 20, 2 );
+
+
+/**
+ * Delete response in Admin panel.
+ *
+ * Delete individual response in admin panel edit post.
+ *
+ * @since  1.0.0
+ * -----------------------------------------------------------------------
+ */
+function ns_del_admin_response() {
+    if( ! is_admin() )
+        return;
+
+    if( ! ( isset($_GET['_wpnonce']) && wp_verify_nonce( $_GET['_wpnonce'], 'delete-ticket-response' ) ) )
+        return;
+
+    // Move to trash
+    wp_delete_comment( $_GET['del_response'] );
+}
+
+add_action( 'admin_init', 'ns_del_admin_response' );
+
+
+/**
+ * Delete Response in admin panel.
+ * 
+ * AJAX powered deletion of response.
+ *
+ * @since  1.0.0
+ * -----------------------------------------------------------------------
+ */
+function ns_del_ajax_response() {
+    if( isset( $_POST['id'] ) ) {
+        $comment_id = $_POST['id'];
+        // Move to trash
+        wp_delete_comment( $comment_id );
+        echo $comment_id;
+        die;
+    } else {
+        echo false;
+        die;
+    }
+}
+
+add_action( 'wp_ajax_delete_response', 'ns_del_ajax_response' );

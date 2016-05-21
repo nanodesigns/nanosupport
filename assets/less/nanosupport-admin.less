@@ -9,6 +9,22 @@
 .ns-clearfix{
 	clear: both;
 }
+.ns-alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.ns-alert-success {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
+}
+.ns-alert-info {
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+  color: #31708f;
+}
 .ns-tooltip-icon{
 	color: #999;
 	position: relative;
@@ -102,37 +118,73 @@ body.post-new-php{
 	&:after{
 		clear: both;
 	}
-}
-.ns-response-group,
-.ns-response-group-new{
-	padding: 10px;
-	background-color: #fff;
-	border: 1px solid #e5e5e5;
-	margin-bottom: 10px;
-	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.04);
-  			box-shadow: 0 1px 1px rgba(0,0,0,.04);
-
-}
-.go-right{
-	float: right;
-}
-.response-user{
-	font-size: 16px;
-	font-weight: bold;
-	padding: 5px;
-	background-color: #ccc;
-	margin-bottom: 3px;
-
-	span{
-		font-weight: normal;
+	* {
+	  -webkit-box-sizing: border-box;
+	  -moz-box-sizing: border-box;
+	  box-sizing: border-box;
+	}
+	*:before,
+	*:after {
+	  -webkit-box-sizing: border-box;
+	  -moz-box-sizing: border-box;
+	  box-sizing: border-box;
 	}
 }
-.ns-new-response-color{
-	background-color: #0073aa;
-	color: #fff;
+.ns-cards{
+  background-color: #fff;
+  -webkit-box-shadow: 0 0 25px rgba(0,0,0,0.2);
+     -moz-box-shadow: 0 0 25px rgba(0,0,0,0.2);
+          box-shadow: 0 0 25px rgba(0,0,0,0.2);
 }
-.delete-response,
-.del-response{
+.ticket-response-cards,
+.ns-feedback{
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #e1e1e1;
+  border-top-width: 5px;
+  border-top-color: #ccc;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.ns-feedback{
+  background-color: #ededed;
+  margin-bottom: 20px;
+  border-top-color: #0073aa;
+}
+.response-user{
+	float: left;
+	width: 75%;
+
+	.ticket-head{
+		font-size: 14px;
+		line-height: 1;
+		margin: 0;
+		padding: 0;
+		
+		small{
+			font-weight: normal;
+		}
+	}
+}
+.response-handle{
+	float: right;
+	width: 25%;
+	text-align: right;
+}
+.ticket-response,
+.ns-feedback-form{
+  border-top: 1px solid #e1e1e1;
+  margin-top: 10px;
+  font-size: 16px;
+
+  p{
+  	font-size: 16px;
+  }
+}
+.ns-feedback-form textarea{
+	font-size: 16px;
+}
+.delete-response{
 	text-decoration: none;
 	cursor: pointer;
 }
@@ -142,29 +194,6 @@ body.post-new-php{
 }
 .ns-select{
 	min-width: 300px;
-}
-.ns-btn{
-	.dashicons{
-		line-height: 1.5;
-	}
-}
-div#ns-remove-response{
-	background: #eb574a;
-	border-color: darken(#eb574a, 10%);
-	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,.5),0 1px 0 rgba(0,0,0,.15);
-			box-shadow: inset 0 1px 0 rgba(120,200,230,.5),0 1px 0 rgba(0,0,0,.15);
-	color: #fff;
-	text-decoration: none;
-
-	&:hover,
-	&:focus,
-	&.focus,
-	&.hover{
-		  background: darken(#eb574a, 5%);
-		  border-color: darken(#eb574a, 15%);
-		  -webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,.6);
-		  box-shadow: inset 0 1px 0 rgba(120,200,230,.6);
-	}
 }
 .ns-hide-default{
 	display: none;
@@ -184,7 +213,6 @@ div#ns-remove-response{
 .ns-field-has-select{
 	
 }
-
 .nanosupport-left-column{
 	float: left;
 	width: 70%;
@@ -434,12 +462,14 @@ a.ns-label:focus {
 		color: #999;
 	}
 }
+/*
+not necessary for 4.6
 .c3-legend-item{
 	font-family: "Open Sans",sans-serif;
 	color: #444;
 	font-size: 13px;
 	line-height: 1.4em;
-}
+} */
 
 /** Tooltip **/
 .ns-tooltip{
