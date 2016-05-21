@@ -172,6 +172,117 @@ function ns_internal_notes_specifics() {
     <?php
 }
 
+
+/**
+ * NS Ticket Control Meta Fields.
+ *
+ * Ticket controlling elements in a custom meta box, hooked on to the
+ * admin edit post page, on the side meta widgets.
+ *
+ * @since  1.0.0
+ * 
+ * hooked: 'post_submitbox_misc_actions' (10)
+ * -----------------------------------------------------------------------
+ */
+function ns_control_specifics() {
+    global $post;
+
+    if( 'nanosupport' === $post->post_type ) :
+
+        // Use nonce for verification
+        wp_nonce_field( basename( __FILE__ ), 'ns_control_nonce' );
+
+
+        $ns_control_array = get_post_meta( $post->ID, 'ns_control', true );
+
+        if( ! $ns_control_array ) {
+            
+            //default
+            $ns_control_array = array(
+                                    'status'    => 'open',
+                                    'priority'  => 'low',
+                                    'agent'     => ''
+                                );
+
+        }
+        ?>
+        <div class="row ns-control-holder">
+
+            <div class="ns-row misc-pub-section">
+                <div class="ns-head-col">
+                    <span class="dashicons dashicons-shield"></span> <?php _e( 'Ticket Status', 'nanosupport' );
+                    echo ns_tooltip( __( 'Change the ticket status to track unsolved tickets separately.', 'nanosupport' ), 'left' );
+                    ?>
+                </div>
+                <div class="ns-body-col">
+                    <div class="ns-field">
+                        <select name="ns_ticket_status" class="ns-field-item" id="ns-ticket-status">
+                            <option value="open" <?php selected( $ns_control_array['status'], 'open' ); ?>><?php _e( 'Open', 'nanosupport' ); ?></option>
+                            <option value="inspection"<?php selected( $ns_control_array['status'], 'inspection' ); ?>><?php _e( 'Under Inspection', 'nanosupport' ); ?></option>
+                            <option value="solved"<?php selected( $ns_control_array['status'], 'solved' ); ?>><?php _e( 'Solved', 'nanosupport' ); ?></option>
+                        </select>
+                    </div> <!-- /.ns-field -->                    
+                </div>
+            </div> <!-- /.ns-row -->
+
+            <div class="ns-row misc-pub-section">
+                <div class="ns-head-col">
+                    <span class="dashicons dashicons-sort"></span> <?php _e( 'Priority', 'nanosupport' );
+                    echo ns_tooltip( __( 'Change the priority as per the content and urgency of the ticket.', 'nanosupport' ), 'left' );
+                    ?>
+                </div>
+                <div class="ns-body-col">
+                    <div class="ns-field">
+                        <select name="ns_ticket_priority" class="ns-field-item" id="ns-ticket-priority">
+                            <option value="low" <?php selected( $ns_control_array['priority'], 'low' ); ?>><?php _e( 'Low', 'nanosupport' ); ?></option>
+                            <option value="medium" <?php selected( $ns_control_array['priority'], 'medium' ); ?>><?php _e( 'Medium', 'nanosupport' ); ?></option>
+                            <option value="high" <?php selected( $ns_control_array['priority'], 'high' ); ?>><?php _e( 'High', 'nanosupport' ); ?></option>
+                            <option value="critical" <?php selected( $ns_control_array['priority'], 'critical' ); ?>><?php _e( 'Critical', 'nanosupport' ); ?></option>
+                        </select>
+                    </div> <!-- /.ns-field -->                    
+                </div>
+            </div> <!-- /.ns-row -->
+
+            <div class="ns-row misc-pub-section">
+                <div class="ns-head-col">
+                    <span class="dashicons dashicons-businessman"></span> <?php _e( 'Agent', 'nanosupport' );
+                    echo ns_tooltip( __( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ), 'left' );
+                    ?>
+                </div>
+                <div class="ns-body-col">
+                    <?php
+                    $agent_query = new WP_User_Query( array(
+                            'meta_key'      => 'ns_make_agent',
+                            'meta_value'    => 1,
+                            'orderby'       => 'display_name'
+                        ) );
+                    ?>
+                    <div class="ns-field">
+                        <select name="ns_ticket_agent" class="ns-field-item" id="ns-ticket-agent">
+                            <?php
+                            if ( ! empty( $agent_query->results ) ) {
+                                echo '<option value="">'. __( 'Assign an agent', 'nanosupport' ) .'</option>';
+                                foreach ( $agent_query->results as $user ) {
+                                    echo '<option value="'. $user->ID .'" '. selected( $ns_control_array['agent'], $user->ID ) .'>'. $user->display_name .'</option>';
+                                }
+                            } else {
+                                echo '<option value="">'. __( 'No agent found', 'nanosupport' ) .'</option>';
+                            }
+                            ?>
+                        </select>
+                    </div> <!-- /.ns-field -->                    
+                </div>
+            </div> <!-- /.ns-row -->
+
+        </div> <!-- .ns-control-holder -->
+        <?php
+
+    endif;
+}
+
+add_action('post_submitbox_misc_actions', 'ns_control_specifics');
+
+
 // Save the Data
 function ns_save_nanosupport_meta_data( $post_id ) {
      
@@ -198,6 +309,11 @@ function ns_save_nanosupport_meta_data( $post_id ) {
     $response_date_array    = $_POST['ns_date'];
     $response_users_array   = $_POST['ns_user'];
 
+    update_post_meta( $post_id, 'ns_control', array(
+            'status'    => sanitize_text_field( $ns_ticket_status ),
+            'priority'  => sanitize_text_field( $ns_ticket_priority ),
+            'agent'     => absint( $ns_ticket_agent )
+        ) );
     foreach ( $response_msgs_array as $key => $message ) {
         
         $user_info = get_userdata( $response_users_array[$key] );
