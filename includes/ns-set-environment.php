@@ -234,17 +234,28 @@ function ns_saving_user_fields( $user_id ) {
          * For an agent, enable Support Ticket
          * @var WP_User
          */
+        $capability_type = 'nanosupport';
         $ns_agent_user = new WP_User($user_id);
         if( 1 == intval( $_POST['ns_make_agent'] ) ) :
-            $ns_agent_user->add_cap( 'read_nanosupport' );
-            $ns_agent_user->add_cap( 'edit_nanosupport' );
-            $ns_agent_user->add_cap( 'edit_nanosupports' );
-            $ns_agent_user->add_cap( 'assign_nanosupport_terms' );
+            $ns_agent_user->add_cap( "read_{$capability_type}" );
+            $ns_agent_user->add_cap( "edit_{$capability_type}" );
+            $ns_agent_user->add_cap( "edit_{$capability_type}s" );
+            $ns_agent_user->add_cap( "edit_others_{$capability_type}s" );
+            $ns_agent_user->add_cap( "read_private_{$capability_type}s" );
+            $ns_agent_user->add_cap( "edit_private_{$capability_type}s" );
+            $ns_agent_user->add_cap( "edit_published_{$capability_type}s" );
+
+            $ns_agent_user->add_cap( "assign_{$capability_type}_terms" );
         else :
-            $ns_agent_user->remove_cap( 'read_nanosupport' );
-            $ns_agent_user->remove_cap( 'edit_nanosupport' );
-            $ns_agent_user->remove_cap( 'edit_nanosupports' );
-            $ns_agent_user->remove_cap( 'assign_nanosupport_terms' );
+            $ns_agent_user->remove_cap( "read_{$capability_type}" );
+            $ns_agent_user->remove_cap( "edit_{$capability_type}" );
+            $ns_agent_user->remove_cap( "edit_{$capability_type}s" );
+            $ns_agent_user->remove_cap( "edit_others_{$capability_type}s" );
+            $ns_agent_user->remove_cap( "read_private_{$capability_type}s" );
+            $ns_agent_user->remove_cap( "edit_private_{$capability_type}s" );
+            $ns_agent_user->remove_cap( "edit_published_{$capability_type}s" );
+            
+            $ns_agent_user->remove_cap( "assign_{$capability_type}_terms" );
         endif;
         
     }

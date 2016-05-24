@@ -166,8 +166,8 @@ function ns_get_caps() {
 
 		$capabilities[ $capability_type ] = array(
 			// Post type
-			"edit_{$capability_type}",
 			"read_{$capability_type}",
+            "edit_{$capability_type}",
 			"delete_{$capability_type}",
 			"edit_{$capability_type}s",
 			"edit_others_{$capability_type}s",
