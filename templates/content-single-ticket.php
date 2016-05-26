@@ -164,7 +164,7 @@
 		    <?php } //endif ?>
 
 
-		    <!-- -------------------- NEW RESPONSE ---------------------- -->
+		    <!-- ------ NEW RESPONSE FORM ------ -->
 
 		    <?php get_nanosupport_response_form(); ?>
 

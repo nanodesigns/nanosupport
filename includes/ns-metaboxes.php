@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ns_responses_meta_box() {
     add_meta_box(
         'nanosupport-responses',                // metabox ID
-        __('Responses', 'nanosupport'),         // metabox title
+        __( 'Responses', 'nanosupport' ),       // metabox title
         'ns_reply_specifics',                   // callback function
         'nanosupport',                          // post type (+ CPT)
         'normal',                               // 'normal', 'advanced', or 'side'
@@ -27,12 +27,12 @@ function ns_responses_meta_box() {
     if( current_user_can('manage_nanosupport') ) :
 
         add_meta_box(
-            'nanosupport-internal-notes',       // metabox ID
-            __('Internal Notes', 'nanosupport'),// metabox title
-            'ns_internal_notes_specifics',      // callback function
-            'nanosupport',                      // post type (+ CPT)
-            'side',                             // 'normal', 'advanced', or 'side'
-            'default'                           // 'high', 'core', 'default' or 'low'
+            'nanosupport-internal-notes',           // metabox ID
+            __( 'Internal Notes', 'nanosupport' ),  // metabox title
+            'ns_internal_notes_specifics',          // callback function
+            'nanosupport',                          // post type (+ CPT)
+            'side',                                 // 'normal', 'advanced', or 'side'
+            'default'                               // 'high', 'core', 'default' or 'low'
         );
 
     endif;

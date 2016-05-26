@@ -232,7 +232,7 @@ function ns_registration_login_ticket_submission_redir() {
     }
 
     //------------------ERROR: There are errors - don't go further
-    if( !empty( $ns_errors ) ){
+    if( ! empty( $ns_errors ) ){
         return;
     }
 
