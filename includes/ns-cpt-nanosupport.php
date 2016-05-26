@@ -86,7 +86,8 @@ function ns_set_custom_columns( $columns ) {
     $new_columns = array(
             'ticket_status'     => __( 'Ticket Status', 'nanosupport' ),
             'ticket_priority'   => __( 'Priority', 'nanosupport' ),
-            'ticket_responses'  => '<span class="dashicons dashicons-format-chat" title="Responses"></span>',
+            'ticket_agent'      => '<span class="dashicons dashicons-businessman" title="'. esc_attr__( 'Agent', 'nanosupport' ) .'"></span>',
+            'ticket_responses'  => '<span class="dashicons dashicons-format-chat" title="'. esc_attr__( 'Responses', 'nanosupport' ) .'"></span>',
             'last_response'     => __( 'Last Response by', 'nanosupport' )
         );
     return array_merge( $columns, $new_columns );
@@ -118,6 +119,10 @@ function ns_populate_custom_columns( $column, $post_id ) {
 
         case 'ticket_priority' :
             echo $ticket_meta['priority']['label'];
+            break;
+
+        case 'ticket_agent' :
+            echo isset($ticket_meta['agent']['name']) ? $ticket_meta['agent']['name'] : '-';
             break;
 
         case 'ticket_responses' :
