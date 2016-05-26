@@ -41,7 +41,7 @@ function ns_support_desk_page() {
 			?>
 			
 			<?php
-			if( current_user_can('administrator') || current_user_can('editor') ) {
+			if( current_user_can('edit_nanosupports') ) {
 				//Admin users
 				$author_id 		= '';
 				$ticket_status 	= array('publish', 'private', 'pending');
@@ -66,12 +66,12 @@ function ns_support_desk_page() {
 
 				//Get the NanoSupport Settings from Database
 				$ns_general_settings = get_option( 'nanosupport_settings' );
-				$highlight_choice	= isset($ns_general_settings['highlight_ticket']) ? $ns_general_settings['highlight_ticket'] : 'status';
+				$highlight_choice	 = isset($ns_general_settings['highlight_ticket']) ? $ns_general_settings['highlight_ticket'] : 'status';
 
 				while( $support_ticket_query->have_posts() ) : $support_ticket_query->the_post();
 
 					//Get ticket information
-					$ticket_meta = ns_get_ticket_meta( get_the_ID() );
+					$ticket_meta 	 = ns_get_ticket_meta( get_the_ID() );
 					$highlight_class = 'priority' === $highlight_choice ? $ticket_meta['priority']['class'] : $ticket_meta['status']['class'];
 					?>
 
@@ -80,10 +80,16 @@ function ns_support_desk_page() {
 							<div class="ns-col-sm-4 ns-col-xs-12">
 								<h3 class="ticket-head">
 									<?php if( 'pending' === $ticket_meta['status']['value'] ) : ?>
-										<?php the_title(); ?><span class="ns-small ticket-id"> &mdash; <?php printf( '#%s', get_the_ID() ); ?></span>
+										<?php if( current_user_can('edit_nanosupports') ) : ?>
+											<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
+												<?php the_title(); ?><?php edit_post_link( '<span class="ns-icon-edit" title="'. esc_attr__('Edit the Ticket', 'nanosupport') .'"></span>', '', '', get_the_ID() ); ?>
+											</a>
+										<?php else : ?>
+											<?php the_title(); ?><?php edit_post_link( '<span class="ns-icon-edit" title="'. esc_attr__('Edit the Ticket', 'nanosupport') .'"></span>', '', '', get_the_ID() ); ?>
+										<?php endif; ?>
 									<?php else : ?>
 										<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
-											<?php the_title(); ?><span class="ns-small ticket-id"> &mdash; <?php printf( '#%s', get_the_ID() ); ?></span>
+											<?php the_title(); ?><?php edit_post_link( '<span class="ns-icon-edit" title="'. esc_attr__('Edit the Ticket', 'nanosupport') .'"></span>', '', '', get_the_ID() ); ?>
 										</a>
 									<?php endif; ?>
 								</h3>
