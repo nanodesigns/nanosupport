@@ -244,7 +244,7 @@ function ns_ticket_status_count( $status = '' ) {
                             ON $wpdb->posts.ID = $wpdb->postmeta.post_id
                         WHERE post_type = 'nanosupport'
                             AND post_status IN('private', 'publish')
-                            AND meta_key = 'ns_control'
+                            AND meta_key = '_ns_ticket_status'
                             AND meta_value LIKE %s",
                         '%'. $wpdb->esc_like($status) .'%'
                     )
@@ -337,11 +337,13 @@ function ns_get_ticket_meta( $ticket_id = null ) {
 
     $post_id = ( null === $ticket_id ) ? get_the_ID() : $ticket_id;
 
-    $ticket_control = get_post_meta( $post_id, 'ns_control', true );
+    $_ns_ticket_status   = get_post_meta( $post_id, '_ns_ticket_status', true );
+    $_ns_ticket_priority = get_post_meta( $post_id, '_ns_ticket_priority', true );
+    $_ns_ticket_agent    = get_post_meta( $post_id, '_ns_ticket_agent', true );
 
-    $this_status    = isset( $ticket_control['status'] ) ? $ticket_control['status'] : 'open';
-    $this_priority  = isset( $ticket_control['priority'] ) ? $ticket_control['priority'] : 'low';
-    $this_agent     = isset( $ticket_control['agent'] ) ? $ticket_control['agent'] : '';
+    $this_status    = ! empty( $_ns_ticket_status )     ? $_ns_ticket_status    : 'open';
+    $this_priority  = ! empty( $_ns_ticket_priority )   ? $_ns_ticket_priority  : 'low';
+    $this_agent     = ! empty( $_ns_ticket_agent )      ? $_ns_ticket_agent     : '';
 
     /**
      * Ticket status

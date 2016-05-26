@@ -187,20 +187,17 @@ function ns_control_specifics() {
         // Use nonce for verification
         wp_nonce_field( basename( __FILE__ ), 'ns_control_nonce' );
 
+        //get meta values from db
+        $_ns_ticket_status   = get_post_meta( $post->ID, '_ns_ticket_status', true );
+        $_ns_ticket_priority = get_post_meta( $post->ID, '_ns_ticket_priority', true );
+        $_ns_ticket_agent    = get_post_meta( $post->ID, '_ns_ticket_agent', true );
 
-        $ns_control_array = get_post_meta( $post->ID, 'ns_control', true );
-
-        if( ! $ns_control_array ) {
-            
-            //default
-            $ns_control_array = array(
-                                    'status'    => 'open',
-                                    'priority'  => 'low',
-                                    'agent'     => ''
-                                );
-
-        }
+        //set default values
+        $_ns_ticket_status   = ! empty($_ns_ticket_status)    ? $_ns_ticket_status     : 'open';
+        $_ns_ticket_priority = ! empty($_ns_ticket_priority)  ? $_ns_ticket_priority   : 'low';
+        $_ns_ticket_agent    = ! empty($_ns_ticket_agent)     ? $_ns_ticket_agent      : '';
         ?>
+
         <div class="row ns-control-holder">
 
             <div class="ns-row misc-pub-section">
@@ -212,9 +209,9 @@ function ns_control_specifics() {
                 <div class="ns-body-col">
                     <div class="ns-field">
                         <select name="ns_ticket_status" class="ns-field-item" id="ns-ticket-status">
-                            <option value="open" <?php selected( $ns_control_array['status'], 'open' ); ?>><?php _e( 'Open', 'nanosupport' ); ?></option>
-                            <option value="inspection"<?php selected( $ns_control_array['status'], 'inspection' ); ?>><?php _e( 'Under Inspection', 'nanosupport' ); ?></option>
-                            <option value="solved"<?php selected( $ns_control_array['status'], 'solved' ); ?>><?php _e( 'Solved', 'nanosupport' ); ?></option>
+                            <option value="open" <?php selected( $_ns_ticket_status, 'open' ); ?>><?php _e( 'Open', 'nanosupport' ); ?></option>
+                            <option value="inspection"<?php selected( $_ns_ticket_status, 'inspection' ); ?>><?php _e( 'Under Inspection', 'nanosupport' ); ?></option>
+                            <option value="solved"<?php selected( $_ns_ticket_status, 'solved' ); ?>><?php _e( 'Solved', 'nanosupport' ); ?></option>
                         </select>
                     </div> <!-- /.ns-field -->                    
                 </div>
@@ -229,45 +226,53 @@ function ns_control_specifics() {
                 <div class="ns-body-col">
                     <div class="ns-field">
                         <select name="ns_ticket_priority" class="ns-field-item" id="ns-ticket-priority">
-                            <option value="low" <?php selected( $ns_control_array['priority'], 'low' ); ?>><?php _e( 'Low', 'nanosupport' ); ?></option>
-                            <option value="medium" <?php selected( $ns_control_array['priority'], 'medium' ); ?>><?php _e( 'Medium', 'nanosupport' ); ?></option>
-                            <option value="high" <?php selected( $ns_control_array['priority'], 'high' ); ?>><?php _e( 'High', 'nanosupport' ); ?></option>
-                            <option value="critical" <?php selected( $ns_control_array['priority'], 'critical' ); ?>><?php _e( 'Critical', 'nanosupport' ); ?></option>
+                            <option value="low" <?php selected( $_ns_ticket_priority, 'low' ); ?>><?php _e( 'Low', 'nanosupport' ); ?></option>
+                            <option value="medium" <?php selected( $_ns_ticket_priority, 'medium' ); ?>><?php _e( 'Medium', 'nanosupport' ); ?></option>
+                            <option value="high" <?php selected( $_ns_ticket_priority, 'high' ); ?>><?php _e( 'High', 'nanosupport' ); ?></option>
+                            <option value="critical" <?php selected( $_ns_ticket_priority, 'critical' ); ?>><?php _e( 'Critical', 'nanosupport' ); ?></option>
                         </select>
                     </div> <!-- /.ns-field -->                    
                 </div>
             </div> <!-- /.ns-row -->
 
-            <div class="ns-row misc-pub-section">
-                <div class="ns-head-col">
-                    <span class="dashicons dashicons-businessman"></span> <?php _e( 'Agent', 'nanosupport' );
-                    echo ns_tooltip( __( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ), 'left' );
-                    ?>
-                </div>
-                <div class="ns-body-col">
-                    <?php
-                    $agent_query = new WP_User_Query( array(
-                            'meta_key'      => 'ns_make_agent',
-                            'meta_value'    => 1,
-                            'orderby'       => 'display_name'
-                        ) );
-                    ?>
-                    <div class="ns-field">
-                        <select name="ns_ticket_agent" class="ns-field-item" id="ns-ticket-agent">
-                            <?php
-                            if ( ! empty( $agent_query->results ) ) {
-                                echo '<option value="">'. __( 'Assign an agent', 'nanosupport' ) .'</option>';
-                                foreach ( $agent_query->results as $user ) {
-                                    echo '<option value="'. $user->ID .'" '. selected( $ns_control_array['agent'], $user->ID ) .'>'. $user->display_name .'</option>';
+            <?php
+            /**
+             * Agent assignment is an administrative power.
+             */
+            if( current_user_can( 'manage_nanosupport' ) ) : ?>
+
+                <div class="ns-row misc-pub-section">
+                    <div class="ns-head-col">
+                        <span class="dashicons dashicons-businessman"></span> <?php _e( 'Agent', 'nanosupport' );
+                        echo ns_tooltip( __( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ), 'left' );
+                        ?>
+                    </div>
+                    <div class="ns-body-col">
+                        <?php
+                        $agent_query = new WP_User_Query( array(
+                                'meta_key'      => 'ns_make_agent',
+                                'meta_value'    => 1,
+                                'orderby'       => 'display_name'
+                            ) );
+                        ?>
+                        <div class="ns-field">
+                            <select name="ns_ticket_agent" class="ns-field-item" id="ns-ticket-agent">
+                                <?php
+                                if ( ! empty( $agent_query->results ) ) {
+                                    echo '<option value="">'. __( 'Assign an agent', 'nanosupport' ) .'</option>';
+                                    foreach ( $agent_query->results as $user ) {
+                                        echo '<option value="'. $user->ID .'" '. selected( $_ns_ticket_agent, $user->ID ) .'>'. $user->display_name .'</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">'. __( 'No agent found', 'nanosupport' ) .'</option>';
                                 }
-                            } else {
-                                echo '<option value="">'. __( 'No agent found', 'nanosupport' ) .'</option>';
-                            }
-                            ?>
-                        </select>
-                    </div> <!-- /.ns-field -->                    
-                </div>
-            </div> <!-- /.ns-row -->
+                                ?>
+                            </select>
+                        </div> <!-- /.ns-field -->                    
+                    </div>
+                </div> <!-- /.ns-row -->
+
+            <?php endif; ?>
 
         </div> <!-- .ns-control-holder -->
         <?php
@@ -300,18 +305,18 @@ function ns_save_nanosupport_meta_data( $post_id ) {
     }
 
     /**
-     * Save NanoSupport Control.
+     * Save NanoSupport Ticket Meta.
      * ...
      */
     $ns_ticket_status      = $_POST['ns_ticket_status'];
     $ns_ticket_priority    = $_POST['ns_ticket_priority'];
     $ns_ticket_agent       = $_POST['ns_ticket_agent'];
 
-    update_post_meta( $post_id, 'ns_control', array(
-            'status'    => sanitize_text_field( $ns_ticket_status ),
-            'priority'  => sanitize_text_field( $ns_ticket_priority ),
-            'agent'     => absint( $ns_ticket_agent )
-        ) );
+    update_post_meta( $post_id, '_ns_ticket_status',   sanitize_text_field( $ns_ticket_status ) );
+    update_post_meta( $post_id, '_ns_ticket_priority', sanitize_text_field( $ns_ticket_priority ) );
+    if( current_user_can('manage_nanosupport') )
+        update_post_meta( $post_id, '_ns_ticket_agent', absint( $ns_ticket_agent ) );
+
 
     /**
      * Save Response.
@@ -343,6 +348,7 @@ function ns_save_nanosupport_meta_data( $post_id ) {
         $comment_id = wp_new_comment( $commentdata );
 
     endif;
+
 
     /**
      * Save Internal Notes.

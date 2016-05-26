@@ -258,15 +258,10 @@ function ns_registration_login_ticket_submission_redir() {
         //set to 'support' department (whatever the user role is...)
         wp_set_object_terms( $ticket_post_id, 'support', 'nanosupport_department' );
 
-        //prepare the meta information array
-        $meta_control = array(
-                'status'    => esc_html( 'open' ),
-                'priority'  => wp_strip_all_tags( $ticket_priority ),
-                'agent'     => '',
-            );
-
         //insert the meta information into postmeta
-        add_post_meta( $ticket_post_id, 'ns_control', $meta_control );
+        add_post_meta( $ticket_post_id, '_ns_ticket_status',   esc_html( 'open' ) );
+        add_post_meta( $ticket_post_id, '_ns_ticket_priority', wp_strip_all_tags( $ticket_priority ) );
+        add_post_meta( $ticket_post_id, '_ns_ticket_agent',    '' ); //no ticket agent assigned
 
     } else {
 
@@ -693,18 +688,11 @@ function ns_response_submit_redir() {
          */
         if( in_array( $ticket_status, array('solved', 'pending') ) ) {
 
-            $priority   = isset($ticket_meta['priority']['value']) ? $ticket_meta['priority']['value'] : 'low';
-            $agent      = isset($ticket_meta['agent']['ID']) ? $ticket_meta['agent']['ID'] : '';
-
-            update_post_meta( $post->ID, 'ns_control', array(
-                    'status'    => wp_strip_all_tags( 'open' ), //force open again
-                    'priority'  => wp_strip_all_tags( $priority ),
-                    'agent'     => absint( $agent )
-                ) );
+            update_post_meta( $post->ID, '_ns_ticket_status',   wp_strip_all_tags( 'open' ) );
 
         }
 
-        // Publish a 'pending' ticket
+        //Privately Publish a 'pending' ticket
         if( 'pending' === $ticket_status ) {
             wp_update_post( array(
                     'ID'            => $post->ID,
