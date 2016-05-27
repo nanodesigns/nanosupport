@@ -924,6 +924,9 @@ fieldset[disabled] .ns-checkbox label {
   color: #333333;
   text-decoration: none;
 }
+.ns-btn:visited{
+  color: #333333;
+}
 .ns-btn:active,
 .ns-btn.ns-active {
   outline: 0;
@@ -1251,6 +1254,13 @@ fieldset[disabled] .ns-btn-warning.focus {
   color: #ffffff;
   background-color: #ed5565;
   border-color: #ed5565;
+}
+.ns-btn-primary:visited,
+.ns-btn-info:visited,
+.ns-btn-success:visited,
+.ns-btn-warning:visited,
+.ns-btn-danger:visited{
+  color: #ffffff;
 }
 .ns-btn-danger:active:hover,
 .ns-btn-danger.ns-active:hover,
