@@ -8,6 +8,13 @@
 jQuery(document).ready(function($) {
 
     /**
+     * Making Support and Knowledgebase Question mandatory
+     * Making post title field in Support Ticket, and Knowledgebase mandatory.
+     * ...
+     */
+    $('body.post-new-php.post-type-nanosupport input#title, body.post-php.post-type-nanosupport input#title, body.post-new-php.post-type-nanodoc input#title, body.post-php.post-type-nanodoc input#title').prop('required',true);
+
+    /**
      * Delete/Remove Responses
      * Delete/remove individual old, recorded responses from the DOM.
      * ...
