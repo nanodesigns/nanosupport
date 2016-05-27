@@ -92,6 +92,7 @@ function ns_submit_support_ticket() {
 						<div class="ns-col-md-10 ns-col-sm-9 ns-form-inline">
 							<?php $sub_val = !empty($_POST['ns_ticket_priority']) ? $_POST['ns_ticket_priority'] : 'low'; ?>
 							<select class="ns-form-control" name="ns_ticket_priority" id="ns-ticket-priority" required>
+								<option value="" <?php selected( $sub_val, '' ); ?>><?php _e( 'Select a priority', 'nanosupport' ); ?></option>
 								<option value="low" <?php selected( $sub_val, 'low' ); ?>><?php _e( 'Low', 'nanosupport' ); ?></option>
 								<option value="medium" <?php selected( $sub_val, 'medium' ); ?>><?php _e( 'Medium', 'nanosupport' ); ?></option>
 								<option value="high" <?php selected( $sub_val, 'high' ); ?>><?php _e( 'High', 'nanosupport' ); ?></option>
