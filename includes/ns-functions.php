@@ -714,13 +714,13 @@ add_action( 'template_redirect', 'ns_response_submit_redir' );
  *
  * @since  1.0.0
  * 
- * @param  boolean $approved True | False.
- * @param  array $data       Information about the comment.
- * @return boolean           True.
+ * @param  boolean  $approved       Signifies the approval status (0|1|'spam').
+ * @param  array    $commentdata    Information about the comment.
+ * @return int|string               1 if 'nanosupport_response'.
  * -----------------------------------------------------------------------
  */
-function ns_make_responses_approved( $approved, $data ) {
-    return isset($data['type']) && $data['type'] === 'nanosupport_response' ? 1 : $approved;
+function ns_make_responses_approved( $approved, $commentdata ) {
+    return isset($commentdata['comment_type']) && ($commentdata['comment_type'] === 'nanosupport_response') ? 1 : $approved;
 }
 
 add_filter( 'pre_comment_approved', 'ns_make_responses_approved', 20, 2 );
