@@ -13,6 +13,7 @@ function ns_dashboard_scripts() {
     if( 'dashboard' === $screen->base ) {
         wp_enqueue_style( 'ns-admin' );
         wp_enqueue_script( 'ns-dashboard', NS()->plugin_url() .'/assets/js/nanosupport-dashboard.min.js', array('d3','c3'), NS()->version, true );
+        global $current_user;
         wp_localize_script(
             'ns-dashboard',
             'ns',
@@ -25,6 +26,10 @@ function ns_dashboard_scripts() {
                 'solved_label'      => __( 'Solved Tickets', 'nanosupport' ),
                 'open_label'        => __( 'Open Tickets', 'nanosupport' ),
                 'inspection_label'  => __( 'Under Inspection', 'nanosupport' ),
+                'my_pending'        => ns_ticket_status_count( 'pending', $current_user->ID ),
+                'my_solved'         => ns_ticket_status_count( 'solved', $current_user->ID ),
+                'my_inspection'     => ns_ticket_status_count( 'inspection', $current_user->ID ),
+                'my_open'           => ns_ticket_status_count( 'open', $current_user->ID ),
             )
         );
     }
@@ -84,8 +89,8 @@ function nanosupport_widget_callback() { ?>
         <?php } //support_seekers ?>
 
         <?php
-        //Managers (Administrator & Editor)
-        if( ns_is_user('manager') ) { ?>
+        //Agent & Manager
+        if( ns_is_user('agent_and_manager') ) { ?>
             <div class="ns-row">
                 <div class="nanosupport-50-left ns-text-center">
                     <h4 class="dashboard-head"><span class="ns-icon-pie-chart"></span> <?php _e( 'Current Status', 'nanosupport' ); ?></h4>
@@ -102,88 +107,122 @@ function nanosupport_widget_callback() { ?>
                             <?php printf( __('Total Tickets: %s', 'nanosupport' ), $total_tickets ); ?>
                         </div>
                     <?php endif; ?>
-                </div>
-                <div class="nanosupport-50-right">
-                    <h4 class="dashboard-head ns-text-center"><span class="ns-icon-pulse"></span> <?php _e( 'Recent Activity', 'nanosupport' ); ?></h4>
-                    <?php
-                    $activity_arr = array();
-                    $response_activity = get_comments( array(
-                        'type'   => 'nanosupport_response',
-                        'number' => 5,
-                        'orderby'=> 'comment_date'
-                    ) );
-                    foreach( $response_activity as $response ) {
-                        $activity_arr[$response->comment_ID]['id'] = intval($response->comment_ID);
-                        $activity_arr[$response->comment_ID]['type'] = 'response';
-                        $activity_arr[$response->comment_ID]['date'] = $response->comment_date;
-                        $activity_arr[$response->comment_ID]['author_id'] = intval($response->user_id);
-                        $activity_arr[$response->comment_ID]['author'] = $response->comment_author;
-                        $activity_arr[$response->comment_ID]['ticket'] = intval($response->comment_post_ID);
-                    }
+                </div> <!-- /.nanosupport-50-left -->
 
-                    $ticket_activity = get_posts( array(
-                        'post_type'     => 'nanosupport',
-                        'post_status'   => array('pending', 'private', 'publish'),
-                        'posts_per_page'=> 5,
-                    ) );
-                    foreach( $ticket_activity as $ticket ) {
-                        $activity_arr[$ticket->ID]['id'] = $ticket->ID;
-                        $activity_arr[$ticket->ID]['type'] = 'ticket';
-                        $activity_arr[$ticket->ID]['date'] = $ticket->post_date;
-                        $activity_arr[$ticket->ID]['author_id'] = intval($ticket->post_author);
-                        $activity_arr[$ticket->ID]['author'] = ns_user_nice_name( $ticket->post_author );
-                        $activity_arr[$ticket->ID]['modified'] = $ticket->post_modified;
-                        $activity_arr[$ticket->ID]['status'] = $ticket->post_status;
-                    }
-
-                    function date_compare($a, $b) {
-                        $date1 = strtotime($a['date']);
-                        $date2 = strtotime($b['date']);
-                        return $date2 - $date1;
-                    } 
-                    usort( $activity_arr, 'date_compare' );
-
-                    $counter = 0;
-                    if( empty( $activity_arr ) ) {
-                        echo '<div id="ns-no-activity">';
-                            echo '<p class="smiley"></p>';
-                            echo '<p>' . __( 'No activity yet!', 'nanosupport' ) . '</p>';
-                        echo '</div>';
-                    } else {
-                        foreach( $activity_arr as $activity ) {
-                            $counter++;
-
-                            if( $counter <= 5 ) { ?>
-                            
-                            <div>
-                                <strong><?php echo mysql2date( 'd M Y, h:i A', $activity['date'] ); ?></strong><br> 
-                                <?php
-                                if( 'response' === $activity['type'] ) {
-                                    printf(
-                                        '<span class="ns-icon-responses"></span> '. __( 'Ticket <a href="%1$s">%2$s</a> is responded by %3$s', 'nanosupport' ),
-                                        get_edit_post_link($activity['ticket']),
-                                        get_the_title($activity['ticket']),
-                                        $activity['author']
-                                    );
-                                } elseif( 'ticket' === $activity['type'] ) {
-                                    printf(
-                                        '<span class="ns-icon-tag"></span> '. __( 'New Ticket <a href="%1$s">%2$s</a> submitted by %3$s', 'nanosupport' ),
-                                        get_edit_post_link($activity['id']),
-                                        get_the_title($activity['id']),
-                                        $activity['author']
-                                    );
-                                }
-                                ?>
-                                <hr>
-                            </div>
-
-                            <?php
-                                }
-
-                            }
+                <?php
+                /**
+                 * Manager only
+                 * ...
+                 */
+                if( ns_is_user('manager') ) { ?>
+                    <div class="nanosupport-50-right">
+                        <h4 class="dashboard-head ns-text-center"><span class="ns-icon-pulse"></span> <?php _e( 'Recent Activity', 'nanosupport' ); ?></h4>
+                        <?php
+                        $activity_arr = array();
+                        $response_activity = get_comments( array(
+                            'type'   => 'nanosupport_response',
+                            'number' => 5,
+                            'orderby'=> 'comment_date'
+                        ) );
+                        foreach( $response_activity as $response ) {
+                            $activity_arr[$response->comment_ID]['id'] = intval($response->comment_ID);
+                            $activity_arr[$response->comment_ID]['type'] = 'response';
+                            $activity_arr[$response->comment_ID]['date'] = $response->comment_date;
+                            $activity_arr[$response->comment_ID]['author_id'] = intval($response->user_id);
+                            $activity_arr[$response->comment_ID]['author'] = $response->comment_author;
+                            $activity_arr[$response->comment_ID]['ticket'] = intval($response->comment_post_ID);
                         }
-                        ?>
-                </div>
+
+                        $ticket_activity = get_posts( array(
+                            'post_type'     => 'nanosupport',
+                            'post_status'   => array('pending', 'private', 'publish'),
+                            'posts_per_page'=> 5,
+                        ) );
+                        foreach( $ticket_activity as $ticket ) {
+                            $activity_arr[$ticket->ID]['id'] = $ticket->ID;
+                            $activity_arr[$ticket->ID]['type'] = 'ticket';
+                            $activity_arr[$ticket->ID]['date'] = $ticket->post_date;
+                            $activity_arr[$ticket->ID]['author_id'] = intval($ticket->post_author);
+                            $activity_arr[$ticket->ID]['author'] = ns_user_nice_name( $ticket->post_author );
+                            $activity_arr[$ticket->ID]['modified'] = $ticket->post_modified;
+                            $activity_arr[$ticket->ID]['status'] = $ticket->post_status;
+                        }
+
+                        function date_compare($a, $b) {
+                            $date1 = strtotime($a['date']);
+                            $date2 = strtotime($b['date']);
+                            return $date2 - $date1;
+                        } 
+                        usort( $activity_arr, 'date_compare' );
+
+                        $counter = 0;
+                        if( empty( $activity_arr ) ) {
+                            echo '<div id="ns-no-activity">';
+                                echo '<p class="smiley"></p>';
+                                echo '<p>' . __( 'No activity yet!', 'nanosupport' ) . '</p>';
+                            echo '</div>';
+                        } else {
+                            foreach( $activity_arr as $activity ) {
+                                $counter++;
+
+                                if( $counter <= 5 ) { ?>
+                                
+                                <div>
+                                    <strong><?php echo mysql2date( 'd M Y, h:i A', $activity['date'] ); ?></strong><br> 
+                                    <?php
+                                    if( 'response' === $activity['type'] ) {
+                                        printf(
+                                            '<span class="ns-icon-responses"></span> '. __( 'Ticket <a href="%1$s">%2$s</a> is responded by %3$s', 'nanosupport' ),
+                                            get_edit_post_link($activity['ticket']),
+                                            get_the_title($activity['ticket']),
+                                            $activity['author']
+                                        );
+                                    } elseif( 'ticket' === $activity['type'] ) {
+                                        printf(
+                                            '<span class="ns-icon-tag"></span> '. __( 'New Ticket <a href="%1$s">%2$s</a> submitted by %3$s', 'nanosupport' ),
+                                            get_edit_post_link($activity['id']),
+                                            get_the_title($activity['id']),
+                                            $activity['author']
+                                        );
+                                    }
+                                    ?>
+                                    <hr>
+                                </div>
+
+                                <?php
+                                    }
+
+                                }
+                            }
+                            ?>
+                    </div> <!-- /.nanosupport-50-right -->
+
+                <?php } //manager only
+                /**
+                 * Agent only
+                 * ...
+                 */
+                elseif( ns_is_user('agent') ) { ?>
+
+                    <div class="nanosupport-50-right">
+                        <h4 class="dashboard-head ns-text-center"><span class="ns-icon-pulse"></span> <?php _e( 'My Activity Status', 'nanosupport' ); ?></h4>
+                        <?php
+                        global $current_user;
+                        $my_total_tickets = ns_total_ticket_count('nanosupport', $current_user->ID);
+                        if( 0 === $my_total_tickets ) : ?>
+                            <div id="ns-no-activity">
+                                <p class="smiley"></p>
+                                <p><?php _e( 'You&rsquo;ve not assigned any ticket yet!', 'nanosupport' ) ?></p>
+                            </div>
+                        <?php else : ?>
+                            <div id="ns-activity-chart"></div>
+                            <div class="ns-total-ticket-count ns-text-center">
+                                <?php printf( __('My Total Tickets: %s', 'nanosupport' ), $my_total_tickets ); ?>
+                            </div>
+                        <?php endif; ?>
+                    </div> <!-- /.nanosupport-50-right -->
+                    
+                <?php } //agent only ?>
             </div>
         <?php } //administrator/editor ?>
 
