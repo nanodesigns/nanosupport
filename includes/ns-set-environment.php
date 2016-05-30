@@ -547,3 +547,70 @@ function ns_admin_bar_menu( $wp_admin_bar ) {
  */
 if( apply_filters( 'nanosupport_show_admin_bar_visit_support_desk', true ) )
     add_action( 'admin_bar_menu', 'ns_admin_bar_menu', 32 );
+
+
+/**
+ * Display assigned tickets to Support Agent.
+ *
+ * @since  1.0.0
+ * 
+ * @param  object $query_support_agents WP Query object.
+ * @return object                       Modified Query object.
+ * -----------------------------------------------------------------------
+ */
+function display_assigned_tickets_to_support_agents( $query ) {
+    if( is_admin() && in_array( $query->get('post_type'), array('nanosupport') ) ) {
+
+        if( current_user_can('edit_nanosupports') && ! current_user_can('manage_nanosupport') ) {
+            global $current_user;
+            $query->set( 'author__in', $current_user->ID );
+            $meta_query = array(
+                                array(
+                                    'key'     => '_ns_ticket_agent',
+                                    'value'   => $current_user->ID,
+                                    'compare' => '=',
+                                )
+                            );
+            $query->set( 'meta_query', $meta_query );
+        }
+
+    }
+    return $query;
+}
+
+add_filter( 'pre_get_posts', 'display_assigned_tickets_to_support_agents' );
+
+
+/**
+ * Modifying SQL clauses to show assigned tickets to Agents.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $clauses       Array of SQL segments.
+ * @param  object $query_object WP Query object.
+ * @return array                Modified array of SQL segments.
+ * -----------------------------------------------------------------------
+ */
+function display_assigned_tickets_modifying_query( $clauses, $query_object ) {
+    if( is_admin() && in_array( $query_object->get('post_type'), array('nanosupport') ) ) {
+        global $wpdb, $current_user;
+
+        if( current_user_can('edit_nanosupports') && ! current_user_can('manage_nanosupport') ) {
+
+            $clauses['where'] = " AND ";
+            $clauses['where'] .= "( {$wpdb->posts}.post_author IN ({$current_user->ID})
+                                    OR (({$wpdb->postmeta}.meta_key = '_ns_ticket_agent' AND CAST({$wpdb->postmeta}.meta_value AS CHAR) = '{$current_user->ID}')) )";
+            $clauses['where'] .= " AND {$wpdb->posts}.post_type = 'nanosupport' ";
+            $clauses['where'] .= " AND ({$wpdb->posts}.post_status = 'publish'
+                                        OR {$wpdb->posts}.post_status = 'future'
+                                        OR {$wpdb->posts}.post_status = 'draft'
+                                        OR {$wpdb->posts}.post_status = 'pending'
+                                        OR {$wpdb->posts}.post_status = 'private') ";
+
+        }
+
+    }
+    return $clauses;
+}
+
+add_filter( 'posts_clauses', 'display_assigned_tickets_modifying_query', 10, 2 );
