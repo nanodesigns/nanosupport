@@ -482,3 +482,39 @@ function ns_date_time( $datetime = null ) {
 
     return date( $date_format .' '. $time_format, $datetime );
 }
+
+
+/**
+ * NanoSupport User Roles checker.
+ *
+ * NanoSupport consists 3 user roles:
+ * - Support Seeker (read - role support_seeker)
+ * - Support Agent (edit assigned tickets only - any user other than support_seeker)
+ * - Manager (manage everything - administrator & editor)
+ *
+ * @since  1.0.0
+ * 
+ * @param  string $role String to check the User role.
+ * @return boolean      Check and return true | false conditionally.
+ * --------------------------------------------------------------------------
+ */
+function ns_is_user( $role ) {
+    if( ! is_user_logged_in() )
+        return;
+
+    if( 'support_seeker' === $role ) {
+        return ( current_user_can( 'read' ) && ! current_user_can( 'edit_nanosupports' ) ) ? true : false;
+    }
+    else if( 'agent' === $role ) {
+        return ( current_user_can( 'edit_nanosupports' ) && ! current_user_can( 'manage_nanosupport' ) ) ? true : false;
+    }
+    else if( 'agent_and_manager' === $role ) {
+        return current_user_can( 'edit_nanosupports' ) ? true : false;
+    }
+    else if( 'manager' === $role ) {
+        return current_user_can( 'manage_nanosupport' ) ? true : false;
+    }
+    else {
+        return current_user_can( $role ) ? true : false;
+    }
+}

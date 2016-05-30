@@ -95,7 +95,7 @@ function ns_registration_login_ticket_submission_redir() {
         global $current_user;
         $user_id        = $current_user->ID;
 
-        if( current_user_can( 'manage_nanosupport' ) )
+        if( ns_is_user( 'manager' ) )
             $post_status    = 'private';
         else
             $post_status    = 'pending';
@@ -355,7 +355,7 @@ function ns_knowledgebase_navigation() {
             </div>
             <div class="ns-col-md-5 ns-col-sm-6 ns-well-right ns-text-right">
                 <a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="ns-btn ns-btn-sm ns-btn-primary">
-                    <span class="ns-icon-tag"></span> <?php echo current_user_can('edit_nanosupports') ? esc_html__( 'All the Tickets', 'nanosupport' ) : esc_html__( 'My Tickets', 'nanosupport' ); ?>
+                    <span class="ns-icon-tag"></span> <?php echo ns_is_user('agent_and_manager') ? esc_html__( 'All the Tickets', 'nanosupport' ) : esc_html__( 'My Tickets', 'nanosupport' ); ?>
                 </a>
                 <a class="ns-btn ns-btn-sm ns-btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( $ns_general_settings['submit_page'] ) ); ?>">
                     <span class="ns-icon-tag"></span> <?php _e( 'Submit Ticket', 'nanosupport' ); ?>
@@ -399,7 +399,7 @@ function ns_new_ticket_navigation() {
         <div class="ns-row">
             <div class="ns-col-md-5 ns-col-sm-6 ns-well-left">
                 <a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="ns-btn ns-btn-sm ns-btn-primary">
-                    <span class="ns-icon-tag"></span> <?php echo current_user_can('edit_nanosupports') ? esc_html__( 'All the Tickets', 'nanosupport' ) : esc_html__( 'My Tickets', 'nanosupport' ); ?>
+                    <span class="ns-icon-tag"></span> <?php echo ns_is_user('agent_and_manager') ? esc_html__( 'All the Tickets', 'nanosupport' ) : esc_html__( 'My Tickets', 'nanosupport' ); ?>
                 </a>
                 <a class="ns-btn ns-btn-sm ns-btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
                     <span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
@@ -515,7 +515,7 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
         //Clean up request URI from temporary args for alert[s].
         $_SERVER['REQUEST_URI'] = remove_query_arg( 'ns_success', $_SERVER['REQUEST_URI'] );
 
-        if( current_user_can( 'edit_nanosupports' ) || $post->post_author == $current_user->ID ) : ?>
+        if( ns_is_user( 'agent_and_manager' ) || $post->post_author == $current_user->ID ) : ?>
 
             <form method="post" enctype="multipart/form-data" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
 

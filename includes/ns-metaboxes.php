@@ -16,15 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function ns_responses_meta_box() {
     add_meta_box(
-        'nanosupport-responses',                // metabox ID
-        __( 'Responses', 'nanosupport' ),       // metabox title
-        'ns_reply_specifics',                   // callback function
-        'nanosupport',                          // post type (+ CPT)
-        'normal',                               // 'normal', 'advanced', or 'side'
-        'high'                                  // 'high', 'core', 'default' or 'low'
+        'nanosupport-responses',                    // metabox ID
+        __( 'Responses', 'nanosupport' ),           // metabox title
+        'ns_reply_specifics',                       // callback function
+        'nanosupport',                              // post type (+ CPT)
+        'normal',                                   // 'normal', 'advanced', or 'side'
+        'high'                                      // 'high', 'core', 'default' or 'low'
     );
 
-    if( current_user_can('manage_nanosupport') ) :
+    if( ns_is_user('agent_and_manager') ) :
 
         add_meta_box(
             'nanosupport-internal-notes',           // metabox ID
@@ -239,7 +239,7 @@ function ns_control_specifics() {
             /**
              * Agent assignment is an administrative power.
              */
-            if( current_user_can( 'manage_nanosupport' ) ) : ?>
+            if( ns_is_user( 'manager' ) ) : ?>
 
                 <div class="ns-row misc-pub-section">
                     <div class="ns-head-col">
@@ -314,7 +314,7 @@ function ns_save_nanosupport_meta_data( $post_id ) {
 
     update_post_meta( $post_id, '_ns_ticket_status',   sanitize_text_field( $ns_ticket_status ) );
     update_post_meta( $post_id, '_ns_ticket_priority', sanitize_text_field( $ns_ticket_priority ) );
-    if( current_user_can('manage_nanosupport') )
+    if( ns_is_user('manager') )
         update_post_meta( $post_id, '_ns_ticket_agent', absint( $ns_ticket_agent ) );
 
 

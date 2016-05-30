@@ -58,7 +58,9 @@ add_action( 'wp_dashboard_setup', 'nanosupport_dashboard_widget' );
 function nanosupport_widget_callback() { ?>
     <section id="nanosupport-widget">
 
-        <?php if( current_user_can('support_seeker') ) { ?>
+        <?php
+        //Support Seekers
+        if( ns_is_user('support_seeker') ) { ?>
 
             <?php
             $ns_general_settings = get_option( 'nanosupport_settings' );
@@ -79,9 +81,11 @@ function nanosupport_widget_callback() { ?>
                 </div>
             </div>
 
-        <?php } //support_seeker ?>
+        <?php } //support_seekers ?>
 
-        <?php if( current_user_can('administrator') || current_user_can('editor') ) { ?>
+        <?php
+        //Managers (Administrator & Editor)
+        if( ns_is_user('manager') ) { ?>
             <div class="ns-row">
                 <div class="nanosupport-50-left ns-text-center">
                     <h4 class="dashboard-head"><span class="ns-icon-pie-chart"></span> <?php _e( 'Current Status', 'nanosupport' ); ?></h4>
@@ -210,7 +214,7 @@ function nanosupport_widget_callback() { ?>
 function ns_remove_dashboard_widgets() {
     global $wp_meta_boxes;
 
-    if ( current_user_can('support_seeker') ) {
+    if ( ns_is_user('support_seeker') ) {
         remove_action('welcome_panel', 'wp_welcome_panel');
         unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_activity']);
         unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_primary']); //WordPress News

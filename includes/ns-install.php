@@ -167,18 +167,18 @@ function ns_get_caps() {
 		$capabilities[ $capability_type ] = array(
 			// Post type
 			"read_{$capability_type}",
-            "edit_{$capability_type}",
-			"delete_{$capability_type}",
-			"edit_{$capability_type}s",
-			"edit_others_{$capability_type}s",
-			"publish_{$capability_type}s",
 			"read_private_{$capability_type}s",
-			"delete_{$capability_type}s",
-			"delete_private_{$capability_type}s",
-			"delete_published_{$capability_type}s",
-			"delete_others_{$capability_type}s",
 			"edit_private_{$capability_type}s",
-			"edit_published_{$capability_type}s",
+            "edit_{$capability_type}",
+            "edit_{$capability_type}s",
+            "edit_published_{$capability_type}s",
+            "edit_others_{$capability_type}s",
+            "publish_{$capability_type}s",
+            "delete_{$capability_type}",
+            "delete_{$capability_type}s",
+            "delete_private_{$capability_type}s",
+            "delete_published_{$capability_type}s",
+            "delete_others_{$capability_type}s",
 
 			// Terms
 			"manage_{$capability_type}_terms",

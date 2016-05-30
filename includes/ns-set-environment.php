@@ -226,7 +226,7 @@ add_action( 'edit_user_profile', 'ns_user_fields' );
 function ns_saving_user_fields( $user_id ) {
 
     //Don't make a support agent from 'support_seeker' role
-    if( ! current_user_can( 'support_seeker' ) ) {
+    if( ! ns_is_user( 'support_seeker' ) ) {
 
         update_user_meta( $user_id, 'ns_make_agent', intval( $_POST['ns_make_agent'] ) );
 
@@ -561,7 +561,7 @@ if( apply_filters( 'nanosupport_show_admin_bar_visit_support_desk', true ) )
 function display_assigned_tickets_to_support_agents( $query ) {
     if( is_admin() && in_array( $query->get('post_type'), array('nanosupport') ) ) {
 
-        if( current_user_can('edit_nanosupports') && ! current_user_can('manage_nanosupport') ) {
+        if( ns_is_user('agent') ) {
             global $current_user;
             $query->set( 'author__in', $current_user->ID );
             $meta_query = array(
@@ -595,7 +595,7 @@ function display_assigned_tickets_modifying_query( $clauses, $query_object ) {
     if( is_admin() && in_array( $query_object->get('post_type'), array('nanosupport') ) ) {
         global $wpdb, $current_user;
 
-        if( current_user_can('edit_nanosupports') && ! current_user_can('manage_nanosupport') ) {
+        if( ns_is_user('agent') ) {
 
             $clauses['where'] = " AND ";
             $clauses['where'] .= "( {$wpdb->posts}.post_author IN ({$current_user->ID})

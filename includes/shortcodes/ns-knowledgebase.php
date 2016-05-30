@@ -215,7 +215,7 @@ function ns_knowledgebase_page() {
 			else :
 
 				echo '<div class="ns-alert ns-alert-info" role="alert">';
-					if( current_user_can('manage_nanosupport') )
+					if( ns_is_user('manager') )
 						_e( 'Nothing to display on Knowledgebase. Please add some documentation first.', 'nanosupport' );
 					else
 						_e( 'Nothing to display on Knowledgebase.', 'nanosupport' );

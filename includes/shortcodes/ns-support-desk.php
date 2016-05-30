@@ -41,7 +41,7 @@ function ns_support_desk_page() {
 			?>
 			
 			<?php
-			if( current_user_can('edit_nanosupports') ) {
+			if( ns_is_user('agent_and_manager') ) {
 				//Admin users
 				$author_id 		= '';
 				$ticket_status 	= array('publish', 'private', 'pending');
@@ -80,7 +80,7 @@ function ns_support_desk_page() {
 							<div class="ns-col-sm-4 ns-col-xs-12">
 								<h3 class="ticket-head">
 									<?php if( 'pending' === $ticket_meta['status']['value'] ) : ?>
-										<?php if( current_user_can('edit_nanosupports') ) : ?>
+										<?php if( ns_is_user('agent_and_manager') ) : ?>
 											<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
 												<?php the_title(); ?><?php edit_post_link( '<span class="ns-icon-edit" title="'. esc_attr__('Edit the Ticket', 'nanosupport') .'"></span>', '', '', get_the_ID() ); ?>
 											</a>
