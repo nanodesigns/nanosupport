@@ -49,6 +49,15 @@ body{
 
 /** --------- SUBMIT TICKET ---------- **/
 
+#nanosupport-add-ticket{
+  a{
+    text-decoration: none;
+    -webkit-box-shadow: 0 0 0 transparent;
+       -moz-box-shadow: 0 0 0 transparent;
+            box-shadow: 0 0 0 transparent;
+    border-bottom: 0;
+  }
+}
 .ns-alert .link-to-desk{
   text-decoration: none;
   box-shadow: 0 0 0 0 transparent;
@@ -70,11 +79,14 @@ body{
   }
 }
 #nanosupport-desk{
+  a:not(.page-numbers){
+    text-decoration: none;
+    -webkit-box-shadow: 0 0 0 transparent;
+       -moz-box-shadow: 0 0 0 transparent;
+            box-shadow: 0 0 0 transparent;
+    border-bottom: 0;
+  }
   .ticket-head{
-    a{
-      text-decoration: none;
-      box-shadow: 0 0 0 rgba(0,0,0,0);
-    }
     .ns-round-btn{
       float: none;
       margin: 5px 0 0 5px;
@@ -333,8 +345,12 @@ body{
 }
 
 /** SINGLE PAGE CARDS **/
-article.ns-single.type-nanosupport{
-  //background-color: transparent;
+
+article.ns-single.type-nanosupport.hentry{
+  background-color: transparent;
+  -webkit-box-shadow: 0 0 0 transparent;
+     -moz-box-shadow: 0 0 0 transparent;
+          box-shadow: 0 0 0 transparent;
 
   .ticket-question-card,
   .ticket-response-cards{
@@ -488,7 +504,11 @@ article.ns-single.type-nanosupport{
   line-height: 1.2;
   
   a{
-    box-shadow: 0 0 0 rgba(0,0,0,0);
+    text-decoration: none;
+    -webkit-box-shadow: 0 0 0 transparent;
+       -moz-box-shadow: 0 0 0 transparent;
+            box-shadow: 0 0 0 transparent;
+    border-bottom: 0;
   }
   .nanodoc-term-title{
     margin-top: 20px;

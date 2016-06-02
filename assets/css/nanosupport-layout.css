@@ -907,6 +907,7 @@ fieldset[disabled] .ns-checkbox label {
   -ms-user-select: none;
   user-select: none;
   color: white;
+  text-decoration: none;
 }
 .ns-btn:focus,
 .ns-btn:active:focus,
@@ -1018,6 +1019,7 @@ fieldset[disabled] .ns-btn-default.focus {
 .ns-btn-primary:hover {
   color: #ffffff;
   background-color: #4fc1e9;
+  background-image: none;
   border-color: #4fc1e9;
 }
 .ns-btn-primary:active,
@@ -1075,6 +1077,7 @@ fieldset[disabled] .ns-btn-primary.focus {
 .ns-btn-success:hover {
   color: #ffffff;
   background-color: #a0d468;
+  background-image: none;
   border-color: #398439;
 }
 .ns-btn-success:active,
@@ -1132,6 +1135,7 @@ fieldset[disabled] .ns-btn-success.focus {
 .ns-btn-info:hover {
   color: #ffffff;
   background-color: #48cfad;
+  background-image: none;
   border-color: #48cfad;
 }
 .ns-btn-info:active,
@@ -1189,6 +1193,7 @@ fieldset[disabled] .ns-btn-info.focus {
 .ns-btn-warning:hover {
   color: #ffffff;
   background-color: #ec971f;
+  background-image: none;
   border-color: #d58512;
 }
 .ns-btn-warning:active,
@@ -1246,6 +1251,7 @@ fieldset[disabled] .ns-btn-warning.focus {
 .ns-btn-danger:hover {
   color: #ffffff;
   background-color: #ed5565;
+  background-image: none;
   border-color: #ed5565;
 }
 .ns-btn-danger:active,
@@ -1261,6 +1267,7 @@ fieldset[disabled] .ns-btn-warning.focus {
 .ns-btn-warning:visited,
 .ns-btn-danger:visited{
   color: #ffffff;
+  background-image: none;
 }
 .ns-btn-danger:active:hover,
 .ns-btn-danger.ns-active:hover,

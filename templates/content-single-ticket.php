@@ -37,7 +37,7 @@
 	$highlight_class = 'priority' === $highlight_choice ? $ticket_meta['priority']['class'] : $ticket_meta['status']['class'];
 	?>
 
-	<article id="post-<?php echo $post->ID; ?>" <?php post_class('ns-single'); ?>>
+	<article id="ticket-<?php echo $post->ID; ?>" <?php post_class('ns-single'); ?>>
 
 		<div class="ticket-question-card ns-cards <?php echo esc_attr($highlight_class); ?>">
 			<div class="ns-row">
@@ -170,7 +170,7 @@
 
 		</div> <!-- /.ticket-responses -->
 
-	</article> <!-- /#post-<?php the_ID(); ?> -->
+	</article> <!-- /#ticket-<?php the_ID(); ?> -->
 
 	<a class="ns-btn ns-btn-sm ns-btn-default" href="<?php echo esc_url(get_permalink( $support_desk )); ?>"><span class="ns-icon-chevron-left"></span> <?php _e( 'Back to ticket index', 'nanosupport' ); ?></a>
 
