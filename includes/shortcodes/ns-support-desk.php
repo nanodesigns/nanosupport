@@ -41,10 +41,14 @@ function ns_support_desk_page() {
 			?>
 			
 			<?php
-			if( ns_is_user('agent_and_manager') ) {
+			if( ns_is_user('manager') ) {
 				//Admin users
 				$author_id 		= '';
 				$ticket_status 	= array('publish', 'private', 'pending');
+			} elseif( ns_is_user('agent') ) {
+				//Agent
+				$author_id 		= $current_user->ID;
+				$ticket_status	= array('publish', 'private', 'pending');
 			} else {
 				//General users
 				$author_id		= $current_user->ID;
@@ -54,13 +58,32 @@ function ns_support_desk_page() {
 			$posts_per_page = get_option( 'posts_per_page' );
 			$paged 			= ( get_query_var( 'paged' ) ) ? absint( get_query_var( 'paged' ) ) : 1;
 
-			$support_ticket_query = new WP_Query( array(
-					'post_type'			=> 'nanosupport',
-					'post_status'		=> $ticket_status,
-					'posts_per_page'	=> $posts_per_page,
-					'author'			=> $author_id,
-					'paged'				=> $paged
-				) );
+			if( ns_is_user('agent') ) {
+				$meta_query = array(
+				                    array(
+				                        'key'     => '_ns_ticket_agent',
+				                        'value'   => $current_user->ID,
+				                        'compare' => '=',
+				                    )
+				                );
+			} else {
+				$meta_query = array('');
+			}
+
+			$args = array(
+						'post_type'			=> 'nanosupport',
+						'post_status'		=> $ticket_status,
+						'posts_per_page'	=> $posts_per_page,
+						'author'			=> $author_id,
+						'paged'				=> $paged,
+						'meta_query'		=> $meta_query
+					);
+
+			add_filter( 'posts_clauses', 'ns_change_query_to_include_agents_tickets', 10, 2 );
+
+				$support_ticket_query = new WP_Query( apply_filters( 'ns_filter_support_desk_query', $args ) );
+
+			remove_filter( 'posts_clauses', 'ns_change_query_to_include_agents_tickets', 10 );
 
 			if( $support_ticket_query->have_posts() ) :
 
@@ -192,3 +215,19 @@ function ns_support_desk_page() {
 }
 
 add_shortcode( 'nanosupport_desk', 'ns_support_desk_page' );
+
+function ns_change_query_to_include_agents_tickets( $clauses, $query_object ) {
+	if( ns_is_user('agent') ) {
+		global $wpdb, $current_user;
+		$clauses['where'] = " AND ";
+        $clauses['where'] .= "( {$wpdb->posts}.post_author IN ({$current_user->ID})
+                                OR (({$wpdb->postmeta}.meta_key = '_ns_ticket_agent' AND CAST({$wpdb->postmeta}.meta_value AS CHAR) = '{$current_user->ID}')) )";
+        $clauses['where'] .= " AND {$wpdb->posts}.post_type = 'nanosupport' ";
+        $clauses['where'] .= " AND ({$wpdb->posts}.post_status = 'publish'
+                                    OR {$wpdb->posts}.post_status = 'future'
+                                    OR {$wpdb->posts}.post_status = 'draft'
+                                    OR {$wpdb->posts}.post_status = 'pending'
+                                    OR {$wpdb->posts}.post_status = 'private') ";
+	}
+	return $clauses;
+}
