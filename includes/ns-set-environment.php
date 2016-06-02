@@ -513,6 +513,7 @@ add_filter( 'edit_post_link', 'ns_ticket_edit_post_link' );
  * -----------------------------------------------------------------------
  */
 function ns_admin_bar_menu( $wp_admin_bar ) {
+
     if( ! is_admin() || ! is_user_logged_in() )
         return;
 
@@ -535,18 +536,55 @@ function ns_admin_bar_menu( $wp_admin_bar ) {
     ) );
 }
 
+    /**
+     * -----------------------------------------------------------------------
+     * HOOK : FILTER HOOK
+     * nanosupport_show_admin_bar_visit_support_desk
+     * 
+     * @since  1.0.0
+     *
+     * @param boolean  True to display the Support Desk link under site name.
+     * -----------------------------------------------------------------------
+     */
+    if( apply_filters( 'nanosupport_show_admin_bar_visit_support_desk', true ) )
+        add_action( 'admin_bar_menu', 'ns_admin_bar_menu', 32 );
+
 /**
- * -----------------------------------------------------------------------
- * HOOK : FILTER HOOK
- * nanosupport_show_admin_bar_visit_support_desk
- * 
- * @since  1.0.0
+ * Display Agent Ticket count on Admin Bar.
  *
- * @param boolean  True to display the Support Desk link under site name.
+ * @since  1.0.0
+ * 
+ * @param  object $wp_admin_bar Default admin bar object.
+ * @return object               Admin bar object with Added menu.
  * -----------------------------------------------------------------------
  */
-if( apply_filters( 'nanosupport_show_admin_bar_visit_support_desk', true ) )
-    add_action( 'admin_bar_menu', 'ns_admin_bar_menu', 32 );
+function ns_agent_admin_bar( $wp_admin_bar ) {
+    if( ! ns_is_user('agent') )
+        return;
+        
+    global $current_user;
+    $my_total_tickets   = ns_total_ticket_count( 'nanosupport', $current_user->ID );
+    $my_solved_tickets  = ns_ticket_status_count( 'solved', $current_user->ID );
+    $my_open_tickets    = $my_total_tickets - $my_solved_tickets;
+
+    if( absint($my_open_tickets) > 0 ) {
+        $wp_admin_bar->add_node(array(
+            'parent'    => null,
+            'group'     => null,
+            'title'     => '<span class="ab-icon ns-icon-nanosupport" style="font-size: 17px;"></span> ' . absint( $my_open_tickets ),
+            'id'        => 'ns-agent-ticket-count',
+            'href'      => add_query_arg( 'post_type', 'nanosupport', admin_url('/edit.php') ),
+            'meta'      => array(
+                'target' => '_self',
+                'title'  => esc_html__( 'Open tickets assigned to me', 'nanosupport' ),
+                'class'  => 'agent-open-tickets',
+            ),
+        ));
+    }
+    
+}
+
+add_action( 'admin_bar_menu', 'ns_agent_admin_bar', 999 );
 
 
 /**
