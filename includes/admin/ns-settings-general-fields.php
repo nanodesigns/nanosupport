@@ -90,6 +90,15 @@ function ns_highlight_ticket_field() {
 
 }
 
+// General Tab : General Settings : Field 5 : Enable Embedded Login?
+function ns_embedded_login_field() {
+    $options = get_option( 'nanosupport_settings' );
+
+    $embedded_login = isset($options['embedded_login']) ? $options['embedded_login'] : '';
+    echo '<input name="nanosupport_settings[embedded_login]" id="embedded_login" type="checkbox" value="1" '. checked( 1, $embedded_login, false ) . '/> <label for="embedded_login">'. __( 'Yes, enable Login below ticket submission form', 'nanosupport' ) .' <sup class="ns-red"><strong>('. __( 'BETA FEATURE', 'nanosupport' ) .')</strong></sup></label>';
+    echo ns_tooltip( __( 'If you check here, it will enable login form below ticket submission form. Please note that, it&rsquo;s a beta feature till now', 'nanosupport' ) );
+}
+
 
 /**
  * Callback: Account Settings Section
@@ -147,6 +156,8 @@ function ns_general_settings_validate( $input ) {
     $add_support_ticket_val = $input['submit_page'] ? absint( $input['submit_page'] ) : '';
     //Enable Notice checkbox
     $enable_notice = (int) $input['enable_notice'] === 1 ? (int) $input['enable_notice'] : '';
+    //Enable Embedded Login checkbox
+    $embedded_login = (int) $input['embedded_login'] === 1 ? (int) $input['embedded_login'] : '';
     //Highlight ticket choice
     $highlight_ticket_val = $input['highlight_ticket'] ? esc_html($input['highlight_ticket']) : 'status';
     
@@ -165,6 +176,7 @@ function ns_general_settings_validate( $input ) {
     $options['submit_page']         = absint( $add_support_ticket_val );
     $options['enable_notice']       = absint( $enable_notice );
     $options['highlight_ticket']    = esc_html( $highlight_ticket_val );
+    $options['embedded_login']      = absint( $embedded_login );
 
     $options['account_creation']['generate_username']   = absint( $generate_username );
     $options['account_creation']['generate_password']   = absint( $generate_password );

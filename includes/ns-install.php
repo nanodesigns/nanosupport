@@ -441,7 +441,7 @@ function ns_create_support_seeker( $email, $username = '', $password = '', $anti
     $user_id = wp_insert_user( $new_support_seeker_data );
 
     if( is_wp_error($user_id) ) {
-        return new WP_Error( 'reg-error', __( 'Couldn&#8217;t register you', 'nanosupport' ) );
+        return new WP_Error( 'reg-error', __( 'Couldn&rsquo;t register you', 'nanosupport' ) );
     }
 
     if( $password_generated )

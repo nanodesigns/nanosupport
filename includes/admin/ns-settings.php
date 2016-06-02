@@ -86,6 +86,13 @@ function nanosupport_settings_options_init(){
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );
+        add_settings_field(
+            'embedded_login',                           // ID*
+            __( 'Enable Embedded Login?', 'nanosupport' ),    // Title*
+            'ns_embedded_login_field',                  // Callback Function*
+            'nanosupport_settings',                     // Page (Plugin)*
+            'ns_general'                                // Section
+        );
 
     /**
      * Tab: Account Settings

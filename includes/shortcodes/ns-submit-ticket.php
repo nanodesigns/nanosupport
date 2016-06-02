@@ -112,6 +112,13 @@ function ns_submit_support_ticket() {
 						if( isset($_GET['action']) ) {
 							$login 		= 'login' == $_GET['action'] ? true : false;
 						}
+
+						/**
+						 * Embedded Login
+						 * Default is false (direct to system login URL)
+						 * ...
+						 */
+						$embedded_login = isset($ns_general_settings['embedded_login']) ? absint($ns_general_settings['embedded_login']) : false;
 						?>
 
 						<hr>
@@ -208,9 +215,23 @@ function ns_submit_support_ticket() {
 							 */
 							do_action( 'register_form' ); ?>
 
+							<?php
+							/**
+							 * If embedded login is enabled.
+							 * ...
+							 */
+							if( $embedded_login ) {
+								$login_link 	= add_query_arg( 'action', 'login', get_the_permalink() );
+								$login_title 	= __( 'Login', 'nanosupport' );
+							} else {
+								$login_link 	= wp_login_url( get_the_permalink() );
+								$login_title 	= __( 'Login first', 'nanosupport' );
+							}
+							?>
+
 							<div class="ns-form-group">
 								<p class="ns-col-md-10 ns-col-sm-9 ns-col-md-offset-2 ns-col-sm-offset-3">
-									<?php printf( __( 'Already have an account? <a href="%1s">Login</a>', 'nanosupport' ), esc_url( add_query_arg( 'action', 'login', get_the_permalink() ) ) ); ?>
+									<?php _e( 'Already have an account?', 'nanosupport' ); ?> <a href="<?php echo esc_url($login_link); ?>"><?php echo esc_html( $login_title ); ?><a>
 								</p>
 							</div> <!-- /.ns-form-group -->
 
@@ -224,40 +245,44 @@ function ns_submit_support_ticket() {
 							 * Login
 							 * Show the user login form.
 							 */
+
+							if( $embedded_login ) {
 							?>
 
-							<div class="ns-form-group">
-								<label for="login-name" class="ns-col-md-2 ns-col-sm-3 ns-control-label">
-									<?php _e( 'Username', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
-								</label>
-								<div class="ns-col-md-10 ns-col-sm-9">
-									<input name="login_name" type="text" class="ns-form-control login-field" value="<?php echo( isset($_POST['login_name']) ? $_POST['login_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="login-name" required>
-								</div>
-							</div> <!-- /.ns-form-group -->
+								<div class="ns-form-group">
+									<label for="login-name" class="ns-col-md-2 ns-col-sm-3 ns-control-label">
+										<?php _e( 'Username', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+									</label>
+									<div class="ns-col-md-10 ns-col-sm-9">
+										<input name="login_name" type="text" class="ns-form-control login-field" value="<?php echo( isset($_POST['login_name']) ? $_POST['login_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="login-name" required>
+									</div>
+								</div> <!-- /.ns-form-group -->
 
-							<div class="ns-form-group">
-								<label for="login-pass" class="ns-col-md-2 ns-col-sm-3 ns-control-label">
-									<?php _e( 'Password', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
-								</label>
-								<div class="ns-col-md-10 ns-col-sm-9">
-									<input name="login_password" type="password" class="ns-form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="login-pass" required>
-								</div>
-							</div> <!-- /.ns-form-group -->
+								<div class="ns-form-group">
+									<label for="login-pass" class="ns-col-md-2 ns-col-sm-3 ns-control-label">
+										<?php _e( 'Password', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+									</label>
+									<div class="ns-col-md-10 ns-col-sm-9">
+										<input name="login_password" type="password" class="ns-form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="login-pass" required>
+									</div>
+								</div> <!-- /.ns-form-group -->
 
-							<div class="ns-form-group">
-								<div class="ns-col-md-10 ns-col-sm-9 ns-col-md-offset-2 ns-col-sm-offset-3">
-									<label><input type="checkbox" name="rememberme"> <?php _e( 'Remember me', 'nanosupport' ); ?></label>
-								</div>
-							</div> <!-- /.ns-form-group -->
+								<div class="ns-form-group">
+									<div class="ns-col-md-10 ns-col-sm-9 ns-col-md-offset-2 ns-col-sm-offset-3 ns-checkbox">
+										<label><input type="checkbox" name="rememberme"> <?php _e( 'Remember me', 'nanosupport' ); ?></label>
+									</div>
+								</div> <!-- /.ns-form-group -->
 
-							<div class="ns-form-group">
-								<p class="ns-col-md-10 ns-col-sm-9 ns-col-md-offset-2 ns-col-sm-offset-3"><?php printf( __( 'Don&#8217;t have an account? <a href="%1s">Create one</a>', 'nanosupport' ), esc_url( get_the_permalink() ) ); ?></p>
-							</div> <!-- /.ns-form-group -->
+								<div class="ns-form-group">
+									<p class="ns-col-md-10 ns-col-sm-9 ns-col-md-offset-2 ns-col-sm-offset-3"><?php printf( __( 'Don&rsquo;t have an account? <a href="%1s">Create one</a>', 'nanosupport' ), esc_url( get_the_permalink() ) ); ?></p>
+								</div> <!-- /.ns-form-group -->
 
-							<!-- HIDDEN INPUT TO TREAT FORM SUBMIT APPROPRIATELY -->
-							<input type="hidden" name="ns_login_submit">
+								<!-- HIDDEN INPUT TO TREAT FORM SUBMIT APPROPRIATELY -->
+								<input type="hidden" name="ns_login_submit">
 
-							<?php wp_nonce_field( 'nanosupport-login' ); ?>
+								<?php wp_nonce_field( 'nanosupport-login' ); ?>
+
+							<?php } //endif( $embedded_login ) ?>
 
 						<?php } //endif( ! $login ) ?>
 

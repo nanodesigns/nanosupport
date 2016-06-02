@@ -61,13 +61,13 @@ function ns_registration_login_ticket_submission_redir() {
 
     //Ticket Subject
     if( empty( $_POST['ns_ticket_subject'] ) )
-        $ns_errors[]    = __( 'Ticket subject can&#8217;t be empty', 'nanosupport' );
+        $ns_errors[]    = __( 'Ticket subject can&rsquo;t be empty', 'nanosupport' );
     else
         $ticket_subject = $_POST['ns_ticket_subject'];
 
     //Ticket Details
     if( empty( $_POST['ns_ticket_details'] ) )
-        $ns_errors[] = __( 'Ticket details can&#8217;t be empty', 'nanosupport' );
+        $ns_errors[] = __( 'Ticket details can&rsquo;t be empty', 'nanosupport' );
     else if( ! empty( $_POST['ns_ticket_details'] ) && strlen( $_POST['ns_ticket_details'] ) < 30 )
         $ns_errors[]    = __( 'Write down a little detail. At least 30 characters or longer', 'nanosupport' );
     else
@@ -231,6 +231,11 @@ function ns_registration_login_ticket_submission_redir() {
 
     }
 
+    //User identity is not acceptable
+    if( empty( $user_id ) )
+        $ns_errors[]   = __( 'Sorry, your user identity is not acceptable! Your ticket is not submitted.', 'nanosupport' );
+
+
     //------------------ERROR: There are errors - don't go further
     if( ! empty( $ns_errors ) ){
         return;
@@ -262,10 +267,6 @@ function ns_registration_login_ticket_submission_redir() {
         add_post_meta( $ticket_post_id, '_ns_ticket_status',   esc_html( 'open' ) );
         add_post_meta( $ticket_post_id, '_ns_ticket_priority', wp_strip_all_tags( $ticket_priority ) );
         add_post_meta( $ticket_post_id, '_ns_ticket_agent',    '' ); //no ticket agent assigned
-
-    } else {
-
-        $ns_errors[]   = __( 'Sorry, your user identity is not acceptable! Your ticket is not submitted.', 'nanosupport' );
 
     }
 
@@ -351,7 +352,7 @@ function ns_knowledgebase_navigation() {
     <div class="ns-well ns-well-sm">
         <div class="ns-row">
             <div class="ns-col-md-7 ns-col-sm-6 ns-well-left ns-text-muted">
-                <?php _e( 'Find your desired question in the knowledgebase. If you can&#8217;t find your question, submit a new support ticket.', 'nanosupport' ); ?>
+                <?php _e( 'Find your desired question in the knowledgebase. If you can&rsquo;t find your question, submit a new support ticket.', 'nanosupport' ); ?>
             </div>
             <div class="ns-col-md-5 ns-col-sm-6 ns-well-right ns-text-right">
                 <a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="ns-btn ns-btn-sm ns-btn-primary">
@@ -599,7 +600,7 @@ function ns_notify_user_on_opening_ticket() {
 
     if( 'pending' === $ticket_meta['status']['value'] ) {
         echo '<div class="ns-alert ns-alert-normal" role="alert">';
-            _e( '<strong>Just to inform:</strong> This ticket is still <em>pending</em>. With this response it&#8217;ll be opened.', 'nanosupport' );
+            _e( '<strong>Just to inform:</strong> This ticket is still <em>pending</em>. With this response it&rsquo;ll be opened.', 'nanosupport' );
         echo '</div>';
     }
 
@@ -635,7 +636,7 @@ function ns_response_submit_redir() {
         $response_msg = $_POST['ns_response_msg'];
 
         if( empty($response_msg) ) {
-            $response_error->add( 'response_empty', __( 'Response field can&#8217;t be empty.', 'nanosupport' ) );
+            $response_error->add( 'response_empty', __( 'Response field can&rsquo;t be empty.', 'nanosupport' ) );
         }
         if( strlen($response_msg) < 30 ) {
             $response_error->add( 'response_short', __( 'Your message is too short. Write down at least 30 characters.', 'nanosupport' ) );

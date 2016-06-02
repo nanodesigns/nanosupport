@@ -160,7 +160,7 @@ function ns_internal_notes_specifics() {
         <div class="ns-box">
             <div class="ns-field">
                 <textarea class="ns-field-item" name="ns_internal_note" id="ns-internal-note" rows="5" placeholder="<?php esc_attr_e( 'Write down any internal note to pass to any Support Agent internally.', 'nanosupport' ); ?>"><?php echo isset($_POST['ns_internal_note']) ? $_POST['ns_internal_note'] : $meta_data; ?></textarea>
-                <?php echo '<p class="description">'. __( 'Internal notes are not visible to Support Seekers. It&#8217;s to pass important notes within the support team.', 'nanosupport' ) .'</p>'; ?>
+                <?php echo '<p class="description">'. __( 'Internal notes are not visible to Support Seekers. It&rsquo;s to pass important notes within the support team.', 'nanosupport' ) .'</p>'; ?>
             </div> <!-- /.ns-field -->
         </div> <!-- /.ns-box -->
     </div> <!-- /.ns-row -->
@@ -377,7 +377,7 @@ function ns_short_response_warning() {
         return;
 
     echo '<div class="error notice">';
-        echo '<p>'. __( '<strong>Response isn&#8217;t saved.</strong> Responses should be at least 30 characters or more.', 'nanosupport' ) .'</p>';
+        echo '<p>'. __( '<strong>Response isn&rsquo;t saved.</strong> Responses should be at least 30 characters or more.', 'nanosupport' ) .'</p>';
     echo '</div>';
 }
 
