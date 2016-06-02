@@ -21,9 +21,9 @@ if( !defined( 'ABSPATH' ) && !defined( 'WP_UNINSTALL_PLUGIN' ) )
 $ns_general_settings 		= get_option( 'nanosupport_settings' );
 $ns_knowledgebase_settings 	= get_option( 'nanosupport_knowledgebase_settings' );
 
-$support_desk_page_id 	= $ns_general_settings['support_desk'];
-$submit_ticket_page_id 	= $ns_general_settings['submit_page'];
-$knowledgebase_page_id 	= $ns_knowledgebase_settings['page'];
+$support_desk_page_id 		= $ns_general_settings['support_desk'];
+$submit_ticket_page_id 		= $ns_general_settings['submit_page'];
+$knowledgebase_page_id 		= $ns_knowledgebase_settings['page'];
 
 /** ---------------- DELETE EVERYTHING ---------------- **/
 /** ------------------ (if permitted) ----------------- **/

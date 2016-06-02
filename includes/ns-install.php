@@ -248,6 +248,7 @@ function ns_remove_caps() {
 		foreach( $cap_group as $cap ) :
 			$wp_roles->remove_cap( 'editor', $cap );
             $wp_roles->remove_cap( 'administrator', $cap );
+            $wp_roles->remove_cap( 'support_seeker', $cap );
 		endforeach;
 	endforeach;
 
