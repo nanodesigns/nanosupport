@@ -489,7 +489,7 @@ add_action( 'pre_get_posts', 'ns_redirect_user_to_correct_place' );
  */
 function ns_ticket_edit_post_link( $output ) {
     global $post;
-    if( 'nanosupport' === $post->post_type ) {
+    if( is_singular('nanosupport') && 'nanosupport' === $post->post_type ) {
         $output = str_replace(
                     'class="post-edit-link"',
                     'class="post-edit-link ns-btn ns-btn-default ns-btn-xs ns-round-btn edit-ticket-btn"',

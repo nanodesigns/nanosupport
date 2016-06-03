@@ -105,15 +105,24 @@ function ns_support_desk_page() {
 									<?php if( 'pending' === $ticket_meta['status']['value'] ) : ?>
 										<?php if( ns_is_user('agent_and_manager') ) : ?>
 											<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
-												<?php the_title(); ?><?php edit_post_link( '<span class="ns-icon-edit" title="'. esc_attr__('Edit the Ticket', 'nanosupport') .'"></span>', '', '', get_the_ID() ); ?>
+												<?php the_title(); ?>
 											</a>
 										<?php else : ?>
-											<?php the_title(); ?><?php edit_post_link( '<span class="ns-icon-edit" title="'. esc_attr__('Edit the Ticket', 'nanosupport') .'"></span>', '', '', get_the_ID() ); ?>
+											<?php the_title(); ?>
 										<?php endif; ?>
 									<?php else : ?>
 										<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
-											<?php the_title(); ?><?php edit_post_link( '<span class="ns-icon-edit" title="'. esc_attr__('Edit the Ticket', 'nanosupport') .'"></span>', '', '', get_the_ID() ); ?>
+											<?php the_title(); ?>
 										</a>
+									<?php endif; ?>
+									
+									<?php if( ns_is_user('agent_and_manager') ) : ?>
+										<div class="ticket-tools">
+											<?php edit_post_link( 'Edit', '', '', get_the_ID() ); ?>
+											<a class="ticket-view-link" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e('Permanent link to the Ticket', 'nanosupport'); ?>">
+												<?php esc_html_e( 'View', 'nanosupport' ); ?>
+											</a>
+										</div> <!-- /.ticket-tools -->
 									<?php endif; ?>
 								</h3>
 								<div class="ticket-author">
