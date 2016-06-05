@@ -1,10 +1,9 @@
 === NanoSupport ===
-Contributors: nanodesigns, Mayeenul Islam
-Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing
+Contributors: nanodesigns, wzislam
+Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff
 Requires at least: 3.9.0
 Tested up to: 4.5.2
-Donate link: https://nanodesignsbd.com/
-Stable tag: 1.0.0
+Stable tag: 0.1.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -23,34 +22,36 @@ The plugin is to provide support to your users - the users those are taking prod
 * OnActivation setup
 * Smart templating for nice theme support
 * Smartly designed Support Center
-* Private ticketing
-* Ticket submission with ticketing
-* Ticket submission with login
+* Completely Private ticketing
+* Ticket submission with registration
+* Ticket submission with login (Beta Feature)
 * Auto generate user account's username on ticket submission
 * Auto generate user account's password on ticket submission
 * Knowledgebase
-* Knowledgebase categories
+* Knowledgebase content categories
 * Ticket departments
 * Default ticket department 'Support'
 * Make agent from registered users
 * Assign ticket to an agent
 * Change ticket status (Pending, Open, Under Inspection, Solved)
 * Set support priority (Low, Medium, High, Critical)
-* Reply ticket from admin panel and front end
+* Reply ticket from admin panel
+* Reply ticket from front end
 * ReOpen closed ticket
 * Shortcode-enabled pages
 * Settings page (Settings API)
-* Ticket Seeker user role and privileges
+* Support Seeker user role and privileges
 * Dashboard widget with recent activity
 * Dashboard widget with current status
+* Dashboard widget with personal status for Agents
 * Add ticket on behalf of other user (admin end)
 * Email template decoration
 * Email notification on new ticket submission
-* Email notification to user on account creation on ticket submission
-* Email notification on status change to a ticket
+* Email notification to Support Seeker on account creation on ticket submission
+* Email notification to Support Seeker on ticket reply
 * NanoSupport page-to-page navigation and notices
 * OnChoice complete data deletion on uninstallation
-* Translation-ready
+* 100% Translation-ready
 * Responsive and Mobile devices friendly
 * Clean and well commented code
 
@@ -85,7 +86,7 @@ The plugin is completely translation-ready. You can find the \`.pot\` file under
 2. Hit the Download button to download the \`.zip\` file
 3. Unzip the archive and cut/paste the folder to \`/wp-content/plugins/\` directory
 4. From admin 'Plugins' page, activate NanoSupport plugin
-5. Get to the Plugin\'s 'Settings' page, and set up the plugin as your choice
+5. Get to the Plugin\'s 'Settings' page, and set up the plugin as you like
 6. Wait for your first ticket
 
 = How to Use =
@@ -105,7 +106,7 @@ The plugin is completely translation-ready. You can find the \`.pot\` file under
 **A:** Please visit the plugin's Installation page to get the details.
 
 = Q: How to set up the Plugin? =
-**A:** After activation you can get the 'NanoSupport' admin menu, and under that menu page, you will get the 'Settings' page to set up the plugin.
+**A:** After activation you can get the 'NanoSupport' admin menu on the left, and under that menu page, you will get the 'Settings' page to set up the plugin.
 
 = Q: What are the shortcodes? =
 **A:** On installation the plugin will automatically create its necessary pages with related shortcodes. But if it misses by any chance, here are the shortcodes:
@@ -128,14 +129,14 @@ The plugin is completely translation-ready. You can find the \`.pot\` file under
 5. NanoSupport | Knowledgebase
 6. NanoSupport | Ticketing at a glance with NanoSupport dashboard widget
 7. NanoSupport | Customizable email template
-8. NanoSupport | Easy navigation, easy ticketing using Admin bar
+8. NanoSupport | Easy navigation, and noticiation for easy ticketing using Admin bar
 
 == Changelog ==
 
-= 1.0.0 =
+= 0.1.0 =
 * Plugin initiated
 
 == Upgrade Notice ==
 
-= 1.0.0 =
-The almost ready version of the plugin.
+= 0.1.0 =
+Let\'s start creating your first Support Ticketing system in WordPress.
