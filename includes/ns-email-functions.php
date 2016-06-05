@@ -97,7 +97,7 @@ function nanosupport_new_ticket_notification_email( $new_status, $old_status, $p
         $ticket_view_link   = get_permalink( $ticket_id );
         
 
-        $subject = sprintf ( __( 'New Ticket Submitted &mdash; %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
+        $subject = sprintf ( __( 'New Ticket Submitted — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
 
         $email_subhead = __( 'New Ticket Submitted', 'nanosupport' );
 
@@ -147,7 +147,7 @@ function nanosupport_handle_account_opening_email( $user_id = '', $generated_pas
     $username   = $user ? $user->user_login : '';
     $email      = $user ? $user->user_email : '';
 
-    $subject = sprintf ( __( 'Account Created &mdash; %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
+    $subject = sprintf ( __( 'Account Created — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
 
     $email_subhead = __( 'Welcome to your Account', 'nanosupport' );
 
@@ -202,7 +202,7 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
     $author_email   = get_the_author_meta( 'user_email', $author_id );
 
     if( isset($author_email) && is_email($author_email) ) :
-        $subject = sprintf ( __( 'Your ticket is replied &mdash; %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
+        $subject = sprintf ( __( 'Your ticket is replied — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
 
         $email_subhead = __( 'Support Ticket Replied', 'nanosupport' );
 
