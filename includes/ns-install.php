@@ -356,7 +356,7 @@ function ns_create_support_seeker( $email, $username = '', $password = '', $anti
      * Make the username ready
      */
     $options = get_option( 'nanosupport_settings' );
-    if( $options['account_creation']['generate_username'] !== 1 || ! empty($username) ) {
+    if( (isset($options['account_creation']['generate_username']) && $options['account_creation']['generate_username'] !== 1) || ! empty($username) ) {
 
         //Get the username
         $username = sanitize_user( $username );
@@ -388,7 +388,7 @@ function ns_create_support_seeker( $email, $username = '', $password = '', $anti
     /**
      * Make the password ready
      */
-    if( $options['account_creation']['generate_password'] === 1 && empty($password) ) {
+    if( (isset($options['account_creation']['generate_password']) && $options['account_creation']['generate_password'] === 1) && empty($password) ) {
 
         //Generate the password automatically
         $password = wp_generate_password();
