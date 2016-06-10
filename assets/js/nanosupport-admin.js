@@ -64,6 +64,9 @@ jQuery(document).ready(function($) {
      * @scope includes/admin/ns-settings-email-fields.php
      * ...
      */
-    $('.ns-colorbox').wpColorPicker();
+    var color_holder = $('.ns-colorbox');
+    if( color_holder.length > 0 ) {
+        color_holder.wpColorPicker();
+    }
 
 });
