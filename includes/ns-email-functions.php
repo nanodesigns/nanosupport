@@ -14,9 +14,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-//Execute emails
-add_action( 'transition_post_status',   'nanosupport_new_ticket_notification_email', 10, 3 );
-add_action( 'wp_insert_comment',        'nanosupport_email_on_ticket_response',      99, 2 );
+//Execute new ticket notification
+add_action( 'transition_post_status', 'nanosupport_new_ticket_notification_email', 10, 3 );
+
+//First, disable comment notification for 'nanosupport' Responses
+add_filter( 'comment_notification_recipients', 'ns_disable_wp_comment_notification', PHP_INT_MAX, 2 );
+//Then, execute response notification
+add_action( 'wp_insert_comment', 'nanosupport_email_on_ticket_response', PHP_INT_MAX, 2 );
+
 
 
 /**
@@ -32,16 +37,16 @@ function nanosupport_mail_content_type() {
 /**
  * NanoSupport Emailer
  *
- * @link http://stackoverflow.com/a/14502884/1743124
+ * @link    http://stackoverflow.com/a/14502884/1743124
  *
- * @since  1.0.0
+ * @since   1.0.0
  * 
- * @param  string $to_email       To email.
- * @param  string $subject        Email subject.
- * @param  string $email_subhead  Email sub header for email content.
- * @param  string $message        HTML/Plain email body.
- * @param  string $reply_to_email Specified reply to email (optional).
- * @return boolean                If sent, true, else false.
+ * @param   string $to_email       To email.
+ * @param   string $subject        Email subject.
+ * @param   string $email_subhead  Email sub header for email content.
+ * @param   string $message        HTML/Plain email body.
+ * @param   string $reply_to_email Specified reply to email (optional).
+ * @return  boolean                If sent, true, else false.
  * ------------------------------------------------------------------------------
  */
 function ns_email( $to_email, $subject, $email_subhead, $message, $reply_to_email = '' ) {
@@ -163,7 +168,7 @@ function nanosupport_handle_account_opening_email( $user_id = '', $generated_pas
     $message .= '<p style="margin: 0 0 16px;">'. sprintf( __( 'Log in here: <a style="color: #1c5daa; text-decoration: none;" href="%1$s" target="_blank" title="Account Login URL">%1$s</a>', 'nanosupport' ), esc_url( wp_login_url() ) ) .'</p>';
 
     //send the email
-    $password_email = ns_email( ns_ondomain_email(), $subject, $email_subhead, $message );
+    $password_email = ns_email( $email, $subject, $email_subhead, $message );
 
     return $password_email;
 }
@@ -186,16 +191,16 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
     $comment = get_comment( $comment_ID );
     $post_id = $comment->comment_post_ID;
     
-    if( 'nanosupport' !== get_post_type( $post_id ) )
+    if( 'nanosupport' !== get_post_type($post_id) )
         return;
 
-    if( 'pending' === get_post_status( $post_id ) )
+    if( 'pending' === get_post_status($post_id) )
         return;
 
     $author_id      = get_post_field( 'post_author', $post_id );
     $last_response  = ns_get_last_response( $post_id );
 
-    // Don't send email on self-response
+    //Don't send email on self-response
     if( $last_response['user_id'] == $author_id )
         return;
 
@@ -211,8 +216,33 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
         $message = '<p style="margin: 0 0 16px;">'. sprintf( __( 'Your support ticket <strong>%1$s</strong> on %2$s is replied by <em>%3$s</em>.', 'nanosupport' ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) ) .'</p>';
         $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. esc_url(get_permalink($post_id)) .'">'. __( 'View Ticket', 'nanosupport' ) .'</a></p>';
 
-        //send the email
-        ns_email( ns_ondomain_email(), $subject, $email_subhead, $message );
+        //Send the email
+        ns_email( $author_email, $subject, $email_subhead, $message );
 
     endif;
+}
+
+
+/**
+ * Disable default comment notification email
+ *
+ * Disable comment notification email to inform user with
+ * custom notification email specific to 'nanosupport_response'
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $emails       Array of emails.
+ * @param  integer $comment_ID Comment ID.
+ * @return array               Filled or empty array based on condition.
+ * ------------------------------------------------------------------------------
+ */
+function ns_disable_wp_comment_notification( $emails, $comment_ID ) {
+    $comment = get_comment( $comment_ID );
+    $post_id = $comment->comment_post_ID;
+
+    if( 'nanosupport' === get_post_type($post_id) ) {
+        $emails = array('');
+    }
+
+    return $emails;
 }
