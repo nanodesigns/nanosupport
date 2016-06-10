@@ -55,7 +55,7 @@ $email_settings = get_option('nanosupport_email_settings');
                                                     <v:textbox inset="0,0,0,0">
                                                 <![endif]-->
                                                 <div style="padding: 20px 48px; display: block;">
-                                                    <h1 style='color: <?php echo $email_header_text_color; ?>; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; font-size: 30px; font-weight: 300; line-height: 150%; margin: 0 0 16px 0; text-align: center; text-shadow: 0 1px 0 #7797b4; -webkit-font-smoothing: antialiased;'>
+                                                    <h1 style='color: <?php echo $email_header_text_color; ?>; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; font-size: 30px; font-weight: 300; line-height: 150%; margin: 0 0 16px 0; text-align: center; text-shadow: 0 1px 0 #7797b4; -webkit-font-smoothing: antialiased; display: block;'>
                                                         <?php
                                                         echo isset($email_settings['header_text']) && !empty($email_settings['header_text']) ? esc_html($email_settings['header_text']) : get_bloginfo( 'name', 'display' );
                                                         ?>
