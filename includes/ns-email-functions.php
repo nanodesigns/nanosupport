@@ -198,26 +198,50 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
         return;
 
     $author_id      = get_post_field( 'post_author', $post_id );
+    $author_email   = get_the_author_meta( 'user_email', $author_id );
     $last_response  = ns_get_last_response( $post_id );
 
     //Don't send email on self-response
-    if( $last_response['user_id'] == $author_id )
-        return;
-
-    $author_email   = get_the_author_meta( 'user_email', $author_id );
-
-    if( isset($author_email) && is_email($author_email) ) :
-        $subject = sprintf ( __( 'Your ticket is replied — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
+    if( ( $last_response['user_id'] != $author_id ) && isset($author_email) && is_email($author_email) ) :
+        $subject = sprintf ( esc_html__( 'Your ticket is replied — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
 
         $email_subhead = __( 'Support Ticket Replied', 'nanosupport' );
 
         //Email Content
         $message = '';
-        $message = '<p style="margin: 0 0 16px;">'. sprintf( __( 'Your support ticket <strong>%1$s</strong> on %2$s is replied by <em>%3$s</em>.', 'nanosupport' ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) ) .'</p>';
+        $message = '<p style="margin: 0 0 16px;">'. sprintf( __( 'Your support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied by <em>%3$s</em>.', 'nanosupport' ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) ) .'</p>';
         $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. esc_url(get_permalink($post_id)) .'">'. __( 'View Ticket', 'nanosupport' ) .'</a></p>';
 
         //Send the email
         ns_email( $author_email, $subject, $email_subhead, $message );
+
+    endif;
+
+
+    /**
+     * Email the agent, if any.
+     * ...
+     */
+    $ticket_meta    = ns_get_ticket_meta( $post_id );
+    $ticket_agent   = isset($ticket_meta['agent']['ID']) ? $ticket_meta['agent']['ID'] : '';
+    if( $ticket_agent && $last_response['user_id'] == $ticket_agent ) {
+        $agent_user     = get_user_by( 'id', $ticket_agent );
+        $agent_email    = $agent_user ? $agent_user->user_email : '';
+    }
+
+    if( isset($agent_email) && is_email($agent_email) ) :
+
+        $subject = sprintf ( __( 'An assigned ticket is replied — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
+
+        $email_subhead = __( 'Support Ticket Replied', 'nanosupport' );
+
+        //Email Content
+        $message = '';
+        $message = '<p style="margin: 0 0 16px;">'. sprintf( __( 'An assigned support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied by <em>%3$s</em>.', 'nanosupport' ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) ) .'</p>';
+        $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. esc_url(get_permalink($post_id)) .'">'. __( 'View Ticket', 'nanosupport' ) .'</a></p>';
+
+        //Send the email
+        ns_email( $agent_email, $subject, $email_subhead, $message );
 
     endif;
 }
