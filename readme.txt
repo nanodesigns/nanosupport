@@ -38,6 +38,7 @@ The plugin is to provide support to your users - the users those are taking prod
 * Reply ticket from admin panel
 * Reply ticket from front end
 * ReOpen closed ticket
+* Internal Notes in between support teams
 * Shortcode-enabled pages
 * Settings page (Settings API)
 * Support Seeker user role and privileges

@@ -181,6 +181,8 @@ function nanosupport_handle_account_opening_email( $user_id = '', $generated_pas
  * reponded by someone other than them. Send email whether the
  * ticket is responded regardless from front-end or back end.
  *
+ * Send an email to the ticket agent notifying ticket modification.
+ *
  * @since  1.0.0
  * 
  * @param  integer $comment_ID    The comment ID.

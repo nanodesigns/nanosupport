@@ -49,13 +49,28 @@ jQuery(document).ready(function($) {
      * Enable Select2 to all the .ns-select fields.
      * ...
      */
-    $('select.ns-select').select2({
-        minimumResultsForSearch: -1
-    });
+    var select_field        = $('select.ns-select'),
+        select_search       = $('select.ns-select-search'),
+        auto_select_field   = $('select.ns-auto-select'),
+        auto_select_search  = $('select.ns-auto-select-search');
 
-    $('#ns_doc_terms').select2({
-        placeholder: ns.doc_placeholder
-    });
+    if( select_field.length > 0 ) {
+        select_field.select2({
+            minimumResultsForSearch: -1
+        });
+    }
+    if( auto_select_field.length > 0 ) {
+        auto_select_field.select2({
+            minimumResultsForSearch: -1
+        });
+    }
+
+    if( select_search.length > 0 ) {
+        select_search.select2();
+    }
+    if( auto_select_search.length > 0 ) {
+        auto_select_search.select2();
+    }
 
 
     /**

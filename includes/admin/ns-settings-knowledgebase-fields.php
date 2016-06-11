@@ -51,7 +51,7 @@ function ns_doc_terms_field() {
     $options        = get_option('nanosupport_knowledgebase_settings');
     $ns_doc_terms   = get_terms( 'nanodoc_category', array( 'hide_empty' => false ) );
 
-    echo '<select name="nanosupport_knowledgebase_settings[terms][]" id="ns_doc_terms" class="ns-select" multiple="multiple">';
+    echo '<select name="nanosupport_knowledgebase_settings[terms][]" id="ns_doc_terms" class="ns-select-search" multiple="multiple" data-placeholder="'. esc_attr__( 'Select Categories', 'nanosupport' ) .'">';
 
         echo '<option value="">'. __( 'Select Categories', 'nanosupport' ) .'</option>';
         foreach ( $ns_doc_terms as $term ) :

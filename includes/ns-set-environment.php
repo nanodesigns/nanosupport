@@ -142,7 +142,6 @@ function ns_admin_scripts() {
     		'ns-admin',
     		'ns',
     		array(
-                'doc_placeholder'   => __( 'Select categories', 'nanosupport' ),
                 'del_confirmation'  => __( 'Are you sure you want to delete the response?', 'nanosupport' ),
             )
         );
