@@ -226,8 +226,10 @@ function ns_add_caps() {
  * Removing Custom Capabilities
  * 
  * Removing Custom Capabilities from:
- *      - 'editor', and
- *      - 'administrator'
+ *      - 'editor',
+ *      - 'administrator',
+ *      - 'support_seeker', and
+ *      - Support Agents
  * on uninstallation of the plugin.
  *
  * @since   1.0.0
@@ -253,6 +255,32 @@ function ns_remove_caps() {
 	endforeach;
 
     remove_role( 'support_seeker' );
+
+    /**
+     * Remove Capacities from Agents
+     * ...
+     */
+
+    $agent_query = new WP_User_Query( array(
+                        'meta_key'      => 'ns_make_agent',
+                        'meta_value'    => 1,
+                    ) );
+    if ( ! empty( $agent_query->results ) ) {
+        $capability_type = 'nanosupport';
+        foreach ( $agent_query->results as $user ) {
+            $ns_agent_user = new WP_User($user->ID);
+
+            $ns_agent_user->remove_cap( "read_{$capability_type}" );
+            $ns_agent_user->remove_cap( "edit_{$capability_type}" );
+            $ns_agent_user->remove_cap( "edit_{$capability_type}s" );
+            $ns_agent_user->remove_cap( "edit_others_{$capability_type}s" );
+            $ns_agent_user->remove_cap( "read_private_{$capability_type}s" );
+            $ns_agent_user->remove_cap( "edit_private_{$capability_type}s" );
+            $ns_agent_user->remove_cap( "edit_published_{$capability_type}s" );
+            
+            $ns_agent_user->remove_cap( "assign_{$capability_type}_terms" );
+        }
+    }
 
 }
 

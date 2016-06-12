@@ -64,11 +64,6 @@ if( ! empty($delete_data) ) :
 	endforeach;
 
 	/**
-	 * Delete user meta fields
-	 */
-	$wpdb->delete( $wpdb->usermeta, array( 'meta_key' => 'ns_make_agent' ), array( '%s' ) );
-
-	/**
 	 * Flush the rewrite rules once again
 	 */
 	flush_rewrite_rules();
@@ -78,6 +73,11 @@ if( ! empty($delete_data) ) :
 	 */
 	include_once 'includes/ns-install.php';
 	ns_remove_caps();
+
+	/**
+	 * Delete user meta fields
+	 */
+	$wpdb->delete( $wpdb->usermeta, array( 'meta_key' => 'ns_make_agent' ), array( '%s' ) );
 
 	/**
 	 * Delete all the options
