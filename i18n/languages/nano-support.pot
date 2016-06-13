@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the NanoSupport package.
 msgid ""
 msgstr ""
-"Project-Id-Version: NanoSupport 1.0.0\n"
+"Project-Id-Version: NanoSupport 0.1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/nanodesigns/nanosupport/issues\n"
-"POT-Creation-Date: 2016-06-05 00:03+0600\n"
+"POT-Creation-Date: 2016-06-13 00:03+0600\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-06-05 00:03+0600\n"
+"PO-Revision-Date: 2016-06-13 00:03+0600\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: Eazy Po 0.9.5.2\n"
@@ -32,7 +32,7 @@ msgstr ""
 
 #: includes/ns-cpt-knowledgebase.php:30 includes/ns-cpt-knowledgebase.php:31
 #: includes/ns-cpt-knowledgebase.php:41 includes/ns-dashboard.php:85
-#: includes/ns-functions.php:406 includes/ns-functions.php:453
+#: includes/ns-functions.php:408 includes/ns-functions.php:455
 #: includes/admin/ns-settings.php:305 includes/admin/__nanodesigns.php:22
 msgid "Knowledgebase"
 msgstr ""
@@ -141,7 +141,8 @@ msgstr ""
 msgid "New Ticket"
 msgstr ""
 
-#: includes/ns-cpt-nanosupport.php:36 includes/ns-email-functions.php:212
+#: includes/ns-cpt-nanosupport.php:36 includes/ns-email-functions.php:215
+#: includes/ns-email-functions.php:243
 msgid "View Ticket"
 msgstr ""
 
@@ -162,7 +163,7 @@ msgid "Parent Ticket:"
 msgstr ""
 
 #: includes/ns-cpt-nanosupport.php:41 includes/ns-dashboard.php:52
-#: includes/ns-set-environment.php:194 includes/admin/__nanodesigns.php:20
+#: includes/ns-set-environment.php:193 includes/admin/__nanodesigns.php:20
 msgid "NanoSupport"
 msgstr ""
 
@@ -306,8 +307,8 @@ msgstr ""
 msgid "Support Desk"
 msgstr ""
 
-#: includes/ns-dashboard.php:84 includes/ns-functions.php:362
-#: includes/ns-functions.php:456
+#: includes/ns-dashboard.php:84 includes/ns-functions.php:364
+#: includes/ns-functions.php:458
 msgid "Submit Ticket"
 msgstr ""
 
@@ -365,85 +366,97 @@ msgstr ""
 msgid "<a href=\"%1s\" targe=\"_blank\">Get Support</a>"
 msgstr ""
 
-#: includes/ns-email-functions.php:100
+#: includes/ns-email-functions.php:105
 #, php-format
-msgid "New Ticket Submitted &mdash; %s"
+msgid "New Ticket Submitted — %s"
 msgstr ""
 
-#: includes/ns-email-functions.php:102
+#: includes/ns-email-functions.php:107
 msgid "New Ticket Submitted"
 msgstr ""
 
-#: includes/ns-email-functions.php:105
+#: includes/ns-email-functions.php:110
 msgid ""
 "A support ticket is submitted and is <strong>Pending</strong>. Please find "
 "the link below:"
 msgstr ""
 
-#: includes/ns-email-functions.php:106
+#: includes/ns-email-functions.php:111
 msgid "Link to the Ticket"
 msgstr ""
 
-#: includes/ns-email-functions.php:150
+#: includes/ns-email-functions.php:155
 #, php-format
-msgid "Account Created &mdash; %s"
+msgid "Account Created — %s"
 msgstr ""
 
-#: includes/ns-email-functions.php:152
+#: includes/ns-email-functions.php:157
 msgid "Welcome to your Account"
 msgstr ""
 
-#: includes/ns-email-functions.php:156
+#: includes/ns-email-functions.php:161
 #, php-format
 msgid "To manage your support tickets an account has been created on %s."
 msgstr ""
 
-#: includes/ns-email-functions.php:157
+#: includes/ns-email-functions.php:162
 msgid "Account credentials are as following:"
 msgstr ""
 
-#: includes/ns-email-functions.php:159
+#: includes/ns-email-functions.php:164
 #, php-format
 msgid ""
 "Username: <strong>%1$s</strong><br>Password: <strong>%2$s</strong><br>Email: "
 "%3$s"
 msgstr ""
 
-#: includes/ns-email-functions.php:161
+#: includes/ns-email-functions.php:166
 #, php-format
 msgid "Username: %1$s<br>Password: %2$s<br>Email: %3$s"
 msgstr ""
 
-#: includes/ns-email-functions.php:161
+#: includes/ns-email-functions.php:166
 msgid "Your Password"
 msgstr ""
 
-#: includes/ns-email-functions.php:162
+#: includes/ns-email-functions.php:167
 msgid ""
 "You can edit your account details and reset your password from your Profile"
 msgstr ""
 
-#: includes/ns-email-functions.php:163
+#: includes/ns-email-functions.php:168
 #, php-format
 msgid ""
 "Log in here: <a style=\"color: #1c5daa; text-decoration: none;\" href=\"%1$s"
 "\" target=\"_blank\" title=\"Account Login URL\">%1$s</a>"
 msgstr ""
 
-#: includes/ns-email-functions.php:205
+#: includes/ns-email-functions.php:208
 #, php-format
-msgid "Your ticket is replied &mdash; %s"
+msgid "Your ticket is replied — %s"
 msgstr ""
 
-#: includes/ns-email-functions.php:207
+#: includes/ns-email-functions.php:210 includes/ns-email-functions.php:238
 msgid "Support Ticket Replied"
 msgstr ""
 
-#: includes/ns-email-functions.php:211
+#: includes/ns-email-functions.php:214
 #, php-format
 msgid ""
-"Your support ticket <strong>%1$s</strong> on %2$s is replied by <em>%3$s</"
-"em>."
+"Your support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied "
+"by <em>%3$s</em>."
+msgstr ""
+
+#: includes/ns-email-functions.php:236
+#, php-format
+msgid "An assigned ticket is replied — %s"
+msgstr ""
+
+#: includes/ns-email-functions.php:242
+#, php-format
+msgid ""
+"An assigned support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is "
+"replied by <em>%3$s</em>."
 msgstr ""
 
 #: includes/ns-functions.php:64
@@ -474,46 +487,46 @@ msgstr ""
 msgid "There is no user found with this email address"
 msgstr ""
 
-#: includes/ns-functions.php:236
+#: includes/ns-functions.php:238
 msgid ""
 "Sorry, your user identity is not acceptable! Your ticket is not submitted."
 msgstr ""
 
-#: includes/ns-functions.php:315
+#: includes/ns-functions.php:317
 msgid "Email Template Preview"
 msgstr ""
 
-#: includes/ns-functions.php:355
+#: includes/ns-functions.php:357
 msgid ""
 "Find your desired question in the knowledgebase. If you can&rsquo;t find "
 "your question, submit a new support ticket."
 msgstr ""
 
-#: includes/ns-functions.php:359 includes/ns-functions.php:403
+#: includes/ns-functions.php:361 includes/ns-functions.php:405
 msgid "All the Tickets"
 msgstr ""
 
-#: includes/ns-functions.php:359 includes/ns-functions.php:403
+#: includes/ns-functions.php:361 includes/ns-functions.php:405
 msgid "My Tickets"
 msgstr ""
 
-#: includes/ns-functions.php:410
+#: includes/ns-functions.php:412
 msgid ""
 "Consult the Knowledgebase for your query. If they are <em>not</em> close to "
 "you, then submit a new ticket here."
 msgstr ""
 
-#: includes/ns-functions.php:449
+#: includes/ns-functions.php:451
 msgid ""
 "Tickets are visible to the admins, designated support assistant and/or to "
 "the ticket owner only."
 msgstr ""
 
-#: includes/ns-functions.php:498
+#: includes/ns-functions.php:500
 msgid "Your response is successfully submitted to this ticket."
 msgstr ""
 
-#: includes/ns-functions.php:509
+#: includes/ns-functions.php:511
 #, php-format
 msgid ""
 "This ticket is already solved. <a class=\"ns-btn ns-btn-sm ns-btn-warning\" "
@@ -521,53 +534,53 @@ msgid ""
 "Ticket</a>"
 msgstr ""
 
-#: includes/ns-functions.php:528 includes/ns-metaboxes.php:127
+#: includes/ns-functions.php:530 includes/ns-metaboxes.php:127
 #, php-format
 msgid "Responding as: %s"
 msgstr ""
 
-#: includes/ns-functions.php:539 includes/ns-metaboxes.php:138
+#: includes/ns-functions.php:541 includes/ns-metaboxes.php:138
 msgid "Write down your response (at least 30 characters)"
 msgstr ""
 
-#: includes/ns-functions.php:539 includes/ns-metaboxes.php:138
+#: includes/ns-functions.php:541 includes/ns-metaboxes.php:138
 msgid "Write down the response to the ticket"
 msgstr ""
 
-#: includes/ns-functions.php:559 includes/shortcodes/ns-submit-ticket.php:294
+#: includes/ns-functions.php:561 includes/shortcodes/ns-submit-ticket.php:294
 msgid "Submit"
 msgstr ""
 
-#: includes/ns-functions.php:572
+#: includes/ns-functions.php:574
 msgid ""
 "<strong>Resolved!</strong> New Responses to this ticket is already closed. "
 "Only ticket author can reopen a closed ticket."
 msgstr ""
 
-#: includes/ns-functions.php:574
+#: includes/ns-functions.php:576
 msgid ""
 "<strong>Sorry!</strong> Tickets are open for responses only to the Ticket "
 "Author."
 msgstr ""
 
-#: includes/ns-functions.php:603
+#: includes/ns-functions.php:605
 msgid ""
 "<strong>Just to inform:</strong> This ticket is still <em>pending</em>. With "
 "this response it&rsquo;ll be opened."
 msgstr ""
 
-#: includes/ns-functions.php:609
+#: includes/ns-functions.php:611
 #, php-format
 msgid ""
 "<strong>Just to inform:</strong> you are about to ReOpen the ticket. "
 "<small><a href=\"%s\">Cancel ReOpening</a></small>"
 msgstr ""
 
-#: includes/ns-functions.php:639
+#: includes/ns-functions.php:641
 msgid "Response field can&rsquo;t be empty."
 msgstr ""
 
-#: includes/ns-functions.php:642
+#: includes/ns-functions.php:644
 msgid "Your message is too short. Write down at least 30 characters."
 msgstr ""
 
@@ -575,36 +588,36 @@ msgstr ""
 msgid "Support Seeker"
 msgstr ""
 
-#: includes/ns-install.php:348
+#: includes/ns-install.php:376
 msgid "Please provide a valid email address"
 msgstr ""
 
-#: includes/ns-install.php:352
+#: includes/ns-install.php:380
 msgid "An account is already registered with your email address. Please login"
 msgstr ""
 
-#: includes/ns-install.php:365
+#: includes/ns-install.php:393
 msgid "Please enter a valid username for creating an account"
 msgstr ""
 
-#: includes/ns-install.php:369
+#: includes/ns-install.php:397
 msgid ""
 "An account is already registered with that username. Please choose another"
 msgstr ""
 
-#: includes/ns-install.php:399
+#: includes/ns-install.php:427
 msgid "Please enter a password for your account"
 msgstr ""
 
-#: includes/ns-install.php:406
+#: includes/ns-install.php:434
 msgid "Password length must be greater than 5 characters"
 msgstr ""
 
-#: includes/ns-install.php:415
+#: includes/ns-install.php:443
 msgid "Anti-spam field was filled in. Spam account cannot pass in"
 msgstr ""
 
-#: includes/ns-install.php:444
+#: includes/ns-install.php:472
 msgid "Couldn&rsquo;t register you"
 msgstr ""
 
@@ -709,34 +722,30 @@ msgid ""
 msgstr ""
 
 #: includes/ns-set-environment.php:145
-msgid "Select categories"
-msgstr ""
-
-#: includes/ns-set-environment.php:146
 msgid "Are you sure you want to delete the response?"
 msgstr ""
 
-#: includes/ns-set-environment.php:199
+#: includes/ns-set-environment.php:198
 msgid "Make Support Agent"
 msgstr ""
 
-#: includes/ns-set-environment.php:203
+#: includes/ns-set-environment.php:202
 msgid "Yes, make this user a Support Agent"
 msgstr ""
 
-#: includes/ns-set-environment.php:281 includes/ns-set-environment.php:303
+#: includes/ns-set-environment.php:280 includes/ns-set-environment.php:302
 msgid "NanoSupport Agent"
 msgstr ""
 
-#: includes/ns-set-environment.php:405
+#: includes/ns-set-environment.php:404
 msgid "Ticket has no content"
 msgstr ""
 
-#: includes/ns-set-environment.php:534
+#: includes/ns-set-environment.php:533
 msgid "Visit Support Desk"
 msgstr ""
 
-#: includes/ns-set-environment.php:579
+#: includes/ns-set-environment.php:578
 msgid "Open tickets assigned to me"
 msgstr ""
 
@@ -923,6 +932,7 @@ msgid ""
 "</code> in it."
 msgstr ""
 
+#: includes/admin/ns-settings-knowledgebase-fields.php:54
 #: includes/admin/ns-settings-knowledgebase-fields.php:56
 msgid "Select Categories"
 msgstr ""
