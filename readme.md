@@ -1,24 +1,24 @@
-=== NanoSupport ===
-Contributors: nanodesigns, wzislam
-Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff
-Requires at least: 3.9.0
-Tested up to: 4.5.2
-Stable tag: 0.1.0
-License: GPL-2.0+
+## NanoSupport
+Contributors: nanodesigns, wzislam<br>
+Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff<br>
+Requires at least: 3.9.0<br>
+Tested up to: 4.5.2<br>
+Stable tag: 0.1.0<br>
+License: GPL-2.0+<br>
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
 Create a fully featured Support Center within your WordPress environment without any third party software, completely FREE
 
-== Description ==
+## Description
 Create a fully featured Support Center within your WordPress environment without any third party software, for completely FREE of cost.
 
 **No** 3rd party support ticketing system required, **no** external site/api dependency, **simply** create your own fully featured Support Center within your WordPress environment, and take your support into the next level.
 
-= What is it? =
+### What is it?
 
 The plugin is to provide support to your users - the users those are taking product or services from you. So the plugin provides a managable communication privately in between you and your that specific user only. Visit the 'Installation' tab for more details on how to use the plugin.
 
-= Features =
+### Features
 * OnActivation setup
 * Smart templating for nice theme support
 * Smartly designed Support Center
@@ -58,41 +58,41 @@ The plugin is to provide support to your users - the users those are taking prod
 * Fully responsive and Mobile devices friendly
 * Clean and well commented code
 
-= Contribute =
+### Contribute
 NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contribute.
 
 * [Fork on Github](https://github.com/nanodesigns/nanosupport)
 * [Report Bug](https://github.com/nanodesigns/nanosupport/issues)
 * [Get Support](http://wordpress.org/support/plugin/nanosupport)
 
-= Translation =
-The plugin is completely translation-ready. You can find the \`.pot\` file under \`i18n/languages/\` if you want to translate in your own way. But you can translate it easily from here in [**Translate NanoSupport**](https://translate.wordpress.org/projects/wp-plugins/nanosupport).
+### Translation
+The plugin is completely translation-ready. You can find the `.pot` file under `i18n/languages/` if you want to translate in your own way. But you can translate it easily from here in [**Translate NanoSupport**](https://translate.wordpress.org/projects/wp-plugins/nanosupport).
 
-= Connect with NanoSupport team =
+### Connect with NanoSupport team
 * [Website](http://nanodesignsbd.com?ref=nanosupport)
 * [Twitter](https://twitter.com/nanodesigns/)
 * [Facebook](https://facebook.com/nanodesignsbd/)
 * [LinkedIn](http://www.linkedin.com/company/nanodesigns)
 * [Google+](https://google.com/+Nanodesignsbd)
 
-== Installation ==
-= Automatic Installation =
+## Installation
+### Automatic Installation
 
 1. In WordPress Plugins page, search for NanoSupport
 2. Install and activate the plugin
-3. Get to the Plugin\'s 'Settings' page, and set up the plugin as your choice
+3. Get to the Plugin's 'Settings' page, and set up the plugin as your choice
 4. Wait for your first ticket
 
-= Manual Installation =
+### Manual Installation
 
 1. Visit the plugin page at: https://wordpress.org/plugins/nanosupport
-2. Hit the Download button to download the \`.zip\` file
-3. Unzip the archive and cut/paste the folder to \`/wp-content/plugins/\` directory
+2. Hit the Download button to download the `.zip` file
+3. Unzip the archive and cut/paste the folder to `/wp-content/plugins/` directory
 4. From admin 'Plugins' page, activate NanoSupport plugin
-5. Get to the Plugin\'s 'Settings' page, and set up the plugin as you like
+5. Get to the Plugin's 'Settings' page, and set up the plugin as you like
 6. Wait for your first ticket
 
-= How to Use =
+### How to Use
 
 1. Provide the **'Submit Ticket'** page's URL to your menu link, and ask for Support tickets from your users (Use 'Settings' page for necessary settings)
 2. When the user submits ticket you will be notified via email (as per your 'Settings')
@@ -103,43 +103,58 @@ The plugin is completely translation-ready. You can find the \`.pot\` file under
 7. You can organize knowledgebase docs in categories
 8. And you have many flexibilities (and many more yet to come...) using the plugins 'Settings' page
 
-== Frequently Asked Questions ==
+## Frequently Asked Questions
 
-= Q: How to install the Plugin? =
+### Q: How to install the Plugin?
 **A:** Please visit the plugin's Installation page to get the details.
 
-= Q: How to set up the Plugin? =
+### Q: How to set up the Plugin?
 **A:** After activation you can get the 'NanoSupport' admin menu on the left, and under that menu page, you will get the 'Settings' page to set up the plugin.
 
-= Q: What are the shortcodes? =
+### Q: What are the shortcodes?
 **A:** On installation the plugin will automatically create its necessary pages with related shortcodes. But if it misses by any chance, here are the shortcodes:
 
-* Submit Ticket page: \`[nanosupport_submit_ticket]\`
-* Support Desk page: \`[nanosupport_desk]\`
-* Knowledebase page: \`[nanosupport_knowledgebase]\`
+* Submit Ticket page: `[nanosupport_submit_ticket]`
+* Support Desk page: `[nanosupport_desk]`
+* Knowledebase page: `[nanosupport_knowledgebase]`
 
-= Q: How to disable the page-to-page navigation and notice =
+### Q: How to disable the page-to-page navigation and notice
 **A:** On plugin's 'Settings' page, in 'General' tab, you can **uncheck** the *Enable Notices and Navigation on NanoSupport pages to disable them.
 
-= Q: How the plugin can be well integrated with my theme? =
-**A:** NanoSupport has smart templating. You can find all its templates inside the \`/templates/\` directory. To make your theme completely integrated with the plugin\'s templates you can simply make a directory in your theme named \`nanosupport/\` and can overrite the plugin's templates with your custom one.
+### Q: How the plugin can be well integrated with my theme?
+**A:** NanoSupport has smart templating. You can find all its templates inside the `/templates/` directory. To make your theme completely integrated with the plugin's templates you can simply make a directory in your theme named `nanosupport/` and can overrite the plugin's templates with your custom one.
 
-== Screenshots ==
-1. NanoSupport | Support Desk (front end)
-2. NanoSupport | Support Tickets (back end)
-3. NanoSupport | Submit Ticket page for Visitors
-4. NanoSupport | Fully featured Settings page for complete customization
-5. NanoSupport | Knowledgebase
-6. NanoSupport | Ticketing at a glance with NanoSupport dashboard widget
-7. NanoSupport | Customizable email template
-8. NanoSupport | Easy navigation, and noticiation for easy ticketing using Admin bar
+## Screenshots
+<img src="assets/images/screenshot-1.png" alt="NanoSupport - Support Desk (front end)"/>
+<p><em>NanoSupport | Support Desk (front end)</em></p>
 
-== Changelog ==
+<img src="assets/images/screenshot-2.png" alt="NanoSupport - Support Tickets (back end)"/>
+<p><em>NanoSupport | Support Tickets (back end)</em></p>
 
-= 0.1.0 =
+<img src="assets/images/screenshot-3.png" alt="NanoSupport - Submit Ticket page for Visitors"/>
+<p><em>NanoSupport | Submit Ticket page for Visitors</em></p>
+
+<img src="assets/images/screenshot-4.png" alt="NanoSupport - Fully featured Settings page for complete customization"/>
+<p><em>NanoSupport | Fully featured Settings page for complete customization</em></p>
+
+<img src="assets/images/screenshot-5.png" alt="NanoSupport - Knowledgebase"/>
+<p><em>NanoSupport | Knowledgebase</em></p>
+
+<img src="assets/images/screenshot-6.png" alt="NanoSupport - Ticketing at a glance with NanoSupport dashboard widget"/>
+<p><em>NanoSupport | Ticketing at a glance with NanoSupport dashboard widget</em></p>
+
+<img src="assets/images/screenshot-7.png" alt="NanoSupport - Customizable email template"/>
+<p><em>NanoSupport | Customizable email template</em></p>
+
+<img src="assets/images/screenshot-8.png" alt="NanoSupport - Easy navigation, and noticiation for easy ticketing using Admin bar"/>
+<p><em>NanoSupport | Easy navigation, and noticiation for easy ticketing using Admin bar</em></p>
+
+## Changelog
+
+### 0.1.0
 * Plugin initiated
 
-== Upgrade Notice ==
+## Upgrade Notice
 
-= 0.1.0 =
-Let\'s start creating your first Support Ticketing system in WordPress.
+### 0.1.0
+Let's start creating your first Support Ticketing system in WordPress.
