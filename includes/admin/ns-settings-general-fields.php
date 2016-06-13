@@ -157,7 +157,7 @@ function ns_general_settings_validate( $input ) {
     //Enable Notice checkbox
     $enable_notice = (int) $input['enable_notice'] === 1 ? (int) $input['enable_notice'] : '';
     //Enable Embedded Login checkbox
-    $embedded_login = (int) $input['embedded_login'] === 1 ? (int) $input['embedded_login'] : '';
+    $embedded_login = isset($input['embedded_login']) && (int) $input['embedded_login'] === 1 ? (int) $input['embedded_login'] : '';
     //Highlight ticket choice
     $highlight_ticket_val = $input['highlight_ticket'] ? esc_html($input['highlight_ticket']) : 'status';
     
