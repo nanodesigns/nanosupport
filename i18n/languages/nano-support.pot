@@ -141,8 +141,8 @@ msgstr ""
 msgid "New Ticket"
 msgstr ""
 
-#: includes/ns-cpt-nanosupport.php:36 includes/ns-email-functions.php:215
-#: includes/ns-email-functions.php:243
+#: includes/ns-cpt-nanosupport.php:36 includes/ns-email-functions.php:227
+#: includes/ns-email-functions.php:256
 msgid "View Ticket"
 msgstr ""
 
@@ -366,93 +366,93 @@ msgstr ""
 msgid "<a href=\"%1s\" targe=\"_blank\">Get Support</a>"
 msgstr ""
 
-#: includes/ns-email-functions.php:105
+#: includes/ns-email-functions.php:112
 #, php-format
 msgid "New Ticket Submitted — %s"
 msgstr ""
 
-#: includes/ns-email-functions.php:107
+#: includes/ns-email-functions.php:114
 msgid "New Ticket Submitted"
 msgstr ""
 
-#: includes/ns-email-functions.php:110
+#: includes/ns-email-functions.php:117
 msgid ""
 "A support ticket is submitted and is <strong>Pending</strong>. Please find "
 "the link below:"
 msgstr ""
 
-#: includes/ns-email-functions.php:111
+#: includes/ns-email-functions.php:118
 msgid "Link to the Ticket"
-msgstr ""
-
-#: includes/ns-email-functions.php:155
-#, php-format
-msgid "Account Created — %s"
-msgstr ""
-
-#: includes/ns-email-functions.php:157
-msgid "Welcome to your Account"
 msgstr ""
 
 #: includes/ns-email-functions.php:161
 #, php-format
+msgid "Account Created — %s"
+msgstr ""
+
+#: includes/ns-email-functions.php:163
+msgid "Welcome to your Account"
+msgstr ""
+
+#: includes/ns-email-functions.php:167
+#, php-format
 msgid "To manage your support tickets an account has been created on %s."
 msgstr ""
 
-#: includes/ns-email-functions.php:162
+#: includes/ns-email-functions.php:168
 msgid "Account credentials are as following:"
 msgstr ""
 
-#: includes/ns-email-functions.php:164
+#: includes/ns-email-functions.php:170
 #, php-format
 msgid ""
 "Username: <strong>%1$s</strong><br>Password: <strong>%2$s</strong><br>Email: "
 "%3$s"
 msgstr ""
 
-#: includes/ns-email-functions.php:166
+#: includes/ns-email-functions.php:172
 #, php-format
 msgid "Username: %1$s<br>Password: %2$s<br>Email: %3$s"
 msgstr ""
 
-#: includes/ns-email-functions.php:166
+#: includes/ns-email-functions.php:172
 msgid "Your Password"
 msgstr ""
 
-#: includes/ns-email-functions.php:167
+#: includes/ns-email-functions.php:173
 msgid ""
 "You can edit your account details and reset your password from your Profile"
 msgstr ""
 
-#: includes/ns-email-functions.php:168
+#: includes/ns-email-functions.php:174
 #, php-format
 msgid ""
 "Log in here: <a style=\"color: #1c5daa; text-decoration: none;\" href=\"%1$s"
 "\" target=\"_blank\" title=\"Account Login URL\">%1$s</a>"
 msgstr ""
 
-#: includes/ns-email-functions.php:208
+#: includes/ns-email-functions.php:220
 #, php-format
 msgid "Your ticket is replied — %s"
 msgstr ""
 
-#: includes/ns-email-functions.php:210 includes/ns-email-functions.php:238
+#: includes/ns-email-functions.php:222 includes/ns-email-functions.php:251
 msgid "Support Ticket Replied"
 msgstr ""
 
-#: includes/ns-email-functions.php:214
+#: includes/ns-email-functions.php:226
 #, php-format
 msgid ""
 "Your support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied "
 "by <em>%3$s</em>."
 msgstr ""
 
-#: includes/ns-email-functions.php:236
+#: includes/ns-email-functions.php:249
 #, php-format
 msgid "An assigned ticket is replied — %s"
 msgstr ""
 
-#: includes/ns-email-functions.php:242
+#: includes/ns-email-functions.php:255
 #, php-format
 msgid ""
 "An assigned support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is "
@@ -584,40 +584,40 @@ msgstr ""
 msgid "Your message is too short. Write down at least 30 characters."
 msgstr ""
 
-#: includes/ns-install.php:135
+#: includes/ns-install.php:136
 msgid "Support Seeker"
 msgstr ""
 
-#: includes/ns-install.php:376
+#: includes/ns-install.php:377
 msgid "Please provide a valid email address"
 msgstr ""
 
-#: includes/ns-install.php:380
+#: includes/ns-install.php:381
 msgid "An account is already registered with your email address. Please login"
 msgstr ""
 
-#: includes/ns-install.php:393
+#: includes/ns-install.php:394
 msgid "Please enter a valid username for creating an account"
 msgstr ""
 
-#: includes/ns-install.php:397
+#: includes/ns-install.php:398
 msgid ""
 "An account is already registered with that username. Please choose another"
 msgstr ""
 
-#: includes/ns-install.php:427
+#: includes/ns-install.php:428
 msgid "Please enter a password for your account"
 msgstr ""
 
-#: includes/ns-install.php:434
+#: includes/ns-install.php:435
 msgid "Password length must be greater than 5 characters"
 msgstr ""
 
-#: includes/ns-install.php:443
+#: includes/ns-install.php:444
 msgid "Anti-spam field was filled in. Spam account cannot pass in"
 msgstr ""
 
-#: includes/ns-install.php:472
+#: includes/ns-install.php:473
 msgid "Couldn&rsquo;t register you"
 msgstr ""
 
@@ -764,7 +764,7 @@ msgid ""
 msgstr ""
 
 #: includes/admin/ns-settings-emails-fields.php:39
-msgid "Yes, send an email on new ticket submission"
+msgid "Yes, send an email to admin on new ticket submission"
 msgstr ""
 
 #: includes/admin/ns-settings-emails-fields.php:40
@@ -783,7 +783,17 @@ msgid ""
 "ticket is replied. Default: <code>true</code>."
 msgstr ""
 
-#: includes/admin/ns-settings-emails-fields.php:53
+#: includes/admin/ns-settings-emails-fields.php:51
+msgid "Yes, notify the assigned agent when their ticket is replied"
+msgstr ""
+
+#: includes/admin/ns-settings-emails-fields.php:52
+msgid ""
+"If you check here, an email will be sent to the agent who is assigned to the "
+"ticket when their ticket is replied. Default: <code>true</code>."
+msgstr ""
+
+#: includes/admin/ns-settings-emails-fields.php:59
 #, php-format
 msgid ""
 "Control the Email template settings from here | <span class=\"dashicons "
@@ -791,36 +801,36 @@ msgid ""
 "email template</a>"
 msgstr ""
 
-#: includes/admin/ns-settings-emails-fields.php:67
+#: includes/admin/ns-settings-emails-fields.php:73
 msgid ""
 "Choose a color for the header background of the email template. Default: NS "
 "Blue (<code>#1c5daa</code>)"
 msgstr ""
 
-#: includes/admin/ns-settings-emails-fields.php:78
+#: includes/admin/ns-settings-emails-fields.php:84
 msgid ""
 "Choose a color for the header text of the email template. Default: White "
 "(<code>#fff</code>)"
 msgstr ""
 
-#: includes/admin/ns-settings-emails-fields.php:89
+#: includes/admin/ns-settings-emails-fields.php:95
 msgid ""
 "Upload an image through Media &raquo; Add New, and copy &amp; paste the "
 "image URL here. Or, you can place an abosolute URL of any image. Default: No "
 "image."
 msgstr ""
 
-#: includes/admin/ns-settings-emails-fields.php:100
+#: includes/admin/ns-settings-emails-fields.php:106
 msgid "Write down the Header Text for the email template. Default: Site name."
 msgstr ""
 
-#: includes/admin/ns-settings-emails-fields.php:109
+#: includes/admin/ns-settings-emails-fields.php:115
 #: templates/content-email.php:118
 #, php-format
 msgid "%1$s &mdash; Powered by %2$s"
 msgstr ""
 
-#: includes/admin/ns-settings-emails-fields.php:113
+#: includes/admin/ns-settings-emails-fields.php:119
 msgid "Write down the Footer Text for the email template."
 msgstr ""
 
