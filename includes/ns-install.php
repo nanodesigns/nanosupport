@@ -67,10 +67,11 @@ function nanosupport_install() {
 
     // Email settings
     $ns_email_settings = array(
-            'notification_email'	=> get_option( 'admin_email' ),
-            'email_choices'         => array(
-                    'new_ticket'    => 1,
-                    'response'      => 1
+            'notification_email' => get_option( 'admin_email' ),
+            'email_choices'      => array(
+                    'new_ticket'        => 1,
+                    'response'          => 1,
+                    'agent_response'    => 1
                 )
         );
     add_option( 'nanosupport_email_settings', $ns_email_settings );
