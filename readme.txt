@@ -66,7 +66,7 @@ NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contrib
 * [Get Support](http://wordpress.org/support/plugin/nanosupport)
 
 = Translation =
-The plugin is completely translation-ready. You can find the \`.pot\` file under \`i18n/languages/\` if you want to translate in your own way. But you can translate it easily from here in [**Translate NanoSupport**](https://translate.wordpress.org/projects/wp-plugins/nanosupport).
+The plugin is completely translation-ready. You can find the `.pot` file under `i18n/languages/` if you want to translate in your own way. But you can translate it easily from here in [**Translate NanoSupport**](https://translate.wordpress.org/projects/wp-plugins/nanosupport).
 
 = Connect with NanoSupport team =
 * [Website](http://nanodesignsbd.com?ref=nanosupport)
@@ -86,8 +86,8 @@ The plugin is completely translation-ready. You can find the \`.pot\` file under
 = Manual Installation =
 
 1. Visit the plugin page at: https://wordpress.org/plugins/nanosupport
-2. Hit the Download button to download the \`.zip\` file
-3. Unzip the archive and cut/paste the folder to \`/wp-content/plugins/\` directory
+2. Hit the Download button to download the `.zip` file
+3. Unzip the archive and cut/paste the folder to `/wp-content/plugins/` directory
 4. From admin 'Plugins' page, activate NanoSupport plugin
 5. Get to the Plugin\'s 'Settings' page, and set up the plugin as you like
 6. Wait for your first ticket
@@ -114,15 +114,15 @@ The plugin is completely translation-ready. You can find the \`.pot\` file under
 = Q: What are the shortcodes? =
 **A:** On installation the plugin will automatically create its necessary pages with related shortcodes. But if it misses by any chance, here are the shortcodes:
 
-* Submit Ticket page: \`[nanosupport_submit_ticket]\`
-* Support Desk page: \`[nanosupport_desk]\`
-* Knowledebase page: \`[nanosupport_knowledgebase]\`
+* Submit Ticket page: `[nanosupport_submit_ticket]`
+* Support Desk page: `[nanosupport_desk]`
+* Knowledebase page: `[nanosupport_knowledgebase]`
 
 = Q: How to disable the page-to-page navigation and notice =
 **A:** On plugin's 'Settings' page, in 'General' tab, you can **uncheck** the *Enable Notices and Navigation on NanoSupport pages to disable them.
 
 = Q: How the plugin can be well integrated with my theme? =
-**A:** NanoSupport has smart templating. You can find all its templates inside the \`/templates/\` directory. To make your theme completely integrated with the plugin\'s templates you can simply make a directory in your theme named \`nanosupport/\` and can overrite the plugin's templates with your custom one.
+**A:** NanoSupport has smart templating. You can find all its templates inside the `/templates/` directory. To make your theme completely integrated with the plugin\'s templates you can simply make a directory in your theme named `nanosupport/` and can overrite the plugin's templates with your custom one.
 
 == Screenshots ==
 1. NanoSupport | Support Desk (front end)

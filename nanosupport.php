@@ -7,7 +7,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       NanoSupport
- * Plugin URI:        http://ns.nanodesignsbd.com/
+ * Plugin URI:        http://nanosupport.nanodesignsbd.com/
  * Description:       Create a fully featured Support Center within your WordPress environment without any third party software, completely FREE
  * Version:           0.1.0
  * Author:            nanodesigns
@@ -16,8 +16,8 @@
  * Tested up to:      4.5.2
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       'nanosupport'
- * Domain Path:       /i18n/languages/
+ * Text Domain:       nanosupport
+ * Domain Path:       /i18n/languages
  */
 
 // If this file is called directly, abort.
