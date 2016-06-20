@@ -1,9 +1,9 @@
 === NanoSupport ===
 Contributors: nanodesigns, wzislam
-Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff
+Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff, support ticketing
 Requires at least: 3.9.0
 Tested up to: 4.5.2
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -136,10 +136,13 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Changelog ==
 
-= 0.1.0 =
+= 0.1.1 - 2016-JUN-21 =
+* A bug on Submit ticket is fixed
+
+= 0.1.0 - 2016-JUN-17 =
 * Plugin initiated
 
 == Upgrade Notice ==
 
-= 0.1.0 =
-Let\'s start creating your first Support Ticketing system in WordPress.
+= 0.1.1 =
+A bug is fixed on Submit Ticket that was prohibiting submitting guest tickets

@@ -187,12 +187,10 @@ function ns_registration_login_ticket_submission_redir() {
          * ...
          */
         $options    = get_option( 'nanosupport_settings' );
-        $gen_username = isset($options['account_creation']['generate_username']) ? 1 : false;
-        $gen_password = isset($options['account_creation']['generate_password']) ? 1 : false;
 
         //Set values according to settings
-        $username   = $gen_username ? '' : $_POST['reg_name'];
-        $password   = $gen_password ? '' : $_POST['reg_password'];
+        $username   = isset($options['account_creation']['generate_username']) && $options['account_creation']['generate_username'] != 0 ? '' : $_POST['reg_name'];
+        $password   = isset($options['account_creation']['generate_password']) && $options['account_creation']['generate_password'] != 0 ? '' : $_POST['reg_password'];
         $email      = $_POST['reg_email'];
         $spam       = $_POST['repeat_email']; //spam field (hidden from human eye)
 
