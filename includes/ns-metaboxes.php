@@ -208,7 +208,7 @@ function ns_control_specifics() {
                 </div>
                 <div class="ns-body-col">
                     <div class="ns-field">
-                        <select name="ns_ticket_status" class="ns-field-item ns-auto-select" id="ns-ticket-status" required>
+                        <select name="ns_ticket_status" class="ns-field-item" id="ns-ticket-status" required>
                             <option value="open" <?php selected( $_ns_ticket_status, 'open' ); ?>><?php _e( 'Open', 'nanosupport' ); ?></option>
                             <option value="inspection"<?php selected( $_ns_ticket_status, 'inspection' ); ?>><?php _e( 'Under Inspection', 'nanosupport' ); ?></option>
                             <option value="solved"<?php selected( $_ns_ticket_status, 'solved' ); ?>><?php _e( 'Solved', 'nanosupport' ); ?></option>
@@ -225,7 +225,7 @@ function ns_control_specifics() {
                 </div>
                 <div class="ns-body-col">
                     <div class="ns-field">
-                        <select name="ns_ticket_priority" class="ns-field-item ns-auto-select" id="ns-ticket-priority" required>
+                        <select name="ns_ticket_priority" class="ns-field-item" id="ns-ticket-priority" required>
                             <option value="low" <?php selected( $_ns_ticket_priority, 'low' ); ?>><?php _e( 'Low', 'nanosupport' ); ?></option>
                             <option value="medium" <?php selected( $_ns_ticket_priority, 'medium' ); ?>><?php _e( 'Medium', 'nanosupport' ); ?></option>
                             <option value="high" <?php selected( $_ns_ticket_priority, 'high' ); ?>><?php _e( 'High', 'nanosupport' ); ?></option>

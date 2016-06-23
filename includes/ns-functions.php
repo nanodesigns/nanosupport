@@ -665,8 +665,8 @@ function ns_response_submit_redir() {
             return $comment_id->get_error_message();
 
         // Get ticket meta information
-        $ticket_meta = ns_get_ticket_meta( $post->ID );
-        $ticket_status = isset($ticket_meta['status']['value']) ? $ticket_meta['status']['value'] : 'open';
+        $ticket_meta    = ns_get_ticket_meta( $post->ID );
+        $ticket_status  = isset($ticket_meta['status']['value']) ? $ticket_meta['status']['value'] : 'open';
 
         /**
          * ReOpen a solved ticket,
