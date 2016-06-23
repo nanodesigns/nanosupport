@@ -50,7 +50,7 @@ add_action( 'pre_get_comments', 'ns_exclude_responses_in_comments' );
  * @since   1.0.0
  * -----------------------------------------------------------------------
  */
-function ns_registration_login_ticket_submission_redir() {
+function ns_handle_registration_login_ticket_submission() {
     if( ! isset( $_POST['ns_submit'] ) )
         return;
 
@@ -283,7 +283,7 @@ function ns_registration_login_ticket_submission_redir() {
     exit();
 }
 
-add_action( 'template_redirect', 'ns_registration_login_ticket_submission_redir' );
+add_action( 'template_redirect', 'ns_handle_registration_login_ticket_submission' );
 
 
 /**
@@ -622,7 +622,7 @@ add_action( 'nanosupport_after_response_form', 'ns_notify_user_on_opening_ticket
  * @since   1.0.0
  * -----------------------------------------------------------------------
  */
-function ns_response_submit_redir() {
+function ns_handle_response_submit() {
     if( ! is_user_logged_in() )
         return;
 
@@ -701,7 +701,7 @@ function ns_response_submit_redir() {
 
 }
 
-add_action( 'template_redirect', 'ns_response_submit_redir' );
+add_action( 'template_redirect', 'ns_handle_response_submit' );
 
 
 /**
