@@ -553,6 +553,16 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
                         do_action( 'nanosupport_after_response_form' );
                         ?>
 
+                        <?php if( in_array( $ticket_meta['status']['value'], array('open', 'inspection') ) ) { ?>
+
+                            <div class="ns-form-group ns-checkbox">
+                                <label>
+                                    <input type="checkbox" id="close" name="close_ticket" value="1"> <?php _e( 'Close the ticket with this response', 'nanosupport' ); ?>
+                                </label>
+                            </div> <!-- /.ns-form-group -->
+
+                        <?php } //endif open/inspection ?>
+
                         <?php wp_nonce_field( 'nanosupport-response-nonce' ); ?>
 
                         <button type="submit" name="submit_response" class="ns-btn ns-btn-primary">
@@ -670,12 +680,25 @@ function ns_handle_response_submit() {
 
         /**
          * ReOpen a solved ticket,
-         * or Open a pending ticket
+         * or Open a pending ticket.
          * ...
          */
         if( in_array( $ticket_status, array('solved', 'pending') ) ) {
 
-            update_post_meta( $post->ID, '_ns_ticket_status',   wp_strip_all_tags( 'open' ) );
+            update_post_meta( $post->ID, '_ns_ticket_status', wp_strip_all_tags( 'open' ) );
+
+        }
+
+        /**
+         * Close a ticket,
+         * if closed chosen.
+         * ...
+         */
+        if( in_array( $ticket_status, array('inspection', 'open') ) ) {
+
+            if( isset($_POST['close_ticket']) && $_POST['close_ticket'] == 1 ) {
+                update_post_meta( $post->ID, '_ns_ticket_status', wp_strip_all_tags( 'solved' ) );
+            }
 
         }
 
