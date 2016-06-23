@@ -92,32 +92,33 @@ function ns_pagination( $query ) {
 	global $wp_query;
 	$query = $query ? $query : $wp_query;
 
-	echo '<nav class="nanosupport-pagination">';
-		$big = 999999999; // need an unlikely integer
-		$total = $query->max_num_pages;
-		if( $total > 1 ) {
-			$pages = paginate_links( array(
-					'base'		=> str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
-					'format'	=> '?paged=%#%',
-					'show_all'	=> false,
-					'prev_next'	=> true,
-					'prev_text'	=> '&laquo;',
-					'next_text'	=> '&raquo;',
-					'current'	=> max( 1, get_query_var('paged') ),
-					'total'		=> $total,
-					'type'		=> 'array'
-				) );
+	$big = 999999999; // need an unlikely integer
+	$total = $query->max_num_pages;
+	if( $total > 1 ) {
+        echo '<nav class="nanosupport-pagination">';
+		$pages = paginate_links( array(
+				'base'		=> str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+				'format'	=> '?paged=%#%',
+				'show_all'	=> false,
+				'prev_next'	=> true,
+				'prev_text'	=> '&laquo;',
+				'next_text'	=> '&raquo;',
+				'current'	=> max( 1, get_query_var('paged') ),
+				'total'		=> $total,
+				'type'		=> 'array'
+			) );
 
-			if( $pages ) {
-				$paged = ( get_query_var( 'paged' ) ) ? absint( get_query_var( 'paged' ) ) : 1;
-				echo '<ul class="ns-pagination ns-pagination-sm">';
-				foreach ( $pages as $page ) {
-					echo '<li>'. $page .'</li>';
-				}
-				echo '</ul>';
+		if( $pages ) {
+			$paged = ( get_query_var( 'paged' ) ) ? absint( get_query_var( 'paged' ) ) : 1;
+			echo '<ul class="ns-pagination ns-pagination-sm">';
+			foreach ( $pages as $page ) {
+				echo '<li>'. $page .'</li>';
 			}
+			echo '</ul>';
 		}
-	echo '</nav>';
+        echo '</nav>';
+	}
+	
 }
 
 
