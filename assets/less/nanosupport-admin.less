@@ -542,3 +542,80 @@ a.ns-label:focus {
 		font-weight: normal;
 	}
 }
+
+/** Making thickbox modal window dynamic width-height **/
+#TB_window {
+	width: 100% !important;
+	height: 100% !important;
+	margin-top: 0px !important;
+	margin-left: 0px !important;
+	top: 25% !important;
+	right: 10% !important;
+	bottom: 25% !important;
+	left: 10% !important;
+	width: 80% !important;
+	height: 50% !important;
+	overflow: hidden;
+	overflow-y: scroll;
+}
+
+#TB_ajaxContent{
+	width: auto !important;
+	height: auto !important;
+	padding-right: 0 !important;
+}
+
+#TB_Image {
+	width: auto !important;
+	max-width: 100%;
+	height: auto !important;
+	max-height: 100%;
+	margin: auto !important; 
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	padding: 20px;
+	border: none !important;
+}
+
+@media (min-width: 992px) {
+	#TB_window {
+		top: 10% !important;
+		bottom: 10% !important;
+		height: 80% !important;
+	}
+}
+
+.nanosupport-icon-button{
+	margin: 2px !important;
+	height: 32px !important;
+	padding: 0 9px 32px !important;
+	font-size: 17px !important;
+}
+
+.ns-admin-btnlike{
+	color: #555;
+    border-color: #cccccc;
+    background: #f7f7f7;
+    -webkit-box-shadow: 0 1px 0 #cccccc;
+    		box-shadow: 0 1px 0 #cccccc;
+    vertical-align: top;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 26px;
+    height: 28px;
+    margin: 0;
+    padding: 0 10px 1px;
+    border-width: 1px;
+    border-style: solid;
+    -webkit-appearance: none;
+    -webkit-border-radius: 3px;
+    		border-radius: 3px;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+    		box-sizing: border-box;
+}

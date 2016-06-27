@@ -83,9 +83,13 @@ function ns_knowledgebase_page() {
 					else
 						$column_class = '';
 
+					//Get term icons
+					$saved_meta = get_term_meta( $term_id, '_ns_kb_cat_icon', true );
+					$ns_icon_class = $saved_meta ? $saved_meta : 'ns-icon-docs';
+
 					echo '<div class="ns-col-sm-4 ns-col-xs-6 nanodoc-term-box'. esc_attr($column_class) .'">';
 						echo '<div class="nanodoc-term-box-inner ns-text-center">';
-							printf(	'<a class="icon-link" href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term_name), '<span class="ns-icon-docs"></span>' );
+							printf(	'<a class="icon-link" href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term_name), '<span class="nanosupport-kb-icon '. esc_attr($ns_icon_class) .'"></span>' );
 							echo '<h4 class="nanodoc-term-title">';
 								printf(	'<a href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term_name), $term_name );
 							echo '</h4>';
@@ -139,8 +143,12 @@ function ns_knowledgebase_page() {
 					else
 						$col_class = '';
 
+					//Get term icons
+					$saved_meta = get_term_meta( $kb_term->term_id, '_ns_kb_cat_icon', true );
+					$ns_icon_class = $saved_meta ? $saved_meta : 'ns-icon-docs';
 					echo '<div class="ns-kb-cat-box ns-col-sm-4 ns-col-xs-6'. esc_attr($col_class) .'">';
 
+						echo '<div class="nanosupport-kb-icon kb-cat-icon-inner '. esc_attr($ns_icon_class) .'"></div>';
 						echo '<h4 class="ns-kb-category-title">';
 							echo '<span class="ns-icon-docs"></span>&nbsp;';
 							echo $kb_term->name;
