@@ -146,12 +146,15 @@ function ns_knowledgebase_page() {
 					//Get term icons
 					$saved_meta = get_term_meta( $kb_term->term_id, '_ns_kb_cat_icon', true );
 					$ns_icon_class = $saved_meta ? $saved_meta : 'ns-icon-docs';
+
 					echo '<div class="ns-kb-cat-box ns-col-sm-4 ns-col-xs-6'. esc_attr($col_class) .'">';
 
 						echo '<div class="nanosupport-kb-icon kb-cat-icon-inner '. esc_attr($ns_icon_class) .'"></div>';
+
 						echo '<h4 class="ns-kb-category-title">';
-							echo '<span class="ns-icon-docs"></span>&nbsp;';
-							echo $kb_term->name;
+							echo '<a href="'. get_term_link( $kb_term, 'nanodoc_category' ) .'">';
+								echo $kb_term->name;
+							echo '</a>';
 						echo '</h4>';
 
 						// Get knowledgebase settings. Fallback 'posts_per_page'.
@@ -160,7 +163,7 @@ function ns_knowledgebase_page() {
 						$args = array(
 							'post_type'		=> 'nanodoc',
 							'post_status'	=> 'publish',
-							'posts_per_page' => -1,	//all to display 'All entries' button with a single db query
+							'posts_per_page' => $kb_posts_per_category,
 							'tax_query'		=> array(
 									array(
 										'taxonomy'	=> 'nanodoc_category',
@@ -202,7 +205,7 @@ function ns_knowledgebase_page() {
 
 							// If the found entries exceeds the preset maximum entries, display the 'See all' button
 							if( $kb_found_entries > $kb_posts_per_category ) :
-								echo '<a class="ns-btn ns-btn-xs ns-btn-primary" href="'. esc_url(get_term_link( $kb_term, 'nanodoc_category' )) .'"><strong>';
+								echo '<a class="ns-btn ns-btn-xs ns-btn-primary" href="'. get_term_link( $kb_term, 'nanodoc_category' ) .'"><strong>';
 									_e( 'All entries &raquo;', 'nanosupport' );
 								echo '</strong></a>';
 							endif;
@@ -224,7 +227,7 @@ function ns_knowledgebase_page() {
 
 				echo '<div class="ns-alert ns-alert-info" role="alert">';
 					if( ns_is_user('manager') )
-						_e( 'Nothing to display on Knowledgebase. Please add some documentation first.', 'nanosupport' );
+						printf( __( 'Nothing to display on Knowledgebase. Please <a href="%s">Add</a> some documentation first.', 'nanosupport' ), admin_url('post-new.php?post_type=nanodoc') );
 					else
 						_e( 'Nothing to display on Knowledgebase.', 'nanosupport' );
 				echo '</div>';
