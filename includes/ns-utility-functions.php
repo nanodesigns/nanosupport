@@ -333,45 +333,48 @@ function ns_total_ticket_count( $post_type = '', $user_id = '' ) {
 
 
 /**
- * Tooltip
+ * NanoSupport Tooltip
  *
- * The conflict-free CSS tooltip.
+ * Display a responsive, and mobile devices-friendly, conflict-free CSS tooltip dynamically.
  *
  * @since  1.0.0
  * 
- * @param  string $message  The i18 message for tooltip.
- * @param  string $position Position where to appear the tooltip (below|left|right).
- * @param  string $type     Type of the tooltip icon (question|info).
- * @return string           The formatted tooltip with its icon.
- * --------------------------------------------------------------------------
+ * @param  string $message  The i18 string/plain text.
+ * @param  string $position left | right | top
+ * @param  string $icon     Icon class.
+ * @return string           Formatted tooltip that needs proper CSS.
+ * ------------------------------------------------------------------------------
  */
-function ns_tooltip( $message = '', $position = 'right', $type = '' ) {
-    $icon_class = 'info' === $type ? 'ns-icon-info-circled' : 'ns-icon-help-circled';
+function ns_tooltip( $message = '', $position = 'top', $icon = 'ns-icon-question' ) {
+
+    if( empty($message) )
+        return;
+
     switch ($position) {
         case 'left':
-            $position_class = 'ns-tooltip-message-left';
+            $class = 'ns-tooltip-left ';
             break;
 
         case 'right':
-            $position_class = 'ns-tooltip-message-right';
-            break;
-
-        case 'below':
-            $position_class = 'ns-tooltip-message-below';
+            $class = 'ns-tooltip-right ';
             break;
         
         default:
-            $position_class = 'ns-tooltip-message-right';
+            $class = 'ns-tooltip-top ';
             break;
     }
 
-    $tooltip = '<span class="ns-tooltip '. esc_attr($icon_class) .'">';
-        $tooltip .= '<span class="ns-tooltip-message '. esc_attr($position_class) .'">';
-            $tooltip .= $message;
-        $tooltip .= '</span>';
-    $tooltip .= '</span>';
+    ob_start(); ?>
 
-    return $tooltip;
+    <span class="ns-tooltip <?php echo esc_attr( $class ) . esc_attr( $icon ); ?>">
+        <span class="ns-tooltip-message">
+            <?php echo $message; ?>
+        </span>
+    </span>
+
+    <?php
+    return ob_get_clean();
+
 }
 
 

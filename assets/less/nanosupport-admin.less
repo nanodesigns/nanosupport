@@ -533,77 +533,120 @@ a.ns-label:focus {
 	font-family: "Open Sans", sans-serif;
 }
 
-/** Tooltip **/
+/** -------------- Tooltip -------------- **/
+
+@tt_prop: all;
+@tt_time: 500ms;
+@tt_ease: ease;
+
 .ns-tooltip{
-	position: relative;
-	font-size: 17px;
-	color: #999;
 	cursor: help;
-	margin-left: 10px;
+	margin-top: 5px;
 	margin-right: 10px;
+	margin-left: 10px;
+	position: relative;
+	color: #999;
+	vertical-align: middle;
 	float: left;
 
 	&:hover .ns-tooltip-message{
-		display: inline-block;
+		opacity: 1;
+		visibility: visible;
 	}
 }
 
 .ns-tooltip-message{
-	position: absolute;
-	display: none;
-	width: 220px;
-	height: auto;
-	padding: 10px;
+	right: 16px;
 	top: 0;
-	font-size: 13px;
-	line-height: 17px;
-	text-align: center;
-	color: #000;
-	background-color: #fff;
-	border: 1px solid #ccc;
-	-webkit-box-sizing: border-box;
-	   -moz-box-sizing: border-box;
-			box-sizing: border-box;
-	-webkit-border-radius: 3px;
-	   -moz-border-radius: 3px;
-			border-radius: 3px;
-	-webkit-box-shadow: 0 0 15px rgba(0,0,0,0.15);
-       -moz-box-shadow: 0 0 15px rgba(0,0,0,0.15);
-    		box-shadow: 0 0 15px rgba(0,0,0,0.15);
-    z-index: 2;
 
-	&.ns-tooltip-message-right{
-		left: 20px;
-	}
+	-webkit-transition: @tt_prop @tt_time @tt_ease;
+	   -moz-transition: @tt_prop @tt_time @tt_ease;
+	     -o-transition: @tt_prop @tt_time @tt_ease;
+		-ms-transition: @tt_prop @tt_time @tt_ease;
+			transition: @tt_prop @tt_time @tt_ease;
+}
 
-	&.ns-tooltip-message-left{
-		right: 20px;
-	}
-
-	@media (min-width: 769px){
-		&.ns-tooltip-message-below{
-			top: 20px;
-			left: -100px;
-		}
-	}
-
-	@media (max-width: 768px){
-		&.ns-tooltip-message-below{
-			right: 20px;
+@media (min-width: 767px) {
+	.ns-tooltip{
+		.ns-tooltip-message{
+			right: auto;
 		}
 	}
 }
 
+.ns-tooltip-message{
+	opacity: 0;
+	visibility: hidden;
+	display: inline-block;
+	position: absolute;
+	width: 200px;
+	padding: 10px;
+	-webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+			border-radius: 3px;
+	color: #fff;
+	background-color: #444;
+	border: 1px solid #222;
+	font-size: 12px;
+	line-height: 17px;
+	-webkit-box-shadow: 0 0 5px #333;
+	   -moz-box-shadow: 0 0 5px #333;
+			box-shadow: 0 0 5px #333;
+	text-align: center;
+	z-index: 5;
+	-webkit-transition: @tt_prop @tt_time @tt_ease;
+	   -moz-transition: @tt_prop @tt_time @tt_ease;
+	     -o-transition: @tt_prop @tt_time @tt_ease;
+		-ms-transition: @tt_prop @tt_time @tt_ease;
+			transition: @tt_prop @tt_time @tt_ease;
+
+	code,
+	pre{
+		background-color: rgba(0,0,0,0.3);
+		color: #da4453;
+	}
+}
+
+@media (min-width: 768px) {
+	.ns-tooltip-top{
+		.ns-tooltip-message{
+			top: auto;
+			right: -93px;
+			bottom: 19px;
+		}
+	}
+}
+
+.ns-tooltip-left{
+	.ns-tooltip-message{
+		right: 19px;
+	}
+}
+
+.ns-tooltip-right{
+	.ns-tooltip-message{
+		left: 19px;
+	}
+}
+
+
+/** -------------- Metaboxes -------------- **/
+
+
 .misc-pub-section{
 	.ns-tooltip{
 		float: right;
+		margin-right: 0;
 	}
 	.ns-tooltip-message{
 		font-weight: normal;
 	}
 }
 
-/** Making thickbox modal window dynamic width-height **/
+
+/** -------------- Thickbox | KB category meta -------------- **/
+
+/* Making thickbox modal window dynamic width-height */
 #TB_window {
 	width: 100% !important;
 	height: 100% !important;
@@ -679,3 +722,4 @@ a.ns-label:focus {
        -moz-box-sizing: border-box;
     		box-sizing: border-box;
 }
+

@@ -708,6 +708,105 @@ article.ns-single.type-nanosupport.hentry{
 .ns-text-info .ns-dot{ background-color: #31708f; }
 .ns-text-warning .ns-dot{ background-color: #f6bb42; }
 
+
+/* Tooltip */
+
+@tt_prop: all;
+@tt_time: 500ms;
+@tt_ease: ease;
+
+.ns-tooltip{
+	cursor: help;
+	margin: 3px 0 3px 3px;
+	position: relative;
+	color: #999;
+	vertical-align: middle;
+	float: right;
+
+	&:hover .ns-tooltip-message{
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+.ns-tooltip-message{
+	right: 16px;
+	top: 0;
+
+	-webkit-transition: @tt_prop @tt_time @tt_ease;
+	   -moz-transition: @tt_prop @tt_time @tt_ease;
+	     -o-transition: @tt_prop @tt_time @tt_ease;
+		-ms-transition: @tt_prop @tt_time @tt_ease;
+			transition: @tt_prop @tt_time @tt_ease;
+}
+
+@media (min-width: 767px) {
+	.ns-tooltip{
+		float: none;
+		margin-right: 3px;
+
+		.ns-tooltip-message{
+			right: auto;
+		}
+	}
+}
+
+.ns-tooltip-message{
+	opacity: 0;
+	visibility: hidden;
+	display: inline-block;
+	position: absolute;
+	width: 200px;
+	padding: 10px;
+	-webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+			border-radius: 3px;
+	color: #fff;
+	background-color: #444;
+	border: 1px solid #222;
+	font-size: 12px;
+	line-height: 17px;
+	-webkit-box-shadow: 0 0 5px #333;
+	   -moz-box-shadow: 0 0 5px #333;
+			box-shadow: 0 0 5px #333;
+	text-align: center;
+	z-index: 5;
+	-webkit-transition: @tt_prop @tt_time @tt_ease;
+	   -moz-transition: @tt_prop @tt_time @tt_ease;
+	     -o-transition: @tt_prop @tt_time @tt_ease;
+		-ms-transition: @tt_prop @tt_time @tt_ease;
+			transition: @tt_prop @tt_time @tt_ease;
+
+	code,
+	pre{
+		background-color: rgba(0,0,0,0.3);
+		color: @red;
+	}
+}
+
+@media (min-width: 768px) {
+	.ns-tooltip-top{
+		.ns-tooltip-message{
+			top: auto;
+			right: -93px;
+			bottom: 19px;
+		}
+	}
+}
+
+.ns-tooltip-left{
+	.ns-tooltip-message{
+		right: 19px;
+	}
+}
+
+.ns-tooltip-right{
+	.ns-tooltip-message{
+		left: 19px;
+	}
+}
+
+
 /**
  * Emulating <blink> using WebKit CSS3 animation        
  *   This code is part of John Smith's blog
