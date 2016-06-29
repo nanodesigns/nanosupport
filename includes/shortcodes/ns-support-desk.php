@@ -81,6 +81,16 @@ function ns_support_desk_page() {
 
 			add_filter( 'posts_clauses', 'ns_change_query_to_include_agents_tickets', 10, 2 );
 
+				/**
+				 * -----------------------------------------------------------------------
+				 * HOOK : FILTER HOOK
+				 * ns_filter_support_desk_query
+				 *
+				 * To alter the Support Desk query arguments.
+				 *
+				 * @since  1.0.0
+				 * -----------------------------------------------------------------------
+				 */
 				$support_ticket_query = new WP_Query( apply_filters( 'ns_filter_support_desk_query', $args ) );
 
 			remove_filter( 'posts_clauses', 'ns_change_query_to_include_agents_tickets', 10 );

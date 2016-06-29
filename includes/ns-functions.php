@@ -154,6 +154,16 @@ function ns_handle_registration_login_ticket_submission() {
         if( !empty( $username ) && !empty($password) ) {
             //Log the user in
             $user = wp_signon(
+                        /**
+                         * -----------------------------------------------------------------------
+                         * HOOK : FILTER HOOK
+                         * nanosupport_login_credentials
+                         *
+                         * To intercept the login credentials array.
+                         *
+                         * @since  1.0.0
+                         * -----------------------------------------------------------------------
+                         */
                         apply_filters( 'nanosupport_login_credentials', $creds ),
                         $secure_cookie
                     );

@@ -50,8 +50,8 @@ function ns_load_textdomain() {
 	 *
 	 * @link   https://developer.wordpress.org/reference/hooks/plugin_locale/
 	 *
-	 * @param string $locale The plugin's current locale.
-	 * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+	 * @param  string $locale The plugin's current locale.
+	 * @param  string $domain Text domain. Unique identifier for retrieving translated strings.
 	 * -----------------------------------------------------------------------
 	 */
 	$locale = apply_filters( 'plugin_locale', get_locale(), 'nanosupport' );
@@ -142,6 +142,16 @@ final class NanoSupport {
 	 * @return string
 	 */
 	public function template_path() {
+		/**
+		 * -----------------------------------------------------------------------
+		 * HOOK : FILTER HOOK
+		 * ns_template_path
+		 *
+		 * The template path used in theme to overrite.
+		 *
+		 * @since  1.0.0
+		 * -----------------------------------------------------------------------
+		 */
 		return apply_filters( 'ns_template_path', 'nanosupport/' );
 	}
 
