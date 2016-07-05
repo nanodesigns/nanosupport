@@ -44,7 +44,7 @@ function ns_submit_support_ticket() {
 	ob_start();
 	?>
 
-	<div id="nanosupport-add-ticket" class="nano-support-ticket nano-add-ticket">
+	<div id="nanosupport-add-ticket" class="nano-support-ticket nano-add-ticket ns-no-js">
 
 		<?php
 		/**

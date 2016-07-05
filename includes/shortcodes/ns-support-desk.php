@@ -18,7 +18,7 @@ function ns_support_desk_page() {
 	
 	ob_start();
 
-	echo '<div id="nanosupport-desk">';
+	echo '<div id="nanosupport-desk" class="ns-no-js">';
 		if( is_user_logged_in() ) :
 			//User is Logged in
 

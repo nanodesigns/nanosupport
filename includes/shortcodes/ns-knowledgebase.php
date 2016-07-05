@@ -18,7 +18,7 @@ function ns_knowledgebase_page() {
 
 	ob_start();
 
-	echo '<div id="nanosupport-knowledgebase">';
+	echo '<div id="nanosupport-knowledgebase" class="ns-no-js">';
 
 		//Get the NS Knowledgebase Settings from Database
     	$ns_knowledgebase_settings 	= get_option( 'nanosupport_knowledgebase_settings' );
