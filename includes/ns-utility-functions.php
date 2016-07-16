@@ -592,6 +592,70 @@ function ns_get_all_icon() {
 
 
 /**
+ * Accepted MIME types
+ *
+ * Accepted MIME type declaration for NanoSupport.
+ *
+ * @since  1.0.0
+ * 
+ * @return array MIME types for allowed file types.
+ * --------------------------------------------------------------------------
+ */
+function ns_allowed_attachment_mime_types() {
+    return array(
+        'doc'               => 'application/msword', //MS Word
+        'docx'              => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', //MS Word 2003+
+        'pdf'               => 'application/pdf', //Portable Document Format
+        'rtf'               => 'application/rtf', //Rich Text Format
+        'zip'               => 'application/zip', //ZIP archive
+        'jpg|jpeg|jpe'      => 'image/jpeg', //JPEG image
+        'gif'               => 'image/gif', //GIF image
+        'png'               => 'image/png', //PNG image
+        'bmp'               => 'image/bmp', //BMP image
+        'tiff|tif'          => 'image/tiff', //TIFF image
+    );
+}
+
+
+/**
+ * Setting MIME Types
+ *
+ * Pushing allowed MIME Types for the Ticket attachment.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $mime_types Array of Allowed MIME Types.
+ * @return array             Modified array.
+ * --------------------------------------------------------------------------
+ */
+function ns_restrict_attachment_mime_types( $mime_types ) {
+    $mime_types = ns_allowed_attachment_mime_types();    
+    return $mime_types;
+}
+
+
+/**
+ * Set the attachment Upload path
+ *
+ * Set a custom upload path for the ticket attachments for
+ * easy management.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array   $dir    Default directory.
+ * @return array           Defined directory.
+ * --------------------------------------------------------------------------
+ */
+function ns_ticket_attachment_dir( $dir ) {
+    return array(
+        'path'   => $dir['basedir'] .'/nanosupport',
+        'url'    => $dir['baseurl'] .'/nanosupport',
+        'subdir' => '/nanosupport',
+    ) + $dir;
+}
+
+
+/**
  * Change the form for rich media.
  *
  * @since  1.0.0
@@ -601,4 +665,5 @@ function ns_change_form_type_for_rich_media() {
     echo ' enctype="multipart/form-data"';
 }
 
+add_action( 'post_edit_form_tag',               'ns_change_form_type_for_rich_media' );
 add_action( 'nanosupport_new_ticket_form_tag',  'ns_change_form_type_for_rich_media' );

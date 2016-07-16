@@ -81,6 +81,72 @@ function ns_handle_registration_login_ticket_submission() {
         $ticket_priority    = $_POST['ns_ticket_priority'];
 
 
+    //Ticket Attachment
+    $_ticket_attachment = '';
+    $_has_attachment = false;
+
+    if( isset($_FILES['ns_ticket_attachment']) ) {
+
+
+        if( 0 == $_FILES['ns_ticket_attachment']['size'] && 0 == $_FILES['ns_ticket_attachment']['error'] ) {
+            //empty file
+        } else {
+
+            //Get WordPress allowed mime types
+            $mime_types = wp_get_mime_types();
+            
+            $allowed_mime_types = ns_restrict_attachment_mime_types( $mime_types );
+
+            if ( ! in_array( $_FILES['ns_ticket_attachment']['type'], $allowed_mime_types ) ) {
+                $ns_errors[]    = __( 'The file you are trying to upload is not a valid type. Please refer to the instruction', 'nanosupport' );
+            } else {
+                $_ticket_attachment = $_FILES['ns_ticket_attachment'];
+            }
+
+            if( $_ticket_attachment ) {
+
+                //Make the wp_handle_upload() function available
+                if ( ! function_exists( 'wp_handle_upload' ) )
+                    require_once( ABSPATH .'wp-admin/includes/file.php' );
+
+                $upload_overrides = array( 'test_form' => false );
+
+                //Set custom setup
+                add_filter( 'upload_dir',   'ns_ticket_attachment_dir' ); //Register NS path override
+                add_filter( 'upload_mimes', 'ns_restrict_attachment_mime_types' ); //Register NS accepted file types
+
+                    //WordPress will move the file to 'uploads/nanosupport'
+                    $attachment_file = wp_upload_bits( $_ticket_attachment['name'], null, file_get_contents($_ticket_attachment['tmp_name']) );
+
+                //Set everything back to normal
+                remove_filter( 'upload_dir',    'ns_ticket_attachment_dir' );
+                remove_filter( 'upload_mimes',  'ns_restrict_attachment_mime_types' );
+
+                if( isset($attachment_file['error']) && $attachment_file['error'] != 0 ) {
+
+                    //Display the error
+                    wp_die( printf( __( 'Error uploading your file. Error due to: %s', 'nanosupport' ), $upload['error'] ) );
+
+                } else {
+
+                    //Prepare the attachment now
+                    $attachments    = array();
+                    $attachments[]  = $attachment_file['file'];
+
+                    $_has_attachment = true;
+
+                }
+
+            } //endif ( $_ticket_attachment )
+        }
+    } //endif isset($_FILES['ns_ticket_attachment'])
+
+    //@Devs
+    //file path: $attachment_file['file'] : E:\wamp\www\wp_developer/wp-content/uploads/nanosupport/20160528_145904.jpg
+    //file url:  $attachment_file['url']  : http://localhost/wp_developer/wp-content/uploads/nanosupport/20160528_145904.jpg
+    //file type: $attachment_file['type'] : image/jpeg
+
+
     /**
      * Process the Submission
      * ...
@@ -277,6 +343,11 @@ function ns_handle_registration_login_ticket_submission() {
         add_post_meta( $ticket_post_id, '_ns_ticket_status',   esc_html( 'open' ) );
         add_post_meta( $ticket_post_id, '_ns_ticket_priority', wp_strip_all_tags( $ticket_priority ) );
         add_post_meta( $ticket_post_id, '_ns_ticket_agent',    '' ); //no ticket agent assigned
+
+        //attach the attachment file, if any
+        if( $_has_attachment ) {
+            add_post_meta( $ticket_post_id, '_ns_ticket_attachment', $attachment_file );
+        }
 
     }
 

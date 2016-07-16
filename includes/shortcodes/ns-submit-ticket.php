@@ -124,6 +124,22 @@ function ns_submit_support_ticket() {
 						</div>
 					</div> <!-- /.ns-form-group -->
 
+					<div class="ns-form-group">
+						<label for="ns-ticket-attachment" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
+							<?php _e( 'Attachment', 'nanosupport' ); ?>
+						</label>
+						<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
+							<?php echo ns_tooltip( __( 'Add an attachment (optional). Accepted file types: <code>.jpg</code>, <code>.jpeg</code>, <code>.png</code>, <code>.tiff</code>, <code>.bmp</code>, <code>.gif</code>, <code>.pdf</code>, <code>.doc</code>, <code>.docx</code>, <code>.rtf</code>, <code>.zip</code>', 'nanosupport' ) ); ?>
+						</div>
+						<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12 ns-form-inline">
+							<span class="ns-btn ns-btn-default ns-btn-file">
+								<?php _e( 'Browse...', 'nanosupport' ); ?> <input type="file" id="ns-ticket-attachment" name="ns_ticket_attachment" aria-describedby="ns-ticket-attachment">
+							</span>
+							&nbsp;
+							<span id="ns-file-status" class="ns-text-dim"></span>
+						</div>
+					</div> <!-- /.ns-form-group -->
+
 
 					<?php if( ! is_user_logged_in() ) { ?>
 

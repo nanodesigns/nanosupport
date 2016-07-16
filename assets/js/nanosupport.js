@@ -42,4 +42,33 @@ jQuery(document).ready(function($) {
         });
     }
 
+
+    /**
+     * Bootstrap File Select
+     *
+     * Bootstrap File Selection
+     *
+     * @link http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
+     *
+     * @since  1.0.0
+     * -----------------------------------------------------------
+     */
+    var ns_btn_file = $('.ns-btn-file :file');
+    if( ns_btn_file.length > 0 ) {
+
+        ns_btn_file.on('change', function() {
+            var input       = $(this),
+                numFiles    = input.get(0).files ? input.get(0).files.length : 1,
+                label       = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+
+            input.trigger('fileselect', [numFiles, label]);
+        });
+
+        ns_btn_file.on('fileselect', function(event, numFiles, label) {
+            $('#ns-file-status').html(label);
+            console.log(label);
+        });
+        
+    }
+
 });

@@ -86,7 +86,8 @@ jQuery(document).ready(function($) {
 
 
     /**
-     * 
+     * NanoSupport Knowledgebase Category Icons
+     * ...
      */
     var ns_icon_selector = $('.nanosupport-icon-button');
 
@@ -100,6 +101,20 @@ jQuery(document).ready(function($) {
 
             $('#kb-cat-icon').val(icon_class).attr('value', icon_class);
             $('#nanosupport-icon-preview i').attr('class', icon_class);
+        });
+    }
+
+
+    /**
+     * 
+     */
+    var ns_attachment_del_btn = $('#ns-detach-attachment');
+
+    if( ns_attachment_del_btn.length > 0 ) {
+        ns_attachment_del_btn.on('click', function(){
+            $('.ns-existing-values').val('').attr('value', '');
+            $('.ns-attachment-holder, .ns-btn').slideUp();
+            $('.ns-conditional-notice').slideDown();
         });
     }
 
