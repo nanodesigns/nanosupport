@@ -65,7 +65,21 @@ function ns_submit_support_ticket() {
 		<div class="ns-row">
 			<div class="ns-col-md-12">
 
-				<form class="ns-form-horizontal" method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
+				<form class="ns-form-horizontal" method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>"<?php
+					/**
+					 * -----------------------------------------------------------------------
+					 * HOOK : ACTION HOOK
+					 * nanosupport_new_ticket_form_tag
+					 *
+					 * Fires inside the Add New Ticket Form tag.
+					 *
+					 * @since  1.0.0
+					 *
+					 * 10	- ns_change_form_type_for_rich_media()
+					 * -----------------------------------------------------------------------
+					 */
+					do_action( 'nanosupport_new_ticket_form_tag' );
+					?>>
 
 					<div class="ns-form-group">
 						<label for="ns-ticket-subject" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
