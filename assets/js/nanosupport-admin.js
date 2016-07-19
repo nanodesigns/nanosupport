@@ -84,4 +84,23 @@ jQuery(document).ready(function($) {
         color_holder.wpColorPicker();
     }
 
+
+    /**
+     * 
+     */
+    var ns_icon_selector = $('.nanosupport-icon-button');
+
+    if( ns_icon_selector.length > 0 ) {
+        ns_icon_selector.on('click', function(){
+            var this_btn = $(this),
+                icon_class = this_btn.val();
+
+            ns_icon_selector.removeClass('active');
+            this_btn.addClass('active');
+
+            $('#kb-cat-icon').val(icon_class).attr('value', icon_class);
+            $('#nanosupport-icon-preview i').attr('class', icon_class);
+        });
+    }
+
 });

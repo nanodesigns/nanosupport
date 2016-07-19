@@ -333,45 +333,48 @@ function ns_total_ticket_count( $post_type = '', $user_id = '' ) {
 
 
 /**
- * Tooltip
+ * NanoSupport Tooltip
  *
- * The conflict-free CSS tooltip.
+ * Display a responsive, and mobile devices-friendly, conflict-free CSS tooltip dynamically.
  *
  * @since  1.0.0
  * 
- * @param  string $message  The i18 message for tooltip.
- * @param  string $position Position where to appear the tooltip (below|left|right).
- * @param  string $type     Type of the tooltip icon (question|info).
- * @return string           The formatted tooltip with its icon.
- * --------------------------------------------------------------------------
+ * @param  string $message  The i18 string/plain text.
+ * @param  string $position left | right | top
+ * @param  string $icon     Icon class.
+ * @return string           Formatted tooltip that needs proper CSS.
+ * ------------------------------------------------------------------------------
  */
-function ns_tooltip( $message = '', $position = 'right', $type = '' ) {
-    $icon_class = 'info' === $type ? 'ns-icon-info-circled' : 'ns-icon-help-circled';
+function ns_tooltip( $message = '', $position = 'top', $icon = 'ns-icon-question' ) {
+
+    if( empty($message) )
+        return;
+
     switch ($position) {
         case 'left':
-            $position_class = 'ns-tooltip-message-left';
+            $class = 'ns-tooltip-left ';
             break;
 
         case 'right':
-            $position_class = 'ns-tooltip-message-right';
-            break;
-
-        case 'below':
-            $position_class = 'ns-tooltip-message-below';
+            $class = 'ns-tooltip-right ';
             break;
         
         default:
-            $position_class = 'ns-tooltip-message-right';
+            $class = 'ns-tooltip-top ';
             break;
     }
 
-    $tooltip = '<span class="ns-tooltip '. esc_attr($icon_class) .'">';
-        $tooltip .= '<span class="ns-tooltip-message '. esc_attr($position_class) .'">';
-            $tooltip .= $message;
-        $tooltip .= '</span>';
-    $tooltip .= '</span>';
+    ob_start(); ?>
 
-    return $tooltip;
+    <span class="ns-tooltip <?php echo esc_attr( $class ) . esc_attr( $icon ); ?>">
+        <span class="ns-tooltip-message">
+            <?php echo $message; ?>
+        </span>
+    </span>
+
+    <?php
+    return ob_get_clean();
+
 }
 
 
@@ -573,3 +576,29 @@ function ns_is_user( $role ) {
         return current_user_can( $role ) ? true : false;
     }
 }
+
+
+/**
+ * Get all the NanoSupport Icons
+ *
+ * @since  1.0.0
+ * 
+ * @return array
+ * --------------------------------------------------------------------------
+ */
+function ns_get_all_icon() {
+    return array('ns-icon-responses','ns-icon-search','ns-icon-trashcan','ns-icon-question','ns-icon-notification','ns-icon-no-notification','ns-icon-remove','ns-icon-edit','ns-icon-refresh','ns-icon-repeat','ns-icon-chevron-down','ns-icon-chevron-left','ns-icon-chevron-right','ns-icon-chevron-up','ns-icon-chevron-circle-down','ns-icon-chevron-circle-left','ns-icon-chevron-circle-right','ns-icon-chevron-circle-up','ns-icon-minus-circle','ns-icon-minus-square','ns-icon-plus-square','ns-icon-plus-circle','ns-icon-link','ns-icon-tags','ns-icon-tag','ns-icon-docs','ns-icon-attachment','ns-icon-lock','ns-icon-unlock','ns-icon-settings','ns-icon-wrench','ns-icon-gears','ns-icon-info-circled','ns-icon-info','ns-icon-help','ns-icon-help-circled','ns-icon-pie-chart','ns-icon-graph-bar','ns-icon-line-chart','ns-icon-bar-chart','ns-icon-user','ns-icon-user-outline','ns-icon-users','ns-icon-users-outline','ns-icon-favorite','ns-icon-favorite-outline','ns-icon-desktop','ns-icon-globe','ns-icon-hand','ns-icon-happy','ns-icon-laptop','ns-icon-locate','ns-icon-mail','ns-icon-microphone','ns-icon-microphone-off','ns-icon-options','ns-icon-phone-landscape','ns-icon-phone-portrait','ns-icon-pin','ns-icon-plane','ns-icon-stopwatch','ns-icon-sunny','ns-icon-android-time','ns-icon-bonfire','ns-icon-bluetooth','ns-icon-bug','ns-icon-clipboard','ns-icon-coffee','ns-icon-compass','ns-icon-cube','ns-icon-flask','ns-icon-flask-bubbles','ns-icon-female','ns-icon-flag','ns-icon-fork','ns-icon-hammer','ns-icon-help-buoy','ns-icon-alarm','ns-icon-americanfootball','ns-icon-flame','ns-icon-game-controller','ns-icon-infinite','ns-icon-lightbulb','ns-icon-nutrition','ns-icon-paw','ns-icon-pulse','ns-icon-toggle','ns-icon-wineglass','ns-icon-jet','ns-icon-leaf','ns-icon-mic','ns-icon-mouse','ns-icon-paper-airplane','ns-icon-planet','ns-icon-ribbon','ns-icon-thumbsdown','ns-icon-thumbsup','ns-icon-buffer','ns-icon-display-contrast','ns-icon-power','ns-icon-wordpress','ns-icon-gift','ns-icon-github','ns-icon-microscope','ns-icon-scholar','ns-icon-plugin','ns-icon-book','ns-icon-photo','ns-icon-trees','ns-icon-shield','ns-icon-star-filled','ns-icon-star-empty','ns-icon-atom','ns-icon-responsive','ns-icon-facebook','ns-icon-twitter','ns-icon-linkedin','ns-icon-gplus','ns-icon-pinterest','ns-icon-tumblr','ns-icon-stumbleupon','ns-icon-ming','ns-icon-nanosupport');
+}
+
+
+/**
+ * Change the form for rich media.
+ *
+ * @since  1.0.0
+ * --------------------------------------------------------------------------
+ */
+function ns_change_form_type_for_rich_media() {
+    echo ' enctype="multipart/form-data"';
+}
+
+add_action( 'nanosupport_new_ticket_form_tag',  'ns_change_form_type_for_rich_media' );

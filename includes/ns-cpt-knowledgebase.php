@@ -125,6 +125,150 @@ add_action( 'init', 'ns_create_nanodoc_taxonomies', 0 );
 
 
 /**
+ * Knowledgebase Category Icon (add form).
+ *
+ * @since  1.0.0
+ * 
+ * @param  object $taxonomy Taxonomy object.
+ * -----------------------------------------------------------------------
+ */
+function ns_nanodoc_taxonomy_add_meta_fields( $taxonomy ) { ?>
+
+    <?php add_thickbox(); ?>
+    <div class="form-field kb-cat-icon-wrap">
+        <label for="text"><?php _e( 'Choose Category Icon', 'nanosupport' ); ?></label>
+        <span class="ns-admin-btnlike hide-if-no-js" id="nanosupport-icon-preview"><i class="ns-icon-docs"></i></span>
+        <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary">
+            <?php _e( 'Choose Icon', 'nanosupport' ); ?>
+        </a>
+        <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" size="40" placeholder="<?php esc_attr_e( 'i.e. ns-icon-docs', 'nanosupport' ); ?>">
+        <p><?php _e( 'Choose an Icon to display with the Category', 'nanosupport' ); ?></p>
+
+        <div id="ns-kb-icon-modal" style="display:none;">
+            <?php
+            $icons = ns_get_all_icon();
+            foreach( $icons as $icon ) {
+                echo '<button class="button button-large nanosupport-icon-button" value="'. esc_attr($icon) .'"><i class="'. $icon .'"></i></button>';
+            }
+            ?>
+        </div>
+    </div>
+
+<?php
+}
+
+add_action( 'nanodoc_category_add_form_fields', 'ns_nanodoc_taxonomy_add_meta_fields' );
+
+
+/**
+ * Saving Knowledgebase Category Icon.
+ *
+ * @since  1.0.0
+ * 
+ * @param  integer $term_id  Term ID.
+ * @param  integer $tt_id    Term Taxonomy ID.
+ * @param  string  $taxonomy Taxonomy slug.
+ * -----------------------------------------------------------------------
+ */
+function ns_nanodoc_taxonomy_save_meta_fields( $term_id, $tt_id, $taxonomy ) {
+    //Handle the 'nanodoc_category' only
+    if( 'nanodoc_category' === $taxonomy ) {
+        if( isset($_POST['kb_cat_icon']) ) {
+
+            update_term_meta( $term_id, '_ns_kb_cat_icon', sanitize_text_field( $_POST['kb_cat_icon'] ) );
+
+        }
+    }
+}
+
+add_action( 'edit_term',    'ns_nanodoc_taxonomy_save_meta_fields', 10, 3 );
+add_action( 'create_term',  'ns_nanodoc_taxonomy_save_meta_fields', 10, 3 );
+
+
+/**
+ * Knowledgebase Category Icon (edit form).
+ *
+ * @since  1.0.0
+ * 
+ * @param  object $taxonomy Taxonomy object.
+ * -----------------------------------------------------------------------
+ */
+function ns_nanodoc_taxonomy_edit_meta_fields( $taxonomy ) {
+    $saved_meta = get_term_meta( $taxonomy->term_id, '_ns_kb_cat_icon', true );
+    $ns_icon_class = $saved_meta ? $saved_meta : 'ns-icon-docs';
+    ?>
+
+    <tr class="form-field">
+        <th valign="top" scope="row">
+            <label for="kb-cat-icon"><?php _e( 'Change Category Icon', 'nanosupport' ); ?></label>
+        </th>
+        <td>
+            <span class="ns-admin-btnlike hide-if-no-js" id="nanosupport-icon-preview"><i class="<?php echo esc_attr($ns_icon_class); ?>"></i></span>
+            <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary">
+                <?php _e( 'Choose Icon', 'nanosupport' ); ?>
+            </a>
+            <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" value="<?php echo esc_attr($ns_icon_class); ?>" size="40" placeholder="<?php esc_attr_e( 'i.e. ns-icon-docs', 'nanosupport' ); ?>">
+            <p class="description"><?php _e( 'Choose an Icon to display with the Category', 'nanosupport' ); ?></p>
+
+            <div id="ns-kb-icon-modal" style="display:none;">
+                <?php
+                $icons = ns_get_all_icon();
+                foreach( $icons as $icon ) {
+                    echo '<button class="button button-large nanosupport-icon-button" value="'. esc_attr($icon) .'"><i class="'. $icon .'"></i></button>';
+                }
+                ?>
+            </div>
+        </td>
+    </tr>
+
+<?php
+}
+
+add_action( 'nanodoc_category_edit_form_fields', 'ns_nanodoc_taxonomy_edit_meta_fields' );
+
+
+/**
+ * Icon column added to Offer Taxonomies (Offer Categories, Offer Types) admin.
+ *
+ * @access public
+ * @param  mixed    $columns
+ * @return array    $columns with new columns merged.
+ * -----------------------------------------------------------------------
+ */
+function ns_nanodoc_taxonomy_icon_column( $columns ) {
+    $new_columns = array();
+    $new_columns['cb']      = $columns['cb'];
+    $new_columns['name']    = $columns['name'];
+    $new_columns['icon']    = __( 'Icon', 'nanosupport' );
+    unset( $columns['cb'] );
+    unset( $columns['name'] );
+    return array_merge( $new_columns, $columns );
+}
+
+add_filter( 'manage_edit-nanodoc_category_columns', 'ns_nanodoc_taxonomy_icon_column' );
+
+
+/**
+ * Icon column value for Offer Categories.
+ *
+ * @access public
+ * @param mixed   $columns
+ * @param mixed   $column
+ * @param mixed   $id
+ * @return string $columns Column icon.
+ * -----------------------------------------------------------------------
+ */
+function ns_nanodoc_taxonomy_icon_column_data( $columns, $column, $id ) {
+    if ( 'icon' === $column )
+        $columns = '<span class="'. get_term_meta( $id, '_ns_kb_cat_icon', true ).'"></span>';
+
+    return $columns;
+}
+
+add_filter( 'manage_nanodoc_category_custom_column', 'ns_nanodoc_taxonomy_icon_column_data', 10, 3 );
+
+
+/**
  * Change the 'Post Title' in Admin
  *
  * @since  1.0.0

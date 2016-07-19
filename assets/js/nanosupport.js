@@ -8,12 +8,18 @@
 jQuery(document).ready(function($) {
 
     /**
+     * JavaScripts Loaded
+     */
+    $('#nanosupport-add-ticket, #nanosupport-desk, #nanosupport-knowledgebase').removeClass('ns-no-js').addClass('ns-js');
+
+    /**
      * Equal Height Knowledgebase Categories
      * 
      * Based on MatchHeight JS, it will make Knowledgebase
      * categories' height equal to look better.
      *
      * @since  1.0.0
+     * -----------------------------------------------------------
      */
     var nano_doc_cat_elem = $('.nanodoc-term-box-inner');
     if( nano_doc_cat_elem.length > 0 )
@@ -25,6 +31,7 @@ jQuery(document).ready(function($) {
      * Applicable only on viewport smaller than 517px.
      *
      * @since  1.0.0
+     * -----------------------------------------------------------
      */
     var ticket_toggle = $('.toggle-ticket-additional');
     if( ticket_toggle.length > 0 ) {

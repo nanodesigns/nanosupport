@@ -28,7 +28,7 @@ function ns_notification_email_field() {
 
     echo '<input type="email" class="ns-field-item ns-textbox" name="nanosupport_email_settings[notification_email]" value="'. sanitize_email($email_value) .'">';
 
-    echo ns_tooltip( __( 'Write down the email to get notification of new ticket submission. Default is, admin email.', 'nanosupport' ) );
+    echo ns_tooltip( __( 'Write down the email to get notification of new ticket submission. Default is, admin email.', 'nanosupport' ), 'right' );
 }
 
 // Email Settings : Field 2 : Email Choices
@@ -37,19 +37,19 @@ function ns_email_choices_field() {
 
     $new_ticket_notification = isset($options['email_choices']['new_ticket']) ? $options['email_choices']['new_ticket'] : '';
     echo '<input name="nanosupport_email_settings[email_choices][new_ticket]" id="new_ticket" type="checkbox" value="1" '. checked( 1, $new_ticket_notification, false ) . '/> <label for="new_ticket">'. __( 'Yes, send an email to admin on new ticket submission', 'nanosupport' ) .'</label>';
-    echo ns_tooltip( __( 'If you check here, an email will be sent to Notification email notifying about every new ticket submission. Default: <code>true</code>.', 'nanosupport' ) );
+    echo ns_tooltip( __( 'If you check here, an email will be sent to Notification email notifying about every new ticket submission. Default: <code>true</code>.', 'nanosupport' ), 'right' );
 
     echo '<br><br>';
 
     $response_notification = isset($options['email_choices']['response']) ? $options['email_choices']['response'] : '';
     echo '<input name="nanosupport_email_settings[email_choices][response]" id="response" type="checkbox" value="1" '. checked( 1, $response_notification, false ) . '/> <label for="response">'. __( 'Yes, notify the ticket author when their ticket is replied', 'nanosupport' ) .'</label>';
-    echo ns_tooltip( __( 'If you check here, an email will be sent to the ticket author when their ticket is replied. Default: <code>true</code>.', 'nanosupport' ) );
+    echo ns_tooltip( __( 'If you check here, an email will be sent to the ticket author when their ticket is replied. Default: <code>true</code>.', 'nanosupport' ), 'right' );
 
     echo '<br><br>';
 
     $agent_response_notification = isset($options['email_choices']['agent_response']) ? $options['email_choices']['agent_response'] : '';
     echo '<input name="nanosupport_email_settings[email_choices][agent_response]" id="agent_response" type="checkbox" value="1" '. checked( 1, $agent_response_notification, false ) . '/> <label for="agent_response">'. __( 'Yes, notify the assigned agent when their ticket is replied', 'nanosupport' ) .'</label>';
-    echo ns_tooltip( __( 'If you check here, an email will be sent to the agent who is assigned to the ticket when their ticket is replied. Default: <code>true</code>.', 'nanosupport' ) );
+    echo ns_tooltip( __( 'If you check here, an email will be sent to the agent who is assigned to the ticket when their ticket is replied. Default: <code>true</code>.', 'nanosupport' ), 'right' );
 }
 
 
@@ -70,7 +70,7 @@ function ns_email_header_bg_color_field() {
 
     echo '<input type="text" class="ns-colorbox" name="nanosupport_email_settings[header_bg_color]" value="'. $header_bg_color .'" data-default-color="#1c5daa">';
 
-    echo ns_tooltip( __( 'Choose a color for the header background of the email template. Default: NS Blue (<code>#1c5daa</code>)', 'nanosupport' ) );
+    echo ns_tooltip( __( 'Choose a color for the header background of the email template. Default: NS Blue (<code>#1c5daa</code>)', 'nanosupport' ), 'right' );
 }
 
 // Email Template : Field 2 : Header Text Color
@@ -81,7 +81,7 @@ function ns_email_header_text_color_field() {
 
     echo '<input type="text" class="ns-colorbox" id="email-header-color" name="nanosupport_email_settings[header_text_color]" value="'. $header_text_color .'" data-default-color="#fff">';
 
-    echo ns_tooltip( __( 'Choose a color for the header text of the email template. Default: White (<code>#fff</code>)', 'nanosupport' ) );
+    echo ns_tooltip( __( 'Choose a color for the header text of the email template. Default: White (<code>#fff</code>)', 'nanosupport' ), 'right' );
 }
 
 // Email Template : Field 3 : Header Image
@@ -92,7 +92,7 @@ function ns_email_header_image_field() {
 
     echo '<input type="text" class="ns-field-item ns-textbox" name="nanosupport_email_settings[header_image]" value="'. $header_image .'" placeholder="'. esc_attr('http://path/to/image.ext') .'">';
 
-    echo ns_tooltip( __( 'Upload an image through Media &raquo; Add New, and copy &amp; paste the image URL here. Or, you can place an abosolute URL of any image. Default: No image.', 'nanosupport' ) );
+    echo ns_tooltip( __( 'Upload an image through Media &raquo; Add New, and copy &amp; paste the image URL here. Or, you can place an abosolute URL of any image. Default: No image.', 'nanosupport' ), 'right' );
 }
 
 // Email Template : Field 4 : Header Text
@@ -103,7 +103,7 @@ function ns_email_header_text_field() {
 
     echo '<input type="text" class="ns-field-item ns-textbox" name="nanosupport_email_settings[header_text]" value="'. $header_text .'" placeholder="'. get_bloginfo( 'name', 'display' ) .'">';
 
-    echo ns_tooltip( __( 'Write down the Header Text for the email template. Default: Site name.', 'nanosupport' ) );
+    echo ns_tooltip( __( 'Write down the Header Text for the email template. Default: Site name.', 'nanosupport' ), 'right' );
 }
 
 // Email Template : Field 5 : Footer Text
@@ -116,7 +116,7 @@ function ns_email_footer_text_field() {
 
     echo '<input type="text" class="ns-field-item ns-textbox" name="nanosupport_email_settings[footer_text]" value="'. $footer_text .'" placeholder="'. $default_footer_text .'">';
 
-    echo ns_tooltip( __( 'Write down the Footer Text for the email template.', 'nanosupport' ) );
+    echo ns_tooltip( __( 'Write down the Footer Text for the email template.', 'nanosupport' ), 'right' );
 
 }
 

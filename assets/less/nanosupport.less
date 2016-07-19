@@ -9,26 +9,27 @@
 
 /** COLOR VARIABLES */
 
-	@red: #da4453;
-	@red-hover: #ed5565;
-	@orange: #f6bb42;
-	@orange-hover: #ffce54;
-	@green: #8cc152;
-	@green-hover: #a0d468;
-	@blue: #3bafda;
-	@blue-hover: #4fc1e9;
+	@red: 			#da4453;
+	@red-hover: 	#ed5565;
+	@orange: 		#f6bb42;
+	@orange-hover: 	#ffce54;
+	@green: 		#8cc152;
+	@green-hover: 	#a0d468;
+	@blue: 			#3bafda;
+	@blue-hover: 	#4fc1e9;
 
 /** /COLOR VARIABLES */
 
-/** Get other CSS files */
-@import (less) "../css/normalize.css";
-@import (less) "../css/nanosupport-layout.css";
+/** Get other necessary files */
+@import (less) "../less/normalize.less";
+@import (less) "../less/nanosupport-layout.less";
 
 /*! NanoSupport Styles */
 html{
 	font-size: inherit;
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
 body{
 	font-size: 100%;
 }
@@ -40,9 +41,7 @@ body{
 .ns-required{
 	color: #da4453;
 }
-/* #ns-ticket-details{
-	border: 1px solid #d1d1d1;
-} */
+
 .ns-icon-responses{
 	font-size: 18px;
 }
@@ -58,6 +57,7 @@ body{
 		border-bottom: 0;
 	}
 }
+
 .ns-alert .link-to-desk{
 	text-decoration: none;
 	box-shadow: 0 0 0 0 transparent;
@@ -74,11 +74,13 @@ body{
 	.ns-well-left{
 		margin-bottom: 10px;
 	}
+
 	.ns-well-left,
 	.ns-well-right{
 		text-align: center;
 	}
 }
+
 .ticket-tools{
 	font-size: 12px;
 	opacity: 0;
@@ -93,6 +95,7 @@ body{
 		margin-right: 10px;
 	}
 }
+
 #nanosupport-desk{
 	a:not(.page-numbers){
 		text-decoration: none;
@@ -101,6 +104,7 @@ body{
 						box-shadow: 0 0 0 transparent;
 		border-bottom: 0;
 	}
+
 	.ticket-head:hover .ticket-tools{
 		opacity: 1;
 		-webkit-transition: all 0.5s ease;
@@ -110,6 +114,7 @@ body{
 				transition: all 0.5s ease;
 	}
 }
+
 .ticket-cards .ticket-head,
 .ticket-head{
 	margin: 0;
@@ -121,19 +126,22 @@ body{
 		text-decoration: none;
 	}
 }
+
 .ticket-cards .ticket-head{
 	font-size: 20px;
 	margin-bottom: 10px;
 }
+
 .response-head{
 	.ticket-head{
 		font-size: 14px;
 	}
 }
+
 .ticket-author{
-	//font-style: italic;
 	color: #999;
 }
+
 .ns-btn.ns-round-btn{
 	width: 27px;
 	height: 27px;
@@ -142,10 +150,12 @@ body{
 					border-radius: 100%;
 	padding-top: 3px;
 }
+
 @media (min-width: 768px) {
 	.ns-right-portion{
 		text-align: right;
 	}
+
 	.off-ticket-btn,
 	.ticket-link-btn,
 	.edit-ticket-btn{
@@ -172,6 +182,7 @@ body{
 	margin-top: 30px;
 	margin-bottom: 30px;
 	color: #999;
+	font-size: 16px;
 
 	&.ticket-separator-center{
 		text-align: center;
@@ -180,11 +191,13 @@ body{
 			left: -1em;
 			margin: 0 0 0 -50%;
 		}
+
 		&:after{
 			left: 1em;
 			margin: 0 -50% 0 0;
 		}
 	}
+
 	&:before,
 	&:after{
 		background-color: #ccc;
@@ -196,6 +209,7 @@ body{
 		width: 50%;
 	}
 }
+
 .ns-ticket-status-bar{
 	margin-bottom: 20px;
 }
@@ -206,6 +220,7 @@ body{
 		 -moz-box-shadow: 0 0 25px rgba(0,0,0,0.2);
 					box-shadow: 0 0 25px rgba(0,0,0,0.2);
 }
+
 .ticket-cards{
 	padding: 10px 15px;
 	border-width: 1px;
@@ -221,10 +236,12 @@ body{
 	.ticket-id{
 		color: #666;
 	}
+
 	.text-blocks{
 		margin-bottom: 10px;
 		font-size: 14px;
 	}
+
 	.label-normal{
 		color: #333;
 	}
@@ -242,6 +259,7 @@ body{
 		border-color: #bbb;
 	}
 }
+
 @media (min-width:518px){
 	.ticket-cards{
 		border-left-width: 10px;
@@ -257,9 +275,11 @@ body{
 		&.priority-critical{ border-left-color: #da4453; }
 	}
 }
+
 .toggle-ticket-additional{
 	display: none;
 }
+
 @media (max-width:517px){
 	.ticket-cards{
 		border-top-width: 10px;
@@ -279,6 +299,7 @@ body{
 			width: 100%;
 		}
 	}
+
 	.toggle-ticket-additional{
 		display: block;
 		clear: both;
@@ -295,10 +316,12 @@ body{
 			left: -1em;
 			margin: 0 0 0 -50%;
 		}
+
 		&:after{
 			left: 1em;
 			margin: 0 -50% 0 0;
 		}
+
 		&:before,
 		&:after{
 			background-color: #ccc;
@@ -310,17 +333,21 @@ body{
 			width: 50%;
 		}
 	}
+
 	.ticket-additional{
 		display: none;
 	}
+
 	.ticket-author{
 		margin-bottom: 10px;
 	}
+
 	.ns-question-50{
 		width: 50%;
 		float: left;
 	}
 }
+
 .responses-count{
 	display: inline-block;
 	padding: 0 8px;
@@ -359,6 +386,7 @@ article.ns-single.type-nanosupport.hentry{
 		line-height: 1.4;
 	}
 }
+
 .ticket-question-card{
 	padding: 20px;
 	border: 1px solid #e1e1e1;
@@ -382,17 +410,20 @@ article.ns-single.type-nanosupport.hentry{
 		margin-bottom: 10px;
 	}
 }
+
 .ticket-question-card,
 .ticket-response{
 	p{
 		margin-bottom: 20px;
 	}
 }
+
 .ticket-question{
 	border-top: 1px solid #e1e1e1;
 	margin-top: 20px;
 	padding-top: 20px;
 }
+
 .ticket-meta{
 	color: #777;
 
@@ -401,6 +432,7 @@ article.ns-single.type-nanosupport.hentry{
 		cursor: default;
 	}
 }
+
 .ticket-response-cards{
 	padding: 20px;
 	margin-bottom: 20px;
@@ -408,6 +440,7 @@ article.ns-single.type-nanosupport.hentry{
 	border-top-width: 5px;
 	border-top-color: #ccc;
 }
+
 .new-response{
 	background-color: lighten(blue, 46%);
 	border-top-color: lighten(blue, 38%);
@@ -416,9 +449,11 @@ article.ns-single.type-nanosupport.hentry{
 		border-top-color: #ccc;
 	}
 }
+
 .ns-hash{
 	visibility: hidden;
 }
+
 .response-dates{
 	text-align: right;
 	text-transform: uppercase;
@@ -426,21 +461,25 @@ article.ns-single.type-nanosupport.hentry{
 	a{
 		color: #333;
 	}
+
 	&:hover .ns-hash{
 		visibility: visible;
 	}
 }
+
 @media (max-width:767px){
 	.response-dates{
 		text-align: left;
 	}
 }
+
 .ticket-response,
 .ns-feedback-form{
 	border-top: 1px solid #e1e1e1;
 	margin-top: 10px;
 	padding-top: 20px;
 }
+
 .ns-feedback{
 	background-color: #ededed;
 	padding: 20px;
@@ -466,22 +505,26 @@ article.ns-single.type-nanosupport.hentry{
 			cursor: default;
 		}
 	}
+
 	.page-numbers.dots{
 		color: #9f9f9f;
 		background-color: #fff;
 	}
+
 	/* matching our CSS if default WP pagination is styled already */
 	.page-numbers{
 		-webkit-border-radius: 0;
 			 -moz-border-radius: 0;
 				border-radius: 0;
 	}
+
 	.page-numbers.current{
 		background: darken(#337ab7, 5%);
 		border: 1px solid #337ab7;
 		color: #fff;
 		padding: 5px 10px;
 	}
+
 	.ns-pagination a{
 		box-shadow: 0 0 0 0 transparent;
 	}
@@ -492,6 +535,7 @@ article.ns-single.type-nanosupport.hentry{
 	font-size: 15px;
 	vertical-align: middle;
 }
+
 .ns-btn-sm [class^="ns-icon-"]:before,
 .ns-btn-sm [class*=" ns-icon-"]:before{
 	font-size: 12px;
@@ -512,12 +556,14 @@ article.ns-single.type-nanosupport.hentry{
 						box-shadow: 0 0 0 transparent;
 		border-bottom: 0;
 	}
+
 	.nanodoc-term-title{
 		margin-top: 20px;
 		margin-bottom: 20px;
 		font-size: 15px;
 	}
 }
+
 .ns-search-form{
 	position: relative;
 	display: block;
@@ -530,6 +576,7 @@ article.ns-single.type-nanosupport.hentry{
 		border-radius: 20px;
 		padding-right: 27px;
 	}
+
 	button.search-btn{
 		position: absolute;
 		right: 0;
@@ -541,6 +588,7 @@ article.ns-single.type-nanosupport.hentry{
 			font-size: 16px;
 			line-height: 1;
 		}
+
 		&:hover{
 			text-decoration: none;
 			background: none;
@@ -553,16 +601,24 @@ article.ns-single.type-nanosupport.hentry{
 	}
 }
 
-.nanodoc-term-box,
-.ns-kb-cat-box{
-	margin-bottom: 20px;
+.nanodoc-term-box{
+	margin-bottom: 30px;
 }
+
 .ns-kb-cat-box{
+	margin-bottom: 40px;
+
 	ul{
 		margin: 0;
 		padding: 0;
+
+		li{
+			margin-bottom: 10px;
+			margin-left: 15px;
+		}
 	}
 }
+
 .nanodoc-term-box-inner{
 	background-color: #fff;
 	-webkit-box-shadow: 0 0 15px rgba(0,0,0,0.20);
@@ -588,28 +644,30 @@ article.ns-single.type-nanosupport.hentry{
 								transition: all 0.5s ease;
 	}
 
-	.ns-icon-docs{
+	.nanosupport-kb-icon{
 		font-size: 50px;
 	}
+
 	a{
 		&.icon-link{
 			color: #999;
+			display: block;
 		}
-		/* &:hover{
-			text-decoration: none;
-		} */
 	}
 }
+
 @media (min-width: 768px) {
 	.first-on-three{
 		clear: both;
 	}
 }
+
 @media (max-width: 767px) {
 	.first-on-two{
 		clear: both;
 	}
 }
+
 @media (max-width: 400px) {
 	.nanodoc-term-box,
 	.ns-kb-cat-box{
@@ -618,32 +676,22 @@ article.ns-single.type-nanosupport.hentry{
 	}
 }
 
-.ns-kb-category-title{
+#nanosupport-knowledgebase .ns-kb-category-title{
+	margin-top: 10px;
 	margin-bottom: 20px;
+	font-size: 14px;
 
-	span{
-		background-color: #e1e1e1;
+	a{
 		color: #333;
-		width: 30px;
-		height: 30px;
-		text-align: center;
-		display: inline-block;
-		-webkit-border-radius: 50%;
-			 -moz-border-radius: 50%;
-						border-radius: 50%;
-		line-height: 1.5;
-		float: left;
-		margin: 0 5px 5px 0;
-
-		&:before{
-			line-height: 1.5;
-			font-size: 20px;
-		}
 	}
 }
-.ns-kb-cat-box ul li{
-	margin-bottom: 10px;
-	margin-left: 15px;
+
+#nanosupport-knowledgebase .kb-cat-icon-inner{
+	color: #999;
+
+	&:before{
+		font-size: 30px;
+	}
 }
 
 .ns-dot{
@@ -655,9 +703,110 @@ article.ns-single.type-nanosupport.hentry{
 	vertical-align: middle;
 	background-color: #666;
 }
+
 .ns-text-danger .ns-dot{ background-color: #da4453; }
 .ns-text-info .ns-dot{ background-color: #31708f; }
 .ns-text-warning .ns-dot{ background-color: #f6bb42; }
+
+
+/* Tooltip */
+
+@tt_prop: all;
+@tt_time: 500ms;
+@tt_ease: ease;
+
+.ns-tooltip{
+	cursor: help;
+	margin: 3px 0 3px 3px;
+	position: relative;
+	color: #999;
+	vertical-align: middle;
+	float: right;
+
+	&:hover .ns-tooltip-message{
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+.ns-tooltip-message{
+	right: 16px;
+	top: 0;
+
+	-webkit-transition: @tt_prop @tt_time @tt_ease;
+	   -moz-transition: @tt_prop @tt_time @tt_ease;
+	     -o-transition: @tt_prop @tt_time @tt_ease;
+		-ms-transition: @tt_prop @tt_time @tt_ease;
+			transition: @tt_prop @tt_time @tt_ease;
+}
+
+@media (min-width: 767px) {
+	.ns-tooltip{
+		float: none;
+		margin-right: 3px;
+
+		.ns-tooltip-message{
+			right: auto;
+		}
+	}
+}
+
+.ns-tooltip-message{
+	opacity: 0;
+	visibility: hidden;
+	display: inline-block;
+	position: absolute;
+	width: 200px;
+	padding: 10px;
+	-webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+			border-radius: 3px;
+	color: #fff;
+	background-color: #444;
+	border: 1px solid #222;
+	font-size: 12px;
+	line-height: 17px;
+	-webkit-box-shadow: 0 0 5px #333;
+	   -moz-box-shadow: 0 0 5px #333;
+			box-shadow: 0 0 5px #333;
+	text-align: center;
+	z-index: 5;
+	-webkit-transition: @tt_prop @tt_time @tt_ease;
+	   -moz-transition: @tt_prop @tt_time @tt_ease;
+	     -o-transition: @tt_prop @tt_time @tt_ease;
+		-ms-transition: @tt_prop @tt_time @tt_ease;
+			transition: @tt_prop @tt_time @tt_ease;
+
+	code,
+	pre{
+		background-color: rgba(0,0,0,0.3);
+		color: @red;
+	}
+}
+
+@media (min-width: 768px) {
+	.ns-tooltip-top{
+		.ns-tooltip-message{
+			top: auto;
+			right: -93px;
+			bottom: 19px;
+		}
+	}
+}
+
+.ns-tooltip-left{
+	.ns-tooltip-message{
+		right: 19px;
+	}
+}
+
+.ns-tooltip-right{
+	.ns-tooltip-message{
+		left: 19px;
+	}
+}
+
+
 /**
  * Emulating <blink> using WebKit CSS3 animation        
  *   This code is part of John Smith's blog
