@@ -138,7 +138,7 @@ function ns_nanodoc_taxonomy_add_meta_fields( $taxonomy ) { ?>
     <div class="form-field kb-cat-icon-wrap">
         <label for="text"><?php _e( 'Choose Category Icon', 'nanosupport' ); ?></label>
         <span class="ns-admin-btnlike hide-if-no-js" id="nanosupport-icon-preview"><i class="ns-icon-docs"></i></span>
-        <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary">
+        <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary" title="<?php esc_attr_e( 'Choose an icon', 'nanosupport' ); ?>">
             <?php _e( 'Choose Icon', 'nanosupport' ); ?>
         </a>
         <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" size="40" placeholder="<?php esc_attr_e( 'i.e. ns-icon-docs', 'nanosupport' ); ?>">
@@ -204,7 +204,7 @@ function ns_nanodoc_taxonomy_edit_meta_fields( $taxonomy ) {
         </th>
         <td>
             <span class="ns-admin-btnlike hide-if-no-js" id="nanosupport-icon-preview"><i class="<?php echo esc_attr($ns_icon_class); ?>"></i></span>
-            <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary">
+            <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary" title="<?php esc_attr_e( 'Choose an icon', 'nanosupport' ); ?>">
                 <?php _e( 'Choose Icon', 'nanosupport' ); ?>
             </a>
             <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" value="<?php echo esc_attr($ns_icon_class); ?>" size="40" placeholder="<?php esc_attr_e( 'i.e. ns-icon-docs', 'nanosupport' ); ?>">
