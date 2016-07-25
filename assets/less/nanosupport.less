@@ -617,31 +617,44 @@ article.ns-single.type-nanosupport.hentry{
 			margin-left: 15px;
 		}
 	}
+
+	.ns-kb-catbox-list{
+		padding-bottom: 10px;
+	}
 }
 
 .nanodoc-term-box-inner{
-	background-color: #fff;
-	-webkit-box-shadow: 0 0 15px rgba(0,0,0,0.20);
-			 -moz-box-shadow: 0 0 15px rgba(0,0,0,0.20);
-				box-shadow: 0 0 15px rgba(0,0,0,0.20);
 	padding: 20px 10px;
-	border: 1px solid #ededed;
-	border-radius: 4px;
-	-webkit-transition: all 0.5s ease;
-					 -moz-transition: all 0.5s ease;
-						 -o-transition: all 0.5s ease;
-						-ms-transition: all 0.5s ease;
-								transition: all 0.5s ease;
+	background-color: #fff;
+	border: 1px solid #e1e1e1;
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.20);
+	   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.20);
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.20);
+	-webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+			border-radius: 3px;
+	-webkit-transition-duration: .2s;
+			transition-duration: .2s;
+	-webkit-transition-property: -webkit-transform,box-shadow;
+			transition-property: transform,box-shadow;
+	-webkit-transition-timing-function: ease-in-out;
+			transition-timing-function: ease-in-out;
+	-webkit-transform: translateZ(0);
+	   -moz-transform: translateZ(0);
+			transform: translateZ(0);
 
 	&:hover{
-		-webkit-box-shadow: 0 0 100px rgba(0,0,0,0.20);
-			 -moz-box-shadow: 0 0 100px rgba(0,0,0,0.20);
-				box-shadow: 0 0 100px rgba(0,0,0,0.20);
+		-webkit-box-shadow: 0 20px 25px rgba(0,0,0,0.15);
+		   -moz-box-shadow: 0 20px 25px rgba(0,0,0,0.15);
+				box-shadow: 0 20px 25px rgba(0,0,0,0.15);
 		-webkit-transition: all 0.5s ease;
-					 -moz-transition: all 0.5s ease;
-						 -o-transition: all 0.5s ease;
-						-ms-transition: all 0.5s ease;
-								transition: all 0.5s ease;
+		   -moz-transition: all 0.5s ease;
+			-ms-transition: all 0.5s ease;
+			 -o-transition: all 0.5s ease;
+				transition: all 0.5s ease;
+		-webkit-transform: translateY(-4px);
+		   -moz-transform: translateY(-4px);
+				transform: translateY(-4px);
 	}
 
 	.nanosupport-kb-icon{
@@ -688,6 +701,7 @@ article.ns-single.type-nanosupport.hentry{
 
 #nanosupport-knowledgebase .kb-cat-icon-inner{
 	color: #999;
+	display: inline-block;
 
 	&:before{
 		font-size: 30px;

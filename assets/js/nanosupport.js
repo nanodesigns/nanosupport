@@ -22,8 +22,10 @@ jQuery(document).ready(function($) {
      * -----------------------------------------------------------
      */
     var nano_doc_cat_elem = $('.nanodoc-term-box-inner');
-    if( nano_doc_cat_elem.length > 0 )
+    if( nano_doc_cat_elem.length > 0 ) {
     	nano_doc_cat_elem.matchHeight();
+        $('.ns-kb-catbox-list').matchHeight();
+    }
 
     /**
      * Show/Hide additional fields from ticket display

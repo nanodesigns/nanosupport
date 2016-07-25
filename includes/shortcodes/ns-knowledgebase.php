@@ -149,7 +149,7 @@ function ns_knowledgebase_page() {
 
 					echo '<div class="ns-kb-cat-box ns-col-sm-4 ns-col-xs-6'. esc_attr($col_class) .'">';
 
-						echo '<div class="nanosupport-kb-icon kb-cat-icon-inner '. esc_attr($ns_icon_class) .'"></div>';
+						echo '<a href="'. get_term_link( $kb_term, 'nanodoc_category' ) .'" class="nanosupport-kb-icon kb-cat-icon-inner '. esc_attr($ns_icon_class) .'"></a>';
 
 						echo '<h4 class="ns-kb-category-title">';
 							echo '<a href="'. get_term_link( $kb_term, 'nanodoc_category' ) .'">';
@@ -190,7 +190,7 @@ function ns_knowledgebase_page() {
 
 						if( $kb_entries->have_posts() ) :
 
-							echo '<ul>';
+							echo '<ul class="ns-kb-catbox-list">';
 								$per_category_counter = 1;
 								while( $kb_entries->have_posts() ) : $kb_entries->the_post();
 									echo '<li class="ns-small"><a href="'. esc_url(get_the_permalink()) .'" title="'. the_title_attribute( array('echo' => false) ) .'" >'. get_the_title() .'</a></li>';
