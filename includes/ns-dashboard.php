@@ -68,21 +68,39 @@ function nanosupport_widget_callback() { ?>
         if( ns_is_user('support_seeker') ) { ?>
 
             <?php
-            $ns_general_settings = get_option( 'nanosupport_settings' );
-            $ns_knowledgebase_settings  = get_option( 'nanosupport_knowledgebase_settings' );
+            $ns_general_settings       = get_option( 'nanosupport_settings' );
+            $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
             ?>
 
             <div class="ns-row">
                 <div class="nanosupport-left-column">
                     <h4 class="dashboard-head ns-text-center"><span class="ns-icon-tag"></span> <?php _e( 'Welcome to Support Ticketing', 'nanosupport' ); ?></h4>
                     <p><?php printf( __( 'This is the back end of the support ticketing system. If you want to edit your profile, you can do that from <a href="%1$s"><span class="ns-icon-user"></span> Your Profile</a>.', 'nanosupport' ), get_edit_user_link( get_current_user_id() ) ); ?></p>
-                    <p><?php _e( 'Use the links here for exploring knowledgebase, visiting your support desk, or submitting new ticket. Before submitting new ticket, we prefer you to consider exploring the Knowledgebase for existing resources.', 'nanosupport' ); ?></p>
+
+                    <?php
+                    /**
+                     * Display Knowledgebase on demand
+                     * Display, if enabled in admin panel.
+                     */
+                    if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) { ?>
+                        <p><?php _e( 'Use the links here for exploring knowledgebase, visiting your support desk, or submitting new ticket. Before submitting new ticket, we prefer you to consider exploring the Knowledgebase for existing resources.', 'nanosupport' ); ?></p>
+                    <?php } else { ?>
+                        <p><?php _e( 'Use the links here for visiting your support desk, or submitting new ticket.', 'nanosupport' ); ?></p>
+                    <?php } ?>
                 </div>
                 <div class="nanosupport-right-column ns-text-center">
                     <h4 class="dashboard-head"><span class="ns-icon-mouse"></span> <?php _e( 'My Tools', 'nanosupport' ); ?></h4>
                     <a class="button button-primary ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_general_settings['support_desk']) ); ?>"><span class="icon ns-icon-tag"></span> <?php _e( 'Support Desk', 'nanosupport' ); ?></a>
                     <a class="button ns-button-danger ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_general_settings['submit_page']) ); ?>"><span class="icon ns-icon-tag"></span> <?php _e( 'Submit Ticket', 'nanosupport' ); ?></a>
-                    <a class="button ns-button-info ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_knowledgebase_settings['page']) ); ?>"><strong><span class="icon ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?></strong></a>
+
+                    <?php
+                    /**
+                     * Display Knowledgebase on demand
+                     * Display, if enabled in admin panel.
+                     */
+                    if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) { ?>
+                        <a class="button ns-button-info ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_knowledgebase_settings['page']) ); ?>"><strong><span class="icon ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?></strong></a>
+                    <?php } ?>
                 </div>
             </div>
 

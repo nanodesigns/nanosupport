@@ -648,24 +648,31 @@ a.ns-label:focus {
 
 /* Making thickbox modal window dynamic width-height */
 #TB_window {
-	width: 100% !important;
-	height: 100% !important;
 	margin-top: 0px !important;
 	margin-left: 0px !important;
-	top: 25% !important;
+	top: 15% !important;
 	right: 10% !important;
-	bottom: 25% !important;
+	bottom: 15% !important;
 	left: 10% !important;
 	width: 80% !important;
 	height: 50% !important;
 	overflow: hidden;
-	overflow-y: scroll;
 }
+
+/* @media (min-width: 992px) {
+	#TB_window {
+		top: 10% !important;
+		bottom: 10% !important;
+		height: 80% !important;
+	}
+} */
 
 #TB_ajaxContent{
 	width: auto !important;
-	height: auto !important;
+	height: 85% !important;
 	padding-right: 0 !important;
+	overflow: hidden;
+	overflow-y: scroll;
 }
 
 #TB_Image {
@@ -681,14 +688,6 @@ a.ns-label:focus {
 	right: 0px;
 	padding: 20px;
 	border: none !important;
-}
-
-@media (min-width: 992px) {
-	#TB_window {
-		top: 10% !important;
-		bottom: 10% !important;
-		height: 80% !important;
-	}
 }
 
 .nanosupport-icon-button{

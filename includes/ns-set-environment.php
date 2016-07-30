@@ -453,7 +453,8 @@ add_filter( 'the_title', 'ns_the_title_trim' );
 /**
  * Redirect visitors from Support Desk
  *
- * Redirect non-logged-in users to the Knowledgebase, from the support desk.
+ * Redirect non-logged-in users from the support desk to the Knowledgebase,
+ * if KB is active. Or, to the Submit Ticket page if KB is not active.
  * Only the logged in users are allowed to see the Support Desk page.
  *
  * @since  1.0.0
@@ -461,13 +462,20 @@ add_filter( 'the_title', 'ns_the_title_trim' );
  */
 function ns_redirect_user_to_correct_place() {
     //Get the NanoSupport Settings from Database
-    $ns_general_settings    = get_option( 'nanosupport_settings' );
-    $ns_kb_settings         = get_option( 'nanosupport_knowledgebase_settings' );
+    $ns_general_settings       = get_option( 'nanosupport_settings' );
+    $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
     
     if( ! is_user_logged_in() && is_page($ns_general_settings['support_desk']) ) {
-        //i.e. http://example.com/knowledgebase?from=sd
-        wp_redirect( add_query_arg( 'from', 'sd', get_permalink($ns_kb_settings['page']) ) );
-        exit();
+
+        if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
+            //i.e. http://example.com/knowledgebase?from=sd
+            wp_redirect( add_query_arg( 'from', 'sd', get_permalink($ns_knowledgebase_settings['page']) ) );
+            exit();
+        } else {
+            //i.e. http://example.com/submit-ticket?from=sd
+            wp_redirect( add_query_arg( 'from', 'sd', get_permalink($ns_general_settings['submit_page']) ) );
+            exit();
+        }
     }
 }
 

@@ -59,6 +59,7 @@ function nanosupport_install() {
 
     // Knowledgebase settings
     $ns_kb_settings = array(
+            'isactive_kb'   => 1,
             'page'   		=> $knowledgebase_page_id,
             'terms'			=> array(''),
             'ppc'			=> get_option( 'posts_per_page' )

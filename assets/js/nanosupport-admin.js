@@ -89,6 +89,7 @@ jQuery(document).ready(function($) {
      * Knowledgebase Categories Icon Selection
      * Selecting knowledgebase categories icon from lightbox.
      * @scope includes/ns-cpt-knowledgebase.php
+     * ...
      */
     var ns_icon_selector = $('.nanosupport-icon-button');
 
@@ -102,6 +103,34 @@ jQuery(document).ready(function($) {
 
             $('#kb-cat-icon').val(icon_class).attr('value', icon_class);
             $('#nanosupport-icon-preview i').attr('class', icon_class);
+        });
+    }
+
+
+    /**
+     * Optional Knowledgebase
+     * Knowledgebase Settings making optional, showing/hiding
+     * KB settings as per checkbox selection.
+     * @scope includes/admin/ns-settings-knowledgebase-fields.php
+     * ...
+     */
+    var ns_kb_activator         = $('#isactive_kb'),
+        ns_kb_toggle_selector   = $('.nanosupport-left-column .form-table').find('tr').not('tr:nth-of-type(1)');
+
+    if( ns_kb_activator.length > 0 ) {
+
+        //hide initially
+        ns_kb_toggle_selector.hide();
+
+        //display, if checkbox is checked
+        if( ns_kb_activator.is(":checked") ) {
+            ns_kb_toggle_selector.show();
+        }
+
+        //toggle on checkbox check
+        ns_kb_activator.on( 'click', function() {
+            var this_elem = $(this);
+            this_elem.is(':checked') ? ns_kb_toggle_selector.show() : ns_kb_toggle_selector.hide();
         });
     }
 

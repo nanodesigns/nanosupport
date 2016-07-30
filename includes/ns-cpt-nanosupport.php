@@ -64,8 +64,9 @@ function ns_register_cpt_nanosupport() {
         'map_meta_cap'          => true
     );
 
-    if( ! post_type_exists( 'nanosupport' ) )
+    if( ! post_type_exists( 'nanosupport' ) ) {
         register_post_type( 'nanosupport', $args );
+    }
 
 }
 
@@ -110,7 +111,7 @@ add_filter( 'manage_nanosupport_posts_columns', 'ns_set_custom_columns' );
  */
 function ns_populate_custom_columns( $column, $post_id ) {
 
-    $ticket_meta    = ns_get_ticket_meta( get_the_ID() );
+    $ticket_meta = ns_get_ticket_meta( get_the_ID() );
 
     switch ( $column ) {
         case 'ticket_status' :
