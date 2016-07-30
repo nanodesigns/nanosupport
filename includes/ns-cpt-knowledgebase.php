@@ -63,8 +63,9 @@ function ns_register_cpt_nanodoc() {
         'map_meta_cap'          => true
     );
 
-    if( !post_type_exists( 'nanodoc' ) )
+    if( ! post_type_exists( 'nanodoc' ) ) {
         register_post_type( 'nanodoc', $args );
+    }
 
 }
 
@@ -116,8 +117,9 @@ function ns_create_nanodoc_taxonomies() {
                             ),
     );
 
-    if( !taxonomy_exists( 'nanodoc_category' ) )
+    if( ! taxonomy_exists( 'nanodoc_category' ) ) {
         register_taxonomy( 'nanodoc_category', array( 'nanodoc' ), $cat_args );
+    }
 
 }
 
@@ -236,12 +238,14 @@ add_action( 'nanodoc_category_edit_form_fields', 'ns_nanodoc_taxonomy_edit_meta_
  * -----------------------------------------------------------------------
  */
 function ns_nanodoc_taxonomy_icon_column( $columns ) {
+    unset( $columns['cb'] );
+    unset( $columns['name'] );
+    
     $new_columns = array();
     $new_columns['cb']      = $columns['cb'];
     $new_columns['name']    = $columns['name'];
     $new_columns['icon']    = __( 'Icon', 'nanosupport' );
-    unset( $columns['cb'] );
-    unset( $columns['name'] );
+
     return array_merge( $new_columns, $columns );
 }
 
@@ -259,8 +263,9 @@ add_filter( 'manage_edit-nanodoc_category_columns', 'ns_nanodoc_taxonomy_icon_co
  * -----------------------------------------------------------------------
  */
 function ns_nanodoc_taxonomy_icon_column_data( $columns, $column, $id ) {
-    if ( 'icon' === $column )
+    if( 'icon' === $column ) {
         $columns = '<span class="'. get_term_meta( $id, '_ns_kb_cat_icon', true ).'"></span>';
+    }
 
     return $columns;
 }
@@ -280,7 +285,7 @@ add_filter( 'manage_nanodoc_category_custom_column', 'ns_nanodoc_taxonomy_icon_c
 function ns_change_nanodoc_title_text( $title ){
      $screen = get_current_screen();
  
-     if  ( 'nanodoc' === $screen->post_type ) {
+     if( 'nanodoc' === $screen->post_type ) {
           $title = __( 'Knowledgebase Question', 'nanosupport' );
      }
  

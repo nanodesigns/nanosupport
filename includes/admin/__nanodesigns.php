@@ -12,9 +12,8 @@
  * @package 	NanoSupport
  */
 
-$ns_general_settings 		= get_option( 'nanosupport_settings' );
-$ns_knowledgebase_settings  = get_option( 'nanosupport_knowledgebase_settings' );
-
+$ns_general_settings       = get_option( 'nanosupport_settings' );
+$ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
 ?>
 
 <h3><?php echo '<span class="ns-icon-nanosupport"></span> '. __( 'NanoSupport', 'nanosupport' ); ?> <small>&mdash; <?php _e( 'complete support ticketing plugin', 'nanosupport' ); ?></small></h3>

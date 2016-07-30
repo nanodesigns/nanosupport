@@ -26,7 +26,7 @@ function ns_scripts() {
     $ns_general_settings        = get_option( 'nanosupport_settings' );
     $ns_knowledgebase_settings  = get_option( 'nanosupport_knowledgebase_settings' );
 
-    $support_desk = $ns_general_settings['support_desk'];
+    $support_desk  = $ns_general_settings['support_desk'];
     $submit_ticket = $ns_general_settings['submit_page'];
     $knowledgebase = $ns_knowledgebase_settings['page'];
 

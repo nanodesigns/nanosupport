@@ -86,7 +86,9 @@ jQuery(document).ready(function($) {
 
 
     /**
-     * 
+     * Knowledgebase Categories Icon Selection
+     * Selecting knowledgebase categories icon from lightbox.
+     * @scope includes/ns-cpt-knowledgebase.php
      */
     var ns_icon_selector = $('.nanosupport-icon-button');
 
