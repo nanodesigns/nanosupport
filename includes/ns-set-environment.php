@@ -94,7 +94,7 @@ function ns_admin_scripts() {
     wp_register_style( 'ns-admin', NS()->plugin_url() .'/assets/css/nanosupport-admin.css', array(), NS()->version, 'all' );
 
     $screen = get_current_screen();
-    if( 'nanosupport' === $screen->post_type || 'nanodoc' === $screen->post_type || 'nanosupport_page_nanosupport-settings' === $screen->base ) {
+    if( 'nanosupport' === $screen->post_type || 'nanodoc' === $screen->post_type || 'nanosupport_page_nanosupport-settings' === $screen->base || ('users' === $screen->base && 'users' === $screen->id) ) {
 
         wp_enqueue_style( 'ns-admin' );
 		
@@ -299,7 +299,7 @@ add_filter( 'manage_users_columns', 'ns_add_support_agent_user_column' );
 function ns_support_agent_user_column_content( $value, $column_name, $user_id ) {
     if ( 'ns_agent' == $column_name ) {
         if( 1 == get_user_meta( $user_id, 'ns_make_agent', true ) )
-            return '<span class="dashicons dashicons-businessman" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></span>';
+            return '<span class="ns-label ns-label-warning"><i class="dashicons dashicons-businessman" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i> '. __( 'Agent', 'nanosupport' ) .'</span>';
         else
             return '-:-';
     }
