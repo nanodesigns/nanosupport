@@ -2,15 +2,15 @@
 Contributors: nanodesigns, wzislam
 Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff, support ticketing
 Requires at least: 3.9.0
-Tested up to: 4.5.2
-Stable tag: 0.1.1
+Tested up to: 4.6
+Stable tag: 0.2.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-Create a fully featured Support Center within your WordPress environment without any third party software, completely FREE
+Create a fully featured Support Center within your WordPress environment without any third party system dependency, completely FREE
 
 == Description ==
-Create a fully featured Support Center within your WordPress environment without any third party software, for completely FREE of cost.
+Create a fully featured Support Center within your WordPress environment without any third party system dependency, for completely FREE of cost.
 
 **No** 3rd party support ticketing system required, **no** external site/api dependency, **simply** create your own fully featured Support Center within your WordPress environment, and take your support into the next level.
 
@@ -136,6 +136,22 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Changelog ==
 
+= 0.2.0 - 2016-AUG-31 =
+=== Major changes ===
+* Knowledgebase made optional
+* UI added for selecting Knowledgebase Icons
+* Closing a ticket from front end
+* CSS Tooltip added to Submit form for better UX
+* Submit Form is made dynamic for adding feature to the `<form>` element
+* Ticket Attachment feature is added for Questions
+
+=== Minor changes/fixes ===
+* Knowledgebase CSS revamped
+* Fixed a conflict with Yoast SEO and Select2 plugin in admin areas
+* File organization, some CSS files made LESS for easy compilation
+* JavaScript fallback plan implemented for front end
+* 3 other fixes/UI improvements
+
 = 0.1.1 - 2016-JUN-21 =
 * A bug on Submit ticket is fixed
 
@@ -144,5 +160,5 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Upgrade Notice ==
 
-= 0.1.1 =
-A bug is fixed on Submit Ticket that was prohibiting submitting guest tickets
+= 0.2.0 =
+3 new major features added
