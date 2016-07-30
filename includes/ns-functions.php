@@ -466,8 +466,8 @@ add_action( 'nanosupport_before_knowledgebase', 'ns_knowledgebase_navigation', 1
 function ns_new_ticket_navigation() {
 
     //Get the NanoSupport Settings from Database
-    $ns_general_settings        = get_option( 'nanosupport_settings' );
-    $ns_knowledgebase_settings  = get_option('nanosupport_knowledgebase_settings');
+    $ns_general_settings       = get_option( 'nanosupport_settings' );
+    $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
 
     $enable_notice = isset($ns_general_settings['enable_notice']) ? absint($ns_general_settings['enable_notice']) : true;
 
@@ -483,9 +483,16 @@ function ns_new_ticket_navigation() {
                 <a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="ns-btn ns-btn-sm ns-btn-primary">
                     <span class="ns-icon-tag"></span> <?php echo ns_is_user('agent_and_manager') ? esc_html__( 'All the Tickets', 'nanosupport' ) : esc_html__( 'My Tickets', 'nanosupport' ); ?>
                 </a>
-                <a class="ns-btn ns-btn-sm ns-btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
-                    <span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
-                </a>
+                <?php
+                /**
+                 * Display Knowledgebase on demand
+                 * Display, if enabled in admin panel.
+                 */
+                if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) { ?>
+                    <a class="ns-btn ns-btn-sm ns-btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
+                        <span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
+                    </a>
+                <?php } ?>
             </div>
             <div class="ns-col-md-7 ns-col-sm-6 ns-well-right ns-text-muted">
                 <span class="ns-small"><?php _e( 'Consult the Knowledgebase for your query. If they are <em>not</em> close to you, then submit a new ticket here.', 'nanosupport' ); ?></span>
@@ -513,8 +520,8 @@ add_action( 'nanosupport_before_new_ticket', 'ns_new_ticket_navigation', 10 );
 function ns_support_desk_navigation() {
 
     //Get the NanoSupport Settings from Database
-    $ns_general_settings        = get_option( 'nanosupport_settings' );
-    $ns_knowledgebase_settings  = get_option('nanosupport_knowledgebase_settings');
+    $ns_general_settings       = get_option( 'nanosupport_settings' );
+    $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
 
     $enable_notice = isset($ns_general_settings['enable_notice']) ? absint($ns_general_settings['enable_notice']) : true;
 
@@ -530,9 +537,16 @@ function ns_support_desk_navigation() {
                 <?php _e( 'Tickets are visible to the admins, designated support assistant and/or to the ticket owner only.', 'nanosupport' ); ?>
             </div>
             <div class="ns-col-md-5 ns-col-sm-6 ns-well-right ns-text-right">
-                <a class="ns-btn ns-btn-sm ns-btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
-                    <span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
-                </a>
+                <?php
+                /**
+                 * Display Knowledgebase on demand
+                 * Display, if enabled in admin panel.
+                 */
+                if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) { ?>
+                    <a class="ns-btn ns-btn-sm ns-btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
+                        <span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
+                    </a>
+                <?php } ?>
                 <a class="ns-btn ns-btn-sm ns-btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( $ns_general_settings['submit_page'] ) ); ?>">
                     <span class="ns-icon-tag"></span> <?php _e( 'Submit Ticket', 'nanosupport' ); ?>
                 </a>

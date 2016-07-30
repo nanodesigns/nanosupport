@@ -63,12 +63,22 @@ function ns_register_cpt_nanodoc() {
         'map_meta_cap'          => true
     );
 
-    if( !post_type_exists( 'nanodoc' ) )
+    if( ! post_type_exists( 'nanodoc' ) ) {
         register_post_type( 'nanodoc', $args );
+    }
 
 }
 
-add_action( 'init', 'ns_register_cpt_nanodoc' );
+//get Knowledgebase settings from db
+$ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
+
+/**
+ * Initiate CPT Knowledgebase on demand
+ * Display, if enabled in admin panel.
+ */
+if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
+    add_action( 'init', 'ns_register_cpt_nanodoc' );
+}
 
 
 
@@ -116,8 +126,9 @@ function ns_create_nanodoc_taxonomies() {
                             ),
     );
 
-    if( !taxonomy_exists( 'nanodoc_category' ) )
+    if( ! taxonomy_exists( 'nanodoc_category' ) ) {
         register_taxonomy( 'nanodoc_category', array( 'nanodoc' ), $cat_args );
+    }
 
 }
 
@@ -135,10 +146,11 @@ add_action( 'init', 'ns_create_nanodoc_taxonomies', 0 );
 function ns_nanodoc_taxonomy_add_meta_fields( $taxonomy ) { ?>
 
     <?php add_thickbox(); ?>
+
     <div class="form-field kb-cat-icon-wrap">
         <label for="text"><?php _e( 'Choose Category Icon', 'nanosupport' ); ?></label>
         <span class="ns-admin-btnlike hide-if-no-js" id="nanosupport-icon-preview"><i class="ns-icon-docs"></i></span>
-        <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary">
+        <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary" title="<?php esc_attr_e( 'Choose an icon', 'nanosupport' ); ?>">
             <?php _e( 'Choose Icon', 'nanosupport' ); ?>
         </a>
         <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" size="40" placeholder="<?php esc_attr_e( 'i.e. ns-icon-docs', 'nanosupport' ); ?>">
@@ -194,8 +206,10 @@ add_action( 'create_term',  'ns_nanodoc_taxonomy_save_meta_fields', 10, 3 );
  * -----------------------------------------------------------------------
  */
 function ns_nanodoc_taxonomy_edit_meta_fields( $taxonomy ) {
-    $saved_meta = get_term_meta( $taxonomy->term_id, '_ns_kb_cat_icon', true );
+    $saved_meta    = get_term_meta( $taxonomy->term_id, '_ns_kb_cat_icon', true );
     $ns_icon_class = $saved_meta ? $saved_meta : 'ns-icon-docs';
+
+    add_thickbox();
     ?>
 
     <tr class="form-field">
@@ -204,7 +218,7 @@ function ns_nanodoc_taxonomy_edit_meta_fields( $taxonomy ) {
         </th>
         <td>
             <span class="ns-admin-btnlike hide-if-no-js" id="nanosupport-icon-preview"><i class="<?php echo esc_attr($ns_icon_class); ?>"></i></span>
-            <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary">
+            <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary" title="<?php esc_attr_e( 'Choose an icon', 'nanosupport' ); ?>">
                 <?php _e( 'Choose Icon', 'nanosupport' ); ?>
             </a>
             <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" value="<?php echo esc_attr($ns_icon_class); ?>" size="40" placeholder="<?php esc_attr_e( 'i.e. ns-icon-docs', 'nanosupport' ); ?>">
@@ -236,12 +250,14 @@ add_action( 'nanodoc_category_edit_form_fields', 'ns_nanodoc_taxonomy_edit_meta_
  * -----------------------------------------------------------------------
  */
 function ns_nanodoc_taxonomy_icon_column( $columns ) {
+    unset( $columns['cb'] );
+    unset( $columns['name'] );
+    
     $new_columns = array();
     $new_columns['cb']      = $columns['cb'];
     $new_columns['name']    = $columns['name'];
     $new_columns['icon']    = __( 'Icon', 'nanosupport' );
-    unset( $columns['cb'] );
-    unset( $columns['name'] );
+
     return array_merge( $new_columns, $columns );
 }
 
@@ -259,8 +275,9 @@ add_filter( 'manage_edit-nanodoc_category_columns', 'ns_nanodoc_taxonomy_icon_co
  * -----------------------------------------------------------------------
  */
 function ns_nanodoc_taxonomy_icon_column_data( $columns, $column, $id ) {
-    if ( 'icon' === $column )
+    if( 'icon' === $column ) {
         $columns = '<span class="'. get_term_meta( $id, '_ns_kb_cat_icon', true ).'"></span>';
+    }
 
     return $columns;
 }
@@ -280,7 +297,7 @@ add_filter( 'manage_nanodoc_category_custom_column', 'ns_nanodoc_taxonomy_icon_c
 function ns_change_nanodoc_title_text( $title ){
      $screen = get_current_screen();
  
-     if  ( 'nanodoc' === $screen->post_type ) {
+     if( 'nanodoc' === $screen->post_type ) {
           $title = __( 'Knowledgebase Question', 'nanosupport' );
      }
  

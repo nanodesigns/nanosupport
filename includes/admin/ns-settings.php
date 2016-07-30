@@ -155,6 +155,19 @@ function nanosupport_settings_options_init(){
     );
         /**
          * Tab: Knowledgebase Settings
+         *  - Activate Knowledgebase
+         * ----------------------------------
+         */
+        add_settings_field(
+            'isactive_knowledgebase',                           // ID*
+            __( 'Activate Knowledgebase?', 'nanosupport' ),     // Title*
+            'ns_isactive_knowledgebase_field',                  // Callback Function*
+            'nanosupport_knowledgebase_settings',               // Page (Plugin)*
+            'ns_knowledgebase'                                  // Section
+        );
+        
+        /**
+         * Tab: Knowledgebase Settings
          *  - Knowledgebase page
          * ----------------------------------
          */
@@ -163,7 +176,7 @@ function nanosupport_settings_options_init(){
             __( 'Knowledgebase Page', 'nanosupport' ),          // Title*
             'ns_knowledgebase_page_field',                      // Callback Function*
             'nanosupport_knowledgebase_settings',               // Page (Plugin)*
-            'ns_knowledgebase'                         // Section
+            'ns_knowledgebase'                                  // Section
         );
         /**
          * Tab: Knowledgebase Settings
@@ -175,7 +188,7 @@ function nanosupport_settings_options_init(){
             __( 'Featured Categories', 'nanosupport' ),         // Title*
             'ns_doc_terms_field',                               // Callback Function*
             'nanosupport_knowledgebase_settings',               // Page (Plugin)*
-            'ns_knowledgebase'                         // Section
+            'ns_knowledgebase'                                  // Section
         );
         /**
          * Tab: Knowledgebase Settings
@@ -187,7 +200,7 @@ function nanosupport_settings_options_init(){
             __( 'No. of items per category', 'nanosupport' ),   // Title*
             'ns_doc_ppc_field',                                 // Callback Function*
             'nanosupport_knowledgebase_settings',               // Page (Plugin)*
-            'ns_knowledgebase'                         // Section
+            'ns_knowledgebase'                                  // Section
         );
 
 

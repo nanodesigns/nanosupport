@@ -31,6 +31,16 @@ function ns_submit_support_ticket() {
         }
     }
 
+    /**
+	 * Show a Redirection Message
+	 * while redirected.
+	 */
+	if( isset($_GET['from']) && 'sd' === $_GET['from'] ) {
+		echo '<div class="ns-alert ns-alert-info" role="alert">';
+			_e( 'You are redirected from the Support Desk, because you are not logged in, and have no permission to view any ticket.', 'nanosupport' );
+		echo '</div>';
+	}
+
     //Display success message, if any
     if( isset($_GET['ns_success']) && $_GET['ns_success'] == 1 ) {
 		echo '<div class="ns-alert ns-alert-success" role="alert">';
