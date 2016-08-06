@@ -77,7 +77,45 @@ function ns_enable_notice() {
     echo ns_tooltip( __( 'If you check here, it will enable the predefined notice on top of Support Desk, Knowledgebase, and Submit Ticket page', 'nanosupport' ), 'right' );
 }
 
-// General Tab : General Settings : Field 4 : Highlight Ticket
+// General Tab : General Settings : Field 4 : Submit Ticket Notice
+function ns_submit_ticket_notice() {
+    $options = get_option( 'nanosupport_settings' );
+
+    global $ns_submit_ticket_notice;
+    
+    $submit_ticket_notice = isset($options['submit_ticket_notice']) ? $options['submit_ticket_notice'] : $ns_submit_ticket_notice;
+    echo '<textarea class="ns-field-item ns-textbox" rows="3" name="nanosupport_settings[submit_ticket_notice]" id="submit_ticket_notice">'. esc_attr(strip_tags($submit_ticket_notice)) .'</textarea>';
+    echo ns_tooltip( __( 'The message that to show on top of the New Ticket submission page. Plain texts only.', 'nanosupport' ), 'right' );
+}
+
+// General Tab : General Settings : Field 5 : Support Desk Notice
+function ns_support_desk_notice() {
+    $options = get_option( 'nanosupport_settings' );
+
+    global $ns_support_desk_notice;
+    
+    $support_desk_notice = isset($options['support_desk_notice']) ? $options['support_desk_notice'] : $ns_support_desk_notice;
+    echo '<textarea class="ns-field-item ns-textbox" rows="3" name="nanosupport_settings[support_desk_notice]" id="support_desk_notice">'. esc_attr(strip_tags($support_desk_notice)) .'</textarea>';
+    echo ns_tooltip( __( 'The message that to show on top of the Support Ticket page. Plain texts only.', 'nanosupport' ), 'right' );
+}
+
+// General Tab : General Settings : Field 6 : Knowledgebase Notice
+function ns_knowledgebase_notice() {
+    $options = get_option( 'nanosupport_settings' );
+    
+    //class to handle out-of-DOM field show/hide control
+    $ns_knowledgebase_settings = get_option('nanosupport_knowledgebase_settings');
+    $enable_knowledgebase = isset($ns_knowledgebase_settings['isactive_kb']) ? absint($ns_knowledgebase_settings['isactive_kb']) : true;
+    $hide_class =  $enable_knowledgebase ? '' : ' ns-hide';
+
+    global $ns_knowledgebase_notice;
+    
+    $knowledgebase_notice = isset($options['knowledgebase_notice']) ? $options['knowledgebase_notice'] : $ns_knowledgebase_notice;
+    echo '<textarea class="ns-field-item ns-textbox '. esc_attr($hide_class) .'" rows="3" name="nanosupport_settings[knowledgebase_notice]" id="knowledgebase_notice">'. esc_attr(strip_tags($knowledgebase_notice)) .'</textarea>';
+    echo ns_tooltip( __( 'The message that to show on top of the Knowledgebase page. Plain texts only.', 'nanosupport' ), 'right' );
+}
+
+// General Tab : General Settings : Field 7 : Highlight Ticket
 function ns_highlight_ticket_field() {
     $options = get_option( 'nanosupport_settings' );
 
@@ -90,7 +128,7 @@ function ns_highlight_ticket_field() {
 
 }
 
-// General Tab : General Settings : Field 5 : Enable Embedded Login?
+// General Tab : General Settings : Field 8 : Enable Embedded Login?
 function ns_embedded_login_field() {
     $options = get_option( 'nanosupport_settings' );
 
@@ -153,9 +191,15 @@ function ns_general_settings_validate( $input ) {
     //Support Desk page selection
     $support_desk_selection_val = $input['support_desk'] ? absint( $input['support_desk'] ) : '';
     //Submit Ticket page selection
-    $add_support_ticket_val = $input['submit_page'] ? absint( $input['submit_page'] ) : '';
+    $add_support_ticket_val     = $input['submit_page'] ? absint( $input['submit_page'] ) : '';
     //Enable Notice checkbox
-    $enable_notice = (int) $input['enable_notice'] === 1 ? (int) $input['enable_notice'] : '';
+    $enable_notice              = (int) $input['enable_notice'] === 1 ? (int) $input['enable_notice'] : '';
+    //Submit Ticket notice message
+    $submit_ticket_notice       = $input['submit_ticket_notice'] ? $input['submit_ticket_notice'] : '';
+    //Support Desk notice message
+    $support_desk_notice        = $input['support_desk_notice'] ? $input['support_desk_notice'] : '';
+    //Knowledgebase notice message
+    $knowledgebase_notice       = $input['knowledgebase_notice'] ? $input['knowledgebase_notice'] : '';
     //Enable Embedded Login checkbox
     $embedded_login = isset($input['embedded_login']) && (int) $input['embedded_login'] === 1 ? (int) $input['embedded_login'] : '';
     //Highlight ticket choice
@@ -172,16 +216,19 @@ function ns_general_settings_validate( $input ) {
     /**
      * Set the values finally
      */
-    $options['support_desk']        = absint( $support_desk_selection_val );
-    $options['submit_page']         = absint( $add_support_ticket_val );
-    $options['enable_notice']       = absint( $enable_notice );
-    $options['highlight_ticket']    = esc_html( $highlight_ticket_val );
-    $options['embedded_login']      = absint( $embedded_login );
+    $options['support_desk']         = absint( $support_desk_selection_val );
+    $options['submit_page']          = absint( $add_support_ticket_val );
+    $options['enable_notice']        = absint( $enable_notice );
+    $options['submit_ticket_notice'] = esc_attr(strip_tags($submit_ticket_notice));
+    $options['support_desk_notice']  = esc_attr(strip_tags($support_desk_notice));
+    $options['knowledgebase_notice'] = esc_attr(strip_tags($knowledgebase_notice));
+    $options['highlight_ticket']     = esc_html( $highlight_ticket_val );
+    $options['embedded_login']       = absint( $embedded_login );
 
-    $options['account_creation']['generate_username']   = absint( $generate_username );
-    $options['account_creation']['generate_password']   = absint( $generate_password );
+    $options['account_creation']['generate_username'] = absint( $generate_username );
+    $options['account_creation']['generate_password'] = absint( $generate_password );
 
-    $options['delete_data']         = absint( $del_data_check_val );
+    $options['delete_data']          = absint( $del_data_check_val );
 
     return $options;
 }

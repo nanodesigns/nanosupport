@@ -80,6 +80,27 @@ function nanosupport_settings_options_init(){
             'ns_general'                                // Section
         );
         add_settings_field(
+            'submit_ticket_notice',                     // ID*
+            __( 'Submit Ticket Notice', 'nanosupport' ),// Title*
+            'ns_submit_ticket_notice',                  // Callback Function*
+            'nanosupport_settings',                     // Page (Plugin)*
+            'ns_general'                                // Section
+        );
+        add_settings_field(
+            'support_desk_notice',                      // ID*
+            __( 'Support Desk Notice', 'nanosupport' ), // Title*
+            'ns_support_desk_notice',                   // Callback Function*
+            'nanosupport_settings',                     // Page (Plugin)*
+            'ns_general'                                // Section
+        );
+        add_settings_field(
+            'knowledgebase_notice',                     // ID*
+            __( 'Knowledgebase Notice', 'nanosupport' ), // Title*
+            'ns_knowledgebase_notice',                  // Callback Function*
+            'nanosupport_settings',                     // Page (Plugin)*
+            'ns_general'                                // Section
+        );
+        add_settings_field(
             'highligh_ticket',                          // ID*
             __( 'Highlight Ticket with', 'nanosupport' ),    // Title*
             'ns_highlight_ticket_field',                // Callback Function*
@@ -339,14 +360,14 @@ function nanosupport_settings_page_callback() {
 
             <?php if( 'general_settings' === $active_tab ) { ?>
 
-                <div class="nanosupport-left-column">
+                <div class="nanosupport-left-column ns-general-settings">
 
                     <?php settings_fields('nanosupport_settings'); ?>
                     <?php do_settings_sections('nanosupport_settings'); ?>
 
                     <?php submit_button(); ?>
 
-                </div> <!-- /.nanosupport-left-column -->
+                </div> <!-- /.nanosupport-left-column nanosupport-general-settings -->
                 <div class="nanosupport-right-column">
 
                     <?php require_once '__nanodesigns.php'; ?>
@@ -356,14 +377,14 @@ function nanosupport_settings_page_callback() {
 
             <?php } else if( 'knowledgebase_settings' === $active_tab ) { ?>
 
-                <div class="nanosupport-left-column">
+                <div class="nanosupport-left-column ns-knowledgebase-settings">
 
                     <?php settings_fields('nanosupport_knowledgebase_settings'); ?>
                     <?php do_settings_sections('nanosupport_knowledgebase_settings'); ?>
 
                     <?php submit_button(); ?>
 
-                </div> <!-- /.nanosupport-left-column -->
+                </div> <!-- /.nanosupport-left-column nanosupport-knowledgebase-settings -->
                 <div class="nanosupport-right-column">
                     
                     <?php require_once '__nanodesigns.php'; ?>
@@ -373,14 +394,14 @@ function nanosupport_settings_page_callback() {
 
             <?php } else if( 'email_settings' === $active_tab ) { ?>
 
-                <div class="nanosupport-left-column">
+                <div class="nanosupport-left-column ns-email-settings">
 
                     <?php settings_fields('nanosupport_email_settings'); ?>
                     <?php do_settings_sections('nanosupport_email_settings'); ?>
 
                     <?php submit_button(); ?>
 
-                </div> <!-- /.nanosupport-left-column -->
+                </div> <!-- /.nanosupport-left-column nanosupport-email-settings -->
                 <div class="nanosupport-right-column">
                     
                     <?php require_once '__nanodesigns.php'; ?>

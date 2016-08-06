@@ -10,6 +10,8 @@ jQuery(document).ready(function($) {
     /**
      * Making Support and Knowledgebase Question mandatory
      * Making post title field in Support Ticket, and Knowledgebase mandatory.
+     *
+     * @since  1.0.0
      * ...
      */
     $('body.post-new-php.post-type-nanosupport input#title, body.post-php.post-type-nanosupport input#title, body.post-new-php.post-type-nanodoc input#title, body.post-php.post-type-nanodoc input#title').prop('required',true);
@@ -17,6 +19,8 @@ jQuery(document).ready(function($) {
     /**
      * Delete/Remove Responses
      * Delete/remove individual old, recorded responses from the DOM.
+     *
+     * @since  1.0.0
      * ...
      */
     $('.delete-response').on( 'click', function(e) {
@@ -47,6 +51,8 @@ jQuery(document).ready(function($) {
     /**
      * Enable Select2
      * Enable Select2 to all the .ns-select fields.
+     *
+     * @since  1.0.0
      * ...
      */
     var select_field        = $('select.ns-select'),
@@ -76,7 +82,9 @@ jQuery(document).ready(function($) {
     /**
      * Enable wpColorPicker
      * Enable Iris ColorPicker on specific color fields using WP3.5 colorPicker API.
-     * @scope includes/admin/ns-settings-email-fields.php
+     *
+     * @scope  includes/admin/ns-settings-email-fields.php
+     * @since  1.0.0
      * ...
      */
     var color_holder = $('.ns-colorbox');
@@ -88,7 +96,9 @@ jQuery(document).ready(function($) {
     /**
      * Knowledgebase Categories Icon Selection
      * Selecting knowledgebase categories icon from lightbox.
-     * @scope includes/ns-cpt-knowledgebase.php
+     * 
+     * @scope  includes/ns-cpt-knowledgebase.php
+     * @since  1.0.0
      * ...
      */
     var ns_icon_selector = $('.nanosupport-icon-button');
@@ -108,16 +118,48 @@ jQuery(document).ready(function($) {
 
 
     /**
+     * Optional Notices
+     * Top navigation and notices are made optional. Showing/hiding
+     * message boxes based on checkbox choice.
+     * 
+     * @scope  includes/admin/ns-settings-knowledgebase-fields.php
+     * @since  1.0.0
+     * ...
+     */
+    var ns_notice_activator         = $('#enable_notice'),
+        ns_notice_toggle_selector   = $('#submit_ticket_notice, #support_desk_notice, #knowledgebase_notice').closest('tr');
+
+    if( ns_notice_toggle_selector.length > 0 ) {
+
+        //hide initially
+        ns_notice_toggle_selector.hide();
+
+        //display, if checkbox is checked
+        if( ns_notice_activator.is(":checked") ) {
+            ns_notice_toggle_selector.show();
+        }
+
+        //toggle on checkbox check
+        ns_notice_activator.on( 'click', function() {
+            var this_elem = $(this);
+            this_elem.is(':checked') ? ns_notice_toggle_selector.show() : ns_notice_toggle_selector.hide();
+        });
+    }
+
+
+    /**
      * Optional Knowledgebase
      * Knowledgebase Settings making optional, showing/hiding
      * KB settings as per checkbox selection.
-     * @scope includes/admin/ns-settings-knowledgebase-fields.php
+     * 
+     * @scope  includes/admin/ns-settings-knowledgebase-fields.php
+     * @since  1.0.0
      * ...
      */
     var ns_kb_activator         = $('#isactive_kb'),
-        ns_kb_toggle_selector   = $('.nanosupport-left-column .form-table').find('tr').not('tr:nth-of-type(1)');
+        ns_kb_toggle_selector   = $('#ns_knowledgebase, #ns_doc_terms, #ns_doc_ppc, .ns-hide').closest('tr');
 
-    if( ns_kb_activator.length > 0 ) {
+    if( ns_kb_toggle_selector.length > 0 ) {
 
         //hide initially
         ns_kb_toggle_selector.hide();

@@ -362,7 +362,7 @@ function ns_knowledgebase_navigation() {
     <div class="ns-well ns-well-sm">
         <div class="ns-row">
             <div class="ns-col-md-7 ns-col-sm-6 ns-well-left ns-text-muted">
-                <?php _e( 'Find your desired question in the knowledgebase. If you can&rsquo;t find your question, submit a new support ticket.', 'nanosupport' ); ?>
+                <?php if( isset($ns_general_settings['knowledgebase_notice']) ) echo esc_html($ns_general_settings['knowledgebase_notice']); ?>
             </div>
             <div class="ns-col-md-5 ns-col-sm-6 ns-well-right ns-text-right">
                 <a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="ns-btn ns-btn-sm ns-btn-primary">
@@ -424,7 +424,7 @@ function ns_new_ticket_navigation() {
                 <?php } ?>
             </div>
             <div class="ns-col-md-7 ns-col-sm-6 ns-well-right ns-text-muted">
-                <span class="ns-small"><?php _e( 'Consult the Knowledgebase for your query. If they are <em>not</em> close to you, then submit a new ticket here.', 'nanosupport' ); ?></span>
+                <span class="ns-small"><?php if( isset($ns_general_settings['submit_ticket_notice']) ) echo esc_html($ns_general_settings['submit_ticket_notice']); ?></span>
             </div>
         </div>
     </div> <!-- /.ns-well.ns-well-sm -->
@@ -463,7 +463,7 @@ function ns_support_desk_navigation() {
     <div class="ns-well ns-well-sm">
         <div class="ns-row">
             <div class="ns-col-md-7 ns-col-sm-6 ns-well-left ns-text-muted">
-                <?php _e( 'Tickets are visible to the admins, designated support assistant and/or to the ticket owner only.', 'nanosupport' ); ?>
+                <?php if( isset($ns_general_settings['support_desk_notice']) ) echo esc_html($ns_general_settings['support_desk_notice']); ?>
             </div>
             <div class="ns-col-md-5 ns-col-sm-6 ns-well-right ns-text-right">
                 <?php

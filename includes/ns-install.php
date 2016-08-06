@@ -44,6 +44,9 @@ function nanosupport_install() {
                                 '[nanosupport_knowledgebase]'   //content (shortcode)
                             );
 
+    //get the default notice texts
+    global $ns_submit_ticket_notice, $ns_support_desk_notice, $ns_knowledgebase_notice;
+
     /**
      * Set up the default Settings
      * ...
@@ -51,9 +54,12 @@ function nanosupport_install() {
     
     // General Settings
     $ns_gen_settings = array(
-            'support_desk'	=> $support_desk_page_id,
-            'submit_page'   => $submit_ticket_page_id,
-            'enable_notice'	=> 1,
+            'support_desk'         => $support_desk_page_id,
+            'submit_page'          => $submit_ticket_page_id,
+            'enable_notice'        => 1,
+            'submit_ticket_notice' => esc_attr(strip_tags($ns_submit_ticket_notice)),
+            'support_desk_notice'  => esc_attr(strip_tags($ns_support_desk_notice)),
+            'knowledgebase_notice' => esc_attr(strip_tags($ns_knowledgebase_notice)),
         );
     add_option( 'nanosupport_settings', $ns_gen_settings );
 

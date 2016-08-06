@@ -236,6 +236,21 @@ function ns_plugin_settings_link( $links ) {
 add_filter( 'plugin_action_links_'. plugin_basename( __FILE__ ), 'ns_plugin_settings_link' );
 
 
+
+/**
+ * Variables & Constants
+ * 
+ * Define necessary variables to not to DRY.
+ *
+ * @since  1.0.0
+ * -----------------------------------------------------------------------
+ */
+//Top Navigation messages
+$ns_submit_ticket_notice = __( 'Consult the Knowledgebase for your query. If they are not close to you, then submit a new ticket here.', 'nanosupport' );
+$ns_support_desk_notice = __( 'Tickets are visible to the admins, designated support assistant and/or to the ticket owner only.', 'nanosupport' );
+$ns_knowledgebase_notice = __( 'Find your desired question in the knowledgebase. If you can&rsquo;t find your question, submit a new support ticket.', 'nanosupport' );
+
+
 /**
  * Include all the dependencies and particles
  * 
