@@ -16,7 +16,7 @@ $ns_general_settings       = get_option( 'nanosupport_settings' );
 $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
 ?>
 
-<h3><?php echo '<span class="ns-icon-nanosupport"></span> '. __( 'NanoSupport', 'nanosupport' ); ?> <small>&mdash; <?php _e( 'complete support ticketing plugin', 'nanosupport' ); ?></small></h3>
+<h3><?php echo '<span class="ns-icon-nanosupport"></span> '. __( 'NanoSupport', 'nanosupport' ); ?> <small>&mdash; <?php _e( 'complete support ticketing', 'nanosupport' ); ?></small></h3>
 <p><?php _e( '<strong>NanoSupport</strong> is a complete package for a front-end Support Ticketing System in a complete WordPress&rsquo; way. It has a rich back end for ticket maintenance and management.', 'nanosupport' ); ?></p>
 <p class="ns-text-center">
 	<a class="button button-primary ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_general_settings['support_desk']) ); ?>"><span class="icon ns-icon-tag"></span> <?php _e( 'Support Desk', 'nanosupport' ); ?></a>
