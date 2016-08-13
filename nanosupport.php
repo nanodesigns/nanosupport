@@ -12,7 +12,7 @@
  * Version:           0.2.0
  * Author:            nanodesigns
  * Author URI:        http://nanodesignsbd.com/
- * Requires at least: 3.9.0
+ * Requires at least: 4.4.0
  * Tested up to:      4.6
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
@@ -93,7 +93,7 @@ final class NanoSupport {
 	 * Minimum WordPress version.
 	 * @var string
 	 */
-	public $wp_version = '3.9.0';
+	public $wp_version = '4.4.0';
 
 	/**
 	 * @var string
@@ -174,7 +174,7 @@ function NS() {
  * Cross Check Requirements when active
  *
  * Cross check for Current WordPress version is
- * greater than 3.9.0. Cross check whether the user
+ * greater than 4.4.0. Cross check whether the user
  * has privilege to activate_plugins, so that notice
  * cannot be visible to any non-admin user.
  *

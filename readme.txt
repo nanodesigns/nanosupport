@@ -1,7 +1,7 @@
 === NanoSupport ===
 Contributors: nanodesigns, wzislam
 Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff, support ticketing
-Requires at least: 3.9.0
+Requires at least: 4.4.0
 Tested up to: 4.6
 Stable tag: 0.2.0
 License: GPL-2.0+
@@ -161,4 +161,4 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 == Upgrade Notice ==
 
 = 0.2.0 =
-3 new major features added
+Minimum WordPress Version 4.4.0 required. 3 new major features added
