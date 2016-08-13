@@ -292,6 +292,9 @@ include_once 'includes/ns-utility-functions.php';
 /** Settings API **/
 include_once 'includes/admin/ns-settings.php';
 
+/** NanoSupport Updates */
+include_once 'includes/ns-updates.php';
+
 
 /**
  * Set the plugin up
