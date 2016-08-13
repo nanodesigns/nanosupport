@@ -114,6 +114,19 @@ function nanosupport_install() {
      */
     ns_create_role();
     ns_add_caps();
+
+
+    /**
+     * -----------------------------------------------------------------------
+     * HOOK : ACTION HOOK
+     * nanosupport_installed
+     * 
+     * Hook fired just after the completion of installing NanoSupport
+     *
+     * @since  1.0.0
+     * -----------------------------------------------------------------------
+     */
+    do_action( 'nanosupport_installed' );
     
 }
 
