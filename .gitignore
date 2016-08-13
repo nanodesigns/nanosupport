@@ -1,2 +1,8 @@
 ## Exclude the following directory/files
+
+## PHP Storm specific settings directory
 .idea
+
+## Sublime Text specific setting files
+nanosupport.sublime-project
+nanosupport.sublime-workspace
