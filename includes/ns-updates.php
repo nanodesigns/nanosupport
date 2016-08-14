@@ -16,35 +16,50 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function ns_update() {
 
-	$ns_update_complete = false;
+	$ns_existing_version = get_option( 'nanosupport_version' );
 
-    $ns_existing_version = get_option( 'nanosupport_version' );
-
-    //Version 0.2.0
-    if ( version_compare( $ns_existing_version, '0.2.0', '<=' ) ) {
+    /**
+     * v0.2.0
+     */
+    if ( version_compare( $ns_existing_version, '0.2.0', '<' ) ) {
     	
-    	//get the default notice texts
-    	//@since 0.2.0
-    	global $ns_submit_ticket_notice, $ns_support_desk_notice, $ns_knowledgebase_notice;
+    	ns_update_v020();
 
-    	$ns_general_settings = get_option( 'nanosupport_settings' );
+    }
 
+    update_option( 'nanosupport_version', NS()->version );
+
+}
+
+add_action( 'plugins_loaded', 'ns_update' );
+
+
+/**
+ * Version 0.2.0 Update
+ * Update the general settings options.
+ * Update the knowledgebase settings options.
+ * ...
+ */
+function ns_update_v020() {
+	//get the default notice texts
+	global $ns_submit_ticket_notice, $ns_support_desk_notice, $ns_knowledgebase_notice;
+
+	$ns_general_settings = get_option( 'nanosupport_settings' );
+	if( $ns_general_settings !== false ) {	
 		$ns_general_settings['submit_ticket_notice'] = esc_attr(strip_tags($ns_submit_ticket_notice));
 		$ns_general_settings['support_desk_notice']  = esc_attr(strip_tags($ns_support_desk_notice));
 		$ns_general_settings['knowledgebase_notice'] = esc_attr(strip_tags($ns_knowledgebase_notice));
 
     	update_option( 'nanosupport_settings', $ns_general_settings );
-
-    	$ns_update_complete = true;
-    }
-
-    if( $ns_update_complete ) {
-    	update_option( 'nanosupport_version', NS()->version );
-    }
-
+	}
+	
+	$ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
+	if( $ns_knowledgebase_settings !== false ) {
+		$ns_knowledgebase_settings['isactive_kb'] = absint(1);
+    	
+    	update_option( 'nanosupport_knowledgebase_settings', $ns_knowledgebase_settings );
+	}
 }
-
-add_action( 'plugins_loaded', 'ns_update' );
 
 /*function tested_tests() {
     $ns_existing_version = get_option( 'nanosupport_version' );
