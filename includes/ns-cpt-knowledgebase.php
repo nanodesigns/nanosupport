@@ -276,7 +276,9 @@ add_filter( 'manage_edit-nanodoc_category_columns', 'ns_nanodoc_taxonomy_icon_co
  */
 function ns_nanodoc_taxonomy_icon_column_data( $columns, $column, $id ) {
     if( 'icon' === $column ) {
-        $columns = '<span class="'. get_term_meta( $id, '_ns_kb_cat_icon', true ).'"></span>';
+        $icon = get_term_meta( $id, '_ns_kb_cat_icon', true );
+        $icon_class = $icon ? $icon : 'ns-icon-docs';
+        $columns = '<span class="'. esc_attr($icon_class) .'"></span>';
     }
 
     return $columns;

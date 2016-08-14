@@ -240,7 +240,8 @@ add_filter( 'plugin_action_links_'. plugin_basename( __FILE__ ), 'ns_plugin_sett
 /**
  * Variables & Constants
  * 
- * Define necessary variables to not to DRY.
+ * Define necessary variables to not to DRY. The global variables
+ * are declared global to make 'em available in plugin_activation.
  *
  * @since  1.0.0
  * -----------------------------------------------------------------------
