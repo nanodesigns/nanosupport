@@ -581,7 +581,8 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
 
                             <div class="ns-form-group ns-checkbox">
                                 <label>
-                                    <input type="checkbox" id="close" name="close_ticket" value="1"> <?php _e( 'Close the ticket with this response', 'nanosupport' ); ?>
+                                    <?php $ns_close_ticket = isset($_POST['close_ticket']) ? 1 : ''; ?>
+                                    <input type="checkbox" id="close" name="close_ticket" value="1" <?php checked( 1, $ns_close_ticket ); ?>> <?php _e( 'Close the ticket with this response', 'nanosupport' ); ?>
                                 </label>
                             </div> <!-- /.ns-form-group -->
 
