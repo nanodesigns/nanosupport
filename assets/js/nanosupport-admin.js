@@ -113,6 +113,9 @@ jQuery(document).ready(function($) {
 
             $('#kb-cat-icon').val(icon_class).attr('value', icon_class);
             $('#nanosupport-icon-preview i').attr('class', icon_class);
+
+            //close the ThickBox window
+            tb_remove();
         });
     }
 
