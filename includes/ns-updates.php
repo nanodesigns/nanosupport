@@ -4,7 +4,7 @@
  *
  * @author   	nanodesigns
  * @category 	Core
- * @package  	NanoSupport/Classes
+ * @package  	NanoSupport/Core
  * @version  	1.0.0
  */
 
@@ -14,6 +14,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
+/**
+ * Upgrade NanoSupport
+ * 
+ * Do ground things, make the environment updated during plugin update.
+ *
+ * @since  1.0.0
+ * -----------------------------------------------------------------------
+ */
 function ns_update() {
 
 	$ns_existing_version = get_option( 'nanosupport_version' );
@@ -22,9 +30,7 @@ function ns_update() {
      * v0.2.0
      */
     if ( version_compare( $ns_existing_version, '0.2.0', '<' ) ) {
-    	
     	ns_update_v020();
-
     }
 
     update_option( 'nanosupport_version', NS()->version );
@@ -60,16 +66,3 @@ function ns_update_v020() {
     	update_option( 'nanosupport_knowledgebase_settings', $ns_knowledgebase_settings );
 	}
 }
-
-/*function tested_tests() {
-    $ns_existing_version = get_option( 'nanosupport_version' );
-
-    if ( version_compare( $ns_existing_version, '0.2.0', '<=' ) ) {
-    	echo '<div class="notice notice-info">';
-    		echo '<p>'. __( '<strong>NanoSupport</strong> requires to upgrade the database to cope up with the new version.', 'nanosupport' ) .'</p>';
-    		echo '<p><a class="button button-small button-primary" href="'. esc_url( admin_url( 'options.php?page=edd-upgrades' ) ) .'">'. __( 'Update Now!', 'nanosupport' ) .'</a></p>';
-    	echo '</div>';
-    }
-}
-
-add_action( 'admin_notices', 'tested_tests' );*/
