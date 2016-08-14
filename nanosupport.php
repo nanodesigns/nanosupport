@@ -245,6 +245,8 @@ add_filter( 'plugin_action_links_'. plugin_basename( __FILE__ ), 'ns_plugin_sett
  * @since  1.0.0
  * -----------------------------------------------------------------------
  */
+global $ns_submit_ticket_notice, $ns_support_desk_notice, $ns_knowledgebase_notice;
+
 //Top Navigation messages
 $ns_submit_ticket_notice = __( 'Consult the Knowledgebase for your query. If they are not close to you, then submit a new ticket here.', 'nanosupport' );
 $ns_support_desk_notice = __( 'Tickets are visible to the admins, designated support assistant and/or to the ticket owner only.', 'nanosupport' );

@@ -56,7 +56,7 @@ function nanosupport_install() {
     $ns_gen_settings = array(
             'support_desk'         => $support_desk_page_id,
             'submit_page'          => $submit_ticket_page_id,
-            'enable_notice'        => 1,
+            'enable_notice'        => absint(1),
             'submit_ticket_notice' => esc_attr(strip_tags($ns_submit_ticket_notice)),
             'support_desk_notice'  => esc_attr(strip_tags($ns_support_desk_notice)),
             'knowledgebase_notice' => esc_attr(strip_tags($ns_knowledgebase_notice)),
