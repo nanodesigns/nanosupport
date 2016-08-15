@@ -19,7 +19,9 @@ $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
 <h3><?php echo '<span class="ns-icon-nanosupport"></span> '. __( 'NanoSupport', 'nanosupport' ); ?> <small>&mdash; <?php _e( 'complete support ticketing', 'nanosupport' ); ?></small></h3>
 <p><?php _e( '<strong>NanoSupport</strong> is a complete package for a front-end Support Ticketing System in a complete WordPress&rsquo; way. It has a rich back end for ticket maintenance and management.', 'nanosupport' ); ?></p>
 <p class="ns-text-center">
-	<a class="button button-primary ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_general_settings['support_desk']) ); ?>"><span class="icon ns-icon-tag"></span> <?php _e( 'Support Desk', 'nanosupport' ); ?></a>
+	<a class="button button-primary ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_general_settings['support_desk']) ); ?>">
+		<span class="icon ns-icon-tag"></span> <?php _e( 'Support Desk', 'nanosupport' ); ?>
+	</a>
 	&nbsp;
 	<?php
 	/**
@@ -28,7 +30,8 @@ $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
      */
 	if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) { ?>
 		<a class="button ns-button-info ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_knowledgebase_settings['page']) ); ?>">
-			<strong><span class="icon ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?></strong></a>
+			<span class="icon ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
+		</a>
 	<?php } ?>
 </p>
 
