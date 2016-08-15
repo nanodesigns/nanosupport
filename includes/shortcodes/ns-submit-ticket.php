@@ -345,7 +345,9 @@ function ns_submit_support_ticket() {
 							<?php if( is_user_logged_in() ) : ?>
 								<span class="ns-text-muted ns-small">
 									&nbsp;
-									<?php printf( __('<strong>Submitting as:</strong> %s', 'nanosupport'), wp_strip_all_tags(ns_user_nice_name()) ); ?>
+									<?php
+									$current_user = wp_get_current_user();
+									printf( __('<strong>Submitting as:</strong> %s', 'nanosupport'), $current_user->display_name ); ?>
 									&nbsp;(<a href="<?php echo wp_logout_url( get_permalink() ); ?>"><?php _e('Log out', 'nanosupport') ?></a>)
 								</span>
 							<?php endif; ?>

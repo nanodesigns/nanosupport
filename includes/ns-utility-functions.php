@@ -193,23 +193,18 @@ function ns_sanitize_text( $var ) {
  * 
  * @since 1.0.0
  * 
- * @return string Made up name or the display name.
+ * @return string the display name of the user.
  * --------------------------------------------------------------------------
  */
 function ns_user_nice_name( $user_id = false ) {
-    if( $user_id ) {
-        $current_user = get_user_by( 'id', (int) $user_id );
-    } else {
-        global $current_user;       
-    }
-    
-    if( $current_user->user_firstname && $current_user->user_lastname ) {
-        $user_nice_name = $current_user->user_firstname .' '. $current_user->user_lastname;
-    } else {
-        $user_nice_name = $current_user->display_name;
-    }
+    if( ! $user_id )
+        return;
 
-    return wp_strip_all_tags( $user_nice_name );
+    $user = get_user_by( 'id', (int) $user_id );
+
+    if( $user ) {
+        return $user->display_name;
+    }    
 }
 
 
