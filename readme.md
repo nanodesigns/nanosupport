@@ -27,7 +27,7 @@ The plugin is to provide support to your users - the users those are taking prod
 * Ticket submission with login (Beta Feature)
 * Auto generate user account's username on ticket submission (if chosen)
 * Auto generate user account's password on ticket submission (if chosen)
-* Knowledgebase
+* Knowledgebase (optional)
 * Knowledgebase content categories
 * Ticket departments
 * Default ticket department 'Support'
@@ -119,10 +119,13 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 * Knowledebase page: `[nanosupport_knowledgebase]`
 
 ### Q: How to disable the page-to-page navigation and notice
-**A:** On plugin's 'Settings' page, in 'General' tab, you can **uncheck** the *Enable Notices and Navigation on NanoSupport pages to disable them.
+**A:** On plugin's 'Settings' page, in 'General' tab, you can **uncheck** the *Enable Notices and Navigation on NanoSupport pages* to disable them.
 
 ### Q: How the plugin can be well integrated with my theme?
 **A:** NanoSupport has smart templating. You can find all its templates inside the `/templates/` directory. To make your theme completely integrated with the plugin's templates you can simply make a directory in your theme named `nanosupport/` and can overrite the plugin's templates with your custom one.
+
+### Q: How to make Support Agent?
+**A:** Edit any WordPress user in WordPress admin panel and at the bottom, check the checkmark saying: *Yes, make this user a Support Agent* to make the user a support agent.
 
 ## Screenshots
 <img src="assets/images/screenshot-1.png" alt="NanoSupport - Support Desk (front end)"/>
@@ -151,22 +154,22 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 ## Changelog
 
-### 0.2.0 - 2016-AUG-31
+### 0.2.0 - 2016-AUG-15
 #### Major changes
-* Knowledgebase can be made optional
-* UI added for selecting Knowledgebase Icons
-* Closing a ticket from front end
-* CSS Tooltip added to Submit form for better UX
+* Minimum WordPress version upgraded to 4.4.0
+* Knowledgebase made optional
+* UI added for selecting Knowledgebase Category Icons
+* Added feature for closing a ticket from front end
+* Tooltip added to Submit form for better UX
 * Submit Form is made dynamic for adding feature to the `<form>` element
-* Ticket Attachment feature is added for Questions
 
 #### Minor changes/fixes
+* Select2 Plugin updated to 4.0.3
 * Knowledgebase CSS revamped
 * Fixed a conflict with Yoast SEO and Select2 plugin in admin areas
 * File organization, some CSS files made LESS for easy compilation
 * JavaScript fallback plan implemented for front end
-* 3 other fixes/UI improvements
-* New action and filter hooks introduced
+* Other fixes/UI improvements
 
 ### 0.1.1 - 2016-JUN-21
 * A bug on Submit ticket is fixed
