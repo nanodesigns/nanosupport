@@ -140,15 +140,12 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 == Changelog ==
 
 = 0.2.0 - 2016-AUG-15 =
-=== Major changes ===
 * Minimum WordPress version upgraded to 4.4.0
 * Knowledgebase made optional
 * UI added for selecting Knowledgebase Category Icons
 * Added feature for closing a ticket from front end
 * Tooltip added to Submit form for better UX
 * Submit Form is made dynamic for adding feature to the `<form>` element
-
-=== Minor changes/fixes ===
 * Select2 Plugin updated to 4.0.3
 * Knowledgebase CSS revamped
 * Fixed a conflict with Yoast SEO and Select2 plugin in admin areas
