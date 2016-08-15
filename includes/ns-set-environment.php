@@ -99,12 +99,12 @@ function ns_admin_scripts() {
         wp_enqueue_style( 'ns-admin' );
 		
         /**
-         * Select2 v4.0.1-rc-1
+         * Select2 v4.0.3
          * @link https://github.com/select2/select2/
          * ...
          */
-        wp_enqueue_style( 'select2', NS()->plugin_url() .'/assets/css/select2.min.css', array(), '4.0.1-rc-1', 'all' );
-        wp_enqueue_script( 'select2', NS()->plugin_url() .'/assets/js/select2.min.js', array('jquery'), '4.0.1-rc-1', true );
+        wp_enqueue_style( 'select2', NS()->plugin_url() .'/assets/css/select2.min.css', array(), '4.0.3', 'all' );
+        wp_enqueue_script( 'select2', NS()->plugin_url() .'/assets/js/select2.min.js', array('jquery'), '4.0.3', true );
 
 
         /**
