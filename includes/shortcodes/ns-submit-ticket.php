@@ -91,6 +91,7 @@ function ns_submit_support_ticket() {
 					do_action( 'nanosupport_new_ticket_form_tag' );
 					?>>
 
+					<!-- SUBJECT -->
 					<div class="ns-form-group">
 						<label for="ns-ticket-subject" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
 							<?php _e( 'Subject', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
@@ -103,18 +104,20 @@ function ns_submit_support_ticket() {
 						</div>
 					</div> <!-- /.ns-form-group -->
 
+					<!-- TICKET DETAILS -->
 					<div class="ns-form-group">
 						<label for="ns-ticket-details" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
 							<?php _e( 'Details', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
 						<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-							<?php echo ns_tooltip( __( 'Write down your issue in details... At least 30 characters is a must.', 'nanosupport' ) ); ?>
+							<?php echo ns_tooltip( sprintf( __( 'Write down your issue in details... At least 30 characters is a must. <strong>Allowed HTML Tags:</strong> %s', 'nanosupport' ), ns_get_allowed_html_tags() ) ); ?>
 						</div>
 						<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
 							<textarea id="ns-ticket-details" class="ns-form-control" name="ns_ticket_details" cols="30" rows="10" placeholder="<?php esc_attr_e( 'Write down your issue in details... At least 30 characters is a must.', 'nanosupport' ); ?>" required><?php if( !empty($_POST['ns_ticket_details']) ) echo stripslashes_deep( $_POST['ns_ticket_details'] ); ?></textarea>
 						</div>
 					</div> <!-- /.ns-form-group -->
 
+					<!-- TICKET PRIORITY -->
 					<div class="ns-form-group">
 						<label for="ns-ticket-priority" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
 							<?php _e( 'Priority', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
