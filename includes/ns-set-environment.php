@@ -414,40 +414,27 @@ if ( ! function_exists( 'ns_content' ) ) {
  * Trim "Private" & "Protected" from Title
  * 
  * WordPress displays these terms beside post titles on the front-end.
- * We don't want to show them on our tickets. So, trim the word "Private"
- * and "Protected" from Title of CPT 'nanosupport'.
+ * We don't want to show them on our tickets. So, trim the word
+ * "Private" and "Protected" from Title of CPT 'nanosupport'.
+ *
+ * As the `the_title` filter was causing issue for i18n strings
+ * so we revised the filters that works best instead.
+ *
+ * @author birgire
+ * @link   http://wordpress.stackexchange.com/a/236397/22728
  *
  * @since  1.0.0
  * 
- * @param  string $title Post Title.
- * @return string        Post Title trimmed.
+ * @param  string $title Post title.
+ * @return string        Post title trimmed.
  * -----------------------------------------------------------------------
  */
-function ns_the_title_trim( $title ) {
-
-    if( is_admin() )
-        return $title;
-
-    $title = esc_attr($title);
-
-    $findthese = array(
-        '#Protected:#',
-        '#Private:#'
-    );
-
-    $replacewith = array(
-        '', // What to replace "Protected:" with
-        '' // What to replace "Private:" with
-    );
-
-    global $post;
-    if( 'nanosupport' === get_post_type($post) )
-        $title = preg_replace($findthese, $replacewith, $title);
-
-    return $title;
+function ns_the_title_trim( $format, \WP_Post $post ) {
+    return  'nanosupport' === get_post_type( $post ) ? '%s' : $format;
 }
 
-add_filter( 'the_title', 'ns_the_title_trim' );
+add_filter( 'protected_title_format', 'ns_the_title_trim', 10, 2 );
+add_filter( 'private_title_format',   'ns_the_title_trim', 10, 2 );
 
 
 /**
