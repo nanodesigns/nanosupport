@@ -315,7 +315,7 @@ add_action( 'manage_users_custom_column', 'ns_support_agent_user_column_content'
  * Force all the ticket post status default to 'Private' instead of 'Publish'.
  * As to make tickets outstand from Knowledgebase (public) docs domain.
  *
- * @link http://wpsnipp.com/index.php/functions-php/force-custom-post-type-to-be-private/
+ * @link   http://wpsnipp.com/index.php/functions-php/force-custom-post-type-to-be-private/
  *
  * @since  1.0.0
  * 
@@ -324,10 +324,9 @@ add_action( 'manage_users_custom_column', 'ns_support_agent_user_column_content'
  * -----------------------------------------------------------------------
  */
 function ns_force_ticket_post_status_to_private( $post ) {
-    if ( 'nanosupport' === $post['post_type'] ) :
-        if( 'publish' === $post['post_status'] )
-            $post['post_status'] = 'private';
-    endif;
+    if ( 'nanosupport' === $post['post_type'] && 'publish' === $post['post_status'] ) {
+        $post['post_status'] = 'private';
+    }
     
     return $post;
 }
