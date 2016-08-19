@@ -3,7 +3,7 @@ Contributors: nanodesigns, wzislam
 Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff, support ticketing
 Requires at least: 4.4.0
 Tested up to: 4.6
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -139,6 +139,12 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Changelog ==
 
+= 0.2.1 - 2016-AUG-20 =
+* `wp_kses()` is implemented to secure site from bad user input
+* new filter hook: `ns_allowed_html`
+* tooltip made wider for large bunch of texts
+* Stripping 'private' and 'protected' from ticket titles i18n-friendly
+
 = 0.2.0 - 2016-AUG-15 =
 === Major changes ===
 * Minimum WordPress version upgraded to 4.4.0
@@ -164,5 +170,5 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Upgrade Notice ==
 
-= 0.2.0 =
-Minimum WordPress Version 4.4.0 required. 3 new major features added
+= 0.2.1 =
+A major security hole was fixed
