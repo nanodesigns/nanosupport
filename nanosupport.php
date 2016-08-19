@@ -200,8 +200,9 @@ function ns_cross_check_on_activation() {
                     printf( __('<strong>NanoSupport</strong> requires WordPress core version <strong>%1$s</strong> or greater. The plugin has been <strong>deactivated</strong>. Consider <a href="%2$s">upgrading WordPress</a>.', 'nanosupport' ), NS()->wp_version, admin_url('/update-core.php') );
                 echo '</p></div>';
 
-                if ( isset( $_GET['activate'] ) )
+                if ( isset( $_GET['activate'] ) ) {
                     unset( $_GET['activate'] );
+                }
             }
 
         }
