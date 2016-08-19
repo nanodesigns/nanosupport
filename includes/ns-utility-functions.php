@@ -353,6 +353,10 @@ function ns_tooltip( $message = '', $position = 'top', $icon = 'ns-icon-question
         case 'right':
             $class = 'ns-tooltip-right ';
             break;
+
+        case 'bottom':
+            $class = 'ns-tooltip-bottom ';
+            break;
         
         default:
             $class = 'ns-tooltip-top ';

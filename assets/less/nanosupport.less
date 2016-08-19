@@ -819,12 +819,29 @@ article.ns-single.type-nanosupport.hentry{
 	}
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
+	.ns-tooltip-message{
+		width: 300px;
+	}
+
+	.ns-tooltip-top,
+	.ns-tooltip-bottom{
+		.ns-tooltip-message{
+			right: -147px;
+		}
+	}
+
 	.ns-tooltip-top{
 		.ns-tooltip-message{
 			top: auto;
-			right: -93px;
 			bottom: 19px;
+		}
+	}
+
+	.ns-tooltip-bottom{
+		.ns-tooltip-message{
+			top: 19px;
+			bottom: auto;
 		}
 	}
 }
