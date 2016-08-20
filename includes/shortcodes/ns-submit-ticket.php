@@ -111,11 +111,38 @@ function ns_submit_support_ticket() {
 						</label>
 						<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
 							<?php
-							/* translators: allowed HTML tags */
-							echo ns_tooltip( sprintf( __( 'Write down your issue in details... At least 30 characters is a must.<br><small><strong>Allowed HTML Tags:</strong><br>%s</small>', 'nanosupport' ), ns_get_allowed_html_tags() ), 'bottom' ); ?>
+							echo ns_tooltip( __( 'Write down your issue in details... At least 30 characters is a must.', 'nanosupport' ), 'bottom' );
+							?>
 						</div>
 						<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
-							<textarea id="ns-ticket-details" class="ns-form-control" name="ns_ticket_details" cols="30" rows="10" placeholder="<?php esc_attr_e( 'Write down your issue in details... At least 30 characters is a must.', 'nanosupport' ); ?>" required><?php if( !empty($_POST['ns_ticket_details']) ) echo stripslashes_deep( $_POST['ns_ticket_details'] ); ?></textarea>
+							<?php
+							$ticket_content = !empty($_POST['ns_ticket_details']) ? $_POST['ns_ticket_details'] : '';
+							/**
+						     * -----------------------------------------------------------------------
+						     * HOOK : FILTER HOOK
+						     * ns_wp_editor_specs
+						     * 
+						     * Hook to moderate the specs of the wp_editor().
+						     *
+						     * @since  1.0.0
+						     * -----------------------------------------------------------------------
+						     */
+							$wp_editor_specs = apply_filters( 'ns_wp_editor_specs', array(
+										'media_buttons'		=> false,
+										'textarea_name'		=> 'ns_ticket_details',
+										'textarea_rows'		=> 10,
+										'editor_class'		=> 'ns-form-control',
+										'quicktags'			=> false,
+										'tinymce'			=> true
+									) );
+
+							//initiate the editor
+							wp_editor(
+									$content   = $ticket_content,
+									$editor_id = 'ns-ticket-details',
+									$wp_editor_specs
+								);
+							?>
 						</div>
 					</div> <!-- /.ns-form-group -->
 

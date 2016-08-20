@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function ns_scripts() {
 
-    //Get the NanoSupport Settings from Database
+    // Get the NanoSupport Settings from Database
     $ns_general_settings        = get_option( 'nanosupport_settings' );
     $ns_knowledgebase_settings  = get_option( 'nanosupport_knowledgebase_settings' );
 
@@ -70,8 +70,9 @@ function ns_scripts() {
         )
     );
     
-    if( is_page( $knowledgebase ) )
+    if( is_page( $knowledgebase ) ) {
         wp_enqueue_script( 'equal-height' );
+    }
     
     if( is_page( array( $support_desk, $submit_ticket, $knowledgebase ) ) || is_singular('nanosupport') ) {
         wp_enqueue_style( 'nanosupport' );

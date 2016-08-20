@@ -830,3 +830,34 @@ function ns_del_ajax_response() {
 }
 
 add_action( 'wp_ajax_delete_response', 'ns_del_ajax_response' );
+
+
+/**
+ * TinyMCE Modified tools
+ *
+ * Modifying TinyMCE tools for ticket submission on the front end.
+ * 
+ * @link    https://codex.wordpress.org/Function_Reference/wp_editor
+ * @link    https://codex.wordpress.org/TinyMCE
+ * @link    http://wordpress.stackexchange.com/a/29480
+ * 
+ * @param   array $settings Default editor.
+ * @return  array           Modified buttons.
+ * --------------------------------------------------------------------------
+ */
+function ns_ticket_editor( $settings ) {
+    // Get the NanoSupport Settings from Database
+    $ns_general_settings = get_option( 'nanosupport_settings' );
+
+    if( is_page( $ns_general_settings['submit_page'] ) ) {
+
+        $settings['block_formats'] = "Paragraph=p; Heading 2=h2; Heading 3=h3; Heading 4=h4; Heading 5=h5; Heading 6=h6; Preformatted=pre";
+        $settings['toolbar1'] = 'pastetext,|,formatselect,|,bold,italic,underline,strikethrough,|,alignleft,aligncenter,alignright,|,bullist,numlist,blockquote,hr,|,link,unlink,spellchecker';
+        $settings['toolbar2'] = '';
+
+    }
+
+    return $settings;
+}
+
+add_filter( 'tiny_mce_before_init', 'ns_ticket_editor' );

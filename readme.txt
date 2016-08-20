@@ -3,7 +3,7 @@ Contributors: nanodesigns, wzislam
 Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff, support ticketing
 Requires at least: 4.4.0
 Tested up to: 4.6
-Stable tag: 0.2.1
+Stable tag: 0.3.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -25,6 +25,7 @@ The plugin is to provide support to your users - the users those are taking prod
 * Completely Private ticketing
 * Ticket submission with registration
 * Ticket submission with login (Beta Feature)
+* Rich Text editor for new ticket
 * Auto generate user account's username on ticket submission (if chosen)
 * Auto generate user account's password on ticket submission (if chosen)
 * Knowledgebase (optional)
@@ -139,22 +140,24 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Changelog ==
 
+= 0.3.0 - 2016-AUG-20 =
+=== Major changes ===
+* Rich Text editor for ticket body text
+* New filter hook: `ns_wp_editor_specs`
+
 = 0.2.1 - 2016-AUG-20 =
 * `wp_kses()` is implemented to secure site from bad user input
-* new filter hook: `ns_allowed_html`
-* tooltip made wider for large bunch of texts
+* New filter hook: `ns_allowed_html`
+* Tooltip made wider for large bunch of texts
 * Stripping 'private' and 'protected' from ticket titles i18n-friendly
 
 = 0.2.0 - 2016-AUG-15 =
-=== Major changes ===
 * Minimum WordPress version upgraded to 4.4.0
 * Knowledgebase made optional
 * UI added for selecting Knowledgebase Category Icons
 * Added feature for closing a ticket from front end
 * Tooltip added to Submit form for better UX
 * Submit Form is made dynamic for adding feature to the `<form>` element
-
-=== Minor changes/fixes ===
 * Select2 Plugin updated to 4.0.3
 * Knowledgebase CSS revamped
 * Fixed a conflict with Yoast SEO and Select2 plugin in admin areas
@@ -170,5 +173,5 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Upgrade Notice ==
 
-= 0.2.1 =
-A major security hole was fixed
+= 0.3.0 =
+Rich text editor for the ticket body text
