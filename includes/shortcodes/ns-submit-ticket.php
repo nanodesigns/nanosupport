@@ -91,36 +91,41 @@ function ns_submit_support_ticket() {
 					do_action( 'nanosupport_new_ticket_form_tag' );
 					?>>
 
+					<!-- SUBJECT -->
 					<div class="ns-form-group">
 						<label for="ns-ticket-subject" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
 							<?php _e( 'Subject', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
 						<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-							<?php echo ns_tooltip( __( 'Write down a self-descriptive brief subject to the ticket', 'nanosupport' ) ); ?>
+							<?php echo ns_tooltip( __( 'Write down a self-descriptive brief subject to the ticket', 'nanosupport' ), 'bottom' ); ?>
 						</div>
 						<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
 							<input type="text" class="ns-form-control" name="ns_ticket_subject" id="ns-ticket-subject" placeholder="<?php esc_attr_e( 'Subject in brief', 'nanosupport' ); ?>" value="<?php echo !empty($_POST['ns_ticket_subject']) ? stripslashes_deep( $_POST['ns_ticket_subject'] ) : ''; ?>" required>
 						</div>
 					</div> <!-- /.ns-form-group -->
 
+					<!-- TICKET DETAILS -->
 					<div class="ns-form-group">
 						<label for="ns-ticket-details" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
 							<?php _e( 'Details', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
 						<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-							<?php echo ns_tooltip( __( 'Write down your issue in details... At least 30 characters is a must.', 'nanosupport' ) ); ?>
+							<?php
+							/* translators: allowed HTML tags */
+							echo ns_tooltip( sprintf( __( 'Write down your issue in details... At least 30 characters is a must.<br><small><strong>Allowed HTML Tags:</strong><br>%s</small>', 'nanosupport' ), ns_get_allowed_html_tags() ), 'bottom' ); ?>
 						</div>
 						<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
 							<textarea id="ns-ticket-details" class="ns-form-control" name="ns_ticket_details" cols="30" rows="10" placeholder="<?php esc_attr_e( 'Write down your issue in details... At least 30 characters is a must.', 'nanosupport' ); ?>" required><?php if( !empty($_POST['ns_ticket_details']) ) echo stripslashes_deep( $_POST['ns_ticket_details'] ); ?></textarea>
 						</div>
 					</div> <!-- /.ns-form-group -->
 
+					<!-- TICKET PRIORITY -->
 					<div class="ns-form-group">
 						<label for="ns-ticket-priority" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
 							<?php _e( 'Priority', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
 						<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-							<?php echo ns_tooltip( __( 'Choose the priority of the issue', 'nanosupport' ) ); ?>
+							<?php echo ns_tooltip( __( 'Choose the priority of the issue', 'nanosupport' ), 'bottom' ); ?>
 						</div>
 						<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12 ns-form-inline">
 							<?php $sub_val = !empty($_POST['ns_ticket_priority']) ? $_POST['ns_ticket_priority'] : 'low'; ?>
@@ -181,7 +186,7 @@ function ns_submit_support_ticket() {
 										<?php _e( 'Username', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 									</label>
 									<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-										<?php echo ns_tooltip( __( 'Username for the user account', 'nanosupport' ) ); ?>
+										<?php echo ns_tooltip( __( 'Username for the user account', 'nanosupport' ), 'bottom' ); ?>
 									</div>
 									<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
 										<input name="reg_name" type="text" class="ns-form-control login-field" value="<?php echo( isset($_POST['reg_name']) ? $_POST['reg_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="reg-name" required>
@@ -195,7 +200,7 @@ function ns_submit_support_ticket() {
 									<?php _e( 'Your email', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 								</label>
 								<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-									<?php echo ns_tooltip( __( 'Your email for the user account and for further communication', 'nanosupport' ) ); ?>
+									<?php echo ns_tooltip( __( 'Your email for the user account and for further communication', 'nanosupport' ), 'bottom' ); ?>
 								</div>
 								<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
 									<input name="reg_email" type="email" class="ns-form-control login-field" value="<?php echo( isset($_POST['reg_email']) ? $_POST['reg_email'] : null ); ?>" placeholder="<?php esc_attr_e( 'Email', 'nanosupport' ); ?>" id="reg-email" required>
@@ -214,7 +219,7 @@ function ns_submit_support_ticket() {
 										<?php _e( 'Password', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 									</label>
 									<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-										<?php echo ns_tooltip( __( 'Set a password for your account. Password must be at least 5 characters. Strong password should contain numbers, alphabets, and alphanumeric characters with a mixture of uppercase and lowercase', 'nanosupport' ) ); ?>
+										<?php echo ns_tooltip( __( 'Set a password for your account. Password must be at least 5 characters. Strong password should contain numbers, alphabets, and alphanumeric characters with a mixture of uppercase and lowercase', 'nanosupport' ), 'bottom' ); ?>
 									</div>
 									<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
 										<input name="reg_password" type="password" class="ns-form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="reg-pass" required>
@@ -296,7 +301,7 @@ function ns_submit_support_ticket() {
 										<?php _e( 'Username', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 									</label>
 									<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-										<?php echo ns_tooltip( __( 'Write down your username of your account', 'nanosupport' ) ); ?>
+										<?php echo ns_tooltip( __( 'Write down your username of your account', 'nanosupport' ), 'bottom' ); ?>
 									</div>
 									<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
 										<input name="login_name" type="text" class="ns-form-control login-field" value="<?php echo( isset($_POST['login_name']) ? $_POST['login_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="login-name" required>
@@ -308,7 +313,7 @@ function ns_submit_support_ticket() {
 										<?php _e( 'Password', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 									</label>
 									<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-										<?php echo ns_tooltip( __( 'Write down the password of your account to login', 'nanosupport' ) ); ?>
+										<?php echo ns_tooltip( __( 'Write down the password of your account to login', 'nanosupport' ), 'bottom' ); ?>
 									</div>
 									<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
 										<input name="login_password" type="password" class="ns-form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="login-pass" required>

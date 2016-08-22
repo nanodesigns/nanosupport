@@ -135,7 +135,7 @@ function ns_reply_specifics() {
                 <div class="ns-feedback-form">
 
                     <div class="ns-form-group">
-                        <textarea class="ns-field-item" name="ns_new_response" id="ns-new-response" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>" placeholder="<?php esc_attr_e('Write down your response (at least 30 characters)', 'nanosupport'); ?>"><?php echo isset($_POST['ns_new_response']) ? stripslashes_deep( $_POST['ns_new_response'] ) : ''; ?></textarea>
+                        <textarea class="ns-field-item" name="ns_new_response" id="ns-new-response" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>" placeholder="<?php esc_attr_e('Write down your response (at least 30 characters)', 'nanosupport'); ?>"><?php echo isset($_POST['ns_new_response']) ? $_POST['ns_new_response'] : ''; ?></textarea>
                     </div> <!-- /.ns-form-group -->
                     <button id="ns-save-response" class="button button-large button-primary ns-btn"><?php _e('Save Response', 'nanosupport' ); ?></button>
 
@@ -327,12 +327,23 @@ function ns_save_nanosupport_meta_data( $post_id ) {
 
     if( $new_response ) :
 
+        /**
+         * If response is shorter than 30 characters
+         * display a warning using admin_notices.
+         * ...
+         */
         if( strlen($new_response) < 30 ) {
-            add_filter( 'redirect_post_location','ns_short_response_notice_query_var', 99 );
+            add_filter( 'redirect_post_location', 'ns_short_response_notice_query_var', 99 );
             return $post_id;
         }
 
         global $current_user;
+
+        /**
+         * Sanitize ticket response content
+         * @var string
+         */
+        $new_response = wp_kses( $new_response, ns_allowed_html() );
 
         //Insert new response as a comment and get the comment ID
         $commentdata = array(
@@ -340,7 +351,7 @@ function ns_save_nanosupport_meta_data( $post_id ) {
             'comment_author'        => wp_strip_all_tags( $current_user->display_name ), 
             'comment_author_email'  => sanitize_email( $current_user->user_email ),
             'comment_author_url'    => esc_url( $current_user->user_url ),
-            'comment_content'       => htmlentities( $new_response ),
+            'comment_content'       => $new_response,
             'comment_type'          => 'nanosupport_response',
             'comment_parent'        => 0,
             'user_id'               => absint( $current_user->ID ),
@@ -355,11 +366,16 @@ function ns_save_nanosupport_meta_data( $post_id ) {
      * Save Internal Notes.
      * ...
      */
-    $internal_note = $_POST['ns_internal_note'];
+    $internal_note          = $_POST['ns_internal_note'];
     $existing_internal_note = get_post_meta( $post_id, 'ns_internal_note', true );
 
+    
+
     if( $internal_note && $internal_note != $existing_internal_note ) {
-        update_post_meta( $post_id, 'ns_internal_note', esc_html( $internal_note ) );
+        // Sanitize internal note
+        $internal_note = wp_kses( $internal_note, ns_allowed_html() );
+
+        update_post_meta( $post_id, 'ns_internal_note', $internal_note );
     } elseif( '' == $internal_note && $existing_internal_note ) {
         delete_post_meta( $post_id, 'ns_internal_note', $existing_internal_note );
     }

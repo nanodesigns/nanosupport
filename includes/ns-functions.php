@@ -259,9 +259,15 @@ function ns_handle_registration_login_ticket_submission() {
      * using user credentials from above.
      */
     if( ! empty( $user_id ) && empty( $ns_errors ) ){
+
+        /**
+         * Sanitize ticket content
+         * @var string
+         */
+        $ticket_details = wp_kses( $ticket_details, ns_allowed_html() );
         
         $ticket_post_id = wp_insert_post( array(
-                            'post_status'       => $post_status,
+                            'post_status'       => wp_strip_all_tags( $post_status ),
                             'post_type'         => 'nanosupport',
                             'post_author'       => absint( $user_id ),
 
@@ -274,9 +280,9 @@ function ns_handle_registration_login_ticket_submission() {
         wp_set_object_terms( $ticket_post_id, 'support', 'nanosupport_department' );
 
         //insert the meta information into postmeta
-        add_post_meta( $ticket_post_id, '_ns_ticket_status',   esc_html( 'open' ) );
+        add_post_meta( $ticket_post_id, '_ns_ticket_status',   'open' );
         add_post_meta( $ticket_post_id, '_ns_ticket_priority', wp_strip_all_tags( $ticket_priority ) );
-        add_post_meta( $ticket_post_id, '_ns_ticket_agent',    '' ); //no ticket agent assigned
+        add_post_meta( $ticket_post_id, '_ns_ticket_agent',    '' ); //empty: no ticket agent's assigned
 
     }
 
@@ -560,7 +566,7 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
                     <div class="ns-feedback-form">
 
                         <div class="ns-form-group">
-                            <textarea name="ns_response_msg" id="write-message" class="ns-form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nanosupport'); ?>" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>"><?php echo isset($_POST['ns_response_msg']) ? stripslashes_deep( $_POST['ns_response_msg'] ) : ''; ?></textarea>
+                            <textarea name="ns_response_msg" id="write-message" class="ns-form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nanosupport'); ?>" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>"><?php echo isset($_POST['ns_response_msg']) ? $_POST['ns_response_msg'] : ''; ?></textarea>
                         </div> <!-- /.ns-form-group -->
 
                         <?php
@@ -679,7 +685,12 @@ function ns_handle_response_submit() {
 
         if( is_wp_error($response_error) && ! empty($response_error->errors) )
             return;
-        
+
+        /**
+         * Sanitize ticket response content
+         * @var string
+         */
+        $response_msg = wp_kses( $response_msg, ns_allowed_html() );
 
         //Insert new response as a comment and get the comment ID
         $commentdata = array(
@@ -687,7 +698,7 @@ function ns_handle_response_submit() {
             'comment_author'        => wp_strip_all_tags( $current_user->display_name ), 
             'comment_author_email'  => sanitize_email( $current_user->user_email ),
             'comment_author_url'    => esc_url( $current_user->user_url ),
-            'comment_content'       => htmlentities( $response_msg ),
+            'comment_content'       => $response_msg,
             'comment_type'          => 'nanosupport_response',
             'comment_parent'        => 0,
             'user_id'               => absint( $current_user->ID ),

@@ -747,7 +747,7 @@ article.ns-single.type-nanosupport.hentry{
 /* Tooltip */
 
 @tt_prop: all;
-@tt_time: 500ms;
+@tt_time: 300ms;
 @tt_ease: ease;
 
 .ns-tooltip{
@@ -764,18 +764,7 @@ article.ns-single.type-nanosupport.hentry{
 	}
 }
 
-.ns-tooltip-message{
-	right: 16px;
-	top: 0;
-
-	-webkit-transition: @tt_prop @tt_time @tt_ease;
-	   -moz-transition: @tt_prop @tt_time @tt_ease;
-	     -o-transition: @tt_prop @tt_time @tt_ease;
-		-ms-transition: @tt_prop @tt_time @tt_ease;
-			transition: @tt_prop @tt_time @tt_ease;
-}
-
-@media (min-width: 767px) {
+@media (min-width: 768px) {
 	.ns-tooltip{
 		float: none;
 		margin-right: 3px;
@@ -811,6 +800,8 @@ article.ns-single.type-nanosupport.hentry{
 	     -o-transition: @tt_prop @tt_time @tt_ease;
 		-ms-transition: @tt_prop @tt_time @tt_ease;
 			transition: @tt_prop @tt_time @tt_ease;
+	right: 16px;
+	top: 0;
 
 	code,
 	pre{
@@ -820,11 +811,28 @@ article.ns-single.type-nanosupport.hentry{
 }
 
 @media (min-width: 768px) {
+	.ns-tooltip-message{
+		width: 300px;
+	}
+
+	.ns-tooltip-top,
+	.ns-tooltip-bottom{
+		.ns-tooltip-message{
+			right: -147px;
+		}
+	}
+
 	.ns-tooltip-top{
 		.ns-tooltip-message{
 			top: auto;
-			right: -93px;
 			bottom: 19px;
+		}
+	}
+
+	.ns-tooltip-bottom{
+		.ns-tooltip-message{
+			top: 19px;
+			bottom: auto;
 		}
 	}
 }

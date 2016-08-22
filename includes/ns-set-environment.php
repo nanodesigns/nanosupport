@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function ns_scripts() {
 
-    //Get the NanoSupport Settings from Database
+    // Get the NanoSupport Settings from Database
     $ns_general_settings        = get_option( 'nanosupport_settings' );
     $ns_knowledgebase_settings  = get_option( 'nanosupport_knowledgebase_settings' );
 
@@ -70,9 +70,10 @@ function ns_scripts() {
         )
     );
     
-    if( is_page( $knowledgebase ) )
+    if( is_page( $knowledgebase ) ) {
         wp_enqueue_script( 'equal-height' );
-    
+    }
+
     if( is_page( array( $support_desk, $submit_ticket, $knowledgebase ) ) || is_singular('nanosupport') ) {
         wp_enqueue_style( 'nanosupport' );
         wp_enqueue_script( 'nanosupport' );
@@ -315,7 +316,7 @@ add_action( 'manage_users_custom_column', 'ns_support_agent_user_column_content'
  * Force all the ticket post status default to 'Private' instead of 'Publish'.
  * As to make tickets outstand from Knowledgebase (public) docs domain.
  *
- * @link http://wpsnipp.com/index.php/functions-php/force-custom-post-type-to-be-private/
+ * @link   http://wpsnipp.com/index.php/functions-php/force-custom-post-type-to-be-private/
  *
  * @since  1.0.0
  * 
@@ -324,10 +325,9 @@ add_action( 'manage_users_custom_column', 'ns_support_agent_user_column_content'
  * -----------------------------------------------------------------------
  */
 function ns_force_ticket_post_status_to_private( $post ) {
-    if ( 'nanosupport' === $post['post_type'] ) :
-        if( 'publish' === $post['post_status'] )
-            $post['post_status'] = 'private';
-    endif;
+    if ( 'nanosupport' === $post['post_type'] && 'publish' === $post['post_status'] ) {
+        $post['post_status'] = 'private';
+    }
     
     return $post;
 }
@@ -414,40 +414,27 @@ if ( ! function_exists( 'ns_content' ) ) {
  * Trim "Private" & "Protected" from Title
  * 
  * WordPress displays these terms beside post titles on the front-end.
- * We don't want to show them on our tickets. So, trim the word "Private"
- * and "Protected" from Title of CPT 'nanosupport'.
+ * We don't want to show them on our tickets. So, trim the word
+ * "Private" and "Protected" from Title of CPT 'nanosupport'.
+ *
+ * As the `the_title` filter was causing issue for i18n strings
+ * so we revised the filters that works best instead.
+ *
+ * @author birgire
+ * @link   http://wordpress.stackexchange.com/a/236397/22728
  *
  * @since  1.0.0
  * 
- * @param  string $title Post Title.
- * @return string        Post Title trimmed.
+ * @param  string $title Post title.
+ * @return string        Post title trimmed.
  * -----------------------------------------------------------------------
  */
-function ns_the_title_trim( $title ) {
-
-    if( is_admin() )
-        return $title;
-
-    $title = esc_attr($title);
-
-    $findthese = array(
-        '#Protected:#',
-        '#Private:#'
-    );
-
-    $replacewith = array(
-        '', // What to replace "Protected:" with
-        '' // What to replace "Private:" with
-    );
-
-    global $post;
-    if( 'nanosupport' === get_post_type($post) )
-        $title = preg_replace($findthese, $replacewith, $title);
-
-    return $title;
+function ns_the_title_trim( $format, \WP_Post $post ) {
+    return  'nanosupport' === get_post_type( $post ) ? '%s' : $format;
 }
 
-add_filter( 'the_title', 'ns_the_title_trim' );
+add_filter( 'protected_title_format', 'ns_the_title_trim', 10, 2 );
+add_filter( 'private_title_format',   'ns_the_title_trim', 10, 2 );
 
 
 /**

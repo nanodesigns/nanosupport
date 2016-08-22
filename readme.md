@@ -3,7 +3,7 @@ Contributors: nanodesigns, wzislam<br>
 Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff<br>
 Requires at least: 4.4.0<br>
 Tested up to: 4.6<br>
-Stable tag: 0.2.0<br>
+Stable tag: 0.2.1<br>
 License: GPL-2.0+<br>
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -67,6 +67,9 @@ NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contrib
 
 ### Translation
 The plugin is completely translation-ready. You can find the `.pot` file under `i18n/languages/` if you want to translate in your own way. But you can translate it easily from here in [**Translate NanoSupport**](https://translate.wordpress.org/projects/wp-plugins/nanosupport).
+
+### Available Automatic Translation
+* Bengali (_Bangla_) - `bn_BD`
 
 ### Connect with NanoSupport team
 * [Website](http://nanodesignsbd.com?ref=nanosupport)
@@ -154,16 +157,20 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 ## Changelog
 
+### 0.2.1 - 2016-AUG-22
+* `wp_kses()` is implemented to secure site from bad user input
+* New filter hook: `ns_allowed_html`
+* Tooltip made wider for large bunch of texts
+* Stripping 'private' and 'protected' from ticket titles i18n-friendly
+* Translation added: Bengali (_Bengali_) - `bn_BD`
+
 ### 0.2.0 - 2016-AUG-15
-#### Major changes
 * Minimum WordPress version upgraded to 4.4.0
 * Knowledgebase made optional
 * UI added for selecting Knowledgebase Category Icons
 * Added feature for closing a ticket from front end
 * Tooltip added to Submit form for better UX
 * Submit Form is made dynamic for adding feature to the `<form>` element
-
-#### Minor changes/fixes
 * Select2 Plugin updated to 4.0.3
 * Knowledgebase CSS revamped
 * Fixed a conflict with Yoast SEO and Select2 plugin in admin areas
@@ -179,5 +186,5 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 ## Upgrade Notice
 
-### 0.2.0
-Minimum WordPress Version 4.4.0 required. 3 new major features added
+### 0.2.1
+A major security hole was fixed
