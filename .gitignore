@@ -1,8 +1,29 @@
 ## Exclude the following directory/files
 
-## PHP Storm specific settings directory
-.idea
+## Common setting
+*.log
 
-## Sublime Text specific setting files
+## Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+## Folder config file
+Desktop.ini
+
+## Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+## Windows shortcuts
+*.lnk
+
+## Editor settings
+.idea
 nanosupport.sublime-project
 nanosupport.sublime-workspace
+
+## Composer files
+composer.phar
+/vendor
+
+## Node
+/node_modules
