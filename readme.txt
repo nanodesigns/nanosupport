@@ -68,10 +68,6 @@ NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contrib
 = Translation =
 The plugin is completely translation-ready. You can find the `.pot` file under `i18n/languages/` if you want to translate in your own way. But you can translate it easily from here in [**Translate NanoSupport**](https://translate.wordpress.org/projects/wp-plugins/nanosupport).
 
-**Available Automatic Translation**
-
-* Bengali (*Bangla*) - `bn_BD`
-
 = Connect with NanoSupport team =
 * [Website](http://nanodesignsbd.com?ref=nanosupport)
 * [Twitter](https://twitter.com/nanodesigns/)
