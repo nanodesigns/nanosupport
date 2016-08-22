@@ -68,6 +68,10 @@ NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contrib
 = Translation =
 The plugin is completely translation-ready. You can find the `.pot` file under `i18n/languages/` if you want to translate in your own way. But you can translate it easily from here in [**Translate NanoSupport**](https://translate.wordpress.org/projects/wp-plugins/nanosupport).
 
+**Available Automatic Translation**
+
+* Bengali (*Bangla*) - `bn_BD`
+
 = Connect with NanoSupport team =
 * [Website](http://nanodesignsbd.com?ref=nanosupport)
 * [Twitter](https://twitter.com/nanodesigns/)
@@ -139,11 +143,12 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Changelog ==
 
-= 0.2.1 - 2016-AUG-20 =
+= 0.2.1 - 2016-AUG-22 =
 * `wp_kses()` is implemented to secure site from bad user input
 * New filter hook: `ns_allowed_html`
 * Tooltip made wider for large bunch of texts
 * Stripping 'private' and 'protected' from ticket titles i18n-friendly
+* Translation added: Bengali (*Bengali*) - `bn_BD`
 
 = 0.2.0 - 2016-AUG-15 =
 * Minimum WordPress version upgraded to 4.4.0
