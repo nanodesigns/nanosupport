@@ -72,6 +72,33 @@ function ns_register_cpt_nanosupport() {
 
 add_action( 'init', 'ns_register_cpt_nanosupport' );
 
+
+/**
+ * Show pending count on menu.
+ *
+ * @since  1.0.0
+ *
+ * @see    ns_ticket_status_count()
+ * @return integer  Pending count beside menu label.
+ * -----------------------------------------------------------------------
+ */
+function ns_notification_bubble_in_nanosupport_menu() {
+    global $menu, $current_user;
+
+    if( ns_is_user( 'agent' ) ) {
+        $pending_items = ns_ticket_status_count( 'pending', $current_user->ID );
+        $pending_count = $pending_items;
+    } else {
+        $pending_items = wp_count_posts( 'nanosupport' );
+        $pending_count = $pending_items->pending;
+    }
+
+    $menu[29][0] .= ! empty($pending_items) ? " <span class='update-plugins count-1' title='". esc_attr__( 'Pending Tickets', 'nanosupport' ) ."'><span class='update-count'>$pending_count</span></span>" : '';
+}
+
+add_action( 'admin_menu', 'ns_notification_bubble_in_nanosupport_menu' );
+
+
 /**
  * Declare custom columns
  *
