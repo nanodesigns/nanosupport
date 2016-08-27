@@ -86,7 +86,7 @@ function ns_email( $to_email, $subject, $email_subhead, $message, $reply_to_emai
  *
  * @since   1.0.0
  *
- * @param   integer $ticket_id  Ticket Integer.
+ * @param   integer $ticket_id  Ticket ID.
  * @return  boolean             True if sent, else false.
  * ------------------------------------------------------------------------------
  */
@@ -106,7 +106,8 @@ function nanosupport_new_ticket_notification_email( $new_status, $old_status, $p
         /**
          * Generate Dynamic values
          */
-        $ticket_view_link   = get_permalink( $ticket_id );
+        $ticket_view_link = get_permalink( $ticket_id );
+        $post_excerpt     = wp_trim_words( $post->post_content, 70, null );
         
 
         $subject = sprintf ( __( 'New Ticket Submitted — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
@@ -114,8 +115,17 @@ function nanosupport_new_ticket_notification_email( $new_status, $old_status, $p
         $email_subhead = __( 'New Ticket Submitted', 'nanosupport' );
 
         $message = '';
-        $message = '<p style="margin: 0 0 16px;">'. __( 'A support ticket is submitted and is <strong>Pending</strong>. Please find the link below:', 'nanosupport' ) .'</p>';
-        $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. esc_url($ticket_view_link) .'">'. __( 'Link to the Ticket', 'nanosupport' ) .'</a></p>';
+        // Ticket message
+        $message = '<p style="margin: 0 0 16px;">'. __( 'A support ticket is submitted and is <strong>Pending</strong>.', 'nanosupport' ) .'</p>';
+
+        // Ticket title and body content
+        $message .= '<div style="border-left: 5px solid #ccc;padding-top: 10px;padding-left: 20px;padding-bottom: 10px;">';
+            $message .= '<h2 style="margin: 10px 0 16px;font-size: 21px;">'. $post->post_title .'</h2>';
+            $message .= '<p style="margin: 0 0 20px;font-style: italic">'. $post_excerpt .'</p>';
+        $message .= '</div>';
+
+        // Call-to-action button
+        $message .= '<p style="margin: 30px 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. esc_url($ticket_view_link) .'">'. __( 'Link to the Ticket', 'nanosupport' ) .'</a></p>';
 
         $to_email = $nanosupport_email_settings['notification_email'];
 
