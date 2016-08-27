@@ -9,7 +9,7 @@
  * Plugin Name:       NanoSupport
  * Plugin URI:        http://nanosupport.nanodesignsbd.com/
  * Description:       Create a fully featured Support Center within your WordPress environment without any third party system dependency, completely FREE
- * Version:           0.2.0
+ * Version:           0.2.1
  * Author:            nanodesigns
  * Author URI:        http://nanodesignsbd.com/
  * Requires at least: 4.4.0
@@ -87,7 +87,7 @@ final class NanoSupport {
 	/**
 	 * @var string
 	 */
-	public $version = '0.2.0';
+	public $version = '0.2.1';
 
 	/**
 	 * Minimum WordPress version.
@@ -200,8 +200,9 @@ function ns_cross_check_on_activation() {
                     printf( __('<strong>NanoSupport</strong> requires WordPress core version <strong>%1$s</strong> or greater. The plugin has been <strong>deactivated</strong>. Consider <a href="%2$s">upgrading WordPress</a>.', 'nanosupport' ), NS()->wp_version, admin_url('/update-core.php') );
                 echo '</p></div>';
 
-                if ( isset( $_GET['activate'] ) )
+                if ( isset( $_GET['activate'] ) ) {
                     unset( $_GET['activate'] );
+                }
             }
 
         }

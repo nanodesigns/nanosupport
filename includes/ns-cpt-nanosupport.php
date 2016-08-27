@@ -132,6 +132,7 @@ function ns_populate_custom_columns( $column, $post_id ) {
 
             if( ! empty($response_count) ) {
                 echo '<span class="responses-count" aria-hidden="true">'. $response_count .'</span>';
+                /* translators: Response count 1. singular 2. plural */
                 echo '<span class="screen-reader-text">'. sprintf( _n( '%s response', '%s responses', $response_count, 'nanosupport' ), $response_count ) .'</span>';
             } else {
                 echo '&mdash; <span class="screen-reader-text">'. __( 'No response yet', 'nanosupport' ) .'</span>';
@@ -143,6 +144,7 @@ function ns_populate_custom_columns( $column, $post_id ) {
             $last_responder = get_userdata( $last_response['user_id'] );
             if ( $last_responder ) {
                 echo $last_responder->display_name, '<br>';
+                /* translators: time difference according to current time. example: 12 minutes ago */
                 printf( __( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
             } else {
                 echo '&mdash; <span class="screen-reader-text">'. __( 'No response yet', 'nanosupport' ) .'</span>';
