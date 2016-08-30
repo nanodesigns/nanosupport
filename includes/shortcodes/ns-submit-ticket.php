@@ -296,7 +296,7 @@ function ns_submit_support_ticket() {
 
 								<!-- REGISTRATION IS INACTIVE -->
 								<div class="ns-form-group">
-									<p class="ns-col-sm-9 ns-col-sm-offset-3">
+									<p class="ns-col-sm-9 ns-col-sm-offset-3 ns-text-dim">
 										<?php _e( 'Registration is closed now. If you already have an account', 'nanosupport' ); ?> <a href="<?php echo esc_url($login_link); ?>"><?php echo esc_html( $login_title ); ?><a>
 									</p>
 								</div> <!-- /.ns-form-group -->
@@ -343,7 +343,15 @@ function ns_submit_support_ticket() {
 								</div> <!-- /.ns-form-group -->
 
 								<div class="ns-form-group">
-									<p class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12"><?php printf( __( 'Don&rsquo;t have an account? <a href="%1s">Create one</a>', 'nanosupport' ), esc_url( get_the_permalink() ) ); ?></p>
+								<?php if( 1 == get_option('users_can_register') ) { ?>
+									<p class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12">
+										<?php printf( __( 'Don&rsquo;t have an account? <a href="%1s">Create one</a>', 'nanosupport' ), esc_url( get_the_permalink() ) ); ?>
+									</p>
+								<?php } else { ?>
+									<p class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12 ns-text-dim">
+										<?php printf( __( '<a href="%1s">Cancel Login</a>. But sorry, registration is closed now', 'nanosupport' ), esc_url( get_the_permalink() ) ); ?>
+									</p>
+								<?php } //endif ?>
 								</div> <!-- /.ns-form-group -->
 
 								<!-- HIDDEN INPUT TO TREAT FORM SUBMIT APPROPRIATELY -->
