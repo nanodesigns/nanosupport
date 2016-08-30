@@ -69,6 +69,18 @@ function ns_submit_ticket_field() {
 }
 
 // General Tab : General Settings : Field 3 : Enable Notice?
+function ns_ticket_character_limit() {
+    $options = get_option( 'nanosupport_settings' );
+
+    //set the default to 30 characters
+    $value = isset($options['ticket_char_limit']) ? $options['ticket_char_limit'] : 30;
+
+    echo '<input type="number" name="nanosupport_settings[ticket_char_limit]" step="1" min="0" id="ticket_char_limit" class="small-text" value="'. absint($value) .'">';
+
+    echo ns_tooltip( __( 'Define the character limit on ticket submission form. <code>0</code> (zero) denotes no character limit applied.', 'nanosupport' ), 'right' );
+}
+
+// General Tab : General Settings : Field 4 : Enable Notice?
 function ns_enable_notice() {
     $options = get_option( 'nanosupport_settings' );
 
@@ -77,7 +89,7 @@ function ns_enable_notice() {
     echo ns_tooltip( __( 'If you check here, it will enable the predefined notice on top of Support Desk, Knowledgebase, and Submit Ticket page', 'nanosupport' ), 'right' );
 }
 
-// General Tab : General Settings : Field 4 : Submit Ticket Notice
+// General Tab : General Settings : Field 5 : Submit Ticket Notice
 function ns_submit_ticket_notice() {
     $options = get_option( 'nanosupport_settings' );
 
@@ -88,7 +100,7 @@ function ns_submit_ticket_notice() {
     echo ns_tooltip( __( 'The message that to show on top of the New Ticket submission page. Plain texts only.', 'nanosupport' ), 'right' );
 }
 
-// General Tab : General Settings : Field 5 : Support Desk Notice
+// General Tab : General Settings : Field 6 : Support Desk Notice
 function ns_support_desk_notice() {
     $options = get_option( 'nanosupport_settings' );
 
@@ -99,7 +111,7 @@ function ns_support_desk_notice() {
     echo ns_tooltip( __( 'The message that to show on top of the Support Ticket page. Plain texts only.', 'nanosupport' ), 'right' );
 }
 
-// General Tab : General Settings : Field 6 : Knowledgebase Notice
+// General Tab : General Settings : Field 7 : Knowledgebase Notice
 function ns_knowledgebase_notice() {
     $options = get_option( 'nanosupport_settings' );
     
@@ -115,7 +127,7 @@ function ns_knowledgebase_notice() {
     echo ns_tooltip( __( 'The message that to show on top of the Knowledgebase page. Plain texts only.', 'nanosupport' ), 'right' );
 }
 
-// General Tab : General Settings : Field 7 : Highlight Ticket
+// General Tab : General Settings : Field 8 : Highlight Ticket
 function ns_highlight_ticket_field() {
     $options = get_option( 'nanosupport_settings' );
 
@@ -128,7 +140,7 @@ function ns_highlight_ticket_field() {
 
 }
 
-// General Tab : General Settings : Field 8 : Enable Embedded Login?
+// General Tab : General Settings : Field 9 : Enable Embedded Login?
 function ns_embedded_login_field() {
     $options = get_option( 'nanosupport_settings' );
 
@@ -145,7 +157,7 @@ function ns_account_settings_section_callback() {
     echo '<p class="screen-reader-text">'. __( 'All the user account related settings can be managed from here.', 'nanosupport' ) .'</p>';
 }
 
-// General Tab : Account Settings : Field 2 : Account Creation
+// General Tab : Account Settings : Field 1 : Account Creation
 function ns_account_creation_field() {
     $options = get_option( 'nanosupport_settings' );
 
@@ -192,8 +204,10 @@ function ns_general_settings_validate( $input ) {
     $support_desk_selection_val = $input['support_desk'] ? absint( $input['support_desk'] ) : '';
     //Submit Ticket page selection
     $add_support_ticket_val     = $input['submit_page'] ? absint( $input['submit_page'] ) : '';
+    //Ticket character limit
+    $ticket_char_limit          = $input['ticket_char_limit'] ? absint($input['ticket_char_limit']) : '';
     //Enable Notice checkbox
-    $enable_notice              = (int) $input['enable_notice'] === 1 ? (int) $input['enable_notice'] : '';
+    $enable_notice              = (int) $input['enable_notice'] === 1 ? absint($input['enable_notice']) : '';
     //Submit Ticket notice message
     $submit_ticket_notice       = $input['submit_ticket_notice'] ? $input['submit_ticket_notice'] : '';
     //Support Desk notice message
@@ -218,6 +232,7 @@ function ns_general_settings_validate( $input ) {
      */
     $options['support_desk']         = absint( $support_desk_selection_val );
     $options['submit_page']          = absint( $add_support_ticket_val );
+    $options['ticket_char_limit']    = absint( $ticket_char_limit );
     $options['enable_notice']        = absint( $enable_notice );
     $options['submit_ticket_notice'] = esc_attr(strip_tags($submit_ticket_notice));
     $options['support_desk_notice']  = esc_attr(strip_tags($support_desk_notice));

@@ -66,10 +66,11 @@ function ns_handle_registration_login_ticket_submission() {
         $ticket_subject = $_POST['ns_ticket_subject'];
 
     //Ticket Details
+    $character_limit = ns_is_character_limit();
     if( empty( $_POST['ns_ticket_details'] ) )
-        $ns_errors[] = __( 'Ticket details can&rsquo;t be empty', 'nanosupport' );
-    else if( ! empty( $_POST['ns_ticket_details'] ) && strlen( $_POST['ns_ticket_details'] ) < 30 )
-        $ns_errors[]    = __( 'Write down a little detail. At least 30 characters or longer', 'nanosupport' );
+        $ns_errors[]    = __( 'Ticket details can&rsquo;t be empty', 'nanosupport' );
+    else if( ! empty( $_POST['ns_ticket_details'] ) && $character_limit && strlen( $_POST['ns_ticket_details'] ) < $character_limit )
+        $ns_errors[]    = sprintf( __( 'Write down a little detail. At least %s characters or longer', 'nanosupport' ), $character_limit );
     else
         $ticket_details = $_POST['ns_ticket_details'];
 
