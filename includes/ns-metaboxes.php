@@ -327,16 +327,6 @@ function ns_save_nanosupport_meta_data( $post_id ) {
 
     if( $new_response ) :
 
-        /**
-         * If response is shorter than 30 characters
-         * display a warning using admin_notices.
-         * ...
-         */
-        if( strlen($new_response) < 30 ) {
-            add_filter( 'redirect_post_location', 'ns_short_response_notice_query_var', 99 );
-            return $post_id;
-        }
-
         global $current_user;
 
         /**
@@ -369,8 +359,6 @@ function ns_save_nanosupport_meta_data( $post_id ) {
     $internal_note          = $_POST['ns_internal_note'];
     $existing_internal_note = get_post_meta( $post_id, 'ns_internal_note', true );
 
-    
-
     if( $internal_note && $internal_note != $existing_internal_note ) {
         // Sanitize internal note
         $internal_note = wp_kses( $internal_note, ns_allowed_html() );
@@ -383,30 +371,3 @@ function ns_save_nanosupport_meta_data( $post_id ) {
 
 add_action( 'save_post',        'ns_save_nanosupport_meta_data' );
 add_action( 'new_to_publish',   'ns_save_nanosupport_meta_data' );
-
-
-/**
- * Display a notice if response length is less than 30 chars.
- * ...
- */
-function ns_short_response_warning() {
-    if( ! isset($_GET['short_response']) )
-        return;
-
-    echo '<div class="error notice">';
-        echo '<p>'. __( '<strong>Response isn&rsquo;t saved.</strong> Responses should be at least 30 characters or more.', 'nanosupport' ) .'</p>';
-    echo '</div>';
-}
-
-add_action( 'admin_notices', 'ns_short_response_warning' );
-
-/**
- * Add query var on condition.
- * @param  string $location The redirection URL defined.
- * @return string           The query var added URL.
- * ...
- */
-function ns_short_response_notice_query_var( $location ) {
-    remove_filter( 'redirect_post_location', 'ns_short_response_notice_query_var', 99 );
-    return add_query_arg( array( 'short_response' => 1 ), $location );
-}
