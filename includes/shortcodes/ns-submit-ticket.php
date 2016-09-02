@@ -111,11 +111,18 @@ function ns_submit_support_ticket() {
 						</label>
 						<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
 							<?php
-							/* translators: allowed HTML tags */
-							echo ns_tooltip( sprintf( __( 'Write down your issue in details... At least 30 characters is a must.<br><small><strong>Allowed HTML Tags:</strong><br>%s</small>', 'nanosupport' ), ns_get_allowed_html_tags() ), 'bottom' ); ?>
+							$character_limit = ns_is_character_limit();
+							if( $character_limit ) {
+								/* translators: 1. character limit 2. allowed HTML tags */
+								echo ns_tooltip( sprintf( __( 'Write down your issue in details... At least %1$s characters is a must.<br><small><strong>Allowed HTML Tags:</strong><br>%2$s</small>', 'nanosupport' ), $character_limit, ns_get_allowed_html_tags() ), 'bottom' );
+							} else {
+								/* translators: allowed HTML tags */
+								echo ns_tooltip( sprintf( __( 'Write down your issue in details...<br><small><strong>Allowed HTML Tags:</strong><br>%s</small>', 'nanosupport' ), ns_get_allowed_html_tags() ), 'bottom' );
+							}
+							?>
 						</div>
 						<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
-							<textarea id="ns-ticket-details" class="ns-form-control" name="ns_ticket_details" cols="30" rows="10" placeholder="<?php esc_attr_e( 'Write down your issue in details... At least 30 characters is a must.', 'nanosupport' ); ?>" required><?php if( !empty($_POST['ns_ticket_details']) ) echo stripslashes_deep( $_POST['ns_ticket_details'] ); ?></textarea>
+							<textarea id="ns-ticket-details" class="ns-form-control" name="ns_ticket_details" cols="30" rows="10" placeholder="<?php echo $character_limit ? sprintf( esc_attr__( 'Write down your issue in details... At least %s characters is a must.', 'nanosupport' ), $character_limit ) : esc_attr__( 'Write down your issue in details...', 'nanosupport' ); ?>" required><?php if( !empty($_POST['ns_ticket_details']) ) echo stripslashes_deep( $_POST['ns_ticket_details'] ); ?></textarea>
 						</div>
 					</div> <!-- /.ns-form-group -->
 
@@ -296,7 +303,7 @@ function ns_submit_support_ticket() {
 
 								<!-- REGISTRATION IS INACTIVE -->
 								<div class="ns-form-group">
-									<p class="ns-col-sm-9 ns-col-sm-offset-3">
+									<p class="ns-col-sm-9 ns-col-sm-offset-3 ns-text-dim">
 										<?php _e( 'Registration is closed now. If you already have an account', 'nanosupport' ); ?> <a href="<?php echo esc_url($login_link); ?>"><?php echo esc_html( $login_title ); ?><a>
 									</p>
 								</div> <!-- /.ns-form-group -->
@@ -343,7 +350,15 @@ function ns_submit_support_ticket() {
 								</div> <!-- /.ns-form-group -->
 
 								<div class="ns-form-group">
-									<p class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12"><?php printf( __( 'Don&rsquo;t have an account? <a href="%1s">Create one</a>', 'nanosupport' ), esc_url( get_the_permalink() ) ); ?></p>
+								<?php if( 1 == get_option('users_can_register') ) { ?>
+									<p class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12">
+										<?php printf( __( 'Don&rsquo;t have an account? <a href="%1s">Create one</a>', 'nanosupport' ), esc_url( get_the_permalink() ) ); ?>
+									</p>
+								<?php } else { ?>
+									<p class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12 ns-text-dim">
+										<?php printf( __( '<a href="%1s">Cancel Login</a>. But sorry, registration is closed now', 'nanosupport' ), esc_url( get_the_permalink() ) ); ?>
+									</p>
+								<?php } //endif ?>
 								</div> <!-- /.ns-form-group -->
 
 								<!-- HIDDEN INPUT TO TREAT FORM SUBMIT APPROPRIATELY -->

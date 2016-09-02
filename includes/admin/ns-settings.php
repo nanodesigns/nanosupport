@@ -73,6 +73,13 @@ function nanosupport_settings_options_init(){
             'ns_general'                                // Section
         );
         add_settings_field(
+            'ticket_char_limit',                        // ID*
+            __( 'Set ticket character limit to', 'nanosupport' ),      // Title*
+            'ns_ticket_character_limit',                // Callback Function*
+            'nanosupport_settings',                     // Page (Plugin)*
+            'ns_general'                                // Section
+        );
+        add_settings_field(
             'enable_notice',                            // ID*
             __( 'Enable Notice?', 'nanosupport' ),      // Title*
             'ns_enable_notice',                         // Callback Function*
