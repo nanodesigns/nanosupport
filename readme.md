@@ -1,62 +1,14 @@
-## NanoSupport
-Contributors: nanodesigns, wzislam<br>
-Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff<br>
-Requires at least: 4.4.0<br>
-Tested up to: 4.6<br>
-Stable tag: 0.2.1<br>
-License: GPL-2.0+<br>
-License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+# NanoSupport
+| Minimum Requirement | Tested up to | Stable Release | w.org Rating | License | w.org Downloads |
+|---|---|---|---|---|---|
+| WordPress 4.4.0 | ![Tested WordPress version](https://img.shields.io/wordpress/v/nanosupport.svg?style=flat) | ![WordPress plugin](https://img.shields.io/wordpress/plugin/v/nanosupport.svg?style=flat) | ![WordPress.org rating](https://img.shields.io/wordpress/plugin/r/nanosupport.svg?style=flat) | [GPL-2.0+](http://www.gnu.org/licenses/gpl-2.0.txt) | [![Wordpress](https://img.shields.io/wordpress/plugin/dt/nanosupport.svg?style=flat)]() |
 
-Create a fully featured Support Center within your WordPress environment without any third party system dependency, completely FREE
-
-## Description
-Create a fully featured Support Center within your WordPress environment without any third party system dependency, for completely FREE of cost.
-
-**No** 3rd party support ticketing system required, **no** external site/api dependency, **simply** create your own fully featured Support Center within your WordPress environment, and take your support into the next level.
-
-### What is it?
+## Introduction
+Create a fully featured Support Center within your WordPress environment without any third party system dependency, for completely FREE of cost. **No** 3rd party support ticketing system required, **no** external site/api dependency, **simply** create your own fully featured Support Center within your WordPress environment, and take your support into the next level.
 
 The plugin is to provide support to your users - the users those are taking product or services from you. So the plugin provides a managable communication privately in between you and your that specific user only. Visit the 'Installation' tab for more details on how to use the plugin.
 
-### Features
-* OnActivation setup
-* Smart templating for nice theme support
-* Smartly designed Support Center
-* Completely Private ticketing
-* Ticket submission with registration
-* Ticket submission with login (Beta Feature)
-* Auto generate user account's username on ticket submission (if chosen)
-* Auto generate user account's password on ticket submission (if chosen)
-* Knowledgebase (optional)
-* Knowledgebase content categories
-* Ticket departments
-* Default ticket department 'Support'
-* Make agent from registered users
-* Assign ticket to an agent
-* Change ticket status (Pending, Open, Under Inspection, Solved)
-* Set support priority (Low, Medium, High, Critical)
-* Reply ticket from admin panel
-* Reply ticket from front end
-* ReOpen closed ticket
-* Internal Notes in-between support teams
-* Shortcode-enabled pages (installed on Plugin activation)
-* Settings page (Settings API)
-* Support Seeker user role and privileges
-* Dashboard widget with current status
-* Dashboard widget with recent activity
-* Dashboard widget with personal status for Agents
-* Dashboard widget with necessary instruction and links for Support Seekers
-* Add ticket on behalf of other user (admin end)
-* Customizable Email template
-* Email notification to admins on new ticket submission
-* Email notification to Support Seeker on account creation on ticket submission
-* Email notification to Support Seeker on ticket reply
-* Email notification to Support Agent on ticket reply
-* NanoSupport page-to-page navigation and pagewise notices
-* Complete data deletion on uninstallation (if chosen)
-* 100% Translation-ready
-* Fully responsive and Mobile devices friendly
-* Clean and well commented code
+[Read the List of its nice Features](https://github.com/nanodesigns/nanosupport/wiki/Introduction-&-Features)
 
 ### Contribute
 NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contribute.
@@ -188,3 +140,7 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 ### 0.2.1
 A major security hole was fixed
+
+
+
+Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff<br>
