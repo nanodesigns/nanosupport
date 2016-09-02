@@ -14,18 +14,20 @@ The plugin is to provide support to your users - the users those are taking prod
 [:computer: See the **Screenshots**](https://github.com/nanodesigns/nanosupport/wiki/Screenshots)
 
 ---
+[:notebook_with_decorative_cover: **User Guide**](https://github.com/nanodesigns/nanosupport/wiki) [:earth_asia: **Translate** NanoSupport](https://translate.wordpress.org/projects/wp-plugins/nanosupport)
 
-[:notebook_with_decorative_cover: User Guide](https://github.com/nanodesigns/nanosupport/wiki) [:earth_asia: Translate](https://translate.wordpress.org/projects/wp-plugins/nanosupport)
+---
 
-## Available Automatic Translation
+### Available Automatic Translation
 * Bengali (_Bangla_) - `bn_BD`
 
 ## Contribute
 NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contribute.
 
-* [Fork on Github](https://github.com/nanodesigns/nanosupport)
-* [Report Bug](https://github.com/nanodesigns/nanosupport/issues/new)
-* [Get Support](https://github.com/nanodesigns/nanosupport/issues/new)
+* [:octocat: Fork on Github](https://github.com/nanodesigns/nanosupport)
+* [:bug: Report Bug/Limitations or Suggest Feature/Enhancement](https://github.com/nanodesigns/nanosupport/issues/new)
+* [:flashlight: Get Support](https://github.com/nanodesigns/nanosupport/issues/new)
+* [:earth_asia: Translate NanoSupport](https://translate.wordpress.org/projects/wp-plugins/nanosupport)
 
 ---
 [**nano**designs](http://nanodesignsbd.com?ref=nanosupport) | [Twitter](https://twitter.com/nanodesigns/) | [Facebook](https://facebook.com/nanodesignsbd/) | [LinkedIn](http://www.linkedin.com/company/nanodesigns) | [Google+](https://google.com/+Nanodesignsbd)
