@@ -40,7 +40,8 @@ function ns_support_desk_field() {
                 }
             }
         echo '</select>';
-        echo ns_tooltip( __( 'Choose the page where you want to display the Support Desk. If no page is in the list, create one with the shortcode <code>[nanosupport_desk]</code> in it.', 'nanosupport' ), 'right' );
+        echo '<!-- translators: Support Desk shortcode -->';
+        echo ns_tooltip( sprintf( __( 'Choose the page where you want to display the Support Desk. If no page is in the list, create one with the shortcode %s in it.', 'nanosupport' ), '<code>[nanosupport_desk]</code>' ), 'right' );
     }
 }
 
@@ -64,7 +65,8 @@ function ns_submit_ticket_field() {
                 }
             }
         echo '</select>';
-        echo ns_tooltip( __( 'Choose the page where you want show the Ticket Submission page. If no page is in the list, create one with the shortcode <code>[nanosupport_submit_ticket]</code> in it.', 'nanosupport' ), 'right' );
+        echo '<!-- translators: Submit Ticket page shortcode -->';
+        echo ns_tooltip( sprintf( __( 'Choose the page where you want show the Ticket Submission page. If no page is in the list, create one with the shortcode %s in it.', 'nanosupport' ), '<code>[nanosupport_submit_ticket]</code>' ), 'right' );
     }
 }
 
