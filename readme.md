@@ -1,3 +1,5 @@
+![nanosupport-banner](https://cloud.githubusercontent.com/assets/4551598/18225488/c7c6a738-7214-11e6-80bd-afed15d6cd00.png)
+
 # NanoSupport <kbd>[**DOWNLOAD**](https://wordpress.org/plugins/nanosupport/)</kbd>
 Smart Support Ticketing Plugin for WordPress
 
@@ -30,4 +32,4 @@ NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contrib
 * [:earth_asia: Translate NanoSupport](https://translate.wordpress.org/projects/wp-plugins/nanosupport)
 
 ---
-[**nano**designs](http://nanodesignsbd.com?ref=nanosupport) | [Twitter](https://twitter.com/nanodesigns/) | [Facebook](https://facebook.com/nanodesignsbd/) | [LinkedIn](http://www.linkedin.com/company/nanodesigns) | [Google+](https://google.com/+Nanodesignsbd)
+![nanosupport-icon](https://cloud.githubusercontent.com/assets/4551598/18225502/20899fb0-7215-11e6-89b2-77002df466d7.png) NanoSupport, by [**nano**designs](http://nanodesignsbd.com?ref=nanosupport) &mdash; [<kbd>Twitter</kbd>](https://twitter.com/nanodesigns/) [<kbd>Facebook</kbd>](https://facebook.com/nanodesignsbd/) [<kbd>LinkedIn</kbd>](http://www.linkedin.com/company/nanodesigns) [<kbd>Google+</kbd>](https://google.com/+Nanodesignsbd)
