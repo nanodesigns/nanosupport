@@ -106,6 +106,9 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Frequently Asked Questions ==
 
+= Q: Is there any User Guide to using NanoSupport? =
+**A:** Yes, please consult the [**NanoSupport User Guide**](https://github.com/nanodesigns/nanosupport/wiki).
+
 = Q: How to install the Plugin? =
 **A:** Please visit the plugin's Installation page to get the details.
 
@@ -140,16 +143,26 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Changelog ==
 
-= 0.3.0 - 2016-AUG-20 =
+= 0.3.0 - 2016-NOV-28 =
 === Major changes ===
 * Rich Text editor for ticket body text
 * New filter hook: `ns_wp_editor_specs`
+* Pending ticket notification using admin menu bubble
 
-= 0.2.1 - 2016-AUG-20 =
+= 0.2.2 - 2016-SEP-03 =
+* Ticket character limit can be set by user
+* Response character limit is deprecated
+* User can close ticket without submitting any response
+* Ticket content is added to the new ticket notification email
+* Fixed: Ticket with registration was not working on WordPress registration settings
+* Some translation strings are fixed
+
+= 0.2.1 - 2016-AUG-22 =
 * `wp_kses()` is implemented to secure site from bad user input
 * New filter hook: `ns_allowed_html`
 * Tooltip made wider for large bunch of texts
 * Stripping 'private' and 'protected' from ticket titles i18n-friendly
+* Translation added: Bengali (*Bengali*) - `bn_BD`
 
 = 0.2.0 - 2016-AUG-15 =
 * Minimum WordPress version upgraded to 4.4.0

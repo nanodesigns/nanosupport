@@ -73,7 +73,7 @@ function ns_scripts() {
     if( is_page( $knowledgebase ) ) {
         wp_enqueue_script( 'equal-height' );
     }
-    
+
     if( is_page( array( $support_desk, $submit_ticket, $knowledgebase ) ) || is_singular('nanosupport') ) {
         wp_enqueue_style( 'nanosupport' );
         wp_enqueue_script( 'nanosupport' );

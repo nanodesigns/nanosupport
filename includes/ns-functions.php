@@ -66,10 +66,11 @@ function ns_handle_registration_login_ticket_submission() {
         $ticket_subject = $_POST['ns_ticket_subject'];
 
     //Ticket Details
+    $character_limit = ns_is_character_limit();
     if( empty( $_POST['ns_ticket_details'] ) )
-        $ns_errors[] = __( 'Ticket details can&rsquo;t be empty', 'nanosupport' );
-    else if( ! empty( $_POST['ns_ticket_details'] ) && strlen( $_POST['ns_ticket_details'] ) < 30 )
-        $ns_errors[]    = __( 'Write down a little detail. At least 30 characters or longer', 'nanosupport' );
+        $ns_errors[]    = __( 'Ticket details can&rsquo;t be empty', 'nanosupport' );
+    else if( ! empty( $_POST['ns_ticket_details'] ) && $character_limit && strlen( $_POST['ns_ticket_details'] ) < $character_limit )
+        $ns_errors[]    = sprintf( __( 'Write down a little detail. At least %s characters or longer', 'nanosupport' ), $character_limit );
     else
         $ticket_details = $_POST['ns_ticket_details'];
 
@@ -523,9 +524,17 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
         }
 
         //Display success message, if any
-        if( isset($_GET['ns_success']) && $_GET['ns_success'] == 1 ) {
+        if( isset($_GET['ns_success']) ) {
             echo '<div class="ns-alert ns-alert-success" role="alert">';
-                echo __( 'Your response is successfully submitted to this ticket.', 'nanosupport' );
+                echo __( '<strong>Success:</strong> Your response is successfully submitted to this ticket.', 'nanosupport' );
+            echo '</div>';
+        } else if( isset($_GET['ns_cm_success']) ) {
+            echo '<div class="ns-alert ns-alert-success" role="alert">';
+                echo __( '<strong>Success:</strong> The ticket is marked as &lsquo;Solved&rsquo; with this response.', 'nanosupport' );
+            echo '</div>';
+        } else if( isset($_GET['ns_closed']) ) {
+            echo '<div class="ns-alert ns-alert-success" role="alert">';
+                echo __( '<strong>Success:</strong> You just marked the ticket as &lsquo;Solved&rsquo;.', 'nanosupport' );
             echo '</div>';
         }
 
@@ -544,7 +553,7 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
         }
 
         //Clean up request URI from temporary args for alert[s].
-        $_SERVER['REQUEST_URI'] = remove_query_arg( 'ns_success', $_SERVER['REQUEST_URI'] );
+        $_SERVER['REQUEST_URI'] = remove_query_arg( array('ns_success', 'ns_cm_success', 'ns_closed'), $_SERVER['REQUEST_URI'] );
 
         if( ns_is_user( 'agent_and_manager' ) || $post->post_author == $current_user->ID ) : ?>
 
@@ -566,7 +575,7 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
                     <div class="ns-feedback-form">
 
                         <div class="ns-form-group">
-                            <textarea name="ns_response_msg" id="write-message" class="ns-form-control" placeholder="<?php _e('Write down your response (at least 30 characters)', 'nanosupport'); ?>" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>"><?php echo isset($_POST['ns_response_msg']) ? $_POST['ns_response_msg'] : ''; ?></textarea>
+                            <textarea name="ns_response_msg" id="write-message" class="ns-form-control" placeholder="<?php _e('Write down your response', 'nanosupport'); ?>" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>"><?php echo isset($_POST['ns_response_msg']) ? $_POST['ns_response_msg'] : ''; ?></textarea>
                         </div> <!-- /.ns-form-group -->
 
                         <?php
@@ -583,22 +592,17 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
                         do_action( 'nanosupport_after_response_form' );
                         ?>
 
-                        <?php if( in_array( $ticket_meta['status']['value'], array('open', 'inspection') ) ) { ?>
-
-                            <div class="ns-form-group ns-checkbox">
-                                <label>
-                                    <?php $ns_close_ticket = isset($_POST['close_ticket']) ? 1 : ''; ?>
-                                    <input type="checkbox" id="close" name="close_ticket" value="1" <?php checked( 1, $ns_close_ticket ); ?>> <?php _e( 'Close the ticket with this response', 'nanosupport' ); ?>
-                                </label>
-                            </div> <!-- /.ns-form-group -->
-
-                        <?php } //endif open/inspection ?>
-
                         <?php wp_nonce_field( 'nanosupport-response-nonce' ); ?>
 
                         <button type="submit" name="submit_response" class="ns-btn ns-btn-primary">
                             <?php _e( 'Submit', 'nanosupport' ); ?>
                         </button>
+
+                        <?php if( in_array( $ticket_meta['status']['value'], array('open', 'inspection') ) ) { ?>
+                            <button type="submit" name="close_ticket" class="ns-btn ns-btn-default">
+                                <?php _e( 'Close Ticket', 'nanosupport' ); ?>
+                            </button>
+                        <?php } //endif open/inspection ?>
 
                     </div>
                 </div> <!-- /.ns-feedback-form -->
@@ -647,7 +651,7 @@ function ns_notify_user_on_opening_ticket() {
 
     if( 'solved' === $ticket_meta['status']['value'] && isset( $_GET['reopen'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'reopen-ticket' ) ) {
         echo '<div class="ns-alert ns-alert-warning" role="alert">';
-            printf( __( '<strong>Just to inform:</strong> you are about to ReOpen the ticket. <small><a href="%s">Cancel ReOpening</a></small>', 'nanosupport' ), get_the_permalink($post) );
+            printf( __( '<strong>Just to inform:</strong> you are about to ReOpen the ticket. <a class="ns-small" href="%s">Cancel ReOpening</a>', 'nanosupport' ), get_the_permalink($post) );
         echo '</div>';
     }
 }
@@ -667,7 +671,7 @@ function ns_handle_response_submit() {
     if( ! is_user_logged_in() )
         return;
 
-    if( isset( $_POST['submit_response'] ) && isset( $_POST['_wpnonce'] ) && wp_verify_nonce( $_POST['_wpnonce'], 'nanosupport-response-nonce' ) ) :
+    if( (isset($_POST['submit_response']) || isset($_POST['close_ticket'])) && isset( $_POST['_wpnonce'] ) && wp_verify_nonce( $_POST['_wpnonce'], 'nanosupport-response-nonce' ) ) :
 
         global $current_user, $post, $response_error;
 
@@ -676,39 +680,42 @@ function ns_handle_response_submit() {
 
         $response_msg = $_POST['ns_response_msg'];
 
-        if( empty($response_msg) ) {
-            $response_error->add( 'response_empty', __( 'Response field can&rsquo;t be empty.', 'nanosupport' ) );
-        }
-        if( strlen($response_msg) < 30 ) {
-            $response_error->add( 'response_short', __( 'Your message is too short. Write down at least 30 characters.', 'nanosupport' ) );
+        //Response is not for closing so a message is required
+        if( empty($response_msg) && ! isset($_POST['close_ticket']) ) {
+            $response_error->add( 'response_empty', __( 'Response field can&rsquo;t be blank.', 'nanosupport' ) );
         }
 
         if( is_wp_error($response_error) && ! empty($response_error->errors) )
             return;
 
-        /**
-         * Sanitize ticket response content
-         * @var string
-         */
-        $response_msg = wp_kses( $response_msg, ns_allowed_html() );
+        // Submitting response with/without closing
+        if( ! empty($response_msg) && (isset($_POST['close_ticket']) || isset($_POST['submit_response'])) ) {
 
-        //Insert new response as a comment and get the comment ID
-        $commentdata = array(
-            'comment_post_ID'       => absint( $post->ID )   ,
-            'comment_author'        => wp_strip_all_tags( $current_user->display_name ), 
-            'comment_author_email'  => sanitize_email( $current_user->user_email ),
-            'comment_author_url'    => esc_url( $current_user->user_url ),
-            'comment_content'       => $response_msg,
-            'comment_type'          => 'nanosupport_response',
-            'comment_parent'        => 0,
-            'user_id'               => absint( $current_user->ID ),
-        );
+            /**
+             * Sanitize ticket response content
+             * @var string
+             */
+            $response_msg = wp_kses( $response_msg, ns_allowed_html() );
 
-        $comment_id = wp_new_comment( $commentdata );
+            //Insert new response as a comment and get the comment ID
+            $commentdata = array(
+                'comment_post_ID'       => absint( $post->ID )   ,
+                'comment_author'        => wp_strip_all_tags( $current_user->display_name ),
+                'comment_author_email'  => sanitize_email( $current_user->user_email ),
+                'comment_author_url'    => esc_url( $current_user->user_url ),
+                'comment_content'       => $response_msg,
+                'comment_type'          => 'nanosupport_response',
+                'comment_parent'        => 0,
+                'user_id'               => absint( $current_user->ID ),
+            );
 
-        //If error, return with the error message
-        if( is_wp_error($comment_id) )
-            return $comment_id->get_error_message();
+            $comment_id = wp_new_comment( $commentdata );
+
+            //If error, return with the error message
+            if( is_wp_error($comment_id) )
+                return $comment_id->get_error_message();
+
+        }
 
         // Get ticket meta information
         $ticket_meta    = ns_get_ticket_meta( $post->ID );
@@ -720,9 +727,7 @@ function ns_handle_response_submit() {
          * ...
          */
         if( in_array( $ticket_status, array('solved', 'pending') ) ) {
-
-            update_post_meta( $post->ID, '_ns_ticket_status', wp_strip_all_tags( 'open' ) );
-
+            update_post_meta( $post->ID, '_ns_ticket_status', 'open' );
         }
 
         /**
@@ -730,13 +735,10 @@ function ns_handle_response_submit() {
          * if closed chosen.
          * ...
          */
-        if( in_array( $ticket_status, array('inspection', 'open') ) ) {
-
-            if( isset($_POST['close_ticket']) && $_POST['close_ticket'] == 1 ) {
-                update_post_meta( $post->ID, '_ns_ticket_status', wp_strip_all_tags( 'solved' ) );
-            }
-
+        if( in_array($ticket_status, array('inspection', 'open')) && isset($_POST['close_ticket']) ) {
+            update_post_meta( $post->ID, '_ns_ticket_status', 'solved' );
         }
+
 
         //Privately Publish a 'pending' ticket
         if( 'pending' === $ticket_status ) {
@@ -748,11 +750,18 @@ function ns_handle_response_submit() {
 
         //Redirect to the same page with success message
         $permalink = 'pending' === $ticket_status ? ns_get_pending_permalink( $post->ID ) : get_the_permalink( $post->ID );
-        $args = add_query_arg(
-                    'ns_success',
-                    1,
-                    $permalink
-                );
+
+        if( ! empty($response_msg) && isset($_POST['submit_response']) ) {
+            // Response submitted
+            $args = add_query_arg( 'ns_success', '', $permalink );
+        } else if( ! empty($response_msg) && isset($_POST['close_ticket']) ) {
+            // Closed with Response
+            $args = add_query_arg( 'ns_cm_success', '', $permalink );
+        } else if( empty($response_msg) && isset($_POST['close_ticket']) ) {
+            // Closed without Response
+            $args = add_query_arg( 'ns_closed', '', $permalink );
+        }
+
         wp_redirect( esc_url( $args ) );
         exit();
 
@@ -830,34 +839,3 @@ function ns_del_ajax_response() {
 }
 
 add_action( 'wp_ajax_delete_response', 'ns_del_ajax_response' );
-
-
-/**
- * TinyMCE Modified tools
- *
- * Modifying TinyMCE tools for ticket submission on the front end.
- * 
- * @link    https://codex.wordpress.org/Function_Reference/wp_editor
- * @link    https://codex.wordpress.org/TinyMCE
- * @link    http://wordpress.stackexchange.com/a/29480
- * 
- * @param   array $settings Default editor.
- * @return  array           Modified buttons.
- * --------------------------------------------------------------------------
- */
-function ns_ticket_editor( $settings ) {
-    // Get the NanoSupport Settings from Database
-    $ns_general_settings = get_option( 'nanosupport_settings' );
-
-    if( is_page( $ns_general_settings['submit_page'] ) ) {
-
-        $settings['block_formats'] = "Paragraph=p; Heading 2=h2; Heading 3=h3; Heading 4=h4; Heading 5=h5; Heading 6=h6; Preformatted=pre";
-        $settings['toolbar1'] = 'pastetext,|,formatselect,|,bold,italic,underline,strikethrough,|,alignleft,aligncenter,alignright,|,bullist,numlist,blockquote,hr,|,link,unlink,spellchecker';
-        $settings['toolbar2'] = '';
-
-    }
-
-    return $settings;
-}
-
-add_filter( 'tiny_mce_before_init', 'ns_ticket_editor' );
