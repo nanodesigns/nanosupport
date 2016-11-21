@@ -76,7 +76,7 @@ $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
  * Initiate CPT Knowledgebase on demand
  * Display, if enabled in admin panel.
  */
-if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
+if( isset($ns_knowledgebase_settings['isactive_kb']) && $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
     add_action( 'init', 'ns_register_cpt_nanodoc' );
 }
 
