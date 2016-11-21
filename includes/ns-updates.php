@@ -33,6 +33,13 @@ function ns_update() {
     	ns_update_v020();
     }
 
+    /**
+     * v0.2.2
+     */
+    if ( version_compare( $ns_existing_version, '0.2.2', '<' ) ) {
+    	ns_update_v022();
+    }
+
     update_option( 'nanosupport_version', NS()->version );
 
 }
@@ -61,8 +68,23 @@ function ns_update_v020() {
 	
 	$ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
 	if( $ns_knowledgebase_settings !== false ) {
-		$ns_knowledgebase_settings['isactive_kb'] = absint(1);
+		$ns_knowledgebase_settings['isactive_kb'] = 1;
     	
     	update_option( 'nanosupport_knowledgebase_settings', $ns_knowledgebase_settings );
+	}
+}
+
+/**
+ * Version 0.2.2 Update
+ * Update the general settings options.
+ * ...
+ */
+function ns_update_v022() {
+	$ns_general_settings = get_option( 'nanosupport_settings' );
+
+	if( $ns_general_settings !== false ) {
+		$ns_general_settings['ticket_char_limit'] = 30;
+
+    	update_option( 'nanosupport_settings', $ns_general_settings );
 	}
 }

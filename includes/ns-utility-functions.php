@@ -690,3 +690,28 @@ function ns_get_allowed_html_tags() {
 
     return implode( ', ', $tags );
 }
+
+
+/**
+ * Is ticket character limit active?
+ *
+ * Check whether the ticket character limit is active or not.
+ * If active, returns the character limit, else false.
+ *
+ * @since  1.0.0
+ *
+ * @return  integer|boolean Character limit || false
+ * --------------------------------------------------------------------------
+ */
+function ns_is_character_limit() {
+    $option = get_option( 'nanosupport_settings' );
+
+    //default
+    if( ! isset($option['ticket_char_limit']) )
+        return 30;
+
+    if( 0 == $option['ticket_char_limit'] )
+        return false;
+    else
+        return $option['ticket_char_limit'];
+}

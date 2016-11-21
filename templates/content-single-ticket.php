@@ -106,7 +106,7 @@
 		</div> <!-- /.ticket-question-card -->
 
 
-		<!-- -------------------- RESPONSES ---------------------- -->
+		<!-- +++++++++++++++++++ RESPONSES +++++++++++++++++++ -->
 
 
 		<div class="ticket-responses">
@@ -136,8 +136,8 @@
 		        foreach( $response_array as $response ) {
 					
 				//highlight the latest response on successful submission of new response
-	        	$fresh_response = isset($_GET['ns_success']) && 1 == $_GET['ns_success'] && $found_count == $counter ? 'new-response' : '';
-	        	 ?>
+	        	$fresh_response = (isset($_GET['ns_success']) || isset($_GET['ns_cm_success']) ) && $found_count == $counter ? 'new-response' : '';
+	        	?>
 
 					<div class="ticket-response-cards ns-cards <?php echo esc_attr($fresh_response); ?>">
 						<div class="ns-row">
@@ -164,7 +164,7 @@
 		    <?php } //endif ?>
 
 
-		    <!-- ------ NEW RESPONSE FORM ------ -->
+		    <!-- ++++++++++++ NEW RESPONSE FORM ++++++++++++ -->
 
 		    <?php get_nanosupport_response_form(); ?>
 

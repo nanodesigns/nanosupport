@@ -3,7 +3,7 @@ Contributors: nanodesigns, wzislam
 Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff, support ticketing
 Requires at least: 4.4.0
 Tested up to: 4.6
-Stable tag: 0.2.1
+Stable tag: 0.3.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -25,6 +25,7 @@ The plugin is to provide support to your users - the users those are taking prod
 * Completely Private ticketing
 * Ticket submission with registration
 * Ticket submission with login (Beta Feature)
+* Rich Text editor for new ticket
 * Auto generate user account's username on ticket submission (if chosen)
 * Auto generate user account's password on ticket submission (if chosen)
 * Knowledgebase (optional)
@@ -105,6 +106,9 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Frequently Asked Questions ==
 
+= Q: Is there any User Guide to using NanoSupport? =
+**A:** Yes, please consult the [**NanoSupport User Guide**](https://github.com/nanodesigns/nanosupport/wiki).
+
 = Q: How to install the Plugin? =
 **A:** Please visit the plugin's Installation page to get the details.
 
@@ -139,6 +143,20 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Changelog ==
 
+= 0.3.0 - 2016-NOV-28 =
+=== Major changes ===
+* Rich Text editor for ticket body text
+* New filter hook: `ns_wp_editor_specs`
+* Pending ticket notification using admin menu bubble
+
+= 0.2.2 - 2016-SEP-03 =
+* Ticket character limit can be set by user
+* Response character limit is deprecated
+* User can close ticket without submitting any response
+* Ticket content is added to the new ticket notification email
+* Fixed: Ticket with registration was not working on WordPress registration settings
+* Some translation strings are fixed
+
 = 0.2.1 - 2016-AUG-22 =
 * `wp_kses()` is implemented to secure site from bad user input
 * New filter hook: `ns_allowed_html`
@@ -168,5 +186,5 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Upgrade Notice ==
 
-= 0.2.1 =
-A major security hole was fixed
+= 0.3.0 =
+Rich text editor for the ticket body text
