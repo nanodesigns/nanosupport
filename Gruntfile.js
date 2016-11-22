@@ -33,7 +33,8 @@ module.exports = function(grunt) {
         uglify: {
             public: {
                 options: {
-                    sourceMap: true
+                    sourceMap: false,
+                    preserveComments: /^!/ // Preserve comments that start with a bang.
                 },
                 files: {
                     'assets/js/nanosupport.min.js': [ 'assets/js/nanosupport.js' ],
@@ -94,6 +95,70 @@ module.exports = function(grunt) {
 
 
         /**
+         Updates the translation catalog
+         @author https://www.npmjs.com/package/grunt-wp-i18n
+         */
+        makepot: {
+            target: {
+                options: {
+                    domainPath: '/i18n/languages/',
+                    exclude: ['assets/.*', 'node_modules/.*', 'vendor/.*', 'tests/.*'],
+                    mainFile: 'nanosupport.php',
+                    potComments: 'Copyright © 2016 NanoSupport',
+                    potFilename: 'nanosupport.pot',
+                    potHeaders: {
+                        poedit: true,
+                        'x-poedit-keywordslist': true,
+                        'report-msgid-bugs-to': 'https://github.com/nanodesigns/nanosupport/issues',
+                        'last-translator': 'nanodesigns (http://nanodesignsbd.com/)',
+                        'language-team': 'nanodesigns <info@nanodesignsbd.com>',
+                        'language': 'en_US'
+                    },
+                    processPot: null,
+                    type: 'wp-plugin',
+                    updateTimestamp: true
+                }
+            }
+        },
+
+
+        /**
+         * Check textdomain errors
+         * @author https://github.com/stephenharris/grunt-checktextdomain
+         */
+        checktextdomain: {
+            options:{
+                text_domain: 'nanosupport',
+                keywords: [
+                    '__:1,2d',
+                    '_e:1,2d',
+                    '_x:1,2c,3d',
+                    'esc_html__:1,2d',
+                    'esc_html_e:1,2d',
+                    'esc_html_x:1,2c,3d',
+                    'esc_attr__:1,2d',
+                    'esc_attr_e:1,2d',
+                    'esc_attr_x:1,2c,3d',
+                    '_ex:1,2c,3d',
+                    '_n:1,2,4d',
+                    '_nx:1,2,4c,5d',
+                    '_n_noop:1,2,3d',
+                    '_nx_noop:1,2,3c,4d'
+                ]
+            },
+            files: {
+                src:  [
+                    '**/*.php',         // Include all files
+                    '!node_modules/**', // Exclude node_modules/
+                    '!vendor/**',       // Exclude vendor/
+                    '!tests/**'         // Exclude tests/
+                ],
+                expand: true
+            }
+        },
+
+
+        /**
          * Watch for changes and do it
          * @author: https://github.com/gruntjs/grunt-contrib-watch
          */
@@ -104,12 +169,12 @@ module.exports = function(grunt) {
                 }
             },
             js: {
-                files: ['assets/js/nanosupport.js'],
+                files: ['assets/js/nanosupport.js', 'assets/js/nanosupport-admin.js', 'assets/js/nanosupport-dashboard.js'],
                 tasks: ['uglify']
             },
             css: {
                 files: ['assets/sass/*.scss'],
-                tasks: ['sass', 'autoprefixer', 'cssmin']
+                tasks: ['sass', 'postcss', 'cssmin']
             }
         }
 
@@ -121,6 +186,6 @@ module.exports = function(grunt) {
 
 
     // @Grunt: do the following when we will type 'grunt'
-    grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
+    grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'postcss', 'cssmin']);
 
 };
