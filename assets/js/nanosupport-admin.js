@@ -145,7 +145,11 @@ jQuery(document).ready(function($) {
         //toggle on checkbox check
         ns_notice_activator.on( 'click', function() {
             var this_elem = $(this);
-            this_elem.is(':checked') ? ns_notice_toggle_selector.show() : ns_notice_toggle_selector.hide();
+            if( this_elem.is(':checked') ) {
+                ns_notice_toggle_selector.show();
+            } else {
+                ns_notice_toggle_selector.hide();
+            }
         });
     }
 
@@ -175,7 +179,11 @@ jQuery(document).ready(function($) {
         //toggle on checkbox check
         ns_kb_activator.on( 'click', function() {
             var this_elem = $(this);
-            this_elem.is(':checked') ? ns_kb_toggle_selector.show() : ns_kb_toggle_selector.hide();
+            if( this_elem.is(':checked') ) {
+                ns_kb_toggle_selector.show();
+            } else {
+                ns_kb_toggle_selector.hide();
+            }
         });
     }
 
