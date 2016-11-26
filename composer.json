@@ -1,0 +1,61 @@
+{
+    "name": "nanodesigns/nanosupport",
+    "description": "Create a fully featured Support Center within your WordPress environment without any third party system dependency, completely FREE",
+    "type": "wordpress-plugin",
+    "keywords": [
+        "helpdesk",
+        "support",
+        "support desk",
+        "support plugin",
+        "support ticket",
+        "ticket plugin",
+        "ticket system",
+        "ticketing system",
+        "help desk",
+        "wp support ticketing",
+        "tickets",
+        "help",
+        "support staff",
+        "support ticketing"
+    ],
+    "homepage": "http://nanosupport.nanodesignsbd.com",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Mayeenul Islam",
+            "email": "wz.islam@gmail.com",
+            "homepage": "http://nishachor.com",
+            "role": "Lead Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "archive": {
+        "exclude": [
+            ".gitignore",
+            "*.sublime-workspace",
+            "*.sublime-project",
+            "apigen.neon",
+            "composer.json",
+            "composer.lock",
+            "README.md",
+            "Gruntfile.js",
+            "package.json",
+            "/node_modules",
+            "/tests",
+            "!/vendor"
+        ]
+    },
+    "support": {
+        "email": "support@nanodesignsbd.com",
+        "issues": "https://github.com/nanodesigns/nanosupport/issues",
+        "wiki": "https://github.com/nanodesigns/nanosupport/wiki",
+        "source": "https://github.com/nanodesigns/nanosupport",
+        "docs": "https://github.com/nanodesigns/nanosupport/wiki"
+    },
+    "scripts": {
+        "post-install-cmd": "npm install",
+        "pre-archive-cmd": "composer install"
+    }
+}

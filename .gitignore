@@ -1,8 +1,36 @@
 ## Exclude the following directory/files
 
-## PHP Storm specific settings directory
-.idea
+## Minified files
+assets/css/nanosupport.css
+assets/css/nanosupport-admin.css
+assets/js/nanosupport.min.js
+assets/js/nanosupport-admin.min.js
+assets/js/nanosupport-dashboard.min.js
 
-## Sublime Text specific setting files
+## Common setting
+*.log
+
+## Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+## Folder config file
+Desktop.ini
+
+## Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+## Windows shortcuts
+*.lnk
+
+## Editor settings
+.idea
 nanosupport.sublime-project
 nanosupport.sublime-workspace
+
+## Composer files
+composer.phar
+/vendor
+
+## Node
+/node_modules

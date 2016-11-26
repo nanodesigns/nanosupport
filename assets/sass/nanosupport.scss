@@ -9,20 +9,20 @@
 
 /** COLOR VARIABLES */
 
-	@red: 			#da4453;
-	@red-hover: 	#ed5565;
-	@orange: 		#f6bb42;
-	@orange-hover: 	#ffce54;
-	@green: 		#8cc152;
-	@green-hover: 	#a0d468;
-	@blue: 			#3bafda;
-	@blue-hover: 	#4fc1e9;
+	$red: 			#da4453;
+	$red-hover: 	#ed5565;
+	$orange: 		#f6bb42;
+	$orange-hover: 	#ffce54;
+	$green: 		#8cc152;
+	$green-hover: 	#a0d468;
+	$blue: 			#3bafda;
+	$blue-hover: 	#4fc1e9;
 
 /** /COLOR VARIABLES */
 
 /** Get other necessary files */
-@import (less) "../less/normalize.less";
-@import (less) "../less/nanosupport-layout.less";
+@import "../sass/normalize";
+@import "../sass/nanosupport-layout";
 
 /*! NanoSupport Styles */
 html{
@@ -52,8 +52,8 @@ body{
 	a{
 		text-decoration: none;
 		-webkit-box-shadow: 0 0 0 transparent;
-			 -moz-box-shadow: 0 0 0 transparent;
-						box-shadow: 0 0 0 transparent;
+		   -moz-box-shadow: 0 0 0 transparent;
+				box-shadow: 0 0 0 transparent;
 		border-bottom: 0;
 	}
 }
@@ -291,9 +291,9 @@ body{
 	.ticket-cards{
 		border-left-width: 10px;
 
-		&.status-open{ border-left-color: @orange; }
-		&.status-inspection{ border-left-color: @blue; }
-		&.status-solved{  border-left-color: @green; }
+		&.status-open{ border-left-color: $orange; }
+		&.status-inspection{ border-left-color: $blue; }
+		&.status-solved{  border-left-color: $green; }
 		&.status-pending{ border-left-color: #666; }
 
 		&.priority-low{ border-left-color: #666; }
@@ -311,9 +311,9 @@ body{
 	.ticket-cards{
 		border-top-width: 10px;
 
-		&.status-open{ border-top-color: @orange; }
-		&.status-inspection{ border-top-color: @blue; }
-		&.status-solved{ border-top-color: @green; }
+		&.status-open{ border-top-color: $orange; }
+		&.status-inspection{ border-top-color: $blue; }
+		&.status-solved{ border-top-color: $green; }
 		&.status-pending{ border-top-color: #666; }
 
 		&.priority-low{ border-top-color: #666; }
@@ -423,9 +423,9 @@ article.ns-single.type-nanosupport.hentry{
 	margin-bottom: 20px;
 
 	&.status-pending{ border-top-color: #666; }
-	&.status-open{ border-top-color: @orange; }
-	&.status-inspection{ border-top-color: @blue; }
-	&.status-solved{ border-top-color: @green; }
+	&.status-open{ border-top-color: $orange; }
+	&.status-inspection{ border-top-color: $blue; }
+	&.status-solved{ border-top-color: $green; }
 
 	&.priority-low{ border-top-color: #666; }
 	&.priority-medium{ border-top-color: #31708f; }
@@ -752,9 +752,9 @@ article.ns-single.type-nanosupport.hentry{
 
 /* Tooltip */
 
-@tt_prop: all;
-@tt_time: 300ms;
-@tt_ease: ease;
+$tt_prop: all;
+$tt_time: 300ms;
+$tt_ease: ease;
 
 .ns-tooltip{
 	cursor: help;
@@ -801,18 +801,18 @@ article.ns-single.type-nanosupport.hentry{
 			box-shadow: 0 0 5px #333;
 	text-align: center;
 	z-index: 5;
-	-webkit-transition: @tt_prop @tt_time @tt_ease;
-	   -moz-transition: @tt_prop @tt_time @tt_ease;
-	     -o-transition: @tt_prop @tt_time @tt_ease;
-		-ms-transition: @tt_prop @tt_time @tt_ease;
-			transition: @tt_prop @tt_time @tt_ease;
+	-webkit-transition: $tt_prop $tt_time $tt_ease;
+	   -moz-transition: $tt_prop $tt_time $tt_ease;
+	     -o-transition: $tt_prop $tt_time $tt_ease;
+		-ms-transition: $tt_prop $tt_time $tt_ease;
+			transition: $tt_prop $tt_time $tt_ease;
 	right: 16px;
 	top: 0;
 
 	code,
 	pre{
 		background-color: rgba(0,0,0,0.3);
-		color: @red;
+		color: $red;
 	}
 }
 
@@ -867,19 +867,19 @@ article.ns-single.type-nanosupport.hentry{
  * @author John Smith
  */
 @-webkit-keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
-				@keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
+		@keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
 
 .blink {
 	 text-decoration:blink;
 
 	-webkit-animation-name:blinker;
-					animation-name:blinker;  
+			animation-name:blinker;  
 	-webkit-animation-iteration-count:infinite;  
-					animation-iteration-count:infinite;  
+			animation-iteration-count:infinite;  
 	-webkit-animation-timing-function:cubic-bezier(1.0,0,0,1.0);
-					animation-timing-function:cubic-bezier(1.0,0,0,1.0);
+			animation-timing-function:cubic-bezier(1.0,0,0,1.0);
 	-webkit-animation-duration:1s; 
-					animation-duration:1s; 
+			animation-duration:1s; 
 }
 
 
@@ -895,4 +895,4 @@ article.ns-single.type-nanosupport.hentry{
  * @since 1.0.0
  * ---------------------------------------------
  */
-@import (less) "../css/nanosupport-icon-styles.css";
+@import "../css/nanosupport-icon-styles.css";

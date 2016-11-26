@@ -575,9 +575,9 @@ a.ns-label:focus {
 
 /** -------------- Tooltip -------------- **/
 
-@tt_prop: all;
-@tt_time: 500ms;
-@tt_ease: ease;
+$tt_prop: all;
+$tt_time: 500ms;
+$tt_ease: ease;
 
 .ns-tooltip{
 	cursor: help;
@@ -599,11 +599,11 @@ a.ns-label:focus {
 	right: 16px;
 	top: 0;
 
-	-webkit-transition: @tt_prop @tt_time @tt_ease;
-	   -moz-transition: @tt_prop @tt_time @tt_ease;
-	     -o-transition: @tt_prop @tt_time @tt_ease;
-		-ms-transition: @tt_prop @tt_time @tt_ease;
-			transition: @tt_prop @tt_time @tt_ease;
+	-webkit-transition: $tt_prop $tt_time $tt_ease;
+	   -moz-transition: $tt_prop $tt_time $tt_ease;
+	     -o-transition: $tt_prop $tt_time $tt_ease;
+		-ms-transition: $tt_prop $tt_time $tt_ease;
+			transition: $tt_prop $tt_time $tt_ease;
 }
 
 @media (min-width: 767px) {
@@ -634,11 +634,11 @@ a.ns-label:focus {
 			box-shadow: 0 0 5px #333;
 	text-align: center;
 	z-index: 5;
-	-webkit-transition: @tt_prop @tt_time @tt_ease;
-	   -moz-transition: @tt_prop @tt_time @tt_ease;
-	     -o-transition: @tt_prop @tt_time @tt_ease;
-		-ms-transition: @tt_prop @tt_time @tt_ease;
-			transition: @tt_prop @tt_time @tt_ease;
+	-webkit-transition: $tt_prop $tt_time $tt_ease;
+	   -moz-transition: $tt_prop $tt_time $tt_ease;
+	     -o-transition: $tt_prop $tt_time $tt_ease;
+		-ms-transition: $tt_prop $tt_time $tt_ease;
+			transition: $tt_prop $tt_time $tt_ease;
 
 	code,
 	pre{
