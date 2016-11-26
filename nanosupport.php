@@ -138,6 +138,14 @@ final class NanoSupport {
 	}
 
 	/**
+	 * Get the plugin base location.
+	 * @return string
+	 */
+	public function plugin_basename() {
+		return plugin_basename( __FILE__ );
+	}
+
+	/**
 	 * Get the template path.
 	 * @return string
 	 */
@@ -174,8 +182,8 @@ function NS() {
  * Cross Check Requirements when active
  *
  * Cross check for Current WordPress version is
- * greater than 4.4.0. Cross check whether the user
- * has privilege to activate_plugins, so that notice
+ * greater than required. Cross check whether the user
+ * has privilege to `activate_plugins`, so that notice
  * cannot be visible to any non-admin user.
  *
  * @link   http://10up.com/blog/2012/wordpress-plug-in-self-deactivation/
@@ -184,30 +192,31 @@ function NS() {
  * -----------------------------------------------------------------------
  */
 function ns_cross_check_on_activation() {
-    if ( version_compare( get_bloginfo( 'version' ), NS()->wp_version, '<=' ) ) {
+	$unmet = false;
 
-        if ( current_user_can( 'activate_plugins' ) ) {
+    if ( current_user_can( 'activate_plugins' ) ) :
+		
+		if ( ! ns_is_version_supported() ) {
+	        $unmet = true;
+	        add_action( 'admin_notices', 'ns_fail_version_admin_notice' );
+	    }
 
-            add_action( 'admin_init',       'ns_force_deactivate' );
-            add_action( 'admin_notices',    'ns_fail_dependency_admin_notice' );
+	    if ( ! ns_is_dependency_loaded() ) {
+	        $unmet = true;
+	        add_action( 'admin_notices', 'ns_fail_dependency_admin_notice' );
+	    }
+	    
+	    if( $unmet ) {
 
-            function ns_force_deactivate() {
-                deactivate_plugins( plugin_basename( __FILE__ ) );
-            }
+	        add_action( 'admin_init', 'ns_force_deactivate' );
+	        
+	        if ( isset( $_GET['activate'] ) ) {
+	            unset( $_GET['activate'] );
+	        }
 
-            function ns_fail_dependency_admin_notice() {
-                echo '<div class="updated"><p>';
-                    printf( __('<strong>NanoSupport</strong> requires WordPress core version <strong>%1$s</strong> or greater. The plugin has been <strong>deactivated</strong>. Consider <a href="%2$s">upgrading WordPress</a>.', 'nanosupport' ), NS()->wp_version, admin_url('/update-core.php') );
-                echo '</p></div>';
+	    }
 
-                if ( isset( $_GET['activate'] ) ) {
-                    unset( $_GET['activate'] );
-                }
-            }
-
-        }
-
-    }
+    endif;
 }
 
 add_action( 'plugins_loaded', 'ns_cross_check_on_activation' );

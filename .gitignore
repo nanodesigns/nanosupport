@@ -1,5 +1,12 @@
 ## Exclude the following directory/files
 
+## Minified files
+assets/css/nanosupport.css
+assets/css/nanosupport-admin.css
+assets/js/nanosupport.min.js
+assets/js/nanosupport-admin.min.js
+assets/js/nanosupport-dashboard.min.js
+
 ## Common setting
 *.log
 
