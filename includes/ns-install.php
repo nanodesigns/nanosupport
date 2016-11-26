@@ -574,10 +574,11 @@ function ns_fail_version_admin_notice() {
 function ns_fail_dependency_admin_notice() {
     echo '<div class="updated"><p>';
         printf(
-            wp_kses( __( 'NanoSupport&rsquo;s required dependencies are not loaded - plugin cannot function properly. Open the command console and run %1$s before anything else. If you are unaware what this is, please <a href="%2$s" class="thickbox">install the production version</a> instead.', 'nanosupport' ),
+            wp_kses( __( 'NanoSupport&rsquo;s required dependencies are not loaded - plugin cannot function properly. Open the command console and run %1$s before anything else, and then run %2$s. If you are unaware what this is, please <a href="%3$s" class="thickbox">install the production version</a> instead.', 'nanosupport' ),
                 array( 'a' => array('href' => array(), 'class' => true) )
             ),
             '<code>composer install</code>',
+            '<code>grunt</code>',
             esc_url( add_query_arg( array(
                 'tab'           => 'plugin-information',
                 'plugin'        => 'nanosupport',
