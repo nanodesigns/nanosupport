@@ -7,12 +7,14 @@ Stable tag: 0.3.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-Create a fully featured Support Center within your WordPress environment without any third party system dependency, completely FREE
+Create a fully featured Support Center within your WordPress environment without any third party system dependency, completely FREE. The built-in Knowledgebase is to inform public with generalized queries.
 
 == Description ==
 Create a fully featured Support Center within your WordPress environment without any third party system dependency, for completely FREE of cost.
 
-**No** 3rd party support ticketing system required, **no** external site/api dependency, **simply** create your own fully featured Support Center within your WordPress environment, and take your support into the next level.
+**No** 3rd party support ticketing system required, **no** external site/API dependency, **simply** create your own fully featured Support Center within your WordPress environment, and take your support into the next level.
+
+It has built-in Knowledgebase that is integrated to put generalized information for public acknowledgement.
 
 = What is it? =
 

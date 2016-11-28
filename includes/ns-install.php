@@ -556,8 +556,9 @@ function ns_is_version_supported() {
 function ns_fail_version_admin_notice() {
     echo '<div class="updated"><p>';
         printf(
-            wpkses( __('NanoSupport requires WordPress core version <strong>%1$s</strong> or greater. The plugin has been deactivated. Consider <a href="%2$s">upgrading WordPress</a>.', 'nanosupport' ),
-                array( 'a' => array('href' => array()), 'strong' => true )
+            /* translators: 1. minimum WordPress core version 2. WordPress update page URL */
+            wp_kses( __('NanoSupport requires WordPress core version <strong>%1$s</strong> or greater. The plugin has been deactivated. Consider <a href="%2$s">upgrading WordPress</a>.', 'nanosupport' ),
+                array( 'a' => array('href' => true), 'strong' => array() )
             ),
             NS()->wp_version,
             admin_url('update-core.php')
@@ -574,8 +575,9 @@ function ns_fail_version_admin_notice() {
 function ns_fail_dependency_admin_notice() {
     echo '<div class="updated"><p>';
         printf(
+            /* translators: 1. command 2. plugin installation link with popup thickbox (modal) */
             wp_kses( __( 'NanoSupport&rsquo;s required dependencies are not loaded - plugin cannot function properly. Open the command console and run %1$s before anything else. If you are unaware what this is, please <a href="%2$s" class="thickbox">install the production version</a> instead.', 'nanosupport' ),
-                array( 'a' => array('href' => array(), 'class' => true) )
+                array( 'a' => array('href' => true, 'class' => true) )
             ),
             '<code>composer install</code>',
             esc_url( add_query_arg( array(

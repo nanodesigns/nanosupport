@@ -44,7 +44,10 @@ function ns_submit_support_ticket() {
     //Display success message, if any
     if( isset($_GET['ns_success']) && $_GET['ns_success'] == 1 ) {
 		echo '<div class="ns-alert ns-alert-success" role="alert">';
-			printf( __( '<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible. <a href="%s" class="link-to-desk"><span class="ns-icon-tag"></span> Check your ticket[s]</a>', 'nanosupport' ), esc_url( get_permalink( $ns_general_settings['support_desk'] ) ) );
+			echo wp_kses( __( '<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible.', 'nanosupport' ), array('strong' => array()) );
+			echo '&nbsp;<a href="'. get_permalink( $ns_general_settings['support_desk'] ) .'" class="link-to-desk"><span class="ns-icon-tag"></span>&nbsp;';
+				_e( 'Check your tickets', 'nanosupport' );
+			echo '</a>';
 	    echo '</div>';
 	}
 
@@ -113,11 +116,22 @@ function ns_submit_support_ticket() {
 							<?php
 							$character_limit = ns_is_character_limit();
 							if( $character_limit ) {
-								/* translators: 1. character limit 2. allowed HTML tags */
-								echo ns_tooltip( sprintf( __( 'Write down your issue in details... At least %1$s characters is a must.<br><small><strong>Allowed HTML Tags:</strong><br>%2$s</small>', 'nanosupport' ), $character_limit, ns_get_allowed_html_tags() ), 'bottom' );
+								/* translators: character limit to the ticket content, in number */
+								$content_tooltip_msg = sprintf( __( 'Write down your issue in details... At least %s characters is a must.', 'nanosupport' ), $character_limit );
+								$content_tooltip_msg .= '<br><small>';
+									/* translators: allowed HTML tags to the plugin */
+									$content_tooltip_msg .= sprintf( __( '<strong>Allowed HTML Tags:</strong><br> %s', 'nanosupport' ), ns_get_allowed_html_tags() );
+								$content_tooltip_msg .= '</small>';
+
+								echo ns_tooltip( $content_tooltip_msg, 'bottom' );
 							} else {
-								/* translators: allowed HTML tags */
-								echo ns_tooltip( sprintf( __( 'Write down your issue in details...<br><small><strong>Allowed HTML Tags:</strong><br>%s</small>', 'nanosupport' ), ns_get_allowed_html_tags() ), 'bottom' );
+								$content_tooltip_msg = __( 'Write down your issue in details...', 'nanosupport' );
+								$content_tooltip_msg .= '<br><small>';
+									/* translators: allowed HTML tags to the plugin */
+									$content_tooltip_msg .= sprintf( __( '<strong>Allowed HTML Tags:</strong><br> %s', 'nanosupport' ), ns_get_allowed_html_tags() );
+								$content_tooltip_msg .= '</small>';
+
+								echo ns_tooltip( $content_tooltip_msg, 'bottom' );
 							}
 							?>
 						</div>
@@ -379,11 +393,15 @@ function ns_submit_support_ticket() {
 								<div class="ns-form-group">
 								<?php if( 1 == get_option('users_can_register') ) { ?>
 									<p class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12">
-										<?php printf( __( 'Don&rsquo;t have an account? <a href="%1s">Create one</a>', 'nanosupport' ), esc_url( get_the_permalink() ) ); ?>
+										<?php
+										/* translators: submit ticket with registration URL */
+										printf( wp_kses( __( 'Don&rsquo;t have an account? <a href="%1s">Create one</a>', 'nanosupport' ), array('a'=>array('href'=>true)) ), esc_url( get_the_permalink() ) ); ?>
 									</p>
 								<?php } else { ?>
 									<p class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12 ns-text-dim">
-										<?php printf( __( '<a href="%1s">Cancel Login</a>. But sorry, registration is closed now', 'nanosupport' ), esc_url( get_the_permalink() ) ); ?>
+										<?php
+										/* translators: submit ticket with registration URL */
+										printf( wp_kses( __( '<a href="%1s">Cancel Login</a>. But sorry, registration is closed now', 'nanosupport' ), array('a'=>array('href'=>true)) ), get_the_permalink() ); ?>
 									</p>
 								<?php } //endif ?>
 								</div> <!-- /.ns-form-group -->
@@ -410,7 +428,8 @@ function ns_submit_support_ticket() {
 									&nbsp;
 									<?php
 									$current_user = wp_get_current_user();
-									printf( __('<strong>Submitting as:</strong> %s', 'nanosupport'), $current_user->display_name ); ?>
+									/* translators: logged in user display name */
+									printf( wp_kses( __('<strong>Submitting as:</strong> %s', 'nanosupport'), array('strong'=>array()) ), $current_user->display_name ); ?>
 									&nbsp;(<a href="<?php echo wp_logout_url( get_permalink() ); ?>"><?php _e('Log out', 'nanosupport') ?></a>)
 								</span>
 							<?php endif; ?>

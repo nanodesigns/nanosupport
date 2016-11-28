@@ -95,7 +95,7 @@ function ns_knowledgebase_page() {
 							echo '</h4>';
 							if( $term_desc ) {
 								echo '<div class="nanodoc-term-desc ns-small">';
-									echo $term_desc;
+									echo esc_html( $term_desc );
 								echo '</div>';
 							}
 						echo '</div> <!-- /.nanodoc-term-box-inner -->';
@@ -123,7 +123,7 @@ function ns_knowledgebase_page() {
 				 * 
 				 * @since  1.0.0
 				 *
-				 * @param string  $text Header text. Default 'Documentaion'.
+				 * @param string  $text Header text. Default 'Documentation'.
 				 * -----------------------------------------------------------------------
 				 */
 				echo '<h3 class="ticket-separator ticket-separator-center ns-text-uppercase">';
@@ -206,7 +206,7 @@ function ns_knowledgebase_page() {
 							// If the found entries exceeds the preset maximum entries, display the 'See all' button
 							if( $kb_found_entries > $kb_posts_per_category ) :
 								echo '<a class="ns-btn ns-btn-xs ns-btn-primary" href="'. get_term_link( $kb_term, 'nanodoc_category' ) .'"><strong>';
-									_e( 'All entries &raquo;', 'nanosupport' );
+									echo __( 'All entries', 'nanosupport' ) .' &raquo;';
 								echo '</strong></a>';
 							endif;
 
@@ -227,7 +227,8 @@ function ns_knowledgebase_page() {
 
 				echo '<div class="ns-alert ns-alert-info" role="alert">';
 					if( ns_is_user('manager') )
-						printf( __( 'Nothing to display on Knowledgebase. Please <a href="%s">Add</a> some documentation first.', 'nanosupport' ), admin_url('post-new.php?post_type=nanodoc') );
+						/* translators: URL to add new knowledgebase doc */
+						printf( wp_kses( __( 'Nothing to display on Knowledgebase. Please <a href="%s">Add some documentation</a> first.', 'nanosupport' ), array('a'=>array( 'href'=>true )) ), admin_url('post-new.php?post_type=nanodoc') );
 					else
 						_e( 'Nothing to display on Knowledgebase.', 'nanosupport' );
 				echo '</div>';

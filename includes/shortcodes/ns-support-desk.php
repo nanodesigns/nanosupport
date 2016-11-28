@@ -182,6 +182,7 @@ function ns_support_desk_page() {
 							            $last_responder = get_userdata( $last_response['user_id'] );
 							            if ( $last_responder ) {
 							                echo $last_responder->display_name, '<br>';
+							                /* translators: time difference from current time. eg. 12 minutes ago */
 							                printf( __( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
 							            } else {
 							                echo '-';
@@ -205,15 +206,24 @@ function ns_support_desk_page() {
 
 			else :
 				echo '<div class="ns-alert ns-alert-info" role="alert">';
-					_e( '<strong>Nice!</strong> You do not have any support ticket to display.', 'nanosupport' );
+					esc_html_e( 'Nice! You do not have any support ticket to display.', 'nanosupport' );
 				echo '</div>';
 			endif;
 			wp_reset_postdata();
 
 		else :
 			//User is not logged in
-			printf( __( 'Sorry, you cannot see your tickets without being logged in.<br><a class="ns-btn ns-btn-default ns-btn-sm" href="%1s" title="Site Login"><span class="ns-icon-lock"></span> Login</a> or <a class="ns-btn ns-btn-default ns-btn-sm" href="%2s" title="Site Registration"><span class="ns-icon-lock"></span> Create an account</a>', 'nanosupport' ), wp_login_url(), wp_registration_url() );
-			
+			_e( 'Sorry, you cannot see your tickets without being logged in.', 'nanosupport' );
+			echo '<br>';
+			echo '<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_login_url() .'"><span class="ns-icon-lock"></span>&nbsp;';
+				_e( 'Login', 'nanosupport' );
+			echo '</a>&nbsp;';
+			/* translators: context: login 'or' register */
+			_e( 'or', 'nanosupport' );
+			echo '&nbsp;<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_registration_url() .'"><span class="ns-icon-lock"></span>&nbsp;';
+				_e( 'Create an account', 'nanosupport' );
+			echo '</a>';
+
 		endif; //if( is_user_logged_in() )
 
 		/**

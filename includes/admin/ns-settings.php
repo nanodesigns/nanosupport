@@ -74,6 +74,7 @@ function nanosupport_settings_options_init(){
         );
         add_settings_field(
             'ticket_char_limit',                        // ID*
+            /* translators: context: ...limit to # characters */
             __( 'Set ticket character limit to', 'nanosupport' ),      // Title*
             'ns_ticket_character_limit',                // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*

@@ -85,7 +85,9 @@ function ns_reply_specifics() {
                         $del_response_link = wp_nonce_url( $del_response_link, 'delete-ticket-response' );
                         ?>
                         <div class="response-handle">
-                            <?php printf( __( 'Response #%s', 'nanosupport' ), $counter ); ?>
+                            <?php
+                            /* translators: counting number of the response */
+                            printf( __( 'Response #%s', 'nanosupport' ), $counter ); ?>
                             <a id="<?php echo $response->comment_ID; ?>" class="delete-response dashicons dashicons-dismiss" href="<?php echo esc_url($del_response_link); ?>" title="<?php esc_attr_e( 'Delete this Response', 'nanosupport' ); ?>"></a>
                         </div> <!-- /.response-handle -->
                     </div> <!-- /.ns-row -->
@@ -135,7 +137,7 @@ function ns_reply_specifics() {
                 <div class="ns-feedback-form">
 
                     <div class="ns-form-group">
-                        <textarea class="ns-field-item" name="ns_new_response" id="ns-new-response" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>" placeholder="<?php esc_attr_e('Write down your response (at least 30 characters)', 'nanosupport'); ?>"><?php echo isset($_POST['ns_new_response']) ? $_POST['ns_new_response'] : ''; ?></textarea>
+                        <textarea class="ns-field-item" name="ns_new_response" id="ns-new-response" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>" placeholder="<?php esc_attr_e('Write down your response', 'nanosupport'); ?>"><?php echo isset($_POST['ns_new_response']) ? $_POST['ns_new_response'] : ''; ?></textarea>
                     </div> <!-- /.ns-form-group -->
                     <button id="ns-save-response" class="button button-large button-primary ns-btn"><?php _e('Save Response', 'nanosupport' ); ?></button>
 

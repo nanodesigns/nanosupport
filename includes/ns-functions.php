@@ -526,15 +526,15 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
         //Display success message, if any
         if( isset($_GET['ns_success']) ) {
             echo '<div class="ns-alert ns-alert-success" role="alert">';
-                echo __( '<strong>Success:</strong> Your response is successfully submitted to this ticket.', 'nanosupport' );
+                echo wp_kses( __( '<strong>Success:</strong> Your response is successfully submitted to this ticket.', 'nanosupport' ), array('strong' => array()) );
             echo '</div>';
         } else if( isset($_GET['ns_cm_success']) ) {
             echo '<div class="ns-alert ns-alert-success" role="alert">';
-                echo __( '<strong>Success:</strong> The ticket is marked as &lsquo;Solved&rsquo; with this response.', 'nanosupport' );
+                echo wp_kses( __( '<strong>Success:</strong> The ticket is marked as &lsquo;Solved&rsquo; with this response.', 'nanosupport' ), array('strong' => array()) );
             echo '</div>';
         } else if( isset($_GET['ns_closed']) ) {
             echo '<div class="ns-alert ns-alert-success" role="alert">';
-                echo __( '<strong>Success:</strong> You just marked the ticket as &lsquo;Solved&rsquo;.', 'nanosupport' );
+                echo wp_kses( __( '<strong>Success:</strong> You just marked the ticket as &lsquo;Solved&rsquo;.', 'nanosupport' ), array('strong' => array()) );
             echo '</div>';
         }
 
@@ -545,7 +545,10 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
         if( 'solved' === $ticket_meta['status']['value'] && ! ( isset( $_GET['reopen'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'reopen-ticket' ) ) ) {
             $reopen_url = add_query_arg( 'reopen', '', get_the_permalink() );
             echo '<div class="ns-alert ns-alert-success" role="alert">';
-                printf( __( 'This ticket is already solved. <a class="ns-btn ns-btn-sm ns-btn-warning" href="%s#write-message"><span class="ns-icon-repeat"></span> Reopen Ticket</a>', 'nanosupport' ), wp_nonce_url( $reopen_url, 'reopen-ticket' ) );
+                echo __( 'This ticket is already solved.', 'nanosupport' );
+                echo '&nbsp;<a class="ns-btn ns-btn-sm ns-btn-warning" href="'. wp_nonce_url( $reopen_url, 'reopen-ticket' ) .'#write-message"><span class="ns-icon-repeat"></span>&nbsp;';
+                    _e( 'Reopen Ticket', 'nanosupport' );
+                echo '</a>';
             echo '</div>';
 
             // and don't display the form
@@ -564,7 +567,9 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
                         <div class="ns-col-sm-9">
                             <div class="response-head">
                                 <h3 class="ticket-head" id="new-response">
-                                    <?php printf( __('Responding as: %s','nanosupport'), $current_user->display_name ); ?>
+                                    <?php
+                                    /* translators: User display name */
+                                    printf( __('Responding as: %s','nanosupport'), $current_user->display_name ); ?>
                                 </h3>
                             </div> <!-- /.response-head -->
                         </div>
@@ -575,7 +580,7 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
                     <div class="ns-feedback-form">
 
                         <div class="ns-form-group">
-                            <textarea name="ns_response_msg" id="write-message" class="ns-form-control" placeholder="<?php _e('Write down your response', 'nanosupport'); ?>" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>"><?php echo isset($_POST['ns_response_msg']) ? $_POST['ns_response_msg'] : ''; ?></textarea>
+                            <textarea name="ns_response_msg" id="write-message" class="ns-form-control" placeholder="<?php esc_attr_e('Write down your response', 'nanosupport'); ?>" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>"><?php echo isset($_POST['ns_response_msg']) ? $_POST['ns_response_msg'] : ''; ?></textarea>
                         </div> <!-- /.ns-form-group -->
 
                         <?php
@@ -614,9 +619,9 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
 
             echo '<div class="ns-alert ns-alert-info" role="alert">';
                 if( 'solved' === $ticket_meta['status']['value'] ) {
-                    _e( '<strong>Resolved!</strong> New Responses to this ticket is already closed. Only ticket author can reopen a closed ticket.', 'nanosupport' );
+                    echo wp_kses( __( '<strong>Resolved!</strong> New Responses to this ticket is already closed. Only ticket author can reopen a closed ticket.', 'nanosupport' ), array('strong' => array()) );
                 } else {
-                    _e( '<strong>Sorry!</strong> Tickets are open for responses only to the Ticket Author.', 'nanosupport' );
+                    echo wp_kses( __( '<strong>Sorry!</strong> Tickets are open for responses only to the Ticket Author.', 'nanosupport' ), array('strong' => array()) );
                 }
             echo '</div>';
 
@@ -645,13 +650,16 @@ function ns_notify_user_on_opening_ticket() {
 
     if( 'pending' === $ticket_meta['status']['value'] ) {
         echo '<div class="ns-alert ns-alert-normal" role="alert">';
-            _e( '<strong>Just to inform:</strong> This ticket is still <em>pending</em>. With this response it&rsquo;ll be opened.', 'nanosupport' );
+            echo wp_kses( __( '<strong>Just to inform:</strong> This ticket is still <em>pending</em>. With this response it&rsquo;ll be opened.', 'nanosupport' ), array('strong' => array(), 'em' => array()) );
         echo '</div>';
     }
 
     if( 'solved' === $ticket_meta['status']['value'] && isset( $_GET['reopen'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'reopen-ticket' ) ) {
         echo '<div class="ns-alert ns-alert-warning" role="alert">';
-            printf( __( '<strong>Just to inform:</strong> you are about to ReOpen the ticket. <a class="ns-small" href="%s">Cancel ReOpening</a>', 'nanosupport' ), get_the_permalink($post) );
+            echo wp_kses( __( '<strong>Just to inform:</strong> you are about to ReOpen the ticket.', 'nanosupport' ), array('strong' => array()) );
+            echo '&nbsp;<a class="ns-small" href="'. get_the_permalink($post) .'">';
+                echo __( 'Cancel ReOpening', 'nanosupport' );
+            echo '</a>';
         echo '</div>';
     }
 }

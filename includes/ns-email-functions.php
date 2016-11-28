@@ -110,13 +110,14 @@ function nanosupport_new_ticket_notification_email( $new_status, $old_status, $p
         $post_excerpt     = wp_trim_words( $post->post_content, 70, null );
         
 
+        /* translators: Site title */
         $subject = sprintf ( __( 'New Ticket Submitted — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
 
         $email_subhead = __( 'New Ticket Submitted', 'nanosupport' );
 
         $message = '';
         // Ticket message
-        $message = '<p style="margin: 0 0 16px;">'. __( 'A support ticket is submitted and is <strong>Pending</strong>.', 'nanosupport' ) .'</p>';
+        $message = '<p style="margin: 0 0 16px;">'. wp_kses( __( 'A support ticket is submitted and is <strong>Pending</strong>.', 'nanosupport' ), array('strong' => array()) ) .'</p>';
 
         // Ticket title and body content
         $message .= '<div style="border-left: 5px solid #ccc;padding-top: 10px;padding-left: 20px;padding-bottom: 10px;">';
@@ -168,20 +169,36 @@ function nanosupport_handle_account_opening_email( $user_id = '', $generated_pas
     $username   = $user ? $user->user_login : '';
     $email      = $user ? $user->user_email : '';
 
+    /* translators: Site title */
     $subject = sprintf ( __( 'Account Created — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
 
     $email_subhead = __( 'Welcome to your Account', 'nanosupport' );
 
     //Email Content
     $message = '';
+    /* translators: Site title */
     $message = '<p style="margin: 0 0 16px;">'. sprintf( __( 'To manage your support tickets an account has been created on %s.', 'nanosupport' ), get_bloginfo( 'name', 'display' ) ) .'</p>';
     $message .= '<p style="margin: 0 0 16px;">'. __( 'Account credentials are as following:', 'nanosupport' ) .'</p>';
-    if( !empty($generated_password) )
-        $message .= '<p style="margin: 0 0 20px 20px;">'. sprintf( __( 'Username: <strong>%1$s</strong><br>Password: <strong>%2$s</strong><br>Email: %3$s', 'nanosupport' ), $username, $generated_password, $email ) .'</p>';
-    else
-        $message .= '<p style="margin: 0 0 20px 20px;">'. sprintf( __( 'Username: %1$s<br>Password: %2$s<br>Email: %3$s', 'nanosupport' ), $username, '<em>'. __( 'Your Password', 'nanosupport' ) .'</em>', $email ) .'</p>';
+    
+    $message .= '<p style="margin: 0 0 20px 20px;">';
+        $message .= sprintf( wp_kses( __( 'Username: <strong>%s</strong>', 'nanosupport' ), array('strong' => array()) ), $username );
+        $message .= '<br>';
+        if( ! empty($generated_password) ) {
+            $message .= sprintf( wp_kses( __( 'Password: <strong>%s</strong>', 'nanosupport' ), array('strong'=>array()) ), $generated_password );
+        } else {
+            $message .= wp_kses( __( 'Password: <em>Your Password</em>', 'nanosupport' ), array('em' => array()) );
+        }
+        $message .= '<br>';
+        $message .= sprintf( wp_kses( __( 'Email: <strong>%s</strong>', 'nanosupport' ), array('strong'=>array()) ), $email );
+    $message .= '</p>';
+
     $message .= '<p style="margin: 0 0 16px;">'. __( 'You can edit your account details and reset your password from your Profile', 'nanosupport' ) .'</p>';
-    $message .= '<p style="margin: 0 0 16px;">'. sprintf( __( 'Log in here: <a style="color: #1c5daa; text-decoration: none;" href="%1$s" target="_blank" title="Account Login URL">%1$s</a>', 'nanosupport' ), esc_url( wp_login_url() ) ) .'</p>';
+    
+    $message .= '<p style="margin: 0 0 16px;">';
+        /* translators: The next thing is the link to the site login URL */
+        $message .= __( 'Log in here:', 'nanosupport' );
+        $message .= '&nbsp;<a style="color: #1c5daa; text-decoration: none;" href="'. wp_login_url() .'" target="_blank" title="'. esc_attr__( 'Account Login URL', 'nanosupport' ) .'">'. wp_login_url() .'</a>';
+    $message .= '</p>';
 
     //send the email
     $password_email = ns_email( $email, $subject, $email_subhead, $message );
@@ -227,14 +244,19 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
 
     //Don't send email on self-response
     if( $notify_support_seeker_on_responses && ( $last_response['user_id'] != $author_id ) && isset($author_email) && is_email($author_email) ) :
+        /* translators: Site title */
         $subject = sprintf ( esc_html__( 'Your ticket is replied — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
 
         $email_subhead = __( 'Support Ticket Replied', 'nanosupport' );
 
         //Email Content
         $message = '';
-        $message = '<p style="margin: 0 0 16px;">'. sprintf( __( 'Your support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied by <em>%3$s</em>.', 'nanosupport' ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) ) .'</p>';
-        $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. esc_url(get_permalink($post_id)) .'">'. __( 'View Ticket', 'nanosupport' ) .'</a></p>';
+        $message = '<p style="margin: 0 0 16px;">';
+            /* translators: 1. ticket title 2. site title 3. user display name */
+            $message .= sprintf( wp_kses( __( 'Your support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied by <em>%3$s</em>.', 'nanosupport' ), array('strong'=>array(), 'em'=>array()) ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) );
+        $message .= '</p>';
+
+        $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. get_permalink($post_id) .'">'. __( 'View Ticket', 'nanosupport' ) .'</a></p>';
 
         //Send the email
         ns_email( $author_email, $subject, $email_subhead, $message );
@@ -256,14 +278,19 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
 
         if( isset($agent_email) && is_email($agent_email) ) :
 
+            /* translators: Site title */
             $subject = sprintf ( __( 'An assigned ticket is replied — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
 
             $email_subhead = __( 'Support Ticket Replied', 'nanosupport' );
 
             //Email Content
             $message = '';
-            $message = '<p style="margin: 0 0 16px;">'. sprintf( __( 'An assigned support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied by <em>%3$s</em>.', 'nanosupport' ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) ) .'</p>';
-            $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. esc_url(get_permalink($post_id)) .'">'. __( 'View Ticket', 'nanosupport' ) .'</a></p>';
+            $message = '<p style="margin: 0 0 16px;">';
+                /* translators: 1. ticket title 2. site title 3. user display name */
+                $message .= sprintf( wp_kses( __( 'An assigned support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied by <em>%3$s</em>.', 'nanosupport' ), array('strong'=>array(), 'em'=>array()) ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) );
+            $message .= '</p>';
+
+            $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. get_permalink($post_id) .'">'. __( 'View Ticket', 'nanosupport' ) .'</a></p>';
 
             //Send the email
             ns_email( $agent_email, $subject, $email_subhead, $message );
