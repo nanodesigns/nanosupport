@@ -228,65 +228,6 @@ function ns_create_nanosupport_taxonomies() {
     if( ! taxonomy_exists( 'nanosupport_department' ) )
         register_taxonomy( 'nanosupport_department', array( 'nanosupport' ), $args );
 
-
-
-    /**
-     * Insert default term
-     *
-     * Insert default term 'Support' to the taxonomy 'nanosupport_department'.
-     *
-     * Term: 'support'
-     * ...
-     */
-    wp_insert_term(
-        __( 'Support', 'nanosupport' ), // the term 
-        'nanosupport_department',      // the taxonomy
-        array(
-            'description'=> __( 'Support department is dedicated to provide the necessary support', 'nanosupport' ),
-            'slug' => 'support'
-        )
-    );
-
 }
 
 add_action( 'init', 'ns_create_nanosupport_taxonomies', 0 );
-
-
-/**
- * Make a Default Taxonomy Term for 'nanosupport_department'
- *
- * @link http://wordpress.mfields.org/2010/set-default-terms-for-your-custom-taxonomies-in-wordpress-3-0/
- *
- * @author    Michael Fields     http://wordpress.mfields.org/
- * @props     John P. Bloch      http://www.johnpbloch.com/
- *
- * @since     2010-09-13
- * @alter     2010-09-14
- *
- * @since     1.0.0
- *
- * @license   GPLv2
- * -----------------------------------------------------------------------
- */
-function ns_set_default_object_terms( $post_id ) {
-    
-    //wp_get_post_terms() doesn't take $post_id as integer, it takes $post as an object
-    $post_id = is_object($post_id) ? $post_id->ID : $post_id;
-
-    if ( 'publish' === get_post_status( $post_id ) || 'private' === get_post_status( $post_id ) ) {
-        $defaults = array(
-                'nanosupport_department' => array( 'support' )
-            );
-        
-        $taxonomies = get_object_taxonomies( get_post_type( $post_id ) );
-        foreach ( (array) $taxonomies as $taxonomy ) {
-            $terms = wp_get_post_terms( $post_id, $taxonomy );
-            if ( empty( $terms ) && array_key_exists( $taxonomy, $defaults ) ) {
-                wp_set_object_terms( $post_id, $defaults[$taxonomy], $taxonomy );
-            }
-        }
-    }
-}
-
-add_action( 'save_post',        'ns_set_default_object_terms', 100 );
-add_action( 'new_to_publish',   'ns_set_default_object_terms', 100 );

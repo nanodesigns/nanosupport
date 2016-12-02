@@ -33,7 +33,6 @@ The plugin is to provide support to your users - the users those are taking prod
 * Knowledgebase (optional)
 * Knowledgebase content categories
 * Ticket departments
-* Default ticket department 'Support'
 * Make agent from registered users
 * Assign ticket to an agent
 * Change ticket status (Pending, Open, Under Inspection, Solved)

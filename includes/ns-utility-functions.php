@@ -137,11 +137,11 @@ function ns_get_ticket_departments( $post_id = null ) {
 
     $_departments = get_the_terms( $post_id, 'nanosupport_department' );
 
-    $department_count = count($_departments);
-    $departments = '';
-
     if ( $_departments && ! is_wp_error( $_departments ) ) :
         $counter = 1;
+        $department_count = count($_departments);
+        $departments = '';
+        
         foreach ( $_departments as $department ) {
            $departments .= $department->name;
            if( $department_count != $counter )
@@ -149,6 +149,8 @@ function ns_get_ticket_departments( $post_id = null ) {
 
            $counter++;
         }
+    else :
+        $departments = '&mdash;';
     endif;
 
     return $departments;

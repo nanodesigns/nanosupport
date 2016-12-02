@@ -176,16 +176,60 @@ function ns_submit_support_ticket() {
 							<?php echo ns_tooltip( __( 'Choose the priority of the issue', 'nanosupport' ), 'bottom' ); ?>
 						</div>
 						<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12 ns-form-inline">
-							<?php $sub_val = !empty($_POST['ns_ticket_priority']) ? $_POST['ns_ticket_priority'] : 'low'; ?>
+							<?php $submit_val = !empty($_POST['ns_ticket_priority']) ? $_POST['ns_ticket_priority'] : 'low'; ?>
 							<select class="ns-form-control" name="ns_ticket_priority" id="ns-ticket-priority" required>
-								<option value="" <?php selected( $sub_val, '' ); ?>><?php _e( 'Select a priority', 'nanosupport' ); ?></option>
-								<option value="low" <?php selected( $sub_val, 'low' ); ?>><?php _e( 'Low', 'nanosupport' ); ?></option>
-								<option value="medium" <?php selected( $sub_val, 'medium' ); ?>><?php _e( 'Medium', 'nanosupport' ); ?></option>
-								<option value="high" <?php selected( $sub_val, 'high' ); ?>><?php _e( 'High', 'nanosupport' ); ?></option>
-								<option value="critical" <?php selected( $sub_val, 'critical' ); ?>><?php _e( 'Critical', 'nanosupport' ); ?></option>
+								<option value="" <?php selected( $submit_val, '' ); ?>><?php _e( 'Select a priority', 'nanosupport' ); ?></option>
+								<option value="low" <?php selected( $submit_val, 'low' ); ?>><?php _e( 'Low', 'nanosupport' ); ?></option>
+								<option value="medium" <?php selected( $submit_val, 'medium' ); ?>><?php _e( 'Medium', 'nanosupport' ); ?></option>
+								<option value="high" <?php selected( $submit_val, 'high' ); ?>><?php _e( 'High', 'nanosupport' ); ?></option>
+								<option value="critical" <?php selected( $submit_val, 'critical' ); ?>><?php _e( 'Critical', 'nanosupport' ); ?></option>
 							</select>
 						</div>
 					</div> <!-- /.ns-form-group -->
+
+					<?php
+					$display_department = isset($ns_general_settings['is_department_visible']) ? absint($ns_general_settings['is_department_visible']) : false;
+
+					if( $display_department  ) { ?>
+
+						<!-- TICKET DEPARTMENTS -->
+						<div class="ns-form-group">
+							<label for="ns-ticket-department" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
+								<?php _e( 'Department', 'nanosupport' ); ?>
+							</label>
+							<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
+								<?php echo ns_tooltip( __( 'Choose a department to which you want to notify about the ticket', 'nanosupport' ), 'bottom' ); ?>
+							</div>
+							<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12 ns-form-inline">
+								<?php $submit_val = ! empty($_POST['ns_ticket_department']) ? $_POST['ns_ticket_department'] : ''; ?>
+								<?php
+								$ns_dept_args = array(
+											'show_option_all'    => '',
+											'show_option_none'   => __( 'Select a Department', 'nanosupport' ),
+											'option_none_value'	 => '',
+											'orderby'            => 'ID', 
+											'order'              => 'ASC',
+											'show_count'         => 0,
+											'hide_empty'         => 0,
+											'child_of'           => 0,
+											'exclude'            => '',
+											'echo'               => true,
+											'selected'           => $submit_val,
+											'hierarchical'       => 0, 
+											'name'               => 'ns_ticket_department',
+											'id'                 => 'ns-ticket-department',
+											'class'              => 'postform ns-form-control',
+											'depth'              => 0,
+											'tab_index'          => 0,
+											'taxonomy'           => 'nanosupport_department',
+											'hide_if_empty'      => false
+										);
+								wp_dropdown_categories( $ns_dept_args );
+								?>
+							</div>
+						</div> <!-- /.ns-form-group -->
+
+					<?php } //endif( $display_department  ) ?>
 
 
 					<?php if( ! is_user_logged_in() ) { ?>

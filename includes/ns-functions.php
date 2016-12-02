@@ -60,26 +60,32 @@ function ns_handle_registration_login_ticket_submission() {
     $ns_errors  = array();
 
     //Ticket Subject
-    if( empty( $_POST['ns_ticket_subject'] ) )
+    if( empty( $_POST['ns_ticket_subject'] ) ) {
         $ns_errors[]    = __( 'Ticket subject can&rsquo;t be empty', 'nanosupport' );
-    else
+    } else {
         $ticket_subject = $_POST['ns_ticket_subject'];
+    }
 
     //Ticket Details
     $character_limit = ns_is_character_limit();
-    if( empty( $_POST['ns_ticket_details'] ) )
+    if( empty( $_POST['ns_ticket_details'] ) ) {
         $ns_errors[]    = __( 'Ticket details can&rsquo;t be empty', 'nanosupport' );
-    else if( ! empty( $_POST['ns_ticket_details'] ) && $character_limit && strlen( $_POST['ns_ticket_details'] ) < $character_limit )
+    } else if( ! empty( $_POST['ns_ticket_details'] ) && $character_limit && strlen( $_POST['ns_ticket_details'] ) < $character_limit ) {
         $ns_errors[]    = sprintf( __( 'Write down a little detail. At least %s characters or longer', 'nanosupport' ), $character_limit );
-    else
+    } else {
         $ticket_details = $_POST['ns_ticket_details'];
+    }
 
 
     //Ticket Priority
-    if( empty( $_POST['ns_ticket_priority'] ) )
+    if( empty( $_POST['ns_ticket_priority'] ) ) {
         $ns_errors[]        = __( 'Ticket priority must be set', 'nanosupport' );
-    else
+    } else {
         $ticket_priority    = $_POST['ns_ticket_priority'];
+    }
+
+    // Ticket Department
+    $ticket_department      = ! empty($_POST['ns_ticket_department']) ? $_POST['ns_ticket_department'] : '';
 
 
     /**
@@ -252,6 +258,8 @@ function ns_handle_registration_login_ticket_submission() {
         return;
     }
 
+    //Get the NanoSupport Settings from Database
+    $ns_general_settings = get_option( 'nanosupport_settings' );
 
     /**
      * Save Ticket Information.
@@ -274,11 +282,18 @@ function ns_handle_registration_login_ticket_submission() {
 
                             'post_title'        => wp_strip_all_tags( $ticket_subject ),
                             'post_content'      => $ticket_details,
-                            'post_date'         => date( 'Y-m-d H:i:s', current_time( 'timestamp' ) )
+                            'post_date'         => date( 'Y-m-d H:i:s', current_time('timestamp') )
                         ) );
 
-        //set to 'support' department (whatever the user role is...)
-        wp_set_object_terms( $ticket_post_id, 'support', 'nanosupport_department' );
+        /**
+         * Assign department from user choice, if enabled.
+         */
+        $display_department = isset($ns_general_settings['is_department_visible']) ? absint($ns_general_settings['is_department_visible']) : false;
+        
+        //set the department if one is chosen (whatever the user role is...)
+        if( $display_department && ! empty($ticket_department) ) {
+            wp_set_object_terms( $ticket_post_id, (int) $ticket_department, 'nanosupport_department' );
+        }
 
         //insert the meta information into postmeta
         add_post_meta( $ticket_post_id, '_ns_ticket_status',   'open' );
@@ -286,9 +301,6 @@ function ns_handle_registration_login_ticket_submission() {
         add_post_meta( $ticket_post_id, '_ns_ticket_agent',    '' ); //empty: no ticket agent's assigned
 
     }
-
-    //Get the NanoSupport Settings from Database
-    $ns_general_settings = get_option( 'nanosupport_settings' );
 
     //Redirect to the same page with success message
     $args = add_query_arg(
