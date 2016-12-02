@@ -178,8 +178,8 @@ function ns_support_desk_page() {
 									<div class="text-blocks">
 										<strong><?php _e( 'Last Replied by:', 'nanosupport' ); ?></strong><br>
 										<?php
-										$last_response = ns_get_last_response();
-							            $last_responder = get_userdata( $last_response['user_id'] );
+										$last_response  = ns_get_last_response();
+										$last_responder = get_userdata( $last_response['user_id'] );
 							            if ( $last_responder ) {
 							                echo $last_responder->display_name, '<br>';
 							                /* translators: time difference from current time. eg. 12 minutes ago */
