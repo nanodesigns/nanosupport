@@ -20,36 +20,27 @@ php:
 # Declare which versions of WordPress to test against.
 # Also declare whether or not to test in Multisite.
 env:
-    - TRAVIS_NODE_VERSION="4"
     # Trunk
     # @link https://github.com/WordPress/WordPress
     - WP_VERSION=master WP_MULTISITE=0
-    - WP_VERSION=master WP_MULTISITE=1
     # WordPress 4.7
     # @link https://github.com/WordPress/WordPress/tree/4.7-branch
     - WP_VERSION=4.7 WP_MULTISITE=0
-    - WP_VERSION=4.7 WP_MULTISITE=1
     # WordPress 4.6
     # @link https://github.com/WordPress/WordPress/tree/4.6-branch
     - WP_VERSION=4.6 WP_MULTISITE=0
-    - WP_VERSION=4.6 WP_MULTISITE=1
     # WordPress 4.5
     # @link https://github.com/WordPress/WordPress/tree/4.5-branch
     - WP_VERSION=4.5 WP_MULTISITE=0
-    - WP_VERSION=4.5 WP_MULTISITE=1
     # WordPress 4.4
     # @link https://github.com/WordPress/WordPress/tree/4.4-branch
     - WP_VERSION=4.4 WP_MULTISITE=0
-    - WP_VERSION=4.4 WP_MULTISITE=1
 
 # Declare 7 beta in test matrix.
 # @link http://docs.travis-ci.com/user/build-configuration/
 matrix:
     include:
         - php: 5.6
-          env: WP_VERSION=master
-    allow_failures:
-        - php: 7
           env: WP_VERSION=master
 
 # Use this to prepare the system to install prerequisites or dependencies.
