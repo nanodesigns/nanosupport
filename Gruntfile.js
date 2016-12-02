@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 
         /**
          * Validate files with JSHint
-         * @author: https://github.com/gruntjs/grunt-contrib-jshint
+         * @url: https://github.com/gruntjs/grunt-contrib-jshint
          */
         jshint: {
             all: [
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
 
         /**
          * Concatenate & Minify Javascript files
-         * @author: https://github.com/gruntjs/grunt-contrib-uglify
+         * @url: https://github.com/gruntjs/grunt-contrib-uglify
          */
         uglify: {
             public: {
@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 
         /**
          * Compile SCSS files into CSS
-         * @author: https://github.com/sindresorhus/grunt-sass/
+         * @url: https://github.com/sindresorhus/grunt-sass/
          */
         sass: {
             dist: {
@@ -61,24 +61,24 @@ module.exports = function(grunt) {
         },
 
         /**
-         * Add px fallbacks to em, and vendor prefixes
-         * @author: https://github.com/nDmitry/grunt-postcss
+         * Add vendor prefixes
+         * @url: https://github.com/nDmitry/grunt-autoprefixer
          */
-        postcss: {
+        autoprefixer: {
             options: {
-                processors: [
-                    require('pixrem')(), // add fallbacks for rem units
-                    require('autoprefixer')({browsers: 'last 1 versions'}), // add vendor prefixes
-                ]
+                cascade: false
             },
-            dist: {
+            nsCSS: {
                 src: 'assets/css/nanosupport.css'
+            },
+            adminCSS: {
+                src: 'themes/css/nanosupport-admin.css'
             }
         },
 
         /**
          * Minify Stylehseets for production
-         * @author: https://github.com/gruntjs/grunt-contrib-cssmin
+         * @url: https://github.com/gruntjs/grunt-contrib-cssmin
          */
         cssmin: {
             minify: {
@@ -160,7 +160,7 @@ module.exports = function(grunt) {
 
         /**
          * Watch for changes and do it
-         * @author: https://github.com/gruntjs/grunt-contrib-watch
+         * @url: https://github.com/gruntjs/grunt-contrib-watch
          */
         watch: {
             options: {
@@ -174,7 +174,7 @@ module.exports = function(grunt) {
             },
             css: {
                 files: ['assets/sass/*.scss'],
-                tasks: ['sass', 'postcss', 'cssmin']
+                tasks: ['sass', 'autoprefixer', 'cssmin']
             }
         }
 
@@ -186,6 +186,6 @@ module.exports = function(grunt) {
 
 
     // @Grunt: do the following when we will type 'grunt'
-    grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'postcss', 'cssmin']);
+    grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
 
 };

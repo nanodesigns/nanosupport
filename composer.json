@@ -55,7 +55,10 @@
         "docs": "https://github.com/nanodesigns/nanosupport/wiki"
     },
     "scripts": {
-        "post-install-cmd": ["npm install", "grunt"],
+        "post-install-cmd": [
+            "npm install",
+            "grunt"
+        ],
         "pre-archive-cmd": "composer install"
     }
 }
