@@ -177,6 +177,48 @@ add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
 
 
 /**
+ * Mandate Knowledgebase Category
+ *
+ * As Knowledgebase documents are displayed organized under respective categories,
+ * let's force the user to assign the document to a category before publishing.
+ *
+ * Adopted from Plugin:
+ * Require Post Category
+ * @link    https://wordpress.org/plugins/require-post-category/
+ * @author  Josh Hartman
+ *
+ * @since   1.0.0
+ * -----------------------------------------------------------------------
+ */
+function ns_mandate_knowledgebase_category() {
+    global $post_type;
+    if( 'nanodoc' === $post_type ) {
+        echo "<script type=\"text/javascript\">
+            jQuery(document).ready(function($) {
+                $('#publish').on('click', function(event) {
+                    if( $('#taxonomy-nanodoc_category input:checked').length == 0 ) {
+                        alert('". esc_js( __( 'Please assign the document to a Knowledgebase Category, because Knowledgebase documents are displayed under categories.', 'nanosupport' ) ) ."');
+                        event.stopImmediatePropagation();
+                        return false;
+                    } else {
+                        return true;
+                    }
+
+                    var publish_click_events = $('#publish').data('events').click;
+                    if( publish_click_events && publish_click_events.length > 1 ) {
+                        publish_click_events.unshift(publish_click_events.pop());
+                    }
+                });
+            });
+        </script>";
+    }
+}
+
+add_action( 'admin_footer-post.php',        'ns_mandate_knowledgebase_category' );
+add_action( 'admin_footer-post-new.php',    'ns_mandate_knowledgebase_category' );
+
+
+/**
  * Support Agent User Meta Field
  * 
  * Support Agent selection user meta field.
@@ -302,7 +344,7 @@ function ns_support_agent_user_column_content( $value, $column_name, $user_id ) 
         if( 1 == get_user_meta( $user_id, 'ns_make_agent', true ) )
             return '<span class="ns-label ns-label-warning"><i class="dashicons dashicons-businessman" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i> '. esc_html__( 'Agent', 'nanosupport' ) .'</span>';
         else
-            return '-:-';
+            return '&mdash;';
     }
     return $value;
 }

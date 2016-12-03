@@ -29,7 +29,7 @@ function ns_knowledgebase_page() {
 		 */
 		if( isset($_GET['from']) && 'sd' === $_GET['from'] ) {
 			echo '<div class="ns-alert ns-alert-info" role="alert">';
-				_e( 'You are redirected from the Support Desk, because you are not logged in, and have no permission to view any ticket.', 'nanosupport' );
+				esc_html_e( 'You are redirected from the Support Desk, because you are not logged in, and have no permission to view any ticket.', 'nanosupport' );
 			echo '</div>';
 		}
 
@@ -58,7 +58,7 @@ function ns_knowledgebase_page() {
 		 * Get values from Knowledgebase Settings
 		 * -----------------------------------------------------------------------
 		 */
-		$featured_terms = isset($ns_knowledgebase_settings['terms']) ? $ns_knowledgebase_settings['terms'] : '';
+		$featured_terms = isset($ns_knowledgebase_settings['terms']) && ! empty($ns_knowledgebase_settings['terms'][0]) ? $ns_knowledgebase_settings['terms'] : false;
 
 		if( $featured_terms ) {
 
@@ -126,9 +126,12 @@ function ns_knowledgebase_page() {
 				 * @param string  $text Header text. Default 'Documentation'.
 				 * -----------------------------------------------------------------------
 				 */
-				echo '<h3 class="ticket-separator ticket-separator-center ns-text-uppercase">';
-					echo esc_html( apply_filters( 'nanosupport_kb_header_title', __( 'Documentation', 'nanosupport' ) ) );
-				echo '</h3>';
+				// Not necessary, if there is no Featured category/ies
+				if( $featured_terms ) {
+					echo '<h3 class="ticket-separator ticket-separator-center ns-text-uppercase">';
+						echo esc_html( apply_filters( 'nanosupport_kb_header_title', __( 'Documentation', 'nanosupport' ) ) );
+					echo '</h3>';
+				}
 
 				echo '<div class="ns-row">';
 
