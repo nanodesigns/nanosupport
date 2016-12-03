@@ -102,7 +102,7 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 4. You can organize your tickets per department
 5. You can read the ticket in details and can answer from both front-end and admin-end
 6. As the tickets are completely private, for public information that you want to share with your users, you can use **'Knowledgebase'**
-7. You can organize knowledgebase docs in categories
+7. You can organize Knowledgebase docs in categories
 8. And you have many flexibilities (and many more yet to come...) using the plugins 'Settings' page
 
 == Frequently Asked Questions ==
@@ -140,15 +140,27 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 5. NanoSupport | Knowledgebase
 6. NanoSupport | Ticketing at a glance with NanoSupport dashboard widget
 7. NanoSupport | Customizable email template
-8. NanoSupport | Easy navigation, and noticiation for easy ticketing using Admin bar
+8. NanoSupport | Easy navigation, and notification for easy ticketing using Admin bar
 
 == Changelog ==
 
-= 0.3.0 - 2016-NOV-28 =
+= 0.3.0 - 2016-DEC-09 =
 === Major changes ===
 * Rich Text editor for ticket body text
 * New filter hook: `ns_wp_editor_specs`
 * Pending ticket notification using admin menu bubble
+* Fixed translation strings to strip out dumped HTML and made most of them SQL injection proof
+* Composer, npm dependency and Grunt incorporated for easy development collaboration
+* Default assignment of 'Support' department is made deprecated
+* User can choose Support Department on submitting new ticket (Settings available)
+* CSS is changed from LESS to Sass
+
+=== Minor changes ===
+* Reorganized third party libraries
+* Github contributing.md added
+* Github issue template added
+* A warning on upgrading process fixed - props @prionkor
+* jshint error fixed with procedural code
 
 = 0.2.2 - 2016-SEP-03 =
 * Ticket character limit can be set by user
@@ -188,4 +200,7 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 == Upgrade Notice ==
 
 = 0.3.0 =
-Rich text editor for the ticket body text
+* Rich text editor for the ticket body text
+* Pending ticket notification using admin menu bubble
+* Default assignment of 'Support' department is made deprecated
+* User can choose Support Department on submitting new ticket (Settings available)

@@ -15,10 +15,16 @@ You can:
 ### Developer Guide
 Before moving to the development process, make sure you followed the [NanoSupport Developer Guide](https://github.com/nanodesigns/nanosupport/wiki/Developer-Guide), so that you can set up all the necessary things before you proceed.
 
+Typically, with composer and npm installed the following command is enough for your starting:
+
+````
+git clone https://github.com/nanodesigns/nanosupport.git nanosupport && cd nanosupport && composer install
+````
+
 [Read Developer Guide](https://github.com/nanodesigns/nanosupport/wiki/Developer-Guide)
 
 ## Submit an issue
-You can't contribute by either ways, but you still have something in mind, don't let them wash away. Open an issue and inform us right away. The [WordPress.org Support forum](https://wordpress.org/support/plugin/nanosupport) is also open for you.
+You can't contribute by either ways, but you still have something in mind, don't let them wash away. Open an issue and inform us right away.
 
 [Create a New Issue](https://github.com/nanodesigns/nanosupport/issues/new)
 
