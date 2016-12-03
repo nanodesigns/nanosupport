@@ -228,7 +228,7 @@ function ns_knowledgebase_page() {
 				echo '<div class="ns-alert ns-alert-info" role="alert">';
 					if( ns_is_user('manager') )
 						/* translators: URL to add new knowledgebase doc */
-						printf( wp_kses( __( 'Nothing to display on Knowledgebase. Please <a href="%s">Add some documentation</a> first.', 'nanosupport' ), array('a'=>array( 'href'=>true )) ), admin_url('post-new.php?post_type=nanodoc') );
+						printf( wp_kses( __( 'Nothing to display on Knowledgebase. Please <a href="%s">Add some documentation</a> first, and categorize them accordingly.', 'nanosupport' ), array('a'=>array( 'href'=>true )) ), admin_url('post-new.php?post_type=nanodoc') );
 					else
 						_e( 'Nothing to display on Knowledgebase.', 'nanosupport' );
 				echo '</div>';
