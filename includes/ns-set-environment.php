@@ -42,7 +42,7 @@ function ns_scripts() {
      * @link http://brm.io/jquery-match-height/
      * ...
      */
-    wp_register_script( 'equal-height', NS()->plugin_url() .'/assets/js/jquery.matchHeight-min.js', array('jquery'), '0.7.0', true );
+    wp_register_script( 'equal-height', NS()->plugin_url() .'/assets/libs/jQuery.matchHeight/jquery.matchHeight-min.js', array('jquery'), '0.7.0', true );
 
     /**
      * NanoSupport JavaScripts
@@ -104,8 +104,8 @@ function ns_admin_scripts() {
          * @link https://github.com/select2/select2/
          * ...
          */
-        wp_enqueue_style( 'select2', NS()->plugin_url() .'/assets/css/select2.min.css', array(), '4.0.3', 'all' );
-        wp_enqueue_script( 'select2', NS()->plugin_url() .'/assets/js/select2.min.js', array('jquery'), '4.0.3', true );
+        wp_enqueue_style( 'select2', NS()->plugin_url() .'/assets/libs/select2/select2.min.css', array(), '4.0.3', 'all' );
+        wp_enqueue_script( 'select2', NS()->plugin_url() .'/assets/libs/select2/select2.min.js', array('jquery'), '4.0.3', true );
 
 
         /**
@@ -143,7 +143,7 @@ function ns_admin_scripts() {
     		'ns-admin',
     		'ns',
     		array(
-                'del_confirmation'  => __( 'Are you sure you want to delete the response?', 'nanosupport' ),
+                'del_confirmation'  => esc_html__( 'Are you sure you want to delete the response?', 'nanosupport' ),
             )
         );
 	}
@@ -191,16 +191,16 @@ function ns_user_fields( $user ) { ?>
     //Don't display the section for 'support_seeker' role
     if( 'support_seeker' !== $user->roles[0] ) : ?>
 
-        <h3><?php _e( 'NanoSupport', 'nanosupport' ); ?></h3>
+        <h3><?php echo NS()->plugin; ?></h3>
 
         <table class="form-table">
             <tr>
                 <th scope="row">
-                	<span class="dashicons dashicons-businessman"></span> <?php _e( 'Make Support Agent', 'nanosupport' ); ?>
+                	<span class="dashicons dashicons-businessman"></span> <?php esc_html_e( 'Make Support Agent', 'nanosupport' ); ?>
                 </th>
                 <td>
                 	<label>
-                		<input type="checkbox" name="ns_make_agent" id="ns-make-agent" value="1" <?php checked( get_the_author_meta( 'ns_make_agent', $user->ID ), 1 ); ?> /> <?php _e( 'Yes, make this user a Support Agent', 'nanosupport' ); ?>
+                		<input type="checkbox" name="ns_make_agent" id="ns-make-agent" value="1" <?php checked( get_the_author_meta( 'ns_make_agent', $user->ID ), 1 ); ?> /> <?php esc_html_e( 'Yes, make this user a Support Agent', 'nanosupport' ); ?>
                 	</label>
                 </td>
             </tr>
@@ -300,7 +300,7 @@ add_filter( 'manage_users_columns', 'ns_add_support_agent_user_column' );
 function ns_support_agent_user_column_content( $value, $column_name, $user_id ) {
     if ( 'ns_agent' == $column_name ) {
         if( 1 == get_user_meta( $user_id, 'ns_make_agent', true ) )
-            return '<span class="ns-label ns-label-warning"><i class="dashicons dashicons-businessman" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i> '. __( 'Agent', 'nanosupport' ) .'</span>';
+            return '<span class="ns-label ns-label-warning"><i class="dashicons dashicons-businessman" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i> '. esc_html__( 'Agent', 'nanosupport' ) .'</span>';
         else
             return '-:-';
     }
@@ -401,7 +401,7 @@ if ( ! function_exists( 'ns_content' ) ) {
 
                     <?php endwhile; // end of the loop. ?>
 
-                <?php _e( 'Ticket has no content', 'nanosupport' ); ?>
+                <?php esc_html_e( 'Ticket has no content', 'nanosupport' ); ?>
 
             <?php endif;
 
@@ -525,7 +525,7 @@ function ns_admin_bar_menu( $wp_admin_bar ) {
     $wp_admin_bar->add_node( array(
         'parent' => 'site-name',
         'id'     => 'view-support-desk',
-        'title'  => __( 'Visit Support Desk', 'nanosupport' ),
+        'title'  => esc_html__( 'Visit Support Desk', 'nanosupport' ),
         'href'   => get_the_permalink( $ns_general_settings['support_desk'] )
     ) );
 }
@@ -540,8 +540,9 @@ function ns_admin_bar_menu( $wp_admin_bar ) {
      * @param boolean  True to display the Support Desk link under site name.
      * -----------------------------------------------------------------------
      */
-    if( apply_filters( 'nanosupport_show_admin_bar_visit_support_desk', true ) )
+    if( apply_filters( 'nanosupport_show_admin_bar_visit_support_desk', true ) ) {
         add_action( 'admin_bar_menu', 'ns_admin_bar_menu', 32 );
+    }
 
 /**
  * Display Agent Ticket count on Admin Bar.
