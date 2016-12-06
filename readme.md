@@ -32,7 +32,7 @@ Open the command console and type to make things ready:
 git clone https://github.com/nanodesigns/nanosupport.git nanosupport && cd nanosupport && composer install
 ````
 
-* [:octocat: Fork on Github](https://github.com/nanodesigns/nanosupport) &mdash; <small>[:notebook_with_decorative_cover: Consult the Developer guide](https://github.com/nanodesigns/nanosupport/wiki/Developer-Guide)</small>
+* [:octocat: Fork on Github](https://github.com/nanodesigns/nanosupport) &mdash; <small>[:blue_book: Consult the Developer guide](https://github.com/nanodesigns/nanosupport/wiki/Developer-Guide)</small>
 * [:bug: Report Bug/Limitations or Suggest Feature/Enhancement](https://github.com/nanodesigns/nanosupport/issues/new)
 * [:flashlight: Get Support](https://github.com/nanodesigns/nanosupport/issues/new)
 * [:earth_asia: Translate NanoSupport](https://translate.wordpress.org/projects/wp-plugins/nanosupport)
