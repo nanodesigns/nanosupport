@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NanoSupport 0.3.0\n"
 "Report-Msgid-Bugs-To: https://github.com/nanodesigns/nanosupport/issues\n"
-"POT-Creation-Date: 2016-12-03 05:13:16+00:00\n"
+"POT-Creation-Date: 2016-12-06 19:41:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -616,7 +616,7 @@ msgid "Priority"
 msgstr ""
 
 #: includes/ns-cpt-nanosupport.php:116 includes/ns-metaboxes.php:247
-#: includes/ns-set-environment.php:303
+#: includes/ns-set-environment.php:345
 msgid "Agent"
 msgstr ""
 
@@ -954,7 +954,7 @@ msgstr ""
 msgid "Write down the response to the ticket"
 msgstr ""
 
-#: includes/ns-functions.php:615 includes/shortcodes/ns-submit-ticket.php:467
+#: includes/ns-functions.php:615 includes/shortcodes/ns-submit-ticket.php:469
 msgid "Submit"
 msgstr ""
 
@@ -1143,27 +1143,33 @@ msgstr ""
 msgid "Are you sure you want to delete the response?"
 msgstr ""
 
-#: includes/ns-set-environment.php:199
+#: includes/ns-set-environment.php:200
+msgid ""
+"Please assign the document to a Knowledgebase Category, because "
+"Knowledgebase documents are displayed under categories."
+msgstr ""
+
+#: includes/ns-set-environment.php:241
 msgid "Make Support Agent"
 msgstr ""
 
-#: includes/ns-set-environment.php:203
+#: includes/ns-set-environment.php:245
 msgid "Yes, make this user a Support Agent"
 msgstr ""
 
-#: includes/ns-set-environment.php:281 includes/ns-set-environment.php:303
+#: includes/ns-set-environment.php:323 includes/ns-set-environment.php:345
 msgid "NanoSupport Agent"
 msgstr ""
 
-#: includes/ns-set-environment.php:404
+#: includes/ns-set-environment.php:446
 msgid "Ticket has no content"
 msgstr ""
 
-#: includes/ns-set-environment.php:528
+#: includes/ns-set-environment.php:570
 msgid "Visit Support Desk"
 msgstr ""
 
-#: includes/ns-set-environment.php:573
+#: includes/ns-set-environment.php:616
 msgid "Open tickets assigned to me"
 msgstr ""
 
@@ -1178,26 +1184,26 @@ msgid ""
 "and have no permission to view any ticket."
 msgstr ""
 
-#: includes/shortcodes/ns-knowledgebase.php:130
+#: includes/shortcodes/ns-knowledgebase.php:132
 msgid "Documentation"
 msgstr ""
 
-#: includes/shortcodes/ns-knowledgebase.php:209
+#: includes/shortcodes/ns-knowledgebase.php:212
 msgid "All entries"
 msgstr ""
 
-#: includes/shortcodes/ns-knowledgebase.php:215
+#: includes/shortcodes/ns-knowledgebase.php:218
 msgid "No Knowledgebase entries till now to display in this category."
 msgstr ""
 
-#: includes/shortcodes/ns-knowledgebase.php:231
+#: includes/shortcodes/ns-knowledgebase.php:234
 #. translators: URL to add new knowledgebase doc
 msgid ""
 "Nothing to display on Knowledgebase. Please <a href=\"%s\">Add some "
 "documentation</a> first, and categorize them accordingly."
 msgstr ""
 
-#: includes/shortcodes/ns-knowledgebase.php:233
+#: includes/shortcodes/ns-knowledgebase.php:236
 msgid "Nothing to display on Knowledgebase."
 msgstr ""
 
@@ -1275,8 +1281,8 @@ msgstr ""
 
 #: includes/shortcodes/ns-submit-ticket.php:297
 #: includes/shortcodes/ns-submit-ticket.php:303
-#: includes/shortcodes/ns-submit-ticket.php:409
-#: includes/shortcodes/ns-submit-ticket.php:415
+#: includes/shortcodes/ns-submit-ticket.php:411
+#: includes/shortcodes/ns-submit-ticket.php:417
 msgid "Username"
 msgstr ""
 
@@ -1298,8 +1304,8 @@ msgstr ""
 
 #: includes/shortcodes/ns-submit-ticket.php:330
 #: includes/shortcodes/ns-submit-ticket.php:336
-#: includes/shortcodes/ns-submit-ticket.php:421
-#: includes/shortcodes/ns-submit-ticket.php:427
+#: includes/shortcodes/ns-submit-ticket.php:423
+#: includes/shortcodes/ns-submit-ticket.php:429
 msgid "Password"
 msgstr ""
 
@@ -1318,38 +1324,39 @@ msgstr ""
 msgid "Already have an account?"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:392
+#: includes/shortcodes/ns-submit-ticket.php:394
+#. translators: if you have account, login
 msgid "Registration is closed now. If you already have an account"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:412
+#: includes/shortcodes/ns-submit-ticket.php:414
 msgid "Write down your username of your account"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:424
+#: includes/shortcodes/ns-submit-ticket.php:426
 msgid "Write down the password of your account to login"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:433
+#: includes/shortcodes/ns-submit-ticket.php:435
 msgid "Remember me"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:442
+#: includes/shortcodes/ns-submit-ticket.php:444
 #. translators: submit ticket with registration URL
 msgid "Don&rsquo;t have an account? <a href=\"%1s\">Create one</a>"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:448
+#: includes/shortcodes/ns-submit-ticket.php:450
 #. translators: submit ticket with registration URL
 msgid "<a href=\"%1s\">Cancel Login</a>. But sorry, registration is closed now"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:476
+#: includes/shortcodes/ns-submit-ticket.php:478
 #. translators: logged in user display name
 msgid "<strong>Submitting as:</strong> %s"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:477
+#: includes/shortcodes/ns-submit-ticket.php:479
 msgid "Log out"
 msgstr ""
 

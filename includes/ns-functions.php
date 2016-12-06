@@ -61,7 +61,7 @@ function ns_handle_registration_login_ticket_submission() {
 
     //Ticket Subject
     if( empty( $_POST['ns_ticket_subject'] ) ) {
-        $ns_errors[]    = __( 'Ticket subject can&rsquo;t be empty', 'nanosupport' );
+        $ns_errors[]    = esc_html__( 'Ticket subject can&rsquo;t be empty', 'nanosupport' );
     } else {
         $ticket_subject = $_POST['ns_ticket_subject'];
     }
@@ -69,9 +69,9 @@ function ns_handle_registration_login_ticket_submission() {
     //Ticket Details
     $character_limit = ns_is_character_limit();
     if( empty( $_POST['ns_ticket_details'] ) ) {
-        $ns_errors[]    = __( 'Ticket details can&rsquo;t be empty', 'nanosupport' );
+        $ns_errors[]    = esc_html__( 'Ticket details can&rsquo;t be empty', 'nanosupport' );
     } else if( ! empty( $_POST['ns_ticket_details'] ) && $character_limit && strlen( $_POST['ns_ticket_details'] ) < $character_limit ) {
-        $ns_errors[]    = sprintf( __( 'Write down a little detail. At least %s characters or longer', 'nanosupport' ), $character_limit );
+        $ns_errors[]    = sprintf( esc_html__( 'Write down a little detail. At least %s characters or longer', 'nanosupport' ), $character_limit );
     } else {
         $ticket_details = $_POST['ns_ticket_details'];
     }
@@ -79,7 +79,7 @@ function ns_handle_registration_login_ticket_submission() {
 
     //Ticket Priority
     if( empty( $_POST['ns_ticket_priority'] ) ) {
-        $ns_errors[]        = __( 'Ticket priority must be set', 'nanosupport' );
+        $ns_errors[]        = esc_html__( 'Ticket priority must be set', 'nanosupport' );
     } else {
         $ticket_priority    = $_POST['ns_ticket_priority'];
     }
@@ -123,11 +123,11 @@ function ns_handle_registration_login_ticket_submission() {
         $password = $_POST['login_password'];
 
         if( empty( $username ) ) {
-            $ns_errors[] = __( 'Username cannot be empty', 'nanosupport' );
+            $ns_errors[] = esc_html__( 'Username cannot be empty', 'nanosupport' );
         }
 
         if( empty( $password ) ) {
-            $ns_errors[] = __( 'Password must be filled', 'nanosupport' );
+            $ns_errors[] = esc_html__( 'Password must be filled', 'nanosupport' );
         }
 
         /**
@@ -148,7 +148,7 @@ function ns_handle_registration_login_ticket_submission() {
             if( isset( $user->user_login ) ) {
                 $creds['user_login'] = $user->user_login;
             } else {
-                $ns_errors[] = __( 'There is no user found with this email address', 'nanosupport' );
+                $ns_errors[] = esc_html__( 'There is no user found with this email address', 'nanosupport' );
             }
         } else {
             $creds['user_login'] = $username;
@@ -250,7 +250,7 @@ function ns_handle_registration_login_ticket_submission() {
 
     //User identity is not acceptable
     if( empty( $user_id ) )
-        $ns_errors[]   = __( 'Sorry, your user identity is not acceptable! Your ticket is not submitted.', 'nanosupport' );
+        $ns_errors[]   = esc_html__( 'Sorry, your user identity is not acceptable! Your ticket is not submitted.', 'nanosupport' );
 
 
     //------------------ERROR: There are errors - don't go further
@@ -341,7 +341,7 @@ function ns_preview_email_template() {
             include 'admin/ns-email-template-preview.php';
         $message = ob_get_clean();
 
-        $email_subhead = __( 'Email Template Preview', 'nanosupport' );
+        $email_subhead = esc_html__( 'Email Template Preview', 'nanosupport' );
 
         $email_content  = str_replace( "%%NS_MAIL_SUBHEAD%%", $email_subhead, $email_content );
         $email_content  = str_replace( "%%NS_MAIL_CONTENT%%", $message, $email_content );
@@ -388,7 +388,7 @@ function ns_knowledgebase_navigation() {
                     <span class="ns-icon-tag"></span> <?php echo ns_is_user('agent_and_manager') ? esc_html__( 'All the Tickets', 'nanosupport' ) : esc_html__( 'My Tickets', 'nanosupport' ); ?>
                 </a>
                 <a class="ns-btn ns-btn-sm ns-btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( $ns_general_settings['submit_page'] ) ); ?>">
-                    <span class="ns-icon-tag"></span> <?php _e( 'Submit Ticket', 'nanosupport' ); ?>
+                    <span class="ns-icon-tag"></span> <?php esc_html_e( 'Submit Ticket', 'nanosupport' ); ?>
                 </a>
             </div>
         </div>
@@ -438,7 +438,7 @@ function ns_new_ticket_navigation() {
                  */
                 if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) { ?>
                     <a class="ns-btn ns-btn-sm ns-btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
-                        <span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
+                        <span class="ns-icon-docs"></span> <?php esc_html_e( 'Knowledgebase', 'nanosupport' ); ?>
                     </a>
                 <?php } ?>
             </div>
@@ -492,11 +492,11 @@ function ns_support_desk_navigation() {
                  */
                 if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) { ?>
                     <a class="ns-btn ns-btn-sm ns-btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
-                        <span class="ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?>
+                        <span class="ns-icon-docs"></span> <?php esc_html_e( 'Knowledgebase', 'nanosupport' ); ?>
                     </a>
                 <?php } ?>
                 <a class="ns-btn ns-btn-sm ns-btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( $ns_general_settings['submit_page'] ) ); ?>">
-                    <span class="ns-icon-tag"></span> <?php _e( 'Submit Ticket', 'nanosupport' ); ?>
+                    <span class="ns-icon-tag"></span> <?php esc_html_e( 'Submit Ticket', 'nanosupport' ); ?>
                 </a>
             </div>
         </div>
@@ -557,9 +557,9 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
         if( 'solved' === $ticket_meta['status']['value'] && ! ( isset( $_GET['reopen'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'reopen-ticket' ) ) ) {
             $reopen_url = add_query_arg( 'reopen', '', get_the_permalink() );
             echo '<div class="ns-alert ns-alert-success" role="alert">';
-                echo __( 'This ticket is already solved.', 'nanosupport' );
+                echo esc_html__( 'This ticket is already solved.', 'nanosupport' );
                 echo '&nbsp;<a class="ns-btn ns-btn-sm ns-btn-warning" href="'. wp_nonce_url( $reopen_url, 'reopen-ticket' ) .'#write-message"><span class="ns-icon-repeat"></span>&nbsp;';
-                    _e( 'Reopen Ticket', 'nanosupport' );
+                    esc_html_e( 'Reopen Ticket', 'nanosupport' );
                 echo '</a>';
             echo '</div>';
 
@@ -581,7 +581,7 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
                                 <h3 class="ticket-head" id="new-response">
                                     <?php
                                     /* translators: User display name */
-                                    printf( __('Responding as: %s','nanosupport'), $current_user->display_name ); ?>
+                                    printf( esc_html__('Responding as: %s','nanosupport'), $current_user->display_name ); ?>
                                 </h3>
                             </div> <!-- /.response-head -->
                         </div>
@@ -612,12 +612,12 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
                         <?php wp_nonce_field( 'nanosupport-response-nonce' ); ?>
 
                         <button type="submit" name="submit_response" class="ns-btn ns-btn-primary">
-                            <?php _e( 'Submit', 'nanosupport' ); ?>
+                            <?php esc_html_e( 'Submit', 'nanosupport' ); ?>
                         </button>
 
                         <?php if( in_array( $ticket_meta['status']['value'], array('open', 'inspection') ) ) { ?>
                             <button type="submit" name="close_ticket" class="ns-btn ns-btn-default">
-                                <?php _e( 'Close Ticket', 'nanosupport' ); ?>
+                                <?php esc_html_e( 'Close Ticket', 'nanosupport' ); ?>
                             </button>
                         <?php } //endif open/inspection ?>
 
@@ -670,7 +670,7 @@ function ns_notify_user_on_opening_ticket() {
         echo '<div class="ns-alert ns-alert-warning" role="alert">';
             echo wp_kses( __( '<strong>Just to inform:</strong> you are about to ReOpen the ticket.', 'nanosupport' ), array('strong' => array()) );
             echo '&nbsp;<a class="ns-small" href="'. get_the_permalink($post) .'">';
-                echo __( 'Cancel ReOpening', 'nanosupport' );
+                echo esc_html__( 'Cancel ReOpening', 'nanosupport' );
             echo '</a>';
         echo '</div>';
     }
@@ -702,7 +702,7 @@ function ns_handle_response_submit() {
 
         //Response is not for closing so a message is required
         if( empty($response_msg) && ! isset($_POST['close_ticket']) ) {
-            $response_error->add( 'response_empty', __( 'Response field can&rsquo;t be blank.', 'nanosupport' ) );
+            $response_error->add( 'response_empty', esc_html__( 'Response field can&rsquo;t be blank.', 'nanosupport' ) );
         }
 
         if( is_wp_error($response_error) && ! empty($response_error->errors) )
