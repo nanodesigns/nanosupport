@@ -454,30 +454,30 @@ function ns_get_ticket_meta( $ticket_id = null ) {
     if( 'low' === $this_priority ) {
         $priority = array(
                 'value' => 'low',
-                'name'  => __( 'Low', 'nanosupport' ),
+                'name'  => esc_html__( 'Low', 'nanosupport' ),
                 'class' => 'priority-low',
-                'label' => '<span class="ns-text-dim"><i class="ns-dot"></i>'. __( 'Low', 'nanosupport' ) .'</span>',
+                'label' => '<span class="ns-text-dim"><i class="ns-dot"></i>'. esc_html__( 'Low', 'nanosupport' ) .'</span>',
             );
     } elseif( 'medium' === $this_priority ) {
         $priority = array(
                 'value' => 'medium',
-                'name'  => __( 'Medium', 'nanosupport' ),
+                'name'  => esc_html__( 'Medium', 'nanosupport' ),
                 'class' => 'priority-medium',
-                'label' => '<span class="ns-text-info"><i class="ns-dot"></i>'. __( 'Medium', 'nanosupport' ) .'</span>',
+                'label' => '<span class="ns-text-info"><i class="ns-dot"></i>'. esc_html__( 'Medium', 'nanosupport' ) .'</span>',
             );
     } elseif( 'high' === $this_priority ) {
         $priority = array(
                 'value' => 'high',
-                'name'  => __( 'High', 'nanosupport' ),
+                'name'  => esc_html__( 'High', 'nanosupport' ),
                 'class' => 'priority-high',
-                'label' => '<span class="ns-text-warning"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. __( 'High', 'nanosupport' ) .'</span>',
+                'label' => '<span class="ns-text-warning"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. esc_html__( 'High', 'nanosupport' ) .'</span>',
             );
     } elseif( 'critical' === $this_priority ) {
         $priority = array(
                 'value' => 'critical',
-                'name'  => __( 'Critical', 'nanosupport' ),
+                'name'  => esc_html__( 'Critical', 'nanosupport' ),
                 'class' => 'priority-critical',
-                'label' => '<span class="ns-text-danger"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. __( 'Critical', 'nanosupport' ) .'</span>',
+                'label' => '<span class="ns-text-danger"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. esc_html__( 'Critical', 'nanosupport' ) .'</span>',
             );
     }
 
