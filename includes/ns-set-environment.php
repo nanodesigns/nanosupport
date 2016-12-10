@@ -414,10 +414,10 @@ add_filter( 'template_include', 'ns_template_loader' );
 if ( ! function_exists( 'ns_content' ) ) {
 
     /**
-     * Output WooCommerce content.
+     * Output NanoSupport content.
      *
-     * This function is only used in the optional 'woocommerce.php' template
-     * which people can add to their themes to add basic woocommerce support
+     * This function is only used in the optional 'nanosupport.php' template
+     * which people can add to their themes to add basic nanosupport support
      * without hooks or modifying core templates.
      *
      */
@@ -689,3 +689,35 @@ function display_assigned_tickets_modifying_query( $clauses, $query_object ) {
 }
 
 add_filter( 'posts_clauses', 'display_assigned_tickets_modifying_query', 10, 2 );
+
+
+/**
+ * TinyMCE buttons modified for Ticket Details.
+ * 
+ * @link https://codex.wordpress.org/Function_Reference/wp_editor
+ * @link https://codex.wordpress.org/TinyMCE
+ * @link http://wordpress.stackexchange.com/a/29480
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $ed Default editor.
+ * @return array     Modified buttons.
+ * -----------------------------------------------------------------------
+ */
+function ns_modified_TinyMCE( $ed ) {
+    //Get the NanoSupport Settings from Database
+    $ns_general_settings = get_option( 'nanosupport_settings' );
+
+    if( is_page( $ns_general_settings['submit_page'] ) ) {
+        // Items to display under 'formatselect' dropdown
+        $ed['block_formats'] = "Paragraph=p; Heading 2=h2; Heading 3=h3; Heading 4=h4; Heading 5=h5; Heading 6=h6; Preformatted=pre";
+
+        // Prepare the toolbar
+        $ed['toolbar1'] = 'formatselect,bold,italic,strikethrough,hr,bullist,numlist,blockquote,alignleft,aligncenter,alignright,link,unlink,pastetext,wp_adv ';
+        $ed['toolbar2'] = 'spellchecker,removeformat,charmap,outdent,indent,undo,redo,fullscreen ';
+    }
+
+    return $ed;
+}
+
+add_filter( 'tiny_mce_before_init', 'ns_modified_TinyMCE' );
