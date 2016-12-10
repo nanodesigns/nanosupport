@@ -305,8 +305,9 @@ include_once 'includes/ns-utility-functions.php';
 /** Settings API **/
 include_once 'includes/admin/ns-settings.php';
 
-/** Tools page **/
-include_once 'includes/admin/ns-tools.php';
+/** System Status page **/
+include_once 'includes/class/ns-class-system-status.php';
+include_once 'includes/admin/ns-system-status.php';
 
 /** NanoSupport Updates */
 include_once 'includes/ns-updates.php';

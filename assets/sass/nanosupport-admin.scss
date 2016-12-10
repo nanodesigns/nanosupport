@@ -275,6 +275,8 @@ body.post-new-php{
 .nanosupport-left-column{
 	float: left;
 	width: 70%;
+	padding-top: 1em;
+	padding-bottom: 1em;
 
 	.ns-textbox{
 		max-width: 300px;
@@ -339,6 +341,26 @@ body.post-new-php{
 	.nanosupport-50-right{
 		float: left;
 		width: 100%;
+	}
+}
+
+.ns-system-status{
+	.ns-status-table{
+		border-width: 0;
+		margin-bottom: 10px;
+
+		thead th{
+			font-weight: bold;
+		}
+
+		th,
+		td{
+			width: 50%;
+		}
+	}
+
+	mark{
+		background-color: transparent;
 	}
 }
 
