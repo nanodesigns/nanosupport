@@ -7,20 +7,8 @@
  * @package NanoSupport
  */
 
-/** COLOR VARIABLES */
-
-	$red: 			#da4453;
-	$red-hover: 	#ed5565;
-	$orange: 		#f6bb42;
-	$orange-hover: 	#ffce54;
-	$green: 		#8cc152;
-	$green-hover: 	#a0d468;
-	$blue: 			#3bafda;
-	$blue-hover: 	#4fc1e9;
-
-/** /COLOR VARIABLES */
-
 /** Get other necessary files */
+@import "../sass/__variables";
 @import "../sass/normalize";
 @import "../sass/nanosupport-layout";
 

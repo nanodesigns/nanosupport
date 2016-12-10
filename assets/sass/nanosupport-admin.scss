@@ -6,6 +6,9 @@
  * @package NanoSupport
  */
 
+/** Get other necessary files */
+@import "../sass/__variables";
+
 .ns-clearfix{
 	clear: both;
 }
