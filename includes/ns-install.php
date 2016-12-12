@@ -511,21 +511,17 @@ function ns_create_support_seeker( $email, $username = '', $password = '', $anti
  * --------------------------------------------------------------------------
  */
 function ns_is_dependency_loaded() {
-    if( ! file_exists( NS()->plugin_path() .'\assets\css\nanosupport.css' ) ) {
+    if( ! file_exists( NS()->plugin_path() .'/assets/css/nanosupport.css' ) ) {
         return false;
-    } else if( ! file_exists( NS()->plugin_path() .'\assets\css\nanosupport-admin.css' ) ) {
+    } else if( ! file_exists( NS()->plugin_path() .'/assets/css/nanosupport-admin.css' ) ) {
         return false;
-    } else if( ! file_exists( NS()->plugin_path() .'\assets\js\nanosupport.min.js' ) ) {
+    } else if( ! file_exists( NS()->plugin_path() .'/assets/js/nanosupport.min.js' ) ) {
         return false;
-    } else if( ! file_exists( NS()->plugin_path() .'\assets\js\nanosupport-admin.min.js' ) ) {
+    } else if( ! file_exists( NS()->plugin_path() .'/assets/js/nanosupport-admin.min.js' ) ) {
         return false;
-    } else if( ! file_exists( NS()->plugin_path() .'\assets\js\nanosupport-dashboard.min.js' ) ) {
+    } else if( ! file_exists( NS()->plugin_path() .'/assets/js/nanosupport-dashboard.min.js' ) ) {
         return false;
     }
-
-    /*if ( ! is_dir( NS()->plugin_path() . '\vendor' ) ) {
-        return false;
-    }*/
 
     return true;
 }
