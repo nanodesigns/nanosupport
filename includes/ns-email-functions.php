@@ -235,9 +235,6 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
     if( 'nanosupport' !== get_post_type($post_id) )
         return;
 
-    if( 'pending' === get_post_status($post_id) )
-        return;
-
     $author_id      = get_post_field( 'post_author', $post_id );
     $author_email   = get_the_author_meta( 'user_email', $author_id );
     $last_response  = ns_get_last_response( $post_id );
