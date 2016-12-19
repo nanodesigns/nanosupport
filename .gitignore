@@ -25,8 +25,8 @@ $RECYCLE.BIN/
 
 ## Editor settings
 .idea
-nanosupport.sublime-project
-nanosupport.sublime-workspace
+*.sublime-project
+*.sublime-workspace
 
 ## Composer files
 composer.phar

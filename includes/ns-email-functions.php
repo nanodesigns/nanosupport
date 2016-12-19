@@ -247,7 +247,7 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
         /* translators: Site title */
         $subject = sprintf ( esc_html__( 'Your ticket is replied — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
 
-        $email_subhead = __( 'Support Ticket Replied', 'nanosupport' );
+        $email_subhead = esc_html__( 'Support Ticket Replied', 'nanosupport' );
 
         //Email Content
         $message = '';
