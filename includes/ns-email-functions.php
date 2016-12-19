@@ -229,8 +229,7 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
     $notify_support_seeker_on_responses = isset($nanosupport_email_settings['email_choices']['response']) && (int) $nanosupport_email_settings['email_choices']['response'] === 1 ? true : false;
     $notify_agents_on_responses = isset($nanosupport_email_settings['email_choices']['agent_response']) && (int) $nanosupport_email_settings['email_choices']['agent_response'] === 1 ? true : false;
 
-    $comment = get_comment( $comment_ID );
-    $post_id = $comment->comment_post_ID;
+    $post_id = $comment_object->comment_post_ID;
     
     if( 'nanosupport' !== get_post_type($post_id) )
         return;
