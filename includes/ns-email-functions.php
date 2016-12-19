@@ -248,9 +248,14 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
         //Email Content
         $message = '';
         $message = '<p style="margin: 0 0 16px;">';
-            /* translators: 1. ticket title 2. site title 3. user display name */
-            $message .= sprintf( wp_kses( __( 'Your support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied by <em>%3$s</em>.', 'nanosupport' ), array('strong'=>array(), 'em'=>array()) ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) );
+            /* translators: 1. ticket title 2. site title 3. user display name followed by ticket response excerpt */
+            $message .= sprintf( wp_kses( __( 'Your support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied by <em>%3$s</em>:', 'nanosupport' ), array('strong'=>array(), 'em'=>array()) ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) );
         $message .= '</p>';
+
+        // Ticket response content
+        $message .= '<div style="border-left: 5px solid #ccc;padding-top: 10px;padding-left: 20px;padding-bottom: 10px;margin-bottom: 20px;">';
+            $message .= '<p style="margin: 0;font-style: italic">'. wp_trim_words( $comment_object->comment_content, 55 ) .'</p>';
+        $message .= '</div>';
 
         $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. get_permalink($post_id) .'">'. __( 'View Ticket', 'nanosupport' ) .'</a></p>';
 
@@ -277,14 +282,19 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
             /* translators: Site title */
             $subject = sprintf ( __( 'An assigned ticket is replied — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
 
-            $email_subhead = __( 'Support Ticket Replied', 'nanosupport' );
+            $email_subhead = esc_html__( 'Support Ticket Replied', 'nanosupport' );
 
             //Email Content
             $message = '';
             $message = '<p style="margin: 0 0 16px;">';
                 /* translators: 1. ticket title 2. site title 3. user display name */
-                $message .= sprintf( wp_kses( __( 'An assigned support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied by <em>%3$s</em>.', 'nanosupport' ), array('strong'=>array(), 'em'=>array()) ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) );
+                $message .= sprintf( wp_kses( __( 'An assigned support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied by <em>%3$s</em>:', 'nanosupport' ), array('strong'=>array(), 'em'=>array()) ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) );
             $message .= '</p>';
+
+            // Ticket response content
+            $message .= '<div style="border-left: 5px solid #ccc;padding-top: 10px;padding-left: 20px;padding-bottom: 10px;margin-bottom: 20px;">';
+                $message .= '<p style="margin: 0;font-style: italic">'. wp_trim_words( $comment_object->comment_content, 55 ) .'</p>';
+            $message .= '</div>';
 
             $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. get_permalink($post_id) .'">'. __( 'View Ticket', 'nanosupport' ) .'</a></p>';
 
