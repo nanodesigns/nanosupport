@@ -27,6 +27,7 @@ $RECYCLE.BIN/
 .idea
 *.sublime-project
 *.sublime-workspace
+.sublime-grunt.cache
 
 ## Composer files
 composer.phar

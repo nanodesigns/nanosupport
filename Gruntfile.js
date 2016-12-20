@@ -159,6 +159,43 @@ module.exports = function(grunt) {
 
 
         /**
+         * Create a neat zip archive for distribution
+         * @url: https://github.com/gruntjs/grunt-contrib-compress
+         */
+        compress: {
+            main: {
+                options: {
+                    archive: 'nanosupport-<%= pkg.version %>.zip',
+                    mode: 'zip'
+                },
+                files: [{
+                    src: [
+                        '*',
+                        '**',
+                        '!node_modules/**',
+                        '!vendor/**',
+                        '!tests/**',
+                        '!.gitignore',
+                        '!.travis.yml',
+                        '!composer.json',
+                        '!composer.lock',
+                        '!tests/**',
+                        '!logs/**',
+                        '!readme.md',
+                        '!*.sublime-grunt.cache',
+                        '!Gruntfile.js',
+                        '!package.json',
+                        '!*.sublime-workspace',
+                        '!*.sublime-project',
+                        '!assets/images/**',
+                        '!nanosupport-<%= pkg.version %>.zip'
+                    ]
+                }]
+            }
+        },
+
+
+        /**
          * Watch for changes and do it
          * @url: https://github.com/gruntjs/grunt-contrib-watch
          */
@@ -185,7 +222,9 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
 
 
-    // @Grunt: do the following when we will type 'grunt'
-    grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
+    // @Grunt: do the following when we will type 'grunt <command>'
+    grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin', 'watch']);
+    grunt.registerTask('build', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
+    grunt.registerTask('release', ['compress']);
 
 };
