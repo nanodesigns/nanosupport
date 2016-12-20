@@ -224,7 +224,7 @@ function nanosupport_handle_account_opening_email( $user_id = '', $generated_pas
  */
 function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
 
-    //Get Email settings from db
+    // Get Email settings from db
     $nanosupport_email_settings = get_option('nanosupport_email_settings');
     $notify_support_seeker_on_responses = isset($nanosupport_email_settings['email_choices']['response']) && (int) $nanosupport_email_settings['email_choices']['response'] === 1 ? true : false;
     $notify_agents_on_responses = isset($nanosupport_email_settings['email_choices']['agent_response']) && (int) $nanosupport_email_settings['email_choices']['agent_response'] === 1 ? true : false;
@@ -238,14 +238,14 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
     $author_email   = get_the_author_meta( 'user_email', $author_id );
     $last_response  = ns_get_last_response( $post_id );
 
-    //Don't send email on self-response
+    // Don't send email on self-response
     if( $notify_support_seeker_on_responses && ( $last_response['user_id'] != $author_id ) && isset($author_email) && is_email($author_email) ) :
         /* translators: Site title */
         $subject = sprintf ( esc_html__( 'Your ticket is replied — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
 
         $email_subhead = esc_html__( 'Support Ticket Replied', 'nanosupport' );
 
-        //Email Content
+        // Email Content
         $message = '';
         $message = '<p style="margin: 0 0 16px;">';
             /* translators: 1. ticket title 2. site title 3. user display name followed by ticket response excerpt */
@@ -259,7 +259,7 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
 
         $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. get_permalink($post_id) .'">'. __( 'View Ticket', 'nanosupport' ) .'</a></p>';
 
-        //Send the email
+        // Send the email
         ns_email( $author_email, $subject, $email_subhead, $message );
 
     endif;
@@ -284,7 +284,7 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
 
             $email_subhead = esc_html__( 'Support Ticket Replied', 'nanosupport' );
 
-            //Email Content
+            // Email Content
             $message = '';
             $message = '<p style="margin: 0 0 16px;">';
                 /* translators: 1. ticket title 2. site title 3. user display name */
@@ -298,7 +298,7 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
 
             $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. get_permalink($post_id) .'">'. __( 'View Ticket', 'nanosupport' ) .'</a></p>';
 
-            //Send the email
+            // Send the email
             ns_email( $agent_email, $subject, $email_subhead, $message );
 
         endif;

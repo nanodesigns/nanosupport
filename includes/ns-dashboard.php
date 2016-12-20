@@ -256,7 +256,7 @@ function nanosupport_widget_callback() { ?>
 
         <hr>
         <div class="ns-text-center">
-            <?php printf( '<a href="https://wordpress.org/support/view/plugin-reviews/nanosupport#postform" target="_blank">'. __( 'Rate us %s', 'nanosupport' ) .'</a>', '<i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i>' ); ?> | <?php printf( '<a href="https://github.com/nanodesigns/nanosupport/issues/new" targe="_blank">'. __( 'Get Support', 'nanosupport' ). '</a>' ); ?> | <a href="http://nanodesignsbd.com?ref=nanosupport" target="_blank" title="nanodesigns - developer of the plugin"><strong>nano</strong>designs</a>
+            <?php printf( '<a href="https://wordpress.org/support/plugin/nanosupport/reviews#new-post" target="_blank">'. __( 'Rate us %s', 'nanosupport' ) .'</a>', '<i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i>' ); ?> | <?php printf( '<a href="https://github.com/nanodesigns/nanosupport/issues/new" targe="_blank">'. __( 'Get Support', 'nanosupport' ). '</a>' ); ?> | <a href="http://nanodesignsbd.com?ref=nanosupport" target="_blank" title="nanodesigns - developer of the plugin"><strong>nano</strong>designs</a>
         </div>
 
     </section>
