@@ -270,14 +270,16 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
      * ...
      */
     if( $notify_agents_on_responses ) {
-        $ticket_meta    = ns_get_ticket_meta( $post_id );
-        $ticket_agent   = isset($ticket_meta['agent']['ID']) ? $ticket_meta['agent']['ID'] : '';
-        if( $ticket_agent && $last_response['user_id'] == $ticket_agent ) {
-            $agent_user     = get_user_by( 'id', $ticket_agent );
-            $agent_email    = $agent_user ? $agent_user->user_email : '';
+        $ticket_meta  = ns_get_ticket_meta( $post_id );
+        $ticket_agent = isset($ticket_meta['agent']['ID']) ? $ticket_meta['agent']['ID'] : '';
+        
+        // Don't send email when agent themself replied a ticket
+        if( ! empty($ticket_agent) && $last_response['user_id'] != $ticket_agent ) {
+            $agent_user  = get_user_by( 'id', $ticket_agent );
+            $agent_email = $agent_user ? $agent_user->user_email : '';
         }
 
-        if( isset($agent_email) && is_email($agent_email) ) :
+        if( ! empty($agent_email) && is_email($agent_email) ) :
 
             /* translators: Site title */
             $subject = sprintf ( __( 'An assigned ticket is replied — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
