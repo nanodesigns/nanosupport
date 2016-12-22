@@ -29,7 +29,7 @@ class NSSystemStatus {
 	 * @return string
 	 */
 	public function debug_status() {
-		return (WP_DEBUG === true) ? esc_html__('On') : esc_html__('Off');
+		return (WP_DEBUG === true) ? esc_html__( 'On', 'nanosupport' ) : esc_html__( 'Off', 'nanosupport' );
 	}
 
 	/**
@@ -37,7 +37,7 @@ class NSSystemStatus {
 	 * @return string
 	 */
 	public function is_multisite() {
-		return is_multisite() ? esc_html__('Yes') : esc_html__('No');
+		return is_multisite() ? esc_html__( 'Yes', 'nanosupport' ) : esc_html__( 'No', 'nanosupport' );
 	}
 
 	/**

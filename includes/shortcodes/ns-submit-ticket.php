@@ -26,7 +26,8 @@ function ns_submit_support_ticket() {
     if( !empty( $ns_errors ) ){
         foreach( $ns_errors as $error ){
     		echo '<div class="ns-alert ns-alert-danger" role="alert">';
-            	printf( '<strong>Error:</strong> %s', $error );
+    			/* translators: error message */
+            	printf( __( '<strong>Error:</strong> %s', 'nanosupport' ), $error );
         	echo '</div>';
         }
     }

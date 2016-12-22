@@ -530,7 +530,8 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
         if( is_wp_error($response_error) ) {
             foreach( $response_error->get_error_messages() as $error ){
                 echo '<div class="ns-alert ns-alert-danger" role="alert">';
-                    printf( '<strong>Error:</strong> %s', $error );
+                    /* translators: error message */
+                    printf( __( '<strong>Error:</strong> %s', 'nanosupport' ), $error );
                 echo '</div>';
             }
         }
