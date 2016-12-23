@@ -82,7 +82,7 @@ function ns_update_v020() {
 function ns_update_v022() {
 	$ns_general_settings = get_option( 'nanosupport_settings' );
 
-	if( $ns_general_settings !== false ) {	
+	if( $ns_general_settings !== false ) {
 		$ns_general_settings['ticket_char_limit'] = 30;
 
     	update_option( 'nanosupport_settings', $ns_general_settings );

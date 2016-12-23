@@ -74,6 +74,7 @@ function nanosupport_settings_options_init(){
         );
         add_settings_field(
             'ticket_char_limit',                        // ID*
+            /* translators: context: ...limit to # characters */
             __( 'Set ticket character limit to', 'nanosupport' ),      // Title*
             'ns_ticket_character_limit',                // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
@@ -111,6 +112,13 @@ function nanosupport_settings_options_init(){
             'highligh_ticket',                          // ID*
             __( 'Highlight Ticket with', 'nanosupport' ),    // Title*
             'ns_highlight_ticket_field',                // Callback Function*
+            'nanosupport_settings',                     // Page (Plugin)*
+            'ns_general'                                // Section
+        );
+        add_settings_field(
+            'is_department_visible',                    // ID*
+            __( 'Is Departments Visible?', 'nanosupport' ),    // Title*
+            'ns_is_department_visible_field',           // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );

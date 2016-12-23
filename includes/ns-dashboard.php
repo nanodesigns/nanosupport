@@ -75,7 +75,9 @@ function nanosupport_widget_callback() { ?>
             <div class="ns-row">
                 <div class="nanosupport-left-column">
                     <h4 class="dashboard-head ns-text-center"><span class="ns-icon-tag"></span> <?php _e( 'Welcome to Support Ticketing', 'nanosupport' ); ?></h4>
-                    <p><?php printf( __( 'This is the back end of the support ticketing system. If you want to edit your profile, you can do that from <a href="%1$s"><span class="ns-icon-user"></span> Your Profile</a>.', 'nanosupport' ), get_edit_user_link( get_current_user_id() ) ); ?></p>
+                    <p><?php
+                        /* translators: Link to the user profile 1. link URL 2. user profile icon */
+                        printf( wp_kses( __( 'This is the back end of the support ticketing system. If you want to edit your profile, you can do that from <a href="%1$s">%2$s Your Profile</a>.', 'nanosupport' ), array( 'a' => array('href' => array()) ) ), get_edit_user_link(get_current_user_id()), '<span class="ns-icon-user"></span>' ); ?></p>
 
                     <?php
                     /**
@@ -122,7 +124,10 @@ function nanosupport_widget_callback() { ?>
                     <?php else : ?>
                         <div id="ns-chart"></div>
                         <div class="ns-total-ticket-count ns-text-center">
-                            <?php printf( __('Total Tickets: %s', 'nanosupport' ), $total_tickets ); ?>
+                            <?php
+                            /* translators: Count in numbers */
+                            printf( esc_html( _n( 'Total Ticket: %d', 'Total Tickets: %d', $total_tickets, 'nanosupport' ) ), $total_tickets );
+                            ?>
                         </div>
                     <?php endif; ?>
                 </div> <!-- /.nanosupport-50-left -->
@@ -189,15 +194,17 @@ function nanosupport_widget_callback() { ?>
                                     <strong><?php echo mysql2date( 'd M Y, h:i A', $activity['date'] ); ?></strong><br> 
                                     <?php
                                     if( 'response' === $activity['type'] ) {
+                                        /* translators: 1. link URL 2. ticket title 3. ticket author */
                                         printf(
-                                            '<span class="ns-icon-responses"></span> '. __( 'Ticket <a href="%1$s">%2$s</a> is responded by %3$s', 'nanosupport' ),
+                                            '<span class="ns-icon-responses"></span> '. wp_kses( __( 'Ticket <a href="%1$s">%2$s</a> is responded by %3$s', 'nanosupport' ), array('a' => array('href'=>array()) ) ),
                                             get_edit_post_link($activity['ticket']),
                                             get_the_title($activity['ticket']),
                                             $activity['author']
                                         );
                                     } elseif( 'ticket' === $activity['type'] ) {
+                                        /* translators: 1. link URL 2. ticket title 3. ticket author */
                                         printf(
-                                            '<span class="ns-icon-tag"></span> '. __( 'New Ticket <a href="%1$s">%2$s</a> submitted by %3$s', 'nanosupport' ),
+                                            '<span class="ns-icon-tag"></span> '. wp_kses( __( 'New Ticket <a href="%1$s">%2$s</a> submitted by %3$s', 'nanosupport' ), array('a' => array('href'=>array()) ) ),
                                             get_edit_post_link($activity['id']),
                                             get_the_title($activity['id']),
                                             $activity['author']
@@ -235,7 +242,10 @@ function nanosupport_widget_callback() { ?>
                         <?php else : ?>
                             <div id="ns-activity-chart"></div>
                             <div class="ns-total-ticket-count ns-text-center">
-                                <?php printf( __('My Total Tickets: %s', 'nanosupport' ), $my_total_tickets ); ?>
+                                <?php
+                                /* translators: Count in numbers */
+                                printf( esc_html( _n( 'My Total Ticket: %d', 'My Total Tickets: %d', $my_total_tickets, 'nanosupport'  ) ), $my_total_tickets );
+                                ?>
                             </div>
                         <?php endif; ?>
                     </div> <!-- /.nanosupport-50-right -->
@@ -246,7 +256,7 @@ function nanosupport_widget_callback() { ?>
 
         <hr>
         <div class="ns-text-center">
-            <?php printf( __( '<a href="%1s" targe="_blank">Rate us %2s</a>', 'nanosupport' ), 'https://wordpress.org/support/view/plugin-reviews/nanosupport#postform' , '<i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i>' ); ?> | <?php printf( __( '<a href="%1s" targe="_blank">Get Support</a>', 'nanosupport' ), 'https://github.com/nanodesigns/nanosupport/issues/new' ); ?> | <a href="http://nanodesignsbd.com?ref=nanosupport" target="_blank" title="nanodesigns - developer of the plugin"><strong>nano</strong>designs</a>
+            <?php printf( '<a href="https://wordpress.org/support/plugin/nanosupport/reviews#new-post" target="_blank">'. __( 'Rate us %s', 'nanosupport' ) .'</a>', '<i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i><i class="ns-icon-star-filled"></i>' ); ?> | <?php printf( '<a href="https://github.com/nanodesigns/nanosupport/issues/new" targe="_blank">'. __( 'Get Support', 'nanosupport' ). '</a>' ); ?> | <a href="http://nanodesignsbd.com?ref=nanosupport" target="_blank" title="nanodesigns - developer of the plugin"><strong>nano</strong>designs</a>
         </div>
 
     </section>

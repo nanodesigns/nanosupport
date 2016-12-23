@@ -72,6 +72,32 @@ function ns_register_cpt_nanosupport() {
 
 add_action( 'init', 'ns_register_cpt_nanosupport' );
 
+
+/**
+ * Show pending count on menu.
+ *
+ * @since  1.0.0
+ *
+ * @see    ns_ticket_status_count()
+ * @return integer  Pending count beside menu label.
+ * -----------------------------------------------------------------------
+ */
+function ns_notification_bubble_in_nanosupport_menu() {
+    global $menu, $current_user;
+
+    if( ns_is_user( 'agent' ) ) {
+        $pending_count = ns_ticket_status_count( 'pending', $current_user->ID );
+    } else {
+        $pending_items = wp_count_posts( 'nanosupport' );
+        $pending_count = $pending_items->pending;
+    }
+
+    $menu[29][0] .= ! empty($pending_count) ? " <span class='update-plugins count-1' title='". esc_attr__( 'Pending Tickets', 'nanosupport' ) ."'><span class='update-count'>$pending_count</span></span>" : '';
+}
+
+add_action( 'admin_menu', 'ns_notification_bubble_in_nanosupport_menu' );
+
+
 /**
  * Declare custom columns
  *
@@ -123,7 +149,7 @@ function ns_populate_custom_columns( $column, $post_id ) {
             break;
 
         case 'ticket_agent' :
-            echo isset($ticket_meta['agent']['name']) ? $ticket_meta['agent']['name'] : '-';
+            echo isset($ticket_meta['agent']['name']) ? $ticket_meta['agent']['name'] : '&mdash;';
             break;
 
         case 'ticket_responses' :
@@ -144,7 +170,7 @@ function ns_populate_custom_columns( $column, $post_id ) {
             $last_responder = get_userdata( $last_response['user_id'] );
             if ( $last_responder ) {
                 echo $last_responder->display_name, '<br>';
-                /* translators: time difference according to current time. example: 12 minutes ago */
+                /* translators: time difference from current time. eg. 12 minutes ago */
                 printf( __( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
             } else {
                 echo '&mdash; <span class="screen-reader-text">'. __( 'No response yet', 'nanosupport' ) .'</span>';
@@ -202,65 +228,6 @@ function ns_create_nanosupport_taxonomies() {
     if( ! taxonomy_exists( 'nanosupport_department' ) )
         register_taxonomy( 'nanosupport_department', array( 'nanosupport' ), $args );
 
-
-
-    /**
-     * Insert default term
-     *
-     * Insert default term 'Support' to the taxonomy 'nanosupport_department'.
-     *
-     * Term: 'support'
-     * ...
-     */
-    wp_insert_term(
-        __( 'Support', 'nanosupport' ), // the term 
-        'nanosupport_department',      // the taxonomy
-        array(
-            'description'=> __( 'Support department is dedicated to provide the necessary support', 'nanosupport' ),
-            'slug' => 'support'
-        )
-    );
-
 }
 
 add_action( 'init', 'ns_create_nanosupport_taxonomies', 0 );
-
-
-/**
- * Make a Default Taxonomy Term for 'nanosupport_department'
- *
- * @link http://wordpress.mfields.org/2010/set-default-terms-for-your-custom-taxonomies-in-wordpress-3-0/
- *
- * @author    Michael Fields     http://wordpress.mfields.org/
- * @props     John P. Bloch      http://www.johnpbloch.com/
- *
- * @since     2010-09-13
- * @alter     2010-09-14
- *
- * @since     1.0.0
- *
- * @license   GPLv2
- * -----------------------------------------------------------------------
- */
-function ns_set_default_object_terms( $post_id ) {
-    
-    //wp_get_post_terms() doesn't take $post_id as integer, it takes $post as an object
-    $post_id = is_object($post_id) ? $post_id->ID : $post_id;
-
-    if ( 'publish' === get_post_status( $post_id ) || 'private' === get_post_status( $post_id ) ) {
-        $defaults = array(
-                'nanosupport_department' => array( 'support' )
-            );
-        
-        $taxonomies = get_object_taxonomies( get_post_type( $post_id ) );
-        foreach ( (array) $taxonomies as $taxonomy ) {
-            $terms = wp_get_post_terms( $post_id, $taxonomy );
-            if ( empty( $terms ) && array_key_exists( $taxonomy, $defaults ) ) {
-                wp_set_object_terms( $post_id, $defaults[$taxonomy], $taxonomy );
-            }
-        }
-    }
-}
-
-add_action( 'save_post',        'ns_set_default_object_terms', 100 );
-add_action( 'new_to_publish',   'ns_set_default_object_terms', 100 );

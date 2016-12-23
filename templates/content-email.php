@@ -115,6 +115,7 @@ $email_settings = get_option('nanosupport_email_settings');
                             <tr>
                                 <td colspan="2" valign="middle" id="footer_text" style="padding: 0 48px 48px 48px; -webkit-border-radius: 6px; border: 0; color: #99b1c7; font-family: Arial; font-size: 12px; line-height: 125%; text-align: center;">
                                     <?php
+                                    /* translators: 1. site title 2. developer company name */
                                     $default_footer_text = sprintf( __('%1$s &mdash; Powered by %2$s', 'nanosupport'), get_bloginfo( 'name', 'display' ), NS()->plugin );
                                     $email_footer_text = isset($email_settings['footer_text']) && !empty($email_settings['footer_text']) ? $email_settings['footer_text'] : $default_footer_text;
                                     ?>

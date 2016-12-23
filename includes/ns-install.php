@@ -501,3 +501,100 @@ function ns_create_support_seeker( $email, $username = '', $password = '', $anti
     return $user_id;
 
 }
+
+
+/**
+ * Check if plugin dependencies are ready.
+ *
+ * @since  1.0.0
+ * @return boolean True of dependencies are here, false otherwise.
+ * --------------------------------------------------------------------------
+ */
+function ns_is_dependency_loaded() {
+    if( ! file_exists( NS()->plugin_path() .'/assets/css/nanosupport.css' ) ) {
+        return false;
+    } else if( ! file_exists( NS()->plugin_path() .'/assets/css/nanosupport-admin.css' ) ) {
+        return false;
+    } else if( ! file_exists( NS()->plugin_path() .'/assets/js/nanosupport.min.js' ) ) {
+        return false;
+    } else if( ! file_exists( NS()->plugin_path() .'/assets/js/nanosupport-admin.min.js' ) ) {
+        return false;
+    } else if( ! file_exists( NS()->plugin_path() .'/assets/js/nanosupport-dashboard.min.js' ) ) {
+        return false;
+    }
+
+    return true;
+}
+
+
+/**
+ * Check whether the plugin is compatible to WordPress version
+ *
+ * @since  1.0.0
+ * @return boolean True of WordPress version supported, false otherwise.
+ * --------------------------------------------------------------------------
+ */
+function ns_is_version_supported() {
+    if ( version_compare( get_bloginfo( 'version' ), NS()->wp_version, '<=' ) ) {
+        return false;
+    }
+
+    return true;
+}
+
+
+/**
+ * Admin notices: Failed version dependency
+ *
+ * @since  1.0.0
+ * --------------------------------------------------------------------------
+ */
+function ns_fail_version_admin_notice() {
+    echo '<div class="updated"><p>';
+        printf(
+            /* translators: 1. minimum WordPress core version 2. WordPress update page URL */
+            wp_kses( __('NanoSupport requires WordPress core version <strong>%1$s</strong> or greater. The plugin has been deactivated. Consider <a href="%2$s">upgrading WordPress</a>.', 'nanosupport' ),
+                array( 'a' => array('href' => true), 'strong' => array() )
+            ),
+            NS()->wp_version,
+            admin_url('update-core.php')
+        );
+    echo '</p></div>';                
+}
+
+/**
+ * Admin notices: Failed resouces dependency
+ *
+ * @since  1.0.0
+ * --------------------------------------------------------------------------
+ */
+function ns_fail_dependency_admin_notice() {
+    echo '<div class="updated"><p>';
+        printf(
+            /* translators: 1. command 2. plugin installation link with popup thickbox (modal) */
+            wp_kses( __( 'NanoSupport&rsquo;s required dependencies are not loaded - plugin cannot function properly. Open the command console and run %1$s before anything else. If you are unaware what this is, please <a href="%2$s" class="thickbox">install the production version</a> instead.', 'nanosupport' ),
+                array( 'a' => array('href' => true, 'class' => true) )
+            ),
+            '<code>composer install</code>',
+            esc_url( add_query_arg( array(
+                'tab'           => 'plugin-information',
+                'plugin'        => 'nanosupport',
+                'TB_iframe'     => 'true',
+                'width'         => '600',
+                'height'        => '800'
+            ), admin_url('plugin-install.php') ) )
+        );
+    echo '</p></div>';
+}
+
+
+/**
+ * Deactivate the plugin
+ * Deactivate the plugin forcefully on unmet dependencies.
+ *
+ * @since  1.0.0
+ * --------------------------------------------------------------------------
+ */
+function ns_force_deactivate() {
+    deactivate_plugins( NS()->plugin_basename() );
+}

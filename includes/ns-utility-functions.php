@@ -137,11 +137,11 @@ function ns_get_ticket_departments( $post_id = null ) {
 
     $_departments = get_the_terms( $post_id, 'nanosupport_department' );
 
-    $department_count = count($_departments);
-    $departments = '';
-
     if ( $_departments && ! is_wp_error( $_departments ) ) :
         $counter = 1;
+        $department_count = count($_departments);
+        $departments = '';
+        
         foreach ( $_departments as $department ) {
            $departments .= $department->name;
            if( $department_count != $counter )
@@ -149,6 +149,8 @@ function ns_get_ticket_departments( $post_id = null ) {
 
            $counter++;
         }
+    else :
+        $departments = '&mdash;';
     endif;
 
     return $departments;
@@ -452,30 +454,30 @@ function ns_get_ticket_meta( $ticket_id = null ) {
     if( 'low' === $this_priority ) {
         $priority = array(
                 'value' => 'low',
-                'name'  => __( 'Low', 'nanosupport' ),
+                'name'  => esc_html__( 'Low', 'nanosupport' ),
                 'class' => 'priority-low',
-                'label' => '<span class="ns-text-dim"><i class="ns-dot"></i>'. __( 'Low', 'nanosupport' ) .'</span>',
+                'label' => '<span class="ns-text-dim"><i class="ns-dot"></i>'. esc_html__( 'Low', 'nanosupport' ) .'</span>',
             );
     } elseif( 'medium' === $this_priority ) {
         $priority = array(
                 'value' => 'medium',
-                'name'  => __( 'Medium', 'nanosupport' ),
+                'name'  => esc_html__( 'Medium', 'nanosupport' ),
                 'class' => 'priority-medium',
-                'label' => '<span class="ns-text-info"><i class="ns-dot"></i>'. __( 'Medium', 'nanosupport' ) .'</span>',
+                'label' => '<span class="ns-text-info"><i class="ns-dot"></i>'. esc_html__( 'Medium', 'nanosupport' ) .'</span>',
             );
     } elseif( 'high' === $this_priority ) {
         $priority = array(
                 'value' => 'high',
-                'name'  => __( 'High', 'nanosupport' ),
+                'name'  => esc_html__( 'High', 'nanosupport' ),
                 'class' => 'priority-high',
-                'label' => '<span class="ns-text-warning"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. __( 'High', 'nanosupport' ) .'</span>',
+                'label' => '<span class="ns-text-warning"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. esc_html__( 'High', 'nanosupport' ) .'</span>',
             );
     } elseif( 'critical' === $this_priority ) {
         $priority = array(
                 'value' => 'critical',
-                'name'  => __( 'Critical', 'nanosupport' ),
+                'name'  => esc_html__( 'Critical', 'nanosupport' ),
                 'class' => 'priority-critical',
-                'label' => '<span class="ns-text-danger"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. __( 'Critical', 'nanosupport' ) .'</span>',
+                'label' => '<span class="ns-text-danger"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. esc_html__( 'Critical', 'nanosupport' ) .'</span>',
             );
     }
 
@@ -714,4 +716,34 @@ function ns_is_character_limit() {
         return false;
     else
         return $option['ticket_char_limit'];
+}
+
+
+/**
+ * Numeric transformation
+ *
+ * This function transforms the php.ini notation for numbers (like '2M') to an integer.
+ * Adopted from WooCommerce
+ *
+ * @param   $size
+ * @return  int
+ * --------------------------------------------------------------------------
+ */
+function ns_transform_to_numeric( $size ) {
+    $l   = substr( $size, -1 );
+    $ret = substr( $size, 0, -1 );
+    switch ( strtoupper( $l ) ) {
+        case 'P':
+            $ret *= 1024;
+        case 'T':
+            $ret *= 1024;
+        case 'G':
+            $ret *= 1024;
+        case 'M':
+            $ret *= 1024;
+        case 'K':
+            $ret *= 1024;
+    }
+
+    return $ret;
 }

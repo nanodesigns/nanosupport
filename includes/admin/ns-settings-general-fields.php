@@ -41,6 +41,7 @@ function ns_support_desk_field() {
             }
         echo '</select>';
         echo '<!-- translators: Support Desk shortcode -->';
+        /* translators: support desk shortcode */
         echo ns_tooltip( sprintf( __( 'Choose the page where you want to display the Support Desk. If no page is in the list, create one with the shortcode %s in it.', 'nanosupport' ), '<code>[nanosupport_desk]</code>' ), 'right' );
     }
 }
@@ -65,7 +66,7 @@ function ns_submit_ticket_field() {
                 }
             }
         echo '</select>';
-        echo '<!-- translators: Submit Ticket page shortcode -->';
+        /* translators: submit ticket page shortcode */
         echo ns_tooltip( sprintf( __( 'Choose the page where you want show the Ticket Submission page. If no page is in the list, create one with the shortcode %s in it.', 'nanosupport' ), '<code>[nanosupport_submit_ticket]</code>' ), 'right' );
     }
 }
@@ -79,7 +80,8 @@ function ns_ticket_character_limit() {
 
     echo '<input type="number" name="nanosupport_settings[ticket_char_limit]" step="1" min="0" id="ticket_char_limit" class="small-text" value="'. absint($value) .'">';
 
-    echo ns_tooltip( __( 'Define the character limit on ticket submission form. <code>0</code> (zero) denotes no character limit applied.', 'nanosupport' ), 'right' );
+    /* translators: zero in numerals */
+    echo ns_tooltip( sprintf( __( 'Define the character limit on ticket submission form. %s (zero) denotes no character limit applied.', 'nanosupport' ), '<code>0</code>' ), 'right' );
 }
 
 // General Tab : General Settings : Field 4 : Enable Notice?
@@ -142,7 +144,16 @@ function ns_highlight_ticket_field() {
 
 }
 
-// General Tab : General Settings : Field 9 : Enable Embedded Login?
+// General Tab : General Settings : Field 9 : Is Department Visible?
+function ns_is_department_visible_field() {
+    $options = get_option( 'nanosupport_settings' );
+
+    $is_department_visible = isset($options['is_department_visible']) ? $options['is_department_visible'] : '';
+    echo '<input name="nanosupport_settings[is_department_visible]" id="is_department_visible" type="checkbox" value="1" '. checked( 1, $is_department_visible, false ) . '/> <label for="is_department_visible">'. __( 'Yes, let user choice Support Department on ticket submission form', 'nanosupport' ) .'</label>';
+    echo ns_tooltip( __( 'If you check here, it will let the user choice Support Department while submitting ticket.', 'nanosupport' ), 'right' );
+}
+
+// General Tab : General Settings : Field 10 : Enable Embedded Login?
 function ns_embedded_login_field() {
     $options = get_option( 'nanosupport_settings' );
 
@@ -216,6 +227,8 @@ function ns_general_settings_validate( $input ) {
     $support_desk_notice        = $input['support_desk_notice'] ? $input['support_desk_notice'] : '';
     //Knowledgebase notice message
     $knowledgebase_notice       = $input['knowledgebase_notice'] ? $input['knowledgebase_notice'] : '';
+    //Make Department Choice Visible checkbox
+    $is_department_visible = isset($input['is_department_visible']) && (int) $input['is_department_visible'] === 1 ? (int) $input['is_department_visible'] : '';
     //Enable Embedded Login checkbox
     $embedded_login = isset($input['embedded_login']) && (int) $input['embedded_login'] === 1 ? (int) $input['embedded_login'] : '';
     //Highlight ticket choice
@@ -232,20 +245,21 @@ function ns_general_settings_validate( $input ) {
     /**
      * Set the values finally
      */
-    $options['support_desk']         = absint( $support_desk_selection_val );
-    $options['submit_page']          = absint( $add_support_ticket_val );
-    $options['ticket_char_limit']    = absint( $ticket_char_limit );
-    $options['enable_notice']        = absint( $enable_notice );
-    $options['submit_ticket_notice'] = esc_attr(strip_tags($submit_ticket_notice));
-    $options['support_desk_notice']  = esc_attr(strip_tags($support_desk_notice));
-    $options['knowledgebase_notice'] = esc_attr(strip_tags($knowledgebase_notice));
-    $options['highlight_ticket']     = esc_html( $highlight_ticket_val );
-    $options['embedded_login']       = absint( $embedded_login );
+    $options['support_desk']          = absint( $support_desk_selection_val );
+    $options['submit_page']           = absint( $add_support_ticket_val );
+    $options['ticket_char_limit']     = absint( $ticket_char_limit );
+    $options['enable_notice']         = absint( $enable_notice );
+    $options['submit_ticket_notice']  = esc_attr(strip_tags($submit_ticket_notice));
+    $options['support_desk_notice']   = esc_attr(strip_tags($support_desk_notice));
+    $options['knowledgebase_notice']  = esc_attr(strip_tags($knowledgebase_notice));
+    $options['highlight_ticket']      = esc_html( $highlight_ticket_val );
+    $options['is_department_visible'] = absint( $is_department_visible );
+    $options['embedded_login']        = absint( $embedded_login );
 
     $options['account_creation']['generate_username'] = absint( $generate_username );
     $options['account_creation']['generate_password'] = absint( $generate_password );
 
-    $options['delete_data']          = absint( $del_data_check_val );
+    $options['delete_data']           = absint( $del_data_check_val );
 
     return $options;
 }

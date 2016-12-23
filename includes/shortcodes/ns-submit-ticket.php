@@ -26,7 +26,8 @@ function ns_submit_support_ticket() {
     if( !empty( $ns_errors ) ){
         foreach( $ns_errors as $error ){
     		echo '<div class="ns-alert ns-alert-danger" role="alert">';
-            	printf( '<strong>Error:</strong> %s', $error );
+    			/* translators: error message */
+            	printf( __( '<strong>Error:</strong> %s', 'nanosupport' ), $error );
         	echo '</div>';
         }
     }
@@ -37,14 +38,17 @@ function ns_submit_support_ticket() {
 	 */
 	if( isset($_GET['from']) && 'sd' === $_GET['from'] ) {
 		echo '<div class="ns-alert ns-alert-info" role="alert">';
-			_e( 'You are redirected from the Support Desk, because you are not logged in, and have no permission to view any ticket.', 'nanosupport' );
+			esc_html_e( 'You are redirected from the Support Desk, because you are not logged in, and have no permission to view any ticket.', 'nanosupport' );
 		echo '</div>';
 	}
 
     //Display success message, if any
     if( isset($_GET['ns_success']) && $_GET['ns_success'] == 1 ) {
 		echo '<div class="ns-alert ns-alert-success" role="alert">';
-			printf( __( '<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible. <a href="%s" class="link-to-desk"><span class="ns-icon-tag"></span> Check your ticket[s]</a>', 'nanosupport' ), esc_url( get_permalink( $ns_general_settings['support_desk'] ) ) );
+			echo wp_kses( __( '<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible.', 'nanosupport' ), array('strong' => array()) );
+			echo '&nbsp;<a href="'. get_permalink( $ns_general_settings['support_desk'] ) .'" class="link-to-desk"><span class="ns-icon-tag"></span>&nbsp;';
+				esc_html_e( 'Check your tickets', 'nanosupport' );
+			echo '</a>';
 	    echo '</div>';
 	}
 
@@ -94,10 +98,10 @@ function ns_submit_support_ticket() {
 					<!-- SUBJECT -->
 					<div class="ns-form-group">
 						<label for="ns-ticket-subject" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
-							<?php _e( 'Subject', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+							<?php esc_html_e( 'Subject', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
 						<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-							<?php echo ns_tooltip( __( 'Write down a self-descriptive brief subject to the ticket', 'nanosupport' ), 'bottom' ); ?>
+							<?php echo ns_tooltip( esc_html__( 'Write down a self-descriptive brief subject to the ticket', 'nanosupport' ), 'bottom' ); ?>
 						</div>
 						<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
 							<input type="text" class="ns-form-control" name="ns_ticket_subject" id="ns-ticket-subject" placeholder="<?php esc_attr_e( 'Subject in brief', 'nanosupport' ); ?>" value="<?php echo !empty($_POST['ns_ticket_subject']) ? stripslashes_deep( $_POST['ns_ticket_subject'] ) : ''; ?>" required>
@@ -107,44 +111,126 @@ function ns_submit_support_ticket() {
 					<!-- TICKET DETAILS -->
 					<div class="ns-form-group">
 						<label for="ns-ticket-details" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
-							<?php _e( 'Details', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+							<?php esc_html_e( 'Details', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
 						<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
 							<?php
 							$character_limit = ns_is_character_limit();
 							if( $character_limit ) {
-								/* translators: 1. character limit 2. allowed HTML tags */
-								echo ns_tooltip( sprintf( __( 'Write down your issue in details... At least %1$s characters is a must.<br><small><strong>Allowed HTML Tags:</strong><br>%2$s</small>', 'nanosupport' ), $character_limit, ns_get_allowed_html_tags() ), 'bottom' );
+								/* translators: character limit to the ticket content, in number */
+								$content_tooltip_msg = sprintf( esc_html__( 'Write down your issue in details... At least %s characters is a must.', 'nanosupport' ), $character_limit );
+								$content_tooltip_msg .= '<br><small>';
+									/* translators: allowed HTML tags to the plugin */
+									$content_tooltip_msg .= sprintf( __( '<strong>Allowed HTML Tags:</strong><br> %s', 'nanosupport' ), ns_get_allowed_html_tags() );
+								$content_tooltip_msg .= '</small>';
+
+								echo ns_tooltip( $content_tooltip_msg, 'bottom' );
 							} else {
-								/* translators: allowed HTML tags */
-								echo ns_tooltip( sprintf( __( 'Write down your issue in details...<br><small><strong>Allowed HTML Tags:</strong><br>%s</small>', 'nanosupport' ), ns_get_allowed_html_tags() ), 'bottom' );
+								$content_tooltip_msg = esc_html__( 'Write down your issue in details...', 'nanosupport' );
+								$content_tooltip_msg .= '<br><small>';
+									/* translators: allowed HTML tags to the plugin */
+									$content_tooltip_msg .= sprintf( __( '<strong>Allowed HTML Tags:</strong><br> %s', 'nanosupport' ), ns_get_allowed_html_tags() );
+								$content_tooltip_msg .= '</small>';
+
+								echo ns_tooltip( $content_tooltip_msg, 'bottom' );
 							}
 							?>
 						</div>
 						<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
-							<textarea id="ns-ticket-details" class="ns-form-control" name="ns_ticket_details" cols="30" rows="10" placeholder="<?php echo $character_limit ? sprintf( esc_attr__( 'Write down your issue in details... At least %s characters is a must.', 'nanosupport' ), $character_limit ) : esc_attr__( 'Write down your issue in details...', 'nanosupport' ); ?>" required><?php if( !empty($_POST['ns_ticket_details']) ) echo stripslashes_deep( $_POST['ns_ticket_details'] ); ?></textarea>
+							<?php
+							$ticket_content = !empty($_POST['ns_ticket_details']) ? $_POST['ns_ticket_details'] : '';
+							/**
+						     * -----------------------------------------------------------------------
+						     * HOOK : FILTER HOOK
+						     * ns_wp_editor_specs
+						     * 
+						     * Hook to moderate the specs of the wp_editor().
+						     *
+						     * @since  1.0.0
+						     * -----------------------------------------------------------------------
+						     */
+							$wp_editor_specs = apply_filters( 'ns_wp_editor_specs', array(
+										'media_buttons'		=> false,
+										'textarea_name'		=> 'ns_ticket_details',
+										'textarea_rows'		=> 10,
+										'editor_class'		=> 'ns-form-control',
+										'quicktags'			=> false,
+										'tinymce'			=> true
+									) );
+
+							//initiate the editor
+							wp_editor(
+									$content   = $ticket_content,
+									$editor_id = 'ns-ticket-details',
+									$wp_editor_specs
+								);
+							?>
 						</div>
 					</div> <!-- /.ns-form-group -->
 
 					<!-- TICKET PRIORITY -->
 					<div class="ns-form-group">
 						<label for="ns-ticket-priority" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
-							<?php _e( 'Priority', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+							<?php esc_html_e( 'Priority', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 						</label>
 						<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-							<?php echo ns_tooltip( __( 'Choose the priority of the issue', 'nanosupport' ), 'bottom' ); ?>
+							<?php echo ns_tooltip( esc_html__( 'Choose the priority of the issue', 'nanosupport' ), 'bottom' ); ?>
 						</div>
 						<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12 ns-form-inline">
-							<?php $sub_val = !empty($_POST['ns_ticket_priority']) ? $_POST['ns_ticket_priority'] : 'low'; ?>
+							<?php $submit_val = !empty($_POST['ns_ticket_priority']) ? $_POST['ns_ticket_priority'] : 'low'; ?>
 							<select class="ns-form-control" name="ns_ticket_priority" id="ns-ticket-priority" required>
-								<option value="" <?php selected( $sub_val, '' ); ?>><?php _e( 'Select a priority', 'nanosupport' ); ?></option>
-								<option value="low" <?php selected( $sub_val, 'low' ); ?>><?php _e( 'Low', 'nanosupport' ); ?></option>
-								<option value="medium" <?php selected( $sub_val, 'medium' ); ?>><?php _e( 'Medium', 'nanosupport' ); ?></option>
-								<option value="high" <?php selected( $sub_val, 'high' ); ?>><?php _e( 'High', 'nanosupport' ); ?></option>
-								<option value="critical" <?php selected( $sub_val, 'critical' ); ?>><?php _e( 'Critical', 'nanosupport' ); ?></option>
+								<option value="" <?php selected( $submit_val, '' ); ?>><?php esc_html_e( 'Select a priority', 'nanosupport' ); ?></option>
+								<option value="low" <?php selected( $submit_val, 'low' ); ?>><?php esc_html_e( 'Low', 'nanosupport' ); ?></option>
+								<option value="medium" <?php selected( $submit_val, 'medium' ); ?>><?php esc_html_e( 'Medium', 'nanosupport' ); ?></option>
+								<option value="high" <?php selected( $submit_val, 'high' ); ?>><?php esc_html_e( 'High', 'nanosupport' ); ?></option>
+								<option value="critical" <?php selected( $submit_val, 'critical' ); ?>><?php esc_html_e( 'Critical', 'nanosupport' ); ?></option>
 							</select>
 						</div>
 					</div> <!-- /.ns-form-group -->
+
+					<?php
+					$display_department = isset($ns_general_settings['is_department_visible']) ? absint($ns_general_settings['is_department_visible']) : false;
+
+					if( $display_department  ) { ?>
+
+						<!-- TICKET DEPARTMENTS -->
+						<div class="ns-form-group">
+							<label for="ns-ticket-department" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
+								<?php esc_html_e( 'Department', 'nanosupport' ); ?>
+							</label>
+							<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
+								<?php echo ns_tooltip( esc_html__( 'Choose a department to which you want to notify about the ticket', 'nanosupport' ), 'bottom' ); ?>
+							</div>
+							<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12 ns-form-inline">
+								<?php $submit_val = ! empty($_POST['ns_ticket_department']) ? $_POST['ns_ticket_department'] : ''; ?>
+								<?php
+								$ns_dept_args = array(
+											'show_option_all'    => '',
+											'show_option_none'   => esc_html__( 'Select a Department', 'nanosupport' ),
+											'option_none_value'	 => '',
+											'orderby'            => 'ID', 
+											'order'              => 'ASC',
+											'show_count'         => 0,
+											'hide_empty'         => 0,
+											'child_of'           => 0,
+											'exclude'            => '',
+											'echo'               => true,
+											'selected'           => $submit_val,
+											'hierarchical'       => 0, 
+											'name'               => 'ns_ticket_department',
+											'id'                 => 'ns-ticket-department',
+											'class'              => 'postform ns-form-control',
+											'depth'              => 0,
+											'tab_index'          => 0,
+											'taxonomy'           => 'nanosupport_department',
+											'hide_if_empty'      => false
+										);
+								wp_dropdown_categories( $ns_dept_args );
+								?>
+							</div>
+						</div> <!-- /.ns-form-group -->
+
+					<?php } //endif( $display_department  ) ?>
 
 
 					<?php if( ! is_user_logged_in() ) { ?>
@@ -173,10 +259,10 @@ function ns_submit_support_ticket() {
 						 */
 						if( $embedded_login ) {
 							$login_link 	= add_query_arg( 'action', 'login', get_the_permalink() );
-							$login_title 	= __( 'Login', 'nanosupport' );
+							$login_title 	= esc_html__( 'Login', 'nanosupport' );
 						} else {
 							$login_link 	= wp_login_url( get_the_permalink() );
-							$login_title 	= __( 'Login first', 'nanosupport' );
+							$login_title 	= esc_html__( 'Login first', 'nanosupport' );
 						}
 						?>
 
@@ -196,7 +282,7 @@ function ns_submit_support_ticket() {
 
 								<div class="ns-form-group">
 									<p class="ns-col-sm-9 ns-col-sm-offset-3">
-										<span class="ns-icon-info-circled"></span> <?php _e( 'With these information below, we will create an account on your behalf to track the ticket for further enquiry.', 'nanosupport' ); ?>
+										<span class="ns-icon-info-circled"></span> <?php esc_html_e( 'With these information below, we will create an account on your behalf to track the ticket for further enquiry.', 'nanosupport' ); ?>
 									</p>
 								</div> <!-- /.ns-form-group -->
 
@@ -209,10 +295,10 @@ function ns_submit_support_ticket() {
 
 									<div class="ns-form-group">
 										<label for="reg-name" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
-											<?php _e( 'Username', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+											<?php esc_html_e( 'Username', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 										</label>
 										<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-											<?php echo ns_tooltip( __( 'Username for the user account', 'nanosupport' ), 'bottom' ); ?>
+											<?php echo ns_tooltip( esc_html__( 'Username for the user account', 'nanosupport' ), 'bottom' ); ?>
 										</div>
 										<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
 											<input name="reg_name" type="text" class="ns-form-control login-field" value="<?php echo( isset($_POST['reg_name']) ? $_POST['reg_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="reg-name" required>
@@ -223,10 +309,10 @@ function ns_submit_support_ticket() {
 
 								<div class="ns-form-group">
 									<label for="reg-email" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
-										<?php _e( 'Your email', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+										<?php esc_html_e( 'Your email', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 									</label>
 									<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-										<?php echo ns_tooltip( __( 'Your email for the user account and for further communication', 'nanosupport' ), 'bottom' ); ?>
+										<?php echo ns_tooltip( esc_html__( 'Your email for the user account and for further communication', 'nanosupport' ), 'bottom' ); ?>
 									</div>
 									<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
 										<input name="reg_email" type="email" class="ns-form-control login-field" value="<?php echo( isset($_POST['reg_email']) ? $_POST['reg_email'] : null ); ?>" placeholder="<?php esc_attr_e( 'Email', 'nanosupport' ); ?>" id="reg-email" required>
@@ -242,10 +328,10 @@ function ns_submit_support_ticket() {
 
 									<div class="ns-form-group">
 										<label for="reg-pass" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
-											<?php _e( 'Password', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+											<?php esc_html_e( 'Password', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 										</label>
 										<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-											<?php echo ns_tooltip( __( 'Set a password for your account. Password must be at least 5 characters. Strong password should contain numbers, alphabets, and alphanumeric characters with a mixture of uppercase and lowercase', 'nanosupport' ), 'bottom' ); ?>
+											<?php echo ns_tooltip( esc_html__( 'Set a password for your account. Password must be at least 5 characters. Strong password should contain numbers, alphabets, and alphanumeric characters with a mixture of uppercase and lowercase', 'nanosupport' ), 'bottom' ); ?>
 										</div>
 										<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
 											<input name="reg_password" type="password" class="ns-form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="reg-pass" required>
@@ -256,7 +342,7 @@ function ns_submit_support_ticket() {
 
 								<!-- HoneyPot - Spam Trap -->
 								<div style="<?php echo ( (is_rtl()) ? 'right' : 'left' ); ?>: -999em; position: absolute;">
-									<label for="come-to-trap"><?php _e( 'Anti-spam HoneyPot', 'nanosupport' ); ?></label>
+									<label for="come-to-trap"><?php esc_html_e( 'Anti-spam HoneyPot', 'nanosupport' ); ?></label>
 									<input type="text" name="repeat_email" id="come-to-trap" tabindex="-1" />
 								</div>
 								<!-- /HoneyPot - Spam Trap -->
@@ -266,7 +352,7 @@ function ns_submit_support_ticket() {
 								 * -----------------------------------------------------------------------
 								 * HOOK : ACTION HOOK
 								 * nanosupport_register_form
-								 * 
+								 *
 								 * To display anything below registration fields
 								 *
 								 * @since  1.0.0
@@ -295,7 +381,7 @@ function ns_submit_support_ticket() {
 
 								<div class="ns-form-group">
 									<p class="ns-col-sm-9 ns-col-sm-offset-3">
-										<?php _e( 'Already have an account?', 'nanosupport' ); ?> <a href="<?php echo esc_url($login_link); ?>"><?php echo esc_html( $login_title ); ?><a>
+										<?php esc_html_e( 'Already have an account?', 'nanosupport' ); ?> <a href="<?php echo esc_url($login_link); ?>"><?php echo esc_html( $login_title ); ?><a>
 									</p>
 								</div> <!-- /.ns-form-group -->
 
@@ -304,7 +390,9 @@ function ns_submit_support_ticket() {
 								<!-- REGISTRATION IS INACTIVE -->
 								<div class="ns-form-group">
 									<p class="ns-col-sm-9 ns-col-sm-offset-3 ns-text-dim">
-										<?php _e( 'Registration is closed now. If you already have an account', 'nanosupport' ); ?> <a href="<?php echo esc_url($login_link); ?>"><?php echo esc_html( $login_title ); ?><a>
+										<?php
+										/* translators: if you have account, login */
+										esc_html_e( 'Registration is closed now. If you already have an account', 'nanosupport' ); ?> <a href="<?php echo esc_url($login_link); ?>"><?php echo esc_html( $login_title ); ?><a>
 									</p>
 								</div> <!-- /.ns-form-group -->
 
@@ -321,10 +409,10 @@ function ns_submit_support_ticket() {
 
 								<div class="ns-form-group">
 									<label for="login-name" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
-										<?php _e( 'Username', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+										<?php esc_html_e( 'Username', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 									</label>
 									<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-										<?php echo ns_tooltip( __( 'Write down your username of your account', 'nanosupport' ), 'bottom' ); ?>
+										<?php echo ns_tooltip( esc_html__( 'Write down your username of your account', 'nanosupport' ), 'bottom' ); ?>
 									</div>
 									<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
 										<input name="login_name" type="text" class="ns-form-control login-field" value="<?php echo( isset($_POST['login_name']) ? $_POST['login_name'] : null ); ?>" placeholder="<?php esc_attr_e( 'Username', 'nanosupport' ); ?>" id="login-name" required>
@@ -333,10 +421,10 @@ function ns_submit_support_ticket() {
 
 								<div class="ns-form-group">
 									<label for="login-pass" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
-										<?php _e( 'Password', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+										<?php esc_html_e( 'Password', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
 									</label>
 									<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
-										<?php echo ns_tooltip( __( 'Write down the password of your account to login', 'nanosupport' ), 'bottom' ); ?>
+										<?php echo ns_tooltip( esc_html__( 'Write down the password of your account to login', 'nanosupport' ), 'bottom' ); ?>
 									</div>
 									<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
 										<input name="login_password" type="password" class="ns-form-control login-field" value="" placeholder="<?php esc_attr_e( 'Password', 'nanosupport' ); ?>" id="login-pass" required>
@@ -345,18 +433,22 @@ function ns_submit_support_ticket() {
 
 								<div class="ns-form-group">
 									<div class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12 ns-checkbox">
-										<label><input type="checkbox" name="rememberme"> <?php _e( 'Remember me', 'nanosupport' ); ?></label>
+										<label><input type="checkbox" name="rememberme"> <?php esc_html_e( 'Remember me', 'nanosupport' ); ?></label>
 									</div>
 								</div> <!-- /.ns-form-group -->
 
 								<div class="ns-form-group">
 								<?php if( 1 == get_option('users_can_register') ) { ?>
 									<p class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12">
-										<?php printf( __( 'Don&rsquo;t have an account? <a href="%1s">Create one</a>', 'nanosupport' ), esc_url( get_the_permalink() ) ); ?>
+										<?php
+										/* translators: submit ticket with registration URL */
+										printf( wp_kses( __( 'Don&rsquo;t have an account? <a href="%1s">Create one</a>', 'nanosupport' ), array('a'=>array('href'=>true)) ), esc_url( get_the_permalink() ) ); ?>
 									</p>
 								<?php } else { ?>
 									<p class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12 ns-text-dim">
-										<?php printf( __( '<a href="%1s">Cancel Login</a>. But sorry, registration is closed now', 'nanosupport' ), esc_url( get_the_permalink() ) ); ?>
+										<?php
+										/* translators: submit ticket with registration URL */
+										printf( wp_kses( __( '<a href="%1s">Cancel Login</a>. But sorry, registration is closed now', 'nanosupport' ), array('a'=>array('href'=>true)) ), get_the_permalink() ); ?>
 									</p>
 								<?php } //endif ?>
 								</div> <!-- /.ns-form-group -->
@@ -375,7 +467,7 @@ function ns_submit_support_ticket() {
 					<div class="ns-form-group">
 						<div class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12">
 							<button type="submit" name="ns_submit" class="ns-btn ns-btn-primary">
-								<?php _e( 'Submit', 'nanosupport' ); ?>
+								<?php esc_html_e( 'Submit', 'nanosupport' ); ?>
 							</button>
 
 							<?php if( is_user_logged_in() ) : ?>
@@ -383,8 +475,9 @@ function ns_submit_support_ticket() {
 									&nbsp;
 									<?php
 									$current_user = wp_get_current_user();
-									printf( __('<strong>Submitting as:</strong> %s', 'nanosupport'), $current_user->display_name ); ?>
-									&nbsp;(<a href="<?php echo wp_logout_url( get_permalink() ); ?>"><?php _e('Log out', 'nanosupport') ?></a>)
+									/* translators: logged in user display name */
+									printf( wp_kses( __('<strong>Submitting as:</strong> %s', 'nanosupport'), array('strong'=>array()) ), $current_user->display_name ); ?>
+									&nbsp;(<a href="<?php echo wp_logout_url( get_permalink() ); ?>"><?php esc_html_e('Log out', 'nanosupport') ?></a>)
 								</span>
 							<?php endif; ?>
 						</div>

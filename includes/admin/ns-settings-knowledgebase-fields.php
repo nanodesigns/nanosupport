@@ -50,7 +50,7 @@ function ns_knowledgebase_page_field() {
             endforeach;
             
         echo '</select>';
-        echo '<!-- translators: Knowledgebase shortcode -->';
+        /* translators: Knowledgebase page shortcode */
         echo ns_tooltip( sprintf( __( 'Choose the page where you want to display the Knowledgebase. If no page is in the list, create one with the shortcode %s in it.', 'nanosupport' ), '<code>[nanosupport_knowledgebase]</code>' ), 'right' );
     
     endif;
