@@ -2,7 +2,7 @@
 Contributors: nanodesigns, wzislam
 Tags: helpdesk, support, support desk, support plugin, support ticket. ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff, support ticketing
 Requires at least: 4.4.0
-Tested up to: 4.6
+Tested up to: 4.7
 Stable tag: 0.3.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -41,31 +41,31 @@ The plugin is to provide support to your users - the users those are taking prod
 * Reply ticket from front end
 * ReOpen closed ticket
 * Internal Notes in-between support teams
-* Shortcode-enabled pages (installed on Plugin activation)
-* Settings page (Settings API)
+* Shortcode-enabled pages (installed on Plugin activation, but modifiable)
+* Settings page (WP Settings API)
 * Support Seeker user role and privileges
-* Dashboard widget with current status
+* Dashboard widget with current status in charts
 * Dashboard widget with recent activity
-* Dashboard widget with personal status for Agents
+* Dashboard widget with personal status for Agents in charts
 * Dashboard widget with necessary instruction and links for Support Seekers
 * Add ticket on behalf of other user (admin end)
-* Customizable Email template
+* Customizable HTML Email template
 * Email notification to admins on new ticket submission
 * Email notification to Support Seeker on account creation on ticket submission
 * Email notification to Support Seeker on ticket reply
 * Email notification to Support Agent on ticket reply
-* NanoSupport page-to-page navigation and pagewise notices
+* NanoSupport page-to-page navigation and pagewise notices (on demand)
 * Complete data deletion on uninstallation (if chosen)
-* 100% Translation-ready
+* 100% Translation-ready and automatic translation enabled
 * Fully responsive and Mobile devices friendly
-* Clean and well commented code
+* Clean and well commented and well documented code
 
 = Contribute =
 NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contribute.
 
 * [Fork on Github](https://github.com/nanodesigns/nanosupport)
 * [Report Bug](https://github.com/nanodesigns/nanosupport/issues)
-* [Get Support](http://wordpress.org/support/plugin/nanosupport)
+* [Get Support](https://wordpress.org/support/plugin/nanosupport)
 
 = Translation =
 The plugin is completely translation-ready. You can find the `.pot` file under `i18n/languages/` if you want to translate in your own way. But you can translate it easily from here in [**Translate NanoSupport**](https://translate.wordpress.org/projects/wp-plugins/nanosupport).
@@ -92,7 +92,7 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 3. Unzip the archive and cut/paste the folder to `/wp-content/plugins/` directory
 4. From admin 'Plugins' page, activate NanoSupport plugin
 5. Get to the Plugin\'s 'Settings' page, and set up the plugin as you like
-6. Wait for your first ticket
+6. Wait for your first ticket :)
 
 = How to Use =
 
@@ -114,20 +114,20 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 **A:** Please visit the plugin's Installation page to get the details.
 
 = Q: How to set up the Plugin? =
-**A:** After activation you can get the 'NanoSupport' admin menu on the left, and under that menu page, you will get the 'Settings' page to set up the plugin.
+**A:** After activation you can get the 'NanoSupport' admin menu on the left, and under that menu page, you will get the 'Settings' page to set the plugin as your choice.
 
 = Q: What are the shortcodes? =
 **A:** On installation the plugin will automatically create its necessary pages with related shortcodes. But if it misses by any chance, here are the shortcodes:
 
 * Submit Ticket page: `[nanosupport_submit_ticket]`
 * Support Desk page: `[nanosupport_desk]`
-* Knowledebase page: `[nanosupport_knowledgebase]`
+* Knowledgebase page: `[nanosupport_knowledgebase]`
 
 = Q: How to disable the page-to-page navigation and notice =
 **A:** On plugin's 'Settings' page, in 'General' tab, you can **uncheck** the *Enable Notices and Navigation on NanoSupport pages* to disable them.
 
 = Q: How the plugin can be well integrated with my theme? =
-**A:** NanoSupport has smart templating. You can find all its templates inside the `/templates/` directory. To make your theme completely integrated with the plugin\'s templates you can simply make a directory in your theme named `nanosupport/` and can overrite the plugin's templates with your custom one.
+**A:** NanoSupport has smart templating. You can find all its templates inside the plugin's `/templates/` directory. To make your theme completely integrated with the plugin\'s templates you can simply make a directory in your theme named `nanosupport/` and can overrite the plugin's templates with your custom one.
 
 = Q: How to make Support Agent? =
 **A:** Edit any WordPress user in WordPress admin panel and at the bottom, check the checkmark saying: *Yes, make this user a Support Agent* to make the user a support agent.
@@ -139,12 +139,12 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 4. NanoSupport | Fully featured Settings page for complete customization
 5. NanoSupport | Knowledgebase
 6. NanoSupport | Ticketing at a glance with NanoSupport dashboard widget
-7. NanoSupport | Customizable email template
+7. NanoSupport | Customizable HTML email template
 8. NanoSupport | Easy navigation, and notification for easy ticketing using Admin bar
 
 == Changelog ==
 
-= 0.3.0 - 2016-DEC-09 =
+= 0.3.0 - 2016-DEC-24 =
 === Major changes ===
 * Rich Text editor for ticket body text
 * New filter hook: `ns_wp_editor_specs`
@@ -154,13 +154,16 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 * Default assignment of 'Support' department is made deprecated
 * User can choose Support Department on submitting new ticket (Settings available)
 * CSS is changed from LESS to Sass
+* System Status admin page
 
 === Minor changes ===
 * Reorganized third party libraries
-* Github contributing.md added
+* contributing.md added
 * Github issue template added
 * A warning on upgrading process fixed - props @prionkor
 * jshint error fixed with procedural code
+* Agent email was not sending - fixed
+* Ticket response content added to email body
 
 = 0.2.2 - 2016-SEP-03 =
 * Ticket character limit can be set by user
@@ -204,3 +207,4 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 * Pending ticket notification using admin menu bubble
 * Default assignment of 'Support' department is made deprecated
 * User can choose Support Department on submitting new ticket (Settings available)
+* System Status admin page

@@ -10,7 +10,9 @@ Smart Support Ticketing Plugin for WordPress
 ## Introduction
 Create a fully featured Support Center within your WordPress environment without any third party system dependency, for completely FREE of cost. It has built-in Knowledgebase too. **No** 3rd party support ticketing system required, **no** external site/API dependency, **simply** create your own fully featured Support Center within your WordPress environment, and take your support into the next level.
 
-The plugin is to provide support to your users - the users those are taking product or services from you. So the plugin provides a manageable communication privately in between you and your that specific user only. Visit the 'Installation' tab for more details on how to use the plugin.
+It has a built-in Knowledgebase that can be used for information that are for public acknowledgement.
+
+The plugin is to provide support to your users - the users those are taking product or services from you. So the plugin provides a manageable communication privately in between you and your specific customer only. Take a look at the [installation process](https://github.com/nanodesigns/nanosupport/wiki/Installation) and [how to use](https://github.com/nanodesigns/nanosupport/wiki/How-to-Use) the plugin.
 
 [:white_check_mark: Read the List of its nice **Features**](https://github.com/nanodesigns/nanosupport/wiki/Introduction-&-Features)<br>
 [:computer: See the **Screenshots**](https://github.com/nanodesigns/nanosupport/wiki/Screenshots)
@@ -21,7 +23,8 @@ The plugin is to provide support to your users - the users those are taking prod
 ---
 
 ### Available Automatic Translation
-* Bengali (_Bangla_) - `bn_BD`
+* Bengali (_Bangla_) - Bangladesh - `bn_BD`
+* Danish - Denmark - `da_DK` (thanks to @nh123 and @ellegaarddk)
 
 ## Contribute
 NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contribute.

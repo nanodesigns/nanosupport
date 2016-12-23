@@ -13,7 +13,7 @@
  * Author:            nanodesigns
  * Author URI:        http://nanodesignsbd.com/
  * Requires at least: 4.4.0
- * Tested up to:      4.6
+ * Tested up to:      4.7
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       nanosupport
@@ -236,7 +236,7 @@ add_action( 'plugins_loaded', 'ns_cross_check_on_activation' );
  * -----------------------------------------------------------------------
  */
 function ns_plugin_settings_link( $links ) {
-	//$settings_link = '/wp-admin/edit.php?post_type=nanosupport&page=nanosupport-settings';
+	// '/wp-admin/edit.php?post_type=nanosupport&page=nanosupport-settings';
 	$settings_link = '<a href="'. esc_url( admin_url( 'edit.php?post_type=nanosupport&page=nanosupport-settings' ) ) .'" title="'. esc_attr__( 'Set the NanoSupport settings', 'nanosupport' ) .'">'. __( 'Settings', 'nanosupport' ) .'</a>';
 
 	array_unshift( $links, $settings_link ); //make the settings link be first item
