@@ -307,3 +307,42 @@ function ns_change_nanodoc_title_text( $title ){
 }
 
 add_filter( 'enter_title_here', 'ns_change_nanodoc_title_text' );
+
+
+/**
+ * Back to the Knowledgebase button
+ *
+ * @since  1.0.0
+ * 
+ * @param  string $content WordPress post content.
+ * @return string          Filtered content for Knowledgebase Docs.
+ * -----------------------------------------------------------------------
+ */
+function ns_back_to_knowledgebase_link( $content ) {    
+    $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
+    $knowledgebase_link        = isset($ns_knowledgebase_settings['page']) ? get_permalink($ns_knowledgebase_settings['page']) : '#';
+
+    /**
+     * -----------------------------------------------------------------------
+     * HOOK : FILTER HOOK
+     * ns_back_to_knowledgebase
+     *
+     * To modify the link visible below the Knowledgebase documents typically
+     * targetted toward the Knowledgebase. You may want to modify the link
+     * to the respective Knowledgebase Category, the filter will help you.
+     *
+     * @since  1.0.0
+     * -----------------------------------------------------------------------
+     */
+    $back_link = apply_filters( 'ns_back_to_knowledgebase', $knowledgebase_link );
+    
+    if( is_singular('nanodoc') && isset($ns_knowledgebase_settings['isactive_kb']) && $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
+
+        // Concatenating below the content with a break to differentiate better
+        $content .= '<br><a href="'. esc_url($back_link) .'" class="ns-btn ns-btn-sm ns-btn-default">&laquo; '. __( 'Back to the Knowledgebase', 'nanosupport' ) .'</a>';
+    }
+
+    return $content;
+}
+
+add_filter( 'the_content', 'ns_back_to_knowledgebase_link' );
