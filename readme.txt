@@ -147,7 +147,7 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 = 0.3.0 - 2016-DEC-24 =
 === Major changes ===
 * Rich Text editor for ticket body text
-* New filter hook: `ns_wp_editor_specs`
+* New filter hook: `ns_wp_editor_specs`, `ns_back_to_knowledgebase`
 * Pending ticket notification using admin menu bubble
 * Fixed translation strings to strip out dumped HTML and made most of them SQL injection proof
 * Composer, npm dependency and Grunt incorporated for easy development collaboration
@@ -164,6 +164,7 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 * jshint error fixed with procedural code
 * Agent email was not sending - fixed
 * Ticket response content added to email body
+* Back link to Knowledgebase added after Knowledgebase contents
 
 = 0.2.2 - 2016-SEP-03 =
 * Ticket character limit can be set by user
