@@ -7,7 +7,7 @@ Stable tag: 0.3.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-Create a fully featured Support Center within your WordPress environment without any third party system dependency, completely FREE. The built-in Knowledgebase is to inform public with generalized queries.
+Create a fully featured Support Center in your WordPress setup without any third party dependency, completely FREE. Get a built-in Knowledgebase too.
 
 == Description ==
 Create a fully featured Support Center within your WordPress environment without any third party system dependency, for completely FREE of cost.
@@ -145,7 +145,8 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 == Changelog ==
 
 = 0.3.0 - 2016-DEC-24 =
-=== Major changes ===
+**Major changes**
+
 * Rich Text editor for ticket body text
 * New filter hook: `ns_wp_editor_specs`, `ns_back_to_knowledgebase`
 * Pending ticket notification using admin menu bubble
@@ -156,7 +157,8 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 * CSS is changed from LESS to Sass
 * System Status admin page
 
-=== Minor changes ===
+**Minor changes**
+
 * Reorganized third party libraries
 * contributing.md added
 * Github issue template added
