@@ -72,7 +72,7 @@ module.exports = function(grunt) {
                 src: 'assets/css/nanosupport.css'
             },
             adminCSS: {
-                src: 'themes/css/nanosupport-admin.css'
+                src: 'assets/css/nanosupport-admin.css'
             }
         },
 
@@ -95,8 +95,8 @@ module.exports = function(grunt) {
 
 
         /**
-         Updates the translation catalog
-         @author https://www.npmjs.com/package/grunt-wp-i18n
+         * Updates the translation catalog
+         * @url: https://www.npmjs.com/package/grunt-wp-i18n
          */
         makepot: {
             target: {
@@ -124,7 +124,7 @@ module.exports = function(grunt) {
 
         /**
          * Check textdomain errors
-         * @author https://github.com/stephenharris/grunt-checktextdomain
+         * @url: https://github.com/stephenharris/grunt-checktextdomain
          */
         checktextdomain: {
             options:{
