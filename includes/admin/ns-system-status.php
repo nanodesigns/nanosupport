@@ -119,6 +119,7 @@ function nanosupport_system_status_page_callback() {
                                 <td>
                                 <?php
                                 if( $memory_limit < 67108864 ) {
+                                    /* translators: 1. existing PHP memory limit 2. link to increasing PHP memory limit in WordPress */
                                     echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning"></i>'. sprintf( esc_html__('%1$s &mdash; We recommend setting memory to at least 64MB. See: %2$s', 'nanosupport'), size_format( $memory_limit ), '<a href="https://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP" target="_blank">'. esc_html__( 'Increasing memory allocated to PHP', 'nanosupport' ) .'</a>' ) .'</mark>';
                                 } else {
                                     echo '<span class="ns-text-success"><i class="dashicons dashicons-yes"></i>'. size_format( $memory_limit ) .'</span>';
@@ -132,6 +133,7 @@ function nanosupport_system_status_page_callback() {
                                 <td>
                                 <?php
                                 if ( version_compare( $phpversion, '5.6', '<' ) ) {
+                                    /* translators: 1. existing PHP version 2. link to WordPress minimum requirements */
                                     echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning"></i> '. sprintf( esc_html__('%1$s &mdash; We recommend a minimum PHP version of 5.6. See: %2$s', 'nanosupport'), $phpversion, '<a href="https://wordpress.org/about/requirements/" target="_blank">'. esc_html__( 'WordPress minimum requirements', 'nanosupport' ) .'</a>' ) .'</mark>';
                                 } else {
                                     echo '<span class="ns-text-success"><i class="dashicons dashicons-yes"></i>'. $phpversion .'</span>';
@@ -145,6 +147,7 @@ function nanosupport_system_status_page_callback() {
                                 <td>
                                 <?php
                                 if ( version_compare( $mysql_version, '5.6', '<' ) ) {
+                                    /* translators: 1. existing MySQL version 2. link to WordPress minimum requirements */
                                     echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning"></i> '. sprintf( esc_html__('%1$s &mdash; We recommend a minimum MySQL version of 5.6. See: %2$s', 'nanosupport'), $mysql_version, '<a href="https://wordpress.org/about/requirements/" target="_blank">'. esc_html__( 'WordPress minimum requirements', 'nanosupport' ) .'</a>' ) .'</mark>';
                                 } else {
                                     echo '<span class="ns-text-success"><i class="dashicons dashicons-yes"></i>'. $mysql_version .'</span>';
@@ -165,6 +168,7 @@ function nanosupport_system_status_page_callback() {
                             <tr>
                                 <th colspan="2">
                                     <?php
+                                    /* translators: Active plugin count */
                                     printf( esc_html__( 'Active Plugins (%d)', 'nanosupport' ), $ns_system_status->get_active_plugins_count() );
                                     ?>
                                 </th>
@@ -178,7 +182,9 @@ function nanosupport_system_status_page_callback() {
                                         <?php echo '<strong>'. $plugin['Title'] .'</strong> ('. $plugin['Version'] .')'; ?>
                                     </th>
                                     <td>
-                                        <?php printf( __( 'by <em>%s</em>', 'nanosupport' ), $plugin['Author'] ); ?>
+                                        <?php
+                                        /* translators: Plugin author */
+                                        printf( __( 'by <em>%s</em>', 'nanosupport' ), $plugin['Author'] ); ?>
                                     </td>
                                 </tr>
                             <?php } //endforeach ?>
