@@ -230,8 +230,8 @@ add_action( 'admin_footer-post-new.php',    'ns_mandate_knowledgebase_category' 
  */
 function ns_user_fields( $user ) { ?>
     <?php
-    //Don't display the section for 'support_seeker' role
-    if( 'support_seeker' !== $user->roles[0] ) : ?>
+    //Don't display the section except nanosupport 'manager'
+    if( ns_is_user('manager') ) : ?>
 
         <h3><?php echo NS()->plugin; ?></h3>
 
@@ -267,7 +267,7 @@ add_action( 'edit_user_profile', 'ns_user_fields' );
  */
 function ns_saving_user_fields( $user_id ) {
 
-    //Don't make a support agent from 'support_seeker' role
+    // Don't make a support agent from 'support_seeker' role
     if( ! ns_is_user( 'support_seeker' ) ) {
 
         update_user_meta( $user_id, 'ns_make_agent', intval( $_POST['ns_make_agent'] ) );
