@@ -306,6 +306,8 @@ function ns_save_nanosupport_meta_data( $post_id ) {
         }
     }
 
+    global $current_user;
+
 
     /**
      * Save NanoSupport Ticket Meta.
@@ -318,6 +320,16 @@ function ns_save_nanosupport_meta_data( $post_id ) {
     update_post_meta( $post_id, '_ns_ticket_status',   sanitize_text_field( $ns_ticket_status ) );
     update_post_meta( $post_id, '_ns_ticket_priority', sanitize_text_field( $ns_ticket_priority ) );
     if( ns_is_user('manager') ) {
+        $existing_agent = (int) get_post_meta( $post_id, '_ns_ticket_agent', true );
+
+        // Notify the support agent that, they're assigned for the first time
+        // if there's no agent assigned already, but we're going to add a new one, or
+        // if we're changing agent from existing to someone new
+        if( (! empty($ns_ticket_agent) && empty($existing_agent)) || $existing_agent !== absint( $ns_ticket_agent ) ) {
+            ns_notify_agent_assignment( $ns_ticket_agent, $post_id );
+        }
+
+        // Add a ticket agent always, if assigned
         update_post_meta( $post_id, '_ns_ticket_agent', absint( $ns_ticket_agent ) );
     }
 
@@ -329,8 +341,6 @@ function ns_save_nanosupport_meta_data( $post_id ) {
     $new_response = isset($_POST['ns_new_response']) && ! empty($_POST['ns_new_response']) ? $_POST['ns_new_response'] : false;
 
     if( $new_response ) :
-
-        global $current_user;
 
         /**
          * Sanitize ticket response content

@@ -331,3 +331,52 @@ function ns_disable_wp_comment_notification( $emails, $comment_ID ) {
 
     return $emails;
 }
+
+
+/**
+ * Email to Support Agent.
+ *
+ * Notify support agent when assigned to a ticket.
+ *
+ * @since  1.0.0
+ *
+ * @param   integer $user_id    Agent user ID.
+ * @param   integer $ticket_id  Ticket post ID.
+ * @return  boolean             If sent true, else false
+ * ------------------------------------------------------------------------------
+ */
+function ns_notify_agent_assignment( $user_id, $ticket_id = null ) {
+
+    // Must have a user ID to send email to
+    if( empty($user_id) )
+        return;
+
+    $ticket_id = $ticket_id == null ? get_the_ID() : $ticket_id;
+
+    $user  = get_user_by( 'id', $user_id );
+    $email = $user ? $user->user_email : '';
+
+    /* translators: Site title */
+    $subject = sprintf ( esc_html__( 'A ticket is assigned to you — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
+
+    $email_subhead = esc_html__( 'Ticket Assigned', 'nanosupport' );
+
+    //Email Content
+    $message = '';
+    /* translators: Site title */
+    $message = '<p style="margin: 0 0 16px;">'. sprintf( __( 'The following support ticket on &ldquo;%s&rdquo; is assigned to you:', 'nanosupport' ), get_bloginfo( 'name', 'display' ) ) .'</p>';
+
+        $get_ticket_link = 'pending' === get_post_status($ticket_id) ? ns_get_pending_permalink($ticket_id) : get_permalink($ticket_id);
+
+        // Ticket title
+        $message .= '<div style="border-left: 5px solid #ccc;padding-top: 10px;padding-left: 20px;padding-bottom: 10px;margin-bottom: 20px;">';
+            $message .= '<p style="margin: 0;font-weight: bold"><a style="text-decoration: none;color: #1c5daa;font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;" target="_blank" href="'. esc_url($get_ticket_link) .'">'. get_the_title($ticket_id) .'</a></p>';
+        $message .= '</div>';
+
+    $message .= '<p style="margin: 0 0 16px;">'. __( 'You may get occasional emails notifying any movement of the ticket', 'nanosupport' ) .'</p>';
+
+    // send the email
+    $agent_email = ns_email( $email, $subject, $email_subhead, $message );
+
+    return $agent_email;
+}
