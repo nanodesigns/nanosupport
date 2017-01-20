@@ -155,7 +155,7 @@ final class NanoSupport {
 		 * HOOK : FILTER HOOK
 		 * ns_template_path
 		 *
-		 * The template path used in theme to overrite.
+		 * The template path used in theme to override.
 		 *
 		 * @since  1.0.0
 		 * -----------------------------------------------------------------------
