@@ -144,7 +144,16 @@ function ns_highlight_ticket_field() {
 
 }
 
-// General Tab : General Settings : Field 9 : Is Department Visible?
+// General Tab : General Settings : Field 9 : Is Priority Visible?
+function ns_is_priority_visible_field() {
+    $options = get_option( 'nanosupport_settings' );
+
+    $is_priority_visible = isset($options['is_priority_visible']) ? $options['is_priority_visible'] : '';
+    echo '<input name="nanosupport_settings[is_priority_visible]" id="is_priority_visible" type="checkbox" value="1" '. checked( 1, $is_priority_visible, false ) . '/> <label for="is_priority_visible">'. __( 'Yes, let user choice Ticket Priority on ticket submission form', 'nanosupport' ) .'</label>';
+    echo ns_tooltip( __( 'If you check here, it will let the user choice Ticket Priority while submitting ticket.', 'nanosupport' ), 'right' );
+}
+
+// General Tab : General Settings : Field 10 : Is Department Visible?
 function ns_is_department_visible_field() {
     $options = get_option( 'nanosupport_settings' );
 
@@ -153,7 +162,7 @@ function ns_is_department_visible_field() {
     echo ns_tooltip( __( 'If you check here, it will let the user choice Support Department while submitting ticket.', 'nanosupport' ), 'right' );
 }
 
-// General Tab : General Settings : Field 10 : Enable Embedded Login?
+// General Tab : General Settings : Field 11 : Enable Embedded Login?
 function ns_embedded_login_field() {
     $options = get_option( 'nanosupport_settings' );
 
@@ -227,6 +236,8 @@ function ns_general_settings_validate( $input ) {
     $support_desk_notice        = $input['support_desk_notice'] ? $input['support_desk_notice'] : '';
     //Knowledgebase notice message
     $knowledgebase_notice       = $input['knowledgebase_notice'] ? $input['knowledgebase_notice'] : '';
+    //Make Priority Choice Visible checkbox
+    $is_priority_visible = isset($input['is_priority_visible']) && (int) $input['is_priority_visible'] === 1 ? (int) $input['is_priority_visible'] : '';
     //Make Department Choice Visible checkbox
     $is_department_visible = isset($input['is_department_visible']) && (int) $input['is_department_visible'] === 1 ? (int) $input['is_department_visible'] : '';
     //Enable Embedded Login checkbox
@@ -253,6 +264,7 @@ function ns_general_settings_validate( $input ) {
     $options['support_desk_notice']   = esc_attr(strip_tags($support_desk_notice));
     $options['knowledgebase_notice']  = esc_attr(strip_tags($knowledgebase_notice));
     $options['highlight_ticket']      = esc_html( $highlight_ticket_val );
+    $options['is_priority_visible']   = absint( $is_priority_visible );
     $options['is_department_visible'] = absint( $is_department_visible );
     $options['embedded_login']        = absint( $embedded_login );
 

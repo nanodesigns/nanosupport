@@ -116,6 +116,13 @@ function nanosupport_settings_options_init(){
             'ns_general'                                // Section
         );
         add_settings_field(
+            'is_priority_visible',                      // ID*
+            __( 'Is Priority Visible?', 'nanosupport' ),    // Title*
+            'ns_is_priority_visible_field',             // Callback Function*
+            'nanosupport_settings',                     // Page (Plugin)*
+            'ns_general'                                // Section
+        );
+        add_settings_field(
             'is_department_visible',                    // ID*
             __( 'Is Departments Visible?', 'nanosupport' ),    // Title*
             'ns_is_department_visible_field',           // Callback Function*
