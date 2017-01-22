@@ -159,6 +159,35 @@ module.exports = function(grunt) {
 
 
         /**
+         * Versioning dynamically
+         * @url: https://www.npmjs.com/package/grunt-version
+         */
+        version: {
+            pluginVersion: {
+                options: {
+                    prefix: 'Version:\\s+'
+                },
+                src: [
+                    'nanosupport.php'
+                ]
+            },
+            pluginConstant: {
+                options: {
+                    prefix: 'define\\(\\s*\'WPAS_VERSION\',\\s*\''
+                },
+                src: [
+                    'nanosupport.php'
+                ]
+            },
+            packageJson: {
+                src: [
+                    'package.json'
+                ]
+            }
+        },
+
+
+        /**
          * Create a neat zip archive for distribution
          * @url: https://github.com/gruntjs/grunt-contrib-compress
          */
