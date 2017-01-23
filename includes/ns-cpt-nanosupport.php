@@ -27,9 +27,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ns_register_cpt_nanosupport() {
 
     $labels = array(
-        'name'					=> __( 'Tickets', 'nanosupport' ),
-        'singular_name'			=> __( 'Ticket', 'nanosupport' ),
-        'add_new'				=> __( 'Add New', 'nanosupport' ),
+        'name'					=> _x( 'Tickets', 'NanoSupport Ticket', 'nanosupport' ),
+        'singular_name'			=> _x( 'Ticket', 'NanoSupport Ticket', 'nanosupport' ),
+        'add_new'				=> _x( 'Add New', 'NanoSupport Ticket', 'nanosupport' ),
         'add_new_item'			=> __( 'Add New Ticket', 'nanosupport' ),
         'edit_item'				=> __( 'Edit Ticket', 'nanosupport' ),
         'new_item'				=> __( 'New Ticket', 'nanosupport' ),
@@ -38,8 +38,8 @@ function ns_register_cpt_nanosupport() {
         'not_found'				=> __( 'No Ticket found', 'nanosupport' ),
         'not_found_in_trash'	=> __( 'No Ticket found in Trash', 'nanosupport' ),
         'parent_item_colon'		=> __( 'Parent Ticket:', 'nanosupport' ),
-        'menu_name'				=> __( 'NanoSupport', 'nanosupport' ),
-        'name_admin_bar'        => __( 'Support Ticket', 'nanosupport' ),
+        'menu_name'				=> _x( 'NanoSupport', 'NanoSupport Ticket', 'nanosupport' ),
+        'name_admin_bar'        => _x( 'Support Ticket', 'NanoSupport Ticket', 'nanosupport' ),
     );
 
     $args = array(
