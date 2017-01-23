@@ -2,7 +2,7 @@
 Contributors: nanodesigns, wzislam
 Tags: helpdesk, support, support desk, support plugin, support ticket, ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff, support ticketing, knowledge base, knowledgebase, faq, frequently asked questions
 Requires at least: 4.4.0
-Tested up to: 4.7
+Tested up to: 4.7.1
 Stable tag: 0.3.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -18,7 +18,7 @@ It has built-in Knowledgebase that is integrated to put generalized information 
 
 = What is it? =
 
-The plugin is to provide support to your users - the users those are taking product or services from you. So the plugin provides a managable communication privately in between you and your that specific user only. Visit the 'Installation' tab for more details on how to use the plugin.
+The plugin is to provide support to your users - the users those are taking product or services from you. So the plugin provides a manageable communication privately in between you and your that specific user only. Visit the 'Installation' tab for more details on how to use the plugin.
 
 = Features =
 * OnActivation setup
@@ -41,7 +41,7 @@ The plugin is to provide support to your users - the users those are taking prod
 * Reply ticket from front end
 * ReOpen closed ticket
 * Internal Notes in-between support teams
-* Shortcode-enabled pages (installed on Plugin activation, but modifiable)
+* Shortcode-enabled pages (installed on plugin activation, but modifiable)
 * Settings page (WP Settings API)
 * Support Seeker user role and privileges
 * Dashboard widget with current status in charts
@@ -54,7 +54,7 @@ The plugin is to provide support to your users - the users those are taking prod
 * Email notification to Support Seeker on account creation on ticket submission
 * Email notification to Support Seeker on ticket reply
 * Email notification to Support Agent on ticket reply
-* NanoSupport page-to-page navigation and pagewise notices (on demand)
+* NanoSupport page-to-page navigation and page-wise notices (on demand)
 * Complete data deletion on uninstallation (if chosen)
 * 100% Translation-ready and automatic translation enabled
 * Fully responsive and Mobile devices friendly
@@ -82,7 +82,7 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 1. In WordPress Plugins page, search for NanoSupport
 2. Install and activate the plugin
-3. Get to the Plugin\'s 'Settings' page, and set up the plugin as your choice
+3. Get to the plugin\'s 'Settings' page, and set up the plugin as your choice
 4. Wait for your first ticket
 
 = Manual Installation =
@@ -91,19 +91,19 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 2. Hit the Download button to download the `.zip` file
 3. Unzip the archive and cut/paste the folder to `/wp-content/plugins/` directory
 4. From admin 'Plugins' page, activate NanoSupport plugin
-5. Get to the Plugin\'s 'Settings' page, and set up the plugin as you like
+5. Get to the plugin\'s 'Settings' page, and set up the plugin as you like
 6. Wait for your first ticket :)
 
 = How to Use =
 
-1. Provide the **'Submit Ticket'** page's URL to your menu link, and ask for Support tickets from your users (Use 'Settings' page for necessary settings)
+1. Provide the **'Submit Ticket'** page\'s URL to your menu link, and ask for Support tickets from your users (Use 'Settings' page for necessary settings)
 2. When the user submits ticket you will be notified via email (as per your 'Settings')
 3. You can find the tickets in the **'Support Desk'**
 4. You can organize your tickets per department
 5. You can read the ticket in details and can answer from both front-end and admin-end
 6. As the tickets are completely private, for public information that you want to share with your users, you can use **'Knowledgebase'**
 7. You can organize Knowledgebase docs in categories
-8. And you have many flexibilities (and many more yet to come...) using the plugins 'Settings' page
+8. And you have many flexibilities (and many more yet to come...) using the plugin\'s 'Settings' page
 
 == Frequently Asked Questions ==
 
@@ -111,7 +111,7 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 **A:** Yes, please consult the [**NanoSupport User Guide**](https://github.com/nanodesigns/nanosupport/wiki).
 
 = Q: How to install the Plugin? =
-**A:** Please visit the plugin's Installation page to get the details.
+**A:** Please visit the plugin\'s Installation page to get the details.
 
 = Q: How to set up the Plugin? =
 **A:** After activation you can get the 'NanoSupport' admin menu on the left, and under that menu page, you will get the 'Settings' page to set the plugin as your choice.
@@ -124,12 +124,12 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 * Knowledgebase page: `[nanosupport_knowledgebase]`
 
 = Q: How to disable the page-to-page navigation and notice =
-**A:** On plugin's 'Settings' page, in 'General' tab, you can **uncheck** the *Enable Notices and Navigation on NanoSupport pages* to disable them.
+**A:** On plugin\'s 'Settings' page, in 'General' tab, you can **uncheck** the *Enable Notices and Navigation on NanoSupport pages* to disable them.
 
 = Q: How the plugin can be well integrated with my theme? =
-**A:** NanoSupport has smart templating. You can find all its templates inside the plugin's `/templates/` directory. To make your theme completely integrated with the plugin\'s templates you can simply make a directory in your theme named `nanosupport/` and can overrite the plugin's templates with your custom one.
+**A:** NanoSupport has smart templating. You can find all its templates inside the plugin's `/templates/` directory. To make your theme completely integrated with the plugin\'s templates you can simply make a directory in your theme named `nanosupport/` and can override the plugin\'s templates with your custom one.
 
-= Q: How to make Support Agent? =
+= Q: How to make a Support Agent? =
 **A:** Edit any WordPress user in WordPress admin panel and at the bottom, check the checkmark saying: *Yes, make this user a Support Agent* to make the user a support agent.
 
 == Screenshots ==
@@ -143,6 +143,13 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 8. NanoSupport | Easy navigation, and notification for easy ticketing using Admin bar
 
 == Changelog ==
+
+= 0.3.1 - 2017-JAN-23 =
+* Fixed: Assigning ticket to Support Agent was not triggering any email
+* Fixed: Users can set themselves as a Support Agent
+* Priority assignment by public made dynamic using Settings API
+* Various i18n functions fixed
+* Several other minor fixes all over the plugin code and texts
 
 = 0.3.0 - 2016-DEC-24 =
 **Major changes**
@@ -205,9 +212,5 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Upgrade Notice ==
 
-= 0.3.0 =
-* Rich text editor for the ticket body text
-* Pending ticket notification using admin menu bubble
-* Default assignment of 'Support' department is made deprecated
-* User can choose Support Department on submitting new ticket (Settings available)
-* System Status admin page
+= 0.3.1 =
+2 bug fixed and 1 dynamic feature added.

@@ -1,13 +1,13 @@
 # Copyright (c) 2016 NanoSupport
 msgid ""
 msgstr ""
-"Project-Id-Version: NanoSupport 0.3.0\n"
+"Project-Id-Version: NanoSupport 0.3.1\n"
 "Report-Msgid-Bugs-To: https://github.com/nanodesigns/nanosupport/issues\n"
-"POT-Creation-Date: 2016-12-23 17:16:28+00:00\n"
+"POT-Creation-Date: 2017-01-23 08:45:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "Last-Translator: nanodesigns (http://nanodesignsbd.com/)\n"
 "Language-Team: nanodesigns <info@nanodesignsbd.com>\n"
 "X-Generator: grunt-wp-i18n 0.5.4\n"
@@ -44,9 +44,8 @@ msgid "Support Desk"
 msgstr ""
 
 #: includes/admin/__nanodesigns.php:33 includes/admin/ns-settings.php:354
-#: includes/ns-cpt-knowledgebase.php:30 includes/ns-cpt-knowledgebase.php:31
-#: includes/ns-cpt-knowledgebase.php:41 includes/ns-dashboard.php:104
-#: includes/ns-functions.php:441 includes/ns-functions.php:495
+#: includes/ns-dashboard.php:104 includes/ns-functions.php:441
+#: includes/ns-functions.php:495
 msgid "Knowledgebase"
 msgstr ""
 
@@ -494,40 +493,48 @@ msgstr ""
 msgid "PHP Memory Limit"
 msgstr ""
 
-#: includes/admin/ns-system-status.php:122
+#: includes/admin/ns-system-status.php:123
+#. translators: 1. existing PHP memory limit 2. link to increasing PHP memory
+#. limit in WordPress
 msgid "%1$s &mdash; We recommend setting memory to at least 64MB. See: %2$s"
 msgstr ""
 
-#: includes/admin/ns-system-status.php:122
+#: includes/admin/ns-system-status.php:123
 msgid "Increasing memory allocated to PHP"
 msgstr ""
 
-#: includes/admin/ns-system-status.php:131
+#: includes/admin/ns-system-status.php:132
 msgid "PHP version"
 msgstr ""
 
-#: includes/admin/ns-system-status.php:135
+#: includes/admin/ns-system-status.php:137
+#. translators: 1. existing PHP version 2. link to WordPress minimum
+#. requirements
 msgid "%1$s &mdash; We recommend a minimum PHP version of 5.6. See: %2$s"
 msgstr ""
 
-#: includes/admin/ns-system-status.php:135
-#: includes/admin/ns-system-status.php:148
+#: includes/admin/ns-system-status.php:137
+#: includes/admin/ns-system-status.php:151
 msgid "WordPress minimum requirements"
 msgstr ""
 
-#: includes/admin/ns-system-status.php:144
+#: includes/admin/ns-system-status.php:146
 msgid "MySQL version"
 msgstr ""
 
-#: includes/admin/ns-system-status.php:148
+#: includes/admin/ns-system-status.php:151
+#. translators: 1. existing MySQL version 2. link to WordPress minimum
+#. requirements
 msgid "%1$s &mdash; We recommend a minimum MySQL version of 5.6. See: %2$s"
 msgstr ""
 
-#: includes/admin/ns-system-status.php:168
+#: includes/admin/ns-system-status.php:172
+#. translators: Active plugin count
 msgid "Active Plugins (%d)"
 msgstr ""
 
-#: includes/admin/ns-system-status.php:181
+#: includes/admin/ns-system-status.php:187
+#. translators: Plugin author
 msgid "by <em>%s</em>"
 msgstr ""
 
@@ -545,10 +552,6 @@ msgstr ""
 
 #: includes/class-system-status.php:40
 msgid "No"
-msgstr ""
-
-#: includes/ns-cpt-knowledgebase.php:32 includes/ns-cpt-nanosupport.php:32
-msgid "Add New"
 msgstr ""
 
 #: includes/ns-cpt-knowledgebase.php:33
@@ -663,14 +666,6 @@ msgstr ""
 msgid "Back to the Knowledgebase"
 msgstr ""
 
-#: includes/ns-cpt-nanosupport.php:30
-msgid "Tickets"
-msgstr ""
-
-#: includes/ns-cpt-nanosupport.php:31
-msgid "Ticket"
-msgstr ""
-
 #: includes/ns-cpt-nanosupport.php:33
 msgid "Add New Ticket"
 msgstr ""
@@ -702,10 +697,6 @@ msgstr ""
 
 #: includes/ns-cpt-nanosupport.php:40
 msgid "Parent Ticket:"
-msgstr ""
-
-#: includes/ns-cpt-nanosupport.php:42
-msgid "Support Ticket"
 msgstr ""
 
 #: includes/ns-cpt-nanosupport.php:48
@@ -976,6 +967,24 @@ msgstr ""
 msgid ""
 "An assigned support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is "
 "replied by <em>%3$s</em>:"
+msgstr ""
+
+#: includes/ns-email-functions.php:360
+#. translators: Site title
+msgid "A ticket is assigned to you — %s"
+msgstr ""
+
+#: includes/ns-email-functions.php:362
+msgid "Ticket Assigned"
+msgstr ""
+
+#: includes/ns-email-functions.php:367
+#. translators: Site title
+msgid "The following support ticket on &ldquo;%s&rdquo; is assigned to you:"
+msgstr ""
+
+#: includes/ns-email-functions.php:376
+msgid "You may get occasional emails notifying any movement of the ticket"
 msgstr ""
 
 #: includes/ns-functions.php:64
@@ -1595,4 +1604,40 @@ msgstr ""
 
 #. Author URI of the plugin/theme
 msgid "http://nanodesignsbd.com/"
+msgstr ""
+
+#: includes/ns-cpt-knowledgebase.php:30 includes/ns-cpt-knowledgebase.php:31
+#: includes/ns-cpt-knowledgebase.php:41
+msgctxt "NanoSupport Knowledgebase"
+msgid "Knowledgebase"
+msgstr ""
+
+#: includes/ns-cpt-knowledgebase.php:32
+msgctxt "NanoSupport Knowledgebase"
+msgid "Add New"
+msgstr ""
+
+#: includes/ns-cpt-nanosupport.php:30
+msgctxt "NanoSupport Ticket"
+msgid "Tickets"
+msgstr ""
+
+#: includes/ns-cpt-nanosupport.php:31
+msgctxt "NanoSupport Ticket"
+msgid "Ticket"
+msgstr ""
+
+#: includes/ns-cpt-nanosupport.php:32
+msgctxt "NanoSupport Ticket"
+msgid "Add New"
+msgstr ""
+
+#: includes/ns-cpt-nanosupport.php:41
+msgctxt "NanoSupport Ticket"
+msgid "NanoSupport"
+msgstr ""
+
+#: includes/ns-cpt-nanosupport.php:42
+msgctxt "NanoSupport Ticket"
+msgid "Support Ticket"
 msgstr ""
