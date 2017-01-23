@@ -26,8 +26,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ns_settings_page() {
     add_submenu_page(
         'edit.php?post_type=nanosupport',       //$parent_slug
-        __( 'Settings', 'nanosupport' ),        //$page_title
-        __( 'Settings', 'nanosupport' ),        //$menu_title
+        esc_html__( 'Settings', 'nanosupport' ),        //$page_title
+        esc_html__( 'Settings', 'nanosupport' ),        //$menu_title
         'manage_nanosupport',                   //$capability
         'nanosupport-settings',                 //$menu_slug
         'nanosupport_settings_page_callback'    //callback function
@@ -45,11 +45,20 @@ function nanosupport_settings_options_init(){
      * Tab: Basic Settings
      *  - Support Desk Page
      *  - Submit Ticket Page
+     *  - Set ticket character limit
+     *  - Enable/Disable notices
+     *  - Submit Ticket Notice
+     *  - Support Desk Notice
+     *  - Knowledgebase Notice
+     *  - Ticket highlight choice
+     *  - Priority visibility setup
+     *  - Department visibility setup
+     *  - Enable/Disable embedded login
      * ----------------------------------
      */
     add_settings_section(
         'ns_general',                                   // ID/Slug*
-        __( 'General Settings', 'nanosupport' ),        // Name*
+        esc_html__( 'General Settings', 'nanosupport' ),        // Name*
         'ns_general_settings_section_callback',         // Callback*
         'nanosupport_settings'                          // Page/Tab where to add the section of options*
     );
@@ -60,14 +69,14 @@ function nanosupport_settings_options_init(){
     );
         add_settings_field(
             'support_desk_page',                        // ID*
-            __( 'Support Desk Page', 'nanosupport' ),   // Title*
+            esc_html__( 'Support Desk Page', 'nanosupport' ),   // Title*
             'ns_support_desk_field',                    // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );
         add_settings_field(
             'submit_ticket_page',                       // ID*
-            __( 'Ticket Submission Page', 'nanosupport' ),  // Title*
+            esc_html__( 'Ticket Submission Page', 'nanosupport' ),  // Title*
             'ns_submit_ticket_field',                   // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
@@ -75,56 +84,63 @@ function nanosupport_settings_options_init(){
         add_settings_field(
             'ticket_char_limit',                        // ID*
             /* translators: context: ...limit to # characters */
-            __( 'Set ticket character limit to', 'nanosupport' ),      // Title*
+            esc_html__( 'Set ticket character limit to', 'nanosupport' ),      // Title*
             'ns_ticket_character_limit',                // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );
         add_settings_field(
             'enable_notice',                            // ID*
-            __( 'Enable Notice?', 'nanosupport' ),      // Title*
+            esc_html__( 'Enable Notice?', 'nanosupport' ),      // Title*
             'ns_enable_notice',                         // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );
         add_settings_field(
             'submit_ticket_notice',                     // ID*
-            __( 'Submit Ticket Notice', 'nanosupport' ),// Title*
+            esc_html__( 'Submit Ticket Notice', 'nanosupport' ),// Title*
             'ns_submit_ticket_notice',                  // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );
         add_settings_field(
             'support_desk_notice',                      // ID*
-            __( 'Support Desk Notice', 'nanosupport' ), // Title*
+            esc_html__( 'Support Desk Notice', 'nanosupport' ), // Title*
             'ns_support_desk_notice',                   // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );
         add_settings_field(
             'knowledgebase_notice',                     // ID*
-            __( 'Knowledgebase Notice', 'nanosupport' ), // Title*
+            esc_html__( 'Knowledgebase Notice', 'nanosupport' ), // Title*
             'ns_knowledgebase_notice',                  // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );
         add_settings_field(
             'highligh_ticket',                          // ID*
-            __( 'Highlight Ticket with', 'nanosupport' ),    // Title*
+            esc_html__( 'Highlight Ticket with', 'nanosupport' ),    // Title*
             'ns_highlight_ticket_field',                // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );
         add_settings_field(
+            'is_priority_visible',                      // ID*
+            esc_html__( 'Is Priority Visible?', 'nanosupport' ),    // Title*
+            'ns_is_priority_visible_field',             // Callback Function*
+            'nanosupport_settings',                     // Page (Plugin)*
+            'ns_general'                                // Section
+        );
+        add_settings_field(
             'is_department_visible',                    // ID*
-            __( 'Is Departments Visible?', 'nanosupport' ),    // Title*
+            esc_html__( 'Is Departments Visible?', 'nanosupport' ),    // Title*
             'ns_is_department_visible_field',           // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );
         add_settings_field(
             'embedded_login',                           // ID*
-            __( 'Enable Embedded Login?', 'nanosupport' ),    // Title*
+            esc_html__( 'Enable Embedded Login?', 'nanosupport' ),    // Title*
             'ns_embedded_login_field',                  // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
@@ -140,13 +156,13 @@ function nanosupport_settings_options_init(){
      */
     add_settings_section(
         'ns_account',                                   // ID/Slug*
-        __( 'Account Settings', 'nanosupport' ),        // Name*
+        esc_html__( 'Account Settings', 'nanosupport' ),        // Name*
         'ns_account_settings_section_callback',         // Callback*
         'nanosupport_settings'                          // Page/Tab where to add the section of options*
     );
         add_settings_field(
             'account_creation',                         // ID*
-            __( 'Account Creation', 'nanosupport' ),    // Title*
+            esc_html__( 'Account Creation', 'nanosupport' ),    // Title*
             'ns_account_creation_field',                // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_account'                                // Section
@@ -159,13 +175,13 @@ function nanosupport_settings_options_init(){
      */
     add_settings_section(
         'ns_others',                                    // ID/Slug*
-        __( 'Other Settings', 'nanosupport' ),          // Name*
+        esc_html__( 'Other Settings', 'nanosupport' ),          // Name*
         'ns_other_settings_section_callback',           // Callback*
         'nanosupport_settings'                          // Page/Tab where to add the section of options*
     );
         add_settings_field(
             'delete_data',                              // ID*
-            __( 'Delete Data?', 'nanosupport' ),        // Title*
+            esc_html__( 'Delete Data?', 'nanosupport' ),        // Title*
             'ns_delete_data_field',                     // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_others'                                 // Section
@@ -180,7 +196,7 @@ function nanosupport_settings_options_init(){
      */
     add_settings_section(
         'ns_knowledgebase',                            // ID/Slug*
-        __( 'Knowledgebase Settings', 'nanosupport' ),          // Name*
+        esc_html__( 'Knowledgebase Settings', 'nanosupport' ),          // Name*
         'ns_knowledgebase_settings_section_callback',           // Callback*
         'nanosupport_knowledgebase_settings'                    // Page/Tab where to add the section of options*
     );
@@ -196,7 +212,7 @@ function nanosupport_settings_options_init(){
          */
         add_settings_field(
             'isactive_knowledgebase',                           // ID*
-            __( 'Activate Knowledgebase?', 'nanosupport' ),     // Title*
+            esc_html__( 'Activate Knowledgebase?', 'nanosupport' ),     // Title*
             'ns_isactive_knowledgebase_field',                  // Callback Function*
             'nanosupport_knowledgebase_settings',               // Page (Plugin)*
             'ns_knowledgebase'                                  // Section
@@ -209,7 +225,7 @@ function nanosupport_settings_options_init(){
          */
         add_settings_field(
             'knowledgebase',                                    // ID*
-            __( 'Knowledgebase Page', 'nanosupport' ),          // Title*
+            esc_html__( 'Knowledgebase Page', 'nanosupport' ),          // Title*
             'ns_knowledgebase_page_field',                      // Callback Function*
             'nanosupport_knowledgebase_settings',               // Page (Plugin)*
             'ns_knowledgebase'                                  // Section
@@ -221,7 +237,7 @@ function nanosupport_settings_options_init(){
          */
         add_settings_field(
             'knowledgebase_terms',                              // ID*
-            __( 'Featured Categories', 'nanosupport' ),         // Title*
+            esc_html__( 'Featured Categories', 'nanosupport' ),         // Title*
             'ns_doc_terms_field',                               // Callback Function*
             'nanosupport_knowledgebase_settings',               // Page (Plugin)*
             'ns_knowledgebase'                                  // Section
@@ -233,7 +249,7 @@ function nanosupport_settings_options_init(){
          */
         add_settings_field(
             'knowledgebase_ppc',                                // ID*
-            __( 'No. of items per category', 'nanosupport' ),   // Title*
+            esc_html__( 'No. of items per category', 'nanosupport' ),   // Title*
             'ns_doc_ppc_field',                                 // Callback Function*
             'nanosupport_knowledgebase_settings',               // Page (Plugin)*
             'ns_knowledgebase'                                  // Section
@@ -248,7 +264,7 @@ function nanosupport_settings_options_init(){
      */
     add_settings_section(
         'ns_email',                                     // ID/Slug*
-        __( 'Email Settings', 'nanosupport' ),          // Name*
+        esc_html__( 'Email Settings', 'nanosupport' ),          // Name*
         'ns_email_settings_section_callback',           // Callback*
         'nanosupport_email_settings'                    // Page/Tab where to add the section of options*
     );
@@ -259,14 +275,14 @@ function nanosupport_settings_options_init(){
     );
         add_settings_field(
             'email',                                    // ID*
-            __( 'Notification Email', 'nanosupport' ),  // Title*
+            esc_html__( 'Notification Email', 'nanosupport' ),  // Title*
             'ns_notification_email_field',              // Callback Function*
             'nanosupport_email_settings',               // Page (Plugin)*
             'ns_email'                                  // Section
         );
         add_settings_field(
             'email_choice',                             // ID*
-            __( 'Email Choices', 'nanosupport' ),       // Title*
+            esc_html__( 'Email Choices', 'nanosupport' ),       // Title*
             'ns_email_choices_field',                   // Callback Function*
             'nanosupport_email_settings',               // Page (Plugin)*
             'ns_email'                                  // Section
@@ -281,41 +297,41 @@ function nanosupport_settings_options_init(){
      */
     add_settings_section(
         'ns_email_template',                            // ID/Slug*
-        __( 'Email Template', 'nanosupport' ),          // Name*
+        esc_html__( 'Email Template', 'nanosupport' ),          // Name*
         'ns_email_template_section_callback',           // Callback*
         'nanosupport_email_settings'                    // Page/Tab where to add the section of options*
     );
         add_settings_field(
             'header_bg_color',                          // ID*
-            __( 'Header Background Color', 'nanosupport' ),        // Title*
+            esc_html__( 'Header Background Color', 'nanosupport' ),        // Title*
             'ns_email_header_bg_color_field',           // Callback Function*
             'nanosupport_email_settings',               // Page (Plugin)*
             'ns_email_template'                         // Section
         );
         add_settings_field(
             'header_text_color',                        // ID*
-            __( 'Header Text Color', 'nanosupport' ),   // Title*
+            esc_html__( 'Header Text Color', 'nanosupport' ),   // Title*
             'ns_email_header_text_color_field',         // Callback Function*
             'nanosupport_email_settings',               // Page (Plugin)*
             'ns_email_template'                         // Section
         );
         add_settings_field(
             'header_image',                             // ID*
-            __( 'Header Image', 'nanosupport' ),        // Title*
+            esc_html__( 'Header Image', 'nanosupport' ),        // Title*
             'ns_email_header_image_field',              // Callback Function*
             'nanosupport_email_settings',               // Page (Plugin)*
             'ns_email_template'                         // Section
         );
         add_settings_field(
             'header_text',                              // ID*
-            __( 'Header Text', 'nanosupport' ),         // Title*
+            esc_html__( 'Header Text', 'nanosupport' ),         // Title*
             'ns_email_header_text_field',               // Callback Function*
             'nanosupport_email_settings',               // Page (Plugin)*
             'ns_email_template'                         // Section
         );
         add_settings_field(
             'footer_text',                              // ID*
-            __( 'Footer Text', 'nanosupport' ),         // Title*
+            esc_html__( 'Footer Text', 'nanosupport' ),         // Title*
             'ns_email_footer_text_field',               // Callback Function*
             'nanosupport_email_settings',               // Page (Plugin)*
             'ns_email_template'                         // Section
@@ -350,9 +366,9 @@ function nanosupport_settings_page_callback() {
         <?php
         //tabs
         $tabs = array(
-            'general_settings'          => __( 'General', 'nanosupport' ),
-            'knowledgebase_settings'    => __( 'Knowledgebase', 'nanosupport' ),
-            'email_settings'            => __( 'Emails', 'nanosupport' ),
+            'general_settings'          => esc_html__( 'General', 'nanosupport' ),
+            'knowledgebase_settings'    => esc_html__( 'Knowledgebase', 'nanosupport' ),
+            'email_settings'            => esc_html__( 'Emails', 'nanosupport' ),
         );
         $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'general_settings';
 
