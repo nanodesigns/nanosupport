@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NanoSupport 0.3.1\n"
 "Report-Msgid-Bugs-To: https://github.com/nanodesigns/nanosupport/issues\n"
-"POT-Creation-Date: 2017-01-23 08:45:13+00:00\n"
+"POT-Creation-Date: 2017-01-23 10:33:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -43,9 +43,9 @@ msgstr ""
 msgid "Support Desk"
 msgstr ""
 
-#: includes/admin/__nanodesigns.php:33 includes/admin/ns-settings.php:354
-#: includes/ns-dashboard.php:104 includes/ns-functions.php:441
-#: includes/ns-functions.php:495
+#: includes/admin/__nanodesigns.php:33 includes/admin/ns-settings.php:370
+#: includes/ns-dashboard.php:104 includes/ns-functions.php:443
+#: includes/ns-functions.php:497
 msgid "Knowledgebase"
 msgstr ""
 
@@ -213,62 +213,72 @@ msgid "Choose on which you want to highlight your ticket. Default: status"
 msgstr ""
 
 #: includes/admin/ns-settings-general-fields.php:152
-msgid "Yes, let user choice Support Department on ticket submission form"
+msgid "Yes, let user choice Ticket Priority on ticket submission form"
 msgstr ""
 
 #: includes/admin/ns-settings-general-fields.php:153
+msgid ""
+"If you check here, it will let the user choice Ticket Priority while "
+"submitting ticket."
+msgstr ""
+
+#: includes/admin/ns-settings-general-fields.php:161
+msgid "Yes, let user choice Support Department on ticket submission form"
+msgstr ""
+
+#: includes/admin/ns-settings-general-fields.php:162
 msgid ""
 "If you check here, it will let the user choice Support Department while "
 "submitting ticket."
 msgstr ""
 
-#: includes/admin/ns-settings-general-fields.php:161
+#: includes/admin/ns-settings-general-fields.php:170
 msgid "Yes, enable Login below ticket submission form"
 msgstr ""
 
-#: includes/admin/ns-settings-general-fields.php:161
+#: includes/admin/ns-settings-general-fields.php:170
 msgid "BETA FEATURE"
 msgstr ""
 
-#: includes/admin/ns-settings-general-fields.php:162
+#: includes/admin/ns-settings-general-fields.php:171
 msgid ""
 "If you check here, it will enable login form below ticket submission form. "
 "Please note that, it&rsquo;s a beta feature till now"
 msgstr ""
 
-#: includes/admin/ns-settings-general-fields.php:170
+#: includes/admin/ns-settings-general-fields.php:179
 msgid "All the user account related settings can be managed from here."
 msgstr ""
 
-#: includes/admin/ns-settings-general-fields.php:178
+#: includes/admin/ns-settings-general-fields.php:187
 msgid "Yes, automatically generate username from user email"
 msgstr ""
 
-#: includes/admin/ns-settings-general-fields.php:179
+#: includes/admin/ns-settings-general-fields.php:188
 msgid ""
 "If you check here, an automatted username will be created for the user from "
 "their email"
 msgstr ""
 
-#: includes/admin/ns-settings-general-fields.php:184
+#: includes/admin/ns-settings-general-fields.php:193
 msgid "Yes, automatically generate password for the user"
 msgstr ""
 
-#: includes/admin/ns-settings-general-fields.php:185
+#: includes/admin/ns-settings-general-fields.php:194
 msgid "If you check here, a password will be automatically created for the user"
 msgstr ""
 
-#: includes/admin/ns-settings-general-fields.php:194
+#: includes/admin/ns-settings-general-fields.php:203
 msgid "Delete all the Data on Uninstallation?"
 msgstr ""
 
-#: includes/admin/ns-settings-general-fields.php:195
+#: includes/admin/ns-settings-general-fields.php:204
 msgid ""
 "If you check here, on uninstallation of the plugin, it will wipe out all "
 "the data from the database"
 msgstr ""
 
-#: includes/admin/ns-settings-general-fields.php:203
+#: includes/admin/ns-settings-general-fields.php:212
 msgid "Miscellaneous settings can be managed from here."
 msgstr ""
 
@@ -315,132 +325,136 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:52
+#: includes/admin/ns-settings.php:61
 msgid "General Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:63
+#: includes/admin/ns-settings.php:72
 msgid "Support Desk Page"
 msgstr ""
 
-#: includes/admin/ns-settings.php:70
+#: includes/admin/ns-settings.php:79
 msgid "Ticket Submission Page"
 msgstr ""
 
-#: includes/admin/ns-settings.php:78
+#: includes/admin/ns-settings.php:87
 #. translators: context: ...limit to # characters
 msgid "Set ticket character limit to"
 msgstr ""
 
-#: includes/admin/ns-settings.php:85
+#: includes/admin/ns-settings.php:94
 msgid "Enable Notice?"
 msgstr ""
 
-#: includes/admin/ns-settings.php:92
+#: includes/admin/ns-settings.php:101
 msgid "Submit Ticket Notice"
 msgstr ""
 
-#: includes/admin/ns-settings.php:99
+#: includes/admin/ns-settings.php:108
 msgid "Support Desk Notice"
 msgstr ""
 
-#: includes/admin/ns-settings.php:106
+#: includes/admin/ns-settings.php:115
 msgid "Knowledgebase Notice"
 msgstr ""
 
-#: includes/admin/ns-settings.php:113
+#: includes/admin/ns-settings.php:122
 msgid "Highlight Ticket with"
 msgstr ""
 
-#: includes/admin/ns-settings.php:120
+#: includes/admin/ns-settings.php:129
+msgid "Is Priority Visible?"
+msgstr ""
+
+#: includes/admin/ns-settings.php:136
 msgid "Is Departments Visible?"
 msgstr ""
 
-#: includes/admin/ns-settings.php:127
+#: includes/admin/ns-settings.php:143
 msgid "Enable Embedded Login?"
 msgstr ""
 
-#: includes/admin/ns-settings.php:143
+#: includes/admin/ns-settings.php:159
 msgid "Account Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:149
+#: includes/admin/ns-settings.php:165
 msgid "Account Creation"
 msgstr ""
 
-#: includes/admin/ns-settings.php:162
+#: includes/admin/ns-settings.php:178
 msgid "Other Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:168
+#: includes/admin/ns-settings.php:184
 msgid "Delete Data?"
 msgstr ""
 
-#: includes/admin/ns-settings.php:183
+#: includes/admin/ns-settings.php:199
 msgid "Knowledgebase Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:199
+#: includes/admin/ns-settings.php:215
 msgid "Activate Knowledgebase?"
 msgstr ""
 
-#: includes/admin/ns-settings.php:212
+#: includes/admin/ns-settings.php:228
 msgid "Knowledgebase Page"
 msgstr ""
 
-#: includes/admin/ns-settings.php:224
+#: includes/admin/ns-settings.php:240
 msgid "Featured Categories"
 msgstr ""
 
-#: includes/admin/ns-settings.php:236
+#: includes/admin/ns-settings.php:252
 msgid "No. of items per category"
 msgstr ""
 
-#: includes/admin/ns-settings.php:251
+#: includes/admin/ns-settings.php:267
 msgid "Email Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:262
+#: includes/admin/ns-settings.php:278
 msgid "Notification Email"
 msgstr ""
 
-#: includes/admin/ns-settings.php:269
+#: includes/admin/ns-settings.php:285
 msgid "Email Choices"
 msgstr ""
 
-#: includes/admin/ns-settings.php:284
+#: includes/admin/ns-settings.php:300
 msgid "Email Template"
 msgstr ""
 
-#: includes/admin/ns-settings.php:290
+#: includes/admin/ns-settings.php:306
 msgid "Header Background Color"
 msgstr ""
 
-#: includes/admin/ns-settings.php:297
+#: includes/admin/ns-settings.php:313
 msgid "Header Text Color"
 msgstr ""
 
-#: includes/admin/ns-settings.php:304
+#: includes/admin/ns-settings.php:320
 msgid "Header Image"
 msgstr ""
 
-#: includes/admin/ns-settings.php:311
+#: includes/admin/ns-settings.php:327
 msgid "Header Text"
 msgstr ""
 
-#: includes/admin/ns-settings.php:318
+#: includes/admin/ns-settings.php:334
 msgid "Footer Text"
 msgstr ""
 
-#: includes/admin/ns-settings.php:348
+#: includes/admin/ns-settings.php:364
 msgid "NanoSupport Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:353
+#: includes/admin/ns-settings.php:369
 msgid "General"
 msgstr ""
 
-#: includes/admin/ns-settings.php:355
+#: includes/admin/ns-settings.php:371
 msgid "Emails"
 msgstr ""
 
@@ -708,7 +722,7 @@ msgid "Pending Tickets"
 msgstr ""
 
 #: includes/ns-cpt-nanosupport.php:115 includes/ns-metaboxes.php:223
-#: includes/shortcodes/ns-submit-ticket.php:174
+#: includes/shortcodes/ns-submit-ticket.php:179
 msgid "Priority"
 msgstr ""
 
@@ -748,7 +762,7 @@ msgid "Departments"
 msgstr ""
 
 #: includes/ns-cpt-nanosupport.php:199
-#: includes/shortcodes/ns-submit-ticket.php:199
+#: includes/shortcodes/ns-submit-ticket.php:206
 msgid "Department"
 msgstr ""
 
@@ -823,8 +837,8 @@ msgstr ""
 msgid "My Tools"
 msgstr ""
 
-#: includes/ns-dashboard.php:96 includes/ns-functions.php:391
-#: includes/ns-functions.php:499
+#: includes/ns-dashboard.php:96 includes/ns-functions.php:393
+#: includes/ns-functions.php:501
 msgid "Submit Ticket"
 msgstr ""
 
@@ -999,117 +1013,117 @@ msgstr ""
 msgid "Write down a little detail. At least %s characters or longer"
 msgstr ""
 
-#: includes/ns-functions.php:82
+#: includes/ns-functions.php:84
 msgid "Ticket priority must be set"
 msgstr ""
 
-#: includes/ns-functions.php:126
+#: includes/ns-functions.php:128
 msgid "Username cannot be empty"
 msgstr ""
 
-#: includes/ns-functions.php:130
+#: includes/ns-functions.php:132
 msgid "Password must be filled"
 msgstr ""
 
-#: includes/ns-functions.php:151
+#: includes/ns-functions.php:153
 msgid "There is no user found with this email address"
 msgstr ""
 
-#: includes/ns-functions.php:253
+#: includes/ns-functions.php:255
 msgid "Sorry, your user identity is not acceptable! Your ticket is not submitted."
 msgstr ""
 
-#: includes/ns-functions.php:344
+#: includes/ns-functions.php:346
 msgid "Email Template Preview"
 msgstr ""
 
-#: includes/ns-functions.php:388 includes/ns-functions.php:432
+#: includes/ns-functions.php:390 includes/ns-functions.php:434
 msgid "All the Tickets"
 msgstr ""
 
-#: includes/ns-functions.php:388 includes/ns-functions.php:432
+#: includes/ns-functions.php:390 includes/ns-functions.php:434
 msgid "My Tickets"
 msgstr ""
 
-#: includes/ns-functions.php:534 includes/shortcodes/ns-submit-ticket.php:30
+#: includes/ns-functions.php:536 includes/shortcodes/ns-submit-ticket.php:30
 #. translators: error message
 msgid "<strong>Error:</strong> %s"
 msgstr ""
 
-#: includes/ns-functions.php:542
+#: includes/ns-functions.php:544
 msgid ""
 "<strong>Success:</strong> Your response is successfully submitted to this "
 "ticket."
 msgstr ""
 
-#: includes/ns-functions.php:546
+#: includes/ns-functions.php:548
 msgid ""
 "<strong>Success:</strong> The ticket is marked as &lsquo;Solved&rsquo; with "
 "this response."
 msgstr ""
 
-#: includes/ns-functions.php:550
+#: includes/ns-functions.php:552
 msgid ""
 "<strong>Success:</strong> You just marked the ticket as "
 "&lsquo;Solved&rsquo;."
 msgstr ""
 
-#: includes/ns-functions.php:561
+#: includes/ns-functions.php:563
 msgid "This ticket is already solved."
 msgstr ""
 
-#: includes/ns-functions.php:563
+#: includes/ns-functions.php:565
 msgid "Reopen Ticket"
 msgstr ""
 
-#: includes/ns-functions.php:585 includes/ns-metaboxes.php:129
+#: includes/ns-functions.php:587 includes/ns-metaboxes.php:129
 #. translators: User display name
 msgid "Responding as: %s"
 msgstr ""
 
-#: includes/ns-functions.php:596 includes/ns-metaboxes.php:140
+#: includes/ns-functions.php:598 includes/ns-metaboxes.php:140
 msgid "Write down your response"
 msgstr ""
 
-#: includes/ns-functions.php:596 includes/ns-metaboxes.php:140
+#: includes/ns-functions.php:598 includes/ns-metaboxes.php:140
 msgid "Write down the response to the ticket"
 msgstr ""
 
-#: includes/ns-functions.php:616 includes/shortcodes/ns-submit-ticket.php:470
+#: includes/ns-functions.php:618 includes/shortcodes/ns-submit-ticket.php:477
 msgid "Submit"
 msgstr ""
 
-#: includes/ns-functions.php:621
+#: includes/ns-functions.php:623
 msgid "Close Ticket"
 msgstr ""
 
-#: includes/ns-functions.php:635
+#: includes/ns-functions.php:637
 msgid ""
 "<strong>Resolved!</strong> New Responses to this ticket is already closed. "
 "Only ticket author can reopen a closed ticket."
 msgstr ""
 
-#: includes/ns-functions.php:637
+#: includes/ns-functions.php:639
 msgid ""
 "<strong>Sorry!</strong> Tickets are open for responses only to the Ticket "
 "Author."
 msgstr ""
 
-#: includes/ns-functions.php:666
+#: includes/ns-functions.php:668
 msgid ""
 "<strong>Just to inform:</strong> This ticket is still <em>pending</em>. "
 "With this response it&rsquo;ll be opened."
 msgstr ""
 
-#: includes/ns-functions.php:672
+#: includes/ns-functions.php:674
 msgid "<strong>Just to inform:</strong> you are about to ReOpen the ticket."
 msgstr ""
 
-#: includes/ns-functions.php:674
+#: includes/ns-functions.php:676
 msgid "Cancel ReOpening"
 msgstr ""
 
-#: includes/ns-functions.php:706
+#: includes/ns-functions.php:708
 msgid "Response field can&rsquo;t be blank."
 msgstr ""
 
@@ -1224,25 +1238,25 @@ msgstr ""
 
 #: includes/ns-metaboxes.php:230 includes/ns-utility-functions.php:457
 #: includes/ns-utility-functions.php:459
-#: includes/shortcodes/ns-submit-ticket.php:183
+#: includes/shortcodes/ns-submit-ticket.php:188
 msgid "Low"
 msgstr ""
 
 #: includes/ns-metaboxes.php:231 includes/ns-utility-functions.php:464
 #: includes/ns-utility-functions.php:466
-#: includes/shortcodes/ns-submit-ticket.php:184
+#: includes/shortcodes/ns-submit-ticket.php:189
 msgid "Medium"
 msgstr ""
 
 #: includes/ns-metaboxes.php:232 includes/ns-utility-functions.php:471
 #: includes/ns-utility-functions.php:473
-#: includes/shortcodes/ns-submit-ticket.php:185
+#: includes/shortcodes/ns-submit-ticket.php:190
 msgid "High"
 msgstr ""
 
 #: includes/ns-metaboxes.php:233 includes/ns-utility-functions.php:478
 #: includes/ns-utility-functions.php:480
-#: includes/shortcodes/ns-submit-ticket.php:186
+#: includes/shortcodes/ns-submit-ticket.php:191
 msgid "Critical"
 msgstr ""
 
@@ -1369,115 +1383,115 @@ msgstr ""
 msgid "Write down your issue in details..."
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:177
+#: includes/shortcodes/ns-submit-ticket.php:182
 msgid "Choose the priority of the issue"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:182
+#: includes/shortcodes/ns-submit-ticket.php:187
 msgid "Select a priority"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:202
+#: includes/shortcodes/ns-submit-ticket.php:209
 msgid "Choose a department to which you want to notify about the ticket"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:209
+#: includes/shortcodes/ns-submit-ticket.php:216
 msgid "Select a Department"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:262
+#: includes/shortcodes/ns-submit-ticket.php:269
 #: includes/shortcodes/ns-support-desk.php:219
 msgid "Login"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:265
+#: includes/shortcodes/ns-submit-ticket.php:272
 msgid "Login first"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:285
+#: includes/shortcodes/ns-submit-ticket.php:292
 msgid ""
 "With these information below, we will create an account on your behalf to "
 "track the ticket for further enquiry."
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:298
-#: includes/shortcodes/ns-submit-ticket.php:304
-#: includes/shortcodes/ns-submit-ticket.php:412
-#: includes/shortcodes/ns-submit-ticket.php:418
+#: includes/shortcodes/ns-submit-ticket.php:305
+#: includes/shortcodes/ns-submit-ticket.php:311
+#: includes/shortcodes/ns-submit-ticket.php:419
+#: includes/shortcodes/ns-submit-ticket.php:425
 msgid "Username"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:301
+#: includes/shortcodes/ns-submit-ticket.php:308
 msgid "Username for the user account"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:312
+#: includes/shortcodes/ns-submit-ticket.php:319
 msgid "Your email"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:315
+#: includes/shortcodes/ns-submit-ticket.php:322
 msgid "Your email for the user account and for further communication"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:318
+#: includes/shortcodes/ns-submit-ticket.php:325
 msgid "Email"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:331
-#: includes/shortcodes/ns-submit-ticket.php:337
-#: includes/shortcodes/ns-submit-ticket.php:424
-#: includes/shortcodes/ns-submit-ticket.php:430
+#: includes/shortcodes/ns-submit-ticket.php:338
+#: includes/shortcodes/ns-submit-ticket.php:344
+#: includes/shortcodes/ns-submit-ticket.php:431
+#: includes/shortcodes/ns-submit-ticket.php:437
 msgid "Password"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:334
+#: includes/shortcodes/ns-submit-ticket.php:341
 msgid ""
 "Set a password for your account. Password must be at least 5 characters. "
 "Strong password should contain numbers, alphabets, and alphanumeric "
 "characters with a mixture of uppercase and lowercase"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:345
+#: includes/shortcodes/ns-submit-ticket.php:352
 msgid "Anti-spam HoneyPot"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:384
+#: includes/shortcodes/ns-submit-ticket.php:391
 msgid "Already have an account?"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:395
+#: includes/shortcodes/ns-submit-ticket.php:402
 #. translators: if you have account, login
 msgid "Registration is closed now. If you already have an account"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:415
+#: includes/shortcodes/ns-submit-ticket.php:422
 msgid "Write down your username of your account"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:427
+#: includes/shortcodes/ns-submit-ticket.php:434
 msgid "Write down the password of your account to login"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:436
+#: includes/shortcodes/ns-submit-ticket.php:443
 msgid "Remember me"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:445
+#: includes/shortcodes/ns-submit-ticket.php:452
 #. translators: submit ticket with registration URL
 msgid "Don&rsquo;t have an account? <a href=\"%1s\">Create one</a>"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:451
+#: includes/shortcodes/ns-submit-ticket.php:458
 #. translators: submit ticket with registration URL
 msgid "<a href=\"%1s\">Cancel Login</a>. But sorry, registration is closed now"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:479
+#: includes/shortcodes/ns-submit-ticket.php:486
 #. translators: logged in user display name
 msgid "<strong>Submitting as:</strong> %s"
 msgstr ""
 
-#: includes/shortcodes/ns-submit-ticket.php:480
+#: includes/shortcodes/ns-submit-ticket.php:487
 msgid "Log out"
 msgstr ""
 
