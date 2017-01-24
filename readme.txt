@@ -144,8 +144,9 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Changelog ==
 
-= 0.3.1 - 2017-JAN-23 =
+= 0.3.1 - 2017-JAN-24 =
 * Fixed: Assigning ticket to Support Agent was not triggering any email
+* New filter hook: `nanosupport_notify_agent_assignment`
 * Fixed: Users can set themselves as a Support Agent
 * Priority assignment by public made dynamic using Settings API
 * Various i18n functions fixed
