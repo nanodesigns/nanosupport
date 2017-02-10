@@ -55,7 +55,7 @@
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
 								<strong><?php _e( 'Updated:', 'nanosupport' ); ?></strong><br>
-								<span class="ns-small"><?php echo date( 'd M Y h:iA', strtotime( $post->post_modified ) ); ?></span>
+								<span class="ns-small"><?php echo date( 'd M Y h:iA', strtotime( ns_get_ticket_modified_date($post->ID) ) ); ?></span>
 							</p>
 						</div>
 						<div class="ns-col-sm-2 ns-col-xs-6">
