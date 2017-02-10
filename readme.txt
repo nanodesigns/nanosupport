@@ -2,8 +2,8 @@
 Contributors: nanodesigns, wzislam
 Tags: helpdesk, support, support desk, support plugin, support ticket, ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff, support ticketing, knowledge base, knowledgebase, faq, frequently asked questions
 Requires at least: 4.4.0
-Tested up to: 4.7.1
-Stable tag: 0.3.1
+Tested up to: 4.7.2
+Stable tag: 0.3.2
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -143,6 +143,10 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 8. NanoSupport | Easy navigation, and notification for easy ticketing using Admin bar
 
 == Changelog ==
+
+= 0.3.2 - 2017-FEB-21 =
+* Message instead of 404 page for Private tickets
+* Ticket update date fixed syncing with replies
 
 = 0.3.1 - 2017-JAN-24 =
 * Fixed: Assigning ticket to Support Agent was not triggering any email
