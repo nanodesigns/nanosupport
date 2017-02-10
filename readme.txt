@@ -145,7 +145,6 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 == Changelog ==
 
 = 0.3.2 - 2017-FEB-21 =
-* Message instead of 404 page for Private tickets
 * Ticket update date fixed syncing with replies
 
 = 0.3.1 - 2017-JAN-24 =

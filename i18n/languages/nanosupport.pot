@@ -1,9 +1,9 @@
 # Copyright (c) 2016 NanoSupport
 msgid ""
 msgstr ""
-"Project-Id-Version: NanoSupport 0.3.1\n"
+"Project-Id-Version: NanoSupport 0.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nanodesigns/nanosupport/issues\n"
-"POT-Creation-Date: 2017-01-23 10:33:07+00:00\n"
+"POT-Creation-Date: 2017-02-10 19:33:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -49,11 +49,11 @@ msgstr ""
 msgid "Knowledgebase"
 msgstr ""
 
-#: includes/admin/__nanodesigns.php:40 includes/ns-dashboard.php:259
+#: includes/admin/__nanodesigns.php:40 includes/ns-dashboard.php:254
 msgid "Rate us %s"
 msgstr ""
 
-#: includes/admin/__nanodesigns.php:40 includes/ns-dashboard.php:259
+#: includes/admin/__nanodesigns.php:40 includes/ns-dashboard.php:254
 msgid "Get Support"
 msgstr ""
 
@@ -807,7 +807,7 @@ msgid "Open Tickets"
 msgstr ""
 
 #: includes/ns-dashboard.php:28 includes/ns-metaboxes.php:214
-#: includes/ns-utility-functions.php:433 includes/ns-utility-functions.php:435
+#: includes/ns-utility-functions.php:413 includes/ns-utility-functions.php:415
 msgid "Under Inspection"
 msgstr ""
 
@@ -861,29 +861,29 @@ msgstr[1] ""
 msgid "Recent Activity"
 msgstr ""
 
-#: includes/ns-dashboard.php:185
+#: includes/ns-dashboard.php:180
 msgid "No activity yet!"
 msgstr ""
 
-#: includes/ns-dashboard.php:199
+#: includes/ns-dashboard.php:194
 #. translators: 1. link URL 2. ticket title 3. ticket author
 msgid "Ticket <a href=\"%1$s\">%2$s</a> is responded by %3$s"
 msgstr ""
 
-#: includes/ns-dashboard.php:207
+#: includes/ns-dashboard.php:202
 #. translators: 1. link URL 2. ticket title 3. ticket author
 msgid "New Ticket <a href=\"%1$s\">%2$s</a> submitted by %3$s"
 msgstr ""
 
-#: includes/ns-dashboard.php:233
+#: includes/ns-dashboard.php:228
 msgid "My Activity Status"
 msgstr ""
 
-#: includes/ns-dashboard.php:240
+#: includes/ns-dashboard.php:235
 msgid "You&rsquo;ve not assigned any ticket yet!"
 msgstr ""
 
-#: includes/ns-dashboard.php:247
+#: includes/ns-dashboard.php:242
 #. translators: Count in numbers
 msgid "My Total Ticket: %d"
 msgid_plural "My Total Tickets: %d"
@@ -1222,13 +1222,13 @@ msgstr ""
 msgid "Change the ticket status to track unsolved tickets separately."
 msgstr ""
 
-#: includes/ns-metaboxes.php:213 includes/ns-utility-functions.php:440
-#: includes/ns-utility-functions.php:442
+#: includes/ns-metaboxes.php:213 includes/ns-utility-functions.php:420
+#: includes/ns-utility-functions.php:422
 msgid "Open"
 msgstr ""
 
-#: includes/ns-metaboxes.php:215 includes/ns-utility-functions.php:426
-#: includes/ns-utility-functions.php:428
+#: includes/ns-metaboxes.php:215 includes/ns-utility-functions.php:406
+#: includes/ns-utility-functions.php:408
 msgid "Solved"
 msgstr ""
 
@@ -1236,26 +1236,26 @@ msgstr ""
 msgid "Change the priority as per the content and urgency of the ticket."
 msgstr ""
 
-#: includes/ns-metaboxes.php:230 includes/ns-utility-functions.php:457
-#: includes/ns-utility-functions.php:459
+#: includes/ns-metaboxes.php:230 includes/ns-utility-functions.php:437
+#: includes/ns-utility-functions.php:439
 #: includes/shortcodes/ns-submit-ticket.php:188
 msgid "Low"
 msgstr ""
 
-#: includes/ns-metaboxes.php:231 includes/ns-utility-functions.php:464
-#: includes/ns-utility-functions.php:466
+#: includes/ns-metaboxes.php:231 includes/ns-utility-functions.php:444
+#: includes/ns-utility-functions.php:446
 #: includes/shortcodes/ns-submit-ticket.php:189
 msgid "Medium"
 msgstr ""
 
-#: includes/ns-metaboxes.php:232 includes/ns-utility-functions.php:471
-#: includes/ns-utility-functions.php:473
+#: includes/ns-metaboxes.php:232 includes/ns-utility-functions.php:451
+#: includes/ns-utility-functions.php:453
 #: includes/shortcodes/ns-submit-ticket.php:190
 msgid "High"
 msgstr ""
 
-#: includes/ns-metaboxes.php:233 includes/ns-utility-functions.php:478
-#: includes/ns-utility-functions.php:480
+#: includes/ns-metaboxes.php:233 includes/ns-utility-functions.php:458
+#: includes/ns-utility-functions.php:460
 #: includes/shortcodes/ns-submit-ticket.php:191
 msgid "Critical"
 msgstr ""
@@ -1308,7 +1308,7 @@ msgstr ""
 msgid "Open tickets assigned to me"
 msgstr ""
 
-#: includes/ns-utility-functions.php:415 includes/ns-utility-functions.php:417
+#: includes/ns-utility-functions.php:395 includes/ns-utility-functions.php:397
 msgid "Pending"
 msgstr ""
 

@@ -22,10 +22,10 @@ function ns_dashboard_scripts() {
                 'solved'            => ns_ticket_status_count( 'solved' ),
                 'inspection'        => ns_ticket_status_count( 'inspection' ),
                 'open'              => ns_ticket_status_count( 'open' ),
-                'pending_label'     => __( 'Pending Tickets', 'nanosupport' ),
-                'solved_label'      => __( 'Solved Tickets', 'nanosupport' ),
-                'open_label'        => __( 'Open Tickets', 'nanosupport' ),
-                'inspection_label'  => __( 'Under Inspection', 'nanosupport' ),
+                'pending_label'     => esc_html__( 'Pending Tickets', 'nanosupport' ),
+                'solved_label'      => esc_html__( 'Solved Tickets', 'nanosupport' ),
+                'open_label'        => esc_html__( 'Open Tickets', 'nanosupport' ),
+                'inspection_label'  => esc_html__( 'Under Inspection', 'nanosupport' ),
                 'my_pending'        => ns_ticket_status_count( 'pending', $current_user->ID ),
                 'my_solved'         => ns_ticket_status_count( 'solved', $current_user->ID ),
                 'my_inspection'     => ns_ticket_status_count( 'inspection', $current_user->ID ),
@@ -49,7 +49,7 @@ add_action( 'admin_enqueue_scripts', 'ns_dashboard_scripts' );
 function nanosupport_dashboard_widget() {
     wp_add_dashboard_widget(
         'nanosupport_widget',                   //dashboard ID
-        '<span class="ns-icon-nanosupport"></span> '. __( 'NanoSupport', 'nanosupport' ),     //widget name
+        '<span class="ns-icon-nanosupport"></span> '. esc_html__( 'NanoSupport', 'nanosupport' ),     //widget name
         'nanosupport_widget_callback'           //callback function
     );
 }
@@ -74,7 +74,7 @@ function nanosupport_widget_callback() { ?>
 
             <div class="ns-row">
                 <div class="nanosupport-left-column">
-                    <h4 class="dashboard-head ns-text-center"><span class="ns-icon-tag"></span> <?php _e( 'Welcome to Support Ticketing', 'nanosupport' ); ?></h4>
+                    <h4 class="dashboard-head ns-text-center"><span class="ns-icon-tag"></span> <?php esc_html_e( 'Welcome to Support Ticketing', 'nanosupport' ); ?></h4>
                     <p><?php
                         /* translators: Link to the user profile 1. link URL 2. user profile icon */
                         printf( wp_kses( __( 'This is the back end of the support ticketing system. If you want to edit your profile, you can do that from <a href="%1$s">%2$s Your Profile</a>.', 'nanosupport' ), array( 'a' => array('href' => array()) ) ), get_edit_user_link(get_current_user_id()), '<span class="ns-icon-user"></span>' ); ?></p>
@@ -85,15 +85,15 @@ function nanosupport_widget_callback() { ?>
                      * Display, if enabled in admin panel.
                      */
                     if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) { ?>
-                        <p><?php _e( 'Use the links here for exploring knowledgebase, visiting your support desk, or submitting new ticket. Before submitting new ticket, we prefer you to consider exploring the Knowledgebase for existing resources.', 'nanosupport' ); ?></p>
+                        <p><?php esc_html_e( 'Use the links here for exploring knowledgebase, visiting your support desk, or submitting new ticket. Before submitting new ticket, we prefer you to consider exploring the Knowledgebase for existing resources.', 'nanosupport' ); ?></p>
                     <?php } else { ?>
-                        <p><?php _e( 'Use the links here for visiting your support desk, or submitting new ticket.', 'nanosupport' ); ?></p>
+                        <p><?php esc_html_e( 'Use the links here for visiting your support desk, or submitting new ticket.', 'nanosupport' ); ?></p>
                     <?php } ?>
                 </div>
                 <div class="nanosupport-right-column ns-text-center">
-                    <h4 class="dashboard-head"><span class="ns-icon-mouse"></span> <?php _e( 'My Tools', 'nanosupport' ); ?></h4>
-                    <a class="button button-primary ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_general_settings['support_desk']) ); ?>"><span class="icon ns-icon-tag"></span> <?php _e( 'Support Desk', 'nanosupport' ); ?></a>
-                    <a class="button ns-button-danger ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_general_settings['submit_page']) ); ?>"><span class="icon ns-icon-tag"></span> <?php _e( 'Submit Ticket', 'nanosupport' ); ?></a>
+                    <h4 class="dashboard-head"><span class="ns-icon-mouse"></span> <?php esc_html_e( 'My Tools', 'nanosupport' ); ?></h4>
+                    <a class="button button-primary ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_general_settings['support_desk']) ); ?>"><span class="icon ns-icon-tag"></span> <?php esc_html_e( 'Support Desk', 'nanosupport' ); ?></a>
+                    <a class="button ns-button-danger ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_general_settings['submit_page']) ); ?>"><span class="icon ns-icon-tag"></span> <?php esc_html_e( 'Submit Ticket', 'nanosupport' ); ?></a>
 
                     <?php
                     /**
@@ -101,7 +101,7 @@ function nanosupport_widget_callback() { ?>
                      * Display, if enabled in admin panel.
                      */
                     if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) { ?>
-                        <a class="button ns-button-info ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_knowledgebase_settings['page']) ); ?>"><strong><span class="icon ns-icon-docs"></span> <?php _e( 'Knowledgebase', 'nanosupport' ); ?></strong></a>
+                        <a class="button ns-button-info ns-button-block" href="<?php echo esc_url( get_the_permalink($ns_knowledgebase_settings['page']) ); ?>"><strong><span class="icon ns-icon-docs"></span> <?php esc_html_e( 'Knowledgebase', 'nanosupport' ); ?></strong></a>
                     <?php } ?>
                 </div>
             </div>
@@ -113,7 +113,7 @@ function nanosupport_widget_callback() { ?>
         if( ns_is_user('agent_and_manager') ) { ?>
             <div class="ns-row">
                 <div class="nanosupport-50-left ns-text-center">
-                    <h4 class="dashboard-head"><span class="ns-icon-pie-chart"></span> <?php _e( 'Current Status', 'nanosupport' ); ?></h4>
+                    <h4 class="dashboard-head"><span class="ns-icon-pie-chart"></span> <?php esc_html_e( 'Current Status', 'nanosupport' ); ?></h4>
                     <?php
                     $total_tickets = ns_total_ticket_count('nanosupport');
                     if( 0 === $total_tickets ) : ?>
@@ -177,7 +177,7 @@ function nanosupport_widget_callback() { ?>
                         if( empty( $activity_arr ) ) {
                             echo '<div id="ns-no-activity">';
                                 echo '<p class="smiley"></p>';
-                                echo '<p>' . __( 'No activity yet!', 'nanosupport' ) . '</p>';
+                                echo '<p>' . esc_html__( 'No activity yet!', 'nanosupport' ) . '</p>';
                             echo '</div>';
                         } else {
                             foreach( $activity_arr as $activity ) {
@@ -225,14 +225,14 @@ function nanosupport_widget_callback() { ?>
                 elseif( ns_is_user('agent') ) { ?>
 
                     <div class="nanosupport-50-right">
-                        <h4 class="dashboard-head ns-text-center"><span class="ns-icon-pulse"></span> <?php _e( 'My Activity Status', 'nanosupport' ); ?></h4>
+                        <h4 class="dashboard-head ns-text-center"><span class="ns-icon-pulse"></span> <?php esc_html_e( 'My Activity Status', 'nanosupport' ); ?></h4>
                         <?php
                         global $current_user;
                         $my_total_tickets = ns_total_ticket_count('nanosupport', $current_user->ID);
                         if( 0 === $my_total_tickets ) : ?>
                             <div id="ns-no-activity">
                                 <p class="smiley"></p>
-                                <p><?php _e( 'You&rsquo;ve not assigned any ticket yet!', 'nanosupport' ) ?></p>
+                                <p><?php esc_html_e( 'You&rsquo;ve not assigned any ticket yet!', 'nanosupport' ) ?></p>
                             </div>
                         <?php else : ?>
                             <div id="ns-activity-chart"></div>
