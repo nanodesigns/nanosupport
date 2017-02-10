@@ -29,48 +29,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ns_get_last_response( $ticket_id = null ) {
 
     $post_id = ( null === $ticket_id ) ? get_the_ID() : $ticket_id;
-    
-    global $wpdb;
-    $query = "SELECT comment_ID, user_id, comment_date
-                FROM $wpdb->comments
-                WHERE comment_ID = ( SELECT MAX(comment_ID)
-                                        FROM $wpdb->comments
-                                        WHERE comment_type = 'nanosupport_response'
-                                            AND comment_post_ID = $post_id
-                                            AND comment_approved = 1
-                                    )";
-    $max_comment_array = $wpdb->get_results( $query, ARRAY_A );
 
-    if( $max_comment_array ) {
-        $last_response = $max_comment_array[0];
+    $last_response = get_comments(array(
+        'post_id'   => $ticket_id,
+        'post_type' => 'nanosupport',
+        'number'    => 1
+    ));
+
+    if( !empty($last_response) ) {
+        $comment_id   = $last_response[0]->comment_ID;
+        $user_id      = $last_response[0]->user_id;
+        $comment_date = $last_response[0]->comment_date;
     } else {
-        $last_response = array(
-                            'comment_ID'    => '',
-                            'user_id'       => '',
-                            'comment_date'  => ''
-						);
+        $comment_id   = '';
+        $user_id      = '';
+        $comment_date = '';
     }
 
-    return $last_response;
-}
-
-
-/**
- * Response exists or not
- * 
- * Check whether the Response is already exists or not.
- *
- * @since  1.0.0
- * 
- * @param  integer $comment_ID  Comment ID.
- * @return integer              The comment_ID if it exists.
- * -----------------------------------------------------------------------
- */
-function ns_response_exists( $comment_ID ) {
-    global $wpdb;
-    $comment_ID = absint( $comment_ID );
- 
-    return $wpdb->get_var( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_ID = %s", $comment_ID ) );
+    return array(
+            'comment_ID'   => $comment_id,
+            'user_id'      => $user_id,
+            'comment_date' => $comment_date
+        );
 }
 
 
@@ -725,6 +705,8 @@ function ns_is_character_limit() {
  * This function transforms the php.ini notation for numbers (like '2M') to an integer.
  * Adopted from WooCommerce
  *
+ * @since   1.0.0
+ *
  * @param   $size
  * @return  int
  * --------------------------------------------------------------------------
@@ -747,3 +729,72 @@ function ns_transform_to_numeric( $size ) {
 
     return $ret;
 }
+
+
+/**
+ * Get Ticket Modified Date
+ *
+ * Ticket modified date in comparison to Response date.
+ *
+ * @since  1.0.0
+ * 
+ * @param  integer $ticket_id Ticket post ID.
+ * @return string             Date/Time.
+ * --------------------------------------------------------------------------
+ */
+function ns_get_ticket_modified_date( $ticket_id = null ) {
+
+    $post_id = ( null === $ticket_id ) ? get_the_ID() : $ticket_id;
+
+    $last_response      = ns_get_last_response($post_id);
+    $last_response_date = $last_response['comment_date'];
+
+    $this_post          = get_post( $post_id );
+    $post_modified_date = $this_post->post_modified;
+
+    // If there's no response, return the post_modified_date
+    if( empty($last_response_date) ) {
+        return $post_modified_date;
+    }
+
+    $date_modified = strtotime($last_response_date) > strtotime($post_modified_date) ? $last_response_date : $post_modified_date;
+
+    return $date_modified;
+
+}
+
+
+/**
+ * Updating Ticket Modified Date
+ * 
+ * Helper function to updating the post modified date. We are using this
+ * function to update ticket modified date when the ticket was set
+ * closed from the front end.
+ *
+ * @author  nofearinc
+ * @link    https://core.trac.wordpress.org/attachment/ticket/24266/24266.diff
+ * 
+ * @since   1.0.0
+ *  
+ * @param  integer $post_id Post ID.
+ * --------------------------------------------------------------------------
+ */
+function ns_update_post_modified_date( $post_id ) {
+
+    $post_modified     = current_time( 'mysql' ); 
+    $post_modified_gmt = current_time( 'mysql', 1 ); 
+     
+    $updated_fields = array(  
+            'post_modified'     => $post_modified, 
+            'post_modified_gmt' => $post_modified_gmt 
+    ); 
+    $where = array( 'ID' => $post_id ); 
+     
+    global $wpdb; 
+    $wpdb->update( $wpdb->posts, $updated_fields, $where ); 
+     
+    clean_post_cache( $post_id );
+
+}
+
+
