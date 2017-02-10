@@ -798,3 +798,18 @@ function ns_update_post_modified_date( $post_id ) {
 }
 
 
+/**
+ * Compare the Dates
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $a First array.
+ * @param  array $b Second array.
+ * @return integer  Larger value between two.
+ * --------------------------------------------------------------------------
+ */
+function ns_date_compare( $a, $b ) {
+    $date1 = strtotime($a['date']);
+    $date2 = strtotime($b['date']);
+    return $date2 - $date1;
+}

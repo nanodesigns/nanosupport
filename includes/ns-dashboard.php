@@ -171,12 +171,7 @@ function nanosupport_widget_callback() { ?>
                             $activity_arr[$ticket->ID]['status'] = $ticket->post_status;
                         }
 
-                        function date_compare($a, $b) {
-                            $date1 = strtotime($a['date']);
-                            $date2 = strtotime($b['date']);
-                            return $date2 - $date1;
-                        } 
-                        usort( $activity_arr, 'date_compare' );
+                        usort( $activity_arr, 'ns_date_compare' );
 
                         $counter = 0;
                         if( empty( $activity_arr ) ) {
