@@ -488,9 +488,19 @@ function ns_get_ticket_meta( $ticket_id = null ) {
 /**
  * Predict pretty permalink for pending tickets.
  *
+ * It's not easy to find non-published post's permalink, so
+ * we need to hack that.
+ * 
+ * This function is using a core function get_sample_permalink()
+ * and we are hacking that to make the forecasted permalink.
+ *
+ * Note: it's not bulletproof :( .
+ *
  * @since  1.0.0
  *
  * @link   http://wordpress.stackexchange.com/a/97606/22728
+ *
+ * @see    get_sample_permalink() Core function to have permalink using postname
  * 
  * @param  integer $post_id The ticket post ID.
  * @return string           The pretty permalink for the pending post.
