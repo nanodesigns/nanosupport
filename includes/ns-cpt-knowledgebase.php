@@ -27,9 +27,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ns_register_cpt_nanodoc() {
 
     $labels = array(
-        'name'					=> __( 'Knowledgebase', 'nanosupport' ),
-        'singular_name'			=> __( 'Knowledgebase', 'nanosupport' ),
-        'add_new'				=> __( 'Add New', 'nanosupport' ),
+        'name'					=> _x( 'Knowledgebase', 'NanoSupport Knowledgebase', 'nanosupport' ),
+        'singular_name'			=> _x( 'Knowledgebase', 'NanoSupport Knowledgebase', 'nanosupport' ),
+        'add_new'				=> _x( 'Add New', 'NanoSupport Knowledgebase', 'nanosupport' ),
         'add_new_item'			=> __( 'Add New Doc', 'nanosupport' ),
         'edit_item'				=> __( 'Edit Doc', 'nanosupport' ),
         'new_item'				=> __( 'New Doc', 'nanosupport' ),
@@ -38,7 +38,7 @@ function ns_register_cpt_nanodoc() {
         'not_found'				=> __( 'No Knowledgebase Doc found', 'nanosupport' ),
         'not_found_in_trash'	=> __( 'No Knowledgebase Doc found in Trash', 'nanosupport' ),
         'parent_item_colon'		=> __( 'Parent Doc:', 'nanosupport' ),
-        'menu_name'				=> __( 'Knowledgebase', 'nanosupport' ),
+        'menu_name'				=> _x( 'Knowledgebase', 'NanoSupport Knowledgebase', 'nanosupport' ),
     );
 
     $args = array(

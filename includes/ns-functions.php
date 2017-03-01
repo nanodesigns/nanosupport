@@ -78,10 +78,12 @@ function ns_handle_registration_login_ticket_submission() {
 
 
     //Ticket Priority
-    if( empty( $_POST['ns_ticket_priority'] ) ) {
+    $priority_displayed = isset($ns_general_settings['is_priority_visible']) ? absint($ns_general_settings['is_priority_visible']) : false;
+
+    if( $priority_displayed && empty( $_POST['ns_ticket_priority'] ) ) {
         $ns_errors[]        = esc_html__( 'Ticket priority must be set', 'nanosupport' );
     } else {
-        $ticket_priority    = $_POST['ns_ticket_priority'];
+        $ticket_priority    = empty($_POST['ns_ticket_priority']) ? 'low' : $_POST['ns_ticket_priority'];
     }
 
     // Ticket Department

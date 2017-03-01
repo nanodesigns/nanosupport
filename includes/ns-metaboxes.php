@@ -322,12 +322,26 @@ function ns_save_nanosupport_meta_data( $post_id ) {
     if( ns_is_user('manager') ) {
         $existing_agent = (int) get_post_meta( $post_id, '_ns_ticket_agent', true );
 
-        // Notify the support agent that, they're assigned for the first time
-        // if there's no agent assigned already, but we're going to add a new one, or
-        // if we're changing agent from existing to someone new
-        if( (! empty($ns_ticket_agent) && empty($existing_agent)) || $existing_agent !== absint( $ns_ticket_agent ) ) {
-            ns_notify_agent_assignment( $ns_ticket_agent, $post_id );
-        }
+        /**
+         * -----------------------------------------------------------------------
+         * HOOK : FILTER HOOK
+         * nanosupport_notify_agent_assignment
+         * 
+         * @since  1.0.0
+         *
+         * @param boolean  True to send email notification on ticket assignment.
+         * -----------------------------------------------------------------------
+         */
+        if( apply_filters( 'nanosupport_notify_agent_assignment', true ) ) {
+
+            // Notify the support agent that, they're assigned for the first time
+            // if there's no agent assigned already, but we're going to add a new one, or
+            // if we're changing agent from existing to someone new
+            if( (! empty($ns_ticket_agent) && empty($existing_agent)) || $existing_agent !== absint( $ns_ticket_agent ) ) {
+                ns_notify_agent_assignment( $ns_ticket_agent, $post_id );
+            }
+
+        } //endif( apply_filters(...))
 
         // Add a ticket agent always, if assigned
         update_post_meta( $post_id, '_ns_ticket_agent', absint( $ns_ticket_agent ) );
