@@ -65,10 +65,12 @@ NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contrib
 
 * [Fork on Github](https://github.com/nanodesigns/nanosupport)
 * [Report Bug](https://github.com/nanodesigns/nanosupport/issues)
-* [Get Support](https://wordpress.org/support/plugin/nanosupport)
+* [Get Support](https://github.com/nanodesigns/nanosupport/issues)
 
 = Translation =
 The plugin is completely translation-ready. You can find the `.pot` file under `i18n/languages/` if you want to translate in your own way. But you can translate it easily from here in [**Translate NanoSupport**](https://translate.wordpress.org/projects/wp-plugins/nanosupport).
+
+Or, you can use software like [POEdit](https://poedit.net/download) ('cross-platform) or [EasyPO](http://www.eazypo.ca/), and using the plugins' `.pot` file you can easily translate the plugin locally.
 
 = Connect with NanoSupport team =
 * [Website](http://nanodesignsbd.com?ref=nanosupport)
@@ -144,8 +146,9 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 
 == Changelog ==
 
-= 0.3.2 - 2017-FEB-21 =
+= 0.3.2 - 2017-MAR-02 =
 * Ticket update date fixed syncing with replies
+* Bug Fixed: pending ticket link was not working in agent notifying email
 
 = 0.3.1 - 2017-JAN-24 =
 * Fixed: Assigning ticket to Support Agent was not triggering any email
