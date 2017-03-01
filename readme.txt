@@ -149,6 +149,7 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 = 0.3.2 - 2017-MAR-02 =
 * Ticket update date fixed syncing with replies
 * Bug Fixed: pending ticket link was not working in agent notifying email
+* Withdrawn Composer dependency in development, as no PHP library is required to depend on
 
 = 0.3.1 - 2017-JAN-24 =
 * Fixed: Assigning ticket to Support Agent was not triggering any email

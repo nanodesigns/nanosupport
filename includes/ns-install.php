@@ -571,11 +571,12 @@ function ns_fail_version_admin_notice() {
 function ns_fail_dependency_admin_notice() {
     echo '<div class="updated"><p>';
         printf(
-            /* translators: 1. command 2. plugin installation link with popup thickbox (modal) */
-            wp_kses( __( 'NanoSupport&rsquo;s required dependencies are not loaded - plugin cannot function properly. Open the command console and run %1$s before anything else. If you are unaware what this is, please <a href="%2$s" class="thickbox">install the production version</a> instead.', 'nanosupport' ),
+            /* translators: 1. first command 2. second command 3. plugin installation link with popup thickbox (modal) */
+            wp_kses( __( 'NanoSupport&rsquo;s required dependencies are not loaded - plugin cannot function properly. Open the command console and run %1$s and then %2$s before anything else. If you are unaware what this is, please <a href="%3$s" class="thickbox">install the production version</a> instead.', 'nanosupport' ),
                 array( 'a' => array('href' => true, 'class' => true) )
             ),
-            '<code>composer install</code>',
+            '<code>npm install</code>',
+            '<code>grunt</code>',
             esc_url( add_query_arg( array(
                 'tab'           => 'plugin-information',
                 'plugin'        => 'nanosupport',
