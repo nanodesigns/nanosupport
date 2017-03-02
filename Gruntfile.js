@@ -227,6 +227,7 @@ module.exports = function(grunt) {
     // @Grunt: do the following when we will type 'grunt <command>'
     grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin', 'watch']);
     grunt.registerTask('build', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
-    grunt.registerTask('release', ['build', 'compress']);
+    grunt.registerTask('translate', ['checktextdomain', 'makepot']);
+    grunt.registerTask('release', ['translate', 'build', 'compress']);
 
 };
