@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NanoSupport 0.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nanodesigns/nanosupport/issues\n"
-"POT-Creation-Date: 2017-02-10 19:33:28+00:00\n"
+"POT-Creation-Date: 2017-03-02 18:05:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1172,13 +1172,13 @@ msgid ""
 msgstr ""
 
 #: includes/ns-install.php:575
-#. translators: 1. command 2. plugin installation link with popup thickbox
-#. (modal)
+#. translators: 1. first command 2. second command 3. plugin installation link
+#. with popup thickbox (modal)
 msgid ""
 "NanoSupport&rsquo;s required dependencies are not loaded - plugin cannot "
-"function properly. Open the command console and run %1$s before anything "
-"else. If you are unaware what this is, please <a href=\"%2$s\" "
-"class=\"thickbox\">install the production version</a> instead."
+"function properly. Open the command console and run %1$s and then %2$s "
+"before anything else. If you are unaware what this is, please <a "
+"href=\"%3$s\" class=\"thickbox\">install the production version</a> instead."
 msgstr ""
 
 #: includes/ns-metaboxes.php:31
