@@ -164,7 +164,7 @@ function ns_support_desk_page() {
 									<div class="text-blocks">
 										<strong><?php _e( 'Created &amp; Updated:', 'nanosupport' ); ?></strong><br>
 										<?php echo date( 'd M Y h:i A', strtotime( $post->post_date ) ); ?><br>
-										<?php echo date( 'd M Y h:i A', strtotime( ns_get_ticket_modified_date($post->ID) ) ); ?>
+										<?php echo date( 'd M Y h:i A', strtotime( $post->post_modified ) ); ?>
 									</div>
 								</div>
 								<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">

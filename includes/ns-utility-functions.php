@@ -715,8 +715,6 @@ function ns_is_character_limit() {
  * This function transforms the php.ini notation for numbers (like '2M') to an integer.
  * Adopted from WooCommerce
  *
- * @since   1.0.0
- *
  * @param   $size
  * @return  int
  * --------------------------------------------------------------------------
@@ -770,40 +768,6 @@ function ns_get_ticket_modified_date( $ticket_id = null ) {
     $date_modified = strtotime($last_response_date) > strtotime($post_modified_date) ? $last_response_date : $post_modified_date;
 
     return $date_modified;
-
-}
-
-
-/**
- * Updating Ticket Modified Date
- * 
- * Helper function to updating the post modified date. We are using this
- * function to update ticket modified date when the ticket was set
- * closed from the front end.
- *
- * @author  nofearinc
- * @link    https://core.trac.wordpress.org/attachment/ticket/24266/24266.diff
- * 
- * @since   1.0.0
- *  
- * @param  integer $post_id Post ID.
- * --------------------------------------------------------------------------
- */
-function ns_update_post_modified_date( $post_id ) {
-
-    $post_modified     = current_time( 'mysql' ); 
-    $post_modified_gmt = current_time( 'mysql', 1 ); 
-     
-    $updated_fields = array(  
-            'post_modified'     => $post_modified, 
-            'post_modified_gmt' => $post_modified_gmt 
-    ); 
-    $where = array( 'ID' => $post_id ); 
-     
-    global $wpdb; 
-    $wpdb->update( $wpdb->posts, $updated_fields, $where ); 
-     
-    clean_post_cache( $post_id );
 
 }
 
