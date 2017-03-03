@@ -3,7 +3,7 @@ Contributors: nanodesigns, wzislam
 Tags: helpdesk, support, support desk, support plugin, support ticket, ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff, support ticketing, knowledge base, knowledgebase, faq, frequently asked questions
 Requires at least: 4.4.0
 Tested up to: 4.7.2
-Stable tag: 0.3.2
+Stable tag: 0.3.3
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -146,7 +146,10 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 == Changelog ==
 
-= 0.3.2 - 2017-MAR-02 =
+= 0.3.3 - 2017-MAR-03 =
+* Quick bug fixed introduced with version 0.3.2 with same user and same date for ticket date and update date
+
+= 0.3.2 - 2017-MAR-03 =
 * Ticket update date fixed syncing with replies
 * Bug Fixed: pending ticket link was not working in agent notifying email
 * Withdrawn Composer dependency in development, as no PHP library is required to depend on
@@ -220,5 +223,5 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 == Upgrade Notice ==
 
-= 0.3.1 =
-2 bug fixed and 1 dynamic feature added.
+= 0.3.3 =
+PLEASE UPGRADE if you don't want to break things added with v0.3.2

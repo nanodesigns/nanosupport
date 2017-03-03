@@ -1,9 +1,9 @@
 # Copyright (c) 2016 NanoSupport
 msgid ""
 msgstr ""
-"Project-Id-Version: NanoSupport 0.3.2\n"
+"Project-Id-Version: NanoSupport 0.3.3\n"
 "Report-Msgid-Bugs-To: https://github.com/nanodesigns/nanosupport/issues\n"
-"POT-Creation-Date: 2017-03-02 18:05:29+00:00\n"
+"POT-Creation-Date: 2017-03-03 05:46:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -807,7 +807,7 @@ msgid "Open Tickets"
 msgstr ""
 
 #: includes/ns-dashboard.php:28 includes/ns-metaboxes.php:214
-#: includes/ns-utility-functions.php:413 includes/ns-utility-functions.php:415
+#: includes/ns-utility-functions.php:414 includes/ns-utility-functions.php:416
 msgid "Under Inspection"
 msgstr ""
 
@@ -1222,13 +1222,13 @@ msgstr ""
 msgid "Change the ticket status to track unsolved tickets separately."
 msgstr ""
 
-#: includes/ns-metaboxes.php:213 includes/ns-utility-functions.php:420
-#: includes/ns-utility-functions.php:422
+#: includes/ns-metaboxes.php:213 includes/ns-utility-functions.php:421
+#: includes/ns-utility-functions.php:423
 msgid "Open"
 msgstr ""
 
-#: includes/ns-metaboxes.php:215 includes/ns-utility-functions.php:406
-#: includes/ns-utility-functions.php:408
+#: includes/ns-metaboxes.php:215 includes/ns-utility-functions.php:407
+#: includes/ns-utility-functions.php:409
 msgid "Solved"
 msgstr ""
 
@@ -1236,26 +1236,26 @@ msgstr ""
 msgid "Change the priority as per the content and urgency of the ticket."
 msgstr ""
 
-#: includes/ns-metaboxes.php:230 includes/ns-utility-functions.php:437
-#: includes/ns-utility-functions.php:439
+#: includes/ns-metaboxes.php:230 includes/ns-utility-functions.php:438
+#: includes/ns-utility-functions.php:440
 #: includes/shortcodes/ns-submit-ticket.php:188
 msgid "Low"
 msgstr ""
 
-#: includes/ns-metaboxes.php:231 includes/ns-utility-functions.php:444
-#: includes/ns-utility-functions.php:446
+#: includes/ns-metaboxes.php:231 includes/ns-utility-functions.php:445
+#: includes/ns-utility-functions.php:447
 #: includes/shortcodes/ns-submit-ticket.php:189
 msgid "Medium"
 msgstr ""
 
-#: includes/ns-metaboxes.php:232 includes/ns-utility-functions.php:451
-#: includes/ns-utility-functions.php:453
+#: includes/ns-metaboxes.php:232 includes/ns-utility-functions.php:452
+#: includes/ns-utility-functions.php:454
 #: includes/shortcodes/ns-submit-ticket.php:190
 msgid "High"
 msgstr ""
 
-#: includes/ns-metaboxes.php:233 includes/ns-utility-functions.php:458
-#: includes/ns-utility-functions.php:460
+#: includes/ns-metaboxes.php:233 includes/ns-utility-functions.php:459
+#: includes/ns-utility-functions.php:461
 #: includes/shortcodes/ns-submit-ticket.php:191
 msgid "Critical"
 msgstr ""
@@ -1308,7 +1308,7 @@ msgstr ""
 msgid "Open tickets assigned to me"
 msgstr ""
 
-#: includes/ns-utility-functions.php:395 includes/ns-utility-functions.php:397
+#: includes/ns-utility-functions.php:396 includes/ns-utility-functions.php:398
 msgid "Pending"
 msgstr ""
 
