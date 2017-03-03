@@ -29,28 +29,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ns_get_last_response( $ticket_id = null ) {
 
     $post_id = ( null === $ticket_id ) ? get_the_ID() : $ticket_id;
+    
+    global $wpdb;
+    $query = "SELECT comment_ID, user_id, comment_date
+                FROM $wpdb->comments
+                WHERE comment_ID = ( SELECT MAX(comment_ID)
+                                        FROM $wpdb->comments
+                                        WHERE comment_type = 'nanosupport_response'
+                                            AND comment_post_ID = $post_id
+                                            AND comment_approved = 1
+                                    )";
+    $max_comment_array = $wpdb->get_results( $query, ARRAY_A );
 
-    $last_response = get_comments(array(
-        'post_id'   => $ticket_id,
-        'post_type' => 'nanosupport',
-        'number'    => 1
-    ));
-
-    if( !empty($last_response) ) {
-        $comment_id   = $last_response[0]->comment_ID;
-        $user_id      = $last_response[0]->user_id;
-        $comment_date = $last_response[0]->comment_date;
+    if( $max_comment_array ) {
+        $last_response = $max_comment_array[0];
     } else {
-        $comment_id   = '';
-        $user_id      = '';
-        $comment_date = '';
+        $last_response = array(
+                            'comment_ID'    => '',
+                            'user_id'       => '',
+                            'comment_date'  => ''
+						);
     }
 
-    return array(
-            'comment_ID'   => $comment_id,
-            'user_id'      => $user_id,
-            'comment_date' => $comment_date
-        );
+    return $last_response;
 }
 
 
