@@ -231,7 +231,7 @@ add_action( 'admin_footer-post-new.php',    'ns_mandate_knowledgebase_category' 
 function ns_user_fields( $user ) { ?>
     <?php
     //Don't display the section except nanosupport 'manager'
-    if( ns_is_user('manager') ) : ?>
+    if( ns_is_user('manager') && 'support_seeker' !== $user->roles[0] ) : ?>
 
         <h3><?php echo NS()->plugin; ?></h3>
 
@@ -247,6 +247,12 @@ function ns_user_fields( $user ) { ?>
                 </td>
             </tr>
         </table>
+
+    <?php else : ?>
+        
+        <?php $db_value = get_the_author_meta( 'ns_make_agent', $user->ID ) ? 1 : 0; ?>
+        <input type="hidden" name="ns_make_agent" value="<?php echo $db_value; ?>"/>
+        
     <?php endif; ?>
 <?php
 }
@@ -259,6 +265,7 @@ add_action( 'edit_user_profile', 'ns_user_fields' );
  * Saving the user meta fields
  *
  * Saving the user agent checkmarking choice to the user meta table.
+ * If there's no checkmark, a value from hidden field will come.
  *
  * @since  1.0.0
  * 
@@ -267,40 +274,35 @@ add_action( 'edit_user_profile', 'ns_user_fields' );
  */
 function ns_saving_user_fields( $user_id ) {
 
-    // Don't make a support agent from 'support_seeker' role
-    if( ! ns_is_user( 'support_seeker' ) ) {
+    update_user_meta( $user_id, 'ns_make_agent', intval( $_POST['ns_make_agent'] ) );
 
-        update_user_meta( $user_id, 'ns_make_agent', intval( $_POST['ns_make_agent'] ) );
+    /**
+     * For an agent, enable Support Ticket
+     * @var WP_User
+     */
+    $capability_type = 'nanosupport';
+    $ns_agent_user = new WP_User($user_id);
+    if( 1 == intval( $_POST['ns_make_agent'] ) ) :
+        $ns_agent_user->add_cap( "read_{$capability_type}" );
+        $ns_agent_user->add_cap( "edit_{$capability_type}" );
+        $ns_agent_user->add_cap( "edit_{$capability_type}s" );
+        $ns_agent_user->add_cap( "edit_others_{$capability_type}s" );
+        $ns_agent_user->add_cap( "read_private_{$capability_type}s" );
+        $ns_agent_user->add_cap( "edit_private_{$capability_type}s" );
+        $ns_agent_user->add_cap( "edit_published_{$capability_type}s" );
 
-        /**
-         * For an agent, enable Support Ticket
-         * @var WP_User
-         */
-        $capability_type = 'nanosupport';
-        $ns_agent_user = new WP_User($user_id);
-        if( 1 == intval( $_POST['ns_make_agent'] ) ) :
-            $ns_agent_user->add_cap( "read_{$capability_type}" );
-            $ns_agent_user->add_cap( "edit_{$capability_type}" );
-            $ns_agent_user->add_cap( "edit_{$capability_type}s" );
-            $ns_agent_user->add_cap( "edit_others_{$capability_type}s" );
-            $ns_agent_user->add_cap( "read_private_{$capability_type}s" );
-            $ns_agent_user->add_cap( "edit_private_{$capability_type}s" );
-            $ns_agent_user->add_cap( "edit_published_{$capability_type}s" );
-
-            $ns_agent_user->add_cap( "assign_{$capability_type}_terms" );
-        else :
-            $ns_agent_user->remove_cap( "read_{$capability_type}" );
-            $ns_agent_user->remove_cap( "edit_{$capability_type}" );
-            $ns_agent_user->remove_cap( "edit_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "edit_others_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "read_private_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "edit_private_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "edit_published_{$capability_type}s" );
-            
-            $ns_agent_user->remove_cap( "assign_{$capability_type}_terms" );
-        endif;
+        $ns_agent_user->add_cap( "assign_{$capability_type}_terms" );
+    else :
+        $ns_agent_user->remove_cap( "read_{$capability_type}" );
+        $ns_agent_user->remove_cap( "edit_{$capability_type}" );
+        $ns_agent_user->remove_cap( "edit_{$capability_type}s" );
+        $ns_agent_user->remove_cap( "edit_others_{$capability_type}s" );
+        $ns_agent_user->remove_cap( "read_private_{$capability_type}s" );
+        $ns_agent_user->remove_cap( "edit_private_{$capability_type}s" );
+        $ns_agent_user->remove_cap( "edit_published_{$capability_type}s" );
         
-    }
+        $ns_agent_user->remove_cap( "assign_{$capability_type}_terms" );
+    endif;
 
 }
 
