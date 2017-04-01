@@ -9,7 +9,7 @@
  * Plugin Name:       NanoSupport
  * Plugin URI:        http://nanosupport.nanodesignsbd.com/
  * Description:       Create a fully featured Support Center within your WordPress environment without any third party system dependency, completely FREE. The built-in Knowledgebase is to inform public with generalized queries.
- * Version:           0.3.3
+ * Version:           0.3.4
  * Author:            nanodesigns
  * Author URI:        http://nanodesignsbd.com/
  * Requires at least: 4.4.0
@@ -87,7 +87,7 @@ final class NanoSupport {
 	/**
 	 * @var string
 	 */
-	public $version = '0.3.3';
+	public $version = '0.3.4';
 
 	/**
 	 * Minimum WordPress version.

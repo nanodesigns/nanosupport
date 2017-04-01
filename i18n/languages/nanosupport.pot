@@ -1,9 +1,9 @@
 # Copyright (c) 2016 NanoSupport
 msgid ""
 msgstr ""
-"Project-Id-Version: NanoSupport 0.3.3\n"
+"Project-Id-Version: NanoSupport 0.3.4\n"
 "Report-Msgid-Bugs-To: https://github.com/nanodesigns/nanosupport/issues\n"
-"POT-Creation-Date: 2017-03-03 05:46:41+00:00\n"
+"POT-Creation-Date: 2017-04-01 07:59:43+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -727,7 +727,7 @@ msgid "Priority"
 msgstr ""
 
 #: includes/ns-cpt-nanosupport.php:116 includes/ns-metaboxes.php:247
-#: includes/ns-set-environment.php:345
+#: includes/ns-set-environment.php:347
 msgid "Agent"
 msgstr ""
 
@@ -1292,19 +1292,19 @@ msgstr ""
 msgid "Yes, make this user a Support Agent"
 msgstr ""
 
-#: includes/ns-set-environment.php:323 includes/ns-set-environment.php:345
+#: includes/ns-set-environment.php:325 includes/ns-set-environment.php:347
 msgid "NanoSupport Agent"
 msgstr ""
 
-#: includes/ns-set-environment.php:446
+#: includes/ns-set-environment.php:448
 msgid "Ticket has no content"
 msgstr ""
 
-#: includes/ns-set-environment.php:570
+#: includes/ns-set-environment.php:572
 msgid "Visit Support Desk"
 msgstr ""
 
-#: includes/ns-set-environment.php:616
+#: includes/ns-set-environment.php:618
 msgid "Open tickets assigned to me"
 msgstr ""
 
