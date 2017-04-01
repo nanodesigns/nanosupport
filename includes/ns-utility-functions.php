@@ -544,29 +544,48 @@ function ns_date_time( $datetime = null ) {
  *
  * @since  1.0.0
  * 
- * @param  string $role String to check the User role.
- * @return boolean      Check and return true | false conditionally.
+ * @param  string           $role   String to check the User role.
+ * @param  object|integer   $user   User object or ID.
+ * @return boolean                  Check and return true | false conditionally.
  * --------------------------------------------------------------------------
  */
-function ns_is_user( $role ) {
-    if( ! is_user_logged_in() )
-        return;
+function ns_is_user( $role, $user = null ) {
+    if( 'support_seeker' === $role ) :
+        if( null === $user ) {
+            return ( current_user_can( 'read' ) && ! current_user_can( 'edit_nanosupports' ) ) ? true : false;
+        } else {
+            return ( user_can( $user, 'read' ) && ! user_can( $user, 'edit_nanosupports' ) ) ? true : false;
+        }
+    
+    elseif( 'agent' === $role ) :
+        if( null === $user ) {
+            return ( current_user_can( 'edit_nanosupports' ) && ! current_user_can( 'manage_nanosupport' ) ) ? true : false;
+        } else {
+            return ( user_can( $user, 'edit_nanosupports' ) && ! user_can( $user, 'manage_nanosupport' ) ) ? true : false;
+        }
+    
+    elseif( 'agent_and_manager' === $role ) :
+        if( null === $user ) {
+            return current_user_can( 'edit_nanosupports' ) ? true : false;
+        } else {
+            return user_can( $user, 'edit_nanosupports' ) ? true : false;
+        }
+    
+    elseif( 'manager' === $role ) :
+        if( null === $user ) {
+            return current_user_can( 'manage_nanosupport' ) ? true : false;
+        } else {
+            return user_can( $user, 'manage_nanosupport' ) ? true : false;
+        }
+    
+    else :
+        if( null === $user ) {
+            return current_user_can( $role ) ? true : false;
+        } else {
+            return user_can( $user, $role ) ? true : false;
+        }
 
-    if( 'support_seeker' === $role ) {
-        return ( current_user_can( 'read' ) && ! current_user_can( 'edit_nanosupports' ) ) ? true : false;
-    }
-    else if( 'agent' === $role ) {
-        return ( current_user_can( 'edit_nanosupports' ) && ! current_user_can( 'manage_nanosupport' ) ) ? true : false;
-    }
-    else if( 'agent_and_manager' === $role ) {
-        return current_user_can( 'edit_nanosupports' ) ? true : false;
-    }
-    else if( 'manager' === $role ) {
-        return current_user_can( 'manage_nanosupport' ) ? true : false;
-    }
-    else {
-        return current_user_can( $role ) ? true : false;
-    }
+    endif;
 }
 
 
