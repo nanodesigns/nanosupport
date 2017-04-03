@@ -807,3 +807,38 @@ function ns_date_compare( $a, $b ) {
     $date2 = strtotime($b['date']);
     return $date2 - $date1;
 }
+
+
+/**
+ * Updating Ticket Modified Date
+ * 
+ * Helper function to updating the post modified date. We are using this
+ * function to update ticket modified date when the ticket was set
+ * closed from the front end.
+ *
+ * @author  nofearinc
+ * @link    https://core.trac.wordpress.org/attachment/ticket/24266/24266.diff
+ * 
+ * @since   1.0.0
+ *  
+ * @param  integer $post_id Post ID.
+ * --------------------------------------------------------------------------
+ */
+function ns_update_post_modified_date( $post_id ) {
+    $post_modified     = current_time( 'mysql' );
+    $post_modified_gmt = current_time( 'mysql', 1 );
+
+    $updated_fields = array(
+        'post_modified'     => $post_modified,
+        'post_modified_gmt' => $post_modified_gmt
+    );
+
+    $ticket_updated_data = array(
+        'ID'                => $post_id,
+        'post_modified'     => $post_modified,
+        'post_modified_gmt' => $post_modified_gmt,
+    );
+
+    // Update the ticket into the database
+    wp_update_post( $ticket_updated_data );
+}
