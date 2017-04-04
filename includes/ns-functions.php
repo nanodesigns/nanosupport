@@ -735,8 +735,9 @@ function ns_handle_response_submit() {
             $comment_id = wp_new_comment( $commentdata );
 
             //If error, return with the error message
-            if( is_wp_error($comment_id) )
+            if( is_wp_error($comment_id) ) {
                 return $comment_id->get_error_message();
+            }
 
         }
 
@@ -765,11 +766,19 @@ function ns_handle_response_submit() {
         }
 
 
-        //Privately Publish a 'pending' ticket
+        /**
+         * Privately Publish a 'pending' ticket
+         * Keep the ticket submission date intact.
+         * ...
+         */
         if( 'pending' === $ticket_status ) {
+            $pending_datetime = get_post_field( 'post_date', $post->ID, 'raw' );
+
             wp_update_post( array(
                     'ID'            => $post->ID,
-                    'post_status'   => 'private'
+                    'post_status'   => 'private',
+                    'post_date'     => $pending_datetime,
+                    'post_date_gmt' => get_gmt_from_date($pending_datetime),
                 ) );
         }
 
@@ -864,3 +873,24 @@ function ns_del_ajax_response() {
 }
 
 add_action( 'wp_ajax_delete_response', 'ns_del_ajax_response' );
+
+
+function ns_keep_pending_date_on_publishing( $data, $postarr ) {
+    if( 'nanosupport' !== $data['post_type'] ) {
+        return $data;
+    }
+
+    // this check amounts to the same thing as transition_post_status(private, pending)
+    if( 'private' !== $data['post_status'] || 'pending' !== $postarr['original_post_status'] ) {
+        return $data;
+    }
+
+    $pending_datetime = get_post_field( 'post_date', $post->ID, 'raw' );
+
+    $data['post_date']     = $pending_datetime;
+    $data['post_date_gmt'] = get_gmt_from_date($pending_datetime);
+
+    return $data;
+}
+
+add_filter( 'wp_insert_post_data', 'ns_keep_pending_date_on_publishing', 10, 2 );
