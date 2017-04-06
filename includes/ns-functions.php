@@ -751,6 +751,7 @@ function ns_handle_response_submit() {
          */
         if( in_array( $ticket_status, array('solved', 'pending') ) ) {
             update_post_meta( $post->ID, '_ns_ticket_status', 'open' );
+            ns_update_post_modified_date( $post->ID );
         }
 
         /**
@@ -760,6 +761,7 @@ function ns_handle_response_submit() {
          */
         if( in_array($ticket_status, array('inspection', 'open')) && isset($_POST['close_ticket']) ) {
             update_post_meta( $post->ID, '_ns_ticket_status', 'solved' );
+            ns_update_post_modified_date( $post->ID );
         }
 
 
