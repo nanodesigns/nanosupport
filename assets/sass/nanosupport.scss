@@ -8,7 +8,9 @@
  */
 
 /** Get other necessary files */
+@import "../sass/_bootstrap-vars";
 @import "../sass/__variables";
+@import "../sass/__mixins";
 @import "../sass/normalize";
 @import "../sass/nanosupport-layout";
 
@@ -267,14 +269,8 @@ body{
 
 	&:hover{
 		background-color: #ededed;
-		-webkit-box-shadow: 0 0 25px rgba(0,0,0,0.5);
-			 -moz-box-shadow: 0 0 25px rgba(0,0,0,0.5);
-						box-shadow: 0 0 25px rgba(0,0,0,0.5);
-		-webkit-transition: all 0.5s ease;
-			 -moz-transition: all 0.5s ease;
-				 -o-transition: all 0.5s ease;
-				-ms-transition: all 0.5s ease;
-						transition: all 0.5s ease;
+		@include box-shadow( 0 0 25px rgba(0,0,0,0.5) );
+		@include transition( all 0.5s ease );
 		border-color: #bbb;
 	}
 }
@@ -570,9 +566,7 @@ article.ns-single.type-nanosupport.hentry{
 	
 	a{
 		text-decoration: none;
-		-webkit-box-shadow: 0 0 0 transparent;
-			 -moz-box-shadow: 0 0 0 transparent;
-						box-shadow: 0 0 0 transparent;
+		@include box-shadow( 0 0 0 transparent );
 		border-bottom: 0;
 	}
 
@@ -646,12 +640,8 @@ article.ns-single.type-nanosupport.hentry{
 	padding: 20px 10px;
 	background-color: #fff;
 	border: 1px solid #e1e1e1;
-	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.20);
-	   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.20);
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.20);
-	-webkit-border-radius: 3px;
-	   -moz-border-radius: 3px;
-			border-radius: 3px;
+	@include box-shadow( 0 1px 3px rgba(0, 0, 0, 0.20) );
+	border-radius: 3px;
 	-webkit-transition-duration: .2s;
 			transition-duration: .2s;
 	-webkit-transition-property: -webkit-transform,box-shadow;
@@ -663,14 +653,8 @@ article.ns-single.type-nanosupport.hentry{
 			transform: translateZ(0);
 
 	&:hover{
-		-webkit-box-shadow: 0 20px 25px rgba(0,0,0,0.15);
-		   -moz-box-shadow: 0 20px 25px rgba(0,0,0,0.15);
-				box-shadow: 0 20px 25px rgba(0,0,0,0.15);
-		-webkit-transition: all 0.5s ease;
-		   -moz-transition: all 0.5s ease;
-			-ms-transition: all 0.5s ease;
-			 -o-transition: all 0.5s ease;
-				transition: all 0.5s ease;
+		@include box-shadow( 0 20px 25px rgba(0,0,0,0.15) );
+		@include transition( all 0.5s ease );
 		-webkit-transform: translateY(-4px);
 		   -moz-transform: translateY(-4px);
 				transform: translateY(-4px);
@@ -780,24 +764,16 @@ $tt_ease: ease;
 	position: absolute;
 	width: 200px;
 	padding: 10px;
-	-webkit-border-radius: 3px;
-	   -moz-border-radius: 3px;
-			border-radius: 3px;
+	border-radius: 3px;
 	color: #fff;
 	background-color: #444;
 	border: 1px solid #222;
 	font-size: 12px;
 	line-height: 17px;
-	-webkit-box-shadow: 0 0 5px #333;
-	   -moz-box-shadow: 0 0 5px #333;
-			box-shadow: 0 0 5px #333;
+	@include box-shadow( 0 0 5px #333 );
 	text-align: center;
 	z-index: 5;
-	-webkit-transition: $tt_prop $tt_time $tt_ease;
-	   -moz-transition: $tt_prop $tt_time $tt_ease;
-	     -o-transition: $tt_prop $tt_time $tt_ease;
-		-ms-transition: $tt_prop $tt_time $tt_ease;
-			transition: $tt_prop $tt_time $tt_ease;
+	@include transition( $tt_prop $tt_time $tt_ease );
 	right: 16px;
 	top: 0;
 
@@ -896,16 +872,16 @@ $tt_ease: ease;
 		@keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
 
 .blink {
-	 text-decoration:blink;
+	 text-decoration: blink;
 
-	-webkit-animation-name:blinker;
-			animation-name:blinker;  
-	-webkit-animation-iteration-count:infinite;  
-			animation-iteration-count:infinite;  
-	-webkit-animation-timing-function:cubic-bezier(1.0,0,0,1.0);
-			animation-timing-function:cubic-bezier(1.0,0,0,1.0);
-	-webkit-animation-duration:1s; 
-			animation-duration:1s; 
+	-webkit-animation-name: blinker;
+			animation-name: blinker;  
+	-webkit-animation-iteration-count: infinite;  
+			animation-iteration-count: infinite;  
+	-webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+			animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+	-webkit-animation-duration: 1s; 
+			animation-duration: 1s; 
 }
 
 

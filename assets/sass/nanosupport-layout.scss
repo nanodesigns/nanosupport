@@ -916,6 +916,28 @@ input[type="checkbox"]:focus {
 	outline-offset: -2px;
 }
 
+// Common form controls
+//
+// Shared size and type resets for form controls. Apply `.ns-form-control` to any
+// of the following form controls:
+//
+// select
+// textarea
+// input[type="text"]
+// input[type="password"]
+// input[type="datetime"]
+// input[type="datetime-local"]
+// input[type="date"]
+// input[type="month"]
+// input[type="time"]
+// input[type="week"]
+// input[type="number"]
+// input[type="email"]
+// input[type="url"]
+// input[type="search"]
+// input[type="tel"]
+// input[type="color"]
+
 .ns-form-control {
 	display: block;
 	width: 100%;
@@ -923,53 +945,44 @@ input[type="checkbox"]:focus {
 	padding: 6px 12px;
 	font-size: 14px;
 	line-height: 1.42857143;
-	color: #555555;
-	background-color: #ffffff;
+	color: $input-color;
+	background-color: $input-bg;
 	background-image: none;
-	border: 1px solid #cccccc;
+	border: 1px solid #ccc;
 	border-radius: 4px;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-}
+	@include box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
+	@include transition(border-color ease-in-out .15s, box-shadow ease-in-out .15s);
 
-.ns-form-control:focus {
-	border-color: #66afe9;
-	outline: 0;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
-	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
-}
+	// Customize the `:focus` state to imitate native WebKit styles.
+	@include form-control-focus;
 
-.ns-form-control::-moz-placeholder {
-	color: #999999;
-	opacity: 1;
-}
+	// Placeholder
+	@include placeholder;
 
-.ns-form-control:-ms-input-placeholder {
-	color: #999999;
-}
+	// Unstyle the caret on `<select>`s in IE10+.
+	&::-ms-expand {
+		border: 0;
+		background-color: transparent;
+  	}
 
-.ns-form-control::-webkit-input-placeholder {
-	color: #999999;
-}
+	// Disabled and read-only inputs
+	//
+	// HTML5 says that controls under a fieldset > legend:first-child won't be
+	// disabled if the fieldset is disabled. Due to implementation difficulty, we
+	// don't honor that edge case; we style them as disabled anyway.
+	&[disabled],
+	&[readonly],
+	fieldset[disabled] & {
+	  	background-color: $input-bg-disabled;
+	    opacity: 1; // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655
+	}
 
-.ns-form-control::-ms-expand {
-	border: 0;
-	background-color: transparent;
-}
+	&[disabled],
+	fieldset[disabled] & {
+		cursor: $cursor-disabled;
+	}
 
-.ns-form-control[disabled],
-.ns-form-control[readonly],
-fieldset[disabled] .ns-form-control {
-	background-color: #eeeeee;
-	opacity: 1;
-}
-
-.ns-form-control[disabled],
-fieldset[disabled] .ns-form-control {
-	cursor: not-allowed;
+	// [converter] extracted textarea& to textarea.ns-form-control
 }
 
 textarea.ns-form-control {
@@ -1136,646 +1149,278 @@ fieldset[disabled] .ns-checkbox label {
 }
 
 
+// BUTTONS
+
 .ns-btn {
 	display: inline-block;
-	margin-bottom: 0;
+	margin-bottom: 0; // For input.btn
 	font-weight: normal;
 	text-align: center;
 	vertical-align: middle;
-	-ms-touch-action: manipulation;
-			touch-action: manipulation;
+	touch-action: manipulation;
 	cursor: pointer;
-	background-image: none;
+	background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
 	border: 1px solid transparent;
 	white-space: nowrap;
-	padding: 6px 12px;
-	font-size: 14px;
-	line-height: 1.42857143;
-	border-radius: 4px;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	color: white;
-	text-decoration: none;
+	@include button-size($padding-base-vertical, $padding-base-horizontal, $font-size-base, $line-height-base, $btn-border-radius-base);
+	@include user-select(none);
+
+	&,
+	&:active,
+	&.active {
+		&:focus,
+		&.focus {
+			@include tab-focus;
+		}
+	}
+
+	&:hover,
+	&:focus,
+	&.focus {
+		color: $btn-default-color;
+		text-decoration: none;
+	}
+
+	&:active,
+	&.active {
+		outline: 0;
+		background-image: none;
+		@include box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
+	}
+
+	&.disabled,
+	&[disabled],
+	fieldset[disabled] & {
+		cursor: $cursor-disabled;
+		@include opacity(.65);
+		@include box-shadow(none);
+	}
+
+	// [converter] extracted a& to a.btn
 }
 
-.ns-btn:focus,
-.ns-btn:active:focus,
-.ns-btn.ns-active:focus,
-.ns-btn.focus,
-.ns-btn:active.focus,
-.ns-btn.ns-active.focus {
-	outline: thin dotted;
-	outline: 5px auto -webkit-focus-ring-color;
-	outline-offset: -2px;
+a.ns-btn {
+	&.disabled,
+	fieldset[disabled] & {
+		pointer-events: none; // Future-proof disabling of clicks on `<a>` elements
+	}
 }
 
-.ns-btn:hover,
-.ns-btn:focus,
-.ns-btn.focus {
-	color: #333333;
-	text-decoration: none;
-}
 
-.ns-btn:visited{
-	color: #333333;
-}
-
-.ns-btn:active,
-.ns-btn.ns-active {
-	outline: 0;
-	background-image: none;
-	-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-	box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-
-.ns-btn.ns-disabled,
-.ns-btn[disabled],
-fieldset[disabled] .ns-btn {
-	cursor: not-allowed;
-	opacity: 0.65;
-	filter: alpha(opacity=65);
-	-webkit-box-shadow: none;
-	box-shadow: none;
-}
-
-a.ns-btn.ns-disabled,
-fieldset[disabled] a.ns-btn {
-	pointer-events: none;
-}
+// Alternate buttons
+// --------------------------------------------------
 
 .ns-btn-default {
-	color: #333333;
-	background-color: #ffffff;
-	border-color: #cccccc;
-}
-
-.ns-btn-default:focus,
-.ns-btn-default.focus {
-	color: #333333;
-	background-color: #e6e6e6;
-	border-color: #8c8c8c;
-}
-
-.ns-btn-default:hover {
-	color: #333333;
-	background-color: #e6e6e6;
-	border-color: #adadad;
-}
-
-.ns-btn-default:active,
-.ns-btn-default.ns-active,
-.open > .dropdown-toggle.ns-btn-default {
-	color: #333333;
-	background-color: #e6e6e6;
-	border-color: #adadad;
-}
-
-.ns-btn-default:active:hover,
-.ns-btn-default.ns-active:hover,
-.open > .dropdown-toggle.ns-btn-default:hover,
-.ns-btn-default:active:focus,
-.ns-btn-default.ns-active:focus,
-.open > .dropdown-toggle.ns-btn-default:focus,
-.ns-btn-default:active.focus,
-.ns-btn-default.ns-active.focus,
-.open > .dropdown-toggle.ns-btn-default.focus {
-	color: #333333;
-	background-color: #d4d4d4;
-	border-color: #8c8c8c;
-}
-
-.ns-btn-default:active,
-.ns-btn-default.ns-active,
-.open > .dropdown-toggle.ns-btn-default {
-	background-image: none;
-}
-
-.ns-btn-default.ns-disabled:hover,
-.ns-btn-default[disabled]:hover,
-fieldset[disabled] .ns-btn-default:hover,
-.ns-btn-default.ns-disabled:focus,
-.ns-btn-default[disabled]:focus,
-fieldset[disabled] .ns-btn-default:focus,
-.ns-btn-default.ns-disabled.focus,
-.ns-btn-default[disabled].focus,
-fieldset[disabled] .ns-btn-default.focus {
-	background-color: #ffffff;
-	border-color: #cccccc;
-}
-
-.ns-btn-default .badge {
-	color: #ffffff;
-	background-color: #333333;
+	@include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
 }
 
 .ns-btn-primary {
-	color: #ffffff;
-	background-color: #3bafda;
-	border-color: #3bafda;
+	@include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
 }
 
-.ns-btn-primary:focus,
-.ns-btn-primary.focus {
-	color: #ffffff;
-	background-color: #4fc1e9;
-	border-color: #122b40;
-}
-
-.ns-btn-primary:hover {
-	color: #ffffff;
-	background-color: #4fc1e9;
-	background-image: none;
-	border-color: #4fc1e9;
-}
-
-.ns-btn-primary:active,
-.ns-btn-primary.ns-active,
-.open > .dropdown-toggle.ns-btn-primary {
-	color: #ffffff;
-	background-color: #4fc1e9;
-	border-color: #4fc1e9;
-}
-
-.ns-btn-primary:active:hover,
-.ns-btn-primary.ns-active:hover,
-.open > .dropdown-toggle.ns-btn-primary:hover,
-.ns-btn-primary:active:focus,
-.ns-btn-primary.ns-active:focus,
-.open > .dropdown-toggle.ns-btn-primary:focus,
-.ns-btn-primary:active.focus,
-.ns-btn-primary.ns-active.focus,
-.open > .dropdown-toggle.ns-btn-primary.focus {
-	color: #ffffff;
-	background-color: #4fc1e9;
-	border-color: #122b40;
-}
-
-.ns-btn-primary:active,
-.ns-btn-primary.ns-active,
-.open > .dropdown-toggle.ns-btn-primary {
-	background-image: none;
-}
-
-.ns-btn-primary.ns-disabled:hover,
-.ns-btn-primary[disabled]:hover,
-fieldset[disabled] .ns-btn-primary:hover,
-.ns-btn-primary.ns-disabled:focus,
-.ns-btn-primary[disabled]:focus,
-fieldset[disabled] .ns-btn-primary:focus,
-.ns-btn-primary.ns-disabled.focus,
-.ns-btn-primary[disabled].focus,
-fieldset[disabled] .ns-btn-primary.focus {
-	background-color: #3bafda;
-	border-color: #3bafda;
-}
-
-.ns-btn-primary .badge {
-	color: #3bafda;
-	background-color: #ffffff;
-}
-
+// Success appears as green
 .ns-btn-success {
-	color: #ffffff;
-	background-color: #8cc152;
-	border-color: #8cc152;
+	@include button-variant($btn-success-color, $btn-success-bg, $btn-success-border);
 }
 
-.ns-btn-success:focus,
-.ns-btn-success.focus {
-	color: #ffffff;
-	background-color: #a0d468;
-	border-color: #a0d468;
-}
-
-.ns-btn-success:hover {
-	color: #ffffff;
-	background-color: #a0d468;
-	background-image: none;
-	border-color: #398439;
-}
-
-.ns-btn-success:active,
-.ns-btn-success.ns-active,
-.open > .dropdown-toggle.ns-btn-success {
-	color: #ffffff;
-	background-color: #a0d468;
-	border-color: #398439;
-}
-
-.ns-btn-success:active:hover,
-.ns-btn-success.ns-active:hover,
-.open > .dropdown-toggle.ns-btn-success:hover,
-.ns-btn-success:active:focus,
-.ns-btn-success.ns-active:focus,
-.open > .dropdown-toggle.ns-btn-success:focus,
-.ns-btn-success:active.focus,
-.ns-btn-success.ns-active.focus,
-.open > .dropdown-toggle.ns-btn-success.focus {
-	color: #ffffff;
-	background-color: #398439;
-	border-color: #a0d468;
-}
-
-.ns-btn-success:active,
-.ns-btn-success.ns-active,
-.open > .dropdown-toggle.ns-btn-success {
-	background-image: none;
-}
-
-.ns-btn-success.ns-disabled:hover,
-.ns-btn-success[disabled]:hover,
-fieldset[disabled] .ns-btn-success:hover,
-.ns-btn-success.ns-disabled:focus,
-.ns-btn-success[disabled]:focus,
-fieldset[disabled] .ns-btn-success:focus,
-.ns-btn-success.ns-disabled.focus,
-.ns-btn-success[disabled].focus,
-fieldset[disabled] .ns-btn-success.focus {
-	background-color: #8cc152;
-	border-color: #8cc152;
-}
-
-.ns-btn-success .badge {
-	color: #8cc152;
-	background-color: #ffffff;
-}
-
+// Info appears as blue-green
 .ns-btn-info {
-	color: #ffffff;
-	background-color: #37bc9b;
-	border-color: #37bc9b;
+	@include button-variant($btn-info-color, $btn-info-bg, $btn-info-border);
 }
 
-.ns-btn-info:focus,
-.ns-btn-info.focus {
-	color: #ffffff;
-	background-color: #48cfad;
-	border-color: #1b6d85;
-}
-
-.ns-btn-info:hover {
-	color: #ffffff;
-	background-color: #48cfad;
-	background-image: none;
-	border-color: #48cfad;
-}
-
-.ns-btn-info:active,
-.ns-btn-info.ns-active,
-.open > .dropdown-toggle.ns-btn-info {
-	color: #ffffff;
-	background-color: #48cfad;
-	border-color: #48cfad;
-}
-
-.ns-btn-info:active:hover,
-.ns-btn-info.ns-active:hover,
-.open > .dropdown-toggle.ns-btn-info:hover,
-.ns-btn-info:active:focus,
-.ns-btn-info.ns-active:focus,
-.open > .dropdown-toggle.ns-btn-info:focus,
-.ns-btn-info:active.focus,
-.ns-btn-info.ns-active.focus,
-.open > .dropdown-toggle.ns-btn-info.focus {
-	color: #ffffff;
-	background-color: #48cfad;
-	border-color: #1b6d85;
-}
-
-.ns-btn-info:active,
-.ns-btn-info.ns-active,
-.open > .dropdown-toggle.ns-btn-info {
-	background-image: none;
-}
-
-.ns-btn-info.ns-disabled:hover,
-.ns-btn-info[disabled]:hover,
-fieldset[disabled] .ns-btn-info:hover,
-.ns-btn-info.ns-disabled:focus,
-.ns-btn-info[disabled]:focus,
-fieldset[disabled] .ns-btn-info:focus,
-.ns-btn-info.ns-disabled.focus,
-.ns-btn-info[disabled].focus,
-fieldset[disabled] .ns-btn-info.focus {
-	background-color: #37bc9b;
-	border-color: #37bc9b;
-}
-
-.ns-btn-info .badge {
-	color: #37bc9b;
-	background-color: #ffffff;
-}
-
+// Warning appears as orange
 .ns-btn-warning {
-	color: #ffffff;
-	background-color: #f0ad4e;
-	border-color: #eea236;
+	@include button-variant($btn-warning-color, $btn-warning-bg, $btn-warning-border);
 }
 
-.ns-btn-warning:focus,
-.ns-btn-warning.focus {
-	color: #ffffff;
-	background-color: #ec971f;
-	border-color: #985f0d;
-}
-
-.ns-btn-warning:hover {
-	color: #ffffff;
-	background-color: #ec971f;
-	background-image: none;
-	border-color: #d58512;
-}
-
-.ns-btn-warning:active,
-.ns-btn-warning.ns-active,
-.open > .dropdown-toggle.ns-btn-warning {
-	color: #ffffff;
-	background-color: #ec971f;
-	border-color: #d58512;
-}
-
-.ns-btn-warning:active:hover,
-.ns-btn-warning.ns-active:hover,
-.open > .dropdown-toggle.ns-btn-warning:hover,
-.ns-btn-warning:active:focus,
-.ns-btn-warning.ns-active:focus,
-.open > .dropdown-toggle.ns-btn-warning:focus,
-.ns-btn-warning:active.focus,
-.ns-btn-warning.ns-active.focus,
-.open > .dropdown-toggle.ns-btn-warning.focus {
-	color: #ffffff;
-	background-color: #d58512;
-	border-color: #985f0d;
-}
-
-.ns-btn-warning:active,
-.ns-btn-warning.ns-active,
-.open > .dropdown-toggle.ns-btn-warning {
-	background-image: none;
-}
-
-.ns-btn-warning.ns-disabled:hover,
-.ns-btn-warning[disabled]:hover,
-fieldset[disabled] .ns-btn-warning:hover,
-.ns-btn-warning.ns-disabled:focus,
-.ns-btn-warning[disabled]:focus,
-fieldset[disabled] .ns-btn-warning:focus,
-.ns-btn-warning.ns-disabled.focus,
-.ns-btn-warning[disabled].focus,
-fieldset[disabled] .ns-btn-warning.focus {
-	background-color: #f0ad4e;
-	border-color: #eea236;
-}
-
-.ns-btn-warning .badge {
-	color: #f0ad4e;
-	background-color: #ffffff;
-}
-
+// Danger and error appear as red
 .ns-btn-danger {
-	color: #ffffff;
-	background-color: #da4453;
-	border-color: #da4453;
+	@include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
 }
 
-.ns-btn-danger:focus,
-.ns-btn-danger.focus {
-	color: #ffffff;
-	background-color: #ed5565;
-	border-color: #761c19;
-}
 
-.ns-btn-danger:hover {
-	color: #ffffff;
-	background-color: #ed5565;
-	background-image: none;
-	border-color: #ed5565;
-}
+// Link buttons
+// -------------------------
 
-.ns-btn-danger:active,
-.ns-btn-danger.ns-active,
-.open > .dropdown-toggle.ns-btn-danger {
-	color: #ffffff;
-	background-color: #ed5565;
-	border-color: #ed5565;
-}
-
-.ns-btn-primary:visited,
-.ns-btn-info:visited,
-.ns-btn-success:visited,
-.ns-btn-warning:visited,
-.ns-btn-danger:visited{
-	color: #ffffff;
-	background-image: none;
-}
-
-.ns-btn-danger:active:hover,
-.ns-btn-danger.ns-active:hover,
-.open > .dropdown-toggle.ns-btn-danger:hover,
-.ns-btn-danger:active:focus,
-.ns-btn-danger.ns-active:focus,
-.open > .dropdown-toggle.ns-btn-danger:focus,
-.ns-btn-danger:active.focus,
-.ns-btn-danger.ns-active.focus,
-.open > .dropdown-toggle.ns-btn-danger.focus {
-	color: #ffffff;
-	background-color: #ed5565;
-	border-color: #761c19;
-}
-
-.ns-btn-danger:active,
-.ns-btn-danger.ns-active,
-.open > .dropdown-toggle.ns-btn-danger {
-	background-image: none;
-}
-
-.ns-btn-danger.ns-disabled:hover,
-.ns-btn-danger[disabled]:hover,
-fieldset[disabled] .ns-btn-danger:hover,
-.ns-btn-danger.ns-disabled:focus,
-.ns-btn-danger[disabled]:focus,
-fieldset[disabled] .ns-btn-danger:focus,
-.ns-btn-danger.ns-disabled.focus,
-.ns-btn-danger[disabled].focus,
-fieldset[disabled] .ns-btn-danger.focus {
-	background-color: #da4453;
-	border-color: #da4453;
-}
-
-.ns-btn-danger .badge {
-	color: #da4453;
-	background-color: #ffffff;
-}
-
+// Make a button look and behave like a link
 .ns-btn-link {
-	color: #3bafda;
+	color: $link-color;
 	font-weight: normal;
 	border-radius: 0;
+
+	&,
+	&:active,
+	&.active,
+	&[disabled],
+	fieldset[disabled] & {
+		background-color: transparent;
+		@include box-shadow(none);
+	}
+
+	&,
+	&:hover,
+	&:focus,
+	&:active {
+		border-color: transparent;
+	}
+
+	&:hover,
+	&:focus {
+		color: $link-hover-color;
+		text-decoration: $link-hover-decoration;
+		background-color: transparent;
+	}
+
+	&[disabled],
+	fieldset[disabled] & {
+		&:hover,
+		&:focus {
+			color: $btn-link-disabled-color;
+			text-decoration: none;
+		}
+	}
 }
 
-.ns-btn-link,
-.ns-btn-link:active,
-.ns-btn-link.ns-active,
-.ns-btn-link[disabled],
-fieldset[disabled] .ns-btn-link {
-	background-color: transparent;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-}
 
-.ns-btn-link,
-.ns-btn-link:hover,
-.ns-btn-link:focus,
-.ns-btn-link:active {
-	border-color: transparent;
-}
-
-.ns-btn-link:hover,
-.ns-btn-link:focus {
-	color: #23527c;
-	text-decoration: underline;
-	background-color: transparent;
-}
-
-.ns-btn-link[disabled]:hover,
-fieldset[disabled] .ns-btn-link:hover,
-.ns-btn-link[disabled]:focus,
-fieldset[disabled] .ns-btn-link:focus {
-	color: #777777;
-	text-decoration: none;
-}
+// Button Sizes
+// --------------------------------------------------
 
 .ns-btn-lg {
-	padding: 10px 16px;
-	font-size: 18px;
-	line-height: 1.3333333;
-	border-radius: 6px;
+	// line-height: ensure even-numbered height of button next to large input
+	@include button-size($padding-large-vertical, $padding-large-horizontal, $font-size-large, $line-height-large, $btn-border-radius-large);
 }
 
 .ns-btn-sm {
-	padding: 5px 10px;
-	font-size: 12px;
-	line-height: 1.5;
-	border-radius: 3px;
+	// line-height: ensure proper height of button next to small input
+	@include button-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $btn-border-radius-small);
 }
 
 .ns-btn-xs {
-	padding: 1px 5px;
-	font-size: 12px;
-	line-height: 1.5;
-	border-radius: 3px;
+	@include button-size($padding-xs-vertical, $padding-xs-horizontal, $font-size-small, $line-height-small, $btn-border-radius-small);
 }
+
+
+// Block button
+// --------------------------------------------------
 
 .ns-btn-block {
 	display: block;
 	width: 100%;
 }
 
+// Vertically space out multiple block buttons
 .ns-btn-block + .ns-btn-block {
 	margin-top: 5px;
 }
 
-input[type="submit"].ns-btn-block,
-input[type="reset"].ns-btn-block,
-input[type="button"].ns-btn-block {
-	width: 100%;
+// Specificity overrides
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+	&.ns-btn-block {
+		width: 100%;
+	}
 }
 
 
+//
+// Pagination (multiple pages)
+// --------------------------------------------------
 .ns-pagination {
-	display: inline-block;
-	padding-left: 0;
-	margin: 20px 0;
-	border-radius: 4px;
+  display: inline-block;
+  padding-left: 0;
+  margin: $line-height-computed 0;
+  border-radius: $border-radius-base;
+
+	> li {
+		display: inline; // Remove list-style and block-level defaults
+		> a,
+		> span {
+			position: relative;
+			float: left; // Collapse white-space
+			padding: $padding-base-vertical $padding-base-horizontal;
+			line-height: $line-height-base;
+			text-decoration: none;
+			color: $pagination-color;
+			background-color: $pagination-bg;
+			border: 1px solid $pagination-border;
+			margin-left: -1px;
+	    }
+
+	    &:first-child {
+			> a,
+			> span {
+				margin-left: 0;
+				@include border-left-radius($border-radius-base);
+			}
+	    }
+
+	    &:last-child {
+			> a,
+			> span {
+				@include border-right-radius($border-radius-base);
+			}
+	    }
+	}
+
+	> li > a,
+	> li > span {
+		&:hover,
+		&:focus {
+			z-index: 2;
+			color: $pagination-hover-color;
+			background-color: $pagination-hover-bg;
+			border-color: $pagination-hover-border;
+		}
+	}
+
+	> .active > a,
+	> .active > span {
+		&,
+		&:hover,
+		&:focus {
+			z-index: 3;
+			color: $pagination-active-color;
+			background-color: $pagination-active-bg;
+			border-color: $pagination-active-border;
+			cursor: default;
+		}
+	}
+
+	> .disabled {
+	    > span,
+	    > span:hover,
+	    > span:focus,
+	    > a,
+	    > a:hover,
+	    > a:focus {
+			color: $pagination-disabled-color;
+			background-color: $pagination-disabled-bg;
+			border-color: $pagination-disabled-border;
+			cursor: $cursor-disabled;
+	    }
+	}
 }
 
-.ns-pagination > li {
-	display: inline;
+// Sizing
+// --------------------------------------------------
+
+// Large
+.ns-pagination-lg {
+	@include pagination-size($padding-large-vertical, $padding-large-horizontal, $font-size-large, $line-height-large, $border-radius-large);
 }
 
-.ns-pagination > li > a,
-.ns-pagination > li > span {
-	position: relative;
-	float: left;
-	padding: 6px 12px;
-	line-height: 1.42857143;
-	text-decoration: none;
-	color: #3bafda;
-	background-color: #ffffff;
-	border: 1px solid #dddddd;
-	margin-left: -1px;
-}
-
-.ns-pagination > li:first-child > a,
-.ns-pagination > li:first-child > span {
-	margin-left: 0;
-	border-bottom-left-radius: 4px;
-	border-top-left-radius: 4px;
-}
-
-.ns-pagination > li:last-child > a,
-.ns-pagination > li:last-child > span {
-	border-bottom-right-radius: 4px;
-	border-top-right-radius: 4px;
-}
-
-.ns-pagination > li > a:hover,
-.ns-pagination > li > span:hover,
-.ns-pagination > li > a:focus,
-.ns-pagination > li > span:focus {
-	z-index: 2;
-	color: #23527c;
-	background-color: #eeeeee;
-	border-color: #dddddd;
-}
-
-.ns-pagination > .ns-active > a,
-.ns-pagination > .ns-active > span,
-.ns-pagination > .ns-active > a:hover,
-.ns-pagination > .ns-active > span:hover,
-.ns-pagination > .ns-active > a:focus,
-.ns-pagination > .ns-active > span:focus {
-	z-index: 3;
-	color: #ffffff;
-	background-color: #3bafda;
-	border-color: #3bafda;
-	cursor: default;
-}
-
-.ns-pagination > .ns-disabled > span,
-.ns-pagination > .ns-disabled > span:hover,
-.ns-pagination > .ns-disabled > span:focus,
-.ns-pagination > .ns-disabled > a,
-.ns-pagination > .ns-disabled > a:hover,
-.ns-pagination > .ns-disabled > a:focus {
-	color: #777777;
-	background-color: #ffffff;
-	border-color: #dddddd;
-	cursor: not-allowed;
-}
-
-.ns-pagination-sm > li > a,
-.ns-pagination-sm > li > span {
-	padding: 5px 10px;
-	font-size: 12px;
-	line-height: 1.5;
-}
-
-.ns-pagination-sm > li:first-child > a,
-.ns-pagination-sm > li:first-child > span {
-	border-bottom-left-radius: 3px;
-	border-top-left-radius: 3px;
-}
-
-.ns-pagination-sm > li:last-child > a,
-.ns-pagination-sm > li:last-child > span {
-	border-bottom-right-radius: 3px;
-	border-top-right-radius: 3px;
+// Small
+.ns-pagination-sm {
+	@include pagination-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $border-radius-small);
 }
 
 
+
+
+//
+// Labels
+// --------------------------------------------------
 
 .ns-label {
 	display: inline;
@@ -1783,220 +1428,168 @@ input[type="button"].ns-btn-block {
 	font-size: 75%;
 	font-weight: bold;
 	line-height: 1;
-	color: #333;
+	color: $label-color;
 	text-align: center;
 	white-space: nowrap;
 	vertical-align: baseline;
 	border-radius: .25em;
-	background-color: #aab2bd;
+
+	// [converter] extracted a& to a.ns-label
+
+	// Empty labels collapse automatically (not available in IE8)
+	&:empty {
+		display: none;
+	}
+
+	// Quick fix for labels in buttons
+	.btn & {
+		position: relative;
+		top: -1px;
+	}
 }
 
-a.ns-label:hover,
-a.ns-label:focus {
-	color: #ffffff;
-	text-decoration: none;
-	cursor: pointer;
+// Add hover effects, but only for links
+a.ns-label {
+	&:hover,
+	&:focus {
+		color: $label-link-hover-color;
+		text-decoration: none;
+		cursor: pointer;
+	}
 }
 
-.ns-label:empty {
-	display: none;
-}
-
-.ns-btn .ns-label {
-	position: relative;
-	top: -1px;
-}
+// Colors
+// Contextual variations (linked labels get darker on :hover)
 
 .ns-label-default {
-	background-color: #777777;
-}
-
-.ns-label-default[href]:hover,
-.ns-label-default[href]:focus {
-	background-color: #5e5e5e;
+	@include label-variant($label-default-bg);
 }
 
 .ns-label-primary {
-	background-color: #3bafda;
-	border-color: #3bafda;
-	color: #fff;
-}
-
-.ns-label-primary[href]:hover,
-.ns-label-primary[href]:focus {
-	background-color: #4fc1e9;
+	@include label-variant($label-primary-bg);
 }
 
 .ns-label-success {
-	background-color: #8cc152;
-	border-color: #8cc152;
-	color: #fff;
-}
-
-.ns-label-success[href]:hover,
-.ns-label-success[href]:focus {
-	background-color: #a0d468;
+	@include label-variant($label-success-bg);
 }
 
 .ns-label-info {
-	background-color: #37bc9b;
-	border-color: #37bc9b;
-}
-
-.ns-label-info[href]:hover,
-.ns-label-info[href]:focus {
-	background-color: #48cfad;
+	@include label-variant($label-info-bg);
 }
 
 .ns-label-warning {
-	background-color: #f6bb42;
-	border-color: #f6bb42;
-	color: #333;
-}
-
-.ns-label-warning[href]:hover,
-.ns-label-warning[href]:focus {
-	background-color: #ec971f;
+	@include label-variant($label-warning-bg);
 }
 
 .ns-label-danger {
-	background-color: #da4453;
-	border-color: #da4453;
-}
-
-.ns-label-danger[href]:hover,
-.ns-label-danger[href]:focus {
-	background-color: #ed5565;
+	@include label-variant($label-danger-bg);
 }
 
 
+//
+// Alerts
+// --------------------------------------------------
+
+
+// Base styles
+// -------------------------
 
 .ns-alert {
 	padding: 15px;
 	margin-bottom: 20px;
 	border: 1px solid transparent;
 	border-radius: 4px;
+
+	// Headings for larger alerts
+	h4 {
+		margin-top: 0;
+		color: inherit;
+	}
+
+	// Provide class for links that match alerts
+	.ns-alert-link {
+		font-weight: bold;
+	}
+
+	// Improve alignment and spacing of inner content
+	> p,
+	> ul {
+		margin-bottom: 0;
+	}
+
+	> p + p {
+		margin-top: 5px;
+	}
 }
 
-.ns-alert h4 {
-	margin-top: 0;
-	color: inherit;
-}
+// Dismissible alerts
+//
+// Expand the right padding and account for the close button's positioning.
 
-.ns-alert .ns-alert-link {
-	font-weight: bold;
-}
-
-.ns-alert > p,
-.ns-alert > ul {
-	margin-bottom: 0;
-}
-
-.ns-alert > p + p {
-	margin-top: 5px;
-}
-
-.ns-alert-dismissable,
+.ns-alert-dismissable, // The misspelled .ns-alert-dismissable was deprecated in 3.2.0.
 .ns-alert-dismissible {
-	padding-right: 35px;
+	padding-right: (15px + 20);
+
+	// Adjust close link position
+	.close {
+		position: relative;
+		top: -2px;
+		right: -21px;
+		color: inherit;
+	}
 }
 
-.ns-alert-dismissable .close,
-.ns-alert-dismissible .close {
-	position: relative;
-	top: -2px;
-	right: -21px;
-	color: inherit;
-}
-
-.ns-alert-normal {
-	background-color: #d4d4d4;
-	border-color: #d4d4d4;
-	color: #333;
-}
+// Alternate styles
+//
+// Generate contextual modifier classes for colorizing the alert.
 
 .ns-alert-success {
-	background-color: #dff0d8;
-	border-color: #d6e9c6;
-	color: #3c763d;
-}
-
-.ns-alert-success hr {
-	border-top-color: #c9e2b3;
-}
-
-.ns-alert-success .ns-alert-link {
-	color: #2b542c;
+	@include alert-variant($alert-success-bg, $alert-success-border, $alert-success-text);
 }
 
 .ns-alert-info {
-	background-color: #d9edf7;
-	border-color: #bce8f1;
-	color: #31708f;
-}
-
-.ns-alert-info hr {
-	border-top-color: #a6e1ec;
-}
-
-.ns-alert-info .ns-alert-link {
-	color: #245269;
+	@include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);
 }
 
 .ns-alert-warning {
-	background-color: #fcf8e3;
-	border-color: #faebcc;
-	color: #8a6d3b;
-}
-
-.ns-alert-warning hr {
-	border-top-color: #f7e1b5;
-}
-
-.ns-alert-warning .ns-alert-link {
-	color: #66512c;
+	@include alert-variant($alert-warning-bg, $alert-warning-border, $alert-warning-text);
 }
 
 .ns-alert-danger {
-	background-color: #f2dede;
-	border-color: #ebccd1;
-	color: #a94442;
-}
-
-.ns-alert-danger hr {
-	border-top-color: #e4b9c0;
-}
-
-.ns-alert-danger .ns-alert-link {
-	color: #843534;
+	@include alert-variant($alert-danger-bg, $alert-danger-border, $alert-danger-text);
 }
 
 
 
+//
+// Wells
+// --------------------------------------------------
+
+
+// Base class
 .ns-well {
 	min-height: 20px;
 	padding: 19px;
 	margin-bottom: 20px;
-	background-color: #f5f5f5;
-	border: 1px solid #e3e3e3;
-	border-radius: 4px;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	background-color: $well-bg;
+	border: 1px solid $well-border;
+	border-radius: $border-radius-base;
+	@include box-shadow(inset 0 1px 1px rgba(0,0,0,.05));
+
+	blockquote {
+		border-color: #ddd;
+		border-color: rgba(0,0,0,.15);
+	}
 }
 
-.ns-well blockquote {
-	border-color: #ddd;
-	border-color: rgba(0, 0, 0, 0.15);
-}
-
+// Sizes
 .ns-well-lg {
 	padding: 24px;
-	border-radius: 6px;
+	border-radius: $border-radius-large;
 }
-
 .ns-well-sm {
 	padding: 9px;
-	border-radius: 3px;
+	border-radius: $border-radius-small;
 }
 
 
@@ -2047,51 +1640,33 @@ mark,
 	color: #777;
 }
 
-.ns-text-primary {
-	color: #3bafda;
+@include text-emphasis-variant('.ns-text-primary', $brand-primary);
+
+@include text-emphasis-variant('.ns-text-success', $state-success-text);
+
+@include text-emphasis-variant('.ns-text-info', $state-info-text);
+
+@include text-emphasis-variant('.ns-text-warning', $state-warning-text);
+
+@include text-emphasis-variant('.ns-text-danger', $state-danger-text);
+
+@include text-emphasis-variant('.ns-text-dim', #999);
+
+// Contextual backgrounds
+// For now we'll leave these alongside the text classes until v4 when we can
+// safely shift things around (per SemVer rules).
+.ns-bg-primary {
+	// Given the contrast here, this is the only class to have its color inverted
+	// automatically.
+	color: #fff;
 }
 
-a.ns-text-primary:hover,
-a.ns-text-primary:focus {
-	color: #4fc1e9;
-}
+@include bg-variant('.ns-bg-primary', $brand-primary);
 
-.ns-text-success {
-	color: #3c763d;
-}
+@include bg-variant('.ns-bg-success', $state-success-bg);
 
-a.ns-text-success:hover,
-a.ns-text-success:focus {
-	color: #2b542c;
-}
+@include bg-variant('.ns-bg-info', $state-info-bg);
 
-.ns-text-info {
-	color: #31708f;
-}
+@include bg-variant('.ns-bg-warning', $state-warning-bg);
 
-a.ns-text-info:hover,
-a.ns-text-info:focus {
-	color: #245269;
-}
-
-.ns-text-warning {
-	color: #8a6d3b;
-}
-
-a.ns-text-warning:hover,
-a.ns-text-warning:focus {
-	color: #66512c;
-}
-
-.ns-text-danger {
-	color: #a94442;
-}
-
-a.ns-text-danger:hover,
-a.ns-text-danger:focus {
-	color: #843534;
-}
-
-.ns-text-dim{
-	color: #999;
-}
+@include bg-variant('.ns-bg-danger', $state-danger-bg);
