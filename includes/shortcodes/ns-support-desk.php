@@ -129,8 +129,8 @@ function ns_support_desk_page() {
 									<?php if( ns_is_user('agent_and_manager') ) : ?>
 										<div class="ticket-tools">
 											<?php edit_post_link( 'Edit', '', '', get_the_ID() ); ?>
-											<a class="ticket-view-link" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e('Permanent link to the Ticket', 'nanosupport'); ?>">
-												<?php esc_html_e( 'View', 'nanosupport' ); ?>
+											<a class="ticket-view-link" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e( 'Permanent link to the Ticket', 'nanosupport' ); ?>">
+												<?php _e( 'View', 'nanosupport' ); ?>
 											</a>
 										</div> <!-- /.ticket-tools -->
 									<?php endif; ?>
@@ -138,7 +138,7 @@ function ns_support_desk_page() {
 								<div class="ticket-author">
 									<?php
 									$author = get_user_by( 'id', $post->post_author );
-									echo '<span class="ns-icon-user"></span> '. $author->display_name;
+									echo '<i class="ns-icon-user"></i> '. $author->display_name;
 									?>
 								</div>
 							</div>
@@ -153,7 +153,7 @@ function ns_support_desk_page() {
 								</div>
 							</div>
 							<div class="toggle-ticket-additional">
-								<span class="ns-toggle-icon ns-icon-chevron-circle-down" title="<?php esc_attr_e( 'Load more', 'nanosupport' ); ?>"></span>
+								<i class="ns-toggle-icon ns-icon-chevron-circle-down" title="<?php esc_attr_e( 'Load more', 'nanosupport' ); ?>"></i>
 							</div>
 							<div class="ticket-additional">
 								<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
@@ -182,8 +182,10 @@ function ns_support_desk_page() {
 										$last_responder = get_userdata( $last_response['user_id'] );
 							            if ( $last_responder ) {
 							                echo $last_responder->display_name, '<br>';
-							                /* translators: time difference from current time. eg. 12 minutes ago */
-							                printf( __( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
+							                echo '<small>';
+							                	/* translators: time difference from current time. eg. 12 minutes ago */
+							                	printf( __( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
+							                echo '</small>';
 							            } else {
 							                echo '-';
 							            }
@@ -215,12 +217,12 @@ function ns_support_desk_page() {
 			//User is not logged in
 			_e( 'Sorry, you cannot see your tickets without being logged in.', 'nanosupport' );
 			echo '<br>';
-			echo '<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_login_url() .'"><span class="ns-icon-lock"></span>&nbsp;';
+			echo '<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_login_url() .'"><i class="ns-icon-lock"></i>&nbsp;';
 				_e( 'Login', 'nanosupport' );
 			echo '</a>&nbsp;';
 			/* translators: context: login 'or' register */
 			_e( 'or', 'nanosupport' );
-			echo '&nbsp;<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_registration_url() .'"><span class="ns-icon-lock"></span>&nbsp;';
+			echo '&nbsp;<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_registration_url() .'"><i class="ns-icon-lock"></i>&nbsp;';
 				_e( 'Create an account', 'nanosupport' );
 			echo '</a>';
 

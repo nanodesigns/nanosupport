@@ -153,7 +153,7 @@ function ns_nanodoc_taxonomy_add_meta_fields( $taxonomy ) { ?>
         <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary" title="<?php esc_attr_e( 'Choose an icon', 'nanosupport' ); ?>">
             <?php _e( 'Choose Icon', 'nanosupport' ); ?>
         </a>
-        <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" size="40" placeholder="<?php esc_attr_e( 'i.e. ns-icon-docs', 'nanosupport' ); ?>">
+        <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" size="40" placeholder="<?php printf( esc_attr__( 'e.g. %s', 'nanosupport' ), 'ns-icon-docs' ); ?>">
         <p><?php _e( 'Choose an Icon to display with the Category', 'nanosupport' ); ?></p>
 
         <div id="ns-kb-icon-modal" style="display:none;">
@@ -221,7 +221,7 @@ function ns_nanodoc_taxonomy_edit_meta_fields( $taxonomy ) {
             <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary" title="<?php esc_attr_e( 'Choose an icon', 'nanosupport' ); ?>">
                 <?php _e( 'Choose Icon', 'nanosupport' ); ?>
             </a>
-            <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" value="<?php echo esc_attr($ns_icon_class); ?>" size="40" placeholder="<?php esc_attr_e( 'i.e. ns-icon-docs', 'nanosupport' ); ?>">
+            <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" value="<?php echo esc_attr($ns_icon_class); ?>" size="40" placeholder="<?php printf( esc_attr__( 'e.g. %s', 'nanosupport' ), 'ns-icon-docs' ); ?>">
             <p class="description"><?php _e( 'Choose an Icon to display with the Category', 'nanosupport' ); ?></p>
 
             <div id="ns-kb-icon-modal" style="display:none;">
@@ -276,9 +276,9 @@ add_filter( 'manage_edit-nanodoc_category_columns', 'ns_nanodoc_taxonomy_icon_co
  */
 function ns_nanodoc_taxonomy_icon_column_data( $columns, $column, $id ) {
     if( 'icon' === $column ) {
-        $icon = get_term_meta( $id, '_ns_kb_cat_icon', true );
+        $icon       = get_term_meta( $id, '_ns_kb_cat_icon', true );
         $icon_class = $icon ? $icon : 'ns-icon-docs';
-        $columns = '<span class="'. esc_attr($icon_class) .'"></span>';
+        $columns    = '<i class="'. esc_attr($icon_class) .'"></i>';
     }
 
     return $columns;

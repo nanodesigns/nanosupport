@@ -322,7 +322,7 @@ add_action( 'edit_user_profile_update', 'ns_saving_user_fields' );
  * -----------------------------------------------------------------------
  */
 function ns_add_support_agent_user_column( $columns ) {
-    $columns['ns_agent'] = '<span class="ns-icon-nanosupport" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></span>';
+    $columns['ns_agent'] = '<i class="ns-icon-nanosupport" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i>';
     return $columns;
 }
 
@@ -610,7 +610,7 @@ function ns_agent_admin_bar( $wp_admin_bar ) {
         $wp_admin_bar->add_node(array(
             'parent'    => null,
             'group'     => null,
-            'title'     => '<span class="ab-icon ns-icon-nanosupport" style="font-size: 17px;"></span> ' . absint( $my_open_tickets ),
+            'title'     => '<i class="ab-icon ns-icon-nanosupport" style="font-size: 17px;"></i> ' . absint( $my_open_tickets ),
             'id'        => 'ns-agent-ticket-count',
             'href'      => add_query_arg( 'post_type', 'nanosupport', admin_url('/edit.php') ),
             'meta'      => array(

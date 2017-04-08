@@ -84,7 +84,7 @@ function ns_knowledgebase_page() {
 						$column_class = '';
 
 					//Get term icons
-					$saved_meta = get_term_meta( $term_id, '_ns_kb_cat_icon', true );
+					$saved_meta    = get_term_meta( $term_id, '_ns_kb_cat_icon', true );
 					$ns_icon_class = $saved_meta ? $saved_meta : 'ns-icon-docs';
 
 					echo '<div class="ns-col-sm-4 ns-col-xs-6 nanodoc-term-box'. esc_attr($column_class) .'">';
@@ -149,7 +149,7 @@ function ns_knowledgebase_page() {
 						$col_class = '';
 
 					//Get term icons
-					$saved_meta = get_term_meta( $kb_term->term_id, '_ns_kb_cat_icon', true );
+					$saved_meta    = get_term_meta( $kb_term->term_id, '_ns_kb_cat_icon', true );
 					$ns_icon_class = $saved_meta ? $saved_meta : 'ns-icon-docs';
 
 					echo '<div class="ns-kb-cat-box ns-col-sm-4 ns-col-xs-6'. esc_attr($col_class) .'">';
