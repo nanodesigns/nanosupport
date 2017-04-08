@@ -6,34 +6,6 @@
  * @package NanoSupport
  */
 
-$red: 					#da4453;
-$red-hover: 			#ed5565;
-$color-danger:			$red;
-$color-danger-hover:	$red-hover;
-
-$orange: 				#f6bb42; //#f0ad4e #d58512 
-$orange-hover: 			#ffce54; //#ec971f focus:#985f0d 
-$color-warning:			$orange;
-$color-warning-hover:	$orange-hover;
-
-$green: 				#8cc152;
-$green-hover: 			#a0d468;
-$color-success:			$green;
-$color-success-hover:	$green-hover;
-
-$blue: 					#0580af;
-$blue-hover: 			#4fc1e9;
-$color-primary:			$blue;
-$color-primary-hover:	$blue-hover;
-
-$light-black:			#333;
-$btn-default-color:		$light-black;
-
-
-// ------------------------------
-// Variables taken from Bootstrap
-// ------------------------------
-
 // Colors -----------------------
 
 $gray-base:             #000 !default;
@@ -43,11 +15,12 @@ $gray:                  lighten($gray-base, 33.5%) !default; // #555
 $gray-light:            lighten($gray-base, 46.7%) !default; // #777
 $gray-lighter:          lighten($gray-base, 93.5%) !default; // #eee
 
-$brand-primary:         darken(#428bca, 6.5%) !default; // #337ab7
-$brand-success:         #5cb85c !default;
-$brand-info:            #5bc0de !default;
-$brand-warning:         #f0ad4e !default;
-$brand-danger:          #d9534f !default;
+$brand-primary:         #4a89dc !default;
+$brand-normal:          #434a54 !default;
+$brand-success:         #8cc152 !default;
+$brand-info:            #049372 !default;
+$brand-warning:         #f6bb42 !default;
+$brand-danger:          #da4453 !default;
 
 $link-color:            $brand-primary !default;
 $link-hover-color:      darken($link-color, 15%) !default;
@@ -77,26 +50,31 @@ $headings-line-height:		1.1 !default;
 $headings-color:			inherit !default;
 
 $state-success-text:		#3c763d !default;
-$state-success-bg:			#dff0d8 !default;
+$state-success-bg:			$brand-success !default;
 $state-success-border:		darken(adjust-hue($state-success-bg, -10), 5%) !default;
 
-$state-info-text:			#31708f !default;
-$state-info-bg:				#d9edf7 !default;
+$state-info-text:			$gray-dark !default;
+$state-info-bg:				#7cd1ef !default;
+$state-info-text-alt:		darken( $state-info-bg, 35% ) !default; // a11y
 $state-info-border:			darken(adjust-hue($state-info-bg, -10), 7%) !default;
 
-$state-warning-text:		#8a6d3b !default;
-$state-warning-bg:			#fcf8e3 !default;
+$state-warning-text:		$gray-dark !default;
+$state-warning-text-alt:	darken( $brand-warning, 30% ) !default; // a11y
+$state-warning-bg:			$brand-warning !default;
 $state-warning-border:		darken(adjust-hue($state-warning-bg, -10), 5%) !default;
 
 $state-danger-text:			#a94442 !default;
-$state-danger-bg:			#f2dede !default;
+$state-danger-text-alt:		darken( $brand-danger, 20% ) !default; // a11y
+$state-danger-bg:			$brand-danger !default;
 $state-danger-border:		darken(adjust-hue($state-danger-bg, -10), 5%) !default;
 
 
 // Labels -----------------------
 
 // Default label background color
-$label-default-bg:			$gray-light !default;
+$label-default-bg:			#fff !default;
+// Normal label background color
+$label-normal-bg:			$gray-light !default;
 // Primary label background color
 $label-primary-bg:			$brand-primary !default;
 // Success label background color
@@ -109,7 +87,13 @@ $label-warning-bg:			$brand-warning !default;
 $label-danger-bg:			$brand-danger !default;
 
 // Default label text color
-$label-color:				#fff !default;
+$label-color:				#333 !default;
+$label-normal-color:		#fff !default;
+$label-warning-color:		$gray-dark !default; //#333 a11y
+$label-primary-color:		#fff !default;
+$label-success-color:		$gray-dark !default; //#333 a11y
+$label-info-color:			$gray-dark !default;
+$label-danger-color:		#fff !default;
 // Default text color of a linked label
 $label-link-hover-color:	#fff !default;
 
@@ -123,7 +107,7 @@ $input-color-placeholder:	#999 !default;
 // Alerts -----------------------
 // Define alert colors, border radius, and padding.
 
-$alert-success-bg:    		$state-success-bg !default;
+$alert-success-bg:    		lighten( $state-success-bg, 15% ) !default;
 $alert-success-text:  		$state-success-text !default;
 $alert-success-border:		$state-success-border !default;
 
@@ -150,9 +134,7 @@ $well-border:				darken($well-bg, 7%) !default;
 // Buttons ----------------------
 // For each of Bootstrap's buttons, define text, background and border color.
 
-$btn-font-weight:                normal !default;
-
-$btn-default-color:              $light-black !default;
+$btn-default-color:              $gray-dark !default;
 $btn-default-bg:                 #fff !default;
 $btn-default-border:             #ccc !default;
 
@@ -168,9 +150,9 @@ $btn-info-color:                 #fff !default;
 $btn-info-bg:                    $brand-info !default;
 $btn-info-border:                darken($btn-info-bg, 5%) !default;
 
-$btn-warning-color:              #fff !default;
+$btn-warning-color:              $gray-dark !default; //#333 a11y
 $btn-warning-bg:                 $brand-warning !default;
-$btn-warning-border:             darken($btn-warning-bg, 5%) !default;
+$btn-warning-border:             darken($btn-warning-bg, 15%) !default; //a11y
 
 $btn-danger-color:               #fff !default;
 $btn-danger-bg:                  $brand-danger !default;

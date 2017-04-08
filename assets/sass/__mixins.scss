@@ -199,14 +199,17 @@
 }
 
 // Labels
+// Text color added for accessibility.
 
-@mixin label-variant($color) {
+@mixin label-variant($color, $label-text) {
 	background-color: $color;
+	color: $label-text;
 
 	&[href] {
 	&:hover,
 	&:focus {
 		background-color: darken($color, 10%);
+		color: $label-text;
 	}
 	}
 }

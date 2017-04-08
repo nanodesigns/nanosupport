@@ -28,7 +28,7 @@ body{
 }
 
 .ns-required{
-	color: #da4453;
+	color: $state-danger-bg;
 }
 
 .ns-icon-responses{
@@ -159,7 +159,7 @@ body{
 }
 
 .ticket-author{
-	color: #999;
+	color: $gray-light;
 }
 
 .ns-btn.ns-round-btn{
@@ -201,7 +201,7 @@ body{
 	white-space: nowrap;
 	margin-top: 30px;
 	margin-bottom: 30px;
-	color: #999;
+	color: $gray-light;
 	font-size: 16px;
 
 	&.ticket-separator-center{
@@ -254,7 +254,7 @@ body{
 					transition: all 0.5s ease;
 
 	.ticket-id{
-		color: #666;
+		color: $gray-light;
 	}
 
 	.text-blocks{
@@ -262,9 +262,9 @@ body{
 		font-size: 14px;
 	}
 
-	.label-normal{
-		color: #333;
-	}
+	/* .label-normal{
+		color: $gray-dark;
+	} */
 
 	&:hover{
 		background-color: #ededed;
@@ -278,15 +278,15 @@ body{
 	.ticket-cards{
 		border-left-width: 10px;
 
-		&.status-open{ border-left-color: $orange; }
-		&.status-inspection{ border-left-color: $blue; }
-		&.status-solved{  border-left-color: $green; }
-		&.status-pending{ border-left-color: #666; }
+		&.status-open{ border-left-color: $state-warning-bg; }
+		&.status-inspection{ border-left-color: $brand-primary; }
+		&.status-solved{  border-left-color: $brand-success; }
+		&.status-pending{ border-left-color: $gray-light; }
 
-		&.priority-low{ border-left-color: #666; }
+		&.priority-low{ border-left-color: $gray-light; }
 		&.priority-medium{ border-left-color: #31708f; }
 		&.priority-high{ border-left-color: #f6bb42; }
-		&.priority-critical{ border-left-color: #da4453; }
+		&.priority-critical{ border-left-color: $state-danger-bg; }
 	}
 }
 
@@ -298,15 +298,15 @@ body{
 	.ticket-cards{
 		border-top-width: 10px;
 
-		&.status-open{ border-top-color: $orange; }
-		&.status-inspection{ border-top-color: $blue; }
-		&.status-solved{ border-top-color: $green; }
-		&.status-pending{ border-top-color: #666; }
+		&.status-open{ border-top-color: $state-warning-bg; }
+		&.status-inspection{ border-top-color: $brand-primary; }
+		&.status-solved{ border-top-color: $brand-success; }
+		&.status-pending{ border-top-color: $gray-light; }
 
-		&.priority-low{ border-top-color: #666; }
+		&.priority-low{ border-top-color: $gray-light; }
 		&.priority-medium{ border-top-color: #31708f; }
 		&.priority-high{ border-top-color: #f6bb42; }
-		&.priority-critical{ border-top-color: #da4453; }
+		&.priority-critical{ border-top-color: $state-danger-bg; }
 
 		.ns-col-xs-4{
 			clear: both;
@@ -321,7 +321,7 @@ body{
 		padding-right: 15px;
 		text-align: center;
 		position: relative;
-		color: #999;
+		color: $gray-light;
 		overflow: hidden;
 		white-space: nowrap;
 		cursor: pointer;
@@ -368,7 +368,7 @@ body{
 	height: 2em;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	background-color: #72777c;
+	background-color: $brand-normal;
 	color: #fff;
 	font-size: 11px;
 	line-height: 21px;
@@ -409,15 +409,15 @@ article.ns-single.type-nanosupport.hentry{
 	border-top-style: solid;
 	margin-bottom: 20px;
 
-	&.status-pending{ border-top-color: #666; }
-	&.status-open{ border-top-color: $orange; }
-	&.status-inspection{ border-top-color: $blue; }
-	&.status-solved{ border-top-color: $green; }
+	&.status-pending{ border-top-color: $gray-light; }
+	&.status-open{ border-top-color: $state-warning-bg; }
+	&.status-inspection{ border-top-color: $brand-primary; }
+	&.status-solved{ border-top-color: $brand-success; }
 
-	&.priority-low{ border-top-color: #666; }
+	&.priority-low{ border-top-color: $gray-light; }
 	&.priority-medium{ border-top-color: #31708f; }
 	&.priority-high{ border-top-color: #f6bb42; }
-	&.priority-critical{ border-top-color: #da4453; }
+	&.priority-critical{ border-top-color: $state-danger-bg; }
 
 
 	.ticket-head{
@@ -657,17 +657,27 @@ article.ns-single.type-nanosupport.hentry{
 		-webkit-transform: translateY(-4px);
 		   -moz-transform: translateY(-4px);
 				transform: translateY(-4px);
+
+		a.icon-link,
+		a.nanodoc-term-link{
+			color: $brand-normal;
+			@include transition( all 0.5s ease );
+		}
 	}
 
 	.nanosupport-kb-icon{
 		font-size: 50px;
 	}
 
-	a{
-		&.icon-link{
-			color: #999;
-			display: block;
-		}
+	a.icon-link{
+		color: $gray-light;
+		display: block;
+		@include transition( all 0.5s ease );
+	}
+
+	a.nanodoc-term-link{
+		color: $gray-light;
+		@include transition( all 0.5s ease );
 	}
 }
 
@@ -702,7 +712,7 @@ article.ns-single.type-nanosupport.hentry{
 }
 
 #nanosupport-knowledgebase .kb-cat-icon-inner{
-	color: #999;
+	color: $gray-light;
 	display: inline-block;
 
 	&:before{
@@ -717,10 +727,10 @@ article.ns-single.type-nanosupport.hentry{
 	height: 13px;
 	border-radius: 100%;
 	vertical-align: middle;
-	background-color: #666;
+	background-color: $gray-light;
 }
 
-.ns-text-danger .ns-dot{ background-color: #da4453; }
+.ns-text-danger .ns-dot{ background-color: $state-danger-bg; }
 .ns-text-info .ns-dot{ background-color: #31708f; }
 .ns-text-warning .ns-dot{ background-color: #f6bb42; }
 
@@ -735,7 +745,7 @@ $tt_ease: ease;
 	cursor: help;
 	margin: 3px 0 3px 3px;
 	position: relative;
-	color: #999;
+	color: $gray-light;
 	vertical-align: middle;
 	float: right;
 
@@ -779,7 +789,7 @@ $tt_ease: ease;
 	code,
 	pre{
 		background-color: rgba(0,0,0,0.3);
-		color: $red;
+		color: $label-danger-bg;
 	}
 }
 
