@@ -110,12 +110,14 @@ function ns_reply_specifics() {
         if( 'pending' === $ticket_meta['status']['value'] ) {
 
             echo '<div class="ns-alert ns-alert-info" role="alert">';
+                echo '<i class="dashicons dashicons-info"></i>&nbsp;';
                 echo wp_kses( __( 'You cannot add response to a pending ticket. <strong>Publish</strong> it first.', 'nanosupport' ), array('strong' => array()) );
             echo '</div>';
 
         } elseif( 'solved' === $ticket_meta['status']['value'] ) {
 
             echo '<div class="ns-alert ns-alert-success" role="alert">';
+                echo '<i class="dashicons dashicons-info"></i>&nbsp;';
                 echo wp_kses( __( 'Ticket is already solved. <strong>ReOpen</strong> it to add new response.', 'nanosupport' ), array('strong' => array()) );
             echo '</div>';
 
