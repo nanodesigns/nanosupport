@@ -58,7 +58,7 @@ function ns_get_last_response( $ticket_id = null ) {
 /**
  * NanoSupport Pagination
  * 
- * Paginate_links enabled with Pagination CSS.
+ * paginate_links enabled with Pagination CSS.
  *
  * @since   1.0.0
  *
@@ -71,19 +71,19 @@ function ns_get_last_response( $ticket_id = null ) {
 function ns_pagination( $query ) {
 
 	global $wp_query;
-	$query = $query ? $query : $wp_query;
-
-	$big = 999999999; // need an unlikely integer
-	$total = $query->max_num_pages;
+    $query = $query ? $query : $wp_query;
+    
+    $big   = 999999999; // need an unlikely integer
+    $total = $query->max_num_pages;
 	if( $total > 1 ) {
-        echo '<nav class="nanosupport-pagination">';
+        echo '<nav class="nanosupport-pagination" role="navigation" aria-label="Pagination Navigation">';
 		$pages = paginate_links( array(
 				'base'		=> str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
 				'format'	=> '?paged=%#%',
 				'show_all'	=> false,
 				'prev_next'	=> true,
-				'prev_text'	=> '&laquo;',
-				'next_text'	=> '&raquo;',
+				'prev_text'	=> '&laquo; <span class="screen-reader-only">'. __( 'Previous Page', 'nanosupport' ) .'</span>',
+				'next_text'	=> '<span class="screen-reader-only">'. __( 'Next Page', 'nanosupport' ) .'</span> &raquo;',
 				'current'	=> max( 1, get_query_var('paged') ),
 				'total'		=> $total,
 				'type'		=> 'array'
@@ -119,9 +119,9 @@ function ns_get_ticket_departments( $post_id = null ) {
     $_departments = get_the_terms( $post_id, 'nanosupport_department' );
 
     if ( $_departments && ! is_wp_error( $_departments ) ) :
-        $counter = 1;
+        $counter          = 1;
         $department_count = count($_departments);
-        $departments = '';
+        $departments      = '';
         
         foreach ( $_departments as $department ) {
            $departments .= $department->name;
