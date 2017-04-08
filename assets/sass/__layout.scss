@@ -1,19 +1,17 @@
 /**
  * NanoSupport Layout
- * Based on Bootstrap v3.3.5 and Bootflat v2.0.4
+ * Customized styles based on Bootstrap v3.3.7 and
+ * Bootflat v2.0.4.
+ *
+ * - Normalize CSS v3.0.3.
+ * - Bootstrap grid.
+ * - Bootstrap buttons, wells, alerts etc.
+ * - Bootflat color combinations.
+ *
+ * Color combination modified to made a11y compatible.
  *
  * @package NanoSupport
  * @since 	1.0.0
- */
-
-/**
- * -----------------------------------------
- * Taken:
- * - Bootstrap Basic Normalization
- * - Bootstrap Grid
- * - Bootstrap General Text Classes
- * - Bootflat Color Combination
- * -----------------------------------------
  */
 
 * {
@@ -945,8 +943,8 @@ input[type="checkbox"]:focus {
 	padding: 6px 12px;
 	font-size: 14px;
 	line-height: 1.42857143;
-	color: $input-color;
-	background-color: $input-bg;
+	color: #555;
+	background-color: #fff;
 	background-image: none;
 	border: 1px solid #ccc;
 	border-radius: 4px;
@@ -973,13 +971,13 @@ input[type="checkbox"]:focus {
 	&[disabled],
 	&[readonly],
 	fieldset[disabled] & {
-	  	background-color: $input-bg-disabled;
+	  	background-color: #eee;
 	    opacity: 1; // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655
 	}
 
 	&[disabled],
 	fieldset[disabled] & {
-		cursor: $cursor-disabled;
+		cursor: not-allowed;
 	}
 
 	// [converter] extracted textarea& to textarea.ns-form-control
@@ -1162,7 +1160,7 @@ fieldset[disabled] .ns-checkbox label {
 	background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
 	border: 1px solid transparent;
 	white-space: nowrap;
-	@include button-size($padding-base-vertical, $padding-base-horizontal, $font-size-base, $line-height-base, $btn-border-radius-base);
+	@include button-size(6px, 12px, $font-size-base, 1.428571429, 4px);
 	@include user-select(none);
 
 	&,
@@ -1191,7 +1189,7 @@ fieldset[disabled] .ns-checkbox label {
 	&.disabled,
 	&[disabled],
 	fieldset[disabled] & {
-		cursor: $cursor-disabled;
+		cursor: not-allowed;
 		@include opacity(.65);
 		@include box-shadow(none);
 	}
@@ -1283,26 +1281,22 @@ a.ns-btn {
 
 
 // Button Sizes
-// --------------------------------------------------
-
 .ns-btn-lg {
 	// line-height: ensure even-numbered height of button next to large input
-	@include button-size($padding-large-vertical, $padding-large-horizontal, $font-size-large, $line-height-large, $btn-border-radius-large);
+	@include button-size(10px, 16px, $font-size-large, 1.3333333, 6px);
 }
 
 .ns-btn-sm {
 	// line-height: ensure proper height of button next to small input
-	@include button-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $btn-border-radius-small);
+	@include button-size(5px, 10px, $font-size-small, 1.5, 3px);
 }
 
 .ns-btn-xs {
-	@include button-size($padding-xs-vertical, $padding-xs-horizontal, $font-size-small, $line-height-small, $btn-border-radius-small);
+	@include button-size(1px, 5px, $font-size-small, 1.5, 3px);
 }
 
 
 // Block button
-// --------------------------------------------------
-
 .ns-btn-block {
 	display: block;
 	width: 100%;
@@ -1323,14 +1317,15 @@ input[type="button"] {
 }
 
 
-//
+// --------------------------------------------------
 // Pagination (multiple pages)
 // --------------------------------------------------
+
 .ns-pagination {
   display: inline-block;
   padding-left: 0;
   margin: $line-height-computed 0;
-  border-radius: $border-radius-base;
+  border-radius: 4px;
 
 	> li {
 		display: inline; // Remove list-style and block-level defaults
@@ -1338,8 +1333,8 @@ input[type="button"] {
 		> span {
 			position: relative;
 			float: left; // Collapse white-space
-			padding: $padding-base-vertical $padding-base-horizontal;
-			line-height: $line-height-base;
+			padding: 6px 12px;
+			line-height: 1.428571429;
 			text-decoration: none;
 			color: $pagination-color;
 			background-color: $pagination-bg;
@@ -1351,14 +1346,14 @@ input[type="button"] {
 			> a,
 			> span {
 				margin-left: 0;
-				@include border-left-radius($border-radius-base);
+				@include border-left-radius(4px);
 			}
 	    }
 
 	    &:last-child {
 			> a,
 			> span {
-				@include border-right-radius($border-radius-base);
+				@include border-right-radius(4px);
 			}
 	    }
 	}
@@ -1397,28 +1392,22 @@ input[type="button"] {
 			color: $pagination-disabled-color;
 			background-color: $pagination-disabled-bg;
 			border-color: $pagination-disabled-border;
-			cursor: $cursor-disabled;
+			cursor: not-allowed;
 	    }
 	}
 }
 
 // Sizing
-// --------------------------------------------------
-
-// Large
 .ns-pagination-lg {
-	@include pagination-size($padding-large-vertical, $padding-large-horizontal, $font-size-large, $line-height-large, $border-radius-large);
+	@include pagination-size(10px, 16px, $font-size-large, 1.3333333, 6px);
 }
 
-// Small
 .ns-pagination-sm {
-	@include pagination-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $border-radius-small);
+	@include pagination-size(5px, 10px, $font-size-small, 1.5, 3px);
 }
 
 
-
-
-//
+// --------------------------------------------------
 // Labels
 // --------------------------------------------------
 
@@ -1458,9 +1447,6 @@ a.ns-label {
 	}
 }
 
-// Colors
-// Contextual variations (linked labels get darker on :hover)
-
 .ns-label-default {
 	@include label-variant($label-default-bg);
 }
@@ -1486,14 +1472,11 @@ a.ns-label {
 }
 
 
-//
+// --------------------------------------------------
 // Alerts
 // --------------------------------------------------
 
-
 // Base styles
-// -------------------------
-
 .ns-alert {
 	padding: 15px;
 	margin-bottom: 20px;
@@ -1522,11 +1505,7 @@ a.ns-label {
 	}
 }
 
-// Dismissible alerts
-//
-// Expand the right padding and account for the close button's positioning.
-
-.ns-alert-dismissable, // The misspelled .ns-alert-dismissable was deprecated in 3.2.0.
+.ns-alert-dismissable,
 .ns-alert-dismissible {
 	padding-right: (15px + 20);
 
@@ -1538,10 +1517,6 @@ a.ns-label {
 		color: inherit;
 	}
 }
-
-// Alternate styles
-//
-// Generate contextual modifier classes for colorizing the alert.
 
 .ns-alert-success {
 	@include alert-variant($alert-success-bg, $alert-success-border, $alert-success-text);
@@ -1561,7 +1536,7 @@ a.ns-label {
 
 
 
-//
+// --------------------------------------------------
 // Wells
 // --------------------------------------------------
 
@@ -1573,7 +1548,7 @@ a.ns-label {
 	margin-bottom: 20px;
 	background-color: $well-bg;
 	border: 1px solid $well-border;
-	border-radius: $border-radius-base;
+	border-radius: 4px;
 	@include box-shadow(inset 0 1px 1px rgba(0,0,0,.05));
 
 	blockquote {
@@ -1585,11 +1560,11 @@ a.ns-label {
 // Sizes
 .ns-well-lg {
 	padding: 24px;
-	border-radius: $border-radius-large;
+	border-radius: 6px;
 }
 .ns-well-sm {
 	padding: 9px;
-	border-radius: $border-radius-small;
+	border-radius: 3px;
 }
 
 

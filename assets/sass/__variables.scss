@@ -1,6 +1,6 @@
 /**
  * NanoSupport Common Stylesheet
- * Storing all the variables.
+ * Storing all the variables. Added variables from Bootstrap.
  *
  * @author 	nanodesigns
  * @package NanoSupport
@@ -27,22 +27,21 @@ $color-primary:			$blue;
 $color-primary-hover:	$blue-hover;
 
 $light-black:			#333;
+$btn-default-color:		$light-black;
 
 
-// --------------------
+// ------------------------------
 // Variables taken from Bootstrap
-// --------------------
+// ------------------------------
 
-//== Colors
-//
-//## Gray and brand colors for use across Bootstrap.
+// Colors
 
-$gray-base:              #000 !default;
-$gray-darker:            lighten($gray-base, 13.5%) !default; // #222
-$gray-dark:              lighten($gray-base, 20%) !default;   // #333
-$gray:                   lighten($gray-base, 33.5%) !default; // #555
-$gray-light:             lighten($gray-base, 46.7%) !default; // #777
-$gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
+$gray-base:             #000 !default;
+$gray-darker:           lighten($gray-base, 13.5%) !default; // #222
+$gray-dark:             lighten($gray-base, 20%) !default;   // #333
+$gray:                  lighten($gray-base, 33.5%) !default; // #555
+$gray-light:            lighten($gray-base, 46.7%) !default; // #777
+$gray-lighter:          lighten($gray-base, 93.5%) !default; // #eee
 
 $brand-primary:         darken(#428bca, 6.5%) !default; // #337ab7
 $brand-success:         #5cb85c !default;
@@ -50,32 +49,164 @@ $brand-info:            #5bc0de !default;
 $brand-warning:         #f0ad4e !default;
 $brand-danger:          #d9534f !default;
 
-//** Text color for `<input>`s
-$input-color:                    $gray !default;
+// Global textual link color.
+$link-color:            $brand-primary !default;
+// Link hover color set via `darken()` function.
+$link-hover-color:      darken($link-color, 15%) !default;
+// Link hover decoration.
+$link-hover-decoration: underline !default;
 
-//** `<input>` border color
-$input-border:                   #ccc !default;
+// Text color for `<input>`s
+$input-color:           $gray !default;
 
-//== Alerts
-//
-//## Define alert colors, border radius, and padding.
+// `<input>` border color
+$input-border:          #ccc !default;
 
-$alert-padding:               15px !default;
-$alert-border-radius:         $border-radius-base !default;
-$alert-link-font-weight:      bold !default;
 
-$alert-success-bg:            $state-success-bg !default;
-$alert-success-text:          $state-success-text !default;
-$alert-success-border:        $state-success-border !default;
+// Typography
+// Font, line-height, and color for body text, headings, and more.
 
-$alert-info-bg:               $state-info-bg !default;
-$alert-info-text:             $state-info-text !default;
-$alert-info-border:           $state-info-border !default;
+$font-size-base:		14px !default;
+$font-size-large:		ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-small:		ceil(($font-size-base * 0.85)) !default; // ~12px
 
-$alert-warning-bg:            $state-warning-bg !default;
-$alert-warning-text:          $state-warning-text !default;
-$alert-warning-border:        $state-warning-border !default;
+$font-size-h1:			floor(($font-size-base * 2.6)) !default; // ~36px
+$font-size-h2:			floor(($font-size-base * 2.15)) !default; // ~30px
+$font-size-h3:			ceil(($font-size-base * 1.7)) !default; // ~24px
+$font-size-h4:			ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-h5:			$font-size-base !default;
+$font-size-h6:			ceil(($font-size-base * 0.85)) !default; // ~12px
 
-$alert-danger-bg:             $state-danger-bg !default;
-$alert-danger-text:           $state-danger-text !default;
-$alert-danger-border:         $state-danger-border !default;
+// Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+$line-height-computed:		floor(($font-size-base * 1.428571429)) !default; // ~20px
+
+// By default, this inherits from the `<body>`.
+$headings-font-family:		inherit !default;
+$headings-font-weight:		500 !default;
+$headings-line-height:		1.1 !default;
+$headings-color:			inherit !default;
+
+$state-success-text:		#3c763d !default;
+$state-success-bg:			#dff0d8 !default;
+$state-success-border:		darken(adjust-hue($state-success-bg, -10), 5%) !default;
+
+$state-info-text:			#31708f !default;
+$state-info-bg:				#d9edf7 !default;
+$state-info-border:			darken(adjust-hue($state-info-bg, -10), 7%) !default;
+
+$state-warning-text:		#8a6d3b !default;
+$state-warning-bg:			#fcf8e3 !default;
+$state-warning-border:		darken(adjust-hue($state-warning-bg, -10), 5%) !default;
+
+$state-danger-text:			#a94442 !default;
+$state-danger-bg:			#f2dede !default;
+$state-danger-border:		darken(adjust-hue($state-danger-bg, -10), 5%) !default;
+
+
+// Labels
+
+// Default label background color
+$label-default-bg:			$gray-light !default;
+// Primary label background color
+$label-primary-bg:			$brand-primary !default;
+// Success label background color
+$label-success-bg:			$brand-success !default;
+// Info label background color
+$label-info-bg:				$brand-info !default;
+// Warning label background color
+$label-warning-bg:			$brand-warning !default;
+// Danger label background color
+$label-danger-bg:			$brand-danger !default;
+
+// Default label text color
+$label-color:                 #fff !default;
+// Default text color of a linked label
+$label-link-hover-color:      #fff !default;
+
+
+
+// Alerts
+// Define alert colors, border radius, and padding.
+
+$alert-padding:				15px !default;
+$alert-link-font-weight:	bold !default;
+
+$alert-success-bg:    		$state-success-bg !default;
+$alert-success-text:  		$state-success-text !default;
+$alert-success-border:		$state-success-border !default;
+
+$alert-info-bg:       		$state-info-bg !default;
+$alert-info-text:     		$state-info-text !default;
+$alert-info-border:   		$state-info-border !default;
+
+$alert-warning-bg:    		$state-warning-bg !default;
+$alert-warning-text:  		$state-warning-text !default;
+$alert-warning-border:		$state-warning-border !default;
+
+$alert-danger-bg:     		$state-danger-bg !default;
+$alert-danger-text:   		$state-danger-text !default;
+$alert-danger-border:		$state-danger-border !default;
+
+
+// Wells
+
+$well-bg:					#f5f5f5 !default;
+$well-border:				darken($well-bg, 7%) !default;
+
+
+// Border color for inputs on focus
+$input-border-focus:		#66afe9 !default;
+
+// Placeholder text color
+$input-color-placeholder:	#999 !default;
+
+
+// Buttons
+// For each of Bootstrap's buttons, define text, background and border color.
+
+$btn-font-weight:                normal !default;
+
+$btn-default-color:              $light-black !default;
+$btn-default-bg:                 #fff !default;
+$btn-default-border:             #ccc !default;
+
+$btn-primary-color:              #fff !default;
+$btn-primary-bg:                 $brand-primary !default;
+$btn-primary-border:             darken($btn-primary-bg, 5%) !default;
+
+$btn-success-color:              #fff !default;
+$btn-success-bg:                 $brand-success !default;
+$btn-success-border:             darken($btn-success-bg, 5%) !default;
+
+$btn-info-color:                 #fff !default;
+$btn-info-bg:                    $brand-info !default;
+$btn-info-border:                darken($btn-info-bg, 5%) !default;
+
+$btn-warning-color:              #fff !default;
+$btn-warning-bg:                 $brand-warning !default;
+$btn-warning-border:             darken($btn-warning-bg, 5%) !default;
+
+$btn-danger-color:               #fff !default;
+$btn-danger-bg:                  $brand-danger !default;
+$btn-danger-border:              darken($btn-danger-bg, 5%) !default;
+
+$btn-link-disabled-color:        $gray-light !default;
+
+
+// Pagination
+
+$pagination-color:				$link-color !default;
+$pagination-bg:					#fff !default;
+$pagination-border: 			#ddd !default;
+
+$pagination-hover-color:		$link-hover-color !default;
+$pagination-hover-bg:			$gray-lighter !default;
+$pagination-hover-border:		#ddd !default;
+
+$pagination-active-color:		#fff !default;
+$pagination-active-bg:			$brand-primary !default;
+$pagination-active-border:		$brand-primary !default;
+
+$pagination-disabled-color:		$gray-light !default;
+$pagination-disabled-bg:		#fff !default;
+$pagination-disabled-border:	#ddd !default;

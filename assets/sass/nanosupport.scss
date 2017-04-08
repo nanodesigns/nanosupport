@@ -8,11 +8,10 @@
  */
 
 /** Get other necessary files */
-@import "../sass/_bootstrap-vars";
-@import "../sass/__variables";
-@import "../sass/__mixins";
-@import "../sass/normalize";
-@import "../sass/nanosupport-layout";
+@import '../sass/__variables';
+@import '../sass/__mixins';
+@import '../sass/__normalize';
+@import '../sass/__layout';
 
 /*! NanoSupport Styles */
 html{
