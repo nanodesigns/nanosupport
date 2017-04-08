@@ -93,7 +93,7 @@ function ns_knowledgebase_page() {
 								echo '<i class="nanosupport-kb-icon '. esc_attr($ns_icon_class) .'"></i> <span class="screen-reader-only">'. $term_name .'</span>';
 							echo '</a>';
 							echo '<h4 class="nanodoc-term-title">';
-								printf(	'<a href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term_name), $term_name );
+								printf(	'<a href="%1s" title="%2s" class="nanodoc-term-link">%3s</a>', $term_link, esc_attr($term_name), $term_name );
 							echo '</h4>';
 							if( $term_desc ) {
 								echo '<div class="nanodoc-term-desc ns-small">';
