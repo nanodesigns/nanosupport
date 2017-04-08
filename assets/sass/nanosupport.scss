@@ -3,6 +3,11 @@
 /**
  * NanoSupport Stylesheet
  *
+ * There are customized styles based on Bootstrap v3.3.7.
+ * Normalize CSS v3.0.3 is used for resetting styles.
+ * Bootflat v2.0.4 color combination taken partially.
+ * Color combination modified to made a11y compatible.
+ *
  * @author 	nanodesigns
  * @package NanoSupport
  */
@@ -11,7 +16,29 @@
 @import '../sass/__variables';
 @import '../sass/__mixins';
 @import '../sass/__normalize';
-@import '../sass/__layout';
+
+* {
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+			box-sizing: border-box;
+}
+
+*:before,
+*:after {
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+			box-sizing: border-box;
+}
+
+@import '../sass/__grid';
+@import '../sass/__form';
+@import '../sass/__button';
+@import '../sass/__pagination';
+@import '../sass/__label';
+@import '../sass/__alert';
+@import '../sass/__well';
+@import '../sass/__helper-classes';
+
 
 /*! NanoSupport Styles */
 html{
@@ -21,10 +48,6 @@ html{
 
 body{
 	font-size: 100%;
-}
-
-.ns-clearfix{
-	clear: both;
 }
 
 .ns-required{
@@ -40,16 +63,14 @@ body{
 #nanosupport-add-ticket{
 	a{
 		text-decoration: none;
-		-webkit-box-shadow: 0 0 0 transparent;
-		   -moz-box-shadow: 0 0 0 transparent;
-				box-shadow: 0 0 0 transparent;
+		@include box-shadow(0 0 0 transparent);
 		border-bottom: 0;
 	}
 }
 
 .ns-alert .link-to-desk{
 	text-decoration: none;
-	box-shadow: 0 0 0 0 transparent;
+	@include box-shadow(0 0 0 transparent);
 
 	&:hover{
 		text-decoration: none;
@@ -105,11 +126,7 @@ body{
 	font-size: 12px;
 	opacity: 0;
 	margin-top: 10px;
-	-webkit-transition: all 0.5s ease;
-	   -moz-transition: all 0.5s ease;
- 		 -o-transition: all 0.5s ease;
-		-ms-transition: all 0.5s ease;
-			transition: all 0.5s ease;
+	@include transition(all 0.5s ease);
 
 	.post-edit-link{
 		margin-right: 10px;
@@ -119,19 +136,13 @@ body{
 #nanosupport-desk{
 	a:not(.page-numbers){
 		text-decoration: none;
-		-webkit-box-shadow: 0 0 0 transparent;
-			 -moz-box-shadow: 0 0 0 transparent;
-						box-shadow: 0 0 0 transparent;
+		@include box-shadow(0 0 0 transparent);
 		border-bottom: 0;
 	}
 
 	.ticket-head:hover .ticket-tools{
 		opacity: 1;
-		-webkit-transition: all 0.5s ease;
-		   -moz-transition: all 0.5s ease;
-	 		 -o-transition: all 0.5s ease;
-			-ms-transition: all 0.5s ease;
-				transition: all 0.5s ease;
+		@include transition(all 0.5s ease);
 	}
 }
 
@@ -165,9 +176,7 @@ body{
 .ns-btn.ns-round-btn{
 	width: 27px;
 	height: 27px;
-	-webkit-border-radius: 100%;
-		 -moz-border-radius: 100%;
-					border-radius: 100%;
+	border-radius: 100%;
 	padding-top: 3px;
 }
 
@@ -236,9 +245,7 @@ body{
 
 .ns-cards{
 	background-color: #fff;
-	-webkit-box-shadow: 0 0 25px rgba(0,0,0,0.2);
-		 -moz-box-shadow: 0 0 25px rgba(0,0,0,0.2);
-					box-shadow: 0 0 25px rgba(0,0,0,0.2);
+	@include box-shadow(0 0 25px rgba(0,0,0,0.2));
 }
 
 .ticket-cards{
@@ -247,11 +254,7 @@ body{
 	border-style: solid;
 	border-color: #e1e1e1;
 	margin-bottom: 20px;
-	-webkit-transition: all 0.5s ease;
-		 -moz-transition: all 0.5s ease;
-			 -o-transition: all 0.5s ease;
-			-ms-transition: all 0.5s ease;
-					transition: all 0.5s ease;
+	@include transition(all 0.5s ease);
 
 	.ticket-id{
 		color: $gray-light;
@@ -261,10 +264,6 @@ body{
 		margin-bottom: 10px;
 		font-size: 14px;
 	}
-
-	/* .label-normal{
-		color: $gray-dark;
-	} */
 
 	&:hover{
 		background-color: #ededed;
@@ -366,7 +365,6 @@ body{
 	display: inline-block;
 	padding: 0 8px;
 	height: 2em;
-	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	background-color: $brand-normal;
 	color: #fff;
@@ -391,9 +389,7 @@ body{
 
 article.ns-single.type-nanosupport.hentry{
 	background-color: transparent;
-	-webkit-box-shadow: 0 0 0 transparent;
-		 -moz-box-shadow: 0 0 0 transparent;
-					box-shadow: 0 0 0 transparent;
+	@include box-shadow(0 0 0 transparent);
 
 	.ticket-question-card,
 	.ticket-response-cards{
@@ -527,9 +523,7 @@ article.ns-single.type-nanosupport.hentry{
 
 	/* matching our CSS if default WP pagination is styled already */
 	.page-numbers{
-		-webkit-border-radius: 0;
-			 -moz-border-radius: 0;
-				border-radius: 0;
+		border-radius: 0;
 	}
 
 	.page-numbers.current{
@@ -540,7 +534,7 @@ article.ns-single.type-nanosupport.hentry{
 	}
 
 	.ns-pagination a{
-		box-shadow: 0 0 0 0 transparent;
+		@include box-shadow(0 0 0 transparent);
 	}
 }
 
@@ -720,20 +714,6 @@ article.ns-single.type-nanosupport.hentry{
 	}
 }
 
-.ns-dot{
-	display: inline-block;
-	margin-right: 5px;
-	width: 13px;
-	height: 13px;
-	border-radius: 100%;
-	vertical-align: middle;
-	background-color: $gray-light;
-}
-
-.ns-text-danger .ns-dot{ background-color: $state-danger-bg; }
-.ns-text-info .ns-dot{ background-color: #31708f; }
-.ns-text-warning .ns-dot{ background-color: #f6bb42; }
-
 
 /* Tooltip */
 
@@ -864,33 +844,6 @@ $tt_ease: ease;
 		overflow: visible;
 		clip: auto;
 	}
-}
-
-
-/**
- * Emulating <blink> using WebKit CSS3 animation        
- *   This code is part of John Smith's blog
- *
- * Copyright 2010 by John Smith, All Rights Reserved
- *
- * @link   http://www.john-smith.me/emulating--lt-blink-gt--using-webkit-css3-animation
- * @date   18th October 2010 at 11:01 p.m.
- * @author John Smith
- */
-@-webkit-keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
-		@keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
-
-.blink {
-	 text-decoration: blink;
-
-	-webkit-animation-name: blinker;
-			animation-name: blinker;  
-	-webkit-animation-iteration-count: infinite;  
-			animation-iteration-count: infinite;  
-	-webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
-			animation-timing-function: cubic-bezier(1.0,0,0,1.0);
-	-webkit-animation-duration: 1s; 
-			animation-duration: 1s; 
 }
 
 

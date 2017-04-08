@@ -8,32 +8,14 @@
 
 /** Get other necessary files */
 @import "../sass/__variables";
+@import '../sass/__mixins';
+@import '../sass/__alert';
+@import '../sass/__label';
+@import '../sass/__helper-classes';
 
-.ns-clearfix{
-	clear: both;
-}
-
-.ns-alert {
-	padding: 15px;
-	margin-bottom: 20px;
-	border: 1px solid transparent;
-	border-radius: 4px;
-}
-
-.ns-alert-success {
-	background-color: #dff0d8;
-	border-color: #d6e9c6;
-	color: #3c763d;
-}
-
-.ns-alert-info {
-	background-color: #d9edf7;
-	border-color: #bce8f1;
-	color: #31708f;
-}
 
 .ns-tooltip-icon{
-	color: #999;
+	color: $gray-light;
 	position: relative;
 	cursor: pointer;
 
@@ -104,18 +86,18 @@ body.post-new-php{
 	position: relative;
 	overflow: hidden;
 	white-space: nowrap;
-	color: #999;
+	color: $gray-light;
 	text-align: center;
 	text-transform: uppercase;
 
 	&:before{
-      left: -1em;
-      margin: 0 0 0 -50%;
+		left: -1em;
+		margin: 0 0 0 -50%;
     }
 
     &:after{
-      left: 1em;
-      margin: 0 -50% 0 0;
+		left: 1em;
+		margin: 0 -50% 0 0;
     }
 
     &:before,
@@ -142,16 +124,16 @@ body.post-new-php{
 	}
 
 	* {
-	  -webkit-box-sizing: border-box;
-	  -moz-box-sizing: border-box;
-	  box-sizing: border-box;
+	  	-webkit-box-sizing: border-box;
+		   -moz-box-sizing: border-box;
+	  			box-sizing: border-box;
 	}
 
 	*:before,
 	*:after {
-	  -webkit-box-sizing: border-box;
-	  -moz-box-sizing: border-box;
-	  box-sizing: border-box;
+	  	-webkit-box-sizing: border-box;
+		   -moz-box-sizing: border-box;
+	  			box-sizing: border-box;
 	}
 }
 
@@ -369,7 +351,7 @@ body.post-new-php{
 
 /** Modified Bootstrap Class for Admin Panel */
 
-.ns-label {
+/* .ns-label {
 	display: inline;
 	padding: .2em .6em .3em;
 	font-size: 75%;
@@ -441,7 +423,7 @@ a.ns-label:focus {
 
 .ns-text-danger {
  	color: #da4453;
-}
+} */
 
 .ns-red{
 	color: red;
@@ -482,47 +464,10 @@ a.ns-label:focus {
 	}
 }
 
-.ns-dot{
-	display: inline-block;
-	margin-right: 5px;
-	width: 13px;
-	height: 13px;
-	border-radius: 100%;
-	vertical-align: middle;
-	background-color: #666;
-}
+// -------------------------------------------------
+// Dashboard
+// -------------------------------------------------
 
-.ns-text-danger .ns-dot{ background-color: #da4453; }
-.ns-text-info .ns-dot{ background-color: #31708f; }
-.ns-text-warning .ns-dot{ background-color: #f6bb42; }
-
-/**
- * Emulating <blink> using WebKit CSS3 animation        
- *   This code is part of John Smith's blog
- *
- * Copyright 2010 by John Smith, All Rights Reserved
- *
- * @link   http://www.john-smith.me/emulating--lt-blink-gt--using-webkit-css3-animation
- * @date   18th October 2010 at 11:01 p.m.
- * @author John Smith
- */
-@-webkit-keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
-        @keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
-
-.blink {
-	text-decoration:blink;
-
-	-webkit-animation-name:blinker;
-			animation-name:blinker;  
-	-webkit-animation-iteration-count:infinite;  
-			animation-iteration-count:infinite;  
-	-webkit-animation-timing-function:cubic-bezier(1.0,0,0,1.0);
-			animation-timing-function:cubic-bezier(1.0,0,0,1.0);
-	-webkit-animation-duration:1s; 
-			animation-duration:1s; 
-}
-
-/** Dashboard **/
 #nanosupport-widget{
 	.dashboard-head{
 		font-weight: bold;
@@ -561,10 +506,6 @@ a.ns-label:focus {
     box-shadow: 0 1px 0 #257B66;
 }
 
-.ns-text-center{
-	text-align: center;
-}
-
 .ns-total-ticket-count{
 	font-weight: bold;
 }
@@ -584,7 +525,7 @@ a.ns-label:focus {
 		position: relative;
 		-webkit-font-smoothing: antialiased;
 		text-decoration: none !important;
-		color: #999;
+		color: $gray-light;
 	}
 }
 
@@ -611,7 +552,7 @@ $tt_ease: ease;
 	margin-right: 10px;
 	margin-left: 10px;
 	position: relative;
-	color: #999;
+	color: $gray-light;
 	vertical-align: middle;
 	float: left;
 
@@ -647,29 +588,21 @@ $tt_ease: ease;
 	position: absolute;
 	width: 200px;
 	padding: 10px;
-	-webkit-border-radius: 3px;
-	   -moz-border-radius: 3px;
-			border-radius: 3px;
+	border-radius: 3px;
 	color: #fff;
 	background-color: #444;
 	border: 1px solid #222;
 	font-size: 12px;
 	line-height: 17px;
-	-webkit-box-shadow: 0 0 5px #333;
-	   -moz-box-shadow: 0 0 5px #333;
-			box-shadow: 0 0 5px #333;
+	@include box-shadow( 0 0 5px #333 );
 	text-align: center;
 	z-index: 5;
-	-webkit-transition: $tt_prop $tt_time $tt_ease;
-	   -moz-transition: $tt_prop $tt_time $tt_ease;
-	     -o-transition: $tt_prop $tt_time $tt_ease;
-		-ms-transition: $tt_prop $tt_time $tt_ease;
-			transition: $tt_prop $tt_time $tt_ease;
+	@include transition( $tt_prop $tt_time $tt_ease );
 
 	code,
 	pre{
 		background-color: rgba(0,0,0,0.3);
-		color: #da4453;
+		color: $label-danger-bg;
 	}
 }
 
@@ -696,8 +629,9 @@ $tt_ease: ease;
 }
 
 
-/** -------------- Metaboxes -------------- **/
-
+// -------------------------------------------------
+// Metaboxes
+// -------------------------------------------------
 
 .misc-pub-section{
 	.ns-tooltip{
@@ -710,7 +644,9 @@ $tt_ease: ease;
 }
 
 
-/** -------------- Thickbox | KB category meta -------------- **/
+// -------------------------------------------------
+// Thickbox | KB category meta
+// -------------------------------------------------
 
 /* Making thickbox modal window dynamic width-height */
 #TB_window {
@@ -763,8 +699,8 @@ $tt_ease: ease;
 	font-size: 17px !important;
 
 	&:hover{
-		-ms-transform: scale(1.5, 1.5); /* IE 9 */
-	    -webkit-transform: scale(1.5, 1.5); /* Safari */
+		-ms-transform: scale(1.5, 1.5); // IE 9
+	    -webkit-transform: scale(1.5, 1.5); // Safari
 	    transform: scale(1.5, 1.5);
 	}
 }
@@ -773,8 +709,7 @@ $tt_ease: ease;
 	color: #555;
     border-color: #cccccc;
     background: #f7f7f7;
-    -webkit-box-shadow: 0 1px 0 #cccccc;
-    		box-shadow: 0 1px 0 #cccccc;
+    @include box-shadow( 0 1px 0 #cccccc );
     vertical-align: top;
     display: inline-block;
     text-decoration: none;
@@ -786,8 +721,7 @@ $tt_ease: ease;
     border-width: 1px;
     border-style: solid;
     -webkit-appearance: none;
-    -webkit-border-radius: 3px;
-    		border-radius: 3px;
+    border-radius: 3px;
     white-space: nowrap;
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;

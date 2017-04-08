@@ -1,0 +1,261 @@
+/**
+ * NanoSupport Form layout
+ *
+ * @package NanoSupport
+ */
+
+input[type="radio"],
+input[type="checkbox"] {
+	margin: 4px 0 0;
+	margin-top: 1px \9;
+	line-height: normal;
+}
+
+input[type="file"] {
+	display: block;
+}
+
+select[multiple],
+select[size] {
+	height: auto;
+}
+
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+	outline: thin dotted;
+	outline: 5px auto -webkit-focus-ring-color;
+	outline-offset: -2px;
+}
+
+// Common form controls
+//
+// Shared size and type resets for form controls. Apply `.ns-form-control` to any
+// of the following form controls:
+//
+// select
+// textarea
+// input[type="text"]
+// input[type="password"]
+// input[type="datetime"]
+// input[type="datetime-local"]
+// input[type="date"]
+// input[type="month"]
+// input[type="time"]
+// input[type="week"]
+// input[type="number"]
+// input[type="email"]
+// input[type="url"]
+// input[type="search"]
+// input[type="tel"]
+// input[type="color"]
+
+.ns-form-control {
+	display: block;
+	width: 100%;
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	@include box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
+	@include transition(border-color ease-in-out .15s, box-shadow ease-in-out .15s);
+
+	// Customize the `:focus` state to imitate native WebKit styles.
+	@include form-control-focus;
+
+	// Placeholder
+	@include placeholder;
+
+	// Unstyle the caret on `<select>`s in IE10+.
+	&::-ms-expand {
+		border: 0;
+		background-color: transparent;
+  	}
+
+	// Disabled and read-only inputs
+	//
+	// HTML5 says that controls under a fieldset > legend:first-child won't be
+	// disabled if the fieldset is disabled. Due to implementation difficulty, we
+	// don't honor that edge case; we style them as disabled anyway.
+	&[disabled],
+	&[readonly],
+	fieldset[disabled] & {
+	  	background-color: #eee;
+	    opacity: 1; // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655
+	}
+
+	&[disabled],
+	fieldset[disabled] & {
+		cursor: not-allowed;
+	}
+
+	// [converter] extracted textarea& to textarea.ns-form-control
+}
+
+textarea.ns-form-control {
+	height: auto;
+}
+
+.ns-form-group {
+	margin-bottom: 15px;
+}
+
+.ns-radio,
+.ns-checkbox {
+	position: relative;
+	display: block;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.ns-radio label,
+.ns-checkbox label {
+	min-height: 20px;
+	padding-left: 20px;
+	margin-bottom: 0;
+	font-weight: normal;
+	cursor: pointer;
+}
+
+.ns-radio input[type="radio"],
+.ns-radio-inline input[type="radio"],
+.ns-checkbox input[type="checkbox"],
+.ns-checkbox-inline input[type="checkbox"] {
+	position: absolute;
+	margin-left: -20px;
+	margin-top: 4px \9;
+}
+
+.ns-radio + .ns-radio,
+.ns-checkbox + .ns-checkbox {
+	margin-top: -5px;
+}
+
+.ns-radio-inline,
+.ns-checkbox-inline {
+	position: relative;
+	display: inline-block;
+	padding-left: 20px;
+	margin-bottom: 0;
+	vertical-align: middle;
+	font-weight: normal;
+	cursor: pointer;
+}
+
+.ns-radio-inline + .ns-radio-inline,
+.ns-checkbox-inline + .ns-checkbox-inline {
+	margin-top: 0;
+	margin-left: 10px;
+}
+
+input[type="radio"][disabled],
+input[type="checkbox"][disabled],
+input[type="radio"].ns-disabled,
+input[type="checkbox"].ns-disabled,
+fieldset[disabled] input[type="radio"],
+fieldset[disabled] input[type="checkbox"] {
+	cursor: not-allowed;
+}
+
+.ns-radio-inline.ns-disabled,
+.ns-checkbox-inline.ns-disabled,
+fieldset[disabled] .ns-radio-inline,
+fieldset[disabled] .ns-checkbox-inline {
+	cursor: not-allowed;
+}
+
+.ns-radio.ns-disabled label,
+.ns-checkbox.ns-disabled label,
+fieldset[disabled] .ns-radio label,
+fieldset[disabled] .ns-checkbox label {
+	cursor: not-allowed;
+}
+
+@media (min-width: 768px) {
+	.ns-form-inline .ns-form-group {
+		display: inline-block;
+		margin-bottom: 0;
+		vertical-align: middle;
+	}
+
+	.ns-form-inline .ns-form-control {
+		display: inline-block;
+		width: auto;
+		vertical-align: middle;
+	}
+
+	.ns-form-inline .ns-form-control-static {
+		display: inline-block;
+	}
+
+	.ns-form-inline .ns-input-group {
+		display: inline-table;
+		vertical-align: middle;
+	}
+
+	.ns-form-inline .ns-input-group .ns-input-group-addon,
+	.ns-form-inline .ns-input-group .ns-input-group-btn,
+	.ns-form-inline .ns-input-group .ns-form-control {
+		width: auto;
+	}
+
+	.ns-form-inline .ns-input-group > .ns-form-control {
+		width: 100%;
+	}
+
+	.ns-form-inline .ns-control-label {
+		margin-bottom: 0;
+		vertical-align: middle;
+	}
+
+	.ns-form-inline .ns-radio,
+	.ns-form-inline .ns-checkbox {
+		display: inline-block;
+		margin-top: 0;
+		margin-bottom: 0;
+		vertical-align: middle;
+	}
+
+	.ns-form-inline .ns-radio label,
+	.ns-form-inline .ns-checkbox label {
+		padding-left: 0;
+	}
+
+	.ns-form-inline .ns-radio input[type="radio"],
+	.ns-form-inline .ns-checkbox input[type="checkbox"] {
+		position: relative;
+		margin-left: 0;
+	}
+}
+
+.ns-form-horizontal .ns-radio,
+.ns-form-horizontal .ns-checkbox,
+.ns-form-horizontal .ns-radio-inline,
+.ns-form-horizontal .ns-checkbox-inline {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-top: 7px;
+}
+
+.ns-form-horizontal .ns-radio,
+.ns-form-horizontal .ns-checkbox {
+	min-height: 27px;
+}
+
+.ns-form-horizontal .ns-form-group {
+	margin-left: -15px;
+	margin-right: -15px;
+}
+
+@media (min-width: 768px) {
+	.ns-form-horizontal .ns-control-label {
+		text-align: right;
+		margin-bottom: 0;
+		padding-top: 7px;
+	}
+}

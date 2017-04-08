@@ -1,0 +1,128 @@
+/**
+ * NanoSupport Helper classes.
+ *
+ * @package NanoSupport
+ */
+
+.ns-clearfix{
+	clear: both;
+}
+
+small,
+.ns-small {
+	font-size: 85%;
+}
+
+mark,
+.ns-mark {
+	padding: .2em;
+	background-color: #fcf8e3;
+}
+
+.ns-text-left {
+	text-align: left;
+}
+
+.ns-text-right {
+	text-align: right;
+}
+
+.ns-text-center {
+	text-align: center;
+}
+
+.ns-text-justify {
+	text-align: justify;
+}
+
+.ns-text-nowrap {
+	white-space: nowrap;
+}
+
+.ns-text-lowercase {
+	text-transform: lowercase;
+}
+
+.ns-text-uppercase {
+	text-transform: uppercase;
+}
+
+.ns-text-capitalize {
+	text-transform: capitalize;
+}
+
+.ns-text-muted {
+	color: #777;
+}
+
+@include text-emphasis-variant('.ns-text-primary', $brand-primary);
+
+@include text-emphasis-variant('.ns-text-success', $brand-success);
+
+@include text-emphasis-variant('.ns-text-info', $state-info-text-alt);
+
+@include text-emphasis-variant('.ns-text-warning', $state-warning-text-alt);
+
+@include text-emphasis-variant('.ns-text-danger', $state-danger-text-alt);
+
+@include text-emphasis-variant('.ns-text-dim', $gray-light);
+
+// Contextual backgrounds
+// For now we'll leave these alongside the text classes until v4 when we can
+// safely shift things around (per SemVer rules).
+.ns-bg-primary {
+	// Given the contrast here, this is the only class to have its color inverted
+	// automatically.
+	color: #fff;
+}
+
+@include bg-variant('.ns-bg-primary', $brand-primary);
+
+@include bg-variant('.ns-bg-success', $state-success-bg);
+
+@include bg-variant('.ns-bg-info', $state-info-bg);
+
+@include bg-variant('.ns-bg-warning', $state-warning-bg);
+
+@include bg-variant('.ns-bg-danger', $state-danger-bg);
+
+/**
+ * Emulating <blink> using WebKit CSS3 animation        
+ *   This code is part of John Smith's blog
+ *
+ * Copyright 2010 by John Smith, All Rights Reserved
+ *
+ * @link   http://www.john-smith.me/emulating--lt-blink-gt--using-webkit-css3-animation
+ * @date   18th October 2010 at 11:01 p.m.
+ * @author John Smith
+ */
+@-webkit-keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
+		@keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
+
+.blink {
+	 text-decoration: blink;
+
+	-webkit-animation-name: blinker;
+			animation-name: blinker;  
+	-webkit-animation-iteration-count: infinite;  
+			animation-iteration-count: infinite;  
+	-webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+			animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+	-webkit-animation-duration: 1s; 
+			animation-duration: 1s; 
+}
+
+
+.ns-dot{
+	display: inline-block;
+	margin-right: 5px;
+	width: 13px;
+	height: 13px;
+	border-radius: 100%;
+	vertical-align: middle;
+	background-color: $gray-light;
+}
+
+.ns-text-danger .ns-dot{ background-color: $state-danger-bg; }
+.ns-text-info .ns-dot{ background-color: #31708f; }
+.ns-text-warning .ns-dot{ background-color: #f6bb42; }
