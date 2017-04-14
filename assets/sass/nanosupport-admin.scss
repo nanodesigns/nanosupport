@@ -13,6 +13,10 @@
 @import '../sass/__label';
 @import '../sass/__helper-classes';
 
+// Using focus-ring javascript
+:focus:not('.focus-ring'){
+	outline: none;
+}
 
 .ns-tooltip-icon{
 	color: $gray-light;

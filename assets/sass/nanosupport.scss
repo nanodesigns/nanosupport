@@ -39,6 +39,11 @@
 @import '../sass/__well';
 @import '../sass/__helper-classes';
 
+// Using focus-ring javascript
+:focus:not('.focus-ring'){
+	outline: none;
+}
+
 
 /*! NanoSupport Styles */
 html{
