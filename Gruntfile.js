@@ -173,7 +173,7 @@ module.exports = function(grunt) {
             },
             pluginVariable: {
                 options: {
-                    prefix: 'public\s\$version\s=\s\'\s*\''
+                    prefix: 'public\\s+\\$version\\s+=\\s+\''
                 },
                 src: [
                     'nanosupport.php'
