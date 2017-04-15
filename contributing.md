@@ -15,11 +15,18 @@ You can:
 ### Developer Guide
 Before moving to the development process, make sure you followed the [NanoSupport Developer Guide](https://github.com/nanodesigns/nanosupport/wiki/Developer-Guide), so that you can set up all the necessary things before you proceed.
 
-Typically, with composer and npm installed the following command is enough for your starting:
+We're managing things using:
+
+* `npm` ([Installing npm](https://docs.npmjs.com/getting-started/installing-node)), and
+* `grunt` ([Installing grunt](https://gruntjs.com/getting-started))
+
+Open the command console and type the following to install dependencies:
 
 ````
-git clone https://github.com/nanodesigns/nanosupport.git nanosupport && cd nanosupport && composer install
+git clone https://github.com/nanodesigns/nanosupport.git nanosupport && cd nanosupport && npm install
 ````
+
+Then run `grunt` to prepare necessary javascripts and styles.
 
 [:blue_book: Read Developer Guide](https://github.com/nanodesigns/nanosupport/wiki/Developer-Guide)
 
@@ -29,6 +36,8 @@ You can't contribute by either ways, but you still have something in mind, don't
 [:bug: Create a New Issue](https://github.com/nanodesigns/nanosupport/issues/new)
 
 ## Translate in your language
-Yes, anybody can make the plugin understandable in your language by translating the plugin. Just start translating.
+Yes, anybody can make the plugin understandable in your language by translating the plugin. Just start [translating online](https://translate.wordpress.org/projects/wp-plugins/nanosupport).
+
+Or, you can use software like [POEdit](https://poedit.net/download) ('cross-platform) or [EasyPO](http://www.eazypo.ca/), and using the plugins' `.pot` file you can easily translate the plugin locally.
 
 [:earth_asia: Translate the plugin](https://translate.wordpress.org/projects/wp-plugins/nanosupport)

@@ -8,32 +8,18 @@
 
 /** Get other necessary files */
 @import "../sass/__variables";
+@import '../sass/__mixins';
+@import '../sass/__alert';
+@import '../sass/__label';
+@import '../sass/__helper-classes';
 
-.ns-clearfix{
-	clear: both;
-}
-
-.ns-alert {
-	padding: 15px;
-	margin-bottom: 20px;
-	border: 1px solid transparent;
-	border-radius: 4px;
-}
-
-.ns-alert-success {
-	background-color: #dff0d8;
-	border-color: #d6e9c6;
-	color: #3c763d;
-}
-
-.ns-alert-info {
-	background-color: #d9edf7;
-	border-color: #bce8f1;
-	color: #31708f;
+// Using focus-ring javascript
+:focus:not('.focus-ring'){
+	outline: none;
 }
 
 .ns-tooltip-icon{
-	color: #999;
+	color: $gray-light;
 	position: relative;
 	cursor: pointer;
 
@@ -50,11 +36,9 @@
 		border: 1px solid #ccc;
 		border-radius: 4px;
 		background-color: #fff;
-		-webkit-box-shadow: 0 0 15px rgba(0,0,0,0.15);
-		   -moz-box-shadow: 0 0 15px rgba(0,0,0,0.15);
-				box-shadow: 0 0 15px rgba(0,0,0,0.15);
+		@include box-shadow( 0 0 15px rgba(0,0,0,0.15) );
 		z-index: 2;
-		font-family: "Open Sans", sans-serif;
+		font-family: $system-font;
 		font-size: 15px;
 		line-height: 1.3;
 	}
@@ -76,16 +60,14 @@ body.post-new-php{
 	background: #e14d43;
     border-color: #d02c21 #ba281e #ba281e;
     color: white;
-    -webkit-box-shadow: 0 1px 0 #ba281e;
-    		box-shadow: 0 1px 0 #ba281e;
+    @include box-shadow( 0 1px 0 #ba281e );
     text-shadow: 0 -1px 1px #ba281e, 1px 0 1px #ba281e, 0 1px 1px #ba281e, -1px 0 1px #ba281e;
 }
 
 #nanosupport-responses{
 	border: 0;
 	background: transparent;
-	-webkit-box-shadow: 0 0 0 0;
-			box-shadow: 0 0 0 0;
+    @include box-shadow( 0 0 0 0 ); //resetting box shadow
 
 	h3.hndle,
 	.handlediv{
@@ -104,18 +86,18 @@ body.post-new-php{
 	position: relative;
 	overflow: hidden;
 	white-space: nowrap;
-	color: #999;
+	color: $gray-light;
 	text-align: center;
 	text-transform: uppercase;
 
 	&:before{
-      left: -1em;
-      margin: 0 0 0 -50%;
+		left: -1em;
+		margin: 0 0 0 -50%;
     }
 
     &:after{
-      left: 1em;
-      margin: 0 -50% 0 0;
+		left: 1em;
+		margin: 0 -50% 0 0;
     }
 
     &:before,
@@ -142,24 +124,22 @@ body.post-new-php{
 	}
 
 	* {
-	  -webkit-box-sizing: border-box;
-	  -moz-box-sizing: border-box;
-	  box-sizing: border-box;
+	  	-webkit-box-sizing: border-box;
+		   -moz-box-sizing: border-box;
+	  			box-sizing: border-box;
 	}
 
 	*:before,
 	*:after {
-	  -webkit-box-sizing: border-box;
-	  -moz-box-sizing: border-box;
-	  box-sizing: border-box;
+	  	-webkit-box-sizing: border-box;
+		   -moz-box-sizing: border-box;
+	  			box-sizing: border-box;
 	}
 }
 
 .ns-cards{
 	background-color: #fff;
-	-webkit-box-shadow: 0 0 25px rgba(0,0,0,0.2);
-	   -moz-box-shadow: 0 0 25px rgba(0,0,0,0.2);
-	    	box-shadow: 0 0 25px rgba(0,0,0,0.2);
+	@include box-shadow( 0 0 25px rgba(0,0,0,0.2) );
 }
 
 .ticket-response-cards,
@@ -369,80 +349,6 @@ body.post-new-php{
 
 /** Modified Bootstrap Class for Admin Panel */
 
-.ns-label {
-	display: inline;
-	padding: .2em .6em .3em;
-	font-size: 75%;
-	font-weight: bold;
-	line-height: 1;
-  	color: #333;
-	text-align: center;
-	white-space: nowrap;
-	vertical-align: baseline;
-	border-radius: .25em;
-  	background-color: #aab2bd;
-
-  	.dashicons{
-  		font-size: 14px;
-  		vertical-align: middle;
-  	}
-}
-
-a.ns-label:hover,
-a.ns-label:focus {
-	color: #ffffff;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.ns-label-default {
- 	background-color: #777;
-}
-
-.ns-label-primary {
- 	background-color: #3bafda;
-}
-
-.ns-label-success {
- 	background-color: #8cc152;
-}
-
-.ns-label-info {
- 	background-color: #37bc9b;
-}
-
-.ns-label-warning {
- 	background-color: #f0ad4e;
-}
-
-.ns-label-danger {
- 	background-color: #da4453;
-}
-
-.ns-text-muted {
- 	color: #777;
-}
-
-.ns-text-primary {
- 	color: #3bafda;
-}
-
-.ns-text-success {
- 	color: #8cc152;
-}
-
-.ns-text-info {
- 	color: #37bc9b;
-}
-
-.ns-text-warning {
- 	color: #8a6d3b;
-}
-
-.ns-text-danger {
- 	color: #da4453;
-}
-
 .ns-red{
 	color: red;
 }
@@ -451,7 +357,6 @@ a.ns-label:focus {
 	display: inline-block;
     padding: 0 8px;
     height: 2em;
-    -webkit-border-radius: 5px;
     border-radius: 5px;
     background-color: #72777c;
     color: #fff;
@@ -482,47 +387,10 @@ a.ns-label:focus {
 	}
 }
 
-.ns-dot{
-	display: inline-block;
-	margin-right: 5px;
-	width: 13px;
-	height: 13px;
-	border-radius: 100%;
-	vertical-align: middle;
-	background-color: #666;
-}
+// -------------------------------------------------
+// Dashboard
+// -------------------------------------------------
 
-.ns-text-danger .ns-dot{ background-color: #da4453; }
-.ns-text-info .ns-dot{ background-color: #31708f; }
-.ns-text-warning .ns-dot{ background-color: #f6bb42; }
-
-/**
- * Emulating <blink> using WebKit CSS3 animation        
- *   This code is part of John Smith's blog
- *
- * Copyright 2010 by John Smith, All Rights Reserved
- *
- * @link   http://www.john-smith.me/emulating--lt-blink-gt--using-webkit-css3-animation
- * @date   18th October 2010 at 11:01 p.m.
- * @author John Smith
- */
-@-webkit-keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
-        @keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
-
-.blink {
-	text-decoration:blink;
-
-	-webkit-animation-name:blinker;
-			animation-name:blinker;  
-	-webkit-animation-iteration-count:infinite;  
-			animation-iteration-count:infinite;  
-	-webkit-animation-timing-function:cubic-bezier(1.0,0,0,1.0);
-			animation-timing-function:cubic-bezier(1.0,0,0,1.0);
-	-webkit-animation-duration:1s; 
-			animation-duration:1s; 
-}
-
-/** Dashboard **/
 #nanosupport-widget{
 	.dashboard-head{
 		font-weight: bold;
@@ -550,7 +418,7 @@ a.ns-label:focus {
 	background: #da4453;
     color: #fff;
     border-color: #da4453;
-    box-shadow: 0 1px 0 #730404;
+    @include box-shadow( 0 1px 0 #730404 );
 }
 
 .ns-button-info,
@@ -558,11 +426,7 @@ a.ns-label:focus {
 	background: #37bc9b;
     color: #fff;
     border-color: #37bc9b;
-    box-shadow: 0 1px 0 #257B66;
-}
-
-.ns-text-center{
-	text-align: center;
+    @include box-shadow( 0 1px 0 #257b66 );
 }
 
 .ns-total-ticket-count{
@@ -584,7 +448,7 @@ a.ns-label:focus {
 		position: relative;
 		-webkit-font-smoothing: antialiased;
 		text-decoration: none !important;
-		color: #999;
+		color: $gray-light;
 	}
 }
 
@@ -611,7 +475,7 @@ $tt_ease: ease;
 	margin-right: 10px;
 	margin-left: 10px;
 	position: relative;
-	color: #999;
+	color: $gray-light;
 	vertical-align: middle;
 	float: left;
 
@@ -624,12 +488,7 @@ $tt_ease: ease;
 .ns-tooltip-message{
 	right: 16px;
 	top: 0;
-
-	-webkit-transition: $tt_prop $tt_time $tt_ease;
-	   -moz-transition: $tt_prop $tt_time $tt_ease;
-	     -o-transition: $tt_prop $tt_time $tt_ease;
-		-ms-transition: $tt_prop $tt_time $tt_ease;
-			transition: $tt_prop $tt_time $tt_ease;
+	@include transition( $tt_prop $tt_time $tt_ease );
 }
 
 @media (min-width: 767px) {
@@ -647,29 +506,21 @@ $tt_ease: ease;
 	position: absolute;
 	width: 200px;
 	padding: 10px;
-	-webkit-border-radius: 3px;
-	   -moz-border-radius: 3px;
-			border-radius: 3px;
+	border-radius: 3px;
 	color: #fff;
 	background-color: #444;
 	border: 1px solid #222;
 	font-size: 12px;
 	line-height: 17px;
-	-webkit-box-shadow: 0 0 5px #333;
-	   -moz-box-shadow: 0 0 5px #333;
-			box-shadow: 0 0 5px #333;
+	@include box-shadow( 0 0 5px #333 );
 	text-align: center;
 	z-index: 5;
-	-webkit-transition: $tt_prop $tt_time $tt_ease;
-	   -moz-transition: $tt_prop $tt_time $tt_ease;
-	     -o-transition: $tt_prop $tt_time $tt_ease;
-		-ms-transition: $tt_prop $tt_time $tt_ease;
-			transition: $tt_prop $tt_time $tt_ease;
+	@include transition( $tt_prop $tt_time $tt_ease );
 
 	code,
 	pre{
 		background-color: rgba(0,0,0,0.3);
-		color: #da4453;
+		color: $label-danger-bg;
 	}
 }
 
@@ -696,8 +547,9 @@ $tt_ease: ease;
 }
 
 
-/** -------------- Metaboxes -------------- **/
-
+// -------------------------------------------------
+// Metaboxes
+// -------------------------------------------------
 
 .misc-pub-section{
 	.ns-tooltip{
@@ -710,7 +562,9 @@ $tt_ease: ease;
 }
 
 
-/** -------------- Thickbox | KB category meta -------------- **/
+// -------------------------------------------------
+// Thickbox | KB category meta
+// -------------------------------------------------
 
 /* Making thickbox modal window dynamic width-height */
 #TB_window {
@@ -763,9 +617,9 @@ $tt_ease: ease;
 	font-size: 17px !important;
 
 	&:hover{
-		-ms-transform: scale(1.5, 1.5); /* IE 9 */
-	    -webkit-transform: scale(1.5, 1.5); /* Safari */
-	    transform: scale(1.5, 1.5);
+	    -webkit-transform: scale(1.5, 1.5); // Safari
+			-ms-transform: scale(1.5, 1.5); // IE 9
+	    		transform: scale(1.5, 1.5);
 	}
 }
 
@@ -773,8 +627,7 @@ $tt_ease: ease;
 	color: #555;
     border-color: #cccccc;
     background: #f7f7f7;
-    -webkit-box-shadow: 0 1px 0 #cccccc;
-    		box-shadow: 0 1px 0 #cccccc;
+    @include box-shadow( 0 1px 0 #cccccc );
     vertical-align: top;
     display: inline-block;
     text-decoration: none;
@@ -786,8 +639,7 @@ $tt_ease: ease;
     border-width: 1px;
     border-style: solid;
     -webkit-appearance: none;
-    -webkit-border-radius: 3px;
-    		border-radius: 3px;
+    border-radius: 3px;
     white-space: nowrap;
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;

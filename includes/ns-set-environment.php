@@ -43,6 +43,13 @@ function ns_scripts() {
      * ...
      */
     wp_register_script( 'equal-height', NS()->plugin_url() .'/assets/libs/jQuery.matchHeight/jquery.matchHeight-min.js', array('jquery'), '0.7.0', true );
+    
+    /**
+     * Focus Ring JS v1.0
+     * @link https://github.com/WICG/focus-ring/
+     * ...
+     */
+    wp_register_script( 'focus-ring', NS()->plugin_url() .'/assets/libs/focus-ring/focus-ring.min.js', array('jquery'), '1.0.0', true );
 
     /**
      * NanoSupport JavaScripts
@@ -52,7 +59,7 @@ function ns_scripts() {
     wp_register_script(
         'nanosupport',
         NS()->plugin_url() .'/assets/js/nanosupport.min.js',
-        array('jquery'),
+        array('jquery', 'focus-ring'),
         NS()->version,
         true
     );
@@ -231,7 +238,7 @@ add_action( 'admin_footer-post-new.php',    'ns_mandate_knowledgebase_category' 
 function ns_user_fields( $user ) { ?>
     <?php
     //Don't display the section except nanosupport 'manager'
-    if( ns_is_user('manager') ) : ?>
+    if( ns_is_user('manager') && 'support_seeker' !== $user->roles[0] ) : ?>
 
         <h3><?php echo NS()->plugin; ?></h3>
 
@@ -247,6 +254,12 @@ function ns_user_fields( $user ) { ?>
                 </td>
             </tr>
         </table>
+
+    <?php else : ?>
+        
+        <?php $db_value = get_the_author_meta( 'ns_make_agent', $user->ID ) ? 1 : 0; ?>
+        <input type="hidden" name="ns_make_agent" value="<?php echo $db_value; ?>"/>
+        
     <?php endif; ?>
 <?php
 }
@@ -259,6 +272,7 @@ add_action( 'edit_user_profile', 'ns_user_fields' );
  * Saving the user meta fields
  *
  * Saving the user agent checkmarking choice to the user meta table.
+ * If there's no checkmark, a value from hidden field will come.
  *
  * @since  1.0.0
  * 
@@ -267,40 +281,35 @@ add_action( 'edit_user_profile', 'ns_user_fields' );
  */
 function ns_saving_user_fields( $user_id ) {
 
-    // Don't make a support agent from 'support_seeker' role
-    if( ! ns_is_user( 'support_seeker' ) ) {
+    update_user_meta( $user_id, 'ns_make_agent', intval( $_POST['ns_make_agent'] ) );
 
-        update_user_meta( $user_id, 'ns_make_agent', intval( $_POST['ns_make_agent'] ) );
+    /**
+     * For an agent, enable Support Ticket
+     * @var WP_User
+     */
+    $capability_type = 'nanosupport';
+    $ns_agent_user = new WP_User($user_id);
+    if( 1 == intval( $_POST['ns_make_agent'] ) ) :
+        $ns_agent_user->add_cap( "read_{$capability_type}" );
+        $ns_agent_user->add_cap( "edit_{$capability_type}" );
+        $ns_agent_user->add_cap( "edit_{$capability_type}s" );
+        $ns_agent_user->add_cap( "edit_others_{$capability_type}s" );
+        $ns_agent_user->add_cap( "read_private_{$capability_type}s" );
+        $ns_agent_user->add_cap( "edit_private_{$capability_type}s" );
+        $ns_agent_user->add_cap( "edit_published_{$capability_type}s" );
 
-        /**
-         * For an agent, enable Support Ticket
-         * @var WP_User
-         */
-        $capability_type = 'nanosupport';
-        $ns_agent_user = new WP_User($user_id);
-        if( 1 == intval( $_POST['ns_make_agent'] ) ) :
-            $ns_agent_user->add_cap( "read_{$capability_type}" );
-            $ns_agent_user->add_cap( "edit_{$capability_type}" );
-            $ns_agent_user->add_cap( "edit_{$capability_type}s" );
-            $ns_agent_user->add_cap( "edit_others_{$capability_type}s" );
-            $ns_agent_user->add_cap( "read_private_{$capability_type}s" );
-            $ns_agent_user->add_cap( "edit_private_{$capability_type}s" );
-            $ns_agent_user->add_cap( "edit_published_{$capability_type}s" );
-
-            $ns_agent_user->add_cap( "assign_{$capability_type}_terms" );
-        else :
-            $ns_agent_user->remove_cap( "read_{$capability_type}" );
-            $ns_agent_user->remove_cap( "edit_{$capability_type}" );
-            $ns_agent_user->remove_cap( "edit_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "edit_others_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "read_private_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "edit_private_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "edit_published_{$capability_type}s" );
-            
-            $ns_agent_user->remove_cap( "assign_{$capability_type}_terms" );
-        endif;
+        $ns_agent_user->add_cap( "assign_{$capability_type}_terms" );
+    else :
+        $ns_agent_user->remove_cap( "read_{$capability_type}" );
+        $ns_agent_user->remove_cap( "edit_{$capability_type}" );
+        $ns_agent_user->remove_cap( "edit_{$capability_type}s" );
+        $ns_agent_user->remove_cap( "edit_others_{$capability_type}s" );
+        $ns_agent_user->remove_cap( "read_private_{$capability_type}s" );
+        $ns_agent_user->remove_cap( "edit_private_{$capability_type}s" );
+        $ns_agent_user->remove_cap( "edit_published_{$capability_type}s" );
         
-    }
+        $ns_agent_user->remove_cap( "assign_{$capability_type}_terms" );
+    endif;
 
 }
 
@@ -320,7 +329,7 @@ add_action( 'edit_user_profile_update', 'ns_saving_user_fields' );
  * -----------------------------------------------------------------------
  */
 function ns_add_support_agent_user_column( $columns ) {
-    $columns['ns_agent'] = '<span class="ns-icon-nanosupport" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></span>';
+    $columns['ns_agent'] = '<i class="ns-icon-nanosupport" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i>';
     return $columns;
 }
 
@@ -608,7 +617,7 @@ function ns_agent_admin_bar( $wp_admin_bar ) {
         $wp_admin_bar->add_node(array(
             'parent'    => null,
             'group'     => null,
-            'title'     => '<span class="ab-icon ns-icon-nanosupport" style="font-size: 17px;"></span> ' . absint( $my_open_tickets ),
+            'title'     => '<i class="ab-icon ns-icon-nanosupport" style="font-size: 17px;"></i> ' . absint( $my_open_tickets ),
             'id'        => 'ns-agent-ticket-count',
             'href'      => add_query_arg( 'post_type', 'nanosupport', admin_url('/edit.php') ),
             'meta'      => array(

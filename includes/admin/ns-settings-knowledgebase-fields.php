@@ -23,8 +23,8 @@ function ns_isactive_knowledgebase_field() {
     $options = get_option('nanosupport_knowledgebase_settings');
 
     $isactive_kb = isset($options['isactive_kb']) ? $options['isactive_kb'] : '';
-    echo '<input name="nanosupport_knowledgebase_settings[isactive_kb]" id="isactive_kb" type="checkbox" value="1" '. checked( 1, $isactive_kb, false ) . '/> <label for="isactive_kb">'. __( 'Yes, enable Knowledgebase', 'nanosupport' ) .'</label>';
-    echo ns_tooltip( __( 'Check or uncheck the Knowledgebase feature of NanoSupport', 'nanosupport' ), 'right' );
+    echo '<input name="nanosupport_knowledgebase_settings[isactive_kb]" id="isactive_kb" type="checkbox" value="1" aria-describedby="ns-isactive-kb" '. checked( 1, $isactive_kb, false ) . '/> <label for="isactive_kb">'. __( 'Yes, enable Knowledgebase', 'nanosupport' ) .'</label>';
+    echo ns_tooltip( 'ns-isactive-kb', __( 'Check or uncheck the Knowledgebase feature of NanoSupport', 'nanosupport' ), 'right' );
 }
 
 // Knowledgebase Settings : Field 2 : Knowledgebase
@@ -40,7 +40,7 @@ function ns_knowledgebase_page_field() {
 
     if( $pages ) :
     
-        echo '<select name="nanosupport_knowledgebase_settings[page]" id="ns_knowledgebase" class="ns-select">';
+        echo '<select name="nanosupport_knowledgebase_settings[page]" id="ns_knowledgebase" class="ns-select" aria-describedby="ns-kb-page">';
 
             echo '<option value="">'. __( 'Select a page', 'nanosupport' ) .'</option>';                
             foreach ( $pages as $page ) :
@@ -51,7 +51,7 @@ function ns_knowledgebase_page_field() {
             
         echo '</select>';
         /* translators: Knowledgebase page shortcode */
-        echo ns_tooltip( sprintf( __( 'Choose the page where you want to display the Knowledgebase. If no page is in the list, create one with the shortcode %s in it.', 'nanosupport' ), '<code>[nanosupport_knowledgebase]</code>' ), 'right' );
+        echo ns_tooltip( 'ns-kb-page', sprintf( __( 'Choose the page where you want to display the Knowledgebase. If no page is in the list, create one with the shortcode %s in it.', 'nanosupport' ), '<code>[nanosupport_knowledgebase]</code>' ), 'right' );
     
     endif;
 }
@@ -61,7 +61,7 @@ function ns_doc_terms_field() {
     $options        = get_option('nanosupport_knowledgebase_settings');
     $ns_doc_terms   = get_terms( 'nanodoc_category', array( 'hide_empty' => false ) );
 
-    echo '<select name="nanosupport_knowledgebase_settings[terms][]" id="ns_doc_terms" class="ns-select-search" multiple="multiple" data-placeholder="'. esc_attr__( 'Select Categories', 'nanosupport' ) .'">';
+    echo '<select name="nanosupport_knowledgebase_settings[terms][]" id="ns_doc_terms" class="ns-select-search" multiple="multiple" data-placeholder="'. esc_attr__( 'Select Categories', 'nanosupport' ) .'" aria-describedby="ns-kb-terms">';
 
         echo '<option value="">'. __( 'Select Categories', 'nanosupport' ) .'</option>';
         foreach ( $ns_doc_terms as $term ) :
@@ -70,7 +70,7 @@ function ns_doc_terms_field() {
         endforeach;
 
     echo '</select>';
-    echo ns_tooltip( __( 'Choose the Knowledgebase categories you want to promote to the knowledgebase head section.', 'nanosupport' ), 'right' );
+    echo ns_tooltip( 'ns-kb-terms', __( 'Choose the Knowledgebase categories you want to promote to the knowledgebase head section.', 'nanosupport' ), 'right' );
 }
 
 // Knowledgebase Settings : Field 4 : Posts per Category
@@ -80,9 +80,9 @@ function ns_doc_ppc_field() {
     //set the default to Settings > Reading > Posts Per Page
     $value = isset($options['ppc']) ? $options['ppc'] : get_option('posts_per_page');
 
-    echo '<input type="number" name="nanosupport_knowledgebase_settings[ppc]" step="1" min="1" id="ns_doc_ppc" class="small-text" value="'. absint($value) .'">';
+    echo '<input type="number" name="nanosupport_knowledgebase_settings[ppc]" step="1" min="1" id="ns_doc_ppc" class="small-text" value="'. absint($value) .'" aria-describedby="ns-kb-ppc">';
 
-    echo ns_tooltip( __( 'Choose the number of entries to display per Knowledgebase category. Default is Settings &raquo; Reading &raquo; Blog pages show at most.', 'nanosupport' ), 'right' );
+    echo ns_tooltip( 'ns-kb-ppc', __( 'Choose the number of entries to display per Knowledgebase category. Default is Settings &raquo; Reading &raquo; Blog pages show at most.', 'nanosupport' ), 'right' );
 }
 
 /**

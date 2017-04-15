@@ -211,6 +211,7 @@ module.exports = function(grunt) {
                         '!tests/**',
                         '!logs/**',
                         '!readme.md',
+                        '!contributing.md',
                         '!*.sublime-grunt.cache',
                         '!Gruntfile.js',
                         '!package.json',
@@ -218,7 +219,8 @@ module.exports = function(grunt) {
                         '!*.sublime-project',
                         '!assets/images/**',
                         '!nanosupport-<%= pkg.version %>.zip'
-                    ]
+                    ],
+                    dest: 'nanosupport/' // archive it in this directory
                 }]
             }
         },
@@ -254,6 +256,7 @@ module.exports = function(grunt) {
     // @Grunt: do the following when we will type 'grunt <command>'
     grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin', 'watch']);
     grunt.registerTask('build', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
-    grunt.registerTask('release', ['compress']);
+    grunt.registerTask('translate', ['checktextdomain', 'makepot']);
+    grunt.registerTask('release', ['translate', 'build', 'compress']);
 
 };

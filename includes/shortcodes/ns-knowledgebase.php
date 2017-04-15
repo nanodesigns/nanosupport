@@ -84,14 +84,16 @@ function ns_knowledgebase_page() {
 						$column_class = '';
 
 					//Get term icons
-					$saved_meta = get_term_meta( $term_id, '_ns_kb_cat_icon', true );
+					$saved_meta    = get_term_meta( $term_id, '_ns_kb_cat_icon', true );
 					$ns_icon_class = $saved_meta ? $saved_meta : 'ns-icon-docs';
 
 					echo '<div class="ns-col-sm-4 ns-col-xs-6 nanodoc-term-box'. esc_attr($column_class) .'">';
 						echo '<div class="nanodoc-term-box-inner ns-text-center">';
-							printf(	'<a class="icon-link" href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term_name), '<span class="nanosupport-kb-icon '. esc_attr($ns_icon_class) .'"></span>' );
+							echo '<a class="icon-link" href="'. $term_link .'" title="'. esc_attr($term_name) .'">';
+								echo '<i class="nanosupport-kb-icon '. esc_attr($ns_icon_class) .'"></i> <span class="screen-reader-only">'. $term_name .'</span>';
+							echo '</a>';
 							echo '<h4 class="nanodoc-term-title">';
-								printf(	'<a href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term_name), $term_name );
+								printf(	'<a href="%1s" title="%2s" class="nanodoc-term-link">%3s</a>', $term_link, esc_attr($term_name), $term_name );
 							echo '</h4>';
 							if( $term_desc ) {
 								echo '<div class="nanodoc-term-desc ns-small">';
@@ -147,12 +149,14 @@ function ns_knowledgebase_page() {
 						$col_class = '';
 
 					//Get term icons
-					$saved_meta = get_term_meta( $kb_term->term_id, '_ns_kb_cat_icon', true );
+					$saved_meta    = get_term_meta( $kb_term->term_id, '_ns_kb_cat_icon', true );
 					$ns_icon_class = $saved_meta ? $saved_meta : 'ns-icon-docs';
 
 					echo '<div class="ns-kb-cat-box ns-col-sm-4 ns-col-xs-6'. esc_attr($col_class) .'">';
 
-						echo '<a href="'. get_term_link( $kb_term, 'nanodoc_category' ) .'" class="nanosupport-kb-icon kb-cat-icon-inner '. esc_attr($ns_icon_class) .'"></a>';
+						echo '<a href="'. get_term_link( $kb_term, 'nanodoc_category' ) .'" class="nanosupport-kb-icon kb-cat-icon-inner '. esc_attr($ns_icon_class) .'">';
+							echo '<span class="screen-reader-only">'. $kb_term->name .'</span>';
+						echo '</a>';
 
 						echo '<h4 class="ns-kb-category-title">';
 							echo '<a href="'. get_term_link( $kb_term, 'nanodoc_category' ) .'">';

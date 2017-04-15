@@ -43,30 +43,30 @@
 			<div class="ns-row">
 				<div class="ns-col-sm-11">
 					<h1 class="ticket-head"><?php the_title(); ?></h1>
-					<p class="ticket-author"><span class="ns-icon-user"></span> <?php echo $author->display_name; ?></p>
+					<p class="ticket-author"><i class="ns-icon-user"></i> <?php echo $author->display_name; ?></p>
 
 					<div class="ns-row ticket-meta">
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
-								<strong><?php _e( 'Created:', 'nanosupport' ); ?></strong><br>
+								<strong><?php _e( 'Created', 'nanosupport' ); ?>:</strong><br>
 								<span class="ns-small"><?php echo date( 'd M Y h:iA', strtotime( $post->post_date ) ); ?></span>
 							</p>
 						</div>
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
-								<strong><?php _e( 'Updated:', 'nanosupport' ); ?></strong><br>
-								<span class="ns-small"><?php echo date( 'd M Y h:iA', strtotime( $post->post_modified ) ); ?></span>
+								<strong><?php _e( 'Updated', 'nanosupport' ); ?>:</strong><br>
+								<span class="ns-small"><?php echo date( 'd M Y h:iA', strtotime( ns_get_ticket_modified_date($post->ID) ) ); ?></span>
 							</p>
 						</div>
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
-								<strong><?php _e( 'Department:', 'nanosupport' ); ?></strong><br>
+								<strong><?php _e( 'Department', 'nanosupport' ); ?>:</strong><br>
 								<span class="ns-small"><?php echo ns_get_ticket_departments(); ?></span>
 							</p>
 						</div>
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
-								<strong><?php _e( 'Assigned to:', 'nanosupport' ); ?></strong><br>
+								<strong><?php _e( 'Assigned to', 'nanosupport' ); ?>:</strong><br>
 								<?php
 								if( ! empty($ticket_meta['agent']) ) {
 									echo '<span class="ns-small">'. $ticket_meta['agent']['name'] .'</span>';
@@ -78,13 +78,13 @@
 						</div>
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
-								<strong><?php _e( 'Status:', 'nanosupport' ); ?></strong><br>
+								<strong><?php _e( 'Status', 'nanosupport' ); ?>:</strong><br>
 								<?php echo $ticket_meta['status']['label']; ?>
 							</p>
 						</div>
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
-								<strong><?php _e( 'Priority:', 'nanosupport' ); ?></strong><br>
+								<strong><?php _e( 'Priority', 'nanosupport' ); ?>:</strong><br>
 								<span class="ns-small"><?php echo $ticket_meta['priority']['label']; ?></span>
 							</p>
 						</div>
@@ -92,12 +92,12 @@
 				</div>
 				<div class="ns-col-sm-1 ns-right-portion">
 					<a class="ns-btn ns-btn-danger ns-btn-xs ns-round-btn off-ticket-btn" href="<?php echo esc_url(get_permalink( $support_desk )); ?>" title="<?php esc_attr_e('Close the ticket', 'nanosupport'); ?>">
-						<span class="ns-icon-remove"></span>
+						<i class="ns-icon-remove"></i> <span class="screen-reader-only"><?php esc_attr_e('Close the ticket', 'nanosupport'); ?></span>
 					</a>
 					<a class="ns-btn ns-btn-default ns-btn-xs ns-round-btn ticket-link-btn" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e('Permanent link to the Ticket', 'nanosupport'); ?>">
-						<span class="ns-icon-link"></span>
+						<i class="ns-icon-link"></i> <span class="screen-reader-only"><?php esc_attr_e('Permanent link to the Ticket', 'nanosupport'); ?></span>
 					</a>
-					<?php edit_post_link( '<span class="ns-icon-edit" title="'. esc_attr__('Edit the Ticket', 'nanosupport') .'"></span>', '', '', get_the_ID() ); ?>
+					<?php edit_post_link( '<i class="ns-icon-edit" title="'. esc_attr__('Edit the Ticket', 'nanosupport') .'"></i> <span class="screen-reader-only">'. esc_attr__('Edit the Ticket', 'nanosupport') .'</span>', '', '', get_the_ID() ); ?>
 				</div>
 			</div> <!-- /.ns-row -->
 			<div class="ticket-question">
@@ -172,6 +172,6 @@
 
 	</article> <!-- /#ticket-<?php the_ID(); ?> -->
 
-	<a class="ns-btn ns-btn-sm ns-btn-default" href="<?php echo esc_url(get_permalink( $support_desk )); ?>"><span class="ns-icon-chevron-left"></span> <?php _e( 'Back to ticket index', 'nanosupport' ); ?></a>
+	<a class="ns-btn ns-btn-sm ns-btn-default" href="<?php echo esc_url(get_permalink( $support_desk )); ?>"><i class="ns-icon-chevron-left"></i> <?php _e( 'Back to ticket index', 'nanosupport' ); ?></a>
 
 </div>

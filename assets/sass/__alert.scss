@@ -1,0 +1,63 @@
+/**
+ * NanoSupport Alert styles.
+ *
+ * @package NanoSupport
+ */
+
+// Base styles
+.ns-alert {
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+
+	// Headings for larger alerts
+	h4 {
+		margin-top: 0;
+		color: inherit;
+	}
+
+	// Provide class for links that match alerts
+	.ns-alert-link {
+		font-weight: bold;
+	}
+
+	// Improve alignment and spacing of inner content
+	> p,
+	> ul {
+		margin-bottom: 0;
+	}
+
+	> p + p {
+		margin-top: 5px;
+	}
+}
+
+.ns-alert-dismissable,
+.ns-alert-dismissible {
+	padding-right: (15px + 20);
+
+	// Adjust close link position
+	.close {
+		position: relative;
+		top: -2px;
+		right: -21px;
+		color: inherit;
+	}
+}
+
+.ns-alert-success {
+	@include alert-variant($alert-success-bg, $alert-success-border, $alert-success-text);
+}
+
+.ns-alert-info {
+	@include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);
+}
+
+.ns-alert-warning {
+	@include alert-variant($alert-warning-bg, $alert-warning-border, $alert-warning-text);
+}
+
+.ns-alert-danger {
+	@include alert-variant($alert-danger-bg, $alert-danger-border, $alert-danger-text);
+}

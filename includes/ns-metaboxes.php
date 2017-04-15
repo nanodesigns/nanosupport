@@ -110,12 +110,14 @@ function ns_reply_specifics() {
         if( 'pending' === $ticket_meta['status']['value'] ) {
 
             echo '<div class="ns-alert ns-alert-info" role="alert">';
+                echo '<i class="dashicons dashicons-info"></i>&nbsp;';
                 echo wp_kses( __( 'You cannot add response to a pending ticket. <strong>Publish</strong> it first.', 'nanosupport' ), array('strong' => array()) );
             echo '</div>';
 
         } elseif( 'solved' === $ticket_meta['status']['value'] ) {
 
             echo '<div class="ns-alert ns-alert-success" role="alert">';
+                echo '<i class="dashicons dashicons-info"></i>&nbsp;';
                 echo wp_kses( __( 'Ticket is already solved. <strong>ReOpen</strong> it to add new response.', 'nanosupport' ), array('strong' => array()) );
             echo '</div>';
 
@@ -204,12 +206,12 @@ function ns_control_specifics() {
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
                     <span class="dashicons dashicons-shield"></span> <?php esc_html_e( 'Ticket Status', 'nanosupport' );
-                    echo ns_tooltip( esc_html__( 'Change the ticket status to track unsolved tickets separately.', 'nanosupport' ), 'left' );
+                    echo ns_tooltip( 'ns-ticket-status-tooltip', esc_html__( 'Change the ticket status to track unsolved tickets separately.', 'nanosupport' ), 'left' );
                     ?>
                 </div>
                 <div class="ns-body-col">
                     <div class="ns-field">
-                        <select name="ns_ticket_status" class="ns-field-item" id="ns-ticket-status" required>
+                        <select name="ns_ticket_status" class="ns-field-item" id="ns-ticket-status" aria-describedby="ns-ticket-status-tooltip" required>
                             <option value="open" <?php selected( $_ns_ticket_status, 'open' ); ?>><?php esc_html_e( 'Open', 'nanosupport' ); ?></option>
                             <option value="inspection"<?php selected( $_ns_ticket_status, 'inspection' ); ?>><?php esc_html_e( 'Under Inspection', 'nanosupport' ); ?></option>
                             <option value="solved"<?php selected( $_ns_ticket_status, 'solved' ); ?>><?php esc_html_e( 'Solved', 'nanosupport' ); ?></option>
@@ -221,12 +223,12 @@ function ns_control_specifics() {
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
                     <span class="dashicons dashicons-sort"></span> <?php esc_html_e( 'Priority', 'nanosupport' );
-                    echo ns_tooltip( esc_html__( 'Change the priority as per the content and urgency of the ticket.', 'nanosupport' ), 'left' );
+                    echo ns_tooltip( 'ns-ticket-priority-tooltip', esc_html__( 'Change the priority as per the content and urgency of the ticket.', 'nanosupport' ), 'left' );
                     ?>
                 </div>
                 <div class="ns-body-col">
                     <div class="ns-field">
-                        <select name="ns_ticket_priority" class="ns-field-item" id="ns-ticket-priority" required>
+                        <select name="ns_ticket_priority" class="ns-field-item" id="ns-ticket-priority" aria-describedby="ns-ticket-priority-tooltip" required>
                             <option value="low" <?php selected( $_ns_ticket_priority, 'low' ); ?>><?php esc_html_e( 'Low', 'nanosupport' ); ?></option>
                             <option value="medium" <?php selected( $_ns_ticket_priority, 'medium' ); ?>><?php esc_html_e( 'Medium', 'nanosupport' ); ?></option>
                             <option value="high" <?php selected( $_ns_ticket_priority, 'high' ); ?>><?php esc_html_e( 'High', 'nanosupport' ); ?></option>
@@ -245,7 +247,7 @@ function ns_control_specifics() {
                 <div class="ns-row misc-pub-section">
                     <div class="ns-head-col">
                         <span class="dashicons dashicons-businessman"></span> <?php esc_html_e( 'Agent', 'nanosupport' );
-                        echo ns_tooltip( esc_html__( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ), 'left' );
+                        echo ns_tooltip( 'ns-ticket-agent-tooltip', esc_html__( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ), 'left' );
                         ?>
                     </div>
                     <div class="ns-body-col">
@@ -257,7 +259,7 @@ function ns_control_specifics() {
                             ) );
                         ?>
                         <div class="ns-field">
-                            <select name="ns_ticket_agent" class="ns-field-item ns-auto-select-search" id="ns-ticket-agent">
+                            <select name="ns_ticket_agent" class="ns-field-item ns-auto-select-search" id="ns-ticket-agent" aria-describedby="ns-ticket-agent-tooltip">
                                 <?php
                                 if ( ! empty( $agent_query->results ) ) {
                                     echo '<option value="">'. esc_html__( 'Assign an agent', 'nanosupport' ) .'</option>';

@@ -366,7 +366,7 @@ function ns_notify_agent_assignment( $user_id, $ticket_id = null ) {
     /* translators: Site title */
     $message = '<p style="margin: 0 0 16px;">'. sprintf( __( 'The following support ticket on &ldquo;%s&rdquo; is assigned to you:', 'nanosupport' ), get_bloginfo( 'name', 'display' ) ) .'</p>';
 
-        $get_ticket_link = 'pending' === get_post_status($ticket_id) ? ns_get_pending_permalink($ticket_id) : get_permalink($ticket_id);
+        $get_ticket_link = get_permalink($ticket_id);
 
         // Ticket title
         $message .= '<div style="border-left: 5px solid #ccc;padding-top: 10px;padding-left: 20px;padding-bottom: 10px;margin-bottom: 20px;">';
