@@ -1,6 +1,6 @@
 === NanoSupport ===
 Contributors: nanodesigns, wzislam
-Tags: helpdesk, support, support desk, support plugin, support ticket, ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, tickets, help, support staff, support ticketing, knowledge base, knowledgebase, faq, frequently asked questions
+Tags: helpdesk, support desk, support ticket, ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, support staff, support ticketing, knowledge base, support plugin
 Requires at least: 4.4.0
 Tested up to: 4.7.2
 Stable tag: 0.3.4
@@ -151,6 +151,7 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 * Bug fixed: Ticket updated dates failure
 * Assured partial accessibility features
 * CSS are completely modularized into SCSS files
+* Grunt version and clean implemented
 
 = 0.3.3 - 2017-MAR-03 =
 * Quick bug fixed introduced with version 0.3.2 with same user and same date for ticket date and update date
