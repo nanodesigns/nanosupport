@@ -194,7 +194,7 @@ module.exports = function(grunt) {
         compress: {
             main: {
                 options: {
-                    archive: 'nanosupport-<%= pkg.version %>.zip',
+                    archive: './build/<%= pkg.name %>-<%= pkg.version %>.zip',
                     mode: 'zip'
                 },
                 files: [{
@@ -220,7 +220,7 @@ module.exports = function(grunt) {
                         '!assets/images/**',
                         '!nanosupport-<%= pkg.version %>.zip'
                     ],
-                    dest: 'nanosupport/' // archive it in this directory
+                    dest: '<%= pkg.name %>/' // archive it in this directory
                 }]
             }
         },
