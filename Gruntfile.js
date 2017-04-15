@@ -95,6 +95,17 @@ module.exports = function(grunt) {
 
 
         /**
+         * Clean the arena
+         * @url: https://github.com/gruntjs/grunt-contrib-clean
+         */
+        clean: {
+            build: {
+                src: ['./build']
+            }
+        },
+
+
+        /**
          * Updates the translation catalog
          * @url: https://www.npmjs.com/package/grunt-wp-i18n
          */
@@ -257,7 +268,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin', 'watch']);
     grunt.registerTask('build', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
     grunt.registerTask('translate', ['checktextdomain', 'makepot']);
-    grunt.registerTask('release', ['translate', 'build', 'compress']);
+    grunt.registerTask('release', ['translate', 'build', 'clean', 'compress']);
     grunt.registerTask('release_patch', ['version::patch', 'release']);
     grunt.registerTask('release_minor', ['version::minor', 'release']);
     grunt.registerTask('release_major', ['version::major', 'release']);
