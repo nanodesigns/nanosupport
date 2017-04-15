@@ -171,9 +171,9 @@ module.exports = function(grunt) {
                     'nanosupport.php'
                 ]
             },
-            pluginConstant: {
+            pluginVariable: {
                 options: {
-                    prefix: 'define\\(\\s*\'WPAS_VERSION\',\\s*\''
+                    prefix: 'public\s\$version\s=\s\'\s*\''
                 },
                 src: [
                     'nanosupport.php'
@@ -258,5 +258,8 @@ module.exports = function(grunt) {
     grunt.registerTask('build', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
     grunt.registerTask('translate', ['checktextdomain', 'makepot']);
     grunt.registerTask('release', ['translate', 'build', 'compress']);
+    grunt.registerTask('release_patch', ['version::patch', 'release']);
+    grunt.registerTask('release_minor', ['version::minor', 'release']);
+    grunt.registerTask('release_major', ['version::major', 'release']);
 
 };
