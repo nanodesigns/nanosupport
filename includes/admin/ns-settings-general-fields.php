@@ -32,7 +32,7 @@ function ns_support_desk_field() {
     $pages = get_pages( $args );
 
     if( $pages ) {
-        echo '<select name="nanosupport_settings[support_desk]" id="ns_support_desk" class="ns-select">';
+        echo '<select name="nanosupport_settings[support_desk]" id="ns_support_desk" class="ns-select" aria-describedby="ns-desk">';
             echo '<option value="">'. __( 'Select a page', 'nanosupport' ) .'</option>';                
             foreach ( $pages as $page ) {
                 if( has_shortcode( $page->post_content, 'nanosupport_desk' ) ) {
@@ -42,7 +42,7 @@ function ns_support_desk_field() {
         echo '</select>';
         echo '<!-- translators: Support Desk shortcode -->';
         /* translators: support desk shortcode */
-        echo ns_tooltip( sprintf( __( 'Choose the page where you want to display the Support Desk. If no page is in the list, create one with the shortcode %s in it.', 'nanosupport' ), '<code>[nanosupport_desk]</code>' ), 'right' );
+        echo ns_tooltip( 'ns-desk', sprintf( __( 'Choose the page where you want to display the Support Desk. If no page is in the list, create one with the shortcode %s in it.', 'nanosupport' ), '<code>[nanosupport_desk]</code>' ), 'right' );
     }
 }
 
@@ -58,7 +58,7 @@ function ns_submit_ticket_field() {
     $pages = get_pages($args);
 
     if( $pages ) {
-        echo '<select name="nanosupport_settings[submit_page]" id="ns_submit_ticket" class="ns-select">';
+        echo '<select name="nanosupport_settings[submit_page]" id="ns_submit_ticket" class="ns-select" aria-describedby="ns-submit-page">';
             echo '<option value="">'. __( 'Select a page', 'nanosupport' ) .'</option>';                
             foreach ( $pages as $page ) {
                 if( has_shortcode( $page->post_content, 'nanosupport_submit_ticket' ) ) {
@@ -67,7 +67,7 @@ function ns_submit_ticket_field() {
             }
         echo '</select>';
         /* translators: submit ticket page shortcode */
-        echo ns_tooltip( sprintf( __( 'Choose the page where you want show the Ticket Submission page. If no page is in the list, create one with the shortcode %s in it.', 'nanosupport' ), '<code>[nanosupport_submit_ticket]</code>' ), 'right' );
+        echo ns_tooltip( 'ns-submit-page', sprintf( __( 'Choose the page where you want show the Ticket Submission page. If no page is in the list, create one with the shortcode %s in it.', 'nanosupport' ), '<code>[nanosupport_submit_ticket]</code>' ), 'right' );
     }
 }
 
@@ -78,10 +78,10 @@ function ns_ticket_character_limit() {
     //set the default to 30 characters
     $value = isset($options['ticket_char_limit']) ? $options['ticket_char_limit'] : 30;
 
-    echo '<input type="number" name="nanosupport_settings[ticket_char_limit]" step="1" min="0" id="ticket_char_limit" class="small-text" value="'. absint($value) .'">';
+    echo '<input type="number" name="nanosupport_settings[ticket_char_limit]" step="1" min="0" id="ticket_char_limit" class="small-text" value="'. absint($value) .'" aria-describedby="ns-ticket-char-limit">';
 
     /* translators: zero in numerals */
-    echo ns_tooltip( sprintf( __( 'Define the character limit on ticket submission form. %s (zero) denotes no character limit applied.', 'nanosupport' ), '<code>0</code>' ), 'right' );
+    echo ns_tooltip( 'ns-ticket-char-limit', sprintf( __( 'Define the character limit on ticket submission form. %s (zero) denotes no character limit applied.', 'nanosupport' ), '<code>0</code>' ), 'right' );
 }
 
 // General Tab : General Settings : Field 4 : Enable Notice?
@@ -89,8 +89,8 @@ function ns_enable_notice() {
     $options = get_option( 'nanosupport_settings' );
 
     $enable_notice = isset($options['enable_notice']) ? $options['enable_notice'] : '';
-    echo '<input name="nanosupport_settings[enable_notice]" id="enable_notice" type="checkbox" value="1" '. checked( 1, $enable_notice, false ) . '/> <label for="enable_notice">'. __( 'Yes, enable Notice and Navigation on top of NanoSupport Pages', 'nanosupport' ) .'</label>';
-    echo ns_tooltip( __( 'If you check here, it will enable the predefined notice on top of Support Desk, Knowledgebase, and Submit Ticket page', 'nanosupport' ), 'right' );
+    echo '<input name="nanosupport_settings[enable_notice]" id="enable_notice" type="checkbox" value="1" aria-describedby="ns-enable-notice" '. checked( 1, $enable_notice, false ) .'/> <label for="enable_notice">'. __( 'Yes, enable Notice and Navigation on top of NanoSupport Pages', 'nanosupport' ) .'</label>';
+    echo ns_tooltip( 'ns-enable-notice', __( 'If you check here, it will enable the predefined notice on top of Support Desk, Knowledgebase, and Submit Ticket page', 'nanosupport' ), 'right' );
 }
 
 // General Tab : General Settings : Field 5 : Submit Ticket Notice
@@ -100,8 +100,8 @@ function ns_submit_ticket_notice() {
     global $ns_submit_ticket_notice;
     
     $submit_ticket_notice = isset($options['submit_ticket_notice']) ? $options['submit_ticket_notice'] : $ns_submit_ticket_notice;
-    echo '<textarea class="ns-field-item ns-textbox" rows="3" name="nanosupport_settings[submit_ticket_notice]" id="submit_ticket_notice">'. esc_attr(strip_tags($submit_ticket_notice)) .'</textarea>';
-    echo ns_tooltip( __( 'The message that to show on top of the New Ticket submission page. Plain texts only.', 'nanosupport' ), 'right' );
+    echo '<textarea class="ns-field-item ns-textbox" rows="3" name="nanosupport_settings[submit_ticket_notice]" id="submit_ticket_notice" aria-describedby="ns-submit-ticket-notice">'. esc_attr(strip_tags($submit_ticket_notice)) .'</textarea>';
+    echo ns_tooltip( 'ns-submit-ticket-notice', __( 'The message that to show on top of the New Ticket submission page. Plain texts only.', 'nanosupport' ), 'right' );
 }
 
 // General Tab : General Settings : Field 6 : Support Desk Notice
@@ -112,7 +112,7 @@ function ns_support_desk_notice() {
     
     $support_desk_notice = isset($options['support_desk_notice']) ? $options['support_desk_notice'] : $ns_support_desk_notice;
     echo '<textarea class="ns-field-item ns-textbox" rows="3" name="nanosupport_settings[support_desk_notice]" id="support_desk_notice">'. esc_attr(strip_tags($support_desk_notice)) .'</textarea>';
-    echo ns_tooltip( __( 'The message that to show on top of the Support Ticket page. Plain texts only.', 'nanosupport' ), 'right' );
+    echo ns_tooltip( 'ns-support-desk-notice', __( 'The message that to show on top of the Support Ticket page. Plain texts only.', 'nanosupport' ), 'right' );
 }
 
 // General Tab : General Settings : Field 7 : Knowledgebase Notice
@@ -128,7 +128,7 @@ function ns_knowledgebase_notice() {
     
     $knowledgebase_notice = isset($options['knowledgebase_notice']) ? $options['knowledgebase_notice'] : $ns_knowledgebase_notice;
     echo '<textarea class="ns-field-item ns-textbox '. esc_attr($hide_class) .'" rows="3" name="nanosupport_settings[knowledgebase_notice]" id="knowledgebase_notice">'. esc_attr(strip_tags($knowledgebase_notice)) .'</textarea>';
-    echo ns_tooltip( __( 'The message that to show on top of the Knowledgebase page. Plain texts only.', 'nanosupport' ), 'right' );
+    echo ns_tooltip( 'ns-knowledgebase-notice', __( 'The message that to show on top of the Knowledgebase page. Plain texts only.', 'nanosupport' ), 'right' );
 }
 
 // General Tab : General Settings : Field 8 : Highlight Ticket
@@ -140,7 +140,7 @@ function ns_highlight_ticket_field() {
         echo '<option value="status" '. selected( 'status', $highlight_option, false ) .'>'. __( 'Ticket Status', 'nanosupport' ) .'</option>';
         echo '<option value="priority" '. selected( 'priority', $highlight_option, false ) .'>'. __( 'Ticket Priority', 'nanosupport' ) .'</option>';
     echo '</select>';
-    echo ns_tooltip( __( 'Choose on which you want to highlight your ticket. Default: status', 'nanosupport' ), 'right' );
+    echo ns_tooltip( 'ns-highlight-ticket', __( 'Choose on which you want to highlight your ticket. Default: status', 'nanosupport' ), 'right' );
 
 }
 
@@ -150,7 +150,7 @@ function ns_is_priority_visible_field() {
 
     $is_priority_visible = isset($options['is_priority_visible']) ? $options['is_priority_visible'] : '';
     echo '<input name="nanosupport_settings[is_priority_visible]" id="is_priority_visible" type="checkbox" value="1" '. checked( 1, $is_priority_visible, false ) . '/> <label for="is_priority_visible">'. __( 'Yes, let user choice Ticket Priority on ticket submission form', 'nanosupport' ) .'</label>';
-    echo ns_tooltip( __( 'If you check here, it will let the user choice Ticket Priority while submitting ticket.', 'nanosupport' ), 'right' );
+    echo ns_tooltip( 'ns-is-priority-visible', __( 'If you check here, it will let the user choice Ticket Priority while submitting ticket.', 'nanosupport' ), 'right' );
 }
 
 // General Tab : General Settings : Field 10 : Is Department Visible?
@@ -159,7 +159,7 @@ function ns_is_department_visible_field() {
 
     $is_department_visible = isset($options['is_department_visible']) ? $options['is_department_visible'] : '';
     echo '<input name="nanosupport_settings[is_department_visible]" id="is_department_visible" type="checkbox" value="1" '. checked( 1, $is_department_visible, false ) . '/> <label for="is_department_visible">'. __( 'Yes, let user choice Support Department on ticket submission form', 'nanosupport' ) .'</label>';
-    echo ns_tooltip( __( 'If you check here, it will let the user choice Support Department while submitting ticket.', 'nanosupport' ), 'right' );
+    echo ns_tooltip( 'ns-is-deparment-visible', __( 'If you check here, it will let the user choice Support Department while submitting ticket.', 'nanosupport' ), 'right' );
 }
 
 // General Tab : General Settings : Field 11 : Enable Embedded Login?
@@ -168,7 +168,7 @@ function ns_embedded_login_field() {
 
     $embedded_login = isset($options['embedded_login']) ? $options['embedded_login'] : '';
     echo '<input name="nanosupport_settings[embedded_login]" id="embedded_login" type="checkbox" value="1" '. checked( 1, $embedded_login, false ) . '/> <label for="embedded_login">'. __( 'Yes, enable Login below ticket submission form', 'nanosupport' ) .' <sup class="ns-red"><strong>('. __( 'BETA FEATURE', 'nanosupport' ) .')</strong></sup></label>';
-    echo ns_tooltip( __( 'If you check here, it will enable login form below ticket submission form. Please note that, it&rsquo;s a beta feature till now', 'nanosupport' ), 'right' );
+    echo ns_tooltip( 'ns-embedded-login', __( 'If you check here, it will enable login form below ticket submission form. Please note that, it&rsquo;s a beta feature till now', 'nanosupport' ), 'right' );
 }
 
 
@@ -185,13 +185,13 @@ function ns_account_creation_field() {
 
     $gen_username_val = isset($options['account_creation']['generate_username']) ? $options['account_creation']['generate_username'] : '';
     echo '<input name="nanosupport_settings[account_creation][generate_username]" id="generate_username" type="checkbox" value="1" '. checked( 1, $gen_username_val, false ) . '/> <label for="generate_username">'. __( 'Yes, automatically generate username from user email', 'nanosupport' ) .'</label>';
-    echo ns_tooltip( __( 'If you check here, an automatted username will be created for the user from their email', 'nanosupport' ), 'right' );
+    echo ns_tooltip( 'ns-account-creation', __( 'If you check here, an automatted username will be created for the user from their email', 'nanosupport' ), 'right' );
 
     echo '<br><br>';
 
     $gen_password_val = isset($options['account_creation']['generate_password']) ? $options['account_creation']['generate_password'] : '';
     echo '<input name="nanosupport_settings[account_creation][generate_password]" id="generate_password" type="checkbox" value="1" '. checked( 1, $gen_password_val, false ) . '/> <label for="generate_password">'. __( 'Yes, automatically generate password for the user', 'nanosupport' ) .'</label>';
-    echo ns_tooltip( __( 'If you check here, a password will be automatically created for the user', 'nanosupport' ), 'right' );
+    echo ns_tooltip( 'ns-generate-password', __( 'If you check here, a password will be automatically created for the user', 'nanosupport' ), 'right' );
 }
 
 
@@ -201,7 +201,7 @@ function ns_delete_data_field() {
 
     $del_data_val = isset($options['delete_data']) ? $options['delete_data'] : '';
     echo '<input name="nanosupport_settings[delete_data]" id="ns_delete_data" type="checkbox" value="1" '. checked( 1, $del_data_val, false ) . '/> <label for="ns_delete_data" class="ns-red"><strong>'. __( 'Delete all the Data on Uninstallation?', 'nanosupport' ) .'</strong></label>';
-    echo ns_tooltip( __( 'If you check here, on uninstallation of the plugin, it will wipe out all the data from the database', 'nanosupport' ), 'right' );
+    echo ns_tooltip( 'ns-delete-data', __( 'If you check here, on uninstallation of the plugin, it will wipe out all the data from the database', 'nanosupport' ), 'right' );
 }
 
 

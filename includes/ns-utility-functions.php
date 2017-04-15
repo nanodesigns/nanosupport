@@ -317,13 +317,14 @@ function ns_total_ticket_count( $post_type = '', $user_id = '' ) {
  *
  * @since  1.0.0
  * 
+ * @param  string $id       HTML id to connect aria-describedby.
  * @param  string $message  The i18 string/plain text.
  * @param  string $position left | right | top
  * @param  string $icon     Icon class.
  * @return string           Formatted tooltip that needs proper CSS.
  * ------------------------------------------------------------------------------
  */
-function ns_tooltip( $message = '', $position = 'top', $icon = 'ns-icon-question' ) {
+function ns_tooltip( $id = '', $message = '', $position = 'top', $icon = 'ns-icon-question' ) {
 
     if( empty($message) )
         return;
@@ -349,7 +350,7 @@ function ns_tooltip( $message = '', $position = 'top', $icon = 'ns-icon-question
     ob_start(); ?>
 
     <span class="ns-tooltip <?php echo esc_attr( $class ) . esc_attr( $icon ); ?>">
-        <span class="ns-tooltip-message">
+        <span id="<?php echo esc_attr( $id ); ?>" class="ns-tooltip-message" role="tooltip">
             <?php echo $message; ?>
         </span>
     </span>
