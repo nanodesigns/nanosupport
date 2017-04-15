@@ -214,6 +214,7 @@ module.exports = function(grunt) {
                         '**',
                         '!node_modules/**',
                         '!vendor/**',
+                        '!build/**',
                         '!tests/**',
                         '!.gitignore',
                         '!.travis.yml',
