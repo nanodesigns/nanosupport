@@ -153,6 +153,7 @@ function ns_nanodoc_taxonomy_add_meta_fields( $taxonomy ) { ?>
         <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary" title="<?php esc_attr_e( 'Choose an icon', 'nanosupport' ); ?>">
             <?php _e( 'Choose Icon', 'nanosupport' ); ?>
         </a>
+        <?php /* translators: NanoSupport icon class */ ?>
         <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" size="40" placeholder="<?php printf( esc_attr__( 'e.g. %s', 'nanosupport' ), 'ns-icon-docs' ); ?>">
         <p><?php _e( 'Choose an Icon to display with the Category', 'nanosupport' ); ?></p>
 
