@@ -148,6 +148,9 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 = 0.3.4 - 2017-APR-21 =
 * Bug fixed: Support agent loses his status on profile update
+* Bug fixed: Ticket updated dates failure
+* Assured partial accessibility features
+* CSS are completely modularized into SCSS files
 
 = 0.3.3 - 2017-MAR-03 =
 * Quick bug fixed introduced with version 0.3.2 with same user and same date for ticket date and update date
