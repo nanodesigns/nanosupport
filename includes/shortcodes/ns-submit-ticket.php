@@ -388,7 +388,7 @@ function ns_submit_support_ticket() {
 
 								<div class="ns-form-group">
 									<p class="ns-col-sm-9 ns-col-sm-offset-3">
-										<?php esc_html_e( 'Already have an account?', 'nanosupport' ); ?> <a href="<?php echo esc_url($login_link); ?>"><?php echo esc_html( $login_title ); ?><a>
+										<?php esc_html_e( 'Already have an account?', 'nanosupport' ); ?> <a href="<?php echo esc_url($login_link); ?>"><?php echo esc_html( $login_title ); ?></a>
 									</p>
 								</div> <!-- /.ns-form-group -->
 
@@ -399,7 +399,7 @@ function ns_submit_support_ticket() {
 									<p class="ns-col-sm-9 ns-col-sm-offset-3 ns-text-dim">
 										<?php
 										/* translators: if you have account, login */
-										esc_html_e( 'Registration is closed now. If you already have an account', 'nanosupport' ); ?> <a href="<?php echo esc_url($login_link); ?>"><?php echo esc_html( $login_title ); ?><a>
+										esc_html_e( 'Registration is closed now. If you already have an account', 'nanosupport' ); ?> <a href="<?php echo esc_url($login_link); ?>"><?php echo esc_html( $login_title ); ?></a>
 									</p>
 								</div> <!-- /.ns-form-group -->
 

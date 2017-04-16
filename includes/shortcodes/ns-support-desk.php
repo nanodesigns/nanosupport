@@ -127,12 +127,12 @@ function ns_support_desk_page() {
 									<?php endif; ?>
 									
 									<?php if( ns_is_user('agent_and_manager') ) : ?>
-										<div class="ticket-tools">
+										<span class="ticket-tools">
 											<?php edit_post_link( 'Edit', '', '', get_the_ID() ); ?>
 											<a class="ticket-view-link" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e( 'Permanent link to the Ticket', 'nanosupport' ); ?>">
 												<?php _e( 'View', 'nanosupport' ); ?>
 											</a>
-										</div> <!-- /.ticket-tools -->
+										</span> <!-- /.ticket-tools -->
 									<?php endif; ?>
 								</h3>
 								<div class="ticket-author">
