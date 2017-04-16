@@ -65,7 +65,7 @@ mark,
 
 @include text-emphasis-variant('.ns-text-danger', $state-danger-text-alt);
 
-@include text-emphasis-variant('.ns-text-dim', $gray-light);
+@include text-emphasis-variant('.ns-text-dim', $gray);
 
 // Contextual backgrounds
 // For now we'll leave these alongside the text classes until v4 when we can

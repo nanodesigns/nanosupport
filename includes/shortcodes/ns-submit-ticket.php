@@ -478,7 +478,7 @@ function ns_submit_support_ticket() {
 							</button>
 
 							<?php if( is_user_logged_in() ) : ?>
-								<span class="ns-text-muted ns-small">
+								<span class="ns-text-dim ns-small">
 									&nbsp;
 									<?php
 									$current_user = wp_get_current_user();

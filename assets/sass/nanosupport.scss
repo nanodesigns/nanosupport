@@ -175,7 +175,7 @@ body{
 }
 
 .ticket-author{
-	color: $gray-light;
+	color: $gray;
 }
 
 .ns-btn.ns-round-btn{
@@ -215,7 +215,7 @@ body{
 	white-space: nowrap;
 	margin-top: 30px;
 	margin-bottom: 30px;
-	color: $gray-light;
+	color: $gray;
 	font-size: 16px;
 
 	&.ticket-separator-center{
@@ -234,7 +234,7 @@ body{
 
 	&:before,
 	&:after{
-		background-color: #ccc;
+		background-color: $gray;
 		content: '';
 		display: inline-block;
 		height: 1px;
@@ -440,7 +440,7 @@ article.ns-single.type-nanosupport.hentry{
 }
 
 .ticket-meta{
-	color: #777;
+	color: $gray;
 
 	.label.label-warning{
 		color: #333;
@@ -669,13 +669,13 @@ article.ns-single.type-nanosupport.hentry{
 	}
 
 	a.icon-link{
-		color: $gray-light;
+		color: $gray;
 		display: block;
 		@include transition( all 0.5s ease );
 	}
 
 	a.nanodoc-term-link{
-		color: $gray-light;
+		color: $gray;
 		@include transition( all 0.5s ease );
 	}
 }
@@ -711,7 +711,7 @@ article.ns-single.type-nanosupport.hentry{
 }
 
 #nanosupport-knowledgebase .kb-cat-icon-inner{
-	color: $gray-light;
+	color: $gray;
 	display: inline-block;
 
 	&:before{
