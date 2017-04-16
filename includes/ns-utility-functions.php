@@ -76,7 +76,7 @@ function ns_pagination( $query ) {
     $big   = 999999999; // need an unlikely integer
     $total = $query->max_num_pages;
 	if( $total > 1 ) {
-        echo '<nav class="nanosupport-pagination" role="navigation" aria-label="Pagination Navigation">';
+        echo '<nav class="nanosupport-pagination" aria-label="Pagination Navigation">';
 		$pages = paginate_links( array(
 				'base'		=> str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
 				'format'	=> '?paged=%#%',
