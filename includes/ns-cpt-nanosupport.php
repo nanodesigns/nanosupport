@@ -231,3 +231,29 @@ function ns_create_nanosupport_taxonomies() {
 }
 
 add_action( 'init', 'ns_create_nanosupport_taxonomies', 0 );
+
+/**
+ * Copy Ticket button.
+ *
+ * Add a 'copy to kb' button to each ticket in admin panel.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $actions  WP Post actions.
+ * @param  object $post    WP Post Object.
+ * @return array           Modified action buttons.
+ * -----------------------------------------------------------------------
+ */
+function ns_copy_ticket_button( $actions, $post ) {
+    if( 'nanosupport' === $post->post_type ) {
+        // pass nonce to check and verify false request
+        $nonce = wp_create_nonce( 'ns_copy_ticket_nonce' );
+
+        // add our button
+        $actions['copy_ticket'] = '<a class="ns-copy-post" data-ticket="'. $post->ID .'" data-nonce="'. $nonce .'" href="javascript:">'. esc_html__( 'Copy to KB', 'nanosupport' ) .'</a>';
+    }
+
+    return $actions;
+}
+
+add_filter( 'post_row_actions', 'ns_copy_ticket_button', 10, 2 );

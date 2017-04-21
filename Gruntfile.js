@@ -22,7 +22,8 @@ module.exports = function(grunt) {
                 'Gruntfile.js',
                 'assets/js/nanosupport.js',
                 'assets/js/nanosupport-admin.js',
-                'assets/js/nanosupport-dashboard.js'
+                'assets/js/nanosupport-dashboard.js',
+                'assets/js/nanosupport-copy-ticket.js',
             ]
         },
 

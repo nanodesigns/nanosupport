@@ -95,17 +95,36 @@ add_action( 'wp_enqueue_scripts', 'ns_scripts' );
  * Styles & JavaScripts (Admin)
  * 
  * Necessary JavaScripts and Styles for Admin panel tweaks.
+ * 
+ * @param  string $hook_suffix Current admin page.
  * -----------------------------------------------------------------------
  */
-function ns_admin_scripts() {
+function ns_admin_scripts( $hook_suffix ) {
 
     wp_register_style( 'ns-admin', NS()->plugin_url() .'/assets/css/nanosupport-admin.css', array(), NS()->version, 'all' );
 
     $screen = get_current_screen();
     if( 'nanosupport' === $screen->post_type || 'nanodoc' === $screen->post_type || 'nanosupport_page_nanosupport-settings' === $screen->base || ('users' === $screen->base && 'users' === $screen->id) ) {
+        
+        if( 'edit.php' === $hook_suffix ) {
+            /**
+             * nProgress v0.2.0
+             * @link https://github.com/rstacruz/nprogress
+             * ...
+             */
+            wp_enqueue_style( 'nprogress', NS()->plugin_url() .'/assets/libs/nprogress/nprogress.css', array(), '0.2.0', 'screen' );
+            wp_enqueue_script( 'nprogress', NS()->plugin_url() .'/assets/libs/nprogress/nprogress.min.js', array('jquery'), '0.2.0' );
+            
+            /**
+             * NanoSupport Copy Ticket
+             * Copy ticket content to Knowledgebase.
+             * ...
+             */
+            wp_enqueue_script( 'nanosupport-copy-ticket', NS()->plugin_url() .'/assets/js/nanosupport-copy-ticket.js', array('jquery'), NS()->version, true );
+        }
 
         wp_enqueue_style( 'ns-admin' );
-		
+
         /**
          * Select2 v4.0.3
          * @link https://github.com/select2/select2/

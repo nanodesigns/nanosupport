@@ -645,3 +645,34 @@ $tt_ease: ease;
        -moz-box-sizing: border-box;
     		box-sizing: border-box;
 }
+
+/** Override nProgress library CSS */
+
+#nprogress{
+	.bar{
+		background-color: #1c5daa; //#1c5daa
+		z-index: 9999;
+		height: 4px;
+	}
+
+	.spinner {
+		z-index: 9999;
+	}
+
+	.peg{
+		box-shadow: 0 0 10px #1c5daa, 0 0 5px #1c5daa;
+	}
+}
+
+// when admin bar is enabled 'top' to be redefined.
+body.admin-bar{
+	#nprogress{
+		.bar{
+			top: 32px;
+		}
+		
+		.spinner{
+			top: 35px;
+		}
+	}
+}

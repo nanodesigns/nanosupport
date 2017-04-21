@@ -347,3 +347,77 @@ function ns_back_to_knowledgebase_link( $content ) {
 }
 
 add_filter( 'the_content', 'ns_back_to_knowledgebase_link' );
+
+
+/**
+ * Copy Ticket to Knowledgebase.
+ *
+ * AJAX copy ticket content into Knowledgebase doc.
+ *
+ * @since  1.0.0
+ * -----------------------------------------------------------------------
+ */
+function ns_copy_ticket_to_knowledgebase_doc() {
+    // Check the nonce
+    check_ajax_referer( 'ns_copy_ticket_nonce', 'nonce' );
+
+    $ticket_id = $_POST['ticket_id'];
+
+    /**
+     * -----------------------------------------------------------------------
+     * HOOK : FILTER HOOK
+     * nanosupport_copied_content
+     *
+     * Filter hook to override the default setup for the copied ticket
+     * to save as a Knowledgebase doc.
+     * 
+     * @since  1.0.0
+     *
+     * @param array  The copied post object as an associative array.
+     * -----------------------------------------------------------------------
+     */
+    $copied_post_array = apply_filters( 'nanosupport_copied_content', get_post($ticket_id, 'ARRAY_A') );
+
+    // Insert the post into the database
+    wp_insert_post( $copied_post_array );
+
+    echo 'Knowledgebase Doc Created from NanoSupport ticket!';
+
+    die(); // this is required to return a proper result
+}
+
+add_action( 'wp_ajax_ns_copy_ticket', 'ns_copy_ticket_to_knowledgebase_doc' );
+
+
+/**
+ * Alter the copied Ticket.
+ *
+ * Hooked to 'nanosupport_copied_content' with priority 10.
+ * Any hooking needs to be used higher priority.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $copied_post  Copied ticket post.
+ * @return array               Altered ticket post.
+ * -----------------------------------------------------------------------
+ */
+function ns_alter_copied_content( $copied_post ) {
+    // Prepare KB doc things
+    $copied_post['post_title']  = $copied_post['post_title'] .' - copied';
+    $copied_post['post_status'] = 'draft';
+    $copied_post['post_type']   = 'nanodoc';
+    $copied_post['post_date']   = date( 'Y-m-d H:i:s', current_time('timestamp') );
+    $copied_post['post_author'] = get_current_user_id();
+
+    // Remove some of the keys
+    unset( $copied_post['ID'] );
+    unset( $copied_post['guid'] );
+    unset( $copied_post['comment_count'] );
+    unset( $copied_post['comment_status'] );
+    unset( $copied_post['post_modified'] );
+    unset( $copied_post['post_modified_gmt'] );
+
+    return $copied_post;
+}
+
+add_filter( 'nanosupport_copied_content', 'ns_alter_copied_content', 10 );
