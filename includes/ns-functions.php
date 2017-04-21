@@ -864,3 +864,31 @@ function ns_del_ajax_response() {
 }
 
 add_action( 'wp_ajax_delete_response', 'ns_del_ajax_response' );
+
+/**
+ * Include agent's tickets.
+ *
+ * Hooked in Support Desk shortcode.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $clauses       Query clauses.
+ * @param  object $query_object WP Query object.
+ * @return array                Modified query clauses.
+ * -----------------------------------------------------------------------
+ */
+function ns_change_query_to_include_agents_tickets( $clauses, $query_object ) {
+    if( ns_is_user('agent') ) {
+        global $wpdb, $current_user;
+        $clauses['where'] = " AND ";
+        $clauses['where'] .= "( {$wpdb->posts}.post_author IN ({$current_user->ID})
+                                OR (({$wpdb->postmeta}.meta_key = '_ns_ticket_agent' AND CAST({$wpdb->postmeta}.meta_value AS CHAR) = '{$current_user->ID}')) )";
+        $clauses['where'] .= " AND {$wpdb->posts}.post_type = 'nanosupport' ";
+        $clauses['where'] .= " AND ({$wpdb->posts}.post_status = 'publish'
+                                    OR {$wpdb->posts}.post_status = 'future'
+                                    OR {$wpdb->posts}.post_status = 'draft'
+                                    OR {$wpdb->posts}.post_status = 'pending'
+                                    OR {$wpdb->posts}.post_status = 'private') ";
+    }
+    return $clauses;
+}
