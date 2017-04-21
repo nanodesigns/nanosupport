@@ -115,30 +115,22 @@ function ns_submit_support_ticket() {
 						</label>
 						<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
 							<?php
-							$character_limit = ns_is_character_limit();
-							if( $character_limit ) {
-								/* translators: character limit to the ticket content, in number */
-								$content_tooltip_msg = sprintf( esc_html__( 'Write down your issue in details... At least %s characters is a must.', 'nanosupport' ), $character_limit );
-								$content_tooltip_msg .= '<br><small>';
-									/* translators: allowed HTML tags to the plugin */
-									$content_tooltip_msg .= sprintf( __( '<strong>Allowed HTML Tags:</strong><br> %s', 'nanosupport' ), ns_get_allowed_html_tags() );
-								$content_tooltip_msg .= '</small>';
+							/**
+							 * WP Editor array.
+							 * Declare the array here, so that we can conditionally
+							 * display tooltip content.
+							 * @var array
+							 * ...
+							 */
+							$wp_editor_array = array(
+												'media_buttons'		=> false,
+												'textarea_name'		=> 'ns_ticket_details',
+												'textarea_rows'		=> 10,
+												'editor_class'		=> 'ns-form-control',
+												'quicktags'			=> false,
+												'tinymce'			=> true
+											);
 
-								echo ns_tooltip( 'ns-details', $content_tooltip_msg, 'bottom' );
-							} else {
-								$content_tooltip_msg = esc_html__( 'Write down your issue in details...', 'nanosupport' );
-								$content_tooltip_msg .= '<br><small>';
-									/* translators: allowed HTML tags to the plugin */
-									$content_tooltip_msg .= sprintf( __( '<strong>Allowed HTML Tags:</strong><br> %s', 'nanosupport' ), ns_get_allowed_html_tags() );
-								$content_tooltip_msg .= '</small>';
-
-								echo ns_tooltip( 'ns-details', $content_tooltip_msg, 'bottom' );
-							}
-							?>
-						</div>
-						<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
-							<?php
-							$ticket_content = !empty($_POST['ns_ticket_details']) ? $_POST['ns_ticket_details'] : '';
 							/**
 						     * -----------------------------------------------------------------------
 						     * HOOK : FILTER HOOK
@@ -149,16 +141,40 @@ function ns_submit_support_ticket() {
 						     * @since  1.0.0
 						     * -----------------------------------------------------------------------
 						     */
-							$wp_editor_specs = apply_filters( 'ns_wp_editor_specs', array(
-										'media_buttons'		=> false,
-										'textarea_name'		=> 'ns_ticket_details',
-										'textarea_rows'		=> 10,
-										'editor_class'		=> 'ns-form-control',
-										'quicktags'			=> false,
-										'tinymce'			=> true
-									) );
+							$wp_editor_specs = apply_filters( 'ns_wp_editor_specs', $wp_editor_array );
 
-							//initiate the editor
+							$character_limit = ns_is_character_limit();
+							if( $character_limit ) {
+								/* translators: character limit to the ticket content, in number */
+								$content_tooltip_msg = sprintf( esc_html__( 'Write down your issue in details... At least %s characters is a must.', 'nanosupport' ), $character_limit );
+								// allowed HTML tags are not necessary if rich text editor is disabled.
+								if( $wp_editor_specs['tinymce'] != true ) {
+									$content_tooltip_msg .= '<br><small>';
+										/* translators: allowed HTML tags to the plugin */
+										$content_tooltip_msg .= sprintf( __( '<strong>Allowed HTML Tags:</strong><br> %s', 'nanosupport' ), ns_get_allowed_html_tags() );
+									$content_tooltip_msg .= '</small>';
+								}
+
+								echo ns_tooltip( 'ns-details', $content_tooltip_msg, 'bottom' );
+							} else {
+								$content_tooltip_msg = esc_html__( 'Write down your issue in details...', 'nanosupport' );
+								// allowed HTML tags are not necessary if rich text editor is disabled.
+								if( $wp_editor_specs['tinymce'] != true ) {
+									$content_tooltip_msg .= '<br><small>';
+										/* translators: allowed HTML tags to the plugin */
+										$content_tooltip_msg .= sprintf( __( '<strong>Allowed HTML Tags:</strong><br> %s', 'nanosupport' ), ns_get_allowed_html_tags() );
+									$content_tooltip_msg .= '</small>';
+								}
+
+								echo ns_tooltip( 'ns-details', $content_tooltip_msg, 'bottom' );
+							}
+							?>
+						</div>
+						<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
+							<?php
+							$ticket_content = !empty($_POST['ns_ticket_details']) ? $_POST['ns_ticket_details'] : '';
+
+							// initiate the editor.
 							wp_editor(
 									$content   = $ticket_content,
 									$editor_id = 'ns-ticket-details',
