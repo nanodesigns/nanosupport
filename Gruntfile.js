@@ -116,7 +116,7 @@ module.exports = function(grunt) {
                     domainPath: '/i18n/languages/',
                     exclude: ['assets/.*', 'node_modules/.*', 'vendor/.*', 'tests/.*'],
                     mainFile: 'nanosupport.php',
-                    potComments: 'Copyright (c) 2016 NanoSupport',
+                    potComments: 'Copyright (c) 2017 NanoSupport',
                     potFilename: 'nanosupport.pot',
                     potHeaders: {
                         poedit: true,

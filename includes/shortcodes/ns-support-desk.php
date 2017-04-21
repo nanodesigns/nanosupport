@@ -246,19 +246,3 @@ function ns_support_desk_page() {
 }
 
 add_shortcode( 'nanosupport_desk', 'ns_support_desk_page' );
-
-function ns_change_query_to_include_agents_tickets( $clauses, $query_object ) {
-	if( ns_is_user('agent') ) {
-		global $wpdb, $current_user;
-		$clauses['where'] = " AND ";
-        $clauses['where'] .= "( {$wpdb->posts}.post_author IN ({$current_user->ID})
-                                OR (({$wpdb->postmeta}.meta_key = '_ns_ticket_agent' AND CAST({$wpdb->postmeta}.meta_value AS CHAR) = '{$current_user->ID}')) )";
-        $clauses['where'] .= " AND {$wpdb->posts}.post_type = 'nanosupport' ";
-        $clauses['where'] .= " AND ({$wpdb->posts}.post_status = 'publish'
-                                    OR {$wpdb->posts}.post_status = 'future'
-                                    OR {$wpdb->posts}.post_status = 'draft'
-                                    OR {$wpdb->posts}.post_status = 'pending'
-                                    OR {$wpdb->posts}.post_status = 'private') ";
-	}
-	return $clauses;
-}

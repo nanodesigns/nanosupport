@@ -2,7 +2,7 @@
 Contributors: nanodesigns, wzislam
 Tags: helpdesk, support desk, support ticket, ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, support staff, support ticketing, knowledge base, support plugin
 Requires at least: 4.4.0
-Tested up to: 4.7.2
+Tested up to: 4.7.4
 Stable tag: 0.3.4
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -152,6 +152,7 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 * Assured partial accessibility features
 * CSS are completely modularized into SCSS files
 * Grunt version and clean implemented
+* Several minor issues fixed
 
 = 0.3.3 - 2017-MAR-03 =
 * Quick bug fixed introduced with version 0.3.2 with same user and same date for ticket date and update date
