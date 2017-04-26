@@ -220,7 +220,6 @@ module.exports = function(grunt) {
                         '!.travis.yml',
                         '!composer.json',
                         '!composer.lock',
-                        '!tests/**',
                         '!logs/**',
                         '!readme.md',
                         '!contributing.md',
@@ -229,8 +228,7 @@ module.exports = function(grunt) {
                         '!package.json',
                         '!*.sublime-workspace',
                         '!*.sublime-project',
-                        '!assets/images/**',
-                        '!nanosupport-<%= pkg.version %>.zip'
+                        '!assets/images/**'
                     ],
                     dest: '<%= pkg.name %>/' // archive it in this directory
                 }]

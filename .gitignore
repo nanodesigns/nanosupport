@@ -12,6 +12,7 @@ build/
 
 ## Common setting
 *.log
+*.todo
 
 ## Windows image file caches
 Thumbs.db
