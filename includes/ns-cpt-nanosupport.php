@@ -232,6 +232,7 @@ function ns_create_nanosupport_taxonomies() {
 
 add_action( 'init', 'ns_create_nanosupport_taxonomies', 0 );
 
+
 /**
  * Copy Ticket button.
  *
@@ -257,3 +258,65 @@ function ns_copy_ticket_button( $actions, $post ) {
 }
 
 add_filter( 'post_row_actions', 'ns_copy_ticket_button', 10, 2 );
+
+
+/**
+ * Hack the Post Author Override
+ *
+ * Hack to modify the Core Post Author Override to add
+ * support seeker role, and the others.
+ * 
+ * @param  string $select_field The core HTML.
+ * @return string               Modified HTML.
+ * -----------------------------------------------------------------------
+ */
+function ns_hack_post_author_override( $select_field )  {
+    global $post;
+
+    if( 'nanosupport' === $post->post_type ) {
+        $users = get_users(
+            array(
+                /**
+                 * -----------------------------------------------------------------------
+                 * HOOK : FILTER HOOK
+                 * nanosupport_assigned_user_role
+                 *
+                 * The user roles that are passed to generate override HTML.
+                 * You can add/modify the roles using the hook.
+                 * 
+                 * @since  1.0.0
+                 *
+                 * @param array  The user roles.
+                 * -----------------------------------------------------------------------
+                 */
+                'role__in'=> apply_filters( 'nanosupport_assigned_user_role', array(
+                                'support_seeker',
+                                'administrator',
+                                'author',
+                                'editor',
+                            )
+                        )
+                )
+            );
+
+        // Get ticket user.
+        global $post;
+        $selected_author = !empty($post->post_author) ? $post->post_author : get_current_user_id();
+
+        // Add some help text here.
+        $select_field .= '<p>'. __( 'Add the ticket on behalf of anybody', 'nanosupport' ) .'</p>';
+
+        $select_field .= '<select name="post_author_override" id="post_author_override-nanosupport" class="">';
+            foreach( $users as $user ) :
+                $select_field .= '<option value="'. $user->id .'" '. selected( $user->id, $selected_author, false ) .'>';
+                    $select_field .= $user->display_name;
+                    $select_field .= ' ('. $user->roles[0] .')'; // display the user role
+                $select_field .= '</option>';
+            endforeach;
+        $select_field .= '</select>';
+    }
+
+    return $select_field;
+}
+
+add_filter( 'wp_dropdown_users', 'ns_hack_post_author_override' );
