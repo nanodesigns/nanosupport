@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ns_responses_meta_box() {
     add_meta_box(
         'nanosupport-responses',                    // metabox ID
-        __( 'Responses', 'nanosupport' ),           // metabox title
+        esc_html__( 'Responses', 'nanosupport' ),   // metabox title
         'ns_reply_specifics',                       // callback function
         'nanosupport',                              // post type (+ CPT)
         'normal',                                   // 'normal', 'advanced', or 'side'
@@ -28,7 +28,7 @@ function ns_responses_meta_box() {
 
         add_meta_box(
             'nanosupport-internal-notes',           // metabox ID
-            __( 'Internal Notes', 'nanosupport' ),  // metabox title
+            esc_html__( 'Internal Notes', 'nanosupport' ),  // metabox title
             'ns_internal_notes_specifics',          // callback function
             'nanosupport',                          // post type (+ CPT)
             'side',                                 // 'normal', 'advanced', or 'side'
@@ -87,7 +87,7 @@ function ns_reply_specifics() {
                         <div class="response-handle">
                             <?php
                             /* translators: counting number of the response */
-                            printf( __( 'Response #%s', 'nanosupport' ), $counter ); ?>
+                            printf( esc_html__( 'Response #%s', 'nanosupport' ), $counter ); ?>
                             <a id="<?php echo $response->comment_ID; ?>" class="delete-response dashicons dashicons-dismiss" href="<?php echo esc_url($del_response_link); ?>" title="<?php esc_attr_e( 'Delete this Response', 'nanosupport' ); ?>"></a>
                         </div> <!-- /.response-handle -->
                     </div> <!-- /.ns-row -->
@@ -110,13 +110,15 @@ function ns_reply_specifics() {
         if( 'pending' === $ticket_meta['status']['value'] ) {
 
             echo '<div class="ns-alert ns-alert-info" role="alert">';
-                _e( 'You cannot add response to a pending ticket. <strong>Publish</strong> it first.', 'nanosupport' );
+                echo '<i class="dashicons dashicons-info"></i>&nbsp;';
+                echo wp_kses( __( 'You cannot add response to a pending ticket. <strong>Publish</strong> it first.', 'nanosupport' ), array('strong' => array()) );
             echo '</div>';
 
         } elseif( 'solved' === $ticket_meta['status']['value'] ) {
 
             echo '<div class="ns-alert ns-alert-success" role="alert">';
-                _e( 'Ticket is already solved. <strong>ReOpen</strong> it to add new response.', 'nanosupport' );
+                echo '<i class="dashicons dashicons-info"></i>&nbsp;';
+                echo wp_kses( __( 'Ticket is already solved. <strong>ReOpen</strong> it to add new response.', 'nanosupport' ), array('strong' => array()) );
             echo '</div>';
 
         } else { ?>
@@ -126,7 +128,7 @@ function ns_reply_specifics() {
                     <div class="response-user">
                         <div class="response-head">
                             <h3 class="ticket-head" id="new-response">
-                                <?php printf( __('Responding as: %s', 'nanosupport' ), $current_user->display_name ); ?>
+                                <?php printf( esc_html__( 'Responding as: %s', 'nanosupport' ), $current_user->display_name ); ?>
                             </h3>
                         </div> <!-- /.response-head -->
                     </div>
@@ -139,7 +141,7 @@ function ns_reply_specifics() {
                     <div class="ns-form-group">
                         <textarea class="ns-field-item" name="ns_new_response" id="ns-new-response" rows="6" aria-label="<?php esc_attr_e('Write down the response to the ticket', 'nanosupport'); ?>" placeholder="<?php esc_attr_e('Write down your response', 'nanosupport'); ?>"><?php echo isset($_POST['ns_new_response']) ? $_POST['ns_new_response'] : ''; ?></textarea>
                     </div> <!-- /.ns-form-group -->
-                    <button id="ns-save-response" class="button button-large button-primary ns-btn"><?php _e('Save Response', 'nanosupport' ); ?></button>
+                    <button id="ns-save-response" class="button button-large button-primary ns-btn"><?php esc_html_e( 'Save Response', 'nanosupport' ); ?></button>
 
                 </div>
             </div> <!-- /.ns-feedback-form -->
@@ -160,8 +162,8 @@ function ns_internal_notes_specifics() {
     <div class="ns-row">
         <div class="ns-box">
             <div class="ns-field">
-                <textarea class="ns-field-item" name="ns_internal_note" id="ns-internal-note" rows="5" placeholder="<?php esc_attr_e( 'Write down any internal note to pass to any Support Agent internally.', 'nanosupport' ); ?>"><?php echo isset($_POST['ns_internal_note']) ? $_POST['ns_internal_note'] : $meta_data; ?></textarea>
-                <?php echo '<p class="description">'. __( 'Internal notes are not visible to Support Seekers. It&rsquo;s to pass important notes within the support team.', 'nanosupport' ) .'</p>'; ?>
+                <textarea class="ns-field-item" name="ns_internal_note" id="ns-internal-note" rows="5" placeholder="<?php esc_attr_e( 'Write down any internal note to pass to any Support Agent internally.', 'nanosupport' ); ?>"><?php echo isset($_POST['ns_internal_note']) ? $_POST['ns_internal_note'] : esc_html( $meta_data ); ?></textarea>
+                <?php echo '<p class="description">'. esc_html__( 'Internal notes are not visible to Support Seekers. It&rsquo;s to pass important notes within the support team.', 'nanosupport' ) .'</p>'; ?>
             </div> <!-- /.ns-field -->
         </div> <!-- /.ns-box -->
     </div> <!-- /.ns-row -->
@@ -203,16 +205,16 @@ function ns_control_specifics() {
 
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
-                    <span class="dashicons dashicons-shield"></span> <?php _e( 'Ticket Status', 'nanosupport' );
-                    echo ns_tooltip( __( 'Change the ticket status to track unsolved tickets separately.', 'nanosupport' ), 'left' );
+                    <span class="dashicons dashicons-shield"></span> <?php esc_html_e( 'Ticket Status', 'nanosupport' );
+                    echo ns_tooltip( 'ns-ticket-status-tooltip', esc_html__( 'Change the ticket status to track unsolved tickets separately.', 'nanosupport' ), 'left' );
                     ?>
                 </div>
                 <div class="ns-body-col">
                     <div class="ns-field">
-                        <select name="ns_ticket_status" class="ns-field-item" id="ns-ticket-status" required>
-                            <option value="open" <?php selected( $_ns_ticket_status, 'open' ); ?>><?php _e( 'Open', 'nanosupport' ); ?></option>
-                            <option value="inspection"<?php selected( $_ns_ticket_status, 'inspection' ); ?>><?php _e( 'Under Inspection', 'nanosupport' ); ?></option>
-                            <option value="solved"<?php selected( $_ns_ticket_status, 'solved' ); ?>><?php _e( 'Solved', 'nanosupport' ); ?></option>
+                        <select name="ns_ticket_status" class="ns-field-item" id="ns-ticket-status" aria-describedby="ns-ticket-status-tooltip" required>
+                            <option value="open" <?php selected( $_ns_ticket_status, 'open' ); ?>><?php esc_html_e( 'Open', 'nanosupport' ); ?></option>
+                            <option value="inspection"<?php selected( $_ns_ticket_status, 'inspection' ); ?>><?php esc_html_e( 'Under Inspection', 'nanosupport' ); ?></option>
+                            <option value="solved"<?php selected( $_ns_ticket_status, 'solved' ); ?>><?php esc_html_e( 'Solved', 'nanosupport' ); ?></option>
                         </select>
                     </div> <!-- /.ns-field -->                    
                 </div>
@@ -220,17 +222,17 @@ function ns_control_specifics() {
 
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
-                    <span class="dashicons dashicons-sort"></span> <?php _e( 'Priority', 'nanosupport' );
-                    echo ns_tooltip( __( 'Change the priority as per the content and urgency of the ticket.', 'nanosupport' ), 'left' );
+                    <span class="dashicons dashicons-sort"></span> <?php esc_html_e( 'Priority', 'nanosupport' );
+                    echo ns_tooltip( 'ns-ticket-priority-tooltip', esc_html__( 'Change the priority as per the content and urgency of the ticket.', 'nanosupport' ), 'left' );
                     ?>
                 </div>
                 <div class="ns-body-col">
                     <div class="ns-field">
-                        <select name="ns_ticket_priority" class="ns-field-item" id="ns-ticket-priority" required>
-                            <option value="low" <?php selected( $_ns_ticket_priority, 'low' ); ?>><?php _e( 'Low', 'nanosupport' ); ?></option>
-                            <option value="medium" <?php selected( $_ns_ticket_priority, 'medium' ); ?>><?php _e( 'Medium', 'nanosupport' ); ?></option>
-                            <option value="high" <?php selected( $_ns_ticket_priority, 'high' ); ?>><?php _e( 'High', 'nanosupport' ); ?></option>
-                            <option value="critical" <?php selected( $_ns_ticket_priority, 'critical' ); ?>><?php _e( 'Critical', 'nanosupport' ); ?></option>
+                        <select name="ns_ticket_priority" class="ns-field-item" id="ns-ticket-priority" aria-describedby="ns-ticket-priority-tooltip" required>
+                            <option value="low" <?php selected( $_ns_ticket_priority, 'low' ); ?>><?php esc_html_e( 'Low', 'nanosupport' ); ?></option>
+                            <option value="medium" <?php selected( $_ns_ticket_priority, 'medium' ); ?>><?php esc_html_e( 'Medium', 'nanosupport' ); ?></option>
+                            <option value="high" <?php selected( $_ns_ticket_priority, 'high' ); ?>><?php esc_html_e( 'High', 'nanosupport' ); ?></option>
+                            <option value="critical" <?php selected( $_ns_ticket_priority, 'critical' ); ?>><?php esc_html_e( 'Critical', 'nanosupport' ); ?></option>
                         </select>
                     </div> <!-- /.ns-field -->                    
                 </div>
@@ -244,8 +246,8 @@ function ns_control_specifics() {
 
                 <div class="ns-row misc-pub-section">
                     <div class="ns-head-col">
-                        <span class="dashicons dashicons-businessman"></span> <?php _e( 'Agent', 'nanosupport' );
-                        echo ns_tooltip( __( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ), 'left' );
+                        <span class="dashicons dashicons-businessman"></span> <?php esc_html_e( 'Agent', 'nanosupport' );
+                        echo ns_tooltip( 'ns-ticket-agent-tooltip', esc_html__( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ), 'left' );
                         ?>
                     </div>
                     <div class="ns-body-col">
@@ -257,15 +259,15 @@ function ns_control_specifics() {
                             ) );
                         ?>
                         <div class="ns-field">
-                            <select name="ns_ticket_agent" class="ns-field-item ns-auto-select-search" id="ns-ticket-agent">
+                            <select name="ns_ticket_agent" class="ns-field-item ns-auto-select-search" id="ns-ticket-agent" aria-describedby="ns-ticket-agent-tooltip">
                                 <?php
                                 if ( ! empty( $agent_query->results ) ) {
-                                    echo '<option value="">'. __( 'Assign an agent', 'nanosupport' ) .'</option>';
+                                    echo '<option value="">'. esc_html__( 'Assign an agent', 'nanosupport' ) .'</option>';
                                     foreach ( $agent_query->results as $user ) {
                                         echo '<option value="'. $user->ID .'" '. selected( $_ns_ticket_agent, $user->ID ) .'>'. $user->display_name .'</option>';
                                     }
                                 } else {
-                                    echo '<option value="">'. __( 'No agent found', 'nanosupport' ) .'</option>';
+                                    echo '<option value="">'. esc_html__( 'No agent found', 'nanosupport' ) .'</option>';
                                 }
                                 ?>
                             </select>
@@ -301,9 +303,12 @@ function ns_save_nanosupport_meta_data( $post_id ) {
     
     // check permissions
     if ( 'nanosupport' === $_POST['post_type'] ) {
-        if ( ! current_user_can( 'edit_nanosupport', $post_id ) )
+        if ( ! current_user_can( 'edit_nanosupport', $post_id ) ) {
             return $post_id;
+        }
     }
+
+    global $current_user;
 
 
     /**
@@ -317,6 +322,30 @@ function ns_save_nanosupport_meta_data( $post_id ) {
     update_post_meta( $post_id, '_ns_ticket_status',   sanitize_text_field( $ns_ticket_status ) );
     update_post_meta( $post_id, '_ns_ticket_priority', sanitize_text_field( $ns_ticket_priority ) );
     if( ns_is_user('manager') ) {
+        $existing_agent = (int) get_post_meta( $post_id, '_ns_ticket_agent', true );
+
+        /**
+         * -----------------------------------------------------------------------
+         * HOOK : FILTER HOOK
+         * nanosupport_notify_agent_assignment
+         * 
+         * @since  1.0.0
+         *
+         * @param boolean  True to send email notification on ticket assignment.
+         * -----------------------------------------------------------------------
+         */
+        if( apply_filters( 'nanosupport_notify_agent_assignment', true ) ) {
+
+            // Notify the support agent that, they're assigned for the first time
+            // if there's no agent assigned already, but we're going to add a new one, or
+            // if we're changing agent from existing to someone new
+            if( (! empty($ns_ticket_agent) && empty($existing_agent)) || $existing_agent !== absint( $ns_ticket_agent ) ) {
+                ns_notify_agent_assignment( $ns_ticket_agent, $post_id );
+            }
+
+        } //endif( apply_filters(...))
+
+        // Add a ticket agent always, if assigned
         update_post_meta( $post_id, '_ns_ticket_agent', absint( $ns_ticket_agent ) );
     }
 
@@ -328,8 +357,6 @@ function ns_save_nanosupport_meta_data( $post_id ) {
     $new_response = isset($_POST['ns_new_response']) && ! empty($_POST['ns_new_response']) ? $_POST['ns_new_response'] : false;
 
     if( $new_response ) :
-
-        global $current_user;
 
         /**
          * Sanitize ticket response content

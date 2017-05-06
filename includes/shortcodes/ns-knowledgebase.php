@@ -29,7 +29,7 @@ function ns_knowledgebase_page() {
 		 */
 		if( isset($_GET['from']) && 'sd' === $_GET['from'] ) {
 			echo '<div class="ns-alert ns-alert-info" role="alert">';
-				_e( 'You are redirected from the Support Desk, because you are not logged in, and have no permission to view any ticket.', 'nanosupport' );
+				esc_html_e( 'You are redirected from the Support Desk, because you are not logged in, and have no permission to view any ticket.', 'nanosupport' );
 			echo '</div>';
 		}
 
@@ -58,7 +58,7 @@ function ns_knowledgebase_page() {
 		 * Get values from Knowledgebase Settings
 		 * -----------------------------------------------------------------------
 		 */
-		$featured_terms = isset($ns_knowledgebase_settings['terms']) ? $ns_knowledgebase_settings['terms'] : '';
+		$featured_terms = isset($ns_knowledgebase_settings['terms']) && ! empty($ns_knowledgebase_settings['terms'][0]) ? $ns_knowledgebase_settings['terms'] : false;
 
 		if( $featured_terms ) {
 
@@ -84,14 +84,16 @@ function ns_knowledgebase_page() {
 						$column_class = '';
 
 					//Get term icons
-					$saved_meta = get_term_meta( $term_id, '_ns_kb_cat_icon', true );
+					$saved_meta    = get_term_meta( $term_id, '_ns_kb_cat_icon', true );
 					$ns_icon_class = $saved_meta ? $saved_meta : 'ns-icon-docs';
 
 					echo '<div class="ns-col-sm-4 ns-col-xs-6 nanodoc-term-box'. esc_attr($column_class) .'">';
 						echo '<div class="nanodoc-term-box-inner ns-text-center">';
-							printf(	'<a class="icon-link" href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term_name), '<span class="nanosupport-kb-icon '. esc_attr($ns_icon_class) .'"></span>' );
+							echo '<a class="icon-link" href="'. $term_link .'" title="'. esc_attr($term_name) .'">';
+								echo '<i class="nanosupport-kb-icon '. esc_attr($ns_icon_class) .'"></i> <span class="screen-reader-only">'. $term_name .'</span>';
+							echo '</a>';
 							echo '<h4 class="nanodoc-term-title">';
-								printf(	'<a href="%1s" title="%2s">%3s</a>', $term_link, esc_attr($term_name), $term_name );
+								printf(	'<a href="%1s" title="%2s" class="nanodoc-term-link">%3s</a>', $term_link, esc_attr($term_name), $term_name );
 							echo '</h4>';
 							if( $term_desc ) {
 								echo '<div class="nanodoc-term-desc ns-small">';
@@ -126,9 +128,12 @@ function ns_knowledgebase_page() {
 				 * @param string  $text Header text. Default 'Documentation'.
 				 * -----------------------------------------------------------------------
 				 */
-				echo '<h3 class="ticket-separator ticket-separator-center ns-text-uppercase">';
-					echo esc_html( apply_filters( 'nanosupport_kb_header_title', __( 'Documentation', 'nanosupport' ) ) );
-				echo '</h3>';
+				// Not necessary, if there is no Featured category/ies
+				if( $featured_terms ) {
+					echo '<h3 class="ticket-separator ticket-separator-center ns-text-uppercase">';
+						echo esc_html( apply_filters( 'nanosupport_kb_header_title', __( 'Documentation', 'nanosupport' ) ) );
+					echo '</h3>';
+				}
 
 				echo '<div class="ns-row">';
 
@@ -144,12 +149,14 @@ function ns_knowledgebase_page() {
 						$col_class = '';
 
 					//Get term icons
-					$saved_meta = get_term_meta( $kb_term->term_id, '_ns_kb_cat_icon', true );
+					$saved_meta    = get_term_meta( $kb_term->term_id, '_ns_kb_cat_icon', true );
 					$ns_icon_class = $saved_meta ? $saved_meta : 'ns-icon-docs';
 
 					echo '<div class="ns-kb-cat-box ns-col-sm-4 ns-col-xs-6'. esc_attr($col_class) .'">';
 
-						echo '<a href="'. get_term_link( $kb_term, 'nanodoc_category' ) .'" class="nanosupport-kb-icon kb-cat-icon-inner '. esc_attr($ns_icon_class) .'"></a>';
+						echo '<a href="'. get_term_link( $kb_term, 'nanodoc_category' ) .'" class="nanosupport-kb-icon kb-cat-icon-inner '. esc_attr($ns_icon_class) .'">';
+							echo '<span class="screen-reader-only">'. $kb_term->name .'</span>';
+						echo '</a>';
 
 						echo '<h4 class="ns-kb-category-title">';
 							echo '<a href="'. get_term_link( $kb_term, 'nanodoc_category' ) .'">';
@@ -228,7 +235,7 @@ function ns_knowledgebase_page() {
 				echo '<div class="ns-alert ns-alert-info" role="alert">';
 					if( ns_is_user('manager') )
 						/* translators: URL to add new knowledgebase doc */
-						printf( wp_kses( __( 'Nothing to display on Knowledgebase. Please <a href="%s">Add some documentation</a> first.', 'nanosupport' ), array('a'=>array( 'href'=>true )) ), admin_url('post-new.php?post_type=nanodoc') );
+						printf( wp_kses( __( 'Nothing to display on Knowledgebase. Please <a href="%s">Add some documentation</a> first, and categorize them accordingly.', 'nanosupport' ), array('a'=>array( 'href'=>true )) ), admin_url('post-new.php?post_type=nanodoc') );
 					else
 						_e( 'Nothing to display on Knowledgebase.', 'nanosupport' );
 				echo '</div>';

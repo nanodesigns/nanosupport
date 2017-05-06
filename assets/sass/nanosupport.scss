@@ -3,26 +3,47 @@
 /**
  * NanoSupport Stylesheet
  *
+ * There are customized styles based on Bootstrap v3.3.7.
+ * Normalize CSS v3.0.3 is used for resetting styles.
+ * Bootflat v2.0.4 color combination taken partially.
+ * Color combination modified to made a11y compatible.
+ *
  * @author 	nanodesigns
  * @package NanoSupport
  */
 
-/** COLOR VARIABLES */
-
-	$red: 			#da4453;
-	$red-hover: 	#ed5565;
-	$orange: 		#f6bb42;
-	$orange-hover: 	#ffce54;
-	$green: 		#8cc152;
-	$green-hover: 	#a0d468;
-	$blue: 			#3bafda;
-	$blue-hover: 	#4fc1e9;
-
-/** /COLOR VARIABLES */
-
 /** Get other necessary files */
-@import "../sass/normalize";
-@import "../sass/nanosupport-layout";
+@import '../sass/__variables';
+@import '../sass/__mixins';
+@import '../sass/__normalize';
+
+* {
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+			box-sizing: border-box;
+}
+
+*:before,
+*:after {
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+			box-sizing: border-box;
+}
+
+@import '../sass/__grid';
+@import '../sass/__form';
+@import '../sass/__button';
+@import '../sass/__pagination';
+@import '../sass/__label';
+@import '../sass/__alert';
+@import '../sass/__well';
+@import '../sass/__helper-classes';
+
+// Using focus-ring javascript
+:focus:not('.focus-ring'){
+	outline: none;
+}
+
 
 /*! NanoSupport Styles */
 html{
@@ -34,12 +55,8 @@ body{
 	font-size: 100%;
 }
 
-.ns-clearfix{
-	clear: both;
-}
-
 .ns-required{
-	color: #da4453;
+	color: $state-danger-bg;
 }
 
 .ns-icon-responses{
@@ -51,16 +68,14 @@ body{
 #nanosupport-add-ticket{
 	a{
 		text-decoration: none;
-		-webkit-box-shadow: 0 0 0 transparent;
-		   -moz-box-shadow: 0 0 0 transparent;
-				box-shadow: 0 0 0 transparent;
+		@include box-shadow(0 0 0 transparent);
 		border-bottom: 0;
 	}
 }
 
 .ns-alert .link-to-desk{
 	text-decoration: none;
-	box-shadow: 0 0 0 0 transparent;
+	@include box-shadow(0 0 0 transparent);
 
 	&:hover{
 		text-decoration: none;
@@ -71,6 +86,10 @@ body{
 	border: 1px solid #d1d1d1;
     border-radius: 2px;
     overflow: hidden;
+}
+
+.mce-btn button{
+	text-transform: none;
 }
 
 .ns-js .ns-btn-file {
@@ -109,14 +128,11 @@ body{
 }
 
 .ticket-tools{
+	display: block;
 	font-size: 12px;
 	opacity: 0;
 	margin-top: 10px;
-	-webkit-transition: all 0.5s ease;
-	   -moz-transition: all 0.5s ease;
- 		 -o-transition: all 0.5s ease;
-		-ms-transition: all 0.5s ease;
-			transition: all 0.5s ease;
+	@include transition(all 0.5s ease);
 
 	.post-edit-link{
 		margin-right: 10px;
@@ -126,19 +142,13 @@ body{
 #nanosupport-desk{
 	a:not(.page-numbers){
 		text-decoration: none;
-		-webkit-box-shadow: 0 0 0 transparent;
-			 -moz-box-shadow: 0 0 0 transparent;
-						box-shadow: 0 0 0 transparent;
+		@include box-shadow(0 0 0 transparent);
 		border-bottom: 0;
 	}
 
 	.ticket-head:hover .ticket-tools{
 		opacity: 1;
-		-webkit-transition: all 0.5s ease;
-		   -moz-transition: all 0.5s ease;
-	 		 -o-transition: all 0.5s ease;
-			-ms-transition: all 0.5s ease;
-				transition: all 0.5s ease;
+		@include transition(all 0.5s ease);
 	}
 }
 
@@ -166,15 +176,13 @@ body{
 }
 
 .ticket-author{
-	color: #999;
+	color: $gray;
 }
 
 .ns-btn.ns-round-btn{
 	width: 27px;
 	height: 27px;
-	-webkit-border-radius: 100%;
-		 -moz-border-radius: 100%;
-					border-radius: 100%;
+	border-radius: 100%;
 	padding-top: 3px;
 }
 
@@ -208,7 +216,7 @@ body{
 	white-space: nowrap;
 	margin-top: 30px;
 	margin-bottom: 30px;
-	color: #999;
+	color: $gray;
 	font-size: 16px;
 
 	&.ticket-separator-center{
@@ -227,7 +235,7 @@ body{
 
 	&:before,
 	&:after{
-		background-color: #ccc;
+		background-color: $gray;
 		content: '';
 		display: inline-block;
 		height: 1px;
@@ -243,9 +251,7 @@ body{
 
 .ns-cards{
 	background-color: #fff;
-	-webkit-box-shadow: 0 0 25px rgba(0,0,0,0.2);
-		 -moz-box-shadow: 0 0 25px rgba(0,0,0,0.2);
-					box-shadow: 0 0 25px rgba(0,0,0,0.2);
+	@include box-shadow(0 0 25px rgba(0,0,0,0.2));
 }
 
 .ticket-cards{
@@ -254,14 +260,10 @@ body{
 	border-style: solid;
 	border-color: #e1e1e1;
 	margin-bottom: 20px;
-	-webkit-transition: all 0.5s ease;
-		 -moz-transition: all 0.5s ease;
-			 -o-transition: all 0.5s ease;
-			-ms-transition: all 0.5s ease;
-					transition: all 0.5s ease;
+	@include transition(all 0.5s ease);
 
 	.ticket-id{
-		color: #666;
+		color: $gray-light;
 	}
 
 	.text-blocks{
@@ -269,20 +271,10 @@ body{
 		font-size: 14px;
 	}
 
-	.label-normal{
-		color: #333;
-	}
-
 	&:hover{
 		background-color: #ededed;
-		-webkit-box-shadow: 0 0 25px rgba(0,0,0,0.5);
-			 -moz-box-shadow: 0 0 25px rgba(0,0,0,0.5);
-						box-shadow: 0 0 25px rgba(0,0,0,0.5);
-		-webkit-transition: all 0.5s ease;
-			 -moz-transition: all 0.5s ease;
-				 -o-transition: all 0.5s ease;
-				-ms-transition: all 0.5s ease;
-						transition: all 0.5s ease;
+		@include box-shadow( 0 0 25px rgba(0,0,0,0.5) );
+		@include transition( all 0.5s ease );
 		border-color: #bbb;
 	}
 }
@@ -291,15 +283,15 @@ body{
 	.ticket-cards{
 		border-left-width: 10px;
 
-		&.status-open{ border-left-color: $orange; }
-		&.status-inspection{ border-left-color: $blue; }
-		&.status-solved{  border-left-color: $green; }
-		&.status-pending{ border-left-color: #666; }
+		&.status-open{ border-left-color: $state-warning-bg; }
+		&.status-inspection{ border-left-color: $brand-primary; }
+		&.status-solved{  border-left-color: $brand-success; }
+		&.status-pending{ border-left-color: $gray-light; }
 
-		&.priority-low{ border-left-color: #666; }
+		&.priority-low{ border-left-color: $gray-light; }
 		&.priority-medium{ border-left-color: #31708f; }
 		&.priority-high{ border-left-color: #f6bb42; }
-		&.priority-critical{ border-left-color: #da4453; }
+		&.priority-critical{ border-left-color: $state-danger-bg; }
 	}
 }
 
@@ -311,15 +303,15 @@ body{
 	.ticket-cards{
 		border-top-width: 10px;
 
-		&.status-open{ border-top-color: $orange; }
-		&.status-inspection{ border-top-color: $blue; }
-		&.status-solved{ border-top-color: $green; }
-		&.status-pending{ border-top-color: #666; }
+		&.status-open{ border-top-color: $state-warning-bg; }
+		&.status-inspection{ border-top-color: $brand-primary; }
+		&.status-solved{ border-top-color: $brand-success; }
+		&.status-pending{ border-top-color: $gray-light; }
 
-		&.priority-low{ border-top-color: #666; }
+		&.priority-low{ border-top-color: $gray-light; }
 		&.priority-medium{ border-top-color: #31708f; }
 		&.priority-high{ border-top-color: #f6bb42; }
-		&.priority-critical{ border-top-color: #da4453; }
+		&.priority-critical{ border-top-color: $state-danger-bg; }
 
 		.ns-col-xs-4{
 			clear: both;
@@ -334,7 +326,7 @@ body{
 		padding-right: 15px;
 		text-align: center;
 		position: relative;
-		color: #999;
+		color: $gray-light;
 		overflow: hidden;
 		white-space: nowrap;
 		cursor: pointer;
@@ -379,9 +371,8 @@ body{
 	display: inline-block;
 	padding: 0 8px;
 	height: 2em;
-	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	background-color: #72777c;
+	background-color: $brand-normal;
 	color: #fff;
 	font-size: 11px;
 	line-height: 21px;
@@ -404,9 +395,7 @@ body{
 
 article.ns-single.type-nanosupport.hentry{
 	background-color: transparent;
-	-webkit-box-shadow: 0 0 0 transparent;
-		 -moz-box-shadow: 0 0 0 transparent;
-					box-shadow: 0 0 0 transparent;
+	@include box-shadow(0 0 0 transparent);
 
 	.ticket-question-card,
 	.ticket-response-cards{
@@ -422,15 +411,15 @@ article.ns-single.type-nanosupport.hentry{
 	border-top-style: solid;
 	margin-bottom: 20px;
 
-	&.status-pending{ border-top-color: #666; }
-	&.status-open{ border-top-color: $orange; }
-	&.status-inspection{ border-top-color: $blue; }
-	&.status-solved{ border-top-color: $green; }
+	&.status-pending{ border-top-color: $gray-light; }
+	&.status-open{ border-top-color: $state-warning-bg; }
+	&.status-inspection{ border-top-color: $brand-primary; }
+	&.status-solved{ border-top-color: $brand-success; }
 
-	&.priority-low{ border-top-color: #666; }
+	&.priority-low{ border-top-color: $gray-light; }
 	&.priority-medium{ border-top-color: #31708f; }
 	&.priority-high{ border-top-color: #f6bb42; }
-	&.priority-critical{ border-top-color: #da4453; }
+	&.priority-critical{ border-top-color: $state-danger-bg; }
 
 
 	.ticket-head{
@@ -452,7 +441,7 @@ article.ns-single.type-nanosupport.hentry{
 }
 
 .ticket-meta{
-	color: #777;
+	color: $gray;
 
 	.label.label-warning{
 		color: #333;
@@ -540,9 +529,7 @@ article.ns-single.type-nanosupport.hentry{
 
 	/* matching our CSS if default WP pagination is styled already */
 	.page-numbers{
-		-webkit-border-radius: 0;
-			 -moz-border-radius: 0;
-				border-radius: 0;
+		border-radius: 0;
 	}
 
 	.page-numbers.current{
@@ -553,7 +540,7 @@ article.ns-single.type-nanosupport.hentry{
 	}
 
 	.ns-pagination a{
-		box-shadow: 0 0 0 0 transparent;
+		@include box-shadow(0 0 0 transparent);
 	}
 }
 
@@ -578,9 +565,7 @@ article.ns-single.type-nanosupport.hentry{
 	
 	a{
 		text-decoration: none;
-		-webkit-box-shadow: 0 0 0 transparent;
-			 -moz-box-shadow: 0 0 0 transparent;
-						box-shadow: 0 0 0 transparent;
+		@include box-shadow( 0 0 0 transparent );
 		border-bottom: 0;
 	}
 
@@ -654,12 +639,8 @@ article.ns-single.type-nanosupport.hentry{
 	padding: 20px 10px;
 	background-color: #fff;
 	border: 1px solid #e1e1e1;
-	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.20);
-	   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.20);
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.20);
-	-webkit-border-radius: 3px;
-	   -moz-border-radius: 3px;
-			border-radius: 3px;
+	@include box-shadow( 0 1px 3px rgba(0, 0, 0, 0.20) );
+	border-radius: 3px;
 	-webkit-transition-duration: .2s;
 			transition-duration: .2s;
 	-webkit-transition-property: -webkit-transform,box-shadow;
@@ -671,28 +652,32 @@ article.ns-single.type-nanosupport.hentry{
 			transform: translateZ(0);
 
 	&:hover{
-		-webkit-box-shadow: 0 20px 25px rgba(0,0,0,0.15);
-		   -moz-box-shadow: 0 20px 25px rgba(0,0,0,0.15);
-				box-shadow: 0 20px 25px rgba(0,0,0,0.15);
-		-webkit-transition: all 0.5s ease;
-		   -moz-transition: all 0.5s ease;
-			-ms-transition: all 0.5s ease;
-			 -o-transition: all 0.5s ease;
-				transition: all 0.5s ease;
+		@include box-shadow( 0 20px 25px rgba(0,0,0,0.15) );
+		@include transition( all 0.5s ease );
 		-webkit-transform: translateY(-4px);
 		   -moz-transform: translateY(-4px);
 				transform: translateY(-4px);
+
+		a.icon-link,
+		a.nanodoc-term-link{
+			color: $brand-normal;
+			@include transition( all 0.5s ease );
+		}
 	}
 
 	.nanosupport-kb-icon{
 		font-size: 50px;
 	}
 
-	a{
-		&.icon-link{
-			color: #999;
-			display: block;
-		}
+	a.icon-link{
+		color: $gray;
+		display: block;
+		@include transition( all 0.5s ease );
+	}
+
+	a.nanodoc-term-link{
+		color: $gray;
+		@include transition( all 0.5s ease );
 	}
 }
 
@@ -727,27 +712,13 @@ article.ns-single.type-nanosupport.hentry{
 }
 
 #nanosupport-knowledgebase .kb-cat-icon-inner{
-	color: #999;
+	color: $gray;
 	display: inline-block;
 
 	&:before{
 		font-size: 30px;
 	}
 }
-
-.ns-dot{
-	display: inline-block;
-	margin-right: 5px;
-	width: 13px;
-	height: 13px;
-	border-radius: 100%;
-	vertical-align: middle;
-	background-color: #666;
-}
-
-.ns-text-danger .ns-dot{ background-color: #da4453; }
-.ns-text-info .ns-dot{ background-color: #31708f; }
-.ns-text-warning .ns-dot{ background-color: #f6bb42; }
 
 
 /* Tooltip */
@@ -760,7 +731,7 @@ $tt_ease: ease;
 	cursor: help;
 	margin: 3px 0 3px 3px;
 	position: relative;
-	color: #999;
+	color: $gray-light;
 	vertical-align: middle;
 	float: right;
 
@@ -788,31 +759,23 @@ $tt_ease: ease;
 	position: absolute;
 	width: 200px;
 	padding: 10px;
-	-webkit-border-radius: 3px;
-	   -moz-border-radius: 3px;
-			border-radius: 3px;
+	border-radius: 3px;
 	color: #fff;
 	background-color: #444;
 	border: 1px solid #222;
 	font-size: 12px;
 	line-height: 17px;
-	-webkit-box-shadow: 0 0 5px #333;
-	   -moz-box-shadow: 0 0 5px #333;
-			box-shadow: 0 0 5px #333;
+	@include box-shadow( 0 0 5px #333 );
 	text-align: center;
 	z-index: 5;
-	-webkit-transition: $tt_prop $tt_time $tt_ease;
-	   -moz-transition: $tt_prop $tt_time $tt_ease;
-	     -o-transition: $tt_prop $tt_time $tt_ease;
-		-ms-transition: $tt_prop $tt_time $tt_ease;
-			transition: $tt_prop $tt_time $tt_ease;
+	@include transition( $tt_prop $tt_time $tt_ease );
 	right: 16px;
 	top: 0;
 
 	code,
 	pre{
 		background-color: rgba(0,0,0,0.3);
-		color: $red;
+		color: $label-danger-bg;
 	}
 }
 
@@ -855,31 +818,38 @@ $tt_ease: ease;
 	}
 }
 
-
 /**
- * Emulating <blink> using WebKit CSS3 animation        
- *   This code is part of John Smith's blog
+ * Accessibility
  *
- * Copyright 2010 by John Smith, All Rights Reserved
- *
- * @link   http://www.john-smith.me/emulating--lt-blink-gt--using-webkit-css3-animation
- * @date   18th October 2010 at 11:01 p.m.
- * @author John Smith
+ * Only display content to screen readers. Ensuring accessible styling.
+ * 
+ * See: http://a11yproject.com/posts/how-to-hide-content
  */
-@-webkit-keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
-		@keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
+.screen-reader-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0,0,0,0);
+	border: 0;
+}
 
-.blink {
-	 text-decoration:blink;
+// Use in conjunction with .screen-reader-only to only display content when it's focused.
+// Useful for "Skip to main content" links; see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/G1
+// Credit: HTML5 Boilerplate
 
-	-webkit-animation-name:blinker;
-			animation-name:blinker;  
-	-webkit-animation-iteration-count:infinite;  
-			animation-iteration-count:infinite;  
-	-webkit-animation-timing-function:cubic-bezier(1.0,0,0,1.0);
-			animation-timing-function:cubic-bezier(1.0,0,0,1.0);
-	-webkit-animation-duration:1s; 
-			animation-duration:1s; 
+.screen-reader-only-focusable {
+	&:active,
+	&:focus {
+		position: static;
+		width: auto;
+		height: auto;
+		margin: 0;
+		overflow: visible;
+		clip: auto;
+	}
 }
 
 

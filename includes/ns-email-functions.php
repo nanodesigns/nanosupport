@@ -224,41 +224,42 @@ function nanosupport_handle_account_opening_email( $user_id = '', $generated_pas
  */
 function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
 
-    //Get Email settings from db
+    // Get Email settings from db
     $nanosupport_email_settings = get_option('nanosupport_email_settings');
     $notify_support_seeker_on_responses = isset($nanosupport_email_settings['email_choices']['response']) && (int) $nanosupport_email_settings['email_choices']['response'] === 1 ? true : false;
     $notify_agents_on_responses = isset($nanosupport_email_settings['email_choices']['agent_response']) && (int) $nanosupport_email_settings['email_choices']['agent_response'] === 1 ? true : false;
 
-    $comment = get_comment( $comment_ID );
-    $post_id = $comment->comment_post_ID;
+    $post_id = $comment_object->comment_post_ID;
     
     if( 'nanosupport' !== get_post_type($post_id) )
-        return;
-
-    if( 'pending' === get_post_status($post_id) )
         return;
 
     $author_id      = get_post_field( 'post_author', $post_id );
     $author_email   = get_the_author_meta( 'user_email', $author_id );
     $last_response  = ns_get_last_response( $post_id );
 
-    //Don't send email on self-response
+    // Don't send email on self-response
     if( $notify_support_seeker_on_responses && ( $last_response['user_id'] != $author_id ) && isset($author_email) && is_email($author_email) ) :
         /* translators: Site title */
         $subject = sprintf ( esc_html__( 'Your ticket is replied — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
 
-        $email_subhead = __( 'Support Ticket Replied', 'nanosupport' );
+        $email_subhead = esc_html__( 'Support Ticket Replied', 'nanosupport' );
 
-        //Email Content
+        // Email Content
         $message = '';
         $message = '<p style="margin: 0 0 16px;">';
-            /* translators: 1. ticket title 2. site title 3. user display name */
-            $message .= sprintf( wp_kses( __( 'Your support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied by <em>%3$s</em>.', 'nanosupport' ), array('strong'=>array(), 'em'=>array()) ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) );
+            /* translators: 1. ticket title 2. site title 3. user display name followed by ticket response excerpt */
+            $message .= sprintf( wp_kses( __( 'Your support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied by <em>%3$s</em>:', 'nanosupport' ), array('strong'=>array(), 'em'=>array()) ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) );
         $message .= '</p>';
+
+        // Ticket response content
+        $message .= '<div style="border-left: 5px solid #ccc;padding-top: 10px;padding-left: 20px;padding-bottom: 10px;margin-bottom: 20px;">';
+            $message .= '<p style="margin: 0;font-style: italic">'. wp_trim_words( $comment_object->comment_content, 55 ) .'</p>';
+        $message .= '</div>';
 
         $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. get_permalink($post_id) .'">'. __( 'View Ticket', 'nanosupport' ) .'</a></p>';
 
-        //Send the email
+        // Send the email
         ns_email( $author_email, $subject, $email_subhead, $message );
 
     endif;
@@ -269,30 +270,37 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
      * ...
      */
     if( $notify_agents_on_responses ) {
-        $ticket_meta    = ns_get_ticket_meta( $post_id );
-        $ticket_agent   = isset($ticket_meta['agent']['ID']) ? $ticket_meta['agent']['ID'] : '';
-        if( $ticket_agent && $last_response['user_id'] == $ticket_agent ) {
-            $agent_user     = get_user_by( 'id', $ticket_agent );
-            $agent_email    = $agent_user ? $agent_user->user_email : '';
+        $ticket_meta  = ns_get_ticket_meta( $post_id );
+        $ticket_agent = isset($ticket_meta['agent']['ID']) ? $ticket_meta['agent']['ID'] : '';
+        
+        // Don't send email when agent themself replied a ticket
+        if( ! empty($ticket_agent) && $last_response['user_id'] != $ticket_agent ) {
+            $agent_user  = get_user_by( 'id', $ticket_agent );
+            $agent_email = $agent_user ? $agent_user->user_email : '';
         }
 
-        if( isset($agent_email) && is_email($agent_email) ) :
+        if( ! empty($agent_email) && is_email($agent_email) ) :
 
             /* translators: Site title */
             $subject = sprintf ( __( 'An assigned ticket is replied — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
 
-            $email_subhead = __( 'Support Ticket Replied', 'nanosupport' );
+            $email_subhead = esc_html__( 'Support Ticket Replied', 'nanosupport' );
 
-            //Email Content
+            // Email Content
             $message = '';
             $message = '<p style="margin: 0 0 16px;">';
                 /* translators: 1. ticket title 2. site title 3. user display name */
-                $message .= sprintf( wp_kses( __( 'An assigned support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied by <em>%3$s</em>.', 'nanosupport' ), array('strong'=>array(), 'em'=>array()) ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) );
+                $message .= sprintf( wp_kses( __( 'An assigned support ticket &rsquo;<strong>%1$s</strong>&rsquo; on %2$s is replied by <em>%3$s</em>:', 'nanosupport' ), array('strong'=>array(), 'em'=>array()) ), get_the_title($post_id), get_bloginfo( 'name', 'display' ), ns_user_nice_name($last_response['user_id']) );
             $message .= '</p>';
+
+            // Ticket response content
+            $message .= '<div style="border-left: 5px solid #ccc;padding-top: 10px;padding-left: 20px;padding-bottom: 10px;margin-bottom: 20px;">';
+                $message .= '<p style="margin: 0;font-style: italic">'. wp_trim_words( $comment_object->comment_content, 55 ) .'</p>';
+            $message .= '</div>';
 
             $message .= '<p style="margin: 0 0 16px;"><a style="font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;line-height: 2;color: #ffffff;border-radius: 25px;display: inline-block;cursor: pointer;font-weight: bold;text-decoration: none;background: #1c5daa;margin: 0;padding: 0;border-color: #1c5daa;border-style: solid;border-width: 1px 20px;" href="'. get_permalink($post_id) .'">'. __( 'View Ticket', 'nanosupport' ) .'</a></p>';
 
-            //Send the email
+            // Send the email
             ns_email( $agent_email, $subject, $email_subhead, $message );
 
         endif;
@@ -322,4 +330,53 @@ function ns_disable_wp_comment_notification( $emails, $comment_ID ) {
     }
 
     return $emails;
+}
+
+
+/**
+ * Email to Support Agent.
+ *
+ * Notify support agent when assigned to a ticket.
+ *
+ * @since  1.0.0
+ *
+ * @param   integer $user_id    Agent user ID.
+ * @param   integer $ticket_id  Ticket post ID.
+ * @return  boolean             If sent true, else false
+ * ------------------------------------------------------------------------------
+ */
+function ns_notify_agent_assignment( $user_id, $ticket_id = null ) {
+
+    // Must have a user ID to send email to
+    if( empty($user_id) )
+        return;
+
+    $ticket_id = $ticket_id == null ? get_the_ID() : $ticket_id;
+
+    $user  = get_user_by( 'id', $user_id );
+    $email = $user ? $user->user_email : '';
+
+    /* translators: Site title */
+    $subject = sprintf ( esc_html__( 'A ticket is assigned to you — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
+
+    $email_subhead = esc_html__( 'Ticket Assigned', 'nanosupport' );
+
+    //Email Content
+    $message = '';
+    /* translators: Site title */
+    $message = '<p style="margin: 0 0 16px;">'. sprintf( __( 'The following support ticket on &ldquo;%s&rdquo; is assigned to you:', 'nanosupport' ), get_bloginfo( 'name', 'display' ) ) .'</p>';
+
+        $get_ticket_link = get_permalink($ticket_id);
+
+        // Ticket title
+        $message .= '<div style="border-left: 5px solid #ccc;padding-top: 10px;padding-left: 20px;padding-bottom: 10px;margin-bottom: 20px;">';
+            $message .= '<p style="margin: 0;font-weight: bold"><a style="text-decoration: none;color: #1c5daa;font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;" target="_blank" href="'. esc_url($get_ticket_link) .'">'. get_the_title($ticket_id) .'</a></p>';
+        $message .= '</div>';
+
+    $message .= '<p style="margin: 0 0 16px;">'. __( 'You may get occasional emails notifying any movement of the ticket', 'nanosupport' ) .'</p>';
+
+    // send the email
+    $agent_email = ns_email( $email, $subject, $email_subhead, $message );
+
+    return $agent_email;
 }

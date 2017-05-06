@@ -7,6 +7,9 @@ assets/js/nanosupport.min.js
 assets/js/nanosupport-admin.min.js
 assets/js/nanosupport-dashboard.min.js
 
+## Project build
+build/
+
 ## Common setting
 *.log
 
@@ -25,8 +28,9 @@ $RECYCLE.BIN/
 
 ## Editor settings
 .idea
-nanosupport.sublime-project
-nanosupport.sublime-workspace
+*.sublime-project
+*.sublime-workspace
+.sublime-grunt.cache
 
 ## Composer files
 composer.phar

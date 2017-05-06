@@ -127,18 +127,18 @@ function ns_support_desk_page() {
 									<?php endif; ?>
 									
 									<?php if( ns_is_user('agent_and_manager') ) : ?>
-										<div class="ticket-tools">
+										<span class="ticket-tools">
 											<?php edit_post_link( 'Edit', '', '', get_the_ID() ); ?>
-											<a class="ticket-view-link" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e('Permanent link to the Ticket', 'nanosupport'); ?>">
-												<?php esc_html_e( 'View', 'nanosupport' ); ?>
+											<a class="ticket-view-link" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e( 'Permanent link to the Ticket', 'nanosupport' ); ?>">
+												<?php _e( 'View', 'nanosupport' ); ?>
 											</a>
-										</div> <!-- /.ticket-tools -->
+										</span> <!-- /.ticket-tools -->
 									<?php endif; ?>
 								</h3>
 								<div class="ticket-author">
 									<?php
 									$author = get_user_by( 'id', $post->post_author );
-									echo '<span class="ns-icon-user"></span> '. $author->display_name;
+									echo '<i class="ns-icon-user"></i> '. $author->display_name;
 									?>
 								</div>
 							</div>
@@ -153,7 +153,7 @@ function ns_support_desk_page() {
 								</div>
 							</div>
 							<div class="toggle-ticket-additional">
-								<span class="ns-toggle-icon ns-icon-chevron-circle-down" title="<?php esc_attr_e( 'Load more', 'nanosupport' ); ?>"></span>
+								<i class="ns-toggle-icon ns-icon-chevron-circle-down" title="<?php esc_attr_e( 'Load more', 'nanosupport' ); ?>"></i>
 							</div>
 							<div class="ticket-additional">
 								<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
@@ -164,7 +164,7 @@ function ns_support_desk_page() {
 									<div class="text-blocks">
 										<strong><?php _e( 'Created &amp; Updated:', 'nanosupport' ); ?></strong><br>
 										<?php echo date( 'd M Y h:i A', strtotime( $post->post_date ) ); ?><br>
-										<?php echo date( 'd M Y h:i A', strtotime( $post->post_modified ) ); ?>
+										<?php echo date( 'd M Y h:i A', strtotime( ns_get_ticket_modified_date($post->ID) ) ); ?>
 									</div>
 								</div>
 								<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
@@ -178,12 +178,14 @@ function ns_support_desk_page() {
 									<div class="text-blocks">
 										<strong><?php _e( 'Last Replied by:', 'nanosupport' ); ?></strong><br>
 										<?php
-										$last_response = ns_get_last_response();
-							            $last_responder = get_userdata( $last_response['user_id'] );
+										$last_response  = ns_get_last_response();
+										$last_responder = get_userdata( $last_response['user_id'] );
 							            if ( $last_responder ) {
 							                echo $last_responder->display_name, '<br>';
-							                /* translators: time difference from current time. eg. 12 minutes ago */
-							                printf( __( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
+							                echo '<small>';
+							                	/* translators: time difference from current time. eg. 12 minutes ago */
+							                	printf( __( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
+							                echo '</small>';
 							            } else {
 							                echo '-';
 							            }
@@ -215,12 +217,12 @@ function ns_support_desk_page() {
 			//User is not logged in
 			_e( 'Sorry, you cannot see your tickets without being logged in.', 'nanosupport' );
 			echo '<br>';
-			echo '<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_login_url() .'"><span class="ns-icon-lock"></span>&nbsp;';
+			echo '<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_login_url() .'"><i class="ns-icon-lock"></i>&nbsp;';
 				_e( 'Login', 'nanosupport' );
 			echo '</a>&nbsp;';
 			/* translators: context: login 'or' register */
 			_e( 'or', 'nanosupport' );
-			echo '&nbsp;<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_registration_url() .'"><span class="ns-icon-lock"></span>&nbsp;';
+			echo '&nbsp;<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_registration_url() .'"><i class="ns-icon-lock"></i>&nbsp;';
 				_e( 'Create an account', 'nanosupport' );
 			echo '</a>';
 
@@ -244,19 +246,3 @@ function ns_support_desk_page() {
 }
 
 add_shortcode( 'nanosupport_desk', 'ns_support_desk_page' );
-
-function ns_change_query_to_include_agents_tickets( $clauses, $query_object ) {
-	if( ns_is_user('agent') ) {
-		global $wpdb, $current_user;
-		$clauses['where'] = " AND ";
-        $clauses['where'] .= "( {$wpdb->posts}.post_author IN ({$current_user->ID})
-                                OR (({$wpdb->postmeta}.meta_key = '_ns_ticket_agent' AND CAST({$wpdb->postmeta}.meta_value AS CHAR) = '{$current_user->ID}')) )";
-        $clauses['where'] .= " AND {$wpdb->posts}.post_type = 'nanosupport' ";
-        $clauses['where'] .= " AND ({$wpdb->posts}.post_status = 'publish'
-                                    OR {$wpdb->posts}.post_status = 'future'
-                                    OR {$wpdb->posts}.post_status = 'draft'
-                                    OR {$wpdb->posts}.post_status = 'pending'
-                                    OR {$wpdb->posts}.post_status = 'private') ";
-	}
-	return $clauses;
-}

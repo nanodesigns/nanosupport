@@ -42,7 +42,14 @@ function ns_scripts() {
      * @link http://brm.io/jquery-match-height/
      * ...
      */
-    wp_register_script( 'equal-height', NS()->plugin_url() .'/assets/js/jquery.matchHeight-min.js', array('jquery'), '0.7.0', true );
+    wp_register_script( 'equal-height', NS()->plugin_url() .'/assets/libs/jQuery.matchHeight/jquery.matchHeight-min.js', array('jquery'), '0.7.0', true );
+    
+    /**
+     * Focus Ring JS v1.0
+     * @link https://github.com/WICG/focus-ring/
+     * ...
+     */
+    wp_register_script( 'focus-ring', NS()->plugin_url() .'/assets/libs/focus-ring/focus-ring.min.js', array('jquery'), '1.0.0', true );
 
     /**
      * NanoSupport JavaScripts
@@ -52,7 +59,7 @@ function ns_scripts() {
     wp_register_script(
         'nanosupport',
         NS()->plugin_url() .'/assets/js/nanosupport.min.js',
-        array('jquery'),
+        array('jquery', 'focus-ring'),
         NS()->version,
         true
     );
@@ -74,7 +81,7 @@ function ns_scripts() {
         wp_enqueue_script( 'equal-height' );
     }
 
-    if( is_page( array( $support_desk, $submit_ticket, $knowledgebase ) ) || is_singular('nanosupport') ) {
+    if( is_page( array( $support_desk, $submit_ticket, $knowledgebase ) ) || is_singular('nanosupport') || is_singular('nanodoc') ) {
         wp_enqueue_style( 'nanosupport' );
         wp_enqueue_script( 'nanosupport' );
     }
@@ -104,8 +111,8 @@ function ns_admin_scripts() {
          * @link https://github.com/select2/select2/
          * ...
          */
-        wp_enqueue_style( 'select2', NS()->plugin_url() .'/assets/css/select2.min.css', array(), '4.0.3', 'all' );
-        wp_enqueue_script( 'select2', NS()->plugin_url() .'/assets/js/select2.min.js', array('jquery'), '4.0.3', true );
+        wp_enqueue_style( 'select2', NS()->plugin_url() .'/assets/libs/select2/select2.min.css', array(), '4.0.3', 'all' );
+        wp_enqueue_script( 'select2', NS()->plugin_url() .'/assets/libs/select2/select2.min.js', array('jquery'), '4.0.3', true );
 
 
         /**
@@ -143,7 +150,7 @@ function ns_admin_scripts() {
     		'ns-admin',
     		'ns',
     		array(
-                'del_confirmation'  => __( 'Are you sure you want to delete the response?', 'nanosupport' ),
+                'del_confirmation'  => esc_html__( 'Are you sure you want to delete the response?', 'nanosupport' ),
             )
         );
 	}
@@ -177,6 +184,48 @@ add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
 
 
 /**
+ * Mandate Knowledgebase Category
+ *
+ * As Knowledgebase documents are displayed organized under respective categories,
+ * let's force the user to assign the document to a category before publishing.
+ *
+ * Adopted from Plugin:
+ * Require Post Category
+ * @link    https://wordpress.org/plugins/require-post-category/
+ * @author  Josh Hartman
+ *
+ * @since   1.0.0
+ * -----------------------------------------------------------------------
+ */
+function ns_mandate_knowledgebase_category() {
+    global $post_type;
+    if( 'nanodoc' === $post_type ) {
+        echo "<script type=\"text/javascript\">
+            jQuery(document).ready(function($) {
+                $('#publish').on('click', function(event) {
+                    if( $('#taxonomy-nanodoc_category input:checked').length == 0 ) {
+                        alert('". esc_js( __( 'Please assign the document to a Knowledgebase Category, because Knowledgebase documents are displayed under categories.', 'nanosupport' ) ) ."');
+                        event.stopImmediatePropagation();
+                        return false;
+                    } else {
+                        return true;
+                    }
+
+                    var publish_click_events = $('#publish').data('events').click;
+                    if( publish_click_events && publish_click_events.length > 1 ) {
+                        publish_click_events.unshift(publish_click_events.pop());
+                    }
+                });
+            });
+        </script>";
+    }
+}
+
+add_action( 'admin_footer-post.php',        'ns_mandate_knowledgebase_category' );
+add_action( 'admin_footer-post-new.php',    'ns_mandate_knowledgebase_category' );
+
+
+/**
  * Support Agent User Meta Field
  * 
  * Support Agent selection user meta field.
@@ -188,23 +237,29 @@ add_action( 'admin_enqueue_scripts', 'ns_admin_scripts' );
  */
 function ns_user_fields( $user ) { ?>
     <?php
-    //Don't display the section for 'support_seeker' role
-    if( 'support_seeker' !== $user->roles[0] ) : ?>
+    //Don't display the section except nanosupport 'manager'
+    if( ns_is_user('manager') && 'support_seeker' !== $user->roles[0] ) : ?>
 
-        <h3><?php _e( 'NanoSupport', 'nanosupport' ); ?></h3>
+        <h3><?php echo NS()->plugin; ?></h3>
 
         <table class="form-table">
             <tr>
                 <th scope="row">
-                	<span class="dashicons dashicons-businessman"></span> <?php _e( 'Make Support Agent', 'nanosupport' ); ?>
+                	<span class="dashicons dashicons-businessman"></span> <?php esc_html_e( 'Make Support Agent', 'nanosupport' ); ?>
                 </th>
                 <td>
                 	<label>
-                		<input type="checkbox" name="ns_make_agent" id="ns-make-agent" value="1" <?php checked( get_the_author_meta( 'ns_make_agent', $user->ID ), 1 ); ?> /> <?php _e( 'Yes, make this user a Support Agent', 'nanosupport' ); ?>
+                		<input type="checkbox" name="ns_make_agent" id="ns-make-agent" value="1" <?php checked( get_the_author_meta( 'ns_make_agent', $user->ID ), 1 ); ?> /> <?php esc_html_e( 'Yes, make this user a Support Agent', 'nanosupport' ); ?>
                 	</label>
                 </td>
             </tr>
         </table>
+
+    <?php else : ?>
+        
+        <?php $db_value = get_the_author_meta( 'ns_make_agent', $user->ID ) ? 1 : 0; ?>
+        <input type="hidden" name="ns_make_agent" value="<?php echo $db_value; ?>"/>
+        
     <?php endif; ?>
 <?php
 }
@@ -217,6 +272,7 @@ add_action( 'edit_user_profile', 'ns_user_fields' );
  * Saving the user meta fields
  *
  * Saving the user agent checkmarking choice to the user meta table.
+ * If there's no checkmark, a value from hidden field will come.
  *
  * @since  1.0.0
  * 
@@ -225,40 +281,35 @@ add_action( 'edit_user_profile', 'ns_user_fields' );
  */
 function ns_saving_user_fields( $user_id ) {
 
-    //Don't make a support agent from 'support_seeker' role
-    if( ! ns_is_user( 'support_seeker' ) ) {
+    update_user_meta( $user_id, 'ns_make_agent', intval( $_POST['ns_make_agent'] ) );
 
-        update_user_meta( $user_id, 'ns_make_agent', intval( $_POST['ns_make_agent'] ) );
+    /**
+     * For an agent, enable Support Ticket
+     * @var WP_User
+     */
+    $capability_type = 'nanosupport';
+    $ns_agent_user = new WP_User($user_id);
+    if( 1 == intval( $_POST['ns_make_agent'] ) ) :
+        $ns_agent_user->add_cap( "read_{$capability_type}" );
+        $ns_agent_user->add_cap( "edit_{$capability_type}" );
+        $ns_agent_user->add_cap( "edit_{$capability_type}s" );
+        $ns_agent_user->add_cap( "edit_others_{$capability_type}s" );
+        $ns_agent_user->add_cap( "read_private_{$capability_type}s" );
+        $ns_agent_user->add_cap( "edit_private_{$capability_type}s" );
+        $ns_agent_user->add_cap( "edit_published_{$capability_type}s" );
 
-        /**
-         * For an agent, enable Support Ticket
-         * @var WP_User
-         */
-        $capability_type = 'nanosupport';
-        $ns_agent_user = new WP_User($user_id);
-        if( 1 == intval( $_POST['ns_make_agent'] ) ) :
-            $ns_agent_user->add_cap( "read_{$capability_type}" );
-            $ns_agent_user->add_cap( "edit_{$capability_type}" );
-            $ns_agent_user->add_cap( "edit_{$capability_type}s" );
-            $ns_agent_user->add_cap( "edit_others_{$capability_type}s" );
-            $ns_agent_user->add_cap( "read_private_{$capability_type}s" );
-            $ns_agent_user->add_cap( "edit_private_{$capability_type}s" );
-            $ns_agent_user->add_cap( "edit_published_{$capability_type}s" );
-
-            $ns_agent_user->add_cap( "assign_{$capability_type}_terms" );
-        else :
-            $ns_agent_user->remove_cap( "read_{$capability_type}" );
-            $ns_agent_user->remove_cap( "edit_{$capability_type}" );
-            $ns_agent_user->remove_cap( "edit_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "edit_others_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "read_private_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "edit_private_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "edit_published_{$capability_type}s" );
-            
-            $ns_agent_user->remove_cap( "assign_{$capability_type}_terms" );
-        endif;
+        $ns_agent_user->add_cap( "assign_{$capability_type}_terms" );
+    else :
+        $ns_agent_user->remove_cap( "read_{$capability_type}" );
+        $ns_agent_user->remove_cap( "edit_{$capability_type}" );
+        $ns_agent_user->remove_cap( "edit_{$capability_type}s" );
+        $ns_agent_user->remove_cap( "edit_others_{$capability_type}s" );
+        $ns_agent_user->remove_cap( "read_private_{$capability_type}s" );
+        $ns_agent_user->remove_cap( "edit_private_{$capability_type}s" );
+        $ns_agent_user->remove_cap( "edit_published_{$capability_type}s" );
         
-    }
+        $ns_agent_user->remove_cap( "assign_{$capability_type}_terms" );
+    endif;
 
 }
 
@@ -278,7 +329,7 @@ add_action( 'edit_user_profile_update', 'ns_saving_user_fields' );
  * -----------------------------------------------------------------------
  */
 function ns_add_support_agent_user_column( $columns ) {
-    $columns['ns_agent'] = '<span class="ns-icon-nanosupport" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></span>';
+    $columns['ns_agent'] = '<i class="ns-icon-nanosupport" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i>';
     return $columns;
 }
 
@@ -300,9 +351,9 @@ add_filter( 'manage_users_columns', 'ns_add_support_agent_user_column' );
 function ns_support_agent_user_column_content( $value, $column_name, $user_id ) {
     if ( 'ns_agent' == $column_name ) {
         if( 1 == get_user_meta( $user_id, 'ns_make_agent', true ) )
-            return '<span class="ns-label ns-label-warning"><i class="dashicons dashicons-businessman" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i> '. __( 'Agent', 'nanosupport' ) .'</span>';
+            return '<span class="ns-label ns-label-warning"><i class="dashicons dashicons-businessman" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i> '. esc_html__( 'Agent', 'nanosupport' ) .'</span>';
         else
-            return '-:-';
+            return '&mdash;';
     }
     return $value;
 }
@@ -372,10 +423,10 @@ add_filter( 'template_include', 'ns_template_loader' );
 if ( ! function_exists( 'ns_content' ) ) {
 
     /**
-     * Output WooCommerce content.
+     * Output NanoSupport content.
      *
-     * This function is only used in the optional 'woocommerce.php' template
-     * which people can add to their themes to add basic woocommerce support
+     * This function is only used in the optional 'nanosupport.php' template
+     * which people can add to their themes to add basic nanosupport support
      * without hooks or modifying core templates.
      *
      */
@@ -401,7 +452,7 @@ if ( ! function_exists( 'ns_content' ) ) {
 
                     <?php endwhile; // end of the loop. ?>
 
-                <?php _e( 'Ticket has no content', 'nanosupport' ); ?>
+                <?php esc_html_e( 'Ticket has no content', 'nanosupport' ); ?>
 
             <?php endif;
 
@@ -525,7 +576,7 @@ function ns_admin_bar_menu( $wp_admin_bar ) {
     $wp_admin_bar->add_node( array(
         'parent' => 'site-name',
         'id'     => 'view-support-desk',
-        'title'  => __( 'Visit Support Desk', 'nanosupport' ),
+        'title'  => esc_html__( 'Visit Support Desk', 'nanosupport' ),
         'href'   => get_the_permalink( $ns_general_settings['support_desk'] )
     ) );
 }
@@ -540,8 +591,9 @@ function ns_admin_bar_menu( $wp_admin_bar ) {
      * @param boolean  True to display the Support Desk link under site name.
      * -----------------------------------------------------------------------
      */
-    if( apply_filters( 'nanosupport_show_admin_bar_visit_support_desk', true ) )
+    if( apply_filters( 'nanosupport_show_admin_bar_visit_support_desk', true ) ) {
         add_action( 'admin_bar_menu', 'ns_admin_bar_menu', 32 );
+    }
 
 /**
  * Display Agent Ticket count on Admin Bar.
@@ -565,7 +617,7 @@ function ns_agent_admin_bar( $wp_admin_bar ) {
         $wp_admin_bar->add_node(array(
             'parent'    => null,
             'group'     => null,
-            'title'     => '<span class="ab-icon ns-icon-nanosupport" style="font-size: 17px;"></span> ' . absint( $my_open_tickets ),
+            'title'     => '<i class="ab-icon ns-icon-nanosupport" style="font-size: 17px;"></i> ' . absint( $my_open_tickets ),
             'id'        => 'ns-agent-ticket-count',
             'href'      => add_query_arg( 'post_type', 'nanosupport', admin_url('/edit.php') ),
             'meta'      => array(
@@ -646,3 +698,35 @@ function display_assigned_tickets_modifying_query( $clauses, $query_object ) {
 }
 
 add_filter( 'posts_clauses', 'display_assigned_tickets_modifying_query', 10, 2 );
+
+
+/**
+ * TinyMCE buttons modified for Ticket Details.
+ * 
+ * @link https://codex.wordpress.org/Function_Reference/wp_editor
+ * @link https://codex.wordpress.org/TinyMCE
+ * @link http://wordpress.stackexchange.com/a/29480
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $ed Default editor.
+ * @return array     Modified buttons.
+ * -----------------------------------------------------------------------
+ */
+function ns_modified_TinyMCE( $ed ) {
+    //Get the NanoSupport Settings from Database
+    $ns_general_settings = get_option( 'nanosupport_settings' );
+
+    if( is_page( $ns_general_settings['submit_page'] ) ) {
+        // Items to display under 'formatselect' dropdown
+        $ed['block_formats'] = "Paragraph=p; Heading 2=h2; Heading 3=h3; Heading 4=h4; Heading 5=h5; Heading 6=h6; Preformatted=pre";
+
+        // Prepare the toolbar
+        $ed['toolbar1'] = 'formatselect,bold,italic,strikethrough,hr,bullist,numlist,blockquote,alignleft,aligncenter,alignright,link,unlink,pastetext,wp_adv ';
+        $ed['toolbar2'] = 'spellchecker,removeformat,charmap,outdent,indent,undo,redo,fullscreen ';
+    }
+
+    return $ed;
+}
+
+add_filter( 'tiny_mce_before_init', 'ns_modified_TinyMCE' );

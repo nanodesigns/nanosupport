@@ -27,9 +27,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ns_register_cpt_nanodoc() {
 
     $labels = array(
-        'name'					=> __( 'Knowledgebase', 'nanosupport' ),
-        'singular_name'			=> __( 'Knowledgebase', 'nanosupport' ),
-        'add_new'				=> __( 'Add New', 'nanosupport' ),
+        'name'					=> _x( 'Knowledgebase', 'NanoSupport Knowledgebase', 'nanosupport' ),
+        'singular_name'			=> _x( 'Knowledgebase', 'NanoSupport Knowledgebase', 'nanosupport' ),
+        'add_new'				=> _x( 'Add New', 'NanoSupport Knowledgebase', 'nanosupport' ),
         'add_new_item'			=> __( 'Add New Doc', 'nanosupport' ),
         'edit_item'				=> __( 'Edit Doc', 'nanosupport' ),
         'new_item'				=> __( 'New Doc', 'nanosupport' ),
@@ -38,7 +38,7 @@ function ns_register_cpt_nanodoc() {
         'not_found'				=> __( 'No Knowledgebase Doc found', 'nanosupport' ),
         'not_found_in_trash'	=> __( 'No Knowledgebase Doc found in Trash', 'nanosupport' ),
         'parent_item_colon'		=> __( 'Parent Doc:', 'nanosupport' ),
-        'menu_name'				=> __( 'Knowledgebase', 'nanosupport' ),
+        'menu_name'				=> _x( 'Knowledgebase', 'NanoSupport Knowledgebase', 'nanosupport' ),
     );
 
     $args = array(
@@ -153,7 +153,8 @@ function ns_nanodoc_taxonomy_add_meta_fields( $taxonomy ) { ?>
         <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary" title="<?php esc_attr_e( 'Choose an icon', 'nanosupport' ); ?>">
             <?php _e( 'Choose Icon', 'nanosupport' ); ?>
         </a>
-        <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" size="40" placeholder="<?php esc_attr_e( 'i.e. ns-icon-docs', 'nanosupport' ); ?>">
+        <?php /* translators: NanoSupport icon class */ ?>
+        <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" size="40" placeholder="<?php printf( esc_attr__( 'e.g. %s', 'nanosupport' ), 'ns-icon-docs' ); ?>">
         <p><?php _e( 'Choose an Icon to display with the Category', 'nanosupport' ); ?></p>
 
         <div id="ns-kb-icon-modal" style="display:none;">
@@ -221,7 +222,7 @@ function ns_nanodoc_taxonomy_edit_meta_fields( $taxonomy ) {
             <a href="#TB_inline?width=600&height=550&inlineId=ns-kb-icon-modal" class="thickbox hide-if-no-js button button-primary" title="<?php esc_attr_e( 'Choose an icon', 'nanosupport' ); ?>">
                 <?php _e( 'Choose Icon', 'nanosupport' ); ?>
             </a>
-            <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" value="<?php echo esc_attr($ns_icon_class); ?>" size="40" placeholder="<?php esc_attr_e( 'i.e. ns-icon-docs', 'nanosupport' ); ?>">
+            <input type="text" name="kb_cat_icon" id="kb-cat-icon" class="hide-if-js nanosupport-icon-textbox" value="<?php echo esc_attr($ns_icon_class); ?>" size="40" placeholder="<?php printf( esc_attr__( 'e.g. %s', 'nanosupport' ), 'ns-icon-docs' ); ?>">
             <p class="description"><?php _e( 'Choose an Icon to display with the Category', 'nanosupport' ); ?></p>
 
             <div id="ns-kb-icon-modal" style="display:none;">
@@ -276,9 +277,9 @@ add_filter( 'manage_edit-nanodoc_category_columns', 'ns_nanodoc_taxonomy_icon_co
  */
 function ns_nanodoc_taxonomy_icon_column_data( $columns, $column, $id ) {
     if( 'icon' === $column ) {
-        $icon = get_term_meta( $id, '_ns_kb_cat_icon', true );
+        $icon       = get_term_meta( $id, '_ns_kb_cat_icon', true );
         $icon_class = $icon ? $icon : 'ns-icon-docs';
-        $columns = '<span class="'. esc_attr($icon_class) .'"></span>';
+        $columns    = '<i class="'. esc_attr($icon_class) .'"></i>';
     }
 
     return $columns;
@@ -307,3 +308,42 @@ function ns_change_nanodoc_title_text( $title ){
 }
 
 add_filter( 'enter_title_here', 'ns_change_nanodoc_title_text' );
+
+
+/**
+ * Back to the Knowledgebase button
+ *
+ * @since  1.0.0
+ * 
+ * @param  string $content WordPress post content.
+ * @return string          Filtered content for Knowledgebase Docs.
+ * -----------------------------------------------------------------------
+ */
+function ns_back_to_knowledgebase_link( $content ) {    
+    $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
+    $knowledgebase_link        = isset($ns_knowledgebase_settings['page']) ? get_permalink($ns_knowledgebase_settings['page']) : '#';
+
+    /**
+     * -----------------------------------------------------------------------
+     * HOOK : FILTER HOOK
+     * ns_back_to_knowledgebase
+     *
+     * To modify the link visible below the Knowledgebase documents typically
+     * targetted toward the Knowledgebase. You may want to modify the link
+     * to the respective Knowledgebase Category, the filter will help you.
+     *
+     * @since  1.0.0
+     * -----------------------------------------------------------------------
+     */
+    $back_link = apply_filters( 'ns_back_to_knowledgebase', $knowledgebase_link );
+    
+    if( is_singular('nanodoc') && isset($ns_knowledgebase_settings['isactive_kb']) && $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
+
+        // Concatenating below the content with a break to differentiate better
+        $content .= '<br><a href="'. esc_url($back_link) .'" class="ns-btn ns-btn-sm ns-btn-default">&laquo; '. __( 'Back to the Knowledgebase', 'nanosupport' ) .'</a>';
+    }
+
+    return $content;
+}
+
+add_filter( 'the_content', 'ns_back_to_knowledgebase_link' );

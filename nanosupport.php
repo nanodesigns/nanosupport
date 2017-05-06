@@ -9,11 +9,11 @@
  * Plugin Name:       NanoSupport
  * Plugin URI:        http://nanosupport.nanodesignsbd.com/
  * Description:       Create a fully featured Support Center within your WordPress environment without any third party system dependency, completely FREE. The built-in Knowledgebase is to inform public with generalized queries.
- * Version:           0.3.0
+ * Version:           0.3.4
  * Author:            nanodesigns
  * Author URI:        http://nanodesignsbd.com/
  * Requires at least: 4.4.0
- * Tested up to:      4.6
+ * Tested up to:      4.7.2
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       nanosupport
@@ -87,7 +87,7 @@ final class NanoSupport {
 	/**
 	 * @var string
 	 */
-	public $version = '0.3.0';
+	public $version = '0.3.4';
 
 	/**
 	 * Minimum WordPress version.
@@ -155,7 +155,7 @@ final class NanoSupport {
 		 * HOOK : FILTER HOOK
 		 * ns_template_path
 		 *
-		 * The template path used in theme to overrite.
+		 * The template path used in theme to override.
 		 *
 		 * @since  1.0.0
 		 * -----------------------------------------------------------------------
@@ -236,7 +236,7 @@ add_action( 'plugins_loaded', 'ns_cross_check_on_activation' );
  * -----------------------------------------------------------------------
  */
 function ns_plugin_settings_link( $links ) {
-	//$settings_link = '/wp-admin/edit.php?post_type=nanosupport&page=nanosupport-settings';
+	// '/wp-admin/edit.php?post_type=nanosupport&page=nanosupport-settings';
 	$settings_link = '<a href="'. esc_url( admin_url( 'edit.php?post_type=nanosupport&page=nanosupport-settings' ) ) .'" title="'. esc_attr__( 'Set the NanoSupport settings', 'nanosupport' ) .'">'. __( 'Settings', 'nanosupport' ) .'</a>';
 
 	array_unshift( $links, $settings_link ); //make the settings link be first item
@@ -304,6 +304,10 @@ include_once 'includes/ns-utility-functions.php';
 
 /** Settings API **/
 include_once 'includes/admin/ns-settings.php';
+
+/** System Status page **/
+include_once 'includes/class-system-status.php';
+include_once 'includes/admin/ns-system-status.php';
 
 /** NanoSupport Updates */
 include_once 'includes/ns-updates.php';

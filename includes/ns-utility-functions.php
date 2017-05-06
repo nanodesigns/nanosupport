@@ -56,28 +56,9 @@ function ns_get_last_response( $ticket_id = null ) {
 
 
 /**
- * Response exists or not
- * 
- * Check whether the Response is already exists or not.
- *
- * @since  1.0.0
- * 
- * @param  integer $comment_ID  Comment ID.
- * @return integer              The comment_ID if it exists.
- * -----------------------------------------------------------------------
- */
-function ns_response_exists( $comment_ID ) {
-    global $wpdb;
-    $comment_ID = absint( $comment_ID );
- 
-    return $wpdb->get_var( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_ID = %s", $comment_ID ) );
-}
-
-
-/**
  * NanoSupport Pagination
  * 
- * Paginate_links enabled with Pagination CSS.
+ * paginate_links enabled with Pagination CSS.
  *
  * @since   1.0.0
  *
@@ -90,19 +71,19 @@ function ns_response_exists( $comment_ID ) {
 function ns_pagination( $query ) {
 
 	global $wp_query;
-	$query = $query ? $query : $wp_query;
-
-	$big = 999999999; // need an unlikely integer
-	$total = $query->max_num_pages;
+    $query = $query ? $query : $wp_query;
+    
+    $big   = 999999999; // need an unlikely integer
+    $total = $query->max_num_pages;
 	if( $total > 1 ) {
-        echo '<nav class="nanosupport-pagination">';
+        echo '<nav class="nanosupport-pagination" aria-label="Pagination Navigation">';
 		$pages = paginate_links( array(
 				'base'		=> str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
 				'format'	=> '?paged=%#%',
 				'show_all'	=> false,
 				'prev_next'	=> true,
-				'prev_text'	=> '&laquo;',
-				'next_text'	=> '&raquo;',
+				'prev_text'	=> '&laquo; <span class="screen-reader-only">'. __( 'Previous Page', 'nanosupport' ) .'</span>',
+				'next_text'	=> '<span class="screen-reader-only">'. __( 'Next Page', 'nanosupport' ) .'</span> &raquo;',
 				'current'	=> max( 1, get_query_var('paged') ),
 				'total'		=> $total,
 				'type'		=> 'array'
@@ -137,11 +118,11 @@ function ns_get_ticket_departments( $post_id = null ) {
 
     $_departments = get_the_terms( $post_id, 'nanosupport_department' );
 
-    $department_count = count($_departments);
-    $departments = '';
-
     if ( $_departments && ! is_wp_error( $_departments ) ) :
-        $counter = 1;
+        $counter          = 1;
+        $department_count = count($_departments);
+        $departments      = '';
+        
         foreach ( $_departments as $department ) {
            $departments .= $department->name;
            if( $department_count != $counter )
@@ -149,6 +130,8 @@ function ns_get_ticket_departments( $post_id = null ) {
 
            $counter++;
         }
+    else :
+        $departments = '&mdash;';
     endif;
 
     return $departments;
@@ -334,13 +317,14 @@ function ns_total_ticket_count( $post_type = '', $user_id = '' ) {
  *
  * @since  1.0.0
  * 
+ * @param  string $id       HTML id to connect aria-describedby.
  * @param  string $message  The i18 string/plain text.
  * @param  string $position left | right | top
  * @param  string $icon     Icon class.
  * @return string           Formatted tooltip that needs proper CSS.
  * ------------------------------------------------------------------------------
  */
-function ns_tooltip( $message = '', $position = 'top', $icon = 'ns-icon-question' ) {
+function ns_tooltip( $id = '', $message = '', $position = 'top', $icon = 'ns-icon-question' ) {
 
     if( empty($message) )
         return;
@@ -366,7 +350,7 @@ function ns_tooltip( $message = '', $position = 'top', $icon = 'ns-icon-question
     ob_start(); ?>
 
     <span class="ns-tooltip <?php echo esc_attr( $class ) . esc_attr( $icon ); ?>">
-        <span class="ns-tooltip-message">
+        <span id="<?php echo esc_attr( $id ); ?>" class="ns-tooltip-message" role="tooltip">
             <?php echo $message; ?>
         </span>
     </span>
@@ -452,30 +436,30 @@ function ns_get_ticket_meta( $ticket_id = null ) {
     if( 'low' === $this_priority ) {
         $priority = array(
                 'value' => 'low',
-                'name'  => __( 'Low', 'nanosupport' ),
+                'name'  => esc_html__( 'Low', 'nanosupport' ),
                 'class' => 'priority-low',
-                'label' => '<span class="ns-text-dim"><i class="ns-dot"></i>'. __( 'Low', 'nanosupport' ) .'</span>',
+                'label' => '<span class="ns-text-dim"><i class="ns-dot"></i>'. esc_html__( 'Low', 'nanosupport' ) .'</span>',
             );
     } elseif( 'medium' === $this_priority ) {
         $priority = array(
                 'value' => 'medium',
-                'name'  => __( 'Medium', 'nanosupport' ),
+                'name'  => esc_html__( 'Medium', 'nanosupport' ),
                 'class' => 'priority-medium',
-                'label' => '<span class="ns-text-info"><i class="ns-dot"></i>'. __( 'Medium', 'nanosupport' ) .'</span>',
+                'label' => '<span class="ns-text-info"><i class="ns-dot"></i>'. esc_html__( 'Medium', 'nanosupport' ) .'</span>',
             );
     } elseif( 'high' === $this_priority ) {
         $priority = array(
                 'value' => 'high',
-                'name'  => __( 'High', 'nanosupport' ),
+                'name'  => esc_html__( 'High', 'nanosupport' ),
                 'class' => 'priority-high',
-                'label' => '<span class="ns-text-warning"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. __( 'High', 'nanosupport' ) .'</span>',
+                'label' => '<span class="ns-text-warning"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. esc_html__( 'High', 'nanosupport' ) .'</span>',
             );
     } elseif( 'critical' === $this_priority ) {
         $priority = array(
                 'value' => 'critical',
-                'name'  => __( 'Critical', 'nanosupport' ),
+                'name'  => esc_html__( 'Critical', 'nanosupport' ),
                 'class' => 'priority-critical',
-                'label' => '<span class="ns-text-danger"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. __( 'Critical', 'nanosupport' ) .'</span>',
+                'label' => '<span class="ns-text-danger"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. esc_html__( 'Critical', 'nanosupport' ) .'</span>',
             );
     }
 
@@ -506,9 +490,19 @@ function ns_get_ticket_meta( $ticket_id = null ) {
 /**
  * Predict pretty permalink for pending tickets.
  *
+ * It's not easy to find non-published post's permalink, so
+ * we need to hack that.
+ * 
+ * This function is using a core function get_sample_permalink()
+ * and we are hacking that to make the forecasted permalink.
+ *
+ * Note: it's not bulletproof :( .
+ *
  * @since  1.0.0
  *
  * @link   http://wordpress.stackexchange.com/a/97606/22728
+ *
+ * @see    get_sample_permalink() Core function to have permalink using postname
  * 
  * @param  integer $post_id The ticket post ID.
  * @return string           The pretty permalink for the pending post.
@@ -551,29 +545,48 @@ function ns_date_time( $datetime = null ) {
  *
  * @since  1.0.0
  * 
- * @param  string $role String to check the User role.
- * @return boolean      Check and return true | false conditionally.
+ * @param  string           $role   String to check the User role.
+ * @param  object|integer   $user   User object or ID.
+ * @return boolean                  Check and return true | false conditionally.
  * --------------------------------------------------------------------------
  */
-function ns_is_user( $role ) {
-    if( ! is_user_logged_in() )
-        return;
+function ns_is_user( $role, $user = null ) {
+    if( 'support_seeker' === $role ) :
+        if( null === $user ) {
+            return ( current_user_can( 'read' ) && ! current_user_can( 'edit_nanosupports' ) ) ? true : false;
+        } else {
+            return ( user_can( $user, 'read' ) && ! user_can( $user, 'edit_nanosupports' ) ) ? true : false;
+        }
+    
+    elseif( 'agent' === $role ) :
+        if( null === $user ) {
+            return ( current_user_can( 'edit_nanosupports' ) && ! current_user_can( 'manage_nanosupport' ) ) ? true : false;
+        } else {
+            return ( user_can( $user, 'edit_nanosupports' ) && ! user_can( $user, 'manage_nanosupport' ) ) ? true : false;
+        }
+    
+    elseif( 'agent_and_manager' === $role ) :
+        if( null === $user ) {
+            return current_user_can( 'edit_nanosupports' ) ? true : false;
+        } else {
+            return user_can( $user, 'edit_nanosupports' ) ? true : false;
+        }
+    
+    elseif( 'manager' === $role ) :
+        if( null === $user ) {
+            return current_user_can( 'manage_nanosupport' ) ? true : false;
+        } else {
+            return user_can( $user, 'manage_nanosupport' ) ? true : false;
+        }
+    
+    else :
+        if( null === $user ) {
+            return current_user_can( $role ) ? true : false;
+        } else {
+            return user_can( $user, $role ) ? true : false;
+        }
 
-    if( 'support_seeker' === $role ) {
-        return ( current_user_can( 'read' ) && ! current_user_can( 'edit_nanosupports' ) ) ? true : false;
-    }
-    else if( 'agent' === $role ) {
-        return ( current_user_can( 'edit_nanosupports' ) && ! current_user_can( 'manage_nanosupport' ) ) ? true : false;
-    }
-    else if( 'agent_and_manager' === $role ) {
-        return current_user_can( 'edit_nanosupports' ) ? true : false;
-    }
-    else if( 'manager' === $role ) {
-        return current_user_can( 'manage_nanosupport' ) ? true : false;
-    }
-    else {
-        return current_user_can( $role ) ? true : false;
-    }
+    endif;
 }
 
 
@@ -714,4 +727,119 @@ function ns_is_character_limit() {
         return false;
     else
         return $option['ticket_char_limit'];
+}
+
+
+/**
+ * Numeric transformation
+ *
+ * This function transforms the php.ini notation for numbers (like '2M') to an integer.
+ * Adopted from WooCommerce
+ *
+ * @param   $size
+ * @return  int
+ * --------------------------------------------------------------------------
+ */
+function ns_transform_to_numeric( $size ) {
+    $l   = substr( $size, -1 );
+    $ret = substr( $size, 0, -1 );
+    switch ( strtoupper( $l ) ) {
+        case 'P':
+            $ret *= 1024;
+        case 'T':
+            $ret *= 1024;
+        case 'G':
+            $ret *= 1024;
+        case 'M':
+            $ret *= 1024;
+        case 'K':
+            $ret *= 1024;
+    }
+
+    return $ret;
+}
+
+
+/**
+ * Get Ticket Modified Date
+ *
+ * Ticket modified date in comparison to Response date.
+ *
+ * @since  1.0.0
+ * 
+ * @param  integer $ticket_id Ticket post ID.
+ * @return string             Date/Time.
+ * --------------------------------------------------------------------------
+ */
+function ns_get_ticket_modified_date( $ticket_id = null ) {
+
+    $post_id = ( null === $ticket_id ) ? get_the_ID() : $ticket_id;
+
+    $last_response      = ns_get_last_response($post_id);
+    $last_response_date = $last_response['comment_date'];
+
+    $this_post          = get_post( $post_id );
+    $post_modified_date = $this_post->post_modified;
+
+    // If there's no response, return the post_modified_date
+    if( empty($last_response_date) ) {
+        return $post_modified_date;
+    }
+
+    $date_modified = strtotime($last_response_date) > strtotime($post_modified_date) ? $last_response_date : $post_modified_date;
+
+    return $date_modified;
+
+}
+
+
+/**
+ * Compare the Dates
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $a First array.
+ * @param  array $b Second array.
+ * @return integer  Larger value between two.
+ * --------------------------------------------------------------------------
+ */
+function ns_date_compare( $a, $b ) {
+    $date1 = strtotime($a['date']);
+    $date2 = strtotime($b['date']);
+    return $date2 - $date1;
+}
+
+
+/**
+ * Updating Ticket Modified Date
+ * 
+ * Helper function to updating the post modified date. We are using this
+ * function to update ticket modified date when the ticket was set
+ * closed from the front end.
+ *
+ * @author  nofearinc
+ * @link    https://core.trac.wordpress.org/attachment/ticket/24266/24266.diff
+ * 
+ * @since   1.0.0
+ *  
+ * @param  integer $post_id Post ID.
+ * --------------------------------------------------------------------------
+ */
+function ns_update_post_modified_date( $post_id ) {
+    $post_modified     = current_time( 'mysql' );
+    $post_modified_gmt = current_time( 'mysql', 1 );
+
+    $updated_fields = array(
+        'post_modified'     => $post_modified,
+        'post_modified_gmt' => $post_modified_gmt
+    );
+
+    $ticket_updated_data = array(
+        'ID'                => $post_id,
+        'post_modified'     => $post_modified,
+        'post_modified_gmt' => $post_modified_gmt,
+    );
+
+    // Update the ticket into the database
+    wp_update_post( $ticket_updated_data );
 }
