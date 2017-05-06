@@ -38,3 +38,6 @@ composer.phar
 
 ## Node
 /node_modules
+
+## Test environment
+tmp/
