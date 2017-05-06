@@ -64,7 +64,17 @@ function ns_register_cpt_nanodoc() {
     );
 
     if( ! post_type_exists( 'nanodoc' ) ) {
-        register_post_type( 'nanodoc', $args );
+        /**
+         * -----------------------------------------------------------------------
+         * HOOK : FILTER HOOK
+         * ns_nanodoc_arguments
+         *
+         * To modify/push arguments that are passed to generate CPT 'nanodoc'.
+         *
+         * @since  1.0.0
+         * -----------------------------------------------------------------------
+         */
+        register_post_type( 'nanodoc', apply_filters( 'ns_nanodoc_arguments', $args ) );
     }
 
 }
@@ -421,3 +431,74 @@ function ns_alter_copied_content( $copied_post ) {
 }
 
 add_filter( 'nanosupport_copied_content', 'ns_alter_copied_content', 10 );
+
+
+/**
+ * Knowledgebase doc URL rewriting.
+ *
+ * @since  1.0.0
+ *
+ * @see    ns_get_taxonomy_parents() Using recursive function to get all parents.
+ * 
+ * @param  string $post_link Doc link.
+ * @param  object $post      Doc post.
+ * @return string            Modified link.
+ * --------------------------------------------------------------------------
+ */
+function ns_modify_nanodoc_link( $post_link, $post ) {
+    if ($post->post_type != 'nanodoc') {
+        return $post_link;
+    }
+
+    $nanodoc_cats = get_the_terms($post->ID, 'nanodoc_category');
+    if( $nanodoc_cats ) {
+        $post_link = str_replace('%nanodoc_category%', ns_get_taxonomy_parents(array_pop($nanodoc_cats)->term_id, 'nanodoc_category', ''), $post_link);
+    }
+
+    return $post_link;
+}
+
+/**
+ * Rewrite rules declaration.
+ *
+ * Rewrite rules for KB docs to respond on particular URL call.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $existing_rules    Array of existing rules.
+ * @return array                    Array of newly added rules with existing.
+ * --------------------------------------------------------------------------
+ */
+function ns_knowledgebase_rewrite_rules( $existing_rules ) {
+    $new_rules = array();
+    $new_rules['knowledgebase/(.+)/(.+)/?$'] = 'index.php?nanodoc=$matches[2]';
+    $new_rules['knowledgebase/(.+)/?$']      = 'index.php?nanodoc=$matches[1]';
+
+    return array_merge( $new_rules, $existing_rules );
+}
+
+if( isset($ns_knowledgebase_settings['rewrite_url']) && $ns_knowledgebase_settings['rewrite_url'] === 1 ) {
+    add_filter( 'post_type_link',       'ns_modify_nanodoc_link',       10, 2 );
+    add_filter( 'rewrite_rules_array',  'ns_knowledgebase_rewrite_rules' );
+}
+
+
+/**
+ * Flush ReWrite Rules on Settings update.
+ *
+ * Hard flush the rewrite rules, if the Knowledgebase doc URL rewriting
+ * is chosen to take affect.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $old_values  Array of previous values.
+ * @param  array $new_values  Array of values going to save.
+ * --------------------------------------------------------------------------
+ */
+function ns_flush_rules_while_rewrite_changed( $old_values, $new_values ) {
+    if( $old_values['rewrite_url'] != $new_values['rewrite_url'] ) {
+        flush_rewrite_rules();
+    }
+}
+
+add_action( 'update_option_nanosupport_knowledgebase_settings', 'ns_flush_rules_while_rewrite_changed', 11, 2 );

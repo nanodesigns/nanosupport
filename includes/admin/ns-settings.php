@@ -254,6 +254,18 @@ function nanosupport_settings_options_init(){
             'nanosupport_knowledgebase_settings',               // Page (Plugin)*
             'ns_knowledgebase'                                  // Section
         );
+        /**
+         * Tab: Knowledgebase Settings
+         *  - Knowledgebase URL rewriting
+         * ----------------------------------
+         */
+        add_settings_field(
+            'knowledgebase_url_rewrite',                        // ID*
+            esc_html__( 'Add Categories to the URL', 'nanosupport' ),   // Title*
+            'ns_doc_url_rewrite_field',                         // Callback Function*
+            'nanosupport_knowledgebase_settings',               // Page (Plugin)*
+            'ns_knowledgebase'                                  // Section
+        );
 
 
     /**

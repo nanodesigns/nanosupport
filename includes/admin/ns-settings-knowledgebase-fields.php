@@ -85,6 +85,16 @@ function ns_doc_ppc_field() {
     echo ns_tooltip( 'ns-kb-ppc', __( 'Choose the number of entries to display per Knowledgebase category. Default is Settings &raquo; Reading &raquo; Blog pages show at most.', 'nanosupport' ), 'right' );
 }
 
+// Knowledgebase Settings : Field 5 : Rewrite URL
+function ns_doc_url_rewrite_field() {
+    $options = get_option('nanosupport_knowledgebase_settings');
+
+    $rewrite_url = isset($options['rewrite_url']) ? $options['rewrite_url'] : '';
+    echo '<input name="nanosupport_knowledgebase_settings[rewrite_url]" id="rewrite_url" type="checkbox" value="1" aria-describedby="ns-kb-url-rewrite" '. checked( 1, $rewrite_url, false ) . '/> <label for="rewrite_url">'. __( 'Yes, rewrite Knowledgebase Doc URL (caution required)', 'nanosupport' ) .'</label>';
+
+    echo ns_tooltip( 'ns-kb-url-rewrite', __( 'Check to add Knowledgebase categories to the URL of Knowledgebase Doc entries.<br><strong>WARNING:</strong> changing public URL might lead huge amount of 404 and can affect SEO, if not properly redirected.', 'nanosupport' ), 'right' );
+}
+
 /**
  * Validate Knowledgebase Settings
  * @param  array $input  Array of all the settings fields' value.
@@ -101,11 +111,14 @@ function ns_knowledgebase_settings_validate( $input ) {
     $kb_categories = $input['terms'] ? (array) $input['terms'] : '';
     //Knowledgebase items per category
     $kb_posts_per_category = $input['ppc'] ? absint($input['ppc']) : '';
+    //Enable Knowledgebase URL Rewriting
+    $rewrite_url = isset($input['rewrite_url']) && (int) $input['rewrite_url'] === 1 ? (int) $input['rewrite_url'] : '';
 
     $options['isactive_kb'] = absint( $isactive_kb );
     $options['page']        = absint( $kb_page_selection_val );
     $options['terms']       = (array) $kb_categories;
     $options['ppc']         = absint( $kb_posts_per_category );
+    $options['rewrite_url'] = absint( $rewrite_url );
 
     return $options;
 }
