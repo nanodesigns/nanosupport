@@ -5,7 +5,7 @@ Smart Support Ticketing Plugin for WordPress
 
 | Requires | Tested up to | Stable Release | w.org Rating | License | w.org Downloads |
 |---|---|---|---|---|---|
-| WordPress 4.4.0 | ![Tested WordPress version](https://img.shields.io/wordpress/v/nanosupport.svg?style=flat) | ![WordPress plugin](https://img.shields.io/wordpress/plugin/v/nanosupport.svg?style=flat) | ![WordPress.org rating](https://img.shields.io/wordpress/plugin/r/nanosupport.svg?style=flat) | [GPL-2.0+](http://www.gnu.org/licenses/gpl-2.0.txt) | [![Wordpress](https://img.shields.io/wordpress/plugin/dt/nanosupport.svg?style=flat)]() |
+| WordPress 4.4.0 | [![Tested WordPress version](https://img.shields.io/wordpress/v/nanosupport.svg?style=flat-square)](https://wordpress.org/plugins/nanosupport/) | [![WordPress plugin](https://img.shields.io/wordpress/plugin/v/nanosupport.svg?style=flat-square)](https://wordpress.org/plugins/nanosupport/) | [![WordPress.org rating](https://img.shields.io/wordpress/plugin/r/nanosupport.svg?style=flat-square)](https://wordpress.org/support/plugin/nanosupport/reviews/) | [GPL-2.0+](http://www.gnu.org/licenses/gpl-2.0.txt) | [![Wordpress](https://img.shields.io/wordpress/plugin/dt/nanosupport.svg?style=flat-square)](https://wordpress.org/support/plugin/nanosupport/) |
 
 ## Introduction
 Create a fully featured Support Center within your WordPress environment without any third party system dependency &mdash; completely FREE. It has built-in Knowledgebase too. **No** 3rd party support ticketing system required, **no** external site/API dependency, **simply** create your own fully featured Support Center within your WordPress environment, and take your support into the next level.
