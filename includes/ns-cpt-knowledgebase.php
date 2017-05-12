@@ -470,24 +470,56 @@ function ns_modify_nanodoc_link( $post_link, $post ) {
  * --------------------------------------------------------------------------
  */
 function ns_knowledgebase_rewrite_rules( $existing_rules ) {
-    $new_rules = array();
-    $new_rules['knowledgebase/(.+)/(.+)/?$'] = 'index.php?nanodoc=$matches[2]';
-    $new_rules['knowledgebase/(.+)/?$']      = 'index.php?nanodoc=$matches[1]';
+    $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
+    
+    if( isset($ns_knowledgebase_settings['rewrite_url']) && $ns_knowledgebase_settings['rewrite_url'] === 1 ) {
+        $new_rules = array();
+        $new_rules['knowledgebase/(.+)/(.+)/?$'] = 'index.php?nanodoc=$matches[2]';
+        $new_rules['knowledgebase/(.+)/?$']      = 'index.php?nanodoc=$matches[1]';
 
-    return array_merge( $new_rules, $existing_rules );
+        return array_merge( $new_rules, $existing_rules );
+    }
+
+    return $existing_rules;
 }
 
-if( isset($ns_knowledgebase_settings['rewrite_url']) && $ns_knowledgebase_settings['rewrite_url'] === 1 ) {
-    add_filter( 'post_type_link',       'ns_modify_nanodoc_link',       10, 2 );
-    add_filter( 'rewrite_rules_array',  'ns_knowledgebase_rewrite_rules' );
+add_filter( 'post_type_link',       'ns_modify_nanodoc_link',       10, 2 );
+add_filter( 'rewrite_rules_array',  'ns_knowledgebase_rewrite_rules' );
+
+/**
+ * Initiate the Flush Rewrite Rules on Settings change.
+ *
+ * Tell the system to flush the rewrite rules, and an 'admin_init'
+ * function will take care of this.
+ *
+ * @author TheDeadMedic
+ * @link   https://wordpress.stackexchange.com/a/266078/22728
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $new_values  Array of newly changed values.
+ * @param  array $old_values  Array of old values.
+ * @return array              Modified new values.
+ * --------------------------------------------------------------------------
+ */
+function ns_init_flush_rules_on_rewrite_change( $new_values, $old_values ) {
+    if( empty( $new_values['rewrite_url'] ) && ! empty( $old_values['rewrite_url'] ) || ! empty( $new_values['rewrite_url'] ) && empty( $old_values['rewrite_url'] ) ) {
+        $new_values['flush_rewrite_rules'] = true;
+    }
+
+    return $new_values;
 }
 
+add_filter( 'pre_update_option_nanosupport_knowledgebase_settings', 'ns_init_flush_rules_on_rewrite_change', 11, 2 );
 
 /**
  * Flush ReWrite Rules on Settings update.
  *
- * Hard flush the rewrite rules, if the Knowledgebase doc URL rewriting
+ * Flush the rewrite rules, if the Knowledgebase doc URL rewriting
  * is chosen to take affect.
+ *
+ * @author TheDeadMedic
+ * @link   https://wordpress.stackexchange.com/a/266078/22728
  *
  * @since  1.0.0
  * 
@@ -495,10 +527,15 @@ if( isset($ns_knowledgebase_settings['rewrite_url']) && $ns_knowledgebase_settin
  * @param  array $new_values  Array of values going to save.
  * --------------------------------------------------------------------------
  */
-function ns_flush_rules_while_rewrite_changed( $old_values, $new_values ) {
-    if( $old_values['rewrite_url'] != $new_values['rewrite_url'] ) {
-        flush_rewrite_rules();
+function ns_flush_rules_while_rewrite_changed() {
+    $settings = get_option( 'nanosupport_knowledgebase_settings' );
+
+    if ( ! empty( $settings['flush_rewrite_rules'] ) ) {
+        flush_rewrite_rules(false);
+        unset( $settings['flush_rewrite_rules'] );
+
+        update_option( 'nanosupport_knowledgebase_settings', $settings );
     }
 }
 
-add_action( 'update_option_nanosupport_knowledgebase_settings', 'ns_flush_rules_while_rewrite_changed', 11, 2 );
+add_action( 'admin_init', 'ns_flush_rules_while_rewrite_changed' );
