@@ -113,8 +113,8 @@ function ns_set_custom_columns( $columns ) {
     $new_columns = array(
             'ticket_status'     => __( 'Ticket Status', 'nanosupport' ),
             'ticket_priority'   => __( 'Priority', 'nanosupport' ),
-            'ticket_agent'      => '<span class="dashicons dashicons-businessman" title="'. esc_attr__( 'Agent', 'nanosupport' ) .'"></span>',
-            'ticket_responses'  => '<span class="dashicons dashicons-format-chat" title="'. esc_attr__( 'Responses', 'nanosupport' ) .'"></span>',
+            'ticket_agent'      => '<i class="dashicons dashicons-businessman" title="'. esc_attr__( 'Agent', 'nanosupport' ) .'"></i>',
+            'ticket_responses'  => '<i class="dashicons dashicons-format-chat" title="'. esc_attr__( 'Responses', 'nanosupport' ) .'"></i>',
             'last_response'     => __( 'Last Response by', 'nanosupport' )
         );
     return array_merge( $columns, $new_columns );

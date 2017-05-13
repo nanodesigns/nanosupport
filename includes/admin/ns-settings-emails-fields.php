@@ -57,7 +57,7 @@ function ns_email_choices_field() {
 function ns_email_template_section_callback() {
     $message = '<p>';
         $message .= __( 'Control the Email template settings from here', 'nanosupport' );
-        $message .= '&nbsp;| <span class="dashicons dashicons-visibility"></span> <a href="'. wp_nonce_url( admin_url( '?nanosupport_email_preview=true' ), 'email-preview' ) .'" target="_blank">';
+        $message .= '&nbsp;| <i class="dashicons dashicons-visibility"></i> <a href="'. wp_nonce_url( admin_url( '?nanosupport_email_preview=true' ), 'email-preview' ) .'" target="_blank">';
             $message .= __( 'Preview email template', 'nanosupport' );
         $message .= '</a>';
     $message .= '</p>';
