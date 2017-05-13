@@ -264,7 +264,7 @@ function ns_user_fields( $user ) { ?>
         <table class="form-table">
             <tr>
                 <th scope="row">
-                	<span class="dashicons dashicons-businessman"></span> <?php esc_html_e( 'Make Support Agent', 'nanosupport' ); ?>
+                	<i class="dashicons dashicons-businessman"></i> <?php esc_html_e( 'Make Support Agent', 'nanosupport' ); ?>
                 </th>
                 <td>
                 	<label>
