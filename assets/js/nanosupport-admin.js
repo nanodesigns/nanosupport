@@ -185,4 +185,44 @@ jQuery(document).ready(function($) {
         });
     }
 
+    /**
+     * Copy system status.
+     * Copy system status on click.
+     * ...
+     */
+    $('#ns-export-status').on( 'click', function(e){
+        e.preventDefault();
+
+        copyToClipboard($('#ns-system-status-text').text());
+        
+        // Make sure the user understands the consequence.
+        $(this).find('i.dashicons').removeClass('dashicons-clipboard').addClass('dashicons-yes');
+    });
+
 });
+
+/**
+ * Copy to Clipboard.
+ * @{@link  https://gist.github.com/lgarron/d1dee380f4ed9d825ca7}
+ * @param  {string} ) {               var _dataString Content to copy.
+ * @return {void}
+ * -------------------------------------------------------------------
+ */
+var copyToClipboard = (function() {
+    var _dataString = null;
+    document.addEventListener("copy", function(e){
+        if (_dataString !== null) {
+            try {
+                e.clipboardData.setData("text/plain", _dataString);
+                e.preventDefault();
+            } finally {
+                _dataString = null;
+            }
+        }
+    });
+
+    return function(data) {
+        _dataString = data;
+        document.execCommand("copy");
+    };
+})();
