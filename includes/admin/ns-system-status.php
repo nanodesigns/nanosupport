@@ -194,6 +194,8 @@ function nanosupport_system_status_page_callback() {
                 </div>
                 <!-- /#ns-active-plugins -->
 
+                <a href="javascript:" id="ns-export-status" class="ns-btn button button-default"><i class="dashicons dashicons-clipboard"></i> Copy to Clipboard</a> <sub>(works on modern browsers only)</sub>
+
             </div>
             <!-- /.metabox-holder -->
 
@@ -206,5 +208,32 @@ function nanosupport_system_status_page_callback() {
         <div class="ns-clearfix"></div>
 
     </div> <!-- /.wrap -->
+
+<!-- TEXTS TO LET USER COPY THE SYSTEM STATUS -->
+<div id="ns-system-status-text" style="display: none;">
+WordPress version: <?php echo $ns_system_status->wp_version(); ?>;
+NanoSupport version: <?php echo NS()->version; ?>;
+Active Theme: <?php echo $theme['theme'] .' - '. $theme['version']; ?>; <?php echo ($parent_theme !== false) ? ' &mdash; Parent Theme: '. $parent_theme['theme'] .' - '. $parent_theme['version'] : ''; ?>;
+Debug mode: <?php echo $ns_system_status->debug_status(); ?>;
+Multisite?: <?php echo $ns_system_status->is_multisite(); ?>;
+Site Language: <?php echo get_locale(); ?>;
+Server: <?php echo $_SERVER['SERVER_SOFTWARE']; ?>;
+PHP Memory Limit: <?php echo size_format( $memory_limit ); ?>;
+PHP version: <?php echo $phpversion; ?>;
+MySQL version: <?php echo $mysql_version; ?>.
+
+...
+
+Active Plugins (<?php echo $ns_system_status->get_active_plugins_count(); ?>):
+<?php
+$count_item = 1;
+$count_of_plugins = count($active_plugins);
+foreach( $active_plugins as $plugin ) {
+echo $plugin['Title'] .' ('. $plugin['Version'] .') - by '. $plugin['Author'];
+echo $count_of_plugins == $count_item ? '.' : '; ';
+$count_item++;
+} ?>
+</div>
+
 <?php
 }
