@@ -146,10 +146,11 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 == Changelog ==
 
-= 0.4.0 - 2017-MAY-31 =
+= 0.4.0 - 2017-JUN-10 =
 * New Feature: Ticket can be copied into a Knowledgebase document
 * Requested Feature: ReEngineering Knowledgebase Doc URL strucuture
 * Bug fixed: Ticket cannot be added on behalf of client
+* New filter hook: `ns_nanodoc_arguments`, `nanosupport_copied_content`
 
 = 0.3.4 - 2017-APR-21 =
 * Bug fixed: Support agent loses his status on profile update
