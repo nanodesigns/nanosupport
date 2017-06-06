@@ -222,6 +222,7 @@ module.exports = function(grunt) {
                         '!composer.json',
                         '!composer.lock',
                         '!tests/**',
+                        '!tmp/**',
                         '!logs/**',
                         '!readme.md',
                         '!contributing.md',
