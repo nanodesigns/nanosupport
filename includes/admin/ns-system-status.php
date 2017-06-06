@@ -194,7 +194,7 @@ function nanosupport_system_status_page_callback() {
                 </div>
                 <!-- /#ns-active-plugins -->
 
-                <a href="javascript:" id="ns-export-status" class="ns-btn button button-default"><i class="dashicons dashicons-clipboard"></i> Copy to Clipboard</a> <sub>(works on modern browsers only)</sub>
+                <a href="javascript:" id="ns-export-status" class="ns-btn button button-default"><i class="dashicons dashicons-clipboard" style="vertical-align: middle"></i> Copy to Clipboard</a> <sub>(works on modern browsers only)</sub>
 
             </div>
             <!-- /.metabox-holder -->
