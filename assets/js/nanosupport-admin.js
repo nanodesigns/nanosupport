@@ -190,14 +190,18 @@ jQuery(document).ready(function($) {
      * Copy system status on click.
      * ...
      */
-    $('#ns-export-status').on( 'click', function(e){
-        e.preventDefault();
+    var export_status_div = $('#ns-export-status');
 
-        copyToClipboard($('#ns-system-status-text').text());
-        
-        // Make sure the user understands the consequence.
-        $(this).find('i.dashicons').removeClass('dashicons-clipboard').addClass('dashicons-yes');
-    });
+    if( export_status_div.length > 0 ) {
+        $('#ns-export-status').on( 'click', function(e){
+            e.preventDefault();
+
+            copyToClipboard($('#ns-system-status-text').text());
+            
+            // Make sure the user understands the consequence.
+            $(this).find('i.dashicons').removeClass('dashicons-clipboard').addClass('dashicons-yes');
+        });
+    }
 
 });
 

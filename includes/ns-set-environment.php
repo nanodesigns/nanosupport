@@ -107,20 +107,26 @@ function ns_admin_scripts( $hook_suffix ) {
     if( 'nanosupport' === $screen->post_type || 'nanodoc' === $screen->post_type || 'nanosupport_page_nanosupport-settings' === $screen->base || ('users' === $screen->base && 'users' === $screen->id) ) {
         
         if( 'edit.php' === $hook_suffix ) {
-            /**
-             * nProgress v0.2.0
-             * @link https://github.com/rstacruz/nprogress
-             * ...
-             */
-            wp_enqueue_style( 'nprogress', NS()->plugin_url() .'/assets/libs/nprogress/nprogress.css', array(), '0.2.0', 'screen' );
-            wp_enqueue_script( 'nprogress', NS()->plugin_url() .'/assets/libs/nprogress/nprogress.min.js', array('jquery'), '0.2.0' );
-            
-            /**
-             * NanoSupport Copy Ticket
-             * Copy ticket content to Knowledgebase.
-             * ...
-             */
-            wp_enqueue_script( 'nanosupport-copy-ticket', NS()->plugin_url() .'/assets/js/nanosupport-copy-ticket.js', array('jquery'), NS()->version, true );
+
+            // Get Knowledgebase settings from db.
+            $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
+
+            if( isset($ns_knowledgebase_settings['isactive_kb']) && $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
+                /**
+                 * nProgress v0.2.0
+                 * @link https://github.com/rstacruz/nprogress
+                 * ...
+                 */
+                wp_enqueue_style( 'nprogress', NS()->plugin_url() .'/assets/libs/nprogress/nprogress.css', array(), '0.2.0', 'screen' );
+                wp_enqueue_script( 'nprogress', NS()->plugin_url() .'/assets/libs/nprogress/nprogress.min.js', array('jquery'), '0.2.0' );
+                
+                /**
+                 * NanoSupport Copy Ticket
+                 * Copy ticket content to Knowledgebase.
+                 * ...
+                 */
+                wp_enqueue_script( 'nanosupport-copy-ticket', NS()->plugin_url() .'/assets/js/nanosupport-copy-ticket.js', array('jquery'), NS()->version, true );
+            }
         }
 
         wp_enqueue_style( 'ns-admin' );

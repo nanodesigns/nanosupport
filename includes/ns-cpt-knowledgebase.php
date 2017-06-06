@@ -396,7 +396,9 @@ function ns_copy_ticket_to_knowledgebase_doc() {
     die(); // this is required to return a proper result
 }
 
-add_action( 'wp_ajax_ns_copy_ticket', 'ns_copy_ticket_to_knowledgebase_doc' );
+if( isset($ns_knowledgebase_settings['isactive_kb']) && $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
+    add_action( 'wp_ajax_ns_copy_ticket', 'ns_copy_ticket_to_knowledgebase_doc' );
+}
 
 
 /**
@@ -430,7 +432,9 @@ function ns_alter_copied_content( $copied_post ) {
     return $copied_post;
 }
 
-add_filter( 'nanosupport_copied_content', 'ns_alter_copied_content', 10 );
+if( isset($ns_knowledgebase_settings['isactive_kb']) && $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
+    add_filter( 'nanosupport_copied_content', 'ns_alter_copied_content', 10 );
+}
 
 
 /**

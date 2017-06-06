@@ -257,7 +257,12 @@ function ns_copy_ticket_button( $actions, $post ) {
     return $actions;
 }
 
-add_filter( 'post_row_actions', 'ns_copy_ticket_button', 10, 2 );
+// Get Knowledgebase settings from db.
+$ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
+
+if( isset($ns_knowledgebase_settings['isactive_kb']) && $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
+    add_filter( 'post_row_actions', 'ns_copy_ticket_button', 10, 2 );
+}
 
 
 /**
