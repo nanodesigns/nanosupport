@@ -163,7 +163,7 @@ jQuery(document).ready(function($) {
      * ...
      */
     var ns_kb_activator         = $('#isactive_kb'),
-        ns_kb_toggle_selector   = $('#ns_knowledgebase, #ns_doc_terms, #ns_doc_ppc, .ns-hide').closest('tr');
+        ns_kb_toggle_selector   = $('#ns_knowledgebase, #ns_doc_terms, #ns_doc_ppc, #rewrite_url, .ns-hide').closest('tr');
 
     if( ns_kb_toggle_selector.length > 0 ) {
 
