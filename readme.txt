@@ -32,6 +32,7 @@ The plugin is to provide support to your users - the users those are taking prod
 * Auto generate user account's password on ticket submission (if chosen)
 * Knowledgebase (optional)
 * Knowledgebase content categories
+* Copy ticket content into Knowledgebase document
 * Ticket departments
 * Make agent from registered users
 * Assign ticket to an agent
