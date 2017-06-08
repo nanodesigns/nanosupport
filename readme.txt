@@ -2,7 +2,8 @@
 Contributors: nanodesigns, wzislam
 Tags: helpdesk, support desk, support ticket, ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, support staff, support ticketing, knowledge base, support plugin
 Requires at least: 4.4.0
-Stable tag: 0.3.4
+Tested up to: 4.8
+Stable tag: 0.4.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -146,7 +147,7 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 == Changelog ==
 
-= 0.4.0 - 2017-JUN-10 =
+= 0.4.0 - 2017-JUN-09 =
 * New Feature: Ticket can be copied into a Knowledgebase document
 * Requested Feature: ReEngineering Knowledgebase Doc URL strucuture
 * Bug fixed: Ticket cannot be added on behalf of client
