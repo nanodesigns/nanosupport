@@ -1,9 +1,9 @@
 # Copyright (c) 2017 NanoSupport
 msgid ""
 msgstr ""
-"Project-Id-Version: NanoSupport 0.3.4\n"
+"Project-Id-Version: NanoSupport 0.4.0\n"
 "Report-Msgid-Bugs-To: https://github.com/nanodesigns/nanosupport/issues\n"
-"POT-Creation-Date: 2017-04-21 16:33:51+00:00\n"
+"POT-Creation-Date: 2017-06-06 20:44:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -43,7 +43,7 @@ msgstr ""
 msgid "Support Desk"
 msgstr ""
 
-#: includes/admin/__nanodesigns.php:33 includes/admin/ns-settings.php:370
+#: includes/admin/__nanodesigns.php:33 includes/admin/ns-settings.php:386
 #: includes/ns-dashboard.php:109 includes/ns-functions.php:443
 #: includes/ns-functions.php:497
 msgid "Knowledgebase"
@@ -320,6 +320,17 @@ msgid ""
 "is Settings &raquo; Reading &raquo; Blog pages show at most."
 msgstr ""
 
+#: includes/admin/ns-settings-knowledgebase-fields.php:93
+msgid "Yes, rewrite Knowledgebase Doc URL (caution required)"
+msgstr ""
+
+#: includes/admin/ns-settings-knowledgebase-fields.php:95
+msgid ""
+"Check to add Knowledgebase categories to the URL of Knowledgebase Doc "
+"entries.<br><strong>WARNING:</strong> changing public URL might lead huge "
+"amount of 404 and can affect SEO, if not properly redirected."
+msgstr ""
+
 #: includes/admin/ns-settings.php:29 includes/admin/ns-settings.php:30
 #: nanosupport.php:240
 msgid "Settings"
@@ -390,71 +401,75 @@ msgstr ""
 msgid "Delete Data?"
 msgstr ""
 
-#: includes/admin/ns-settings.php:199
+#: includes/admin/ns-settings.php:203
 msgid "Knowledgebase Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:215
+#: includes/admin/ns-settings.php:219
 msgid "Activate Knowledgebase?"
 msgstr ""
 
-#: includes/admin/ns-settings.php:228
+#: includes/admin/ns-settings.php:232
 msgid "Knowledgebase Page"
 msgstr ""
 
-#: includes/admin/ns-settings.php:240
+#: includes/admin/ns-settings.php:244
 msgid "Featured Categories"
 msgstr ""
 
-#: includes/admin/ns-settings.php:252
+#: includes/admin/ns-settings.php:256
 msgid "No. of items per category"
 msgstr ""
 
-#: includes/admin/ns-settings.php:267
+#: includes/admin/ns-settings.php:268
+msgid "Add Categories to the URL"
+msgstr ""
+
+#: includes/admin/ns-settings.php:283
 msgid "Email Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:278
+#: includes/admin/ns-settings.php:294
 msgid "Notification Email"
 msgstr ""
 
-#: includes/admin/ns-settings.php:285
+#: includes/admin/ns-settings.php:301
 msgid "Email Choices"
 msgstr ""
 
-#: includes/admin/ns-settings.php:300
+#: includes/admin/ns-settings.php:316
 msgid "Email Template"
 msgstr ""
 
-#: includes/admin/ns-settings.php:306
+#: includes/admin/ns-settings.php:322
 msgid "Header Background Color"
 msgstr ""
 
-#: includes/admin/ns-settings.php:313
+#: includes/admin/ns-settings.php:329
 msgid "Header Text Color"
 msgstr ""
 
-#: includes/admin/ns-settings.php:320
+#: includes/admin/ns-settings.php:336
 msgid "Header Image"
 msgstr ""
 
-#: includes/admin/ns-settings.php:327
+#: includes/admin/ns-settings.php:343
 msgid "Header Text"
 msgstr ""
 
-#: includes/admin/ns-settings.php:334
+#: includes/admin/ns-settings.php:350
 msgid "Footer Text"
 msgstr ""
 
-#: includes/admin/ns-settings.php:364
+#: includes/admin/ns-settings.php:380
 msgid "NanoSupport Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:369
+#: includes/admin/ns-settings.php:385
 msgid "General"
 msgstr ""
 
-#: includes/admin/ns-settings.php:371
+#: includes/admin/ns-settings.php:387
 msgid "Emails"
 msgstr ""
 
@@ -604,80 +619,80 @@ msgstr ""
 msgid "Make a complete FAQ section supporting your Support Forum"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:99 includes/ns-cpt-knowledgebase.php:109
+#: includes/ns-cpt-knowledgebase.php:109 includes/ns-cpt-knowledgebase.php:119
 msgid "Categories"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:100
+#: includes/ns-cpt-knowledgebase.php:110
 msgid "Category"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:101
+#: includes/ns-cpt-knowledgebase.php:111
 msgid "Search Categories"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:102
+#: includes/ns-cpt-knowledgebase.php:112
 msgid "All Categories"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:103
+#: includes/ns-cpt-knowledgebase.php:113
 msgid "Parent Category"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:104
+#: includes/ns-cpt-knowledgebase.php:114
 msgid "Parent Category:"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:105
+#: includes/ns-cpt-knowledgebase.php:115
 msgid "Edit Categories"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:106
+#: includes/ns-cpt-knowledgebase.php:116
 msgid "Update Categories"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:107
+#: includes/ns-cpt-knowledgebase.php:117
 msgid "Add New Category"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:108
+#: includes/ns-cpt-knowledgebase.php:118
 msgid "New Category Name"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:151
+#: includes/ns-cpt-knowledgebase.php:161
 msgid "Choose Category Icon"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:153 includes/ns-cpt-knowledgebase.php:222
+#: includes/ns-cpt-knowledgebase.php:163 includes/ns-cpt-knowledgebase.php:232
 msgid "Choose an icon"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:154 includes/ns-cpt-knowledgebase.php:223
+#: includes/ns-cpt-knowledgebase.php:164 includes/ns-cpt-knowledgebase.php:233
 msgid "Choose Icon"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:157 includes/ns-cpt-knowledgebase.php:225
+#: includes/ns-cpt-knowledgebase.php:167 includes/ns-cpt-knowledgebase.php:235
 #. translators: NanoSupport icon class
 msgid "e.g. %s"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:158 includes/ns-cpt-knowledgebase.php:226
+#: includes/ns-cpt-knowledgebase.php:168 includes/ns-cpt-knowledgebase.php:236
 msgid "Choose an Icon to display with the Category"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:218
+#: includes/ns-cpt-knowledgebase.php:228
 msgid "Change Category Icon"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:260
+#: includes/ns-cpt-knowledgebase.php:270
 msgid "Icon"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:304
+#: includes/ns-cpt-knowledgebase.php:314
 msgid "Knowledgebase Question"
 msgstr ""
 
-#: includes/ns-cpt-knowledgebase.php:343
+#: includes/ns-cpt-knowledgebase.php:353
 msgid "Back to the Knowledgebase"
 msgstr ""
 
@@ -729,7 +744,7 @@ msgid "Priority"
 msgstr ""
 
 #: includes/ns-cpt-nanosupport.php:116 includes/ns-metaboxes.php:249
-#: includes/ns-set-environment.php:354
+#: includes/ns-set-environment.php:379
 msgid "Agent"
 msgstr ""
 
@@ -799,6 +814,14 @@ msgstr ""
 
 #: includes/ns-cpt-nanosupport.php:207
 msgid "New Department Name"
+msgstr ""
+
+#: includes/ns-cpt-nanosupport.php:254
+msgid "Copy to KB"
+msgstr ""
+
+#: includes/ns-cpt-nanosupport.php:312
+msgid "Add the ticket on behalf of anybody"
 msgstr ""
 
 #: includes/ns-dashboard.php:26
@@ -1277,37 +1300,37 @@ msgstr ""
 msgid "No agent found"
 msgstr ""
 
-#: includes/ns-set-environment.php:153
+#: includes/ns-set-environment.php:178
 msgid "Are you sure you want to delete the response?"
 msgstr ""
 
-#: includes/ns-set-environment.php:207
+#: includes/ns-set-environment.php:232
 msgid ""
 "Please assign the document to a Knowledgebase Category, because "
 "Knowledgebase documents are displayed under categories."
 msgstr ""
 
-#: includes/ns-set-environment.php:248
+#: includes/ns-set-environment.php:273
 msgid "Make Support Agent"
 msgstr ""
 
-#: includes/ns-set-environment.php:252
+#: includes/ns-set-environment.php:277
 msgid "Yes, make this user a Support Agent"
 msgstr ""
 
-#: includes/ns-set-environment.php:332 includes/ns-set-environment.php:354
+#: includes/ns-set-environment.php:357 includes/ns-set-environment.php:379
 msgid "NanoSupport Agent"
 msgstr ""
 
-#: includes/ns-set-environment.php:455
+#: includes/ns-set-environment.php:480
 msgid "Ticket has no content"
 msgstr ""
 
-#: includes/ns-set-environment.php:579
+#: includes/ns-set-environment.php:604
 msgid "Visit Support Desk"
 msgstr ""
 
-#: includes/ns-set-environment.php:625
+#: includes/ns-set-environment.php:650
 msgid "Open tickets assigned to me"
 msgstr ""
 

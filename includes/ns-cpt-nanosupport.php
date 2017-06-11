@@ -113,8 +113,8 @@ function ns_set_custom_columns( $columns ) {
     $new_columns = array(
             'ticket_status'     => __( 'Ticket Status', 'nanosupport' ),
             'ticket_priority'   => __( 'Priority', 'nanosupport' ),
-            'ticket_agent'      => '<span class="dashicons dashicons-businessman" title="'. esc_attr__( 'Agent', 'nanosupport' ) .'"></span>',
-            'ticket_responses'  => '<span class="dashicons dashicons-format-chat" title="'. esc_attr__( 'Responses', 'nanosupport' ) .'"></span>',
+            'ticket_agent'      => '<i class="dashicons dashicons-businessman" title="'. esc_attr__( 'Agent', 'nanosupport' ) .'"></i>',
+            'ticket_responses'  => '<i class="dashicons dashicons-format-chat" title="'. esc_attr__( 'Responses', 'nanosupport' ) .'"></i>',
             'last_response'     => __( 'Last Response by', 'nanosupport' )
         );
     return array_merge( $columns, $new_columns );
@@ -231,3 +231,97 @@ function ns_create_nanosupport_taxonomies() {
 }
 
 add_action( 'init', 'ns_create_nanosupport_taxonomies', 0 );
+
+
+/**
+ * Copy Ticket button.
+ *
+ * Add a 'copy to kb' button to each ticket in admin panel.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $actions  WP Post actions.
+ * @param  object $post    WP Post Object.
+ * @return array           Modified action buttons.
+ * -----------------------------------------------------------------------
+ */
+function ns_copy_ticket_button( $actions, $post ) {
+    if( 'nanosupport' === $post->post_type ) {
+        // pass nonce to check and verify false request
+        $nonce = wp_create_nonce( 'ns_copy_ticket_nonce' );
+
+        // add our button
+        $actions['copy_ticket'] = '<a class="ns-copy-post" data-ticket="'. $post->ID .'" data-nonce="'. $nonce .'" href="javascript:">'. esc_html__( 'Copy to KB', 'nanosupport' ) .'</a>';
+    }
+
+    return $actions;
+}
+
+// Get Knowledgebase settings from db.
+$ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
+
+if( isset($ns_knowledgebase_settings['isactive_kb']) && $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
+    add_filter( 'post_row_actions', 'ns_copy_ticket_button', 10, 2 );
+}
+
+
+/**
+ * Hack the Post Author Override
+ *
+ * Hack to modify the Core Post Author Override to add
+ * support seeker role, and the others.
+ * 
+ * @param  string $select_field The core HTML.
+ * @return string               Modified HTML.
+ * -----------------------------------------------------------------------
+ */
+function ns_hack_post_author_override( $select_field )  {
+    global $post;
+
+    if( 'nanosupport' === $post->post_type ) {
+        $users = get_users(
+            array(
+                /**
+                 * -----------------------------------------------------------------------
+                 * HOOK : FILTER HOOK
+                 * nanosupport_assigned_user_role
+                 *
+                 * The user roles that are passed to generate override HTML.
+                 * You can add/modify the roles using the hook.
+                 * 
+                 * @since  1.0.0
+                 *
+                 * @param array  The user roles.
+                 * -----------------------------------------------------------------------
+                 */
+                'role__in'=> apply_filters( 'nanosupport_assigned_user_role', array(
+                                'support_seeker',
+                                'administrator',
+                                'author',
+                                'editor',
+                            )
+                        )
+                )
+            );
+
+        // Get ticket user.
+        global $post;
+        $selected_author = !empty($post->post_author) ? $post->post_author : get_current_user_id();
+
+        // Add some help text here.
+        $select_field .= '<p>'. __( 'Add the ticket on behalf of anybody', 'nanosupport' ) .'</p>';
+
+        $select_field .= '<select name="post_author_override" id="post_author_override-nanosupport" class="">';
+            foreach( $users as $user ) :
+                $select_field .= '<option value="'. $user->id .'" '. selected( $user->id, $selected_author, false ) .'>';
+                    $select_field .= $user->display_name;
+                    $select_field .= ' ('. $user->roles[0] .')'; // display the user role
+                $select_field .= '</option>';
+            endforeach;
+        $select_field .= '</select>';
+    }
+
+    return $select_field;
+}
+
+add_filter( 'wp_dropdown_users', 'ns_hack_post_author_override' );

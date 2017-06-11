@@ -843,3 +843,42 @@ function ns_update_post_modified_date( $post_id ) {
     // Update the ticket into the database
     wp_update_post( $ticket_updated_data );
 }
+
+
+/**
+ * Get Taxonomy Parents.
+ *
+ * Recursive function to generate taxonomy slugs for all the terms
+ * of a specific post.
+ *
+ * @since  1.0.0
+ * 
+ * @author Jeff
+ * @link   https://wordpress.stackexchange.com/q/39500/22728
+ * 
+ * @param  integer $id        Taxonomy term ID.
+ * @param  string  $taxonomy  Taxonomy.
+ * @param  string  $separator Seperator, if needed.
+ * @param  array   $visited   Visited array.
+ * @return string             Taxonomy parents.
+ * --------------------------------------------------------------------------
+ */
+function ns_get_taxonomy_parents( $id, $taxonomy, $separator = '/', $visited = array() ) {
+    $chain  = '';
+    $parent = get_term($id, $taxonomy);
+
+    if (is_wp_error($parent)) {
+        return $parent;
+    }
+
+    if ($parent->parent && ($parent->parent != $parent->term_id) && !in_array($parent->parent, $visited)) {
+        $visited[] = $parent->parent;
+        // call recursively to make the parent/child URLs.
+        // forcing the slash (/) to make slash separated parents.
+        $chain     .= ns_get_taxonomy_parents( $parent->parent, $taxonomy, '/', $visited );
+    }
+
+    $chain .= $parent->slug . $separator;
+
+    return $chain;
+}

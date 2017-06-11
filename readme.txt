@@ -2,8 +2,8 @@
 Contributors: nanodesigns, wzislam
 Tags: helpdesk, support desk, support ticket, ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, support staff, support ticketing, knowledge base, support plugin
 Requires at least: 4.4.0
-Tested up to: 4.7.4
-Stable tag: 0.3.4
+Tested up to: 4.8
+Stable tag: 0.4.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -32,6 +32,7 @@ The plugin is to provide support to your users - the users those are taking prod
 * Auto generate user account's password on ticket submission (if chosen)
 * Knowledgebase (optional)
 * Knowledgebase content categories
+* Copy ticket content into Knowledgebase document
 * Ticket departments
 * Make agent from registered users
 * Assign ticket to an agent
@@ -145,6 +146,12 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 8. NanoSupport | Easy navigation, and notification for easy ticketing using Admin bar
 
 == Changelog ==
+
+= 0.4.0 - 2017-JUN-09 =
+* New Feature: Ticket can be copied into a Knowledgebase document
+* Requested Feature: ReEngineering Knowledgebase Doc URL strucuture
+* Bug fixed: Ticket cannot be added on behalf of client
+* New filter hook: `ns_nanodoc_arguments`, `nanosupport_copied_content`
 
 = 0.3.4 - 2017-APR-21 =
 * Bug fixed: Support agent loses his status on profile update

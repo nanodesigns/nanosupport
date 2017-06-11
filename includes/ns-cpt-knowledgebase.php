@@ -64,7 +64,17 @@ function ns_register_cpt_nanodoc() {
     );
 
     if( ! post_type_exists( 'nanodoc' ) ) {
-        register_post_type( 'nanodoc', $args );
+        /**
+         * -----------------------------------------------------------------------
+         * HOOK : FILTER HOOK
+         * ns_nanodoc_arguments
+         *
+         * To modify/push arguments that are passed to generate CPT 'nanodoc'.
+         *
+         * @since  1.0.0
+         * -----------------------------------------------------------------------
+         */
+        register_post_type( 'nanodoc', apply_filters( 'ns_nanodoc_arguments', $args ) );
     }
 
 }
@@ -347,3 +357,189 @@ function ns_back_to_knowledgebase_link( $content ) {
 }
 
 add_filter( 'the_content', 'ns_back_to_knowledgebase_link' );
+
+
+/**
+ * Copy Ticket to Knowledgebase.
+ *
+ * AJAX copy ticket content into Knowledgebase doc.
+ *
+ * @since  1.0.0
+ * -----------------------------------------------------------------------
+ */
+function ns_copy_ticket_to_knowledgebase_doc() {
+    // Check the nonce
+    check_ajax_referer( 'ns_copy_ticket_nonce', 'nonce' );
+
+    $ticket_id = $_POST['ticket_id'];
+
+    /**
+     * -----------------------------------------------------------------------
+     * HOOK : FILTER HOOK
+     * nanosupport_copied_content
+     *
+     * Filter hook to override the default setup for the copied ticket
+     * to save as a Knowledgebase doc.
+     * 
+     * @since  1.0.0
+     *
+     * @param array  The copied post object as an associative array.
+     * -----------------------------------------------------------------------
+     */
+    $copied_post_array = apply_filters( 'nanosupport_copied_content', get_post($ticket_id, 'ARRAY_A') );
+
+    // Insert the post into the database
+    wp_insert_post( $copied_post_array );
+
+    echo 'Knowledgebase Doc Created from NanoSupport ticket!';
+
+    die(); // this is required to return a proper result
+}
+
+if( isset($ns_knowledgebase_settings['isactive_kb']) && $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
+    add_action( 'wp_ajax_ns_copy_ticket', 'ns_copy_ticket_to_knowledgebase_doc' );
+}
+
+
+/**
+ * Alter the copied Ticket.
+ *
+ * Hooked to 'nanosupport_copied_content' with priority 10.
+ * Any hooking needs to be used higher priority.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $copied_post  Copied ticket post.
+ * @return array               Altered ticket post.
+ * -----------------------------------------------------------------------
+ */
+function ns_alter_copied_content( $copied_post ) {
+    // Prepare KB doc things
+    $copied_post['post_title']  = $copied_post['post_title'] .' - copied';
+    $copied_post['post_status'] = 'draft';
+    $copied_post['post_type']   = 'nanodoc';
+    $copied_post['post_date']   = date( 'Y-m-d H:i:s', current_time('timestamp') );
+    $copied_post['post_author'] = get_current_user_id();
+
+    // Remove some of the keys
+    unset( $copied_post['ID'] );
+    unset( $copied_post['guid'] );
+    unset( $copied_post['comment_count'] );
+    unset( $copied_post['comment_status'] );
+    unset( $copied_post['post_modified'] );
+    unset( $copied_post['post_modified_gmt'] );
+
+    return $copied_post;
+}
+
+if( isset($ns_knowledgebase_settings['isactive_kb']) && $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
+    add_filter( 'nanosupport_copied_content', 'ns_alter_copied_content', 10 );
+}
+
+
+/**
+ * Knowledgebase doc URL rewriting.
+ *
+ * @since  1.0.0
+ *
+ * @see    ns_get_taxonomy_parents() Using recursive function to get all parents.
+ * 
+ * @param  string $post_link Doc link.
+ * @param  object $post      Doc post.
+ * @return string            Modified link.
+ * --------------------------------------------------------------------------
+ */
+function ns_modify_nanodoc_link( $post_link, $post ) {
+    if ($post->post_type != 'nanodoc') {
+        return $post_link;
+    }
+
+    $nanodoc_cats = get_the_terms($post->ID, 'nanodoc_category');
+    if( $nanodoc_cats ) {
+        $post_link = str_replace('%nanodoc_category%', ns_get_taxonomy_parents(array_pop($nanodoc_cats)->term_id, 'nanodoc_category', ''), $post_link);
+    }
+
+    return $post_link;
+}
+
+/**
+ * Rewrite rules declaration.
+ *
+ * Rewrite rules for KB docs to respond on particular URL call.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $existing_rules    Array of existing rules.
+ * @return array                    Array of newly added rules with existing.
+ * --------------------------------------------------------------------------
+ */
+function ns_knowledgebase_rewrite_rules( $existing_rules ) {
+    $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
+    
+    if( isset($ns_knowledgebase_settings['rewrite_url']) && $ns_knowledgebase_settings['rewrite_url'] === 1 ) {
+        $new_rules = array();
+        $new_rules['knowledgebase/(.+)/(.+)/?$'] = 'index.php?nanodoc=$matches[2]';
+        $new_rules['knowledgebase/(.+)/?$']      = 'index.php?nanodoc=$matches[1]';
+
+        return array_merge( $new_rules, $existing_rules );
+    }
+
+    return $existing_rules;
+}
+
+add_filter( 'post_type_link',       'ns_modify_nanodoc_link',       10, 2 );
+add_filter( 'rewrite_rules_array',  'ns_knowledgebase_rewrite_rules' );
+
+/**
+ * Initiate the Flush Rewrite Rules on Settings change.
+ *
+ * Tell the system to flush the rewrite rules, and an 'admin_init'
+ * function will take care of this.
+ *
+ * @author TheDeadMedic
+ * @link   https://wordpress.stackexchange.com/a/266078/22728
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $new_values  Array of newly changed values.
+ * @param  array $old_values  Array of old values.
+ * @return array              Modified new values.
+ * --------------------------------------------------------------------------
+ */
+function ns_init_flush_rules_on_rewrite_change( $new_values, $old_values ) {
+    if( empty( $new_values['rewrite_url'] ) && ! empty( $old_values['rewrite_url'] ) || ! empty( $new_values['rewrite_url'] ) && empty( $old_values['rewrite_url'] ) ) {
+        $new_values['flush_rewrite_rules'] = true;
+    }
+
+    return $new_values;
+}
+
+add_filter( 'pre_update_option_nanosupport_knowledgebase_settings', 'ns_init_flush_rules_on_rewrite_change', 11, 2 );
+
+/**
+ * Flush ReWrite Rules on Settings update.
+ *
+ * Flush the rewrite rules, if the Knowledgebase doc URL rewriting
+ * is chosen to take affect.
+ *
+ * @author TheDeadMedic
+ * @link   https://wordpress.stackexchange.com/a/266078/22728
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $old_values  Array of previous values.
+ * @param  array $new_values  Array of values going to save.
+ * --------------------------------------------------------------------------
+ */
+function ns_flush_rules_while_rewrite_changed() {
+    $settings = get_option( 'nanosupport_knowledgebase_settings' );
+
+    if ( ! empty( $settings['flush_rewrite_rules'] ) ) {
+        flush_rewrite_rules(false);
+        unset( $settings['flush_rewrite_rules'] );
+
+        update_option( 'nanosupport_knowledgebase_settings', $settings );
+    }
+}
+
+add_action( 'admin_init', 'ns_flush_rules_while_rewrite_changed' );

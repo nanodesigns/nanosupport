@@ -22,7 +22,8 @@ module.exports = function(grunt) {
                 'Gruntfile.js',
                 'assets/js/nanosupport.js',
                 'assets/js/nanosupport-admin.js',
-                'assets/js/nanosupport-dashboard.js'
+                'assets/js/nanosupport-dashboard.js',
+                'assets/js/nanosupport-copy-ticket.js',
             ]
         },
 
@@ -221,6 +222,7 @@ module.exports = function(grunt) {
                         '!composer.json',
                         '!composer.lock',
                         '!tests/**',
+                        '!tmp/**',
                         '!logs/**',
                         '!readme.md',
                         '!contributing.md',
@@ -230,7 +232,7 @@ module.exports = function(grunt) {
                         '!*.sublime-workspace',
                         '!*.sublime-project',
                         '!assets/images/**',
-                        '!nanosupport-<%= pkg.version %>.zip'
+                        '!<%= pkg.name %>-<%= pkg.version %>.zip'
                     ],
                     dest: '<%= pkg.name %>/' // archive it in this directory
                 }]

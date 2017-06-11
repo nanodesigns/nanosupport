@@ -892,3 +892,30 @@ function ns_change_query_to_include_agents_tickets( $clauses, $query_object ) {
     }
     return $clauses;
 }
+
+
+/**
+ * Filter CPT 'nanodoc' arguments.
+ *
+ * @since  1.0.0
+ * 
+ * @param  array $array  Arguments array.
+ * @return array         Modified arguments array.
+ * -----------------------------------------------------------------------
+ */
+function ns_filter_nanodoc_arguments( $array ) {
+    //get Knowledgebase settings from db
+    $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
+
+    /**
+     * Initiate URL rewriting on demand.
+     * change, if enabled in admin panel.
+     */
+    if( isset($ns_knowledgebase_settings['rewrite_url']) && $ns_knowledgebase_settings['rewrite_url'] === 1 ) {
+        $array['rewrite'] = array( 'slug' => 'knowledgebase/%nanodoc_category%' );
+    }
+
+    return $array;
+}
+
+add_filter( 'ns_nanodoc_arguments', 'ns_filter_nanodoc_arguments' );

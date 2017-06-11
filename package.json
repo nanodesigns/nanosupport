@@ -2,7 +2,7 @@
     "name": "nanosupport",
     "title": "NanoSupport",
     "homepage": "http://nanosupport.nanodesignsbd.com/",
-    "version": "0.3.4",
+    "version": "0.4.0",
     "private": true,
     "devDependencies": {
         "grunt": "~1.0.1",

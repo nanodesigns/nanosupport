@@ -205,7 +205,7 @@ function ns_control_specifics() {
 
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
-                    <span class="dashicons dashicons-shield"></span> <?php esc_html_e( 'Ticket Status', 'nanosupport' );
+                    <i class="dashicons dashicons-shield"></i> <?php esc_html_e( 'Ticket Status', 'nanosupport' );
                     echo ns_tooltip( 'ns-ticket-status-tooltip', esc_html__( 'Change the ticket status to track unsolved tickets separately.', 'nanosupport' ), 'left' );
                     ?>
                 </div>
@@ -222,7 +222,7 @@ function ns_control_specifics() {
 
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
-                    <span class="dashicons dashicons-sort"></span> <?php esc_html_e( 'Priority', 'nanosupport' );
+                    <i class="dashicons dashicons-sort"></i> <?php esc_html_e( 'Priority', 'nanosupport' );
                     echo ns_tooltip( 'ns-ticket-priority-tooltip', esc_html__( 'Change the priority as per the content and urgency of the ticket.', 'nanosupport' ), 'left' );
                     ?>
                 </div>
@@ -246,7 +246,7 @@ function ns_control_specifics() {
 
                 <div class="ns-row misc-pub-section">
                     <div class="ns-head-col">
-                        <span class="dashicons dashicons-businessman"></span> <?php esc_html_e( 'Agent', 'nanosupport' );
+                        <i class="dashicons dashicons-businessman"></i> <?php esc_html_e( 'Agent', 'nanosupport' );
                         echo ns_tooltip( 'ns-ticket-agent-tooltip', esc_html__( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ), 'left' );
                         ?>
                     </div>
