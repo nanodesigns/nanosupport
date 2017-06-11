@@ -22,19 +22,19 @@ php:
 env:
     # Trunk
     # @link https://github.com/WordPress/WordPress
-    - WP_VERSION=master WP_MULTISITE=0 TRAVIS_NODE_VERSION="5"
+    - WP_VERSION=master WP_MULTISITE=0
     # WordPress 4.7
     # @link https://github.com/WordPress/WordPress/tree/4.7-branch
-    - WP_VERSION=4.7 WP_MULTISITE=0 TRAVIS_NODE_VERSION="5"
+    - WP_VERSION=4.7 WP_MULTISITE=0
     # WordPress 4.6
     # @link https://github.com/WordPress/WordPress/tree/4.6-branch
-    - WP_VERSION=4.6 WP_MULTISITE=0 TRAVIS_NODE_VERSION="5"
+    - WP_VERSION=4.6 WP_MULTISITE=0
     # WordPress 4.5
     # @link https://github.com/WordPress/WordPress/tree/4.5-branch
-    - WP_VERSION=4.5 WP_MULTISITE=0 TRAVIS_NODE_VERSION="5"
+    - WP_VERSION=4.5 WP_MULTISITE=0
     # WordPress 4.4
     # @link https://github.com/WordPress/WordPress/tree/4.4-branch
-    - WP_VERSION=4.4 WP_MULTISITE=0 TRAVIS_NODE_VERSION="5"
+    - WP_VERSION=4.4 WP_MULTISITE=0
 
 # Declare 7 beta in test matrix.
 # @link http://docs.travis-ci.com/user/build-configuration/
