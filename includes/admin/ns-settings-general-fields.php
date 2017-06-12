@@ -195,6 +195,16 @@ function ns_account_creation_field() {
 }
 
 
+// General Tab : E-Commerce Settings : Field 1 : Enable E-commerce?
+function ns_enable_ecommerce_field() {
+    $options = get_option( 'nanosupport_settings' );
+
+    $enable_ecommerce_val = isset($options['enable_ecommerce']) ? $options['enable_ecommerce'] : '';
+    echo '<input name="nanosupport_settings[enable_ecommerce]" id="ns_enable_ecommerce" type="checkbox" value="1" '. checked( 1, $enable_ecommerce_val, false ) . '/> <label for="ns_enable_ecommerce">'. __( 'Yes, integrate with Easy Digital Downloads or WooCommerce', 'nanosupport' ) .'</label>';
+    echo ns_tooltip( 'ns-enable-ecommerce', __( 'If you check here, the plugin will be integrated with the products of WooCommerce and/or Easy Digital Downloads.', 'nanosupport' ), 'right' );
+}
+
+
 // General Tab : Other Settings : Field 1 : Delete Data?
 function ns_delete_data_field() {
     $options = get_option( 'nanosupport_settings' );
@@ -202,6 +212,14 @@ function ns_delete_data_field() {
     $del_data_val = isset($options['delete_data']) ? $options['delete_data'] : '';
     echo '<input name="nanosupport_settings[delete_data]" id="ns_delete_data" type="checkbox" value="1" '. checked( 1, $del_data_val, false ) . '/> <label for="ns_delete_data" class="ns-red"><strong>'. __( 'Delete all the Data on Uninstallation?', 'nanosupport' ) .'</strong></label>';
     echo ns_tooltip( 'ns-delete-data', __( 'If you check here, on uninstallation of the plugin, it will wipe out all the data from the database', 'nanosupport' ), 'right' );
+}
+
+
+/**
+ * Callback: E-commerce Settings Section
+ */
+function ns_ecommerce_settings_section_callback() {
+    echo '<p class="screen-reader-text">'. __( 'E-commerce settings to enable WooCommerce or Easy Digital Downloads&rsquo; products can be managed from here.', 'nanosupport' ) .'</p>';
 }
 
 
@@ -250,6 +268,9 @@ function ns_general_settings_validate( $input ) {
     //Generate Password checkbox
     $generate_password = isset($input['account_creation']['generate_password']) && (int) $input['account_creation']['generate_password'] === 1 ? (int) $input['account_creation']['generate_password'] : '';
     
+    //Enable E-commerce checkbox
+    $enable_ecommerce_val = (int) $input['enable_ecommerce'] === 1 ? (int) $input['enable_ecommerce'] : '';
+
     //Delete Data checkbox
     $del_data_check_val = (int) $input['delete_data'] === 1 ? (int) $input['delete_data'] : '';
 
@@ -270,6 +291,8 @@ function ns_general_settings_validate( $input ) {
 
     $options['account_creation']['generate_username'] = absint( $generate_username );
     $options['account_creation']['generate_password'] = absint( $generate_password );
+
+    $options['enable_ecommerce']      = absint( $enable_ecommerce_val );
 
     $options['delete_data']           = absint( $del_data_check_val );
 

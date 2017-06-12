@@ -147,7 +147,7 @@ function nanosupport_settings_options_init(){
         );
 
     /**
-     * Tab: Account Settings
+     * Section: Account Settings
      *  - Enable Login/Registration?
      *  - Account Creation
      *      - Generate Username?
@@ -169,7 +169,26 @@ function nanosupport_settings_options_init(){
         );
 
     /**
-     * Tab: Other Settings
+     * Section: Ecommerce Settings
+     *  - Enable ecommerce product support?
+     * ----------------------------------
+     */
+    add_settings_section(
+        'ns_ecommerce',                                 // ID/Slug*
+        esc_html__( 'E-commerce Settings', 'nanosupport' ),  // Name*
+        'ns_ecommerce_settings_section_callback',       // Callback*
+        'nanosupport_settings'                          // Page/Tab where to add the section of options*
+    );
+        add_settings_field(
+            'enable_ecommerce',                             // ID*
+            esc_html__( 'Enable E-commerce Support?', 'nanosupport' ), // Title*
+            'ns_enable_ecommerce_field',                    // Callback Function*
+            'nanosupport_settings',                         // Page (Plugin)*
+            'ns_ecommerce'                                  // Section
+        );
+
+    /**
+     * Section: Other Settings
      *  - Delete Data?
      * ----------------------------------
      */

@@ -286,6 +286,9 @@ include_once 'includes/ns-metaboxes.php';
 /** Miscellaneous functions **/
 include_once 'includes/ns-functions.php';
 
+/** E-Commerce Support */
+include_once 'includes/class-ecommerce.php';
+
 /** Handling emails **/
 include_once 'includes/ns-email-functions.php';
 
@@ -311,7 +314,6 @@ include_once 'includes/admin/ns-system-status.php';
 
 /** NanoSupport Updates */
 include_once 'includes/ns-updates.php';
-
 
 /**
  * Set the plugin up
