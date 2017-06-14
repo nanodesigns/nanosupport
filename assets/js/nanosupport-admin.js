@@ -203,6 +203,11 @@ jQuery(document).ready(function($) {
         });
     }
 
+    $('#ns-btn-edit-product').on('click', function() {
+        $('#ns-product-display-panel').hide();
+        $('#ns-product-edit-panel').show();
+    });
+
 });
 
 /**

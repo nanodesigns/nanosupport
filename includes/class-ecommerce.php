@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class NSECommerce {
 
-	public $wc_active;
-	public $edd_active;
+	private $wc_active;
+	private $edd_active;
 
 	public function __construct() {
 		$this->wc_active  = class_exists('WooCommerce');
@@ -58,7 +58,7 @@ class NSECommerce {
 			$post_types[] = 'download';
 		}
 
-		$post_types = implode(",", $post_types);
+		$post_types = implode("','", $post_types);
 
 		if( !empty($post_types) ) {
 			global $wpdb;
@@ -76,6 +76,50 @@ class NSECommerce {
 
 		return $products;
 	}
-}
 
-$NSEcommerce = new NSECommerce();
+	public function get_product_info( $product_id, $receipt = null ) {
+		$product          = new stdClass();
+		
+		$date_time_format = get_option('date_format') .' - '. get_option('time_format');
+		$product_id       = absint($product_id);
+		$post_type        = get_post_type($product_id);
+		
+		// Setting default to avoid undefined index warning.
+		$purchase_date    = '';
+		$purchase_by      = '';
+
+		// Set basic information.
+		$product->{'name'}   = get_the_title($product_id);
+		$product->{'link'}   = get_the_permalink($product_id);
+		$product->{'status'} = get_post_status($product_id);
+
+
+		if( !empty($receipt) ) {
+			
+			$receipt_id = intval($receipt);
+
+			if( 'download' === $post_type && $this->edd_active ) {
+				$payment = new EDD_Payment( $receipt_id );
+				if( $payment->ID != 0 ) {
+					$purchase_date = $payment->completed_date;
+					$purchase_by   = $payment->first_name .' '. $payment->last_name;
+				}
+			}
+
+			if( 'product' === $post_type && $this->wc_active ) {
+				$order = wc_get_order( $receipt_id );
+				if( $order != false ) {
+					$order_info    = $order->data;
+					$purchase_date = get_object_vars($order_info['date_paid'])['date']; //transforming object as an array
+					$purchase_by   = $order_info['billing']['first_name'] .' '. $order_info['billing']['last_name'];
+				}
+			}
+
+			$product->{'purchase_date'} = !empty($purchase_date) ? date( $date_time_format, strtotime($purchase_date) ) : '';
+			$product->{'purchase_by'}   = $purchase_by;
+			$product->{'payment_url'}   = get_edit_post_link($receipt_id);
+		}
+
+		return $product;
+	}
+}
