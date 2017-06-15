@@ -65,7 +65,7 @@ $state-warning-text-alt:	darken( $brand-warning, 30% ) !default; // a11y
 $state-warning-bg:			$brand-warning !default;
 $state-warning-border:		darken(adjust-hue($state-warning-bg, -10), 5%) !default;
 
-$state-danger-text:			#a94442 !default;
+$state-danger-text:			#fff !default;
 $state-danger-text-alt:		darken( $brand-danger, 20% ) !default; // a11y
 $state-danger-bg:			$brand-danger !default;
 $state-danger-border:		darken(adjust-hue($state-danger-bg, -10), 5%) !default;
