@@ -353,7 +353,9 @@ function ns_control_specifics() {
                                 <select name="ns_ticket_product" class="ns-field-item" id="ns-ticket-product" aria-describedby="ns-ticket-product-tooltip">
                                     <option value=""><?php esc_html_e( 'Select a Product', 'nanosupport' ); ?></option>
                                     <?php foreach($products as $id => $product_name) { ?>
-                                        <option value="<?php echo $id; ?>" <?php selected( $_ns_ticket_product, $id ); ?>><?php echo $product_name; ?></option>
+                                        <option value="<?php echo $id; ?>" <?php selected( $_ns_ticket_product, $id ); ?>>
+                                            <?php echo esc_html($product_name); ?>
+                                        </option>
                                     <?php } ?>
                                 </select>
                             </div> <!-- /.ns-field -->                    
@@ -368,7 +370,7 @@ function ns_control_specifics() {
                         </div>
                         <div class="ns-body-col">
                             <div class="ns-field">
-                                <input type="number" name="ns_ticket_product_receipt" class="ns-field-item" id="ns-ticket-product-receipt" aria-describedby="ns-ticket-product-receipt-tooltip" value="<?php echo $_ns_ticket_receipt; ?>">
+                                <input type="number" name="ns_ticket_product_receipt" class="ns-field-item" id="ns-ticket-product-receipt" aria-describedby="ns-ticket-product-receipt-tooltip" value="<?php echo $_ns_ticket_receipt; ?>" min="0">
                             </div> <!-- /.ns-field -->                    
                         </div>
                     </div> <!-- /.ns-row -->

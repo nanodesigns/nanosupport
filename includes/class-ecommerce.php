@@ -25,6 +25,7 @@ class NSECommerce {
 
 	/**
 	 * E-Commerce enabled?
+	 * 
 	 * @return boolean
 	 * -----------------------------------------------------------------------
 	 */
@@ -43,6 +44,7 @@ class NSECommerce {
 
 	/**
 	 * Get Products.
+	 * 
 	 * @return array Array of products.
 	 * -----------------------------------------------------------------------
 	 */
@@ -77,6 +79,15 @@ class NSECommerce {
 		return $products;
 	}
 
+
+	/**
+	 * Get Product Information.
+	 * 
+	 * @param  integer $product_id Product ID.
+	 * @param  integer $receipt    Purchase Receipt.
+	 * @return object              Product information.
+	 * -----------------------------------------------------------------------
+	 */
 	public function get_product_info( $product_id, $receipt = null ) {
 		$product          = new stdClass();
 		

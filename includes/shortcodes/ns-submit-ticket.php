@@ -255,6 +255,48 @@ function ns_submit_support_ticket() {
 
 					<?php } //endif( $display_department  ) ?>
 
+					<?php
+					$NSECommerce = new NSECommerce();
+					if( $NSECommerce->ecommerce_enabled() ) {
+						$products = $NSECommerce->get_products();
+						?>
+
+						<!-- TICKET PRODUCTS -->
+						<div class="ns-form-group">
+							<label for="ns-ticket-product" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
+								<?php esc_html_e( 'Product', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+							</label>
+							<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
+								<?php echo ns_tooltip( 'ns-product', esc_html__( 'Select the product the ticket is about.', 'nanosupport' ), 'bottom' ); ?>
+							</div>
+							<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12 ns-form-inline">
+								<?php $submit_val = !empty($_POST['ns_ticket_product']) ? $_POST['ns_ticket_product'] : ''; ?>
+								<select class="ns-form-control" name="ns_ticket_product" id="ns-ticket-product" aria-describedby="ns-product" required>
+									<option value="" <?php selected( $submit_val, '' ); ?>><?php esc_html_e( 'Select a product', 'nanosupport' ); ?></option>
+									<?php foreach($products as $id => $product_name) { ?>
+								        <option value="<?php echo $id; ?>" <?php selected( $submit_val, $id ); ?>>
+								        	<?php echo esc_html($product_name); ?>
+								        </option>
+								    <?php } ?>
+								</select>
+							</div>
+						</div> <!-- /.ns-form-group -->
+
+						<!-- TICKET PRODUCT RECEIPT -->
+						<div class="ns-form-group">
+							<label for="ns-ticket-receipt" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
+								<?php esc_html_e( 'Purhcase Receipt', 'nanosupport' ); ?> <sup class="ns-required">*</sup>
+							</label>
+							<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
+								<?php echo ns_tooltip( 'ns-product-receipt', esc_html__( 'Enter the receipt number of purchasing the product.', 'nanosupport' ), 'bottom' ); ?>
+							</div>
+							<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12 ns-form-inline">
+								<?php $submit_val = !empty($_POST['ns_ticket_product_receipt']) ? $_POST['ns_ticket_product_receipt'] : ''; ?>
+								<input type="number" name="ns_ticket_product_receipt" class="ns-form-control" id="ns-ticket-product-receipt" aria-describedby="ns-product-receipt" value="<?php echo $submit_val; ?>" min="0">
+							</div>
+						</div> <!-- /.ns-form-group -->
+
+					<?php } // endif( $NSECommerce->ecommerce_enabled ) ?>
 
 					<?php if( ! is_user_logged_in() ) { ?>
 

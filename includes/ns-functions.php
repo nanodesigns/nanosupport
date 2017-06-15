@@ -89,6 +89,13 @@ function ns_handle_registration_login_ticket_submission() {
     // Ticket Department
     $ticket_department      = ! empty($_POST['ns_ticket_department']) ? $_POST['ns_ticket_department'] : '';
 
+    // Ticket Product & Receipt
+    $NSECommerce = new NSECommerce();
+    if( $NSECommerce->ecommerce_enabled() ) {
+        $ticket_product = ! empty($_POST['ns_ticket_product']) ? $_POST['ns_ticket_product'] : '';
+        $ticket_receipt = ! empty($_POST['ns_ticket_product_receipt']) ? $_POST['ns_ticket_product_receipt'] : '';
+    }
+
 
     /**
      * Process the Submission
@@ -297,10 +304,16 @@ function ns_handle_registration_login_ticket_submission() {
             wp_set_object_terms( $ticket_post_id, (int) $ticket_department, 'nanosupport_department' );
         }
 
-        //insert the meta information into postmeta
+        // Insert the meta information into postmeta.
         add_post_meta( $ticket_post_id, '_ns_ticket_status',   'open' );
         add_post_meta( $ticket_post_id, '_ns_ticket_priority', wp_strip_all_tags( $ticket_priority ) );
         add_post_meta( $ticket_post_id, '_ns_ticket_agent',    '' ); //empty: no ticket agent's assigned
+
+        // Save ticket product information.
+        if( $NSECommerce->ecommerce_enabled() ) {
+            add_post_meta( $ticket_post_id, '_ns_ticket_product',           wp_strip_all_tags( $ticket_product ) );
+            add_post_meta( $ticket_post_id, '_ns_ticket_product_receipt',   wp_strip_all_tags( $ticket_receipt ) );
+        }
 
     }
 
