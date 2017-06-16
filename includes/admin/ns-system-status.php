@@ -83,6 +83,11 @@ function nanosupport_system_status_page_callback() {
                             </tr>
 
                             <tr>
+                                <th><?php esc_html_e( 'E-Commerce?', 'nanosupport' ); ?></th>
+                                <td><?php echo $ns_system_status->ecommerce_status(); ?></td>
+                            </tr>
+
+                            <tr>
                                 <th><?php esc_html_e( 'Active Theme', 'nanosupport' ); ?></th>
                                 <td><?php echo '<strong>'. $theme['theme'] .'</strong> &ndash; '. $theme['version']; ?></td>
                             </tr>
@@ -213,6 +218,7 @@ function nanosupport_system_status_page_callback() {
 <div id="ns-system-status-text" style="display: none;">
 WordPress version: <?php echo $ns_system_status->wp_version(); ?>;
 NanoSupport version: <?php echo NS()->version; ?>;
+E-Commerce?: <?php echo $ns_system_status->ecommerce_status(); ?>;
 Active Theme: <?php echo $theme['theme'] .' - '. $theme['version']; ?>; <?php echo ($parent_theme !== false) ? ' &mdash; Parent Theme: '. $parent_theme['theme'] .' - '. $parent_theme['version'] : ''; ?>;
 Debug mode: <?php echo $ns_system_status->debug_status(); ?>;
 Multisite?: <?php echo $ns_system_status->is_multisite(); ?>;
