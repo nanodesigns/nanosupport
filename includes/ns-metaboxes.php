@@ -308,7 +308,7 @@ function ns_control_specifics() {
                             <?php } else { ?>
 
                                 <p>
-                                    <a href="<?php echo esc_url($product_info->link); ?>">
+                                    <a href="<?php echo esc_url($product_info->link); ?>" target="_blank">
                                         <strong><?php echo $product_info->name ?></strong>
                                     </a>
                                 </p>

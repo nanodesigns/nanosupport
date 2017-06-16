@@ -110,6 +110,7 @@ class NSECommerce {
 			$receipt_id = intval($receipt);
 
 			if( 'download' === $post_type && $this->edd_active ) {
+				// Needs EDD prior to v2.5
 				$payment = new EDD_Payment( $receipt_id );
 				if( $payment->ID != 0 ) {
 					$purchase_date = $payment->completed_date;
@@ -118,6 +119,7 @@ class NSECommerce {
 			}
 
 			if( 'product' === $post_type && $this->wc_active ) {
+				// Needs WC prior to v2.2
 				$order = wc_get_order( $receipt_id );
 				if( $order != false ) {
 					$order_info    = $order->data;

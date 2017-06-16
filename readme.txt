@@ -34,6 +34,7 @@ The plugin is to provide support to your users - the users those are taking prod
 * Knowledgebase content categories
 * Copy ticket content into Knowledgebase document
 * Ticket departments
+* E-Commerce Support - Support to products of Easy Digital Downloads and WooCommerce
 * Make agent from registered users
 * Assign ticket to an agent
 * Change ticket status (Pending, Open, Under Inspection, Solved)
@@ -146,6 +147,10 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 8. NanoSupport | Easy navigation, and notification for easy ticketing using Admin bar
 
 == Changelog ==
+
+= 0.5.0 - 2017-AUG-21 =
+* New Feature: E-commerce &mdash; Support to products of Easy Digital Downloads (v2.5+) and WooCommerce (v2.2+)
+* 7 new icons to NanoSupport Icons
 
 = 0.4.0 - 2017-JUN-09 =
 * New Feature: Ticket can be copied into a Knowledgebase document
