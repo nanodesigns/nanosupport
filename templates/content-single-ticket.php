@@ -34,12 +34,18 @@
 	$highlight_choice	= isset($ns_general_settings['highlight_ticket']) ? $ns_general_settings['highlight_ticket'] : 'status';
 	$ticket_meta 		= ns_get_ticket_meta( get_the_ID() );
 
+	$NSECommerce = new NSECommerce();
+	if( $NSECommerce->ecommerce_enabled() ) {
+		$product_info = $NSECommerce->get_product_info($ticket_meta['product'], $ticket_meta['receipt']);
+	}
+
 	$highlight_class = 'priority' === $highlight_choice ? $ticket_meta['priority']['class'] : $ticket_meta['status']['class'];
 	?>
 
 	<article id="ticket-<?php echo $post->ID; ?>" <?php post_class('ns-single'); ?>>
 
 		<div class="ticket-question-card ns-cards <?php echo esc_attr($highlight_class); ?>">
+
 			<div class="ns-row">
 				<div class="ns-col-sm-11">
 					<h1 class="ticket-head"><?php the_title(); ?></h1>
@@ -100,13 +106,44 @@
 					<?php edit_post_link( '<i class="ns-icon-edit" title="'. esc_attr__('Edit the Ticket', 'nanosupport') .'"></i> <span class="screen-reader-only">'. esc_attr__('Edit the Ticket', 'nanosupport') .'</span>', '', '', get_the_ID() ); ?>
 				</div>
 			</div> <!-- /.ns-row -->
+
+			<?php if( $NSECommerce->ecommerce_enabled() ) { ?>
+
+				<div class="ns-clearfix ticket-product-block">
+
+					<?php if( 'publish' !== $product_info->status ) { ?>
+
+						<div class="ns-text-muted ns-text-center">
+		                    &mdash; <?php _e('Product attached is not available', 'nanosupport' ); ?> &mdash;
+		                </div>
+
+            		<?php } else { ?>
+			
+				
+						<a href="<?php echo esc_url($product_info->link); ?>" target="_blank">
+						    <i class="ns-icon-cart"></i>
+						    <strong><?php
+						    /* translators: Product name */
+						    printf( __('Product: %s', 'nanosupport'), $product_info->name ); ?></strong>
+						</a>
+						<small>(<?php
+						/* translators: Receipt number */
+						printf( __('Receipt: %d', 'nanosupport'), $ticket_meta['receipt'] ); ?>)</small>
+
+					<?php } // endif( 'publish' !== $product_info->status ) ?>
+					
+				</div> <!-- /.ns-clearfix -->
+
+			<?php } //endif( $NSECommerce->ecommerce_enabled() )	?>
+
 			<div class="ticket-question">
 				<?php the_content(); ?>
 			</div>
+
 		</div> <!-- /.ticket-question-card -->
 
 
-		<!-- +++++++++++++++++++ RESPONSES +++++++++++++++++++ -->
+		<!-- RESPONSES -->
 
 
 		<div class="ticket-responses">
@@ -164,7 +201,7 @@
 		    <?php } //endif ?>
 
 
-		    <!-- ++++++++++++ NEW RESPONSE FORM ++++++++++++ -->
+		    <!-- NEW RESPONSE FORM -->
 
 		    <?php get_nanosupport_response_form(); ?>
 

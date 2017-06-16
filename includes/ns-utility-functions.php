@@ -378,13 +378,17 @@ function ns_get_ticket_meta( $ticket_id = null ) {
 
     $post_id = ( null === $ticket_id ) ? get_the_ID() : $ticket_id;
 
-    $_ns_ticket_status   = get_post_meta( $post_id, '_ns_ticket_status', true );
-    $_ns_ticket_priority = get_post_meta( $post_id, '_ns_ticket_priority', true );
-    $_ns_ticket_agent    = get_post_meta( $post_id, '_ns_ticket_agent', true );
+    $_ns_ticket_status   = get_post_meta( $post_id, '_ns_ticket_status',            true );
+    $_ns_ticket_priority = get_post_meta( $post_id, '_ns_ticket_priority',          true );
+    $_ns_ticket_agent    = get_post_meta( $post_id, '_ns_ticket_agent',             true );
+    $_ns_ticket_product  = get_post_meta( $post_id, '_ns_ticket_product',           true );
+    $_ns_ticket_receipt  = get_post_meta( $post_id, '_ns_ticket_product_receipt',   true );
 
     $this_status    = ! empty( $_ns_ticket_status )     ? $_ns_ticket_status    : 'open';
     $this_priority  = ! empty( $_ns_ticket_priority )   ? $_ns_ticket_priority  : 'low';
     $this_agent     = ! empty( $_ns_ticket_agent )      ? $_ns_ticket_agent     : '';
+    $this_product   = ! empty( $_ns_ticket_product )    ? $_ns_ticket_product   : '';
+    $this_receipt   = ! empty( $_ns_ticket_receipt )    ? $_ns_ticket_receipt   : '';
 
     /**
      * Ticket status
@@ -482,6 +486,8 @@ function ns_get_ticket_meta( $ticket_id = null ) {
     $ticket_meta['status']      = $ticket_status;
     $ticket_meta['priority']    = $priority;
     $ticket_meta['agent']       = $agent;
+    $ticket_meta['product']     = $this_product;
+    $ticket_meta['receipt']     = $this_receipt;
 
     return $ticket_meta;
 
