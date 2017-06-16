@@ -42,13 +42,18 @@ class NSECommerce {
 	    return $enabled;
 	}
 
+
 	/**
-	 * Get Products.
+	 * Get All the Products.
+	 *
+	 * Get all the products eligible for providing support.
+	 * Products are considered the items published from
+	 * Easy Digital Downloads and/or WooCommerce.
 	 * 
 	 * @return array Array of products.
 	 * -----------------------------------------------------------------------
 	 */
-	public function get_products() {
+	public function get_all_products() {
 		$products   = array();
 		$post_types = array();
 
@@ -77,6 +82,31 @@ class NSECommerce {
 		}
 
 		return $products;
+	}
+
+
+	/**
+	 * Get Products.
+	 *
+	 * If there's any product to exclude, exclude 'em here.
+	 * 
+	 * @return array Array of products.
+	 * -----------------------------------------------------------------------
+	 */
+	public function get_products() {
+
+		// All the products.
+		$products = $this->get_all_products();
+
+		// Get the NanoSupport Settings from Database.
+	    $ns_general_settings = get_option( 'nanosupport_settings' );
+
+	    if(isset($ns_general_settings['excluded_products']) && !empty($ns_general_settings['excluded_products'])) {
+			$excluded_ids = (array) $ns_general_settings['excluded_products'];
+			$products     = array_diff_key( $products, array_flip($excluded_ids) );
+	    }
+
+	    return $products;
 	}
 
 

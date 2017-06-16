@@ -185,6 +185,40 @@ jQuery(document).ready(function($) {
         });
     }
 
+
+    /**
+     * Optional ECommerce Fields
+     * ECommerce fields making optional, showing/hiding
+     * exclusion settings as per checkbox selection.
+     * 
+     * @scope  includes/admin/ns-settings-general-fields.php
+     * @since  1.0.0
+     * ...
+     */
+    var ns_ecommerce_activator  = $('#ns_enable_ecommerce'),
+        ns_ecommerce_toggle_sel = $('#ns_excluded_products').closest('tr');
+
+    if( ns_ecommerce_toggle_sel.length > 0 ) {
+
+        //hide initially
+        ns_ecommerce_toggle_sel.hide();
+
+        //display, if checkbox is checked
+        if( ns_ecommerce_activator.is(":checked") ) {
+            ns_ecommerce_toggle_sel.show();
+        }
+
+        //toggle on checkbox check
+        ns_ecommerce_activator.on( 'click', function() {
+            if( $(this).is(':checked') ) {
+                ns_ecommerce_toggle_sel.show();
+            } else {
+                ns_ecommerce_toggle_sel.hide();
+            }
+        });
+
+    }
+
     /**
      * Copy system status.
      * Copy system status on click.

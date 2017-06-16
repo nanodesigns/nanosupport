@@ -204,6 +204,26 @@ function ns_enable_ecommerce_field() {
     echo ns_tooltip( 'ns-enable-ecommerce', __( 'If you check here, the plugin will be integrated with the products of WooCommerce and/or Easy Digital Downloads.', 'nanosupport' ), 'right' );
 }
 
+// General Tab : E-Commerce Settings : Field 2 : Excluded Products
+function ns_excluded_products_field() {
+    $options = get_option( 'nanosupport_settings' );
+
+    $NSECommerce = new NSECommerce();
+    $products    = $NSECommerce->get_all_products();
+
+    $excluded_products_val = isset($options['excluded_products']) ? (array) $options['excluded_products'] : '';
+    echo '<select name="nanosupport_settings[excluded_products][]" id="ns_excluded_products" class="ns-select" multiple="multiple"data-placeholder="'. esc_attr__( 'Select Products to Exclude', 'nanosupport' ) .'" aria-describedby="ns-excluded-products">';
+        echo '<option value="">'. esc_html__( 'Select Products to Exclude', 'nanosupport' ) .'</option>';
+        foreach($products as $id => $product_name) {
+            $selected = is_array($excluded_products_val) && in_array( $id, $excluded_products_val ) ? ' selected="selected" ' : '';
+            echo '<option value="'. esc_attr($id) .'" '. $selected .'>';
+                echo esc_html($product_name);
+            echo '</option>';
+        }
+    echo '</select>';
+    echo ns_tooltip( 'ns-excluded-products', __( 'Select the product[s] you want to keep out of providing Support. Leave blank if you want all your products to provide support.', 'nanosupport' ), 'right' );
+}
+
 
 // General Tab : Other Settings : Field 1 : Delete Data?
 function ns_delete_data_field() {
@@ -270,6 +290,8 @@ function ns_general_settings_validate( $input ) {
     
     //Enable E-commerce checkbox
     $enable_ecommerce_val = (int) $input['enable_ecommerce'] === 1 ? (int) $input['enable_ecommerce'] : '';
+    //Excluded Products
+    $excluded_products_val = $input['excluded_products'] ? (array) $input['excluded_products'] : '';
 
     //Delete Data checkbox
     $del_data_check_val = (int) $input['delete_data'] === 1 ? (int) $input['delete_data'] : '';
@@ -293,6 +315,7 @@ function ns_general_settings_validate( $input ) {
     $options['account_creation']['generate_password'] = absint( $generate_password );
 
     $options['enable_ecommerce']      = absint( $enable_ecommerce_val );
+    $options['excluded_products']     = (array) $excluded_products_val;
 
     $options['delete_data']           = absint( $del_data_check_val );
 
