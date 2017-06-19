@@ -155,7 +155,7 @@ function ns_support_desk_page() {
 							<div class="toggle-ticket-additional">
 								<i class="ns-toggle-icon ns-icon-chevron-circle-down" title="<?php esc_attr_e( 'Load more', 'nanosupport' ); ?>"></i>
 							</div>
-							<div class="ticket-additional">
+							<div class="ticket-additional ns-hide-mobile">
 								<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
 									<div class="text-blocks">
 										<strong><?php _e( 'Department:', 'nanosupport' ); ?></strong><br>
