@@ -1,6 +1,8 @@
 ![nanosupport-banner](https://cloud.githubusercontent.com/assets/4551598/18225488/c7c6a738-7214-11e6-80bd-afed15d6cd00.png)
 
 # NanoSupport <kbd>[**DOWNLOAD**](https://wordpress.org/plugins/nanosupport/)</kbd>
+
+[![Join the chat at https://gitter.im/nanodesigns/nanosupport](https://badges.gitter.im/nanodesigns/nanosupport.svg)](https://gitter.im/nanodesigns/nanosupport?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Smart Support Ticketing Plugin for WordPress
 
 | Requires | Tested up to | Stable Release | w.org Rating | License | w.org Downloads |
