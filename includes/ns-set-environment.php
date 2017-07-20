@@ -523,12 +523,12 @@ add_filter( 'private_title_format',   'ns_the_title_trim', 10, 2 );
  * @since  1.0.0
  * -----------------------------------------------------------------------
  */
-function ns_redirect_user_to_correct_place() {
+function ns_redirect_user_to_correct_place( $query ) {
     //Get the NanoSupport Settings from Database
     $ns_general_settings       = get_option( 'nanosupport_settings' );
     $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
     
-    if( ! is_user_logged_in() && is_page($ns_general_settings['support_desk']) ) {
+    if( $query->is_main_query() && ! is_admin() && ! is_user_logged_in() && is_page($ns_general_settings['support_desk']) ) {
 
         if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
             //i.e. http://example.com/knowledgebase?from=sd
