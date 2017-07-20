@@ -313,7 +313,7 @@ function ns_hack_post_author_override( $select_field )  {
 
         $select_field .= '<select name="post_author_override" id="post_author_override-nanosupport" class="">';
             foreach( $users as $user ) :
-                $select_field .= '<option value="'. $user->id .'" '. selected( $user->id, $selected_author, false ) .'>';
+                $select_field .= '<option value="'. $user->ID .'" '. selected( $user->ID, $selected_author, false ) .'>';
                     $select_field .= $user->display_name;
                     $select_field .= ' ('. $user->roles[0] .')'; // display the user role
                 $select_field .= '</option>';
