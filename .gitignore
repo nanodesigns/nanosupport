@@ -8,7 +8,7 @@ assets/js/nanosupport-admin.min.js
 assets/js/nanosupport-dashboard.min.js
 
 ## Project build
-build/
+dist/
 
 ## Common setting
 *.log

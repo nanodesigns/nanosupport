@@ -100,8 +100,8 @@ module.exports = function(grunt) {
          * @url: https://github.com/gruntjs/grunt-contrib-clean
          */
         clean: {
-            build: {
-                src: ['./build']
+            dist: {
+                src: ['./dist']
             }
         },
 
@@ -206,7 +206,7 @@ module.exports = function(grunt) {
         compress: {
             main: {
                 options: {
-                    archive: './build/<%= pkg.name %>-<%= pkg.version %>.zip',
+                    archive: './dist/<%= pkg.name %>-<%= pkg.version %>.zip',
                     mode: 'zip'
                 },
                 files: [{
@@ -215,7 +215,7 @@ module.exports = function(grunt) {
                         '**',
                         '!node_modules/**',
                         '!vendor/**',
-                        '!build/**',
+                        '!dist/**',
                         '!tests/**',
                         '!.gitignore',
                         '!.travis.yml',
@@ -226,6 +226,7 @@ module.exports = function(grunt) {
                         '!logs/**',
                         '!readme.md',
                         '!contributing.md',
+                        '!CODE_OF_CONDUCT.md',
                         '!*.sublime-grunt.cache',
                         '!Gruntfile.js',
                         '!package.json',
