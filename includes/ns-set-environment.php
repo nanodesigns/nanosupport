@@ -32,7 +32,7 @@ function ns_scripts() {
 
     /**
      * NanoSupport CSS
-     * Compiled and minified from LESS CSS Preprocessor.
+     * Compiled and minified from SASS CSS Preprocessor.
      * ...
      */
     wp_register_style( 'nanosupport', NS()->plugin_url() .'/assets/css/nanosupport.css', array(), NS()->version, 'all' );

@@ -221,7 +221,6 @@ module.exports = function(grunt) {
                         '!.travis.yml',
                         '!composer.json',
                         '!composer.lock',
-                        '!tests/**',
                         '!tmp/**',
                         '!logs/**',
                         '!readme.md',
@@ -252,7 +251,11 @@ module.exports = function(grunt) {
                 }
             },
             js: {
-                files: ['assets/js/nanosupport.js', 'assets/js/nanosupport-admin.js', 'assets/js/nanosupport-dashboard.js'],
+                files: [
+                    'assets/js/nanosupport.js',
+                    'assets/js/nanosupport-admin.js',
+                    'assets/js/nanosupport-dashboard.js'
+                ],
                 tasks: ['uglify']
             },
             css: {
