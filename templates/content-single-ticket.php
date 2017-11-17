@@ -54,43 +54,43 @@
 					<div class="ns-row ticket-meta">
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
-								<strong><?php _e( 'Created', 'nanosupport' ); ?>:</strong><br>
+								<strong><?php esc_html_e( 'Created', 'nanosupport' ); ?>:</strong><br>
 								<span class="ns-small"><?php echo ns_date_time( $post->post_date ); ?></span>
 							</p>
 						</div>
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
-								<strong><?php _e( 'Updated', 'nanosupport' ); ?>:</strong><br>
+								<strong><?php esc_html_e( 'Updated', 'nanosupport' ); ?>:</strong><br>
 								<span class="ns-small"><?php echo ns_date_time( ns_get_ticket_modified_date($post->ID) ); ?></span>
 							</p>
 						</div>
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
-								<strong><?php _e( 'Department', 'nanosupport' ); ?>:</strong><br>
+								<strong><?php esc_html_e( 'Department', 'nanosupport' ); ?>:</strong><br>
 								<span class="ns-small"><?php echo ns_get_ticket_departments(); ?></span>
 							</p>
 						</div>
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
-								<strong><?php _e( 'Assigned to', 'nanosupport' ); ?>:</strong><br>
+								<strong><?php esc_html_e( 'Assigned to', 'nanosupport' ); ?>:</strong><br>
 								<?php
 								if( ! empty($ticket_meta['agent']) ) {
 									echo '<span class="ns-small">'. $ticket_meta['agent']['name'] .'</span>';
 								} else {
-									echo '<span class="ns-small">---</span>';
+									echo '<span class="ns-small">&mdash;</span>';
 								}
 								?>
 							</p>
 						</div>
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
-								<strong><?php _e( 'Status', 'nanosupport' ); ?>:</strong><br>
+								<strong><?php esc_html_e( 'Status', 'nanosupport' ); ?>:</strong><br>
 								<?php echo $ticket_meta['status']['label']; ?>
 							</p>
 						</div>
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
-								<strong><?php _e( 'Priority', 'nanosupport' ); ?>:</strong><br>
+								<strong><?php esc_html_e( 'Priority', 'nanosupport' ); ?>:</strong><br>
 								<span class="ns-small"><?php echo $ticket_meta['priority']['label']; ?></span>
 							</p>
 						</div>
@@ -114,7 +114,7 @@
 					<?php if( 'publish' !== $product_info->status ) { ?>
 
 						<div class="ns-text-muted ns-text-center">
-		                    &mdash; <?php _e('Product attached is not available', 'nanosupport' ); ?> &mdash;
+		                    &mdash; <?php esc_html_e('Product attached is not available', 'nanosupport' ); ?> &mdash;
 		                </div>
 
             		<?php } else { ?>
@@ -124,11 +124,11 @@
 						    <i class="ns-icon-cart"></i>
 						    <strong><?php
 						    /* translators: Product name */
-						    printf( __('Product: %s', 'nanosupport'), $product_info->name ); ?></strong>
+						    printf( esc_html__('Product: %s', 'nanosupport'), $product_info->name ); ?></strong>
 						</a>
 						<small>(<?php
 						/* translators: Receipt number */
-						printf( __('Receipt: %d', 'nanosupport'), $ticket_meta['receipt'] ); ?>)</small>
+						printf( esc_html__('Receipt: %d', 'nanosupport'), $ticket_meta['receipt'] ); ?>)</small>
 
 					<?php } // endif( 'publish' !== $product_info->status ) ?>
 					
@@ -165,7 +165,7 @@
 
 			if( $response_array ) {
 
-				echo '<div class="ticket-separator ticket-separator-center ns-text-uppercase">'. __('Responses', 'nanosupport') .'</div>';
+				echo '<div class="ticket-separator ticket-separator-center ns-text-uppercase">'. esc_html__('Responses', 'nanosupport') .'</div>';
 
 				$counter = 1;
 
@@ -209,6 +209,8 @@
 
 	</article> <!-- /#ticket-<?php the_ID(); ?> -->
 
-	<a class="ns-btn ns-btn-sm ns-btn-default" href="<?php echo esc_url(get_permalink( $support_desk )); ?>"><i class="ns-icon-chevron-left"></i> <?php _e( 'Back to ticket index', 'nanosupport' ); ?></a>
+	<a class="ns-btn ns-btn-sm ns-btn-default" href="<?php echo esc_url(get_permalink( $support_desk )); ?>">
+		<i class="ns-icon-chevron-left"></i> <?php esc_html_e( 'Back to ticket index', 'nanosupport' ); ?>
+	</a>
 
 </div>
