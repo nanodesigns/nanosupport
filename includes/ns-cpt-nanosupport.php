@@ -266,62 +266,74 @@ if( isset($ns_knowledgebase_settings['isactive_kb']) && $ns_knowledgebase_settin
 
 
 /**
- * Hack the Post Author Override
+ * Add more roles to Ticket Author.
  *
- * Hack to modify the Core Post Author Override to add
- * support seeker role, and the others.
+ * Add more user roles to Ticket Author meta box so that ticket
+ * on behalf of other user can be added.
+ *
+ * @since  1.0.0
  * 
- * @param  string $select_field The core HTML.
- * @return string               Modified HTML.
+ * @param  array $query_args  The query arguments for get_users().
+ * @param  array $r           The arguments passed to wp_dropdown_users() combined with the defaults.
+ * @return array              Modified array of quey arguments for get_users().
  * -----------------------------------------------------------------------
  */
-function ns_hack_post_author_override( $select_field )  {
+function ns_ticket_author_dropdown_overrides( $query_args, $r ) {
+
     global $post;
 
     if( 'nanosupport' === $post->post_type ) {
-        $users = get_users(
-            array(
-                /**
-                 * -----------------------------------------------------------------------
-                 * HOOK : FILTER HOOK
-                 * nanosupport_assigned_user_role
-                 *
-                 * The user roles that are passed to generate override HTML.
-                 * You can add/modify the roles using the hook.
-                 * 
-                 * @since  1.0.0
-                 *
-                 * @param array  The user roles.
-                 * -----------------------------------------------------------------------
-                 */
-                'role__in'=> apply_filters( 'nanosupport_assigned_user_role', array(
-                                'support_seeker',
-                                'administrator',
-                                'author',
-                                'editor',
-                            )
-                        )
-                )
-            );
 
-        // Get ticket user.
-        global $post;
-        $selected_author = !empty($post->post_author) ? $post->post_author : get_current_user_id();
+        // Make it empty to 'role__in' act.
+        $query_args['who'] = '';
 
-        // Add some help text here.
-        $select_field .= '<p>'. __( 'Add the ticket on behalf of anybody', 'nanosupport' ) .'</p>';
-
-        $select_field .= '<select name="post_author_override" id="post_author_override-nanosupport" class="">';
-            foreach( $users as $user ) :
-                $select_field .= '<option value="'. $user->id .'" '. selected( $user->id, $selected_author, false ) .'>';
-                    $select_field .= $user->display_name;
-                    $select_field .= ' ('. $user->roles[0] .')'; // display the user role
-                $select_field .= '</option>';
-            endforeach;
-        $select_field .= '</select>';
+        /**
+         * -----------------------------------------------------------------------
+         * HOOK : FILTER HOOK
+         * nanosupport_assigned_user_role
+         *
+         * The user roles that are passed to generate override HTML.
+         * You can add/modify the roles using the hook.
+         * 
+         * @since  1.0.0
+         *
+         * @param array  The user roles.
+         * -----------------------------------------------------------------------
+         */
+        $query_args['role__in'] = apply_filters( 'nanosupport_assigned_user_role', array(
+                                    'support_seeker',
+                                    'administrator',
+                                    'author',
+                                    'editor',
+                                )
+                            );
     }
 
-    return $select_field;
+    return $query_args;
+ 
 }
 
-add_filter( 'wp_dropdown_users', 'ns_hack_post_author_override' );
+add_filter( 'wp_dropdown_users_args', 'ns_ticket_author_dropdown_overrides', 10, 2 );
+
+
+/**
+ * Add some help text before post author field.
+ *
+ * @since  1.0.0
+ * 
+ * @param  string $select_field The core HTML.
+ * @return string               Modified HTML with help string.
+ * -----------------------------------------------------------------------
+ */
+function ns_help_text_to_post_author( $output )  {
+    global $post;
+
+    if( 'nanosupport' === $post->post_type ) {
+        // Prepend some help text before select field.
+        $output = '<p>'. __( 'Add the ticket on behalf of anybody', 'nanosupport' ) .'</p>'. $output;
+    }
+
+    return $output;
+}
+
+add_filter( 'wp_dropdown_users', 'ns_help_text_to_post_author' );

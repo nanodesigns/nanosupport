@@ -1,9 +1,9 @@
 # Copyright (c) 2017 NanoSupport
 msgid ""
 msgstr ""
-"Project-Id-Version: NanoSupport 0.4.0\n"
+"Project-Id-Version: NanoSupport 0.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/nanodesigns/nanosupport/issues\n"
-"POT-Creation-Date: 2017-06-06 20:44:16+00:00\n"
+"POT-Creation-Date: 2017-07-23 03:45:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -820,7 +820,7 @@ msgstr ""
 msgid "Copy to KB"
 msgstr ""
 
-#: includes/ns-cpt-nanosupport.php:312
+#: includes/ns-cpt-nanosupport.php:333
 msgid "Add the ticket on behalf of anybody"
 msgstr ""
 

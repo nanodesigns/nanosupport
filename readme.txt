@@ -148,15 +148,21 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 == Changelog ==
 
-= 0.5.0 - 2017-AUG-21 =
+= 0.5.0 - 2017-NOV-28 =
 * New Feature: E-commerce &mdash; Support to products of Easy Digital Downloads (v2.5+) and WooCommerce (v2.2+)
 * 7 new icons to NanoSupport Icons
+
+= 0.4.1 - 2017-JUL-23 =
+* Bug fixed: Ticket additional info was affecting on show/hide in smaller devices
+* Bug fixed: Ticket assignment on behalf of support seeker was getting only administrators
+* Code of Conduct added for contributors
+* Some other minor fixes
 
 = 0.4.0 - 2017-JUN-09 =
 * New Feature: Ticket can be copied into a Knowledgebase document
 * Requested Feature: ReEngineering Knowledgebase Doc URL strucuture
 * Bug fixed: Ticket cannot be added on behalf of client
-* New filter hook: `ns_nanodoc_arguments`, `nanosupport_copied_content`
+* New filter hook: `ns_nanodoc_arguments`, `nanosupport_copied_content`, `nanosupport_assigned_user_role`
 
 = 0.3.4 - 2017-APR-21 =
 * Bug fixed: Support agent loses his status on profile update
