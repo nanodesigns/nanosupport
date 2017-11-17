@@ -55,13 +55,13 @@
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
 								<strong><?php _e( 'Created', 'nanosupport' ); ?>:</strong><br>
-								<span class="ns-small"><?php echo date( 'd M Y h:iA', strtotime( $post->post_date ) ); ?></span>
+								<span class="ns-small"><?php echo ns_date_time( $post->post_date ); ?></span>
 							</p>
 						</div>
 						<div class="ns-col-sm-2 ns-col-xs-6">
 							<p>
 								<strong><?php _e( 'Updated', 'nanosupport' ); ?>:</strong><br>
-								<span class="ns-small"><?php echo date( 'd M Y h:iA', strtotime( ns_get_ticket_modified_date($post->ID) ) ); ?></span>
+								<span class="ns-small"><?php echo ns_date_time( ns_get_ticket_modified_date($post->ID) ); ?></span>
 							</p>
 						</div>
 						<div class="ns-col-sm-2 ns-col-xs-6">
@@ -186,7 +186,7 @@
 								</div> <!-- /.response-head -->
 							</div>
 							<div class="ns-col-sm-3 response-dates">
-								<a href="#response-<?php echo esc_attr($counter); ?>" class="response-bookmark ns-small"><strong class="ns-hash">#</strong> <?php echo date( 'd M Y h:iA', strtotime( $response->comment_date ) ); ?></a>
+								<a href="#response-<?php echo esc_attr($counter); ?>" class="response-bookmark ns-small"><strong class="ns-hash">#</strong> <?php echo ns_date_time( $response->comment_date ); ?></a>
 							</div>
 						</div> <!-- /.ns-row -->
 						<div class="ticket-response">

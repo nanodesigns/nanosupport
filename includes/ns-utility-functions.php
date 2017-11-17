@@ -522,22 +522,53 @@ function ns_get_pending_permalink( $post_id ) {
     return str_replace( '%pagename%', $postname, $permalink );
 }
 
+
 /**
  * Display date time as per WP Settings.
  *
- * Always pass a strtotime() UNIX string as a parameter.
+ * Display the date time in NanoSupport according to the WordPress' General Settings.
+ * Let the user modify if they want using a filter hook.
  *
  * @since  1.0.0
  * 
- * @param  string $datetime UNIX timestamp.
- * @return string           User chosen timestamp as per General Settings.
+ * @param  integer|string   $datetime   DateTime, or UNIX timestamp.
+ * @param  boolean          $time       True if to display the time portion.
+ * @return string                       Formated datetime.
  * --------------------------------------------------------------------------
  */
-function ns_date_time( $datetime = null ) {
-    $date_format = get_option( 'date_format' );
-    $time_format = get_option( 'time_format' );
+function ns_date_time( $datetime, $time = true ) {
 
-    return date( $date_format .' '. $time_format, $datetime );
+    /**
+     * Check and make sure it's a UNIX timestamp.
+     * @link https://stackoverflow.com/a/2524710/1743124
+     * @var  integer
+     * ...
+     */
+    if( ! (is_numeric($datetime) && (int) $datetime === $datetime) ) {
+        $datetime = strtotime($datetime);
+    }
+
+    // Grab the date-time format from WordPress Settings.
+    $date_time_format = get_option( 'date_format' );
+
+    if( $time ) {
+        $date_time_format .= ' ';
+        $date_time_format .= get_option( 'time_format' );
+    }
+
+    /**
+     * -----------------------------------------------------------------------
+     * HOOK : FILTER HOOK
+     * ns_date_time_format
+     * 
+     * Hook to moderate the date-time format.
+     *
+     * @since  1.0.0
+     * -----------------------------------------------------------------------
+     */
+    apply_filters( 'ns_date_time_format', $date_time_format );
+
+    return date( $date_time_format, $datetime );
 }
 
 

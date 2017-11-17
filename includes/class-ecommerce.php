@@ -121,7 +121,6 @@ class NSECommerce {
 	public function get_product_info( $product_id, $receipt = null ) {
 		$product          = new stdClass();
 		
-		$date_time_format = get_option('date_format') .' - '. get_option('time_format');
 		$product_id       = absint($product_id);
 		$post_type        = get_post_type($product_id);
 		
@@ -158,7 +157,7 @@ class NSECommerce {
 				}
 			}
 
-			$product->{'purchase_date'} = !empty($purchase_date) ? date( $date_time_format, strtotime($purchase_date) ) : '';
+			$product->{'purchase_date'} = !empty($purchase_date) ? ns_date_time( $purchase_date ) : '';
 			$product->{'purchase_by'}   = $purchase_by;
 			$product->{'payment_url'}   = get_edit_post_link($receipt_id);
 		}

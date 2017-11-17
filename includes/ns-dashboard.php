@@ -196,7 +196,7 @@ function nanosupport_widget_callback() { ?>
                                 if( $counter <= 5 ) { ?>
                                 
                                 <div>
-                                    <strong><?php echo mysql2date( 'd M Y, h:i A', $activity['date'] ); ?></strong><br> 
+                                    <strong><?php echo ns_date_time( $activity['date'] ); ?></strong><br> 
                                     <?php
                                     if( 'response' === $activity['type'] ) {
                                         /* translators: 1. link URL 2. ticket title 3. ticket author */

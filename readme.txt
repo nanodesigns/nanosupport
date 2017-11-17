@@ -151,6 +151,7 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 = 0.5.0 - 2017-NOV-28 =
 * New Feature: E-commerce &mdash; Support to products of Easy Digital Downloads (v2.5+) and WooCommerce (v2.2+)
 * 7 new icons to NanoSupport Icons
+* New filter hook: 'ns_date_time_format'
 
 = 0.4.1 - 2017-JUL-23 =
 * Bug fixed: Ticket additional info was affecting on show/hide in smaller devices
@@ -249,5 +250,5 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 == Upgrade Notice ==
 
-= 0.3.4 =
-Various bug fixed
+= 0.5.0 =
+Added E-commerce feature, and modified the 'content-email' & 'content-single-ticket' template files, and datetime display.

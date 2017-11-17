@@ -602,7 +602,7 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
                             </div> <!-- /.response-head -->
                         </div>
                         <div class="ns-col-sm-3 response-dates ns-small">
-                            <?php echo date( 'd M Y h:iA', current_time('timestamp') ); ?>
+                            <?php echo ns_date_time( current_time('timestamp') ); ?>
                         </div>
                     </div> <!-- /.ns-row -->
                     <div class="ns-feedback-form">
