@@ -198,7 +198,7 @@ function ns_account_creation_field() {
 // General Tab : E-Commerce Settings : Field 1 : Enable E-commerce?
 function ns_enable_ecommerce_field() {
     $options = get_option( 'nanosupport_settings' );
-
+    
     $enable_ecommerce_val = isset($options['enable_ecommerce']) ? $options['enable_ecommerce'] : '';
     echo '<input name="nanosupport_settings[enable_ecommerce]" id="ns_enable_ecommerce" type="checkbox" value="1" '. checked( 1, $enable_ecommerce_val, false ) . '/> <label for="ns_enable_ecommerce">'. __( 'Yes, integrate with Easy Digital Downloads or WooCommerce', 'nanosupport' ) .'</label>';
     echo ns_tooltip( 'ns-enable-ecommerce', __( 'If you check here, the plugin will be integrated with the products of WooCommerce and/or Easy Digital Downloads.', 'nanosupport' ), 'right' );
@@ -209,19 +209,22 @@ function ns_excluded_products_field() {
     $options = get_option( 'nanosupport_settings' );
 
     $NSECommerce = new NSECommerce();
-    $products    = $NSECommerce->get_all_products();
 
-    $excluded_products_val = isset($options['excluded_products']) ? (array) $options['excluded_products'] : '';
-    echo '<select name="nanosupport_settings[excluded_products][]" id="ns_excluded_products" class="ns-select" multiple="multiple"data-placeholder="'. esc_attr__( 'Select Products to Exclude', 'nanosupport' ) .'" aria-describedby="ns-excluded-products">';
-        echo '<option value="">'. esc_html__( 'Select Products to Exclude', 'nanosupport' ) .'</option>';
-        foreach($products as $id => $product_name) {
-            $selected = is_array($excluded_products_val) && in_array( $id, $excluded_products_val ) ? ' selected="selected" ' : '';
-            echo '<option value="'. esc_attr($id) .'" '. $selected .'>';
-                echo esc_html($product_name);
-            echo '</option>';
-        }
-    echo '</select>';
-    echo ns_tooltip( 'ns-excluded-products', __( 'Select the product[s] you want to keep out of providing Support. Leave blank if you want all your products to provide support.', 'nanosupport' ), 'right' );
+    if( $NSECommerce->is_plugins_active() ) {
+        $products = $NSECommerce->get_all_products();
+
+        $excluded_products_val = isset($options['excluded_products']) ? (array) $options['excluded_products'] : '';
+        echo '<select name="nanosupport_settings[excluded_products][]" id="ns_excluded_products" class="ns-select" multiple="multiple"data-placeholder="'. esc_attr__( 'Select Products to Exclude', 'nanosupport' ) .'" aria-describedby="ns-excluded-products">';
+            echo '<option value="">'. esc_html__( 'Select Products to Exclude', 'nanosupport' ) .'</option>';
+            foreach($products as $id => $product_name) {
+                $selected = is_array($excluded_products_val) && in_array( $id, $excluded_products_val ) ? ' selected="selected" ' : '';
+                echo '<option value="'. esc_attr($id) .'" '. $selected .'>';
+                    echo esc_html($product_name);
+                echo '</option>';
+            }
+        echo '</select>';
+        echo ns_tooltip( 'ns-excluded-products', __( 'Select the product[s] you want to keep out of providing Support. Leave blank if you want all your products to provide support.', 'nanosupport' ), 'right' );
+    }
 }
 
 
@@ -239,7 +242,14 @@ function ns_delete_data_field() {
  * Callback: E-commerce Settings Section
  */
 function ns_ecommerce_settings_section_callback() {
-    echo '<p class="screen-reader-text">'. __( 'E-commerce settings to enable WooCommerce or Easy Digital Downloads&rsquo; products can be managed from here.', 'nanosupport' ) .'</p>';
+    echo '<p class="screen-reader-text">'. esc_html__( 'E-commerce settings to enable WooCommerce or Easy Digital Downloads&rsquo; products can be managed from here.', 'nanosupport' ) .'</p>';
+
+    $NSECommerce = new NSECommerce();
+    if( ! $NSECommerce->is_plugins_active() ) {
+
+        echo '<p class="ns-text-warning" role="alert"><i class="ns-icon-info-circled"></i> '. esc_html__( 'Using ecommerce feature, needs either Easy Digital Downloads or WooCommerce active.', 'nanosupport' ) .'</p>';
+
+    }
 }
 
 

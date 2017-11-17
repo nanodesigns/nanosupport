@@ -24,6 +24,16 @@ class NSECommerce {
 	}
 
 	/**
+	 * E-Commerce plugins active or not.
+	 * 
+	 * @return boolean True if active, false otherwise.
+	 * -----------------------------------------------------------------------
+	 */
+	public function is_plugins_active() {
+		return ( $this->wc_active || $this->edd_active ) ? true : false;
+	}
+
+	/**
 	 * E-Commerce enabled?
 	 * 
 	 * @return boolean
@@ -33,13 +43,11 @@ class NSECommerce {
 		// Get the NanoSupport Settings from Database
 	    $ns_general_settings = get_option( 'nanosupport_settings' );
 
-	    $enabled = false;
-
-	    if( isset($ns_general_settings['enable_ecommerce']) && $ns_general_settings['enable_ecommerce'] === 1 && ( $this->wc_active || $this->edd_active ) ) {
-	    	$enabled = true;
+	    if( isset($ns_general_settings['enable_ecommerce']) && $ns_general_settings['enable_ecommerce'] === 1 && $this->is_plugins_active() ) {
+	    	return true;
 	    }
 
-	    return $enabled;
+	    return false;
 	}
 
 

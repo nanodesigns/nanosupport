@@ -179,33 +179,38 @@ function nanosupport_settings_options_init(){
         'ns_ecommerce_settings_section_callback',       // Callback*
         'nanosupport_settings'                          // Page/Tab where to add the section of options*
     );
-        /**
-         * Tab: General Settings
-         * Section: Ecommerce Settings
-         *  - Enable Ecommerce
-         * ----------------------------------
-         */
-        add_settings_field(
-            'enable_ecommerce',                             // ID*
-            esc_html__( 'Enable E-commerce Support?', 'nanosupport' ), // Title*
-            'ns_enable_ecommerce_field',                    // Callback Function*
-            'nanosupport_settings',                         // Page (Plugin)*
-            'ns_ecommerce'                                  // Section
-        );
+
+        $NSECommerce = new NSECommerce();
+
+        if( $NSECommerce->is_plugins_active() ) {
+            /**
+             * Tab: General Settings
+             * Section: Ecommerce Settings
+             *  - Enable Ecommerce
+             * ----------------------------------
+             */
+            add_settings_field(
+                'enable_ecommerce',                             // ID*
+                esc_html__( 'Enable E-commerce Support?', 'nanosupport' ), // Title*
+                'ns_enable_ecommerce_field',                    // Callback Function*
+                'nanosupport_settings',                         // Page (Plugin)*
+                'ns_ecommerce'                                  // Section
+            );
         
-        /**
-         * Tab: General Settings
-         * Section: Ecommerce Settings
-         *  - Excluded Products
-         * ----------------------------------
-         */
-        add_settings_field(
-            'excluded_products',                             // ID*
-            esc_html__( 'Exclude Products', 'nanosupport' ), // Title*
-            'ns_excluded_products_field',                    // Callback Function*
-            'nanosupport_settings',                          // Page (Plugin)*
-            'ns_ecommerce'                                   // Section
-        );
+            /**
+             * Tab: General Settings
+             * Section: Ecommerce Settings
+             *  - Excluded Products
+             * ----------------------------------
+             */
+            add_settings_field(
+                'excluded_products',                             // ID*
+                esc_html__( 'Exclude Products', 'nanosupport' ), // Title*
+                'ns_excluded_products_field',                    // Callback Function*
+                'nanosupport_settings',                          // Page (Plugin)*
+                'ns_ecommerce'                                   // Section
+            );
+        }
 
     /**
      * Section: Other Settings
