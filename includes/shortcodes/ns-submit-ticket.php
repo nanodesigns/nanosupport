@@ -292,7 +292,7 @@ function ns_submit_support_ticket() {
 							</div>
 							<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12 ns-form-inline">
 								<?php $submit_val = !empty($_POST['ns_ticket_product_receipt']) ? $_POST['ns_ticket_product_receipt'] : ''; ?>
-								<input type="number" name="ns_ticket_product_receipt" class="ns-form-control" id="ns-ticket-product-receipt" aria-describedby="ns-product-receipt" value="<?php echo $submit_val; ?>" min="0">
+								<input type="number" name="ns_ticket_product_receipt" class="ns-form-control" id="ns-ticket-product-receipt" aria-describedby="ns-product-receipt" value="<?php echo $submit_val; ?>" min="0" required>
 							</div>
 						</div> <!-- /.ns-form-group -->
 
