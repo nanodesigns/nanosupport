@@ -183,6 +183,149 @@ add_action( 'manage_nanosupport_posts_custom_column' , 'ns_populate_custom_colum
 
 
 /**
+ * Add Ticket Filter fields.
+ *
+ * Display additional filters to tickets.
+ * 
+ * @author Ohad Raz
+ * @author Bainternet
+ * @link   https://wordpress.stackexchange.com/a/45447/22728
+ * 
+ * @return void
+ * -----------------------------------------------------------------------
+ */
+function ns_admin_tickets_filter() {
+    $post_type = filter_input(INPUT_GET, 'post_type', FILTER_SANITIZE_STRING);
+    $post_type = ! empty($post_type) ? $post_type : 'post';
+
+    if ('nanosupport' === $post_type) {
+
+        $priority_values = array(
+            esc_html__( 'Critical', 'nanosupport' ) => 'critical', 
+            esc_html__( 'High', 'nanosupport' )     => 'high',
+            esc_html__( 'Medium', 'nanosupport' )   => 'medium',
+            esc_html__( 'Low', 'nanosupport' )      => 'low'
+        );
+        ?>
+
+        <select name="ticket_priority">
+            <option value=""><?php esc_html_e('Filter by Priority', 'nanosupport'); ?></option>
+            <?php
+                $priority_filter = filter_input(INPUT_GET, 'ticket_priority', FILTER_SANITIZE_STRING);
+                foreach ($priority_values as $label => $value) :
+                    printf (
+                        '<option value="%s"%s>%s</option>',
+                        $value,
+                        $value === $priority_filter ? ' selected="selected"' : '',
+                        $label
+                    );
+                endforeach;
+            ?>
+        </select>
+
+        <?php
+
+        $ticket_status_values = array(
+            esc_html__( 'Pending', 'nanosupport' )          => 'pending', 
+            esc_html__( 'Open', 'nanosupport' )             => 'open',
+            esc_html__( 'Under Inspection', 'nanosupport' ) => 'inspection',
+            esc_html__( 'Solved', 'nanosupport' )           => 'solved'
+        );
+        ?>
+
+        <select name="ticket_status">
+            <option value=""><?php esc_html_e('Filter by Ticket Status', 'nanosupport'); ?></option>
+            <?php
+                $status_filter = filter_input(INPUT_GET, 'ticket_status', FILTER_SANITIZE_STRING);
+                foreach ($ticket_status_values as $label => $value) :
+                    printf (
+                        '<option value="%s"%s>%s</option>',
+                        $value,
+                        $value === $status_filter ? ' selected="selected"' : '',
+                        $label
+                    );
+                endforeach;
+            ?>
+        </select>
+
+        <?php
+
+        $agents = get_users(array(
+            'meta_key'   => 'ns_make_agent',
+            'meta_value' => 1
+        ));
+        ?>
+
+        <select name="agent">
+            <option value=""><?php esc_html_e('Filter by Agent', 'nanosupport'); ?></option>
+            <?php
+                $agent_filter = filter_input(INPUT_GET, 'agent', FILTER_SANITIZE_NUMBER_INT);
+                foreach ($agents as $agent) :
+                    printf (
+                        '<option value="%s"%s>%s</option>',
+                        $agent->ID,
+                        $agent->ID == $agent_filter ? ' selected="selected"' : '',
+                        $agent->data->display_name
+                    );
+                endforeach;
+            ?>
+        </select>
+
+        <?php
+    }
+}
+
+add_action( 'restrict_manage_posts', 'ns_admin_tickets_filter' );
+
+
+/**
+ * Filter Admin Tickets based on Filter.
+ *
+ * @author Ohad Raz
+ * @author Bainternet
+ * @link   https://wordpress.stackexchange.com/a/45447/22728
+ * 
+ * @param  object $query WP_Query object.
+ * @return object        Modified query object.
+ * -----------------------------------------------------------------------
+ */
+function ns_admin_tickets_filter_query( $query ){
+    global $pagenow;
+
+    $post_type = filter_input(INPUT_GET, 'post_type', FILTER_SANITIZE_STRING);
+    $post_type = ! empty($post_type) ? $post_type : 'post';
+
+    if ( is_admin() && 'nanosupport' === $post_type && 'edit.php' === $pagenow ) :
+        
+        $priority_filter = filter_input(INPUT_GET, 'ticket_priority', FILTER_SANITIZE_STRING);
+        if( ! empty($priority_filter) ) :
+            $query->query_vars['meta_key']   = '_ns_ticket_priority';
+            $query->query_vars['meta_value'] = $priority_filter;
+        endif;
+
+        $status_filter = filter_input(INPUT_GET, 'ticket_status', FILTER_SANITIZE_STRING);
+        if( ! empty($status_filter) ) :
+            if( 'pending' === $status_filter ) :
+                $query->query_vars['post_status'] = 'pending';
+            else :
+                $query->query_vars['post_status'] = 'private';
+                $query->query_vars['meta_key']    = '_ns_ticket_status';
+                $query->query_vars['meta_value']  = $status_filter;
+            endif;
+        endif;
+
+        $agent_filter = filter_input(INPUT_GET, 'agent', FILTER_SANITIZE_NUMBER_INT);
+        if( ! empty($agent_filter) ) :
+            $query->query_vars['meta_key']   = '_ns_ticket_agent';
+            $query->query_vars['meta_value'] = $agent_filter;
+        endif;
+    endif;
+}
+
+add_filter( 'parse_query', 'ns_admin_tickets_filter_query' );
+
+
+/**
  * Register Custom Taxonomy
  * 
  * Create Custom Taxonomy 'nanosupport_department' to sort out the tickets.
