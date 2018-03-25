@@ -298,28 +298,47 @@ function ns_admin_tickets_filter_query( $query ){
     if ( is_admin() && 'nanosupport' === $post_type && 'edit.php' === $pagenow ) :
         
         $priority_filter = filter_input(INPUT_GET, 'ticket_priority', FILTER_SANITIZE_STRING);
-        if( ! empty($priority_filter) ) :
-            $query->query_vars['meta_key']   = '_ns_ticket_priority';
-            $query->query_vars['meta_value'] = $priority_filter;
+        $status_filter   = filter_input(INPUT_GET, 'ticket_status', FILTER_SANITIZE_STRING);
+        $agent_filter    = filter_input(INPUT_GET, 'agent', FILTER_SANITIZE_NUMBER_INT);
+
+        $_meta_query = array();
+
+        if( $priority_filter ) :
+            $_meta_query[] = array(
+                'key'   => '_ns_ticket_priority',
+                'value' => $priority_filter
+            );
         endif;
 
-        $status_filter = filter_input(INPUT_GET, 'ticket_status', FILTER_SANITIZE_STRING);
-        if( ! empty($status_filter) ) :
+        if( $status_filter ) :
             if( 'pending' === $status_filter ) :
                 $query->query_vars['post_status'] = 'pending';
             else :
                 $query->query_vars['post_status'] = 'private';
-                $query->query_vars['meta_key']    = '_ns_ticket_status';
-                $query->query_vars['meta_value']  = $status_filter;
+                $_meta_query[] = array(
+                    'key'   => '_ns_ticket_status',
+                    'value' => $status_filter
+                );
             endif;
         endif;
 
-        $agent_filter = filter_input(INPUT_GET, 'agent', FILTER_SANITIZE_NUMBER_INT);
-        if( ! empty($agent_filter) ) :
-            $query->query_vars['meta_key']   = '_ns_ticket_agent';
-            $query->query_vars['meta_value'] = $agent_filter;
+        if( $agent_filter ) :
+            $_meta_query[] = array(
+                'key'   => '_ns_ticket_agent',
+                'value' => $agent_filter
+            );
         endif;
+
+        // If any of 2 or more filter present at once.
+        // @link https://stackoverflow.com/a/39484680/1743124
+        if( count( array_filter(array($priority_filter,$status_filter,$agent_filter)) ) >= 2 ) :
+            $_meta_query['relation'] = 'AND';
+        endif;
+
+        $query->set( 'meta_query', $_meta_query );
+        
     endif;
+
 }
 
 add_filter( 'parse_query', 'ns_admin_tickets_filter_query' );
