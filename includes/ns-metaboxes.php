@@ -295,14 +295,15 @@ function ns_control_specifics() {
                     <div id="ns-product-display-panel">
                         <h2>
                             <i class="dashicons dashicons-cart"></i> <?php esc_html_e( 'Product', 'nanosupport' ); ?>
-                            <div id="ns-btn-edit-product"><?php _ex( 'Edit', 'NanoSupport Product', 'nanosupport' ); ?></div>
+                            <?php /* translators: Button text to open product-specific fields on-demand */ ?>
+                            <div id="ns-btn-edit-product" class="hide-if-no-js"><?php _ex( 'Edit', 'NanoSupport Product', 'nanosupport' ); ?></div>
                         </h2>
                         <div class="ns-row misc-pub-section">
 
                             <?php if( 'publish' !== $product_info->status ) { ?>
                                 
                                 <p class="ns-text-muted ns-text-center">
-                                    &mdash; <?php _e('Product is not available', 'nanosupport' ); ?> &mdash;
+                                    &mdash; <?php esc_html_e( 'Product is not available', 'nanosupport' ); ?> &mdash;
                                 </p>
 
                             <?php } else { ?>
@@ -327,7 +328,7 @@ function ns_control_specifics() {
                                     ?>
 
                                     <a class="button button-small button-default" href="<?php echo esc_url($product_info->payment_url); ?>" target="_blank">
-                                        <?php _e('Payment Details', 'nanosupport' ); ?>
+                                        <?php esc_html_e( 'Payment Details', 'nanosupport' ); ?>
                                     </a>
 
                                 <?php } //endif ?>
@@ -340,7 +341,7 @@ function ns_control_specifics() {
 
                 <?php } ?>
 
-                <div id="ns-product-edit-panel" <?php echo !empty($_ns_ticket_product) ? 'class="ns-hide-default"' : ''; ?>>
+                <div id="ns-product-edit-panel" <?php echo !empty($_ns_ticket_product) ? 'class="hide-if-js"' : ''; ?>>
                 
                     <div class="ns-row misc-pub-section">
                         <div class="ns-head-col">
