@@ -34,7 +34,7 @@ The plugin is to provide support to your users - the users those are taking prod
 * Knowledgebase content categories
 * Copy ticket content into Knowledgebase document
 * Ticket departments
-* E-Commerce Support - Support to products of Easy Digital Downloads and WooCommerce
+* E-Commerce Support - Support to products of Easy Digital Downloads (EDD) and WooCommerce (WC)
 * Make agent from registered users
 * Assign ticket to an agent
 * Change ticket status (Pending, Open, Under Inspection, Solved)
@@ -136,6 +136,9 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 = Q: How to make a Support Agent? =
 **A:** Edit any WordPress user in WordPress admin panel and at the bottom, check the checkmark saying: *Yes, make this user a Support Agent* to make the user a support agent.
 
+= Q: How I can provide support for my e-commerce products? =
+**A:** With the version 0.5.0+ the plugin has support for WooCommerce and Easy Digital Downloads (EDD). Simply activate support for E-Commerce in NanoSupport Settings, and there would be 2 new fields available for providing Support for E-Commerce products that will integrate with the active WC/EDD products, and their receipts. You can exclude certain products from the settings also.
+
 == Screenshots ==
 1. NanoSupport | Support Desk (front end)
 2. NanoSupport | Support Tickets (back end)
@@ -148,7 +151,7 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 == Changelog ==
 
-= 0.5.0 - 2017-NOV-28 =
+= 0.5.0 - 2018-MAR-30 =
 * New Feature: E-commerce &mdash; Support to products of Easy Digital Downloads (v2.5+) and WooCommerce (v2.2+)
 * 7 new icons to NanoSupport Icons
 * New filter hook: 'ns_date_time_format'
@@ -165,88 +168,7 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 * Bug fixed: Ticket cannot be added on behalf of client
 * New filter hook: `ns_nanodoc_arguments`, `nanosupport_copied_content`, `nanosupport_assigned_user_role`
 
-= 0.3.4 - 2017-APR-21 =
-* Bug fixed: Support agent loses his status on profile update
-* Bug fixed: Ticket updated dates failure
-* Assured partial accessibility features
-* CSS are completely modularized into SCSS files
-* Grunt version and clean implemented
-* Several minor issues fixed
-
-= 0.3.3 - 2017-MAR-03 =
-* Quick bug fixed introduced with version 0.3.2 with same user and same date for ticket date and update date
-
-= 0.3.2 - 2017-MAR-03 =
-* Ticket update date fixed syncing with replies
-* Bug Fixed: pending ticket link was not working in agent notifying email
-* Withdrawn Composer dependency in development, as no PHP library is required to depend on
-
-= 0.3.1 - 2017-JAN-24 =
-* Fixed: Assigning ticket to Support Agent was not triggering any email
-* New filter hook: `nanosupport_notify_agent_assignment`
-* Fixed: Users can set themselves as a Support Agent
-* Priority assignment by public made dynamic using Settings API
-* Various i18n functions fixed
-* Several other minor fixes all over the plugin code and texts
-
-= 0.3.0 - 2016-DEC-24 =
-**Major changes**
-
-* Rich Text editor for ticket body text
-* New filter hook: `ns_wp_editor_specs`, `ns_back_to_knowledgebase`
-* Pending ticket notification using admin menu bubble
-* Fixed translation strings to strip out dumped HTML and made most of them SQL injection proof
-* Composer, npm dependency and Grunt incorporated for easy development collaboration
-* Default assignment of 'Support' department is made deprecated
-* User can choose Support Department on submitting new ticket (Settings available)
-* CSS is changed from LESS to Sass
-* System Status admin page
-
-**Minor changes**
-
-* Reorganized third party libraries
-* contributing.md added
-* Github issue template added
-* A warning on upgrading process fixed - props @prionkor
-* jshint error fixed with procedural code
-* Agent email was not sending - fixed
-* Ticket response content added to email body
-* Back link to Knowledgebase added after Knowledgebase contents
-
-= 0.2.2 - 2016-SEP-03 =
-* Ticket character limit can be set by user
-* Response character limit is deprecated
-* User can close ticket without submitting any response
-* Ticket content is added to the new ticket notification email
-* Fixed: Ticket with registration was not working on WordPress registration settings
-* Some translation strings are fixed
-
-= 0.2.1 - 2016-AUG-22 =
-* `wp_kses()` is implemented to secure site from bad user input
-* New filter hook: `ns_allowed_html`
-* Tooltip made wider for large bunch of texts
-* Stripping 'private' and 'protected' from ticket titles i18n-friendly
-* Translation added: Bengali (*Bengali*) - `bn_BD`
-
-= 0.2.0 - 2016-AUG-15 =
-* Minimum WordPress version upgraded to 4.4.0
-* Knowledgebase made optional
-* UI added for selecting Knowledgebase Category Icons
-* Added feature for closing a ticket from front end
-* Tooltip added to Submit form for better UX
-* Submit Form is made dynamic for adding feature to the `<form>` element
-* Select2 Plugin updated to 4.0.3
-* Knowledgebase CSS revamped
-* Fixed a conflict with Yoast SEO and Select2 plugin in admin areas
-* File organization, some CSS files made LESS for easy compilation
-* JavaScript fallback plan implemented for front end
-* Other fixes/UI improvements
-
-= 0.1.1 - 2016-JUN-21 =
-* A bug on Submit ticket is fixed
-
-= 0.1.0 - 2016-JUN-17 =
-* Plugin initiated
+[See changelog for all versions](https://github.com/nanodesigns/nanosupport/blob/master/CHANGELOG.txt).
 
 == Upgrade Notice ==
 
