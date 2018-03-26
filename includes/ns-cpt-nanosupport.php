@@ -444,7 +444,7 @@ function ns_ticket_author_dropdown_overrides( $query_args, $r ) {
 
     global $post;
 
-    if( 'nanosupport' === $post->post_type ) {
+    if( isset($post) && 'nanosupport' === $post->post_type ) {
 
         // Make it empty to 'role__in' act.
         $query_args['who'] = '';
@@ -490,9 +490,9 @@ add_filter( 'wp_dropdown_users_args', 'ns_ticket_author_dropdown_overrides', 10,
 function ns_help_text_to_post_author( $output )  {
     global $post;
 
-    if( 'nanosupport' === $post->post_type ) {
+    if( isset($post) && 'nanosupport' === $post->post_type ) {
         // Prepend some help text before select field.
-        $output = '<p>'. __( 'Add the ticket on behalf of anybody', 'nanosupport' ) .'</p>'. $output;
+        $output = '<p>'. esc_html__( 'Add the ticket on behalf of anybody', 'nanosupport' ) .'</p>'. $output;
     }
 
     return $output;
