@@ -544,7 +544,7 @@ function ns_date_time( $datetime, $time = true ) {
      * @var  integer
      * ...
      */
-    if( ! (is_numeric($datetime) && (int) $datetime === $datetime) ) {
+    if( ! (is_numeric($datetime) && (float) $datetime === $datetime) ) {
         $datetime = strtotime($datetime);
     }
 
