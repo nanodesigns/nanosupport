@@ -340,7 +340,7 @@ function ns_control_specifics() {
 
                 <?php } ?>
 
-                <div id="ns-product-edit-panel">
+                <div id="ns-product-edit-panel" <?php echo !empty($_ns_ticket_product) ? 'class="ns-hide-default"' : ''; ?>>
                 
                     <div class="ns-row misc-pub-section">
                         <div class="ns-head-col">
