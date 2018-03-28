@@ -106,6 +106,12 @@ function ns_support_desk_page() {
 					//Get ticket information
 					$ticket_meta 	 = ns_get_ticket_meta( get_the_ID() );
 					$highlight_class = 'priority' === $highlight_choice ? $ticket_meta['priority']['class'] : $ticket_meta['status']['class'];
+
+					$NSECommerce = new NSECommerce();
+					if( $NSECommerce->ecommerce_enabled() ) {
+						$product_info = $NSECommerce->get_product_info($ticket_meta['product'], $ticket_meta['receipt']);
+						$product_icon = false !== $product_info ? '&nbsp;<i class="ns-icon-cart ns-small" aria-hidden="true"></i>' : '';
+					}
 					?>
 
 					<div class="ticket-cards ns-cards <?php echo esc_attr($highlight_class); ?>">
@@ -115,14 +121,14 @@ function ns_support_desk_page() {
 									<?php if( 'pending' === $ticket_meta['status']['value'] ) : ?>
 										<?php if( ns_is_user('agent_and_manager') ) : ?>
 											<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
-												<?php the_title(); ?>
+												<?php the_title(); echo $product_icon; ?>
 											</a>
 										<?php else : ?>
-											<?php the_title(); ?>
+											<?php the_title(); echo $product_icon; ?>
 										<?php endif; ?>
 									<?php else : ?>
 										<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
-											<?php the_title(); ?>
+											<?php the_title(); echo $product_icon; ?>
 										</a>
 									<?php endif; ?>
 									

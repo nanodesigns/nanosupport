@@ -127,6 +127,9 @@ class NSECommerce {
 	 * -----------------------------------------------------------------------
 	 */
 	public function get_product_info( $product_id, $receipt = null ) {
+
+		if( empty($product_id) ) return false;
+
 		$product          = new stdClass();
 		
 		$product_id       = absint($product_id);

@@ -107,7 +107,7 @@
 				</div>
 			</div> <!-- /.ns-row -->
 
-			<?php if( $NSECommerce->ecommerce_enabled() ) { ?>
+			<?php if( $NSECommerce->ecommerce_enabled() && false !== $product_info ) { ?>
 
 				<div class="ns-clearfix ticket-product-block">
 
@@ -121,7 +121,7 @@
 			
 				
 						<a href="<?php echo esc_url($product_info->link); ?>" target="_blank">
-						    <i class="ns-icon-cart"></i>
+						    <i class="ns-icon-cart" aria-hidden="true"></i>
 						    <strong><?php
 						    /* translators: Product name */
 						    printf( esc_html__('Product: %s', 'nanosupport'), $product_info->name ); ?></strong>
