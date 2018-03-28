@@ -2,7 +2,7 @@
 Contributors: nanodesigns, wzislam
 Tags: helpdesk, support desk, support ticket, ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, support staff, support ticketing, knowledge base, support plugin
 Requires at least: 4.4.0
-Tested up to: 4.8
+Tested up to: 4.9.4
 Stable tag: 0.4.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
