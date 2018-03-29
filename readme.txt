@@ -151,10 +151,13 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 == Changelog ==
 
-= 0.5.0 - 2018-MAR-30 =
+= 0.5.0 - 2018-MAR-31 =
 * New Feature: E-commerce &mdash; Support to products of Easy Digital Downloads (v2.5+) and WooCommerce (v2.2+)
+* Additional Feature: Let the admin end users filter tickets based on Priority and/or Status and/or Agent
 * 7 new icons to NanoSupport Icons
 * New filter hooks: 'ns_date_time_format', 'ns_mandate_product_fields'
+* Issue Fixed: Email Template background was repeating
+* Issue Fixed: Date Time format was not changeable
 
 = 0.4.1 - 2017-JUL-23 =
 * Bug fixed: Ticket additional info was affecting on show/hide in smaller devices

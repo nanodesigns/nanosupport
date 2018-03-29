@@ -249,29 +249,31 @@ function ns_admin_tickets_filter() {
         </select>
 
         <?php
+        if( ! ns_is_user('agent') ) :
 
-        $agents = get_users(array(
-            'meta_key'   => 'ns_make_agent',
-            'meta_value' => 1
-        ));
-        ?>
-
-        <select name="agent">
-            <option value=""><?php esc_html_e('Filter by Agent', 'nanosupport'); ?></option>
-            <?php
-                $agent_filter = filter_input(INPUT_GET, 'agent', FILTER_SANITIZE_NUMBER_INT);
-                foreach ($agents as $agent) :
-                    printf (
-                        '<option value="%s"%s>%s</option>',
-                        $agent->ID,
-                        $agent->ID == $agent_filter ? ' selected="selected"' : '',
-                        $agent->data->display_name
-                    );
-                endforeach;
+            $agents = get_users(array(
+                'meta_key'   => 'ns_make_agent',
+                'meta_value' => 1
+            ));
             ?>
-        </select>
+
+            <select name="agent">
+                <option value=""><?php esc_html_e('Filter by Agent', 'nanosupport'); ?></option>
+                <?php
+                    $agent_filter = filter_input(INPUT_GET, 'agent', FILTER_SANITIZE_NUMBER_INT);
+                    foreach ($agents as $agent) :
+                        printf (
+                            '<option value="%s"%s>%s</option>',
+                            $agent->ID,
+                            $agent->ID == $agent_filter ? ' selected="selected"' : '',
+                            $agent->data->display_name
+                        );
+                    endforeach;
+                ?>
+            </select>
 
         <?php
+        endif;
     }
 }
 
