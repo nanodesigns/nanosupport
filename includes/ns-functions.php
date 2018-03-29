@@ -92,8 +92,31 @@ function ns_handle_registration_login_ticket_submission() {
     // Ticket Product & Receipt
     $NSECommerce = new NSECommerce();
     if( $NSECommerce->ecommerce_enabled() ) {
-        $ticket_product = ! empty($_POST['ns_ticket_product']) ? $_POST['ns_ticket_product'] : '';
-        $ticket_receipt = ! empty($_POST['ns_ticket_product_receipt']) ? $_POST['ns_ticket_product_receipt'] : '';
+
+        /**
+         * -----------------------------------------------------------------------
+         * HOOK : FILTER HOOK
+         * ns_mandate_product_fields
+         * 
+         * Hook to moderate the permission for mandating product-specifc fields,
+         * or not.
+         *
+         * @since  1.0.0
+         * -----------------------------------------------------------------------
+         */
+        $mandate_product_fields = apply_filters( 'ns_mandate_product_fields', true );
+
+        if( $mandate_product_fields && empty($_POST['ns_ticket_product']) ) {
+            $ns_errors[]    = esc_html__( 'Adding Product relevent to the ticket is mandatory', 'nanosupport' );
+        } else {
+            $ticket_product = ! empty($_POST['ns_ticket_product']) ? $_POST['ns_ticket_product'] : '';
+        }
+
+        if( $mandate_product_fields && empty($_POST['ns_ticket_product_receipt']) ) {
+            $ns_errors[]    = esc_html__( 'Product Receipt must be mentioned for further enquiry', 'nanosupport' );
+        } else {
+            $ticket_receipt = ! empty($_POST['ns_ticket_product_receipt']) ? $_POST['ns_ticket_product_receipt'] : '';
+        }
     }
 
 

@@ -154,7 +154,7 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 = 0.5.0 - 2018-MAR-30 =
 * New Feature: E-commerce &mdash; Support to products of Easy Digital Downloads (v2.5+) and WooCommerce (v2.2+)
 * 7 new icons to NanoSupport Icons
-* New filter hook: 'ns_date_time_format'
+* New filter hooks: 'ns_date_time_format', 'ns_mandate_product_fields'
 
 = 0.4.1 - 2017-JUL-23 =
 * Bug fixed: Ticket additional info was affecting on show/hide in smaller devices
