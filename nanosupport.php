@@ -320,3 +320,9 @@ include_once 'includes/ns-updates.php';
  */
 register_activation_hook( __FILE__, 'nanosupport_install' );
 add_action( 'init', 'ns_load_textdomain', 1 );
+
+$NSECommerce = new NSECommerce();
+if( $NSECommerce->ecommerce_enabled() ) {
+	add_filter( 'woocommerce_prevent_admin_access', array( 'NSECommerce', 'wc_agent_admin_access' ), 20 );
+	add_filter( 'show_admin_bar', array( 'NSECommerce', 'wc_agent_show_admin_bar' ), 20 );
+}

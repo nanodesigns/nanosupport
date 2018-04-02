@@ -175,4 +175,34 @@ class NSECommerce {
 
 		return $product;
 	}
+
+
+	/**
+	 * WooCommerce: Allow Agents to view Dashboard.
+	 *
+	 * @link   https://stackoverflow.com/a/48332889/1743124
+	 * 
+	 * @param  boolean $prevent_access The default state.
+	 * @return boolean
+	 * -----------------------------------------------------------------------
+	 */
+	public static function wc_agent_admin_access( $prevent_access ) {
+    	$prevent_access = ns_is_user('agent') ? false : $prevent_access;
+        return $prevent_access;
+	}
+
+
+	/**
+	 * WooCommerce: Show Admin Bar to Agents.
+	 *
+	 * @link   https://stackoverflow.com/a/48332889/1743124
+	 * 
+	 * @param  boolean $show The default state.
+	 * @return boolean
+	 * -----------------------------------------------------------------------
+	 */
+	public static function wc_agent_show_admin_bar( $show ) {
+		$show = ns_is_user('agent') ? true : $show;
+	    return $show;
+	}
 }
