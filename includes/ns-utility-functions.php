@@ -203,68 +203,78 @@ function ns_user_nice_name( $user_id = false ) {
  * --------------------------------------------------------------------------
  */
 function ns_ticket_status_count( $status = '', $user_id = '' ) {
-    if( empty($status) )
-        return;
+    if( empty($status) ) return;
 
-    global $wpdb;
-    if( 'pending' === $status ) {
-        if( empty($user_id) ) {
-            $count = $wpdb->get_var(
-                        $wpdb->prepare(
-                            "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'nanosupport' AND post_status = %s",
-                            $status
-                        )
-                    );
+    $cache_key = 'ns_dash_count_'. $status . $user_id;
+
+    $count = wp_cache_get( $cache_key );
+    if ( false === $count ) {
+
+        global $wpdb;
+        if( 'pending' === $status ) {
+            if( empty($user_id) ) {
+                // Get all the tickets count.
+                $count = $wpdb->get_var(
+                            $wpdb->prepare(
+                                "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'nanosupport' AND post_status = %s",
+                                $status
+                            )
+                        );
+            } else {
+                // Get tickets to specific user.
+                $count = $wpdb->query(
+                            $wpdb->prepare(
+                                "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.ID
+                                    FROM $wpdb->posts
+                                    INNER JOIN $wpdb->postmeta ON ($wpdb->posts.ID = $wpdb->postmeta.post_id)
+                                    WHERE 1= 1
+                                        AND post_type = 'nanosupport'
+                                        AND post_status = %s
+                                        AND ( $wpdb->posts.post_author IN(%d) OR (($wpdb->postmeta.meta_key = '_ns_ticket_agent' AND CAST($wpdb->postmeta.meta_value AS CHAR) = '%d')) )
+                                        GROUP BY $wpdb->posts.ID",
+                                $status,
+                                $user_id,
+                                $user_id
+                            )
+                        );
+            }
         } else {
-            $count = $wpdb->query(
-                        $wpdb->prepare(
-                            "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.ID
+            if( empty($user_id) ) {
+                $count = $wpdb->get_var(
+                            $wpdb->prepare(
+                                "SELECT COUNT(*)
                                 FROM $wpdb->posts
-                                INNER JOIN $wpdb->postmeta ON ($wpdb->posts.ID = $wpdb->postmeta.post_id)
-                                WHERE 1= 1
+                                INNER JOIN $wpdb->postmeta
+                                    ON $wpdb->posts.ID = $wpdb->postmeta.post_id
+                                WHERE post_type = 'nanosupport'
+                                    AND post_status IN('private', 'publish')
+                                    AND meta_key = '_ns_ticket_status' AND meta_value = %s",
+                                $status
+                            )
+                        );
+            } else {
+                $count = $wpdb->query(
+                            $wpdb->prepare(
+                                "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.ID
+                                FROM $wpdb->posts
+                                INNER JOIN $wpdb->postmeta AS PM1 ON ($wpdb->posts.ID = PM1.post_id)
+                                INNER JOIN $wpdb->postmeta AS PM2 ON ($wpdb->posts.ID = PM2.post_id)
+                                WHERE 1=1
                                     AND post_type = 'nanosupport'
-                                    AND post_status = %s
-                                    AND ( $wpdb->posts.post_author IN(%d) OR (($wpdb->postmeta.meta_key = '_ns_ticket_agent' AND CAST($wpdb->postmeta.meta_value AS CHAR) = '%d')) )
-                                    GROUP BY $wpdb->posts.ID",
-                            $status,
-                            $user_id,
-                            $user_id
-                        )
-                    );
+                                    AND post_status IN('private', 'publish')
+                                    AND ( PM1.meta_key = '_ns_ticket_status' AND PM1.meta_value = %s )
+                                    AND ( post_author IN(%d) OR ((PM2.meta_key = '_ns_ticket_agent' AND CAST(PM2.meta_value AS CHAR) = '%d')) )
+                                GROUP BY $wpdb->posts.ID",
+                                $status,
+                                $user_id,
+                                $user_id
+                            )
+                        );
+            }
         }
-    } else {
-        if( empty($user_id) ) {
-            $count = $wpdb->get_var(
-                        $wpdb->prepare(
-                            "SELECT COUNT(*)
-                            FROM $wpdb->posts
-                            INNER JOIN $wpdb->postmeta
-                                ON $wpdb->posts.ID = $wpdb->postmeta.post_id
-                            WHERE post_type = 'nanosupport'
-                                AND post_status IN('private', 'publish')
-                                AND meta_key = '_ns_ticket_status' AND meta_value = %s",
-                            $status
-                        )
-                    );
-        } else {
-            $count = $wpdb->query(
-                        $wpdb->prepare(
-                            "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.ID
-                            FROM $wpdb->posts
-                            INNER JOIN $wpdb->postmeta AS PM1 ON ($wpdb->posts.ID = PM1.post_id)
-                            INNER JOIN $wpdb->postmeta AS PM2 ON ($wpdb->posts.ID = PM2.post_id)
-                            WHERE 1=1
-                                AND post_type = 'nanosupport'
-                                AND post_status IN('private', 'publish')
-                                AND ( PM1.meta_key = '_ns_ticket_status' AND PM1.meta_value = %s )
-                                AND ( post_author IN(%d) OR ((PM2.meta_key = '_ns_ticket_agent' AND CAST(PM2.meta_value AS CHAR) = '%d')) )
-                            GROUP BY $wpdb->posts.ID",
-                            $status,
-                            $user_id,
-                            $user_id
-                        )
-                    );
-        }
+
+        wp_cache_set( $cache_key, $count );
+
     }
 
     return (int) $count;
