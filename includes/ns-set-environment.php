@@ -659,38 +659,6 @@ add_action( 'admin_bar_menu', 'ns_agent_admin_bar', 999 );
 
 
 /**
- * Display assigned tickets to Support Agent.
- *
- * @since  1.0.0
- * 
- * @param  object $query_support_agents WP Query object.
- * @return object                       Modified Query object.
- * -----------------------------------------------------------------------
- */
-function display_assigned_tickets_to_support_agents( $query ) {
-    if( is_admin() && in_array( $query->get('post_type'), array('nanosupport') ) ) {
-
-        if( ns_is_user('agent') ) {
-            global $current_user;
-            $query->set( 'author__in', $current_user->ID );
-            $meta_query = array(
-                                array(
-                                    'key'     => '_ns_ticket_agent',
-                                    'value'   => $current_user->ID,
-                                    'compare' => '=',
-                                )
-                            );
-            $query->set( 'meta_query', $meta_query );
-        }
-
-    }
-    return $query;
-}
-
-add_filter( 'pre_get_posts', 'display_assigned_tickets_to_support_agents' );
-
-
-/**
  * Modifying SQL clauses to show assigned tickets to Agents.
  *
  * @since  1.0.0
@@ -701,10 +669,13 @@ add_filter( 'pre_get_posts', 'display_assigned_tickets_to_support_agents' );
  * -----------------------------------------------------------------------
  */
 function display_assigned_tickets_modifying_query( $clauses, $query_object ) {
-    if( is_admin() && in_array( $query_object->get('post_type'), array('nanosupport') ) ) {
+    if( is_admin() && 'nanosupport' === $query_object->get('post_type') ) {
         global $wpdb, $current_user;
 
         if( ns_is_user('agent') ) {
+
+            $priority_filter = filter_input(INPUT_GET, 'ticket_priority', FILTER_SANITIZE_STRING);
+            $status_filter   = filter_input(INPUT_GET, 'ticket_status', FILTER_SANITIZE_STRING);
 
             $clauses['where'] = " AND ";
             $clauses['where'] .= "( {$wpdb->posts}.post_author IN ({$current_user->ID})
@@ -715,6 +686,21 @@ function display_assigned_tickets_modifying_query( $clauses, $query_object ) {
                                         OR {$wpdb->posts}.post_status = 'draft'
                                         OR {$wpdb->posts}.post_status = 'pending'
                                         OR {$wpdb->posts}.post_status = 'private') ";
+
+            if( $priority_filter ) {
+                $clauses['join']  .= " LEFT JOIN {$wpdb->postmeta} AS PM2 ON ({$wpdb->posts}.ID = PM2.post_id) ";
+                $clauses['where'] .= " AND (PM2.meta_key = '_ns_ticket_priority' AND PM2.meta_value = '{$priority_filter}') ";
+            }
+
+            if( $status_filter ) {
+                $clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} AS PM3 ON ({$wpdb->posts}.ID = PM3.post_id) ";
+                if( 'pending' === $status_filter ) :
+                    $clauses['where'] .= " AND ({$wpdb->posts}.post_status = 'pending') ";
+                else :
+                    $clauses['where'] .= " AND ({$wpdb->posts}.post_status = 'private') ";
+                    $clauses['where'] .= " AND (PM3.meta_key = '_ns_ticket_status' AND PM3.meta_value = '{$status_filter}') ";
+                endif;
+            }
 
         }
 

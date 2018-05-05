@@ -297,39 +297,49 @@ function ns_admin_tickets_filter_query( $query ){
     $post_type = filter_input(INPUT_GET, 'post_type', FILTER_SANITIZE_STRING);
     $post_type = ! empty($post_type) ? $post_type : 'post';
 
-    if ( is_admin() && 'nanosupport' === $post_type && 'edit.php' === $pagenow ) :
-        
+    if ( is_admin() && 'nanosupport' === $post_type && 'edit.php' === $pagenow ) {
+
         $priority_filter = filter_input(INPUT_GET, 'ticket_priority', FILTER_SANITIZE_STRING);
         $status_filter   = filter_input(INPUT_GET, 'ticket_status', FILTER_SANITIZE_STRING);
         $agent_filter    = filter_input(INPUT_GET, 'agent', FILTER_SANITIZE_NUMBER_INT);
 
         $_meta_query = array();
 
-        if( $priority_filter ) :
+        if( ns_is_user('agent') ) {
+            global $current_user;
+            $query->set( 'author__in', $current_user->ID );
+            $_meta_query[] = array(
+                'key'     => '_ns_ticket_agent',
+                'value'   => $current_user->ID,
+                'compare' => '='
+            );
+        }
+
+        if( $priority_filter ) {
             $_meta_query[] = array(
                 'key'   => '_ns_ticket_priority',
                 'value' => $priority_filter
             );
-        endif;
+        }
 
-        if( $status_filter ) :
-            if( 'pending' === $status_filter ) :
+        if( $status_filter ) {
+            if( 'pending' === $status_filter ) {
                 $query->query_vars['post_status'] = 'pending';
-            else :
+            } else {
                 $query->query_vars['post_status'] = 'private';
                 $_meta_query[] = array(
                     'key'   => '_ns_ticket_status',
                     'value' => $status_filter
                 );
-            endif;
-        endif;
+            }
+        }
 
-        if( $agent_filter ) :
+        if( $agent_filter ) {
             $_meta_query[] = array(
                 'key'   => '_ns_ticket_agent',
                 'value' => $agent_filter
             );
-        endif;
+        }
 
         // If any of 2 or more filter present at once.
         // @link https://stackoverflow.com/a/39484680/1743124
@@ -337,9 +347,11 @@ function ns_admin_tickets_filter_query( $query ){
             $_meta_query['relation'] = 'AND';
         endif;
 
-        $query->set( 'meta_query', $_meta_query );
+        if( !empty($_meta_query) ) {
+            $query->set( 'meta_query', $_meta_query );
+        }
         
-    endif;
+    }
 
 }
 
