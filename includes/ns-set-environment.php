@@ -45,11 +45,11 @@ function ns_scripts() {
     wp_register_script( 'equal-height', NS()->plugin_url() .'/assets/libs/jQuery.matchHeight/jquery.matchHeight-min.js', array('jquery'), '0.7.0', true );
     
     /**
-     * Focus Ring JS v1.0
-     * @link https://github.com/WICG/focus-ring/
+     * Focus Visible JS v4.1.3
+     * @link https://github.com/WICG/focus-visible/
      * ...
      */
-    wp_register_script( 'focus-ring', NS()->plugin_url() .'/assets/libs/focus-ring/focus-ring.min.js', array('jquery'), '1.0.0', true );
+    wp_register_script( 'focus-visible', NS()->plugin_url() .'/assets/libs/focus-visible/focus-visible.min.js', array(), '4.1.3', true );
 
     /**
      * NanoSupport JavaScripts
@@ -59,7 +59,7 @@ function ns_scripts() {
     wp_register_script(
         'nanosupport',
         NS()->plugin_url() .'/assets/js/nanosupport.min.js',
-        array('jquery', 'focus-ring'),
+        array('jquery', 'focus-visible'),
         NS()->version,
         true
     );
