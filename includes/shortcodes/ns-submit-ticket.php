@@ -298,7 +298,7 @@ function ns_submit_support_ticket() {
 
 						<!-- TICKET PRODUCT RECEIPT -->
 						<div class="ns-form-group">
-							<label for="ns-ticket-receipt" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
+							<label for="ns-ticket-product-receipt" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
 								<?php esc_html_e( 'Purhcase Receipt', 'nanosupport' ); ?>
 								<?php if( $mandate_product_fields ) echo '<sup class="ns-required">*</sup>'; ?>
 							</label>

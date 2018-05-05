@@ -89,7 +89,7 @@ function ns_knowledgebase_page() {
 
 					echo '<div class="ns-col-sm-4 ns-col-xs-6 nanodoc-term-box'. esc_attr($column_class) .'">';
 						echo '<div class="nanodoc-term-box-inner ns-text-center">';
-							echo '<a class="icon-link" href="'. $term_link .'" title="'. esc_attr($term_name) .'">';
+							echo '<a class="icon-link" href="'. $term_link .'" title="'. esc_attr($term_name) .'" tabindex="-1">';
 								echo '<i class="nanosupport-kb-icon '. esc_attr($ns_icon_class) .'"></i> <span class="screen-reader-only">'. $term_name .'</span>';
 							echo '</a>';
 							echo '<h4 class="nanodoc-term-title">';
@@ -154,7 +154,7 @@ function ns_knowledgebase_page() {
 
 					echo '<div class="ns-kb-cat-box ns-col-sm-4 ns-col-xs-6'. esc_attr($col_class) .'">';
 
-						echo '<a href="'. get_term_link( $kb_term, 'nanodoc_category' ) .'" class="nanosupport-kb-icon kb-cat-icon-inner '. esc_attr($ns_icon_class) .'">';
+						echo '<a href="'. get_term_link( $kb_term, 'nanodoc_category' ) .'" class="nanosupport-kb-icon kb-cat-icon-inner '. esc_attr($ns_icon_class) .'" tabindex="-1">';
 							echo '<span class="screen-reader-only">'. $kb_term->name .'</span>';
 						echo '</a>';
 
