@@ -171,7 +171,11 @@ class NSECommerce {
 				$order = wc_get_order( $receipt_id );
 				if( $order != false ) {
 					$order_info    = $order->data;
-					$purchase_date = get_object_vars($order_info['date_paid'])['date']; //transforming object as an array
+					if( isset($order_info['date_paid']) ) {
+						$purchase_date = get_object_vars($order_info['date_paid'])['date']; //transforming object as an array
+					} else {
+						$purchase_date = '';
+					}
 					$purchase_by   = $order_info['billing']['first_name'] .' '. $order_info['billing']['last_name'];
 				}
 			}
