@@ -78,11 +78,19 @@ class NSECommerce {
 		if( !empty($post_types) ) {
 			global $wpdb;
 
-			$query = "SELECT ID, post_title FROM $wpdb->posts
-						WHERE post_type IN ('$post_types')
-						AND post_status = 'publish'";
+			$result = wp_cache_get( 'nanosupport_get_products' );
 
-			$result = $wpdb->get_results($query);
+			if( false === $result ) {
+
+				$query = "SELECT ID, post_title FROM $wpdb->posts
+							WHERE post_type IN ('$post_types')
+							AND post_status = 'publish'";
+
+				$result = $wpdb->get_results($query);
+
+				wp_cache_set( 'nanosupport_get_products', $result );
+
+			}
 
 			foreach( $result as $post ) {
 				$products[$post->ID] = $post->post_title;
