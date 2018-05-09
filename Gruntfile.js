@@ -255,12 +255,11 @@ module.exports = function(grunt) {
                     'assets/js/nanosupport.js',
                     'assets/js/nanosupport-admin.js',
                     'assets/js/nanosupport-dashboard.js'
-                ],
-                tasks: ['uglify']
+                ]
             },
             css: {
                 files: ['assets/sass/*.scss'],
-                tasks: ['sass', 'autoprefixer', 'cssmin']
+                tasks: ['sass', 'autoprefixer']
             }
         }
 
@@ -273,9 +272,10 @@ module.exports = function(grunt) {
 
     // @Grunt: do the following when we will type 'grunt <command>'
     grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin', 'watch']);
-    grunt.registerTask('build', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
+    grunt.registerTask('development', ['jshint', 'sass', 'autoprefixer']);
+    grunt.registerTask('production', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
     grunt.registerTask('translate', ['checktextdomain', 'makepot']);
-    grunt.registerTask('release', ['translate', 'build', 'clean', 'compress']);
+    grunt.registerTask('release', ['translate', 'production', 'clean', 'compress']);
     grunt.registerTask('release_patch', ['version::patch', 'release']);
     grunt.registerTask('release_minor', ['version::minor', 'release']);
     grunt.registerTask('release_major', ['version::major', 'release']);
