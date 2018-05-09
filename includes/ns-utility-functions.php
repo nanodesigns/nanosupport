@@ -31,15 +31,20 @@ function ns_get_last_response( $ticket_id = null ) {
     $post_id = ( null === $ticket_id ) ? get_the_ID() : $ticket_id;
     
     global $wpdb;
-    $query = "SELECT comment_ID, user_id, comment_date
-                FROM $wpdb->comments
-                WHERE comment_ID = ( SELECT MAX(comment_ID)
-                                        FROM $wpdb->comments
-                                        WHERE comment_type = 'nanosupport_response'
-                                            AND comment_post_ID = $post_id
-                                            AND comment_approved = 1
-                                    )";
-    $max_comment_array = $wpdb->get_results( $query, ARRAY_A );
+    $max_comment_array = wp_cache_get( 'nanosupport_last_response' );
+
+    if( false === $max_comment_array ) {
+        $query = "SELECT comment_ID, user_id, comment_date
+                    FROM $wpdb->comments
+                    WHERE comment_type = 'nanosupport_response'
+                        AND comment_post_ID = $post_id
+                        AND comment_approved = 1
+                    ORDER BY comment_ID DESC
+                    LIMIT 1";
+        $max_comment_array = $wpdb->get_results( $query, ARRAY_A );
+
+        wp_cache_set( 'nanosupport_last_response', $max_comment_array );
+    }
 
     if( $max_comment_array ) {
         $last_response = $max_comment_array[0];
