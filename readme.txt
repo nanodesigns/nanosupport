@@ -10,6 +10,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 Create a fully featured Support Center in your WordPress setup without any third party dependency, completely FREE. Get a built-in Knowledgebase too.
 
 == Description ==
+
 Create a fully featured Support Center within your WordPress environment without any third party system dependency, for completely FREE of cost.
 
 **No** 3rd party support ticketing system required, **no** external site/API dependency, **simply** create your own fully featured Support Center within your WordPress environment, and take your support into the next level.
@@ -21,6 +22,7 @@ It has built-in Knowledgebase that is integrated to put generalized information 
 The plugin is to provide support to your users - the users those are taking product or services from you. So the plugin provides a manageable communication privately in between you and your that specific user only. Visit the 'Installation' tab for more details on how to use the plugin.
 
 = Features =
+
 * OnActivation setup
 * Smart templating for nice theme support
 * Smartly designed Support Center
@@ -61,8 +63,16 @@ The plugin is to provide support to your users - the users those are taking prod
 * 100% Translation-ready and automatic translation enabled
 * Fully responsive and Mobile devices friendly
 * Clean and well commented and well documented code
+* A11y (web accessibility) compatible
+
+= E-Commerce Support =
+
+To get E-Commerce Support, you will need either:
+* WooCommerce (WC) v2.5+ - Tested up to v3.3.5, or
+* Easy Digital Downloads (EDD) v2.2+ - Tested up to v2.9.1
 
 = Contribute =
+
 NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contribute.
 
 * [Fork on Github](https://github.com/nanodesigns/nanosupport)
@@ -70,6 +80,7 @@ NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contrib
 * [Get Support](https://github.com/nanodesigns/nanosupport/issues)
 
 = Translation =
+
 The plugin is completely translation-ready. You can find the `.pot` file under `i18n/languages/` if you want to translate in your own way. But you can translate it easily from here in [**Translate NanoSupport**](https://translate.wordpress.org/projects/wp-plugins/nanosupport).
 
 Or, you can use software like [POEdit](https://poedit.net/download) ('cross-platform) or [EasyPO](http://www.eazypo.ca/), and using the plugins' `.pot` file you can easily translate the plugin locally.
@@ -82,11 +93,12 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 * [Google+](https://google.com/+Nanodesignsbd)
 
 == Installation ==
+
 = Automatic Installation =
 
 1. In WordPress Plugins page, search for NanoSupport
 2. Install and activate the plugin
-3. Get to the plugin\'s 'Settings' page, and set up the plugin as your choice
+3. Get to the plugin's 'Settings' page, and set up the plugin as your choice
 4. Wait for your first ticket
 
 = Manual Installation =
@@ -95,19 +107,19 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 2. Hit the Download button to download the `.zip` file
 3. Unzip the archive and cut/paste the folder to `/wp-content/plugins/` directory
 4. From admin 'Plugins' page, activate NanoSupport plugin
-5. Get to the plugin\'s 'Settings' page, and set up the plugin as you like
+5. Get to the plugin's 'Settings' page, and set up the plugin as you like
 6. Wait for your first ticket :)
 
 = How to Use =
 
-1. Provide the **'Submit Ticket'** page\'s URL to your menu link, and ask for Support tickets from your users (Use 'Settings' page for necessary settings)
+1. Provide the **'Submit Ticket'** page's URL to your menu link, and ask for Support tickets from your users (Use 'Settings' page for necessary settings)
 2. When the user submits ticket you will be notified via email (as per your 'Settings')
 3. You can find the tickets in the **'Support Desk'**
 4. You can organize your tickets per department
 5. You can read the ticket in details and can answer from both front-end and admin-end
 6. As the tickets are completely private, for public information that you want to share with your users, you can use **'Knowledgebase'**
 7. You can organize Knowledgebase docs in categories
-8. And you have many flexibilities (and many more yet to come...) using the plugin\'s 'Settings' page
+8. And you have many flexibilities (and many more yet to come...) using the plugin's 'Settings' page
 
 == Frequently Asked Questions ==
 
@@ -140,6 +152,7 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 **A:** With the version 0.5.0+ the plugin has support for WooCommerce and Easy Digital Downloads (EDD). Simply activate support for E-Commerce in NanoSupport Settings, and there would be 2 new fields available for providing Support for E-Commerce products that will integrate with the active WC/EDD products, and their receipts. You can exclude certain products from the settings also.
 
 == Screenshots ==
+
 1. NanoSupport | Support Desk (front end)
 2. NanoSupport | Support Tickets (back end)
 3. NanoSupport | Submit Ticket page for Visitors
@@ -151,13 +164,15 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 == Changelog ==
 
-= 0.5.0 - 2018-MAR-31 =
+= 0.5.0 - 2018-MAY-10 =
 * New Feature: E-commerce &mdash; Support to products of Easy Digital Downloads (v2.5+) and WooCommerce (v2.2+)
 * Additional Feature: Let the admin end users filter tickets based on Priority and/or Status and/or Agent
 * 7 new icons to NanoSupport Icons
 * New filter hooks: 'ns_date_time_format', 'ns_mandate_product_fields'
 * Issue Fixed: Email Template background was repeating
 * Issue Fixed: Date Time format was not changeable
+* Issue Fixed: Throwing javascript error in browser console due to old focus-ring.js
+* Minor fixes on A11y issues
 
 = 0.4.1 - 2017-JUL-23 =
 * Bug fixed: Ticket additional info was affecting on show/hide in smaller devices
@@ -176,4 +191,4 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 == Upgrade Notice ==
 
 = 0.5.0 =
-Added E-commerce feature, and modified the 'content-email' & 'content-single-ticket' template files, and datetime display.
+Added E-commerce feature, and modified the 'content-email' & 'content-single-ticket' template files, and datetime display. Refactored some of the queries to perform faster.

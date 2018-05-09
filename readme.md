@@ -26,6 +26,7 @@ The plugin is to provide support to your users - the users those are taking prod
 * Bengali (_Bangla_) - Bangladesh - `bn_BD`
 * Danish - Denmark - `da_DK` (thanks to @nh123 and @ellegaarddk)
 * Español - Spain - `es_ES` (thanks to @wptech68 and @fernandot)
+* Russian - Russia - `ru_RU` (thanks to @chubuk)
 
 ## Contribute
 NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contribute.
