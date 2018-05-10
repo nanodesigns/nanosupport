@@ -556,10 +556,9 @@ function ns_date_time( $datetime, $time = true ) {
     /**
      * Check and make sure it's a UNIX timestamp.
      * @link https://stackoverflow.com/a/2524710/1743124
-     * @var  integer
      * ...
      */
-    if( ! (is_numeric($datetime) && (float) $datetime === $datetime) ) {
+    if( ! is_numeric($datetime) ) {
         $datetime = strtotime($datetime);
     }
 
