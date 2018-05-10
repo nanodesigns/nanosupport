@@ -2,7 +2,7 @@
 Contributors: nanodesigns, wzislam
 Tags: helpdesk, support desk, support ticket, ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, support staff, support ticketing, knowledge base, support plugin
 Requires at least: 4.4.0
-Tested up to: 4.9.4
+Tested up to: 4.9.5
 Requires PHP: 5.4.0
 Stable tag: 0.4.0
 License: GPL-2.0+
@@ -165,7 +165,7 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 == Changelog ==
 
-= 0.5.0 - 2018-MAY-10 =
+= 0.5.0 - 2018-MAY-11 =
 * New Feature: E-commerce &mdash; Support to products of Easy Digital Downloads (v2.5+) and WooCommerce (v2.2+)
 * Additional Feature: Let the admin end users filter tickets based on Priority and/or Status and/or Agent
 * 7 new icons to NanoSupport Icons
