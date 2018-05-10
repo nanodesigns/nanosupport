@@ -22,8 +22,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ns_system_status_page() {
     add_submenu_page(
         'edit.php?post_type=nanosupport',           //$parent_slug
-        __( 'System Status', 'nanosupport' ),       //$page_title
-        __( 'System Status', 'nanosupport' ),       //$menu_title
+        esc_html__( 'System Status', 'nanosupport' ),       //$page_title
+        esc_html__( 'System Status', 'nanosupport' ),       //$menu_title
         'manage_nanosupport',                       //$capability
         'nanosupport-system-status',                //$menu_slug
         'nanosupport_system_status_page_callback'   //callback function
@@ -127,7 +127,7 @@ function nanosupport_system_status_page_callback() {
                                     /* translators: 1. existing PHP memory limit 2. link to increasing PHP memory limit in WordPress */
                                     echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning"></i>'. sprintf( esc_html__('%1$s &mdash; We recommend setting memory to at least 64MB. See: %2$s', 'nanosupport'), size_format( $memory_limit ), '<a href="https://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP" target="_blank">'. esc_html__( 'Increasing memory allocated to PHP', 'nanosupport' ) .'</a>' ) .'</mark>';
                                 } else {
-                                    echo '<span class="ns-text-success"><i class="dashicons dashicons-yes"></i>'. size_format( $memory_limit ) .'</span>';
+                                    echo '<span class="ns-text-success"><i class="dashicons dashicons-yes" aria-hidden="true"></i>'. size_format( $memory_limit ) .'</span>';
                                 }
                                 ?>
                                 </td>
@@ -137,11 +137,11 @@ function nanosupport_system_status_page_callback() {
                                 <th><?php esc_html_e( 'PHP version', 'nanosupport' ); ?></th>
                                 <td>
                                 <?php
-                                if ( version_compare( $phpversion, '5.6', '<' ) ) {
+                                if ( version_compare( $phpversion, '7.2', '<' ) ) {
                                     /* translators: 1. existing PHP version 2. link to WordPress minimum requirements */
-                                    echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning"></i> '. sprintf( esc_html__('%1$s &mdash; We recommend a minimum PHP version of 5.6. See: %2$s', 'nanosupport'), $phpversion, '<a href="https://wordpress.org/about/requirements/" target="_blank">'. esc_html__( 'WordPress minimum requirements', 'nanosupport' ) .'</a>' ) .'</mark>';
+                                    echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning"></i> '. sprintf( esc_html__('%1$s &mdash; We recommend a minimum PHP version of 7.2. See: %2$s', 'nanosupport'), $phpversion, '<a href="https://wordpress.org/about/requirements/" target="_blank">'. esc_html__( 'WordPress minimum requirements', 'nanosupport' ) .'</a>' ) .'</mark>';
                                 } else {
-                                    echo '<span class="ns-text-success"><i class="dashicons dashicons-yes"></i>'. $phpversion .'</span>';
+                                    echo '<span class="ns-text-success"><i class="dashicons dashicons-yes" aria-hidden="true"></i>'. $phpversion .'</span>';
                                 }
                                 ?>
                                 </td>
@@ -155,7 +155,7 @@ function nanosupport_system_status_page_callback() {
                                     /* translators: 1. existing MySQL version 2. link to WordPress minimum requirements */
                                     echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning"></i> '. sprintf( esc_html__('%1$s &mdash; We recommend a minimum MySQL version of 5.6. See: %2$s', 'nanosupport'), $mysql_version, '<a href="https://wordpress.org/about/requirements/" target="_blank">'. esc_html__( 'WordPress minimum requirements', 'nanosupport' ) .'</a>' ) .'</mark>';
                                 } else {
-                                    echo '<span class="ns-text-success"><i class="dashicons dashicons-yes"></i>'. $mysql_version .'</span>';
+                                    echo '<span class="ns-text-success"><i class="dashicons dashicons-yes" aria-hidden="true"></i>'. $mysql_version .'</span>';
                                 }
                                 ?>
                                 </td>
@@ -199,7 +199,7 @@ function nanosupport_system_status_page_callback() {
                 </div>
                 <!-- /#ns-active-plugins -->
 
-                <a href="javascript:" id="ns-export-status" class="ns-btn button button-default"><i class="dashicons dashicons-clipboard" style="vertical-align: middle"></i> Copy to Clipboard</a> <sub>(works on modern browsers only)</sub>
+                <a href="javascript:" id="ns-export-status" class="ns-btn button button-default"><i class="dashicons dashicons-clipboard" style="vertical-align: middle" aria-hidden="true"></i> <?php esc_html_e('Copy to Clipboard', 'nanosupport'); ?></a> <sub>(<?php esc_html_e('works on modern browsers only', 'nanosupport'); ?>)</sub>
 
             </div>
             <!-- /.metabox-holder -->
