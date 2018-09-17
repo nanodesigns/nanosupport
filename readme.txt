@@ -69,6 +69,7 @@ The plugin is to provide support to your users - the users those are taking prod
 = E-Commerce Support =
 
 To get E-Commerce Support, you will need either:
+
 * WooCommerce (WC) v2.5+ - Tested up to v3.3.5, or
 * Easy Digital Downloads (EDD) v2.2+ - Tested up to v2.9.1
 
@@ -165,6 +166,9 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 == Changelog ==
 
+= 0.5.1 - 2018-SEP-30 =
+* New filter hook: `ns_ticket_responses_arg`
+
 = 0.5.0 - 2018-MAY-11 =
 * New Feature: E-commerce &mdash; Support to products of Easy Digital Downloads (v2.5+) and WooCommerce (v2.2+)
 * Additional Feature: Let the admin end users filter tickets based on Priority and/or Status and/or Agent
@@ -191,5 +195,5 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 == Upgrade Notice ==
 
-= 0.5.0 =
-Added E-commerce feature, and modified the 'content-email' & 'content-single-ticket' template files, and datetime display. Refactored some of the queries to perform faster.
+= 0.5.1 =
+Modified the 'content-single-ticket' template file to add new filter hook.

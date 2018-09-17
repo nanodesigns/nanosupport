@@ -159,7 +159,18 @@
 		        'orderby'   	=> 'comment_date',
 		        'order'     	=> 'ASC'
 		    );
-		    $response_array = get_comments( $args );
+
+			/**
+			 * -----------------------------------------------------------------------
+			 * HOOK : FILTER HOOK
+			 * ns_ticket_responses_arg
+			 *
+			 * Hook to change the query for the ticket responses.
+			 *
+			 * @since  1.0.0
+			 * -----------------------------------------------------------------------
+			 */
+			$response_array = get_comments( apply_filters( 'ns_ticket_responses_arg', $args ) );
 
 		    $found_count = count($response_array);
 
