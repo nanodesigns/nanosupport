@@ -1,4 +1,5 @@
 === NanoSupport ===
+
 Contributors: nanodesigns, wzislam
 Tags: helpdesk, support desk, support ticket, ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, support staff, support ticketing, knowledge base, support plugin
 Requires at least: 4.4.0
@@ -88,6 +89,7 @@ The plugin is completely translation-ready. You can find the `.pot` file under `
 Or, you can use software like [POEdit](https://poedit.net/download) ('cross-platform) or [EasyPO](http://www.eazypo.ca/), and using the plugins' `.pot` file you can easily translate the plugin locally.
 
 = Connect with NanoSupport team =
+
 * [Website](http://nanodesignsbd.com?ref=nanosupport)
 * [Twitter](https://twitter.com/nanodesigns/)
 * [Facebook](https://facebook.com/nanodesignsbd/)
@@ -167,7 +169,9 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 == Changelog ==
 
 = 0.5.1 - 2018-SEP-30 =
-* New filter hook: `ns_ticket_responses_arg`
+* Check Purchase Receipt's authenticity on the submission of a ticket
+* New filter hook: `ns_ticket_responses_arg`, `ns_check_receipt_validity`
+* Fix: Account creates even when the ticket form has error
 
 = 0.5.0 - 2018-MAY-11 =
 * New Feature: E-commerce &mdash; Support to products of Easy Digital Downloads (v2.5+) and WooCommerce (v2.2+)
