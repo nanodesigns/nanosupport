@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NanoSupport 0.5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/nanodesigns/nanosupport/issues\n"
-"POT-Creation-Date: 2018-05-10 18:32:42+00:00\n"
+"POT-Creation-Date: 2018-09-27 16:05:57+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1564,7 +1564,7 @@ msgid "Select a product"
 msgstr ""
 
 #: includes/shortcodes/ns-submit-ticket.php:302
-msgid "Purhcase Receipt"
+msgid "Purchase Receipt"
 msgstr ""
 
 #: includes/shortcodes/ns-submit-ticket.php:342
