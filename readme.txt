@@ -172,6 +172,7 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 * Check Purchase Receipt's authenticity on the submission of a ticket
 * New filter hook: `ns_ticket_responses_arg`, `ns_check_receipt_validity`
 * Fix: Account creates even when the ticket form has error
+* Minor Fixes where PHP notices were visible
 
 = 0.5.0 - 2018-MAY-11 =
 * New Feature: E-commerce &mdash; Support to products of Easy Digital Downloads (v2.5+) and WooCommerce (v2.2+)
