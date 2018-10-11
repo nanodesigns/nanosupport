@@ -190,12 +190,6 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 * Code of Conduct added for contributors
 * Some other minor fixes
 
-= 0.4.0 - 2017-JUN-09 =
-* New Feature: Ticket can be copied into a Knowledgebase document
-* Requested Feature: ReEngineering Knowledgebase Doc URL strucuture
-* Bug fixed: Ticket cannot be added on behalf of client
-* New filter hook: `ns_nanodoc_arguments`, `nanosupport_copied_content`, `nanosupport_assigned_user_role`
-
 [See changelog for all versions](https://github.com/nanodesigns/nanosupport/blob/master/CHANGELOG.txt).
 
 == Upgrade Notice ==
