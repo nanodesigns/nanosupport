@@ -1,11 +1,11 @@
-=== NanoSupport ===
+=== NanoSupport — Support Ticketing & Knowledgebase for WordPress ===
 
 Contributors: nanodesigns, wzislam
 Tags: helpdesk, support desk, support ticket, ticket plugin, ticket system, ticketing system, help desk, wp support ticketing, support staff, support ticketing, knowledge base, support plugin
 Requires at least: 4.4.0
-Tested up to: 4.9.5
+Tested up to: 4.9.9
 Requires PHP: 5.4.0
-Stable tag: 0.4.0
+Stable tag: 0.5.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -17,7 +17,7 @@ Create a fully featured Support Center within your WordPress environment without
 
 **No** 3rd party support ticketing system required, **no** external site/API dependency, **simply** create your own fully featured Support Center within your WordPress environment, and take your support into the next level.
 
-It has built-in Knowledgebase that is integrated to put generalized information for public acknowledgement.
+It has built-in **Knowledgebase** that is integrated to put generalized information for public acknowledgement.
 
 = What is it? =
 
@@ -167,28 +167,6 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 8. NanoSupport | Easy navigation, and notification for easy ticketing using Admin bar
 
 == Changelog ==
-
-= 0.5.1 - 2018-SEP-30 =
-* Check Purchase Receipt's authenticity on the submission of a ticket
-* New filter hook: `ns_ticket_responses_arg`, `ns_check_receipt_validity`
-* Fix: Account creates even when the ticket form has error
-* Minor Fixes where PHP notices were visible
-
-= 0.5.0 - 2018-MAY-11 =
-* New Feature: E-commerce &mdash; Support to products of Easy Digital Downloads (v2.5+) and WooCommerce (v2.2+)
-* Additional Feature: Let the admin end users filter tickets based on Priority and/or Status and/or Agent
-* 7 new icons to NanoSupport Icons
-* New filter hooks: 'ns_date_time_format', 'ns_mandate_product_fields'
-* Issue Fixed: Email Template background was repeating
-* Issue Fixed: Date Time format was not changeable
-* Issue Fixed: Throwing javascript error in browser console due to old focus-ring.js
-* Minor fixes on A11y issues
-
-= 0.4.1 - 2017-JUL-23 =
-* Bug fixed: Ticket additional info was affecting on show/hide in smaller devices
-* Bug fixed: Ticket assignment on behalf of support seeker was getting only administrators
-* Code of Conduct added for contributors
-* Some other minor fixes
 
 [See changelog for all versions](https://github.com/nanodesigns/nanosupport/blob/master/CHANGELOG.txt).
 
