@@ -1,3 +1,31 @@
+= 0.5.1 - 2019-JAN-20 =
+* E-Commerce: Check Purchase Receipt's authenticity on the submission of a ticket
+* New filter hook: `ns_ticket_responses_arg`, `ns_check_receipt_validity`
+* Fix: Account creates even when the ticket form has error
+* Minor Fixes where PHP notices were visible
+
+= 0.5.0 - 2018-MAY-11 =
+* New Feature: E-commerce &mdash; Support to products of Easy Digital Downloads (v2.5+) and WooCommerce (v2.2+)
+* Additional Feature: Let the admin end users filter tickets based on Priority and/or Status and/or Agent
+* 7 new icons to NanoSupport Icons
+* New filter hooks: 'ns_date_time_format', 'ns_mandate_product_fields'
+* Issue Fixed: Email Template background was repeating
+* Issue Fixed: Date Time format was not changeable
+* Issue Fixed: Throwing javascript error in browser console due to old focus-ring.js
+* Minor fixes on A11y issues
+
+= 0.4.1 - 2017-JUL-23 =
+* Bug fixed: Ticket additional info was affecting on show/hide in smaller devices
+* Bug fixed: Ticket assignment on behalf of support seeker was getting only administrators
+* Code of Conduct added for contributors
+* Some other minor fixes
+
+= 0.4.0 - 2017-JUN-09 =
+* New Feature: Ticket can be copied into a Knowledgebase document
+* Requested Feature: ReEngineering Knowledgebase Doc URL strucuture
+* Bug fixed: Ticket cannot be added on behalf of client
+* New filter hook: `ns_nanodoc_arguments`, `nanosupport_copied_content`, `nanosupport_assigned_user_role`
+
 = 0.3.4 - 2017-APR-21 =
 * Bug fixed: Support agent loses his status on profile update
 * Bug fixed: Ticket updated dates failure

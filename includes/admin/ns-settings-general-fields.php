@@ -299,12 +299,12 @@ function ns_general_settings_validate( $input ) {
     $generate_password = isset($input['account_creation']['generate_password']) && (int) $input['account_creation']['generate_password'] === 1 ? (int) $input['account_creation']['generate_password'] : '';
     
     //Enable E-commerce checkbox
-    $enable_ecommerce_val = (int) $input['enable_ecommerce'] === 1 ? (int) $input['enable_ecommerce'] : '';
+    $enable_ecommerce_val = isset($input['enable_ecommerce']) && (int) $input['enable_ecommerce'] === 1 ? (int) $input['enable_ecommerce'] : '';
     //Excluded Products
-    $excluded_products_val = $input['excluded_products'] ? (array) $input['excluded_products'] : '';
+    $excluded_products_val = isset($input['excluded_products']) && $input['excluded_products'] ? (array) $input['excluded_products'] : '';
 
     //Delete Data checkbox
-    $del_data_check_val = (int) $input['delete_data'] === 1 ? (int) $input['delete_data'] : '';
+    $del_data_check_val = isset($input['delete_data']) && (int) $input['delete_data'] === 1 ? (int) $input['delete_data'] : '';
 
     /**
      * Set the values finally

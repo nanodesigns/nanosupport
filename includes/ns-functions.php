@@ -115,8 +115,34 @@ function ns_handle_registration_login_ticket_submission() {
         if( $mandate_product_fields && empty($_POST['ns_ticket_product_receipt']) ) {
             $ns_errors[]    = esc_html__( 'Product Receipt must be mentioned for further enquiry', 'nanosupport' );
         } else {
-            $ticket_receipt = ! empty($_POST['ns_ticket_product_receipt']) ? $_POST['ns_ticket_product_receipt'] : '';
+
+        	/**
+        	 * -----------------------------------------------------------------------
+        	 * HOOK : FILTER HOOK
+        	 * ns_check_receipt_validity
+        	 *
+        	 * Enable/Disable receipt validity checking.
+        	 *
+        	 * @since  1.0.0
+        	 * -----------------------------------------------------------------------
+        	 */
+        	if( apply_filters( 'ns_check_receipt_validity', true ) ) {
+	        	$_product_info = $NSECommerce->get_product_info($ticket_product, $_POST['ns_ticket_product_receipt']);
+	        	if( empty($_product_info->purchase_date) ) {
+	        		$ns_errors[] = esc_html__( 'Your Product Receipt seems not valid', 'nanosupport' );
+	        	}
+	        } else {
+	        	$ticket_priority = 'low';
+	        }
+
+	        $ticket_receipt = ! empty($_POST['ns_ticket_product_receipt']) ? $_POST['ns_ticket_product_receipt'] : '';
+
         }
+    }
+
+    //------------------ERROR: There are errors - don't go further
+    if( ! empty( $ns_errors ) ){
+        return;
     }
 
 
@@ -295,47 +321,78 @@ function ns_handle_registration_login_ticket_submission() {
 
     /**
      * Save Ticket Information.
-     * 
+     *
      * Finally save the ticket information into the database
      * using user credentials from above.
      */
     if( ! empty( $user_id ) && empty( $ns_errors ) ){
 
-        /**
-         * Sanitize ticket content
-         * @var string
-         */
-        $ticket_details = wp_kses( $ticket_details, ns_allowed_html() );
-        
-        $ticket_post_id = wp_insert_post( array(
-                            'post_status'       => wp_strip_all_tags( $post_status ),
-                            'post_type'         => 'nanosupport',
-                            'post_author'       => absint( $user_id ),
+        $ticket_data = array(
+			'post_status'     => $post_status,
+			'post_type'       => 'nanosupport',
+			'post_author'     => $user_id,
+			'post_title'      => $ticket_subject,
+			'post_content'    => $ticket_details,
+			'post_date'       => date( 'Y-m-d H:i:s', current_time('timestamp') ),
 
-                            'post_title'        => wp_strip_all_tags( $ticket_subject ),
-                            'post_content'      => $ticket_details,
-                            'post_date'         => date( 'Y-m-d H:i:s', current_time('timestamp') )
-                        ) );
+			'ticket_status'   => 'open',
+			'ticket_priority' => $ticket_priority,
+			'ticket_agent'    => '', //empty: no ticket agent's assigned
+        );
 
         /**
          * Assign department from user choice, if enabled.
          */
         $display_department = isset($ns_general_settings['is_department_visible']) ? absint($ns_general_settings['is_department_visible']) : false;
-        
+
+        if( $display_department && ! empty($ticket_department) ) {
+        	$ticket_data = array_merge($ticket_data, array('department' => $ticket_department));
+        }
+
+        if( $NSECommerce->ecommerce_enabled() ) {
+        	$ticket_data = array_merge($ticket_data,
+        		array(
+        			'ticket_product' => $ticket_product,
+					'ticket_receipt' => $ticket_receipt
+				));
+        }
+
+        /**
+         * -----------------------------------------------------------------------
+         * HOOK : FILTER HOOK
+         * ns_ticket_data
+         *
+         * Filter Ticket post data and meta data before saving.
+         *
+         * @since  1.0.0
+         * -----------------------------------------------------------------------
+         */
+		$ticket_data = apply_filters( 'ns_ticket_data', $ticket_data );
+
+        $ticket_post_id = wp_insert_post( array(
+							'post_status'  => wp_strip_all_tags( $ticket_data['post_status'] ),
+							'post_type'    => wp_strip_all_tags( $ticket_data['post_type'] ),
+							'post_author'  => absint( $ticket_data['post_author'] ),
+
+							'post_title'   => wp_strip_all_tags( $ticket_data['post_title'] ),
+							'post_content' => wp_kses( $ticket_data['post_content'], ns_allowed_html() ),
+							'post_date'    => wp_strip_all_tags( $ticket_data['post_date'] )
+                        ) );
+
         //set the department if one is chosen (whatever the user role is...)
         if( $display_department && ! empty($ticket_department) ) {
-            wp_set_object_terms( $ticket_post_id, (int) $ticket_department, 'nanosupport_department' );
+            wp_set_object_terms( $ticket_post_id, (int) $ticket_data['department'], 'nanosupport_department' );
         }
 
         // Insert the meta information into postmeta.
-        add_post_meta( $ticket_post_id, '_ns_ticket_status',   'open' );
-        add_post_meta( $ticket_post_id, '_ns_ticket_priority', wp_strip_all_tags( $ticket_priority ) );
-        add_post_meta( $ticket_post_id, '_ns_ticket_agent',    '' ); //empty: no ticket agent's assigned
+        add_post_meta( $ticket_post_id, '_ns_ticket_status',   wp_strip_all_tags( $ticket_data['ticket_status'] ) );
+        add_post_meta( $ticket_post_id, '_ns_ticket_priority', wp_strip_all_tags( $ticket_data['ticket_priority'] ) );
+        add_post_meta( $ticket_post_id, '_ns_ticket_agent',    wp_strip_all_tags( $ticket_data['ticket_agent'] ) );
 
         // Save ticket product information.
         if( $NSECommerce->ecommerce_enabled() ) {
-            add_post_meta( $ticket_post_id, '_ns_ticket_product',           wp_strip_all_tags( $ticket_product ) );
-            add_post_meta( $ticket_post_id, '_ns_ticket_product_receipt',   wp_strip_all_tags( $ticket_receipt ) );
+            add_post_meta( $ticket_post_id, '_ns_ticket_product', wp_strip_all_tags( $ticket_data['ticket_product'] ) );
+            add_post_meta( $ticket_post_id, '_ns_ticket_product_receipt', wp_strip_all_tags( $ticket_data['ticket_receipt'] ) );
         }
 
     }

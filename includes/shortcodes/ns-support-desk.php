@@ -108,6 +108,7 @@ function ns_support_desk_page() {
 					$highlight_class = 'priority' === $highlight_choice ? $ticket_meta['priority']['class'] : $ticket_meta['status']['class'];
 
 					$NSECommerce = new NSECommerce();
+					$product_icon = '';
 					if( $NSECommerce->ecommerce_enabled() ) {
 						$product_info = $NSECommerce->get_product_info($ticket_meta['product'], $ticket_meta['receipt']);
 						$product_icon = false !== $product_info ? '&nbsp;<i class="ns-icon-cart ns-small" aria-hidden="true"></i>' : '';
