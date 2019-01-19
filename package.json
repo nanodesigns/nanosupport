@@ -2,7 +2,7 @@
     "name": "nanosupport",
     "title": "NanoSupport",
     "homepage": "http://nanosupport.nanodesignsbd.com/",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "private": true,
     "devDependencies": {
         "cz-conventional-changelog": "^2.1.0",
@@ -18,7 +18,7 @@
         "grunt-exec": "~0.4.7",
         "grunt-sass": "~2.1.0",
         "grunt-version": "~1.0.0",
-        "grunt-wp-i18n": "~0.5.4",
+        "grunt-wp-i18n": "^1.0.3",
         "load-grunt-tasks": "~3.5.2"
     },
     "config": {

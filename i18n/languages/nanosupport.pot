@@ -1,27 +1,27 @@
-# Copyright (c) 2017 NanoSupport
+# Copyright (c) 2019 NanoSupport
 msgid ""
 msgstr ""
-"Project-Id-Version: NanoSupport 0.5.0\n"
+"Project-Id-Version: NanoSupport 0.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/nanodesigns/nanosupport/issues\n"
-"POT-Creation-Date: 2018-10-11 13:26:19+00:00\n"
+"POT-Creation-Date: 2019-01-19 17:49:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
 "Last-Translator: nanodesigns (http://nanodesignsbd.com/)\n"
 "Language-Team: nanodesigns <info@nanodesignsbd.com>\n"
-"X-Generator: grunt-wp-i18n 0.5.4\n"
-"X-Poedit-KeywordsList: "
-"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
-"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
 "Language: en_US\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Country: United States\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
 "X-Poedit-Basepath: ../\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
+"X-Generator: grunt-wp-i18n 1.0.3\n"
 
 #. Plugin Name of the plugin/theme
 msgid "NanoSupport"
@@ -50,7 +50,7 @@ msgid "Knowledgebase"
 msgstr ""
 
 #: includes/admin/__nanodesigns.php:40 includes/ns-dashboard.php:266
-msgid "Rate us %s"
+msgid "Rate us <span aria-label=\"Five Star\">%s</span>"
 msgstr ""
 
 #: includes/admin/__nanodesigns.php:40 includes/ns-dashboard.php:266
@@ -74,7 +74,8 @@ msgstr ""
 #: includes/admin/ns-settings-emails-fields.php:40
 msgid ""
 "If you check here, an email will be sent to Notification email notifying "
-"about every new ticket submission. Default: <code>true</code>."
+"about every new ticket submission. Default: <code "
+"aria-label=\"true\">true</code>."
 msgstr ""
 
 #: includes/admin/ns-settings-emails-fields.php:45
@@ -84,7 +85,7 @@ msgstr ""
 #: includes/admin/ns-settings-emails-fields.php:46
 msgid ""
 "If you check here, an email will be sent to the ticket author when their "
-"ticket is replied. Default: <code>true</code>."
+"ticket is replied. Default: <code aria-label=\"true\">true</code>."
 msgstr ""
 
 #: includes/admin/ns-settings-emails-fields.php:51
@@ -94,7 +95,8 @@ msgstr ""
 #: includes/admin/ns-settings-emails-fields.php:52
 msgid ""
 "If you check here, an email will be sent to the agent who is assigned to "
-"the ticket when their ticket is replied. Default: <code>true</code>."
+"the ticket when their ticket is replied. Default: <code "
+"aria-label=\"true\">true</code>."
 msgstr ""
 
 #: includes/admin/ns-settings-emails-fields.php:59
@@ -126,17 +128,21 @@ msgid ""
 "No image."
 msgstr ""
 
-#: includes/admin/ns-settings-emails-fields.php:111
+#: includes/admin/ns-settings-emails-fields.php:110
+#. translators: Site name as email template header text
+msgid "eg. %s"
+msgstr ""
+
+#: includes/admin/ns-settings-emails-fields.php:112
 msgid "Write down the Header Text for the email template. Default: Site name."
 msgstr ""
 
-#: includes/admin/ns-settings-emails-fields.php:121
-#: templates/content-email.php:119
+#: includes/admin/ns-settings-emails-fields.php:122
 #. translators: 1. site title 2. developer company name
-msgid "%1$s &mdash; Powered by %2$s"
+msgid "eg. %1$s &mdash; Powered by %2$s"
 msgstr ""
 
-#: includes/admin/ns-settings-emails-fields.php:125
+#: includes/admin/ns-settings-emails-fields.php:126
 msgid "Write down the Footer Text for the email template."
 msgstr ""
 
@@ -200,7 +206,7 @@ msgid "The message that to show on top of the Knowledgebase page. Plain texts on
 msgstr ""
 
 #: includes/admin/ns-settings-general-fields.php:140
-#: includes/ns-cpt-nanosupport.php:114 includes/ns-metaboxes.php:223
+#: includes/ns-cpt-nanosupport.php:114 includes/ns-metaboxes.php:225
 msgid "Ticket Status"
 msgstr ""
 
@@ -463,7 +469,7 @@ msgid "Featured Categories"
 msgstr ""
 
 #: includes/admin/ns-settings.php:300
-msgid "No. of items per category"
+msgid "Items per category"
 msgstr ""
 
 #: includes/admin/ns-settings.php:312
@@ -588,7 +594,7 @@ msgstr ""
 #: includes/admin/ns-system-status.php:142
 #. translators: 1. existing PHP version 2. link to WordPress minimum
 #. requirements
-msgid "%1$s &mdash; We recommend a minimum PHP version of 7.2. See: %2$s"
+msgid "%1$s &mdash; We recommend a minimum PHP version of 7.3. See: %2$s"
 msgstr ""
 
 #: includes/admin/ns-system-status.php:142
@@ -802,13 +808,13 @@ msgstr ""
 msgid "Pending Tickets"
 msgstr ""
 
-#: includes/ns-cpt-nanosupport.php:115 includes/ns-metaboxes.php:240
+#: includes/ns-cpt-nanosupport.php:115 includes/ns-metaboxes.php:244
 #: includes/shortcodes/ns-submit-ticket.php:195
 #: templates/content-single-ticket.php:93
 msgid "Priority"
 msgstr ""
 
-#: includes/ns-cpt-nanosupport.php:116 includes/ns-metaboxes.php:264
+#: includes/ns-cpt-nanosupport.php:116 includes/ns-metaboxes.php:270
 #: includes/ns-set-environment.php:379
 msgid "Agent"
 msgstr ""
@@ -839,25 +845,25 @@ msgstr ""
 msgid "%s ago"
 msgstr ""
 
-#: includes/ns-cpt-nanosupport.php:204 includes/ns-metaboxes.php:250
+#: includes/ns-cpt-nanosupport.php:204 includes/ns-metaboxes.php:255
 #: includes/ns-utility-functions.php:484 includes/ns-utility-functions.php:486
 #: includes/shortcodes/ns-submit-ticket.php:207
 msgid "Critical"
 msgstr ""
 
-#: includes/ns-cpt-nanosupport.php:205 includes/ns-metaboxes.php:249
+#: includes/ns-cpt-nanosupport.php:205 includes/ns-metaboxes.php:254
 #: includes/ns-utility-functions.php:477 includes/ns-utility-functions.php:479
 #: includes/shortcodes/ns-submit-ticket.php:206
 msgid "High"
 msgstr ""
 
-#: includes/ns-cpt-nanosupport.php:206 includes/ns-metaboxes.php:248
+#: includes/ns-cpt-nanosupport.php:206 includes/ns-metaboxes.php:253
 #: includes/ns-utility-functions.php:470 includes/ns-utility-functions.php:472
 #: includes/shortcodes/ns-submit-ticket.php:205
 msgid "Medium"
 msgstr ""
 
-#: includes/ns-cpt-nanosupport.php:207 includes/ns-metaboxes.php:247
+#: includes/ns-cpt-nanosupport.php:207 includes/ns-metaboxes.php:252
 #: includes/ns-utility-functions.php:463 includes/ns-utility-functions.php:465
 #: includes/shortcodes/ns-submit-ticket.php:204
 msgid "Low"
@@ -872,18 +878,18 @@ msgstr ""
 msgid "Pending"
 msgstr ""
 
-#: includes/ns-cpt-nanosupport.php:230 includes/ns-metaboxes.php:230
+#: includes/ns-cpt-nanosupport.php:230 includes/ns-metaboxes.php:233
 #: includes/ns-utility-functions.php:446 includes/ns-utility-functions.php:448
 msgid "Open"
 msgstr ""
 
 #: includes/ns-cpt-nanosupport.php:231 includes/ns-dashboard.php:28
-#: includes/ns-metaboxes.php:231 includes/ns-utility-functions.php:439
+#: includes/ns-metaboxes.php:234 includes/ns-utility-functions.php:439
 #: includes/ns-utility-functions.php:441
 msgid "Under Inspection"
 msgstr ""
 
-#: includes/ns-cpt-nanosupport.php:232 includes/ns-metaboxes.php:232
+#: includes/ns-cpt-nanosupport.php:232 includes/ns-metaboxes.php:235
 #: includes/ns-utility-functions.php:432 includes/ns-utility-functions.php:434
 msgid "Solved"
 msgstr ""
@@ -936,6 +942,10 @@ msgstr ""
 
 #: includes/ns-cpt-nanosupport.php:383
 msgid "New Department Name"
+msgstr ""
+
+#: includes/ns-cpt-nanosupport.php:430
+msgid "Copy Ticket to the Knowledgebase"
 msgstr ""
 
 #: includes/ns-cpt-nanosupport.php:430
@@ -1180,7 +1190,7 @@ msgstr ""
 msgid "Password must be filled"
 msgstr ""
 
-#: includes/ns-functions.php:209
+#: includes/ns-functions.php:212
 msgid "There is no user found with this email address"
 msgstr ""
 
@@ -1336,7 +1346,7 @@ msgid ""
 "href=\"%3$s\" class=\"thickbox\">install the production version</a> instead."
 msgstr ""
 
-#: includes/ns-metaboxes.php:31
+#: includes/ns-metaboxes.php:31 includes/ns-metaboxes.php:176
 msgid "Internal Notes"
 msgstr ""
 
@@ -1363,74 +1373,74 @@ msgstr ""
 msgid "Save Response"
 msgstr ""
 
-#: includes/ns-metaboxes.php:176
+#: includes/ns-metaboxes.php:177
 msgid "Write down any internal note to pass to any Support Agent internally."
 msgstr ""
 
-#: includes/ns-metaboxes.php:177
+#: includes/ns-metaboxes.php:178
 msgid ""
 "Internal notes are not visible to Support Seekers. It&rsquo;s to pass "
 "important notes within the support team."
 msgstr ""
 
-#: includes/ns-metaboxes.php:224
+#: includes/ns-metaboxes.php:226
 msgid "Change the ticket status to track unsolved tickets separately."
 msgstr ""
 
-#: includes/ns-metaboxes.php:241
+#: includes/ns-metaboxes.php:245
 msgid "Change the priority as per the content and urgency of the ticket."
 msgstr ""
 
-#: includes/ns-metaboxes.php:265
+#: includes/ns-metaboxes.php:271
 msgid ""
 "Choose agent to assign the ticket. You can make an agent by editing the "
 "user from their user profile."
 msgstr ""
 
-#: includes/ns-metaboxes.php:280
+#: includes/ns-metaboxes.php:287
 msgid "Assign an agent"
 msgstr ""
 
-#: includes/ns-metaboxes.php:285
+#: includes/ns-metaboxes.php:292
 msgid "No agent found"
 msgstr ""
 
-#: includes/ns-metaboxes.php:308 includes/ns-metaboxes.php:359
+#: includes/ns-metaboxes.php:315 includes/ns-metaboxes.php:367
 #: includes/shortcodes/ns-submit-ticket.php:280
 msgid "Product"
 msgstr ""
 
-#: includes/ns-metaboxes.php:317
+#: includes/ns-metaboxes.php:324
 msgid "Product is not available"
 msgstr ""
 
-#: includes/ns-metaboxes.php:333
+#: includes/ns-metaboxes.php:340
 #. translators: Product purchase date
 msgid "<strong>Purchased at:</strong> %s"
 msgstr ""
 
-#: includes/ns-metaboxes.php:337
+#: includes/ns-metaboxes.php:344
 #. translators: User's first name and last name
 msgid "<strong>Purchased by:</strong> %s"
 msgstr ""
 
-#: includes/ns-metaboxes.php:342
+#: includes/ns-metaboxes.php:349
 msgid "Payment Details"
 msgstr ""
 
-#: includes/ns-metaboxes.php:360 includes/shortcodes/ns-submit-ticket.php:284
+#: includes/ns-metaboxes.php:368 includes/shortcodes/ns-submit-ticket.php:284
 msgid "Select the product the ticket is about."
 msgstr ""
 
-#: includes/ns-metaboxes.php:366
+#: includes/ns-metaboxes.php:375
 msgid "Select a Product"
 msgstr ""
 
-#: includes/ns-metaboxes.php:379
+#: includes/ns-metaboxes.php:389
 msgid "Receipt Number"
 msgstr ""
 
-#: includes/ns-metaboxes.php:380 includes/shortcodes/ns-submit-ticket.php:306
+#: includes/ns-metaboxes.php:390 includes/shortcodes/ns-submit-ticket.php:306
 msgid "Enter the receipt number of purchasing the product."
 msgstr ""
 
@@ -1462,6 +1472,10 @@ msgstr ""
 
 #: includes/ns-set-environment.php:604
 msgid "Visit Support Desk"
+msgstr ""
+
+#: includes/ns-set-environment.php:645
+msgid "My Open Tickets"
 msgstr ""
 
 #: includes/ns-set-environment.php:650
@@ -1744,6 +1758,11 @@ msgid ""
 "your question, submit a new support ticket."
 msgstr ""
 
+#: templates/content-email.php:119
+#. translators: 1. site title 2. developer company name
+msgid "%1$s &mdash; Powered by %2$s"
+msgstr ""
+
 #: templates/content-single-ticket.php:57
 msgid "Created"
 msgstr ""
@@ -1761,8 +1780,11 @@ msgid "Status"
 msgstr ""
 
 #: templates/content-single-ticket.php:100
+msgid "Close ticket to Back to the Support Desk"
+msgstr ""
+
 #: templates/content-single-ticket.php:101
-msgid "Close the ticket"
+msgid "Close content"
 msgstr ""
 
 #: templates/content-single-ticket.php:106
@@ -1842,7 +1864,7 @@ msgctxt "NanoSupport Ticket"
 msgid "Support Ticket"
 msgstr ""
 
-#: includes/ns-metaboxes.php:310
+#: includes/ns-metaboxes.php:317
 #. translators: Button text to open product-specific fields on-demand
 msgctxt "NanoSupport Product"
 msgid "Edit"
