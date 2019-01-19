@@ -170,7 +170,8 @@ class NSECommerce {
 				// Needs WC prior to v2.2
 				$order = wc_get_order( $receipt_id );
 				if( $order != false ) {
-					$order_info = $order->data;
+					// Documentation: https://docs.woocommerce.com/wc-apidocs/class-WC_Data.html
+					$order_info = $order->get_data();
 					if( isset($order_info['date_completed']) ) {
 						$purchase_date = get_object_vars($order_info['date_completed'])['date']; //transforming object as an array
 					} else {
