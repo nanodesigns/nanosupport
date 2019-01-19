@@ -421,7 +421,7 @@ function nanosupport_settings_page_callback() {
     global $plugin_page; ?>
 
     <div class="wrap">
-        <h1><i class="ns-icon-nanosupport"></i> <?php _e( 'NanoSupport Settings', 'nanosupport' ); ?></h1>
+        <h1><i class="ns-icon-nanosupport" aria-hidden="true"></i> <?php _e( 'NanoSupport Settings', 'nanosupport' ); ?></h1>
 
         <?php
         //tabs

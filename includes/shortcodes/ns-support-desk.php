@@ -145,7 +145,7 @@ function ns_support_desk_page() {
 								<div class="ticket-author">
 									<?php
 									$author = get_user_by( 'id', $post->post_author );
-									echo '<i class="ns-icon-user"></i> '. $author->display_name;
+									echo '<i class="ns-icon-user" aria-hidden="true"></i> '. $author->display_name;
 									?>
 								</div>
 							</div>
@@ -162,7 +162,7 @@ function ns_support_desk_page() {
 								</div>
 							</div>
 							<div class="toggle-ticket-additional">
-								<i class="ns-toggle-icon ns-icon-chevron-circle-down" title="<?php esc_attr_e( 'Load more', 'nanosupport' ); ?>"></i>
+								<i class="ns-toggle-icon ns-icon-chevron-circle-down" aria-label="<?php esc_attr_e( 'Load more', 'nanosupport' ); ?>"></i>
 							</div>
 							<div class="ticket-additional ns-hide-mobile">
 								<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
@@ -230,12 +230,12 @@ function ns_support_desk_page() {
 			//User is not logged in
 			esc_html_e( 'Sorry, you cannot see your tickets without being logged in.', 'nanosupport' );
 			echo '<br>';
-			echo '<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_login_url() .'"><i class="ns-icon-lock"></i>&nbsp;';
+			echo '<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_login_url() .'"><i class="ns-icon-lock" aria-hidden="true"></i>&nbsp;';
 				esc_html_e( 'Login', 'nanosupport' );
 			echo '</a>&nbsp;';
 			/* translators: context: login 'or' register */
 			esc_html_e( 'or', 'nanosupport' );
-			echo '&nbsp;<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_registration_url() .'"><i class="ns-icon-lock"></i>&nbsp;';
+			echo '&nbsp;<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_registration_url() .'"><i class="ns-icon-lock" aria-hidden="true"></i>&nbsp;';
 				esc_html_e( 'Create an account', 'nanosupport' );
 			echo '</a>';
 

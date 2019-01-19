@@ -480,10 +480,10 @@ function ns_knowledgebase_navigation() {
             </div>
             <div class="ns-col-md-5 ns-col-sm-6 ns-well-right ns-text-right">
                 <a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="ns-btn ns-btn-sm ns-btn-primary">
-                    <i class="ns-icon-tag"></i> <?php echo ns_is_user('agent_and_manager') ? esc_html__( 'All the Tickets', 'nanosupport' ) : esc_html__( 'My Tickets', 'nanosupport' ); ?>
+                    <i class="ns-icon-tag" aria-hidden="true"></i> <?php echo ns_is_user('agent_and_manager') ? esc_html__( 'All the Tickets', 'nanosupport' ) : esc_html__( 'My Tickets', 'nanosupport' ); ?>
                 </a>
                 <a class="ns-btn ns-btn-sm ns-btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( $ns_general_settings['submit_page'] ) ); ?>">
-                    <i class="ns-icon-tag"></i> <?php esc_html_e( 'Submit Ticket', 'nanosupport' ); ?>
+                    <i class="ns-icon-tag" aria-hidden="true"></i> <?php esc_html_e( 'Submit Ticket', 'nanosupport' ); ?>
                 </a>
             </div>
         </div>
@@ -524,7 +524,7 @@ function ns_new_ticket_navigation() {
         <div class="ns-row">
             <div class="ns-col-md-5 ns-col-sm-6 ns-well-left">
                 <a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="ns-btn ns-btn-sm ns-btn-primary">
-                    <i class="ns-icon-tag"></i> <?php echo ns_is_user('agent_and_manager') ? esc_html__( 'All the Tickets', 'nanosupport' ) : esc_html__( 'My Tickets', 'nanosupport' ); ?>
+                    <i class="ns-icon-tag" aria-hidden="true"></i> <?php echo ns_is_user('agent_and_manager') ? esc_html__( 'All the Tickets', 'nanosupport' ) : esc_html__( 'My Tickets', 'nanosupport' ); ?>
                 </a>
                 <?php
                 /**
@@ -533,7 +533,7 @@ function ns_new_ticket_navigation() {
                  */
                 if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) { ?>
                     <a class="ns-btn ns-btn-sm ns-btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
-                        <i class="ns-icon-docs"></i> <?php esc_html_e( 'Knowledgebase', 'nanosupport' ); ?>
+                        <i class="ns-icon-docs" aria-hidden="true"></i> <?php esc_html_e( 'Knowledgebase', 'nanosupport' ); ?>
                     </a>
                 <?php } ?>
             </div>
@@ -587,11 +587,11 @@ function ns_support_desk_navigation() {
                  */
                 if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) { ?>
                     <a class="ns-btn ns-btn-sm ns-btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
-                        <i class="ns-icon-docs"></i> <?php esc_html_e( 'Knowledgebase', 'nanosupport' ); ?>
+                        <i class="ns-icon-docs" aria-hidden="true"></i> <?php esc_html_e( 'Knowledgebase', 'nanosupport' ); ?>
                     </a>
                 <?php } ?>
                 <a class="ns-btn ns-btn-sm ns-btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( $ns_general_settings['submit_page'] ) ); ?>">
-                    <i class="ns-icon-tag"></i> <?php esc_html_e( 'Submit Ticket', 'nanosupport' ); ?>
+                    <i class="ns-icon-tag" aria-hidden="true"></i> <?php esc_html_e( 'Submit Ticket', 'nanosupport' ); ?>
                 </a>
             </div>
         </div>
@@ -654,7 +654,7 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
             $reopen_url = add_query_arg( 'reopen', '', get_the_permalink() );
             echo '<div class="ns-alert ns-alert-success" role="alert">';
                 echo esc_html__( 'This ticket is already solved.', 'nanosupport' );
-                echo '&nbsp;<a class="ns-btn ns-btn-sm ns-btn-warning" href="'. wp_nonce_url( $reopen_url, 'reopen-ticket' ) .'#write-message"><i class="ns-icon-repeat"></i>&nbsp;';
+                echo '&nbsp;<a class="ns-btn ns-btn-sm ns-btn-warning" href="'. wp_nonce_url( $reopen_url, 'reopen-ticket' ) .'#write-message"><i class="ns-icon-repeat" aria-hidden="true"></i>&nbsp;';
                     esc_html_e( 'Reopen Ticket', 'nanosupport' );
                 echo '</a>';
             echo '</div>';

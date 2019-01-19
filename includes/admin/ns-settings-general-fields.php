@@ -247,7 +247,7 @@ function ns_ecommerce_settings_section_callback() {
     $NSECommerce = new NSECommerce();
     if( ! $NSECommerce->is_plugins_active() ) {
 
-        echo '<p class="ns-text-warning" role="alert"><i class="ns-icon-info-circled"></i> '. esc_html__( 'Using ecommerce feature, needs either Easy Digital Downloads or WooCommerce active.', 'nanosupport' ) .'</p>';
+        echo '<p class="ns-text-warning" role="alert"><i class="ns-icon-info-circled" aria-hidden="true"></i> '. esc_html__( 'Using ecommerce feature, needs either Easy Digital Downloads or WooCommerce active.', 'nanosupport' ) .'</p>';
 
     }
 }

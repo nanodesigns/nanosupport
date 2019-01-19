@@ -43,7 +43,7 @@ function nanosupport_system_status_page_callback() {
     global $plugin_page; ?>
 
     <div class="wrap">
-        <h1><i class="ns-icon-nanosupport"></i> <?php esc_html_e( 'NanoSupport System Status', 'nanosupport' ); ?></h1>
+        <h1><i class="ns-icon-nanosupport" aria-hidden="true"></i> <?php esc_html_e( 'NanoSupport System Status', 'nanosupport' ); ?></h1>
 
         <?php settings_errors(); ?>
 

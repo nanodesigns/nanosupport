@@ -49,7 +49,7 @@
 			<div class="ns-row">
 				<div class="ns-col-sm-11">
 					<h1 class="ticket-head"><?php the_title(); ?></h1>
-					<p class="ticket-author"><i class="ns-icon-user"></i> <?php echo $author->display_name; ?></p>
+					<p class="ticket-author"><i class="ns-icon-user" aria-hidden="true"></i> <?php echo $author->display_name; ?></p>
 
 					<div class="ns-row ticket-meta">
 						<div class="ns-col-sm-2 ns-col-xs-6">
@@ -97,13 +97,13 @@
 					</div> <!-- /.ns-row -->
 				</div>
 				<div class="ns-col-sm-1 ns-right-portion">
-					<a class="ns-btn ns-btn-danger ns-btn-xs ns-round-btn off-ticket-btn" href="<?php echo esc_url(get_permalink( $support_desk )); ?>" title="<?php esc_attr_e('Close the ticket', 'nanosupport'); ?>">
-						<i class="ns-icon-remove"></i> <span class="screen-reader-only"><?php esc_attr_e('Close the ticket', 'nanosupport'); ?></span>
+					<a class="ns-btn ns-btn-danger ns-btn-xs ns-round-btn off-ticket-btn" href="<?php echo esc_url(get_permalink( $support_desk )); ?>" title="<?php esc_attr_e('Close ticket to Back to the Support Desk', 'nanosupport'); ?>">
+						<i class="ns-icon-remove" aria-hidden="true"></i> <span class="screen-reader-only"><?php esc_attr_e('Close content', 'nanosupport'); ?></span>
 					</a>
 					<a class="ns-btn ns-btn-default ns-btn-xs ns-round-btn ticket-link-btn" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e('Permanent link to the Ticket', 'nanosupport'); ?>">
-						<i class="ns-icon-link"></i> <span class="screen-reader-only"><?php esc_attr_e('Permanent link to the Ticket', 'nanosupport'); ?></span>
+						<i class="ns-icon-link" aria-hidden="true"></i> <span class="screen-reader-only"><?php esc_attr_e('Permanent link to the Ticket', 'nanosupport'); ?></span>
 					</a>
-					<?php edit_post_link( '<i class="ns-icon-edit" title="'. esc_attr__('Edit the Ticket', 'nanosupport') .'"></i> <span class="screen-reader-only">'. esc_attr__('Edit the Ticket', 'nanosupport') .'</span>', '', '', get_the_ID() ); ?>
+					<?php edit_post_link( '<i class="ns-icon-edit" aria-hidden="true"></i> <span class="screen-reader-only">'. esc_attr__('Edit the Ticket', 'nanosupport') .'</span>', '', '', get_the_ID() ); ?>
 				</div>
 			</div> <!-- /.ns-row -->
 
@@ -221,7 +221,7 @@
 	</article> <!-- /#ticket-<?php the_ID(); ?> -->
 
 	<a class="ns-btn ns-btn-sm ns-btn-default" href="<?php echo esc_url(get_permalink( $support_desk )); ?>">
-		<i class="ns-icon-chevron-left"></i> <?php esc_html_e( 'Back to ticket index', 'nanosupport' ); ?>
+		<i class="ns-icon-chevron-left" aria-hidden="true"></i> <?php esc_html_e( 'Back to ticket index', 'nanosupport' ); ?>
 	</a>
 
 </div>

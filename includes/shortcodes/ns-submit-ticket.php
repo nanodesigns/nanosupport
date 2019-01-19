@@ -46,7 +46,7 @@ function ns_submit_support_ticket() {
     if( isset($_GET['ns_success']) && $_GET['ns_success'] == 1 ) {
 		echo '<div class="ns-alert ns-alert-success" role="alert">';
 			echo wp_kses( __( '<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible.', 'nanosupport' ), array('strong' => array()) );
-			echo '&nbsp;<a href="'. get_permalink( $ns_general_settings['support_desk'] ) .'" class="link-to-desk"><i class="ns-icon-tag"></i>&nbsp;';
+			echo '&nbsp;<a href="'. get_permalink( $ns_general_settings['support_desk'] ) .'" class="link-to-desk"><i class="ns-icon-tag" aria-hidden="true"></i>&nbsp;';
 				esc_html_e( 'Check your tickets', 'nanosupport' );
 			echo '</a>';
 	    echo '</div>';
@@ -362,7 +362,7 @@ function ns_submit_support_ticket() {
 
 								<div class="ns-form-group">
 									<p class="ns-col-sm-9 ns-col-sm-offset-3">
-										<i class="ns-icon-info-circled"></i> <?php esc_html_e( 'With these information below, we will create an account on your behalf to track the ticket for further enquiry.', 'nanosupport' ); ?>
+										<i class="ns-icon-info-circled" aria-hidden="true"></i> <?php esc_html_e( 'With these information below, we will create an account on your behalf to track the ticket for further enquiry.', 'nanosupport' ); ?>
 									</p>
 								</div> <!-- /.ns-form-group -->
 

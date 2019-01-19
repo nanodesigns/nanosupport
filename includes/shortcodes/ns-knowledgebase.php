@@ -90,7 +90,7 @@ function ns_knowledgebase_page() {
 					echo '<div class="ns-col-sm-4 ns-col-xs-6 nanodoc-term-box'. esc_attr($column_class) .'">';
 						echo '<div class="nanodoc-term-box-inner ns-text-center">';
 							echo '<a class="icon-link" href="'. $term_link .'" title="'. esc_attr($term_name) .'" tabindex="-1">';
-								echo '<i class="nanosupport-kb-icon '. esc_attr($ns_icon_class) .'"></i> <span class="screen-reader-only">'. $term_name .'</span>';
+								echo '<i class="nanosupport-kb-icon '. esc_attr($ns_icon_class) .'" aria-hidden="true"></i> <span class="screen-reader-only">'. $term_name .'</span>';
 							echo '</a>';
 							echo '<h4 class="nanodoc-term-title">';
 								printf(	'<a href="%1s" title="%2s" class="nanodoc-term-link">%3s</a>', $term_link, esc_attr($term_name), $term_name );
