@@ -69,14 +69,14 @@ function nanosupport_settings_options_init(){
     );
         add_settings_field(
             'support_desk_page',                        // ID*
-            esc_html__( 'Support Desk Page', 'nanosupport' ), // Title*
+            '<label for="ns_support_desk">'. esc_html__( 'Support Desk Page', 'nanosupport' ) .'</label>', // Title*
             'ns_support_desk_field',                    // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );
         add_settings_field(
             'submit_ticket_page',                       // ID*
-            esc_html__( 'Ticket Submission Page', 'nanosupport' ), // Title*
+            '<label for="ns_submit_ticket">'. esc_html__( 'Ticket Submission Page', 'nanosupport' ) .'</label>', // Title*
             'ns_submit_ticket_field',                   // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
@@ -84,7 +84,7 @@ function nanosupport_settings_options_init(){
         add_settings_field(
             'ticket_char_limit',                        // ID*
             /* translators: context: ...limit to # characters */
-            esc_html__( 'Set ticket character limit to', 'nanosupport' ), // Title*
+            '<label for="ticket_char_limit">'. esc_html__( 'Set ticket character limit to', 'nanosupport' ) .'</label>', // Title*
             'ns_ticket_character_limit',                // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
@@ -98,28 +98,28 @@ function nanosupport_settings_options_init(){
         );
         add_settings_field(
             'submit_ticket_notice',                     // ID*
-            esc_html__( 'Submit Ticket Notice', 'nanosupport' ), // Title*
+            '<label for="submit_ticket_notice">'. esc_html__( 'Submit Ticket Notice', 'nanosupport' ) .'</label>', // Title*
             'ns_submit_ticket_notice',                  // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );
         add_settings_field(
             'support_desk_notice',                      // ID*
-            esc_html__( 'Support Desk Notice', 'nanosupport' ), // Title*
+            '<label for="support_desk_notice">'. esc_html__( 'Support Desk Notice', 'nanosupport' ) .'</label>', // Title*
             'ns_support_desk_notice',                   // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );
         add_settings_field(
             'knowledgebase_notice',                     // ID*
-            esc_html__( 'Knowledgebase Notice', 'nanosupport' ), // Title*
+            '<label for="knowledgebase_notice">'. esc_html__( 'Knowledgebase Notice', 'nanosupport' ) .'</label>', // Title*
             'ns_knowledgebase_notice',                  // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
         );
         add_settings_field(
             'highligh_ticket',                          // ID*
-            esc_html__( 'Highlight Ticket with', 'nanosupport' ), // Title*
+            '<label for="ns_highlight_ticket">'. esc_html__( 'Highlight Ticket with', 'nanosupport' ) .'</label>', // Title*
             'ns_highlight_ticket_field',                // Callback Function*
             'nanosupport_settings',                     // Page (Plugin)*
             'ns_general'                                // Section
@@ -205,7 +205,7 @@ function nanosupport_settings_options_init(){
              */
             add_settings_field(
                 'excluded_products',                             // ID*
-                esc_html__( 'Exclude Products', 'nanosupport' ), // Title*
+                '<label for="ns_excluded_products">'. esc_html__( 'Exclude Products', 'nanosupport' ) .'</label>', // Title*
                 'ns_excluded_products_field',                    // Callback Function*
                 'nanosupport_settings',                          // Page (Plugin)*
                 'ns_ecommerce'                                   // Section

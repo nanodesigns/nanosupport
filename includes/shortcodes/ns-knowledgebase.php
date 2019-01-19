@@ -89,11 +89,11 @@ function ns_knowledgebase_page() {
 
 					echo '<div class="ns-col-sm-4 ns-col-xs-6 nanodoc-term-box'. esc_attr($column_class) .'">';
 						echo '<div class="nanodoc-term-box-inner ns-text-center">';
-							echo '<a class="icon-link" href="'. $term_link .'" title="'. esc_attr($term_name) .'" tabindex="-1">';
+							echo '<a class="icon-link" href="'. $term_link .'" tabindex="-1">';
 								echo '<i class="nanosupport-kb-icon '. esc_attr($ns_icon_class) .'" aria-hidden="true"></i> <span class="screen-reader-only">'. $term_name .'</span>';
 							echo '</a>';
 							echo '<h4 class="nanodoc-term-title">';
-								printf(	'<a href="%1s" title="%2s" class="nanodoc-term-link">%3s</a>', $term_link, esc_attr($term_name), $term_name );
+								printf(	'<a href="%1s" class="nanodoc-term-link">%2s</a>', $term_link, $term_name );
 							echo '</h4>';
 							if( $term_desc ) {
 								echo '<div class="nanodoc-term-desc ns-small">';
@@ -200,7 +200,7 @@ function ns_knowledgebase_page() {
 							echo '<ul class="ns-kb-catbox-list">';
 								$per_category_counter = 1;
 								while( $kb_entries->have_posts() ) : $kb_entries->the_post();
-									echo '<li class="ns-small"><a href="'. esc_url(get_the_permalink()) .'" title="'. the_title_attribute( array('echo' => false) ) .'" >'. get_the_title() .'</a></li>';
+									echo '<li class="ns-small"><a href="'. esc_url(get_the_permalink()) .'">'. get_the_title() .'</a></li>';
 
 									//Display the maximum numbers set
 									if( $kb_posts_per_category === $per_category_counter )

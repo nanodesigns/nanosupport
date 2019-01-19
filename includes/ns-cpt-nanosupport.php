@@ -427,7 +427,7 @@ function ns_copy_ticket_button( $actions, $post ) {
         $nonce = wp_create_nonce( 'ns_copy_ticket_nonce' );
 
         // add our button
-        $actions['copy_ticket'] = '<a class="ns-copy-post" data-ticket="'. $post->ID .'" data-nonce="'. $nonce .'" href="javascript:">'. esc_html__( 'Copy to KB', 'nanosupport' ) .'</a>';
+        $actions['copy_ticket'] = '<a class="ns-copy-post" data-ticket="'. $post->ID .'" data-nonce="'. $nonce .'" href="javascript:" role="button" aria-label="'. esc_attr__('Copy Ticket to the Knowledgebase', 'nanosupport') .'">'. esc_html__( 'Copy to KB', 'nanosupport' ) .'</a>';
     }
 
     return $actions;

@@ -121,14 +121,14 @@ function ns_support_desk_page() {
 								<h3 class="ticket-head">
 									<?php if( 'pending' === $ticket_meta['status']['value'] ) : ?>
 										<?php if( ns_is_user('agent_and_manager') ) : ?>
-											<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
+											<a href="<?php the_permalink(); ?>">
 												<?php the_title(); echo $product_icon; ?>
 											</a>
 										<?php else : ?>
 											<?php the_title(); echo $product_icon; ?>
 										<?php endif; ?>
 									<?php else : ?>
-										<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
+										<a href="<?php the_permalink(); ?>">
 											<?php the_title(); echo $product_icon; ?>
 										</a>
 									<?php endif; ?>

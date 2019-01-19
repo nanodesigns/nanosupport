@@ -199,7 +199,7 @@ function nanosupport_system_status_page_callback() {
                 </div>
                 <!-- /#ns-active-plugins -->
 
-                <a href="javascript:" id="ns-export-status" class="ns-btn button button-default"><i class="dashicons dashicons-clipboard" style="vertical-align: middle" aria-hidden="true"></i> <?php esc_html_e('Copy to Clipboard', 'nanosupport'); ?></a> <sub>(<?php esc_html_e('works on modern browsers only', 'nanosupport'); ?>)</sub>
+                <button type="button" id="ns-export-status" class="ns-btn button button-default"><i class="dashicons dashicons-clipboard" style="vertical-align: middle" aria-hidden="true"></i> <?php esc_html_e('Copy to Clipboard', 'nanosupport'); ?></button> <sub>(<?php esc_html_e('works on modern browsers only', 'nanosupport'); ?>)</sub>
 
             </div>
             <!-- /.metabox-holder -->

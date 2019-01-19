@@ -173,8 +173,9 @@ function ns_internal_notes_specifics() {
     <div class="ns-row">
         <div class="ns-box">
             <div class="ns-field">
-                <textarea class="ns-field-item" name="ns_internal_note" id="ns-internal-note" rows="5" placeholder="<?php esc_attr_e( 'Write down any internal note to pass to any Support Agent internally.', 'nanosupport' ); ?>"><?php echo isset($_POST['ns_internal_note']) ? $_POST['ns_internal_note'] : esc_html( $meta_data ); ?></textarea>
-                <?php echo '<p class="description">'. esc_html__( 'Internal notes are not visible to Support Seekers. It&rsquo;s to pass important notes within the support team.', 'nanosupport' ) .'</p>'; ?>
+                <label for="ns-internal-note" class="screen-reader-text"><?php esc_html_e( 'Internal Notes', 'nanosupport' ) ?></label>
+                <textarea class="ns-field-item" name="ns_internal_note" id="ns-internal-note" rows="5" placeholder="<?php esc_attr_e( 'Write down any internal note to pass to any Support Agent internally.', 'nanosupport' ); ?>" aria-describedby="internal-notes-description"><?php echo isset($_POST['ns_internal_note']) ? $_POST['ns_internal_note'] : esc_html( $meta_data ); ?></textarea>
+                <?php echo '<p class="description" id="internal-notes-description">'. esc_html__( 'Internal notes are not visible to Support Seekers. It&rsquo;s to pass important notes within the support team.', 'nanosupport' ) .'</p>'; ?>
             </div> <!-- /.ns-field -->
         </div> <!-- /.ns-box -->
     </div> <!-- /.ns-row -->
@@ -220,9 +221,11 @@ function ns_control_specifics() {
 
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
-                    <i class="dashicons dashicons-shield" aria-hidden="true"></i> <?php esc_html_e( 'Ticket Status', 'nanosupport' );
-                    echo ns_tooltip( 'ns-ticket-status-tooltip', esc_html__( 'Change the ticket status to track unsolved tickets separately.', 'nanosupport' ), 'left' );
-                    ?>
+                    <label for="ns-ticket-status">
+                        <i class="dashicons dashicons-shield" aria-hidden="true"></i> <?php esc_html_e( 'Ticket Status', 'nanosupport' );
+                        echo ns_tooltip( 'ns-ticket-status-tooltip', esc_html__( 'Change the ticket status to track unsolved tickets separately.', 'nanosupport' ), 'left' );
+                        ?>
+                    </label>
                 </div>
                 <div class="ns-body-col">
                     <div class="ns-field">
@@ -237,9 +240,11 @@ function ns_control_specifics() {
 
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
-                    <i class="dashicons dashicons-sort" aria-hidden="true"></i> <?php esc_html_e( 'Priority', 'nanosupport' );
-                    echo ns_tooltip( 'ns-ticket-priority-tooltip', esc_html__( 'Change the priority as per the content and urgency of the ticket.', 'nanosupport' ), 'left' );
-                    ?>
+                    <label for="ns-ticket-priority">
+                        <i class="dashicons dashicons-sort" aria-hidden="true"></i> <?php esc_html_e( 'Priority', 'nanosupport' );
+                        echo ns_tooltip( 'ns-ticket-priority-tooltip', esc_html__( 'Change the priority as per the content and urgency of the ticket.', 'nanosupport' ), 'left' );
+                        ?>
+                    </label>
                 </div>
                 <div class="ns-body-col">
                     <div class="ns-field">
@@ -261,9 +266,11 @@ function ns_control_specifics() {
 
                 <div class="ns-row misc-pub-section">
                     <div class="ns-head-col">
-                        <i class="dashicons dashicons-businessman" aria-hidden="true"></i> <?php esc_html_e( 'Agent', 'nanosupport' );
-                        echo ns_tooltip( 'ns-ticket-agent-tooltip', esc_html__( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ), 'left' );
-                        ?>
+                        <label for="ns-ticket-agent">
+                            <i class="dashicons dashicons-businessman" aria-hidden="true"></i> <?php esc_html_e( 'Agent', 'nanosupport' );
+                            echo ns_tooltip( 'ns-ticket-agent-tooltip', esc_html__( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ), 'left' );
+                            ?>
+                        </label>
                     </div>
                     <div class="ns-body-col">
                         <?php
@@ -356,9 +363,11 @@ function ns_control_specifics() {
                 
                     <div class="ns-row misc-pub-section">
                         <div class="ns-head-col">
-                            <i class="dashicons dashicons-cart" aria-hidden="true"></i> <?php esc_html_e( 'Product', 'nanosupport' );
-                            echo ns_tooltip( 'ns-ticket-product-tooltip', esc_html__( 'Select the product the ticket is about.', 'nanosupport' ), 'left' );
-                            ?>
+                            <label for="ns-ticket-product">
+                                <i class="dashicons dashicons-cart" aria-hidden="true"></i> <?php esc_html_e( 'Product', 'nanosupport' );
+                                echo ns_tooltip( 'ns-ticket-product-tooltip', esc_html__( 'Select the product the ticket is about.', 'nanosupport' ), 'left' );
+                                ?>
+                            </label>
                         </div>
                         <div class="ns-body-col">
                             <div class="ns-field">
@@ -376,9 +385,11 @@ function ns_control_specifics() {
 
                     <div class="ns-row misc-pub-section">
                         <div class="ns-head-col">
-                            <i class="dashicons dashicons-tag" aria-hidden="true"></i> <?php esc_html_e( 'Receipt Number', 'nanosupport' );
-                            echo ns_tooltip( 'ns-ticket-product-receipt-tooltip', esc_html__( 'Enter the receipt number of purchasing the product.', 'nanosupport' ), 'left' );
-                            ?>
+                            <label for="ns-ticket-product-receipt">
+                                <i class="dashicons dashicons-tag" aria-hidden="true"></i> <?php esc_html_e( 'Receipt Number', 'nanosupport' );
+                                echo ns_tooltip( 'ns-ticket-product-receipt-tooltip', esc_html__( 'Enter the receipt number of purchasing the product.', 'nanosupport' ), 'left' );
+                                ?>
+                            </label>
                         </div>
                         <div class="ns-body-col">
                             <div class="ns-field">
