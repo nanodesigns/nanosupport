@@ -335,7 +335,7 @@ function nanosupport_settings_options_init(){
     );
         add_settings_field(
             'email',                                    // ID*
-            esc_html__( 'Notification Email', 'nanosupport' ),  // Title*
+            '<label for="ns-email-field">'. esc_html__( 'Notification Email', 'nanosupport' ) .'</label>',  // Title*
             'ns_notification_email_field',              // Callback Function*
             'nanosupport_email_settings',               // Page (Plugin)*
             'ns_email'                                  // Section
@@ -363,35 +363,35 @@ function nanosupport_settings_options_init(){
     );
         add_settings_field(
             'header_bg_color',                          // ID*
-            esc_html__( 'Header Background Color', 'nanosupport' ),        // Title*
+            '<label for="ns-email-header-bg-color">'. esc_html__( 'Header Background Color', 'nanosupport' ) .'</label>',        // Title*
             'ns_email_header_bg_color_field',           // Callback Function*
             'nanosupport_email_settings',               // Page (Plugin)*
             'ns_email_template'                         // Section
         );
         add_settings_field(
             'header_text_color',                        // ID*
-            esc_html__( 'Header Text Color', 'nanosupport' ),   // Title*
+            '<label for="email-header-color">'. esc_html__( 'Header Text Color', 'nanosupport' ) .'</label>',   // Title*
             'ns_email_header_text_color_field',         // Callback Function*
             'nanosupport_email_settings',               // Page (Plugin)*
             'ns_email_template'                         // Section
         );
         add_settings_field(
             'header_image',                             // ID*
-            esc_html__( 'Header Image', 'nanosupport' ), // Title*
+            '<label for="ns-email-header-image-url">'. esc_html__( 'Header Image', 'nanosupport' ) .'</label>', // Title*
             'ns_email_header_image_field',              // Callback Function*
             'nanosupport_email_settings',               // Page (Plugin)*
             'ns_email_template'                         // Section
         );
         add_settings_field(
             'header_text',                              // ID*
-            esc_html__( 'Header Text', 'nanosupport' ), // Title*
+            '<label for="ns-email-header-text">'. esc_html__( 'Header Text', 'nanosupport' ) .'</label>', // Title*
             'ns_email_header_text_field',               // Callback Function*
             'nanosupport_email_settings',               // Page (Plugin)*
             'ns_email_template'                         // Section
         );
         add_settings_field(
             'footer_text',                              // ID*
-            esc_html__( 'Footer Text', 'nanosupport' ), // Title*
+            '<label for="ns-email-footer-text">'. esc_html__( 'Footer Text', 'nanosupport' ) .'</label>', // Title*
             'ns_email_footer_text_field',               // Callback Function*
             'nanosupport_email_settings',               // Page (Plugin)*
             'ns_email_template'                         // Section
