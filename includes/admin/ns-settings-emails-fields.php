@@ -106,7 +106,8 @@ function ns_email_header_text_field() {
 
     $header_text = isset($options['header_text']) && $options['header_text'] ? $options['header_text'] : '';
 
-    echo '<input type="text" class="ns-field-item ns-textbox" name="nanosupport_email_settings[header_text]" id="ns-email-header-text" value="'. $header_text .'" placeholder="'. sprintf( __('eg. %s'), get_bloginfo( 'name', 'display' ) ) .'" aria-describedby="ns-header-text">';
+    /* translators: Site name as email template header text */
+    echo '<input type="text" class="ns-field-item ns-textbox" name="nanosupport_email_settings[header_text]" id="ns-email-header-text" value="'. $header_text .'" placeholder="'. sprintf( __('eg. %s', 'nanosupport'), get_bloginfo( 'name', 'display' ) ) .'" aria-describedby="ns-header-text">';
 
     echo ns_tooltip( 'ns-header-text', __( 'Write down the Header Text for the email template. Default: Site name.', 'nanosupport' ), 'right' );
 }
