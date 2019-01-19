@@ -177,7 +177,7 @@ function ns_handle_registration_login_ticket_submission() {
 
         $creds = array();
 
-        $username = trim( $_POST['login_name'] );
+        $username = sanitize_user( $_POST['login_name'] );
         $password = $_POST['login_password'];
 
         if( empty( $username ) ) {
@@ -200,16 +200,16 @@ function ns_handle_registration_login_ticket_submission() {
          */
         $get_username_from_email = apply_filters( 'nanosupport_username_from_email', true );
 
-        if( is_email($username) && $get_username_from_email ) {
-            $user = get_user_by( 'email', $username );
+        $user = get_user_by( 'login', $username );
 
-            if( isset( $user->user_login ) ) {
-                $creds['user_login'] = $user->user_login;
-            } else {
-                $ns_errors[] = esc_html__( 'There is no user found with this email address', 'nanosupport' );
-            }
+        if ( ! $user && strpos( $user_name, '@' ) && $get_username_from_email ) {
+        	$user = get_user_by( 'email', $username );
+        }
+
+        if( isset( $user->user_login ) ) {
+            $creds['user_login'] = $user->user_login;
         } else {
-            $creds['user_login'] = $username;
+            $ns_errors[] = esc_html__( 'There is no user found with this email address', 'nanosupport' );
         }
 
         $creds['user_password'] = $password;
