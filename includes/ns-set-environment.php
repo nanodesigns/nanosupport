@@ -270,7 +270,7 @@ function ns_user_fields( $user ) { ?>
         <table class="form-table">
             <tr>
                 <th scope="row">
-                	<i class="dashicons dashicons-businessman"></i> <?php esc_html_e( 'Make Support Agent', 'nanosupport' ); ?>
+                	<i class="dashicons dashicons-businessman" aria-hidden="true"></i> <?php esc_html_e( 'Make Support Agent', 'nanosupport' ); ?>
                 </th>
                 <td>
                 	<label>
@@ -376,7 +376,7 @@ add_filter( 'manage_users_columns', 'ns_add_support_agent_user_column' );
 function ns_support_agent_user_column_content( $value, $column_name, $user_id ) {
     if ( 'ns_agent' == $column_name ) {
         if( 1 == get_user_meta( $user_id, 'ns_make_agent', true ) )
-            return '<span class="ns-label ns-label-warning"><i class="dashicons dashicons-businessman" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i> '. esc_html__( 'Agent', 'nanosupport' ) .'</span>';
+            return '<span class="ns-label ns-label-warning"><i class="dashicons dashicons-businessman" aria-label="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i> '. esc_html__( 'Agent', 'nanosupport' ) .'</span>';
         else
             return '&mdash;';
     }

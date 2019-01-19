@@ -121,14 +121,14 @@ function ns_reply_specifics() {
         if( 'pending' === $ticket_meta['status']['value'] ) {
 
             echo '<div class="ns-alert ns-alert-info" role="alert">';
-                echo '<i class="dashicons dashicons-info"></i>&nbsp;';
+                echo '<i class="dashicons dashicons-info" aria-hidden="true"></i>&nbsp;';
                 echo wp_kses( __( 'You cannot add response to a pending ticket. <strong>Publish</strong> it first.', 'nanosupport' ), array('strong' => array()) );
             echo '</div>';
 
         } elseif( 'solved' === $ticket_meta['status']['value'] ) {
 
             echo '<div class="ns-alert ns-alert-success" role="alert">';
-                echo '<i class="dashicons dashicons-info"></i>&nbsp;';
+                echo '<i class="dashicons dashicons-info" aria-hidden="true"></i>&nbsp;';
                 echo wp_kses( __( 'Ticket is already solved. <strong>ReOpen</strong> it to add new response.', 'nanosupport' ), array('strong' => array()) );
             echo '</div>';
 
@@ -220,7 +220,7 @@ function ns_control_specifics() {
 
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
-                    <i class="dashicons dashicons-shield"></i> <?php esc_html_e( 'Ticket Status', 'nanosupport' );
+                    <i class="dashicons dashicons-shield" aria-hidden="true"></i> <?php esc_html_e( 'Ticket Status', 'nanosupport' );
                     echo ns_tooltip( 'ns-ticket-status-tooltip', esc_html__( 'Change the ticket status to track unsolved tickets separately.', 'nanosupport' ), 'left' );
                     ?>
                 </div>
@@ -237,7 +237,7 @@ function ns_control_specifics() {
 
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
-                    <i class="dashicons dashicons-sort"></i> <?php esc_html_e( 'Priority', 'nanosupport' );
+                    <i class="dashicons dashicons-sort" aria-hidden="true"></i> <?php esc_html_e( 'Priority', 'nanosupport' );
                     echo ns_tooltip( 'ns-ticket-priority-tooltip', esc_html__( 'Change the priority as per the content and urgency of the ticket.', 'nanosupport' ), 'left' );
                     ?>
                 </div>
@@ -261,7 +261,7 @@ function ns_control_specifics() {
 
                 <div class="ns-row misc-pub-section">
                     <div class="ns-head-col">
-                        <i class="dashicons dashicons-businessman"></i> <?php esc_html_e( 'Agent', 'nanosupport' );
+                        <i class="dashicons dashicons-businessman" aria-hidden="true"></i> <?php esc_html_e( 'Agent', 'nanosupport' );
                         echo ns_tooltip( 'ns-ticket-agent-tooltip', esc_html__( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ), 'left' );
                         ?>
                     </div>
@@ -305,7 +305,7 @@ function ns_control_specifics() {
                     
                     <div id="ns-product-display-panel">
                         <h2>
-                            <i class="dashicons dashicons-cart"></i> <?php esc_html_e( 'Product', 'nanosupport' ); ?>
+                            <i class="dashicons dashicons-cart" aria-hidden="true"></i> <?php esc_html_e( 'Product', 'nanosupport' ); ?>
                             <?php /* translators: Button text to open product-specific fields on-demand */ ?>
                             <div id="ns-btn-edit-product" class="hide-if-no-js"><?php _ex( 'Edit', 'NanoSupport Product', 'nanosupport' ); ?></div>
                         </h2>
@@ -320,7 +320,7 @@ function ns_control_specifics() {
                             <?php } else { ?>
 
                                 <p>
-                                    <a href="<?php echo esc_url($product_info->link); ?>" target="_blank">
+                                    <a href="<?php echo esc_url($product_info->link); ?>" target="_blank" rel="noopener">
                                         <strong><?php echo $product_info->name ?></strong>
                                     </a>
                                 </p>
@@ -338,7 +338,7 @@ function ns_control_specifics() {
                                     echo '<br>';
                                     ?>
 
-                                    <a class="button button-small button-default" href="<?php echo esc_url($product_info->payment_url); ?>" target="_blank">
+                                    <a class="button button-small button-default" href="<?php echo esc_url($product_info->payment_url); ?>" target="_blank" rel="noopener">
                                         <?php esc_html_e( 'Payment Details', 'nanosupport' ); ?>
                                     </a>
 
@@ -356,7 +356,7 @@ function ns_control_specifics() {
                 
                     <div class="ns-row misc-pub-section">
                         <div class="ns-head-col">
-                            <i class="dashicons dashicons-cart"></i> <?php esc_html_e( 'Product', 'nanosupport' );
+                            <i class="dashicons dashicons-cart" aria-hidden="true"></i> <?php esc_html_e( 'Product', 'nanosupport' );
                             echo ns_tooltip( 'ns-ticket-product-tooltip', esc_html__( 'Select the product the ticket is about.', 'nanosupport' ), 'left' );
                             ?>
                         </div>
@@ -376,7 +376,7 @@ function ns_control_specifics() {
 
                     <div class="ns-row misc-pub-section">
                         <div class="ns-head-col">
-                            <i class="dashicons dashicons-tag"></i> <?php esc_html_e( 'Receipt Number', 'nanosupport' );
+                            <i class="dashicons dashicons-tag" aria-hidden="true"></i> <?php esc_html_e( 'Receipt Number', 'nanosupport' );
                             echo ns_tooltip( 'ns-ticket-product-receipt-tooltip', esc_html__( 'Enter the receipt number of purchasing the product.', 'nanosupport' ), 'left' );
                             ?>
                         </div>

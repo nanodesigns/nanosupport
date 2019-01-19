@@ -120,7 +120,7 @@
             		<?php } else { ?>
 			
 				
-						<a href="<?php echo esc_url($product_info->link); ?>" target="_blank">
+						<a href="<?php echo esc_url($product_info->link); ?>" target="_blank" rel="noopener">
 						    <i class="ns-icon-cart" aria-hidden="true"></i>
 						    <strong><?php
 						    /* translators: Product name */

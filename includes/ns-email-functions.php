@@ -197,7 +197,7 @@ function nanosupport_handle_account_opening_email( $user_id = '', $generated_pas
     $message .= '<p style="margin: 0 0 16px;">';
         /* translators: The next thing is the link to the site login URL */
         $message .= __( 'Log in here:', 'nanosupport' );
-        $message .= '&nbsp;<a style="color: #1c5daa; text-decoration: none;" href="'. wp_login_url() .'" target="_blank" title="'. esc_attr__( 'Account Login URL', 'nanosupport' ) .'">'. wp_login_url() .'</a>';
+        $message .= '&nbsp;<a style="color: #1c5daa; text-decoration: none;" href="'. wp_login_url() .'" target="_blank" rel="noopener" title="'. esc_attr__( 'Account Login URL', 'nanosupport' ) .'">'. wp_login_url() .'</a>';
     $message .= '</p>';
 
     //send the email
@@ -370,7 +370,7 @@ function ns_notify_agent_assignment( $user_id, $ticket_id = null ) {
 
         // Ticket title
         $message .= '<div style="border-left: 5px solid #ccc;padding-top: 10px;padding-left: 20px;padding-bottom: 10px;margin-bottom: 20px;">';
-            $message .= '<p style="margin: 0;font-weight: bold"><a style="text-decoration: none;color: #1c5daa;font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;" target="_blank" href="'. esc_url($get_ticket_link) .'">'. get_the_title($ticket_id) .'</a></p>';
+            $message .= '<p style="margin: 0;font-weight: bold"><a style="text-decoration: none;color: #1c5daa;font-family: \'Helvetica Neue\', \'Helvetica\', Helvetica, Roboto, Arial, sans-serif;font-size: 100%;" target="_blank" rel="noopener" href="'. esc_url($get_ticket_link) .'">'. get_the_title($ticket_id) .'</a></p>';
         $message .= '</div>';
 
     $message .= '<p style="margin: 0 0 16px;">'. __( 'You may get occasional emails notifying any movement of the ticket', 'nanosupport' ) .'</p>';

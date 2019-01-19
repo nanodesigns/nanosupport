@@ -125,7 +125,7 @@ function nanosupport_system_status_page_callback() {
                                 <?php
                                 if( $memory_limit < 67108864 ) {
                                     /* translators: 1. existing PHP memory limit 2. link to increasing PHP memory limit in WordPress */
-                                    echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning"></i>'. sprintf( esc_html__('%1$s &mdash; We recommend setting memory to at least 64MB. See: %2$s', 'nanosupport'), size_format( $memory_limit ), '<a href="https://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP" target="_blank">'. esc_html__( 'Increasing memory allocated to PHP', 'nanosupport' ) .'</a>' ) .'</mark>';
+                                    echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning" aria-hidden="true"></i>'. sprintf( esc_html__('%1$s &mdash; We recommend setting memory to at least 64MB. See: %2$s', 'nanosupport'), size_format( $memory_limit ), '<a href="https://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP" target="_blank" rel="noopener">'. esc_html__( 'Increasing memory allocated to PHP', 'nanosupport' ) .'</a>' ) .'</mark>';
                                 } else {
                                     echo '<span class="ns-text-success"><i class="dashicons dashicons-yes" aria-hidden="true"></i>'. size_format( $memory_limit ) .'</span>';
                                 }
@@ -137,9 +137,9 @@ function nanosupport_system_status_page_callback() {
                                 <th><?php esc_html_e( 'PHP version', 'nanosupport' ); ?></th>
                                 <td>
                                 <?php
-                                if ( version_compare( $phpversion, '7.2', '<' ) ) {
+                                if ( version_compare( $phpversion, '7.3', '<' ) ) {
                                     /* translators: 1. existing PHP version 2. link to WordPress minimum requirements */
-                                    echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning"></i> '. sprintf( esc_html__('%1$s &mdash; We recommend a minimum PHP version of 7.2. See: %2$s', 'nanosupport'), $phpversion, '<a href="https://wordpress.org/about/requirements/" target="_blank">'. esc_html__( 'WordPress minimum requirements', 'nanosupport' ) .'</a>' ) .'</mark>';
+                                    echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning" aria-hidden="true"></i> '. sprintf( esc_html__('%1$s &mdash; We recommend a minimum PHP version of 7.3. See: %2$s', 'nanosupport'), $phpversion, '<a href="https://wordpress.org/about/requirements/" target="_blank" rel="noopener">'. esc_html__( 'WordPress minimum requirements', 'nanosupport' ) .'</a>' ) .'</mark>';
                                 } else {
                                     echo '<span class="ns-text-success"><i class="dashicons dashicons-yes" aria-hidden="true"></i>'. $phpversion .'</span>';
                                 }
@@ -153,7 +153,7 @@ function nanosupport_system_status_page_callback() {
                                 <?php
                                 if ( version_compare( $mysql_version, '5.6', '<' ) ) {
                                     /* translators: 1. existing MySQL version 2. link to WordPress minimum requirements */
-                                    echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning"></i> '. sprintf( esc_html__('%1$s &mdash; We recommend a minimum MySQL version of 5.6. See: %2$s', 'nanosupport'), $mysql_version, '<a href="https://wordpress.org/about/requirements/" target="_blank">'. esc_html__( 'WordPress minimum requirements', 'nanosupport' ) .'</a>' ) .'</mark>';
+                                    echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning" aria-hidden="true"></i> '. sprintf( esc_html__('%1$s &mdash; We recommend a minimum MySQL version of 5.6. See: %2$s', 'nanosupport'), $mysql_version, '<a href="https://wordpress.org/about/requirements/" target="_blank" rel="noopener">'. esc_html__( 'WordPress minimum requirements', 'nanosupport' ) .'</a>' ) .'</mark>';
                                 } else {
                                     echo '<span class="ns-text-success"><i class="dashicons dashicons-yes" aria-hidden="true"></i>'. $mysql_version .'</span>';
                                 }

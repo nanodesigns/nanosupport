@@ -2,6 +2,8 @@
 * E-Commerce: Check Purchase Receipt's authenticity on the submission of a ticket
 * New filter hook: `ns_ticket_responses_arg`, `ns_check_receipt_validity`
 * Fix: Account creates even when the ticket form has error
+* Security Fix: Clickjacking fixes on new tabbed links
+* A11y (Accessibility) Fixes in both front end and admin end
 * Minor Fixes where PHP notices were visible
 
 = 0.5.0 - 2018-MAY-11 =
