@@ -273,7 +273,7 @@ function nanosupport_settings_options_init(){
          */
         add_settings_field(
             'knowledgebase',                                    // ID*
-            esc_html__( 'Knowledgebase Page', 'nanosupport' ),  // Title*
+            '<label for="ns_knowledgebase">'. esc_html__( 'Knowledgebase Page', 'nanosupport' ) .'</label>',  // Title*
             'ns_knowledgebase_page_field',                      // Callback Function*
             'nanosupport_knowledgebase_settings',               // Page (Plugin)*
             'ns_knowledgebase'                                  // Section
@@ -285,7 +285,7 @@ function nanosupport_settings_options_init(){
          */
         add_settings_field(
             'knowledgebase_terms',                              // ID*
-            esc_html__( 'Featured Categories', 'nanosupport' ), // Title*
+            '<label for="ns_doc_terms">'. esc_html__( 'Featured Categories', 'nanosupport' ) .'</label>', // Title*
             'ns_doc_terms_field',                               // Callback Function*
             'nanosupport_knowledgebase_settings',               // Page (Plugin)*
             'ns_knowledgebase'                                  // Section
@@ -297,7 +297,7 @@ function nanosupport_settings_options_init(){
          */
         add_settings_field(
             'knowledgebase_ppc',                                // ID*
-            esc_html__( 'No. of items per category', 'nanosupport' ),   // Title*
+            '<label for="ns_doc_ppc">'. esc_html__( 'Items per category', 'nanosupport' ) .'</label>',   // Title*
             'ns_doc_ppc_field',                                 // Callback Function*
             'nanosupport_knowledgebase_settings',               // Page (Plugin)*
             'ns_knowledgebase'                                  // Section
