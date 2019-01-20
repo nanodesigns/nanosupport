@@ -2,7 +2,7 @@
 /**
  * Class SampleTest
  *
- * @package Nanosupport
+ * @package NanoSupport
  */
 
 /**
