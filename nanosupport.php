@@ -9,11 +9,11 @@
  * Plugin Name:       NanoSupport
  * Plugin URI:        http://nanosupport.nanodesignsbd.com/
  * Description:       Create a fully featured Support Center within your WordPress environment without any third party system dependency, completely FREE. The built-in Knowledgebase is to inform public with generalized queries.
- * Version:           0.4.0
+ * Version:           0.5.1
  * Author:            nanodesigns
  * Author URI:        http://nanodesignsbd.com/
  * Requires at least: 4.4.0
- * Tested up to:      4.8
+ * Tested up to:      4.9.9
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       nanosupport
@@ -87,7 +87,7 @@ final class NanoSupport {
 	/**
 	 * @var string
 	 */
-	public $version = '0.4.0';
+	public $version = '0.5.1';
 
 	/**
 	 * Minimum WordPress version.
@@ -286,6 +286,9 @@ include_once 'includes/ns-metaboxes.php';
 /** Miscellaneous functions **/
 include_once 'includes/ns-functions.php';
 
+/** E-Commerce Support */
+include_once 'includes/class-ecommerce.php';
+
 /** Handling emails **/
 include_once 'includes/ns-email-functions.php';
 
@@ -312,9 +315,14 @@ include_once 'includes/admin/ns-system-status.php';
 /** NanoSupport Updates */
 include_once 'includes/ns-updates.php';
 
-
 /**
  * Set the plugin up
  */
 register_activation_hook( __FILE__, 'nanosupport_install' );
 add_action( 'init', 'ns_load_textdomain', 1 );
+
+$NSECommerce = new NSECommerce();
+if( $NSECommerce->ecommerce_enabled() ) {
+	add_filter( 'woocommerce_prevent_admin_access', array( 'NSECommerce', 'wc_agent_admin_access' ), 20 );
+	add_filter( 'show_admin_bar', array( 'NSECommerce', 'wc_agent_show_admin_bar' ), 20 );
+}

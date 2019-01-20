@@ -99,13 +99,20 @@ function ns_support_desk_page() {
 
 				//Get the NanoSupport Settings from Database
 				$ns_general_settings = get_option( 'nanosupport_settings' );
-				$highlight_choice	 = isset($ns_general_settings['highlight_ticket']) ? $ns_general_settings['highlight_ticket'] : 'status';
+				$highlight_choice    = isset($ns_general_settings['highlight_ticket']) ? $ns_general_settings['highlight_ticket'] : 'status';
 
 				while( $support_ticket_query->have_posts() ) : $support_ticket_query->the_post();
 
 					//Get ticket information
 					$ticket_meta 	 = ns_get_ticket_meta( get_the_ID() );
 					$highlight_class = 'priority' === $highlight_choice ? $ticket_meta['priority']['class'] : $ticket_meta['status']['class'];
+
+					$NSECommerce = new NSECommerce();
+					$product_icon = '';
+					if( $NSECommerce->ecommerce_enabled() ) {
+						$product_info = $NSECommerce->get_product_info($ticket_meta['product'], $ticket_meta['receipt']);
+						$product_icon = false !== $product_info ? '&nbsp;<i class="ns-icon-cart ns-small" aria-hidden="true"></i>' : '';
+					}
 					?>
 
 					<div class="ticket-cards ns-cards <?php echo esc_attr($highlight_class); ?>">
@@ -114,15 +121,15 @@ function ns_support_desk_page() {
 								<h3 class="ticket-head">
 									<?php if( 'pending' === $ticket_meta['status']['value'] ) : ?>
 										<?php if( ns_is_user('agent_and_manager') ) : ?>
-											<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
-												<?php the_title(); ?>
+											<a href="<?php the_permalink(); ?>">
+												<?php the_title(); echo $product_icon; ?>
 											</a>
 										<?php else : ?>
-											<?php the_title(); ?>
+											<?php the_title(); echo $product_icon; ?>
 										<?php endif; ?>
 									<?php else : ?>
-										<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
-											<?php the_title(); ?>
+										<a href="<?php the_permalink(); ?>">
+											<?php the_title(); echo $product_icon; ?>
 										</a>
 									<?php endif; ?>
 									
@@ -130,7 +137,7 @@ function ns_support_desk_page() {
 										<span class="ticket-tools">
 											<?php edit_post_link( 'Edit', '', '', get_the_ID() ); ?>
 											<a class="ticket-view-link" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e( 'Permanent link to the Ticket', 'nanosupport' ); ?>">
-												<?php _e( 'View', 'nanosupport' ); ?>
+												<?php esc_html_e( 'View', 'nanosupport' ); ?>
 											</a>
 										</span> <!-- /.ticket-tools -->
 									<?php endif; ?>
@@ -138,57 +145,63 @@ function ns_support_desk_page() {
 								<div class="ticket-author">
 									<?php
 									$author = get_user_by( 'id', $post->post_author );
-									echo '<i class="ns-icon-user"></i> '. $author->display_name;
+									echo '<i class="ns-icon-user" aria-hidden="true"></i> '. $author->display_name;
 									?>
 								</div>
 							</div>
 							<div class="ns-col-sm-2 ns-col-xs-4 ticket-meta">
 								<div class="text-blocks ns-question-50">
-									<strong><?php _e( 'Priority:', 'nanosupport' ); ?></strong><br>
-									<?php echo $ticket_meta['priority']['label']; ?>
+									<strong><?php esc_html_e( 'Priority:', 'nanosupport' ); ?></strong>
+									<div class="ns-small">
+										<?php echo $ticket_meta['priority']['label']; ?>
+									</div>
 								</div>
 								<div class="text-blocks ns-question-50">
-									<strong><?php _e( 'Ticket Status:', 'nanosupport' ); ?></strong><br>
+									<strong><?php esc_html_e( 'Ticket Status:', 'nanosupport' ); ?></strong><br>
 									<?php echo $ticket_meta['status']['label']; ?>
 								</div>
 							</div>
 							<div class="toggle-ticket-additional">
-								<i class="ns-toggle-icon ns-icon-chevron-circle-down" title="<?php esc_attr_e( 'Load more', 'nanosupport' ); ?>"></i>
+								<i class="ns-toggle-icon ns-icon-chevron-circle-down" aria-label="<?php esc_attr_e( 'Load more', 'nanosupport' ); ?>"></i>
 							</div>
-							<div class="ticket-additional">
+							<div class="ticket-additional ns-hide-mobile">
 								<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
 									<div class="text-blocks">
-										<strong><?php _e( 'Department:', 'nanosupport' ); ?></strong><br>
-										<?php echo ns_get_ticket_departments(); ?>
+										<strong><?php esc_html_e( 'Department:', 'nanosupport' ); ?></strong>
+										<div class="ns-small">
+											<?php echo ns_get_ticket_departments(); ?>
+										</div>
 									</div>
 									<div class="text-blocks">
-										<strong><?php _e( 'Created &amp; Updated:', 'nanosupport' ); ?></strong><br>
-										<?php echo date( 'd M Y h:i A', strtotime( $post->post_date ) ); ?><br>
-										<?php echo date( 'd M Y h:i A', strtotime( ns_get_ticket_modified_date($post->ID) ) ); ?>
+										<strong><?php esc_html_e( 'Created &amp; Updated:', 'nanosupport' ); ?></strong>
+										<div class="ns-small">
+											<?php echo ns_date_time( $post->post_date ); ?><br>
+											<?php echo ns_date_time( ns_get_ticket_modified_date($post->ID) ); ?>
+										</div>
 									</div>
 								</div>
 								<div class="ns-col-sm-3 ns-col-xs-4 ticket-meta">
 									<div class="text-blocks">
-										<strong><?php _e( 'Responses:', 'nanosupport' ); ?></strong><br>
+										<strong><?php esc_html_e( 'Responses:', 'nanosupport' ); ?></strong><br>
 										<?php
 										$response_count = wp_count_comments( get_the_ID() );
 										echo '<span class="responses-count">'. $response_count->approved .'</span>';
 										?>
 									</div>
 									<div class="text-blocks">
-										<strong><?php _e( 'Last Replied by:', 'nanosupport' ); ?></strong><br>
+										<strong><?php esc_html_e( 'Last Replied by:', 'nanosupport' ); ?></strong>
 										<?php
 										$last_response  = ns_get_last_response();
 										$last_responder = get_userdata( $last_response['user_id'] );
+							            echo '<div class="ns-small">';
 							            if ( $last_responder ) {
 							                echo $last_responder->display_name, '<br>';
-							                echo '<small>';
-							                	/* translators: time difference from current time. eg. 12 minutes ago */
-							                	printf( __( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
-							                echo '</small>';
+						                	/* translators: time difference from current time. eg. 12 minutes ago */
+						                	printf( esc_html__( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
 							            } else {
-							                echo '-';
+							                echo '&mdash;';
 							            }
+							            echo '</div>';
 							            ?>
 									</div>
 								</div>
@@ -215,15 +228,15 @@ function ns_support_desk_page() {
 
 		else :
 			//User is not logged in
-			_e( 'Sorry, you cannot see your tickets without being logged in.', 'nanosupport' );
+			esc_html_e( 'Sorry, you cannot see your tickets without being logged in.', 'nanosupport' );
 			echo '<br>';
-			echo '<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_login_url() .'"><i class="ns-icon-lock"></i>&nbsp;';
-				_e( 'Login', 'nanosupport' );
+			echo '<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_login_url() .'"><i class="ns-icon-lock" aria-hidden="true"></i>&nbsp;';
+				esc_html_e( 'Login', 'nanosupport' );
 			echo '</a>&nbsp;';
 			/* translators: context: login 'or' register */
-			_e( 'or', 'nanosupport' );
-			echo '&nbsp;<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_registration_url() .'"><i class="ns-icon-lock"></i>&nbsp;';
-				_e( 'Create an account', 'nanosupport' );
+			esc_html_e( 'or', 'nanosupport' );
+			echo '&nbsp;<a class="ns-btn ns-btn-default ns-btn-sm" href="'. wp_registration_url() .'"><i class="ns-icon-lock" aria-hidden="true"></i>&nbsp;';
+				esc_html_e( 'Create an account', 'nanosupport' );
 			echo '</a>';
 
 		endif; //if( is_user_logged_in() )

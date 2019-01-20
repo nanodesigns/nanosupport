@@ -39,8 +39,11 @@
 @import '../sass/__well';
 @import '../sass/__helper-classes';
 
-// Using focus-ring javascript
-:focus:not('.focus-ring'){
+/*
+  This will hide the focus indicator if the element receives focus via the mouse,
+  but it will still show up on keyboard focus.
+*/
+.js-focus-visible :focus:not(.focus-visible) {
 	outline: none;
 }
 
@@ -353,7 +356,7 @@ body{
 		}
 	}
 
-	.ticket-additional{
+	.ticket-additional.ns-hide-mobile{
 		display: none;
 	}
 
@@ -386,7 +389,7 @@ body{
 		margin-left: 8px;
 		width: 0;
 		height: 0;
-		border-top: 5px solid #72777c;
+		border-top: 5px solid $brand-normal;
 		border-right: 5px solid transparent;
 	}
 }
@@ -434,6 +437,7 @@ article.ns-single.type-nanosupport.hentry{
 	}
 }
 
+.ticket-product-block,
 .ticket-question{
 	border-top: 1px solid #e1e1e1;
 	margin-top: 20px;
@@ -573,43 +577,6 @@ article.ns-single.type-nanosupport.hentry{
 		margin-top: 20px;
 		margin-bottom: 20px;
 		font-size: 15px;
-	}
-}
-
-.ns-search-form{
-	position: relative;
-	display: block;
-	width: 90%;
-	max-width: 515px;
-	margin-right: auto;
-	margin-left: auto;
-
-	.search-field{
-		border-radius: 20px;
-		padding-right: 27px;
-	}
-
-	button.search-btn{
-		position: absolute;
-		right: 0;
-		top: 0;
-		padding: 6px 8px 4px 8px;
-		width: 34px;
-
-		span{
-			font-size: 16px;
-			line-height: 1;
-		}
-
-		&:hover{
-			text-decoration: none;
-			background: none;
-		}
-	}
-}
-@media (max-width: 600px) {
-	.ns-search-form{
-		width: 100%;
 	}
 }
 

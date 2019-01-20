@@ -100,8 +100,8 @@ module.exports = function(grunt) {
          * @url: https://github.com/gruntjs/grunt-contrib-clean
          */
         clean: {
-            build: {
-                src: ['./build']
+            dist: {
+                src: ['./dist']
             }
         },
 
@@ -116,7 +116,7 @@ module.exports = function(grunt) {
                     domainPath: '/i18n/languages/',
                     exclude: ['assets/.*', 'node_modules/.*', 'vendor/.*', 'tests/.*'],
                     mainFile: 'nanosupport.php',
-                    potComments: 'Copyright (c) 2017 NanoSupport',
+                    potComments: 'Copyright (c) 2019 NanoSupport',
                     potFilename: 'nanosupport.pot',
                     potHeaders: {
                         poedit: true,
@@ -206,7 +206,7 @@ module.exports = function(grunt) {
         compress: {
             main: {
                 options: {
-                    archive: './build/<%= pkg.name %>-<%= pkg.version %>.zip',
+                    archive: './dist/<%= pkg.name %>-<%= pkg.version %>.zip',
                     mode: 'zip'
                 },
                 files: [{
@@ -215,17 +215,17 @@ module.exports = function(grunt) {
                         '**',
                         '!node_modules/**',
                         '!vendor/**',
-                        '!build/**',
+                        '!dist/**',
                         '!tests/**',
                         '!.gitignore',
                         '!.travis.yml',
                         '!composer.json',
                         '!composer.lock',
-                        '!tests/**',
                         '!tmp/**',
                         '!logs/**',
                         '!readme.md',
                         '!contributing.md',
+                        '!CODE_OF_CONDUCT.md',
                         '!*.sublime-grunt.cache',
                         '!Gruntfile.js',
                         '!package.json',
@@ -251,12 +251,15 @@ module.exports = function(grunt) {
                 }
             },
             js: {
-                files: ['assets/js/nanosupport.js', 'assets/js/nanosupport-admin.js', 'assets/js/nanosupport-dashboard.js'],
-                tasks: ['uglify']
+                files: [
+                    'assets/js/nanosupport.js',
+                    'assets/js/nanosupport-admin.js',
+                    'assets/js/nanosupport-dashboard.js'
+                ]
             },
             css: {
                 files: ['assets/sass/*.scss'],
-                tasks: ['sass', 'autoprefixer', 'cssmin']
+                tasks: ['sass', 'autoprefixer']
             }
         }
 
@@ -269,9 +272,10 @@ module.exports = function(grunt) {
 
     // @Grunt: do the following when we will type 'grunt <command>'
     grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin', 'watch']);
-    grunt.registerTask('build', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
+    grunt.registerTask('development', ['jshint', 'sass', 'autoprefixer']);
+    grunt.registerTask('production', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
     grunt.registerTask('translate', ['checktextdomain', 'makepot']);
-    grunt.registerTask('release', ['translate', 'build', 'clean', 'compress']);
+    grunt.registerTask('release', ['translate', 'production', 'clean', 'compress']);
     grunt.registerTask('release_patch', ['version::patch', 'release']);
     grunt.registerTask('release_minor', ['version::minor', 'release']);
     grunt.registerTask('release_major', ['version::major', 'release']);

@@ -1,0 +1,112 @@
+= 0.5.1 - 2019-JAN-20 =
+* E-Commerce: Check Purchase Receipt's authenticity on the submission of a ticket
+* New filter hook: `ns_ticket_responses_arg`, `ns_check_receipt_validity`
+* Fix: Account creates even when the ticket form has error
+* Security Fix: Clickjacking fixes on new tabbed links
+* A11y (Accessibility) Fixes in both front end and admin end
+* Minor Fixes where PHP notices were visible
+
+= 0.5.0 - 2018-MAY-11 =
+* New Feature: E-commerce &mdash; Support to products of Easy Digital Downloads (v2.5+) and WooCommerce (v2.2+)
+* Additional Feature: Let the admin end users filter tickets based on Priority and/or Status and/or Agent
+* 7 new icons to NanoSupport Icons
+* New filter hooks: 'ns_date_time_format', 'ns_mandate_product_fields'
+* Issue Fixed: Email Template background was repeating
+* Issue Fixed: Date Time format was not changeable
+* Issue Fixed: Throwing javascript error in browser console due to old focus-ring.js
+* Minor fixes on A11y issues
+
+= 0.4.1 - 2017-JUL-23 =
+* Bug fixed: Ticket additional info was affecting on show/hide in smaller devices
+* Bug fixed: Ticket assignment on behalf of support seeker was getting only administrators
+* Code of Conduct added for contributors
+* Some other minor fixes
+
+= 0.4.0 - 2017-JUN-09 =
+* New Feature: Ticket can be copied into a Knowledgebase document
+* Requested Feature: ReEngineering Knowledgebase Doc URL strucuture
+* Bug fixed: Ticket cannot be added on behalf of client
+* New filter hook: `ns_nanodoc_arguments`, `nanosupport_copied_content`, `nanosupport_assigned_user_role`
+
+= 0.3.4 - 2017-APR-21 =
+* Bug fixed: Support agent loses his status on profile update
+* Bug fixed: Ticket updated dates failure
+* Assured partial accessibility features
+* CSS are completely modularized into SCSS files
+* Grunt version and clean implemented
+* Several minor issues fixed
+
+= 0.3.3 - 2017-MAR-03 =
+* Quick bug fixed introduced with version 0.3.2 with same user and same date for ticket date and update date
+
+= 0.3.2 - 2017-MAR-03 =
+* Ticket update date fixed syncing with replies
+* Bug Fixed: pending ticket link was not working in agent notifying email
+* Withdrawn Composer dependency in development, as no PHP library is required to depend on
+
+= 0.3.1 - 2017-JAN-24 =
+* Fixed: Assigning ticket to Support Agent was not triggering any email
+* New filter hook: `nanosupport_notify_agent_assignment`
+* Fixed: Users can set themselves as a Support Agent
+* Priority assignment by public made dynamic using Settings API
+* Various i18n functions fixed
+* Several other minor fixes all over the plugin code and texts
+
+= 0.3.0 - 2016-DEC-24 =
+**Major changes**
+
+* Rich Text editor for ticket body text
+* New filter hook: `ns_wp_editor_specs`, `ns_back_to_knowledgebase`
+* Pending ticket notification using admin menu bubble
+* Fixed translation strings to strip out dumped HTML and made most of them SQL injection proof
+* Composer, npm dependency and Grunt incorporated for easy development collaboration
+* Default assignment of 'Support' department is made deprecated
+* User can choose Support Department on submitting new ticket (Settings available)
+* CSS is changed from LESS to Sass
+* System Status admin page
+
+**Minor changes**
+
+* Reorganized third party libraries
+* contributing.md added
+* Github issue template added
+* A warning on upgrading process fixed - props @prionkor
+* jshint error fixed with procedural code
+* Agent email was not sending - fixed
+* Ticket response content added to email body
+* Back link to Knowledgebase added after Knowledgebase contents
+
+= 0.2.2 - 2016-SEP-03 =
+* Ticket character limit can be set by user
+* Response character limit is deprecated
+* User can close ticket without submitting any response
+* Ticket content is added to the new ticket notification email
+* Fixed: Ticket with registration was not working on WordPress registration settings
+* Some translation strings are fixed
+
+= 0.2.1 - 2016-AUG-22 =
+* `wp_kses()` is implemented to secure site from bad user input
+* New filter hook: `ns_allowed_html`
+* Tooltip made wider for large bunch of texts
+* Stripping 'private' and 'protected' from ticket titles i18n-friendly
+* Translation added: Bengali (*Bengali*) - `bn_BD`
+
+= 0.2.0 - 2016-AUG-15 =
+* Minimum WordPress version upgraded to 4.4.0
+* Knowledgebase made optional
+* UI added for selecting Knowledgebase Category Icons
+* Added feature for closing a ticket from front end
+* Tooltip added to Submit form for better UX
+* Submit Form is made dynamic for adding feature to the `<form>` element
+* Select2 Plugin updated to 4.0.3
+* Knowledgebase CSS revamped
+* Fixed a conflict with Yoast SEO and Select2 plugin in admin areas
+* File organization, some CSS files made LESS for easy compilation
+* JavaScript fallback plan implemented for front end
+* Other fixes/UI improvements
+
+= 0.1.1 - 2016-JUN-21 =
+* A bug on Submit ticket is fixed
+
+= 0.1.0 - 2016-JUN-17 =
+* Plugin initiated

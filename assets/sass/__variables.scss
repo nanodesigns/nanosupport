@@ -17,7 +17,7 @@ $gray-lighter:          lighten($gray-base, 93.5%) !default; // #eee
 
 $brand-primary:         #3949ab !default;
 $brand-normal:          $gray-dark !default;
-$brand-success:         #8cc152 !default;
+$brand-success:         #5d8a2b !default;
 $brand-info:            #1976d2 !default;
 $brand-warning:         #f6bb42 !default;
 $brand-danger:          #ad1457 !default;
@@ -65,7 +65,7 @@ $state-warning-text-alt:	darken( $brand-warning, 30% ) !default; // a11y
 $state-warning-bg:			$brand-warning !default;
 $state-warning-border:		darken(adjust-hue($state-warning-bg, -10), 5%) !default;
 
-$state-danger-text:			#a94442 !default;
+$state-danger-text:			#fff !default;
 $state-danger-text-alt:		darken( $brand-danger, 20% ) !default; // a11y
 $state-danger-bg:			$brand-danger !default;
 $state-danger-border:		darken(adjust-hue($state-danger-bg, -10), 5%) !default;
@@ -93,7 +93,7 @@ $label-color:				#333 !default;
 $label-normal-color:		#fff !default;
 $label-warning-color:		$gray-dark !default; //#333 a11y
 $label-primary-color:		#fff !default;
-$label-success-color:		$gray-dark !default; //#333 a11y
+$label-success-color:		#fff !default; //a11y
 $label-info-color:			$gray-dark !default;
 $label-danger-color:		#fff !default;
 // Default text color of a linked label

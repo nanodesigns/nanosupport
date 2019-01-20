@@ -13,8 +13,11 @@
 @import '../sass/__label';
 @import '../sass/__helper-classes';
 
-// Using focus-ring javascript
-:focus:not('.focus-ring'){
+/*
+  This will hide the focus indicator if the element receives focus via the mouse,
+  but it will still show up on keyboard focus.
+*/
+.js-focus-visible :focus:not(.focus-visible) {
 	outline: none;
 }
 
@@ -135,6 +138,13 @@ body.post-new-php{
 		   -moz-box-sizing: border-box;
 	  			box-sizing: border-box;
 	}
+}
+
+#ns-btn-edit-product{
+	float: right;
+	font-size: 13px;
+	cursor: pointer;
+	padding: 3px;
 }
 
 .ns-cards{
@@ -345,12 +355,6 @@ body.post-new-php{
 	mark{
 		background-color: transparent;
 	}
-}
-
-/** Post Author Override */
-
-.post-type-nanosupport #post_author_override{
-	display: none;
 }
 
 /** Modified Bootstrap Class for Admin Panel */

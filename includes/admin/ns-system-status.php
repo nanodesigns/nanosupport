@@ -22,8 +22,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ns_system_status_page() {
     add_submenu_page(
         'edit.php?post_type=nanosupport',           //$parent_slug
-        __( 'System Status', 'nanosupport' ),       //$page_title
-        __( 'System Status', 'nanosupport' ),       //$menu_title
+        esc_html__( 'System Status', 'nanosupport' ),       //$page_title
+        esc_html__( 'System Status', 'nanosupport' ),       //$menu_title
         'manage_nanosupport',                       //$capability
         'nanosupport-system-status',                //$menu_slug
         'nanosupport_system_status_page_callback'   //callback function
@@ -43,7 +43,7 @@ function nanosupport_system_status_page_callback() {
     global $plugin_page; ?>
 
     <div class="wrap">
-        <h1><i class="ns-icon-nanosupport"></i> <?php esc_html_e( 'NanoSupport System Status', 'nanosupport' ); ?></h1>
+        <h1><i class="ns-icon-nanosupport" aria-hidden="true"></i> <?php esc_html_e( 'NanoSupport System Status', 'nanosupport' ); ?></h1>
 
         <?php settings_errors(); ?>
 
@@ -80,6 +80,11 @@ function nanosupport_system_status_page_callback() {
                             <tr>
                                 <th><?php esc_html_e( 'NanoSupport version', 'nanosupport' ); ?></th>
                                 <td><?php echo NS()->version; ?></td>
+                            </tr>
+
+                            <tr>
+                                <th><?php esc_html_e( 'E-Commerce?', 'nanosupport' ); ?></th>
+                                <td><?php echo $ns_system_status->ecommerce_status(); ?></td>
                             </tr>
 
                             <tr>
@@ -120,9 +125,9 @@ function nanosupport_system_status_page_callback() {
                                 <?php
                                 if( $memory_limit < 67108864 ) {
                                     /* translators: 1. existing PHP memory limit 2. link to increasing PHP memory limit in WordPress */
-                                    echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning"></i>'. sprintf( esc_html__('%1$s &mdash; We recommend setting memory to at least 64MB. See: %2$s', 'nanosupport'), size_format( $memory_limit ), '<a href="https://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP" target="_blank">'. esc_html__( 'Increasing memory allocated to PHP', 'nanosupport' ) .'</a>' ) .'</mark>';
+                                    echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning" aria-hidden="true"></i>'. sprintf( esc_html__('%1$s &mdash; We recommend setting memory to at least 64MB. See: %2$s', 'nanosupport'), size_format( $memory_limit ), '<a href="https://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP" target="_blank" rel="noopener">'. esc_html__( 'Increasing memory allocated to PHP', 'nanosupport' ) .'</a>' ) .'</mark>';
                                 } else {
-                                    echo '<span class="ns-text-success"><i class="dashicons dashicons-yes"></i>'. size_format( $memory_limit ) .'</span>';
+                                    echo '<span class="ns-text-success"><i class="dashicons dashicons-yes" aria-hidden="true"></i>'. size_format( $memory_limit ) .'</span>';
                                 }
                                 ?>
                                 </td>
@@ -132,11 +137,11 @@ function nanosupport_system_status_page_callback() {
                                 <th><?php esc_html_e( 'PHP version', 'nanosupport' ); ?></th>
                                 <td>
                                 <?php
-                                if ( version_compare( $phpversion, '5.6', '<' ) ) {
+                                if ( version_compare( $phpversion, '7.3', '<' ) ) {
                                     /* translators: 1. existing PHP version 2. link to WordPress minimum requirements */
-                                    echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning"></i> '. sprintf( esc_html__('%1$s &mdash; We recommend a minimum PHP version of 5.6. See: %2$s', 'nanosupport'), $phpversion, '<a href="https://wordpress.org/about/requirements/" target="_blank">'. esc_html__( 'WordPress minimum requirements', 'nanosupport' ) .'</a>' ) .'</mark>';
+                                    echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning" aria-hidden="true"></i> '. sprintf( esc_html__('%1$s &mdash; We recommend a minimum PHP version of 7.3. See: %2$s', 'nanosupport'), $phpversion, '<a href="https://wordpress.org/about/requirements/" target="_blank" rel="noopener">'. esc_html__( 'WordPress minimum requirements', 'nanosupport' ) .'</a>' ) .'</mark>';
                                 } else {
-                                    echo '<span class="ns-text-success"><i class="dashicons dashicons-yes"></i>'. $phpversion .'</span>';
+                                    echo '<span class="ns-text-success"><i class="dashicons dashicons-yes" aria-hidden="true"></i>'. $phpversion .'</span>';
                                 }
                                 ?>
                                 </td>
@@ -148,9 +153,9 @@ function nanosupport_system_status_page_callback() {
                                 <?php
                                 if ( version_compare( $mysql_version, '5.6', '<' ) ) {
                                     /* translators: 1. existing MySQL version 2. link to WordPress minimum requirements */
-                                    echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning"></i> '. sprintf( esc_html__('%1$s &mdash; We recommend a minimum MySQL version of 5.6. See: %2$s', 'nanosupport'), $mysql_version, '<a href="https://wordpress.org/about/requirements/" target="_blank">'. esc_html__( 'WordPress minimum requirements', 'nanosupport' ) .'</a>' ) .'</mark>';
+                                    echo '<mark class="ns-text-danger"><i class="dashicons dashicons-warning" aria-hidden="true"></i> '. sprintf( esc_html__('%1$s &mdash; We recommend a minimum MySQL version of 5.6. See: %2$s', 'nanosupport'), $mysql_version, '<a href="https://wordpress.org/about/requirements/" target="_blank" rel="noopener">'. esc_html__( 'WordPress minimum requirements', 'nanosupport' ) .'</a>' ) .'</mark>';
                                 } else {
-                                    echo '<span class="ns-text-success"><i class="dashicons dashicons-yes"></i>'. $mysql_version .'</span>';
+                                    echo '<span class="ns-text-success"><i class="dashicons dashicons-yes" aria-hidden="true"></i>'. $mysql_version .'</span>';
                                 }
                                 ?>
                                 </td>
@@ -194,7 +199,7 @@ function nanosupport_system_status_page_callback() {
                 </div>
                 <!-- /#ns-active-plugins -->
 
-                <a href="javascript:" id="ns-export-status" class="ns-btn button button-default"><i class="dashicons dashicons-clipboard" style="vertical-align: middle"></i> Copy to Clipboard</a> <sub>(works on modern browsers only)</sub>
+                <button type="button" id="ns-export-status" class="ns-btn button button-default"><i class="dashicons dashicons-clipboard" style="vertical-align: middle" aria-hidden="true"></i> <?php esc_html_e('Copy to Clipboard', 'nanosupport'); ?></button> <sub>(<?php esc_html_e('works on modern browsers only', 'nanosupport'); ?>)</sub>
 
             </div>
             <!-- /.metabox-holder -->
@@ -213,6 +218,7 @@ function nanosupport_system_status_page_callback() {
 <div id="ns-system-status-text" style="display: none;">
 WordPress version: <?php echo $ns_system_status->wp_version(); ?>;
 NanoSupport version: <?php echo NS()->version; ?>;
+E-Commerce?: <?php echo $ns_system_status->ecommerce_status(); ?>;
 Active Theme: <?php echo $theme['theme'] .' - '. $theme['version']; ?>; <?php echo ($parent_theme !== false) ? ' &mdash; Parent Theme: '. $parent_theme['theme'] .' - '. $parent_theme['version'] : ''; ?>;
 Debug mode: <?php echo $ns_system_status->debug_status(); ?>;
 Multisite?: <?php echo $ns_system_status->is_multisite(); ?>;

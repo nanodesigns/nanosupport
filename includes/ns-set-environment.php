@@ -32,7 +32,7 @@ function ns_scripts() {
 
     /**
      * NanoSupport CSS
-     * Compiled and minified from LESS CSS Preprocessor.
+     * Compiled and minified from SASS CSS Preprocessor.
      * ...
      */
     wp_register_style( 'nanosupport', NS()->plugin_url() .'/assets/css/nanosupport.css', array(), NS()->version, 'all' );
@@ -45,11 +45,11 @@ function ns_scripts() {
     wp_register_script( 'equal-height', NS()->plugin_url() .'/assets/libs/jQuery.matchHeight/jquery.matchHeight-min.js', array('jquery'), '0.7.0', true );
     
     /**
-     * Focus Ring JS v1.0
-     * @link https://github.com/WICG/focus-ring/
+     * Focus Visible JS v4.1.3
+     * @link https://github.com/WICG/focus-visible/
      * ...
      */
-    wp_register_script( 'focus-ring', NS()->plugin_url() .'/assets/libs/focus-ring/focus-ring.min.js', array('jquery'), '1.0.0', true );
+    wp_register_script( 'focus-visible', NS()->plugin_url() .'/assets/libs/focus-visible/focus-visible.min.js', array(), '4.1.3', true );
 
     /**
      * NanoSupport JavaScripts
@@ -59,7 +59,7 @@ function ns_scripts() {
     wp_register_script(
         'nanosupport',
         NS()->plugin_url() .'/assets/js/nanosupport.min.js',
-        array('jquery', 'focus-ring'),
+        array('jquery', 'focus-visible'),
         NS()->version,
         true
     );
@@ -270,7 +270,7 @@ function ns_user_fields( $user ) { ?>
         <table class="form-table">
             <tr>
                 <th scope="row">
-                	<i class="dashicons dashicons-businessman"></i> <?php esc_html_e( 'Make Support Agent', 'nanosupport' ); ?>
+                	<i class="dashicons dashicons-businessman" aria-hidden="true"></i> <?php esc_html_e( 'Make Support Agent', 'nanosupport' ); ?>
                 </th>
                 <td>
                 	<label>
@@ -354,7 +354,7 @@ add_action( 'edit_user_profile_update', 'ns_saving_user_fields' );
  * -----------------------------------------------------------------------
  */
 function ns_add_support_agent_user_column( $columns ) {
-    $columns['ns_agent'] = '<i class="ns-icon-nanosupport" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i>';
+    $columns['ns_agent'] = '<i class="ns-icon-nanosupport" aria-label="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i>';
     return $columns;
 }
 
@@ -376,7 +376,7 @@ add_filter( 'manage_users_columns', 'ns_add_support_agent_user_column' );
 function ns_support_agent_user_column_content( $value, $column_name, $user_id ) {
     if ( 'ns_agent' == $column_name ) {
         if( 1 == get_user_meta( $user_id, 'ns_make_agent', true ) )
-            return '<span class="ns-label ns-label-warning"><i class="dashicons dashicons-businessman" title="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i> '. esc_html__( 'Agent', 'nanosupport' ) .'</span>';
+            return '<span class="ns-label ns-label-warning"><i class="dashicons dashicons-businessman" aria-label="'. esc_attr__( 'NanoSupport Agent', 'nanosupport' ) .'"></i> '. esc_html__( 'Agent', 'nanosupport' ) .'</span>';
         else
             return '&mdash;';
     }
@@ -523,12 +523,12 @@ add_filter( 'private_title_format',   'ns_the_title_trim', 10, 2 );
  * @since  1.0.0
  * -----------------------------------------------------------------------
  */
-function ns_redirect_user_to_correct_place() {
+function ns_redirect_user_to_correct_place( $query ) {
     //Get the NanoSupport Settings from Database
     $ns_general_settings       = get_option( 'nanosupport_settings' );
     $ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
     
-    if( ! is_user_logged_in() && is_page($ns_general_settings['support_desk']) ) {
+    if( $query->is_main_query() && ! is_admin() && ! is_user_logged_in() && is_page($ns_general_settings['support_desk']) ) {
 
         if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
             //i.e. http://example.com/knowledgebase?from=sd
@@ -642,7 +642,7 @@ function ns_agent_admin_bar( $wp_admin_bar ) {
         $wp_admin_bar->add_node(array(
             'parent'    => null,
             'group'     => null,
-            'title'     => '<i class="ab-icon ns-icon-nanosupport" style="font-size: 17px;"></i> ' . absint( $my_open_tickets ),
+            'title'     => '<i class="ab-icon ns-icon-nanosupport" aria-label="'. __('My Open Tickets', 'nanosupport') .'" style="font-size: 17px;"></i> ' . absint( $my_open_tickets ),
             'id'        => 'ns-agent-ticket-count',
             'href'      => add_query_arg( 'post_type', 'nanosupport', admin_url('/edit.php') ),
             'meta'      => array(
@@ -659,38 +659,6 @@ add_action( 'admin_bar_menu', 'ns_agent_admin_bar', 999 );
 
 
 /**
- * Display assigned tickets to Support Agent.
- *
- * @since  1.0.0
- * 
- * @param  object $query_support_agents WP Query object.
- * @return object                       Modified Query object.
- * -----------------------------------------------------------------------
- */
-function display_assigned_tickets_to_support_agents( $query ) {
-    if( is_admin() && in_array( $query->get('post_type'), array('nanosupport') ) ) {
-
-        if( ns_is_user('agent') ) {
-            global $current_user;
-            $query->set( 'author__in', $current_user->ID );
-            $meta_query = array(
-                                array(
-                                    'key'     => '_ns_ticket_agent',
-                                    'value'   => $current_user->ID,
-                                    'compare' => '=',
-                                )
-                            );
-            $query->set( 'meta_query', $meta_query );
-        }
-
-    }
-    return $query;
-}
-
-add_filter( 'pre_get_posts', 'display_assigned_tickets_to_support_agents' );
-
-
-/**
  * Modifying SQL clauses to show assigned tickets to Agents.
  *
  * @since  1.0.0
@@ -701,10 +669,13 @@ add_filter( 'pre_get_posts', 'display_assigned_tickets_to_support_agents' );
  * -----------------------------------------------------------------------
  */
 function display_assigned_tickets_modifying_query( $clauses, $query_object ) {
-    if( is_admin() && in_array( $query_object->get('post_type'), array('nanosupport') ) ) {
+    if( is_admin() && 'nanosupport' === $query_object->get('post_type') ) {
         global $wpdb, $current_user;
 
         if( ns_is_user('agent') ) {
+
+            $priority_filter = filter_input(INPUT_GET, 'ticket_priority', FILTER_SANITIZE_STRING);
+            $status_filter   = filter_input(INPUT_GET, 'ticket_status', FILTER_SANITIZE_STRING);
 
             $clauses['where'] = " AND ";
             $clauses['where'] .= "( {$wpdb->posts}.post_author IN ({$current_user->ID})
@@ -715,6 +686,21 @@ function display_assigned_tickets_modifying_query( $clauses, $query_object ) {
                                         OR {$wpdb->posts}.post_status = 'draft'
                                         OR {$wpdb->posts}.post_status = 'pending'
                                         OR {$wpdb->posts}.post_status = 'private') ";
+
+            if( $priority_filter ) {
+                $clauses['join']  .= " LEFT JOIN {$wpdb->postmeta} AS PM2 ON ({$wpdb->posts}.ID = PM2.post_id) ";
+                $clauses['where'] .= " AND (PM2.meta_key = '_ns_ticket_priority' AND PM2.meta_value = '{$priority_filter}') ";
+            }
+
+            if( $status_filter ) {
+                $clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} AS PM3 ON ({$wpdb->posts}.ID = PM3.post_id) ";
+                if( 'pending' === $status_filter ) :
+                    $clauses['where'] .= " AND ({$wpdb->posts}.post_status = 'pending') ";
+                else :
+                    $clauses['where'] .= " AND ({$wpdb->posts}.post_status = 'private') ";
+                    $clauses['where'] .= " AND (PM3.meta_key = '_ns_ticket_status' AND PM3.meta_value = '{$status_filter}') ";
+                endif;
+            }
 
         }
 

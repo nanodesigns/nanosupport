@@ -46,7 +46,7 @@ function ns_submit_support_ticket() {
     if( isset($_GET['ns_success']) && $_GET['ns_success'] == 1 ) {
 		echo '<div class="ns-alert ns-alert-success" role="alert">';
 			echo wp_kses( __( '<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible.', 'nanosupport' ), array('strong' => array()) );
-			echo '&nbsp;<a href="'. get_permalink( $ns_general_settings['support_desk'] ) .'" class="link-to-desk"><i class="ns-icon-tag"></i>&nbsp;';
+			echo '&nbsp;<a href="'. get_permalink( $ns_general_settings['support_desk'] ) .'" class="link-to-desk"><i class="ns-icon-tag" aria-hidden="true"></i>&nbsp;';
 				esc_html_e( 'Check your tickets', 'nanosupport' );
 			echo '</a>';
 	    echo '</div>';
@@ -255,6 +255,63 @@ function ns_submit_support_ticket() {
 
 					<?php } //endif( $display_department  ) ?>
 
+					<?php
+					$NSECommerce = new NSECommerce();
+					if( $NSECommerce->ecommerce_enabled() ) {
+						$products = $NSECommerce->get_products();
+
+						/**
+					     * -----------------------------------------------------------------------
+					     * HOOK : FILTER HOOK
+					     * ns_mandate_product_fields
+					     * 
+					     * Hook to moderate the permission for mandating product-specifc fields,
+					     * or not.
+					     *
+					     * @since  1.0.0
+					     * -----------------------------------------------------------------------
+					     */
+						$mandate_product_fields = apply_filters( 'ns_mandate_product_fields', true );
+						?>
+
+						<!-- TICKET PRODUCTS -->
+						<div class="ns-form-group">
+							<label for="ns-ticket-product" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
+								<?php esc_html_e( 'Product', 'nanosupport' ); ?>
+								<?php if( $mandate_product_fields ) echo '<sup class="ns-required">*</sup>'; ?>
+							</label>
+							<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
+								<?php echo ns_tooltip( 'ns-product', esc_html__( 'Select the product the ticket is about.', 'nanosupport' ), 'bottom' ); ?>
+							</div>
+							<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12 ns-form-inline">
+								<?php $submit_val = !empty($_POST['ns_ticket_product']) ? $_POST['ns_ticket_product'] : ''; ?>
+								<select class="ns-form-control" name="ns_ticket_product" id="ns-ticket-product" aria-describedby="ns-product" <?php if( $mandate_product_fields ) echo 'required'; ?>>
+									<option value="" <?php selected( $submit_val, '' ); ?>><?php esc_html_e( 'Select a product', 'nanosupport' ); ?></option>
+									<?php foreach($products as $id => $product_name) { ?>
+								        <option value="<?php echo $id; ?>" <?php selected( $submit_val, $id ); ?>>
+								        	<?php echo esc_html($product_name); ?>
+								        </option>
+								    <?php } ?>
+								</select>
+							</div>
+						</div> <!-- /.ns-form-group -->
+
+						<!-- TICKET PRODUCT RECEIPT -->
+						<div class="ns-form-group">
+							<label for="ns-ticket-product-receipt" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
+								<?php esc_html_e( 'Purchase Receipt', 'nanosupport' ); ?>
+								<?php if( $mandate_product_fields ) echo '<sup class="ns-required">*</sup>'; ?>
+							</label>
+							<div class="ns-col-md-1 ns-col-sm-1 ns-col-xs-2 ns-text-center">
+								<?php echo ns_tooltip( 'ns-product-receipt', esc_html__( 'Enter the receipt number of purchasing the product.', 'nanosupport' ), 'bottom' ); ?>
+							</div>
+							<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12 ns-form-inline">
+								<?php $submit_val = !empty($_POST['ns_ticket_product_receipt']) ? $_POST['ns_ticket_product_receipt'] : ''; ?>
+								<input type="number" name="ns_ticket_product_receipt" class="ns-form-control" id="ns-ticket-product-receipt" aria-describedby="ns-product-receipt" value="<?php echo $submit_val; ?>" min="0" <?php if( $mandate_product_fields ) echo 'required'; ?>>
+							</div>
+						</div> <!-- /.ns-form-group -->
+
+					<?php } // endif( $NSECommerce->ecommerce_enabled ) ?>
 
 					<?php if( ! is_user_logged_in() ) { ?>
 
@@ -305,7 +362,7 @@ function ns_submit_support_ticket() {
 
 								<div class="ns-form-group">
 									<p class="ns-col-sm-9 ns-col-sm-offset-3">
-										<i class="ns-icon-info-circled"></i> <?php esc_html_e( 'With these information below, we will create an account on your behalf to track the ticket for further enquiry.', 'nanosupport' ); ?>
+										<i class="ns-icon-info-circled" aria-hidden="true"></i> <?php esc_html_e( 'With these information below, we will create an account on your behalf to track the ticket for further enquiry.', 'nanosupport' ); ?>
 									</p>
 								</div> <!-- /.ns-form-group -->
 

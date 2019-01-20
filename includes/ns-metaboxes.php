@@ -61,8 +61,19 @@ function ns_reply_specifics() {
         'orderby'   => 'comment_date',
         'order'     => 'ASC'
     );
-    $response_array = get_comments( $args ); ?>
-    
+
+    /**
+     * -----------------------------------------------------------------------
+     * HOOK : FILTER HOOK
+     * ns_ticket_responses_arg
+     *
+     * Hook to change the query for the ticket responses.
+     *
+     * @since  1.0.0
+     * -----------------------------------------------------------------------
+     */
+    $response_array = get_comments( apply_filters( 'ns_ticket_responses_arg', $args ) ); ?>
+
     <div class="ns-row ns-holder">
 
         <?php if( $response_array ) {
@@ -110,14 +121,14 @@ function ns_reply_specifics() {
         if( 'pending' === $ticket_meta['status']['value'] ) {
 
             echo '<div class="ns-alert ns-alert-info" role="alert">';
-                echo '<i class="dashicons dashicons-info"></i>&nbsp;';
+                echo '<i class="dashicons dashicons-info" aria-hidden="true"></i>&nbsp;';
                 echo wp_kses( __( 'You cannot add response to a pending ticket. <strong>Publish</strong> it first.', 'nanosupport' ), array('strong' => array()) );
             echo '</div>';
 
         } elseif( 'solved' === $ticket_meta['status']['value'] ) {
 
             echo '<div class="ns-alert ns-alert-success" role="alert">';
-                echo '<i class="dashicons dashicons-info"></i>&nbsp;';
+                echo '<i class="dashicons dashicons-info" aria-hidden="true"></i>&nbsp;';
                 echo wp_kses( __( 'Ticket is already solved. <strong>ReOpen</strong> it to add new response.', 'nanosupport' ), array('strong' => array()) );
             echo '</div>';
 
@@ -162,8 +173,9 @@ function ns_internal_notes_specifics() {
     <div class="ns-row">
         <div class="ns-box">
             <div class="ns-field">
-                <textarea class="ns-field-item" name="ns_internal_note" id="ns-internal-note" rows="5" placeholder="<?php esc_attr_e( 'Write down any internal note to pass to any Support Agent internally.', 'nanosupport' ); ?>"><?php echo isset($_POST['ns_internal_note']) ? $_POST['ns_internal_note'] : esc_html( $meta_data ); ?></textarea>
-                <?php echo '<p class="description">'. esc_html__( 'Internal notes are not visible to Support Seekers. It&rsquo;s to pass important notes within the support team.', 'nanosupport' ) .'</p>'; ?>
+                <label for="ns-internal-note" class="screen-reader-text"><?php esc_html_e( 'Internal Notes', 'nanosupport' ) ?></label>
+                <textarea class="ns-field-item" name="ns_internal_note" id="ns-internal-note" rows="5" placeholder="<?php esc_attr_e( 'Write down any internal note to pass to any Support Agent internally.', 'nanosupport' ); ?>" aria-describedby="internal-notes-description"><?php echo isset($_POST['ns_internal_note']) ? $_POST['ns_internal_note'] : esc_html( $meta_data ); ?></textarea>
+                <?php echo '<p class="description" id="internal-notes-description">'. esc_html__( 'Internal notes are not visible to Support Seekers. It&rsquo;s to pass important notes within the support team.', 'nanosupport' ) .'</p>'; ?>
             </div> <!-- /.ns-field -->
         </div> <!-- /.ns-box -->
     </div> <!-- /.ns-row -->
@@ -194,20 +206,26 @@ function ns_control_specifics() {
         $_ns_ticket_status   = get_post_meta( $post->ID, '_ns_ticket_status', true );
         $_ns_ticket_priority = get_post_meta( $post->ID, '_ns_ticket_priority', true );
         $_ns_ticket_agent    = get_post_meta( $post->ID, '_ns_ticket_agent', true );
+        $_ns_ticket_product  = get_post_meta( $post->ID, '_ns_ticket_product', true );
+        $_ns_ticket_receipt  = get_post_meta( $post->ID, '_ns_ticket_product_receipt', true );
 
         //set default values
         $_ns_ticket_status   = ! empty($_ns_ticket_status)    ? $_ns_ticket_status     : 'open';
         $_ns_ticket_priority = ! empty($_ns_ticket_priority)  ? $_ns_ticket_priority   : 'low';
         $_ns_ticket_agent    = ! empty($_ns_ticket_agent)     ? $_ns_ticket_agent      : '';
+        $_ns_ticket_product  = ! empty($_ns_ticket_product)   ? $_ns_ticket_product    : '';
+        $_ns_ticket_receipt  = ! empty($_ns_ticket_receipt)   ? $_ns_ticket_receipt    : '';
         ?>
 
         <div class="row ns-control-holder">
 
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
-                    <i class="dashicons dashicons-shield"></i> <?php esc_html_e( 'Ticket Status', 'nanosupport' );
-                    echo ns_tooltip( 'ns-ticket-status-tooltip', esc_html__( 'Change the ticket status to track unsolved tickets separately.', 'nanosupport' ), 'left' );
-                    ?>
+                    <label for="ns-ticket-status">
+                        <i class="dashicons dashicons-shield" aria-hidden="true"></i> <?php esc_html_e( 'Ticket Status', 'nanosupport' );
+                        echo ns_tooltip( 'ns-ticket-status-tooltip', esc_html__( 'Change the ticket status to track unsolved tickets separately.', 'nanosupport' ), 'left' );
+                        ?>
+                    </label>
                 </div>
                 <div class="ns-body-col">
                     <div class="ns-field">
@@ -222,9 +240,11 @@ function ns_control_specifics() {
 
             <div class="ns-row misc-pub-section">
                 <div class="ns-head-col">
-                    <i class="dashicons dashicons-sort"></i> <?php esc_html_e( 'Priority', 'nanosupport' );
-                    echo ns_tooltip( 'ns-ticket-priority-tooltip', esc_html__( 'Change the priority as per the content and urgency of the ticket.', 'nanosupport' ), 'left' );
-                    ?>
+                    <label for="ns-ticket-priority">
+                        <i class="dashicons dashicons-sort" aria-hidden="true"></i> <?php esc_html_e( 'Priority', 'nanosupport' );
+                        echo ns_tooltip( 'ns-ticket-priority-tooltip', esc_html__( 'Change the priority as per the content and urgency of the ticket.', 'nanosupport' ), 'left' );
+                        ?>
+                    </label>
                 </div>
                 <div class="ns-body-col">
                     <div class="ns-field">
@@ -246,9 +266,11 @@ function ns_control_specifics() {
 
                 <div class="ns-row misc-pub-section">
                     <div class="ns-head-col">
-                        <i class="dashicons dashicons-businessman"></i> <?php esc_html_e( 'Agent', 'nanosupport' );
-                        echo ns_tooltip( 'ns-ticket-agent-tooltip', esc_html__( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ), 'left' );
-                        ?>
+                        <label for="ns-ticket-agent">
+                            <i class="dashicons dashicons-businessman" aria-hidden="true"></i> <?php esc_html_e( 'Agent', 'nanosupport' );
+                            echo ns_tooltip( 'ns-ticket-agent-tooltip', esc_html__( 'Choose agent to assign the ticket. You can make an agent by editing the user from their user profile.', 'nanosupport' ), 'left' );
+                            ?>
+                        </label>
                     </div>
                     <div class="ns-body-col">
                         <?php
@@ -276,6 +298,111 @@ function ns_control_specifics() {
                 </div> <!-- /.ns-row -->
 
             <?php endif; ?>
+
+            <?php
+            $NSECommerce = new NSECommerce();
+            $products    = $NSECommerce->get_products();
+            if( $NSECommerce->ecommerce_enabled() ) { ?>
+
+                <hr>
+
+                <?php if( !empty($_ns_ticket_product) ) {
+                    $product_info = $NSECommerce->get_product_info($_ns_ticket_product, $_ns_ticket_receipt);
+                    ?>
+                    
+                    <div id="ns-product-display-panel">
+                        <h2>
+                            <i class="dashicons dashicons-cart" aria-hidden="true"></i> <?php esc_html_e( 'Product', 'nanosupport' ); ?>
+                            <?php /* translators: Button text to open product-specific fields on-demand */ ?>
+                            <div id="ns-btn-edit-product" class="hide-if-no-js"><?php _ex( 'Edit', 'NanoSupport Product', 'nanosupport' ); ?></div>
+                        </h2>
+                        <div class="ns-row misc-pub-section">
+
+                            <?php if( 'publish' !== $product_info->status ) { ?>
+                                
+                                <p class="ns-text-muted ns-text-center">
+                                    &mdash; <?php esc_html_e( 'Product is not available', 'nanosupport' ); ?> &mdash;
+                                </p>
+
+                            <?php } else { ?>
+
+                                <p>
+                                    <a href="<?php echo esc_url($product_info->link); ?>" target="_blank" rel="noopener">
+                                        <strong><?php echo $product_info->name ?></strong>
+                                    </a>
+                                </p>
+
+                                <?php
+                                // If it's a valid receipt.
+                                if( !empty($product_info->purchase_date) ) {
+                                    
+                                    /* translators: Product purchase date */
+                                    printf( __('<strong>Purchased at:</strong> %s', 'nanosupport'), $product_info->purchase_date );
+                                    echo '<br>';
+
+                                    /* translators: User's first name and last name */
+                                    printf( __('<strong>Purchased by:</strong> %s', 'nanosupport'), $product_info->purchase_by );
+                                    echo '<br>';
+                                    ?>
+
+                                    <a class="button button-small button-default" href="<?php echo esc_url($product_info->payment_url); ?>" target="_blank" rel="noopener">
+                                        <?php esc_html_e( 'Payment Details', 'nanosupport' ); ?>
+                                    </a>
+
+                                <?php } //endif ?>
+
+                            <?php } //endif('publish' !== $product_info->status) ?>
+
+                        </div> <!-- /.ns-row -->
+                    </div>
+                    <!-- /#ns-product-display-panel -->
+
+                <?php } ?>
+
+                <div id="ns-product-edit-panel" <?php echo !empty($_ns_ticket_product) ? 'class="hide-if-js"' : ''; ?>>
+                
+                    <div class="ns-row misc-pub-section">
+                        <div class="ns-head-col">
+                            <label for="ns-ticket-product">
+                                <i class="dashicons dashicons-cart" aria-hidden="true"></i> <?php esc_html_e( 'Product', 'nanosupport' );
+                                echo ns_tooltip( 'ns-ticket-product-tooltip', esc_html__( 'Select the product the ticket is about.', 'nanosupport' ), 'left' );
+                                ?>
+                            </label>
+                        </div>
+                        <div class="ns-body-col">
+                            <div class="ns-field">
+                                <select name="ns_ticket_product" class="ns-field-item" id="ns-ticket-product" aria-describedby="ns-ticket-product-tooltip">
+                                    <option value=""><?php esc_html_e( 'Select a Product', 'nanosupport' ); ?></option>
+                                    <?php foreach($products as $id => $product_name) { ?>
+                                        <option value="<?php echo $id; ?>" <?php selected( $_ns_ticket_product, $id ); ?>>
+                                            <?php echo esc_html($product_name); ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div> <!-- /.ns-field -->                    
+                        </div>
+                    </div> <!-- /.ns-row -->
+
+                    <div class="ns-row misc-pub-section">
+                        <div class="ns-head-col">
+                            <label for="ns-ticket-product-receipt">
+                                <i class="dashicons dashicons-tag" aria-hidden="true"></i> <?php esc_html_e( 'Receipt Number', 'nanosupport' );
+                                echo ns_tooltip( 'ns-ticket-product-receipt-tooltip', esc_html__( 'Enter the receipt number of purchasing the product.', 'nanosupport' ), 'left' );
+                                ?>
+                            </label>
+                        </div>
+                        <div class="ns-body-col">
+                            <div class="ns-field">
+                                <input type="number" name="ns_ticket_product_receipt" class="ns-field-item" id="ns-ticket-product-receipt" aria-describedby="ns-ticket-product-receipt-tooltip" value="<?php echo $_ns_ticket_receipt; ?>" min="0">
+                            </div> <!-- /.ns-field -->                    
+                        </div>
+                    </div> <!-- /.ns-row -->
+                    
+                </div>
+                <!-- /#ns-product-edit-panel -->
+
+
+            <?php } ?>
 
         </div> <!-- .ns-control-holder -->
         <?php
@@ -318,6 +445,8 @@ function ns_save_nanosupport_meta_data( $post_id ) {
     $ns_ticket_status      = $_POST['ns_ticket_status'];
     $ns_ticket_priority    = $_POST['ns_ticket_priority'];
     $ns_ticket_agent       = $_POST['ns_ticket_agent'];
+    $ns_ticket_product     = $_POST['ns_ticket_product'];
+    $ns_ticket_receipt     = $_POST['ns_ticket_product_receipt'];
 
     update_post_meta( $post_id, '_ns_ticket_status',   sanitize_text_field( $ns_ticket_status ) );
     update_post_meta( $post_id, '_ns_ticket_priority', sanitize_text_field( $ns_ticket_priority ) );
@@ -347,6 +476,12 @@ function ns_save_nanosupport_meta_data( $post_id ) {
 
         // Add a ticket agent always, if assigned
         update_post_meta( $post_id, '_ns_ticket_agent', absint( $ns_ticket_agent ) );
+    }
+
+    $NSECommerce = new NSECommerce();
+    if( $NSECommerce->ecommerce_enabled() ) {
+        update_post_meta( $post_id, '_ns_ticket_product',           sanitize_text_field( $ns_ticket_product ) );
+        update_post_meta( $post_id, '_ns_ticket_product_receipt',   sanitize_text_field( $ns_ticket_receipt ) );
     }
 
     

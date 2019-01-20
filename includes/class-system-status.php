@@ -33,6 +33,15 @@ class NSSystemStatus {
 	}
 
 	/**
+	 * E-Commerce status
+	 * @return string
+	 */
+	public function ecommerce_status() {
+		$NSECommerce = new NSECommerce();
+		return $NSECommerce->ecommerce_enabled() ? esc_html__( 'Enabled', 'nanosupport' ) : esc_html__( 'Disabled', 'nanosupport' );
+	}
+
+	/**
 	 * Multisite status
 	 * @return string
 	 */

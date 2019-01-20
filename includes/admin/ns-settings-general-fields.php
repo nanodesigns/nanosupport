@@ -195,6 +195,39 @@ function ns_account_creation_field() {
 }
 
 
+// General Tab : E-Commerce Settings : Field 1 : Enable E-commerce?
+function ns_enable_ecommerce_field() {
+    $options = get_option( 'nanosupport_settings' );
+    
+    $enable_ecommerce_val = isset($options['enable_ecommerce']) ? $options['enable_ecommerce'] : '';
+    echo '<input name="nanosupport_settings[enable_ecommerce]" id="ns_enable_ecommerce" type="checkbox" value="1" '. checked( 1, $enable_ecommerce_val, false ) . '/> <label for="ns_enable_ecommerce">'. __( 'Yes, integrate with Easy Digital Downloads or WooCommerce', 'nanosupport' ) .'</label>';
+    echo ns_tooltip( 'ns-enable-ecommerce', __( 'If you check here, the plugin will be integrated with the products of WooCommerce and/or Easy Digital Downloads.', 'nanosupport' ), 'right' );
+}
+
+// General Tab : E-Commerce Settings : Field 2 : Excluded Products
+function ns_excluded_products_field() {
+    $options = get_option( 'nanosupport_settings' );
+
+    $NSECommerce = new NSECommerce();
+
+    if( $NSECommerce->is_plugins_active() ) {
+        $products = $NSECommerce->get_all_products();
+
+        $excluded_products_val = isset($options['excluded_products']) ? (array) $options['excluded_products'] : '';
+        echo '<select name="nanosupport_settings[excluded_products][]" id="ns_excluded_products" class="ns-select" multiple="multiple"data-placeholder="'. esc_attr__( 'Select Products to Exclude', 'nanosupport' ) .'" aria-describedby="ns-excluded-products">';
+            echo '<option value="">'. esc_html__( 'Select Products to Exclude', 'nanosupport' ) .'</option>';
+            foreach($products as $id => $product_name) {
+                $selected = is_array($excluded_products_val) && in_array( $id, $excluded_products_val ) ? ' selected="selected" ' : '';
+                echo '<option value="'. esc_attr($id) .'" '. $selected .'>';
+                    echo esc_html($product_name);
+                echo '</option>';
+            }
+        echo '</select>';
+        echo ns_tooltip( 'ns-excluded-products', __( 'Select the product[s] you want to keep out of providing Support. Leave blank if you want all your products to provide support.', 'nanosupport' ), 'right' );
+    }
+}
+
+
 // General Tab : Other Settings : Field 1 : Delete Data?
 function ns_delete_data_field() {
     $options = get_option( 'nanosupport_settings' );
@@ -202,6 +235,21 @@ function ns_delete_data_field() {
     $del_data_val = isset($options['delete_data']) ? $options['delete_data'] : '';
     echo '<input name="nanosupport_settings[delete_data]" id="ns_delete_data" type="checkbox" value="1" '. checked( 1, $del_data_val, false ) . '/> <label for="ns_delete_data" class="ns-red"><strong>'. __( 'Delete all the Data on Uninstallation?', 'nanosupport' ) .'</strong></label>';
     echo ns_tooltip( 'ns-delete-data', __( 'If you check here, on uninstallation of the plugin, it will wipe out all the data from the database', 'nanosupport' ), 'right' );
+}
+
+
+/**
+ * Callback: E-commerce Settings Section
+ */
+function ns_ecommerce_settings_section_callback() {
+    echo '<p class="screen-reader-text">'. esc_html__( 'E-commerce settings to enable WooCommerce or Easy Digital Downloads&rsquo; products can be managed from here.', 'nanosupport' ) .'</p>';
+
+    $NSECommerce = new NSECommerce();
+    if( ! $NSECommerce->is_plugins_active() ) {
+
+        echo '<p class="ns-text-warning" role="alert"><i class="ns-icon-info-circled" aria-hidden="true"></i> '. esc_html__( 'Using ecommerce feature, needs either Easy Digital Downloads or WooCommerce active.', 'nanosupport' ) .'</p>';
+
+    }
 }
 
 
@@ -250,8 +298,13 @@ function ns_general_settings_validate( $input ) {
     //Generate Password checkbox
     $generate_password = isset($input['account_creation']['generate_password']) && (int) $input['account_creation']['generate_password'] === 1 ? (int) $input['account_creation']['generate_password'] : '';
     
+    //Enable E-commerce checkbox
+    $enable_ecommerce_val = isset($input['enable_ecommerce']) && (int) $input['enable_ecommerce'] === 1 ? (int) $input['enable_ecommerce'] : '';
+    //Excluded Products
+    $excluded_products_val = isset($input['excluded_products']) && $input['excluded_products'] ? (array) $input['excluded_products'] : '';
+
     //Delete Data checkbox
-    $del_data_check_val = (int) $input['delete_data'] === 1 ? (int) $input['delete_data'] : '';
+    $del_data_check_val = isset($input['delete_data']) && (int) $input['delete_data'] === 1 ? (int) $input['delete_data'] : '';
 
     /**
      * Set the values finally
@@ -270,6 +323,9 @@ function ns_general_settings_validate( $input ) {
 
     $options['account_creation']['generate_username'] = absint( $generate_username );
     $options['account_creation']['generate_password'] = absint( $generate_password );
+
+    $options['enable_ecommerce']      = absint( $enable_ecommerce_val );
+    $options['excluded_products']     = (array) $excluded_products_val;
 
     $options['delete_data']           = absint( $del_data_check_val );
 

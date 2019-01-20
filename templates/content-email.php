@@ -48,7 +48,7 @@ $email_settings = get_option('nanosupport_email_settings');
                                     ?>
                                     <table border="0" cellpadding="0" cellspacing="0" width="600" id="template_header" style='background-color: <?php echo $email_header_bg_color; ?>; border-radius: 3px 3px 0 0 !important; color: <?php echo $email_header_text_color; ?>; border-bottom: 0; font-weight: bold; line-height: 100%; vertical-align: middle; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;'>
                                         <tr>
-                                            <td id="header_wrapper" background="<?php if($email_header_image) echo $email_header_image; ?>" bgcolor="<?php echo $email_header_bg_color; ?>" width="600" height="120" valign="center" style="background-position: center center;">
+                                            <td id="header_wrapper" background="<?php if($email_header_image) echo $email_header_image; ?>" bgcolor="<?php echo $email_header_bg_color; ?>" width="600" height="120" valign="center" style="background-position: center center; background-size: cover; background-repeat: no-repeat;">
                                                 <!--[if gte mso 9]>
                                                 <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;height:120px;">
                                                     <v:fill type="tile" src="<?php if($email_header_image) echo $email_header_image; ?>" color="<?php echo $email_header_bg_color; ?>" />

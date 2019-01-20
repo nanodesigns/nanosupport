@@ -31,15 +31,25 @@ function ns_get_last_response( $ticket_id = null ) {
     $post_id = ( null === $ticket_id ) ? get_the_ID() : $ticket_id;
     
     global $wpdb;
-    $query = "SELECT comment_ID, user_id, comment_date
-                FROM $wpdb->comments
-                WHERE comment_ID = ( SELECT MAX(comment_ID)
-                                        FROM $wpdb->comments
-                                        WHERE comment_type = 'nanosupport_response'
-                                            AND comment_post_ID = $post_id
-                                            AND comment_approved = 1
-                                    )";
-    $max_comment_array = $wpdb->get_results( $query, ARRAY_A );
+    
+    $cache_key = "nanosupport_last_response_{$post_id}";
+
+    $max_comment_array = wp_cache_get( $cache_key );
+
+    if( false === $max_comment_array ) {
+        
+        $query = "SELECT comment_ID, user_id, comment_date
+                    FROM $wpdb->comments
+                    WHERE comment_type = 'nanosupport_response'
+                        AND comment_post_ID = $post_id
+                        AND comment_approved = 1
+                    ORDER BY comment_ID DESC
+                    LIMIT 1";
+        $max_comment_array = $wpdb->get_results( $query, ARRAY_A );
+
+        wp_cache_set( $cache_key, $max_comment_array );
+
+    }
 
     if( $max_comment_array ) {
         $last_response = $max_comment_array[0];
@@ -203,68 +213,78 @@ function ns_user_nice_name( $user_id = false ) {
  * --------------------------------------------------------------------------
  */
 function ns_ticket_status_count( $status = '', $user_id = '' ) {
-    if( empty($status) )
-        return;
+    if( empty($status) ) return;
 
-    global $wpdb;
-    if( 'pending' === $status ) {
-        if( empty($user_id) ) {
-            $count = $wpdb->get_var(
-                        $wpdb->prepare(
-                            "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'nanosupport' AND post_status = %s",
-                            $status
-                        )
-                    );
+    $cache_key = 'ns_dash_count_'. $status . $user_id;
+
+    $count = wp_cache_get( $cache_key );
+    if ( false === $count ) {
+
+        global $wpdb;
+        if( 'pending' === $status ) {
+            if( empty($user_id) ) {
+                // Get all the tickets count.
+                $count = $wpdb->get_var(
+                            $wpdb->prepare(
+                                "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'nanosupport' AND post_status = %s",
+                                $status
+                            )
+                        );
+            } else {
+                // Get tickets to specific user.
+                $count = $wpdb->query(
+                            $wpdb->prepare(
+                                "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.ID
+                                    FROM $wpdb->posts
+                                    INNER JOIN $wpdb->postmeta ON ($wpdb->posts.ID = $wpdb->postmeta.post_id)
+                                    WHERE 1= 1
+                                        AND post_type = 'nanosupport'
+                                        AND post_status = %s
+                                        AND ( $wpdb->posts.post_author IN(%d) OR (($wpdb->postmeta.meta_key = '_ns_ticket_agent' AND CAST($wpdb->postmeta.meta_value AS CHAR) = '%d')) )
+                                        GROUP BY $wpdb->posts.ID",
+                                $status,
+                                $user_id,
+                                $user_id
+                            )
+                        );
+            }
         } else {
-            $count = $wpdb->query(
-                        $wpdb->prepare(
-                            "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.ID
+            if( empty($user_id) ) {
+                $count = $wpdb->get_var(
+                            $wpdb->prepare(
+                                "SELECT COUNT(*)
                                 FROM $wpdb->posts
-                                INNER JOIN $wpdb->postmeta ON ($wpdb->posts.ID = $wpdb->postmeta.post_id)
-                                WHERE 1= 1
+                                INNER JOIN $wpdb->postmeta
+                                    ON $wpdb->posts.ID = $wpdb->postmeta.post_id
+                                WHERE post_type = 'nanosupport'
+                                    AND post_status IN('private', 'publish')
+                                    AND meta_key = '_ns_ticket_status' AND meta_value = %s",
+                                $status
+                            )
+                        );
+            } else {
+                $count = $wpdb->query(
+                            $wpdb->prepare(
+                                "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.ID
+                                FROM $wpdb->posts
+                                INNER JOIN $wpdb->postmeta AS PM1 ON ($wpdb->posts.ID = PM1.post_id)
+                                INNER JOIN $wpdb->postmeta AS PM2 ON ($wpdb->posts.ID = PM2.post_id)
+                                WHERE 1=1
                                     AND post_type = 'nanosupport'
-                                    AND post_status = %s
-                                    AND ( $wpdb->posts.post_author IN(%d) OR (($wpdb->postmeta.meta_key = '_ns_ticket_agent' AND CAST($wpdb->postmeta.meta_value AS CHAR) = '%d')) )
-                                    GROUP BY $wpdb->posts.ID",
-                            $status,
-                            $user_id,
-                            $user_id
-                        )
-                    );
+                                    AND post_status IN('private', 'publish')
+                                    AND ( PM1.meta_key = '_ns_ticket_status' AND PM1.meta_value = %s )
+                                    AND ( post_author IN(%d) OR ((PM2.meta_key = '_ns_ticket_agent' AND CAST(PM2.meta_value AS CHAR) = '%d')) )
+                                GROUP BY $wpdb->posts.ID",
+                                $status,
+                                $user_id,
+                                $user_id
+                            )
+                        );
+            }
         }
-    } else {
-        if( empty($user_id) ) {
-            $count = $wpdb->get_var(
-                        $wpdb->prepare(
-                            "SELECT COUNT(*)
-                            FROM $wpdb->posts
-                            INNER JOIN $wpdb->postmeta
-                                ON $wpdb->posts.ID = $wpdb->postmeta.post_id
-                            WHERE post_type = 'nanosupport'
-                                AND post_status IN('private', 'publish')
-                                AND meta_key = '_ns_ticket_status' AND meta_value = %s",
-                            $status
-                        )
-                    );
-        } else {
-            $count = $wpdb->query(
-                        $wpdb->prepare(
-                            "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.ID
-                            FROM $wpdb->posts
-                            INNER JOIN $wpdb->postmeta AS PM1 ON ($wpdb->posts.ID = PM1.post_id)
-                            INNER JOIN $wpdb->postmeta AS PM2 ON ($wpdb->posts.ID = PM2.post_id)
-                            WHERE 1=1
-                                AND post_type = 'nanosupport'
-                                AND post_status IN('private', 'publish')
-                                AND ( PM1.meta_key = '_ns_ticket_status' AND PM1.meta_value = %s )
-                                AND ( post_author IN(%d) OR ((PM2.meta_key = '_ns_ticket_agent' AND CAST(PM2.meta_value AS CHAR) = '%d')) )
-                            GROUP BY $wpdb->posts.ID",
-                            $status,
-                            $user_id,
-                            $user_id
-                        )
-                    );
-        }
+
+        wp_cache_set( $cache_key, $count );
+
     }
 
     return (int) $count;
@@ -378,13 +398,17 @@ function ns_get_ticket_meta( $ticket_id = null ) {
 
     $post_id = ( null === $ticket_id ) ? get_the_ID() : $ticket_id;
 
-    $_ns_ticket_status   = get_post_meta( $post_id, '_ns_ticket_status', true );
-    $_ns_ticket_priority = get_post_meta( $post_id, '_ns_ticket_priority', true );
-    $_ns_ticket_agent    = get_post_meta( $post_id, '_ns_ticket_agent', true );
+    $_ns_ticket_status   = get_post_meta( $post_id, '_ns_ticket_status',            true );
+    $_ns_ticket_priority = get_post_meta( $post_id, '_ns_ticket_priority',          true );
+    $_ns_ticket_agent    = get_post_meta( $post_id, '_ns_ticket_agent',             true );
+    $_ns_ticket_product  = get_post_meta( $post_id, '_ns_ticket_product',           true );
+    $_ns_ticket_receipt  = get_post_meta( $post_id, '_ns_ticket_product_receipt',   true );
 
     $this_status    = ! empty( $_ns_ticket_status )     ? $_ns_ticket_status    : 'open';
     $this_priority  = ! empty( $_ns_ticket_priority )   ? $_ns_ticket_priority  : 'low';
     $this_agent     = ! empty( $_ns_ticket_agent )      ? $_ns_ticket_agent     : '';
+    $this_product   = ! empty( $_ns_ticket_product )    ? $_ns_ticket_product   : '';
+    $this_receipt   = ! empty( $_ns_ticket_receipt )    ? $_ns_ticket_receipt   : '';
 
     /**
      * Ticket status
@@ -482,6 +506,8 @@ function ns_get_ticket_meta( $ticket_id = null ) {
     $ticket_meta['status']      = $ticket_status;
     $ticket_meta['priority']    = $priority;
     $ticket_meta['agent']       = $agent;
+    $ticket_meta['product']     = $this_product;
+    $ticket_meta['receipt']     = $this_receipt;
 
     return $ticket_meta;
 
@@ -516,22 +542,52 @@ function ns_get_pending_permalink( $post_id ) {
     return str_replace( '%pagename%', $postname, $permalink );
 }
 
+
 /**
  * Display date time as per WP Settings.
  *
- * Always pass a strtotime() UNIX string as a parameter.
+ * Display the date time in NanoSupport according to the WordPress' General Settings.
+ * Let the user modify if they want using a filter hook.
  *
  * @since  1.0.0
  * 
- * @param  string $datetime UNIX timestamp.
- * @return string           User chosen timestamp as per General Settings.
+ * @param  integer|string   $datetime   DateTime, or UNIX timestamp.
+ * @param  boolean          $time       True if to display the time portion.
+ * @return string                       Formated datetime.
  * --------------------------------------------------------------------------
  */
-function ns_date_time( $datetime = null ) {
-    $date_format = get_option( 'date_format' );
-    $time_format = get_option( 'time_format' );
+function ns_date_time( $datetime, $time = true ) {
 
-    return date( $date_format .' '. $time_format, $datetime );
+    /**
+     * Check and make sure it's a UNIX timestamp.
+     * @link https://stackoverflow.com/a/2524710/1743124
+     * ...
+     */
+    if( ! is_numeric($datetime) ) {
+        $datetime = strtotime($datetime);
+    }
+
+    // Grab the date-time format from WordPress Settings.
+    $date_time_format = get_option( 'date_format' );
+
+    if( $time ) {
+        $date_time_format .= ' ';
+        $date_time_format .= get_option( 'time_format' );
+    }
+
+    /**
+     * -----------------------------------------------------------------------
+     * HOOK : FILTER HOOK
+     * ns_date_time_format
+     * 
+     * Hook to moderate the date-time format.
+     *
+     * @since  1.0.0
+     * -----------------------------------------------------------------------
+     */
+    apply_filters( 'ns_date_time_format', $date_time_format );
+
+    return date( $date_time_format, $datetime );
 }
 
 
@@ -599,7 +655,7 @@ function ns_is_user( $role, $user = null ) {
  * --------------------------------------------------------------------------
  */
 function ns_get_all_icon() {
-    return array('ns-icon-responses','ns-icon-search','ns-icon-trashcan','ns-icon-question','ns-icon-notification','ns-icon-no-notification','ns-icon-remove','ns-icon-edit','ns-icon-refresh','ns-icon-repeat','ns-icon-chevron-down','ns-icon-chevron-left','ns-icon-chevron-right','ns-icon-chevron-up','ns-icon-chevron-circle-down','ns-icon-chevron-circle-left','ns-icon-chevron-circle-right','ns-icon-chevron-circle-up','ns-icon-minus-circle','ns-icon-minus-square','ns-icon-plus-square','ns-icon-plus-circle','ns-icon-link','ns-icon-tags','ns-icon-tag','ns-icon-docs','ns-icon-attachment','ns-icon-lock','ns-icon-unlock','ns-icon-settings','ns-icon-wrench','ns-icon-gears','ns-icon-info-circled','ns-icon-info','ns-icon-help','ns-icon-help-circled','ns-icon-pie-chart','ns-icon-graph-bar','ns-icon-line-chart','ns-icon-bar-chart','ns-icon-user','ns-icon-user-outline','ns-icon-users','ns-icon-users-outline','ns-icon-favorite','ns-icon-favorite-outline','ns-icon-desktop','ns-icon-globe','ns-icon-hand','ns-icon-happy','ns-icon-laptop','ns-icon-locate','ns-icon-mail','ns-icon-microphone','ns-icon-microphone-off','ns-icon-options','ns-icon-phone-landscape','ns-icon-phone-portrait','ns-icon-pin','ns-icon-plane','ns-icon-stopwatch','ns-icon-sunny','ns-icon-android-time','ns-icon-bonfire','ns-icon-bluetooth','ns-icon-bug','ns-icon-clipboard','ns-icon-coffee','ns-icon-compass','ns-icon-cube','ns-icon-flask','ns-icon-flask-bubbles','ns-icon-female','ns-icon-flag','ns-icon-fork','ns-icon-hammer','ns-icon-help-buoy','ns-icon-alarm','ns-icon-americanfootball','ns-icon-flame','ns-icon-game-controller','ns-icon-infinite','ns-icon-lightbulb','ns-icon-nutrition','ns-icon-paw','ns-icon-pulse','ns-icon-toggle','ns-icon-wineglass','ns-icon-jet','ns-icon-leaf','ns-icon-mic','ns-icon-mouse','ns-icon-paper-airplane','ns-icon-planet','ns-icon-ribbon','ns-icon-thumbsdown','ns-icon-thumbsup','ns-icon-buffer','ns-icon-display-contrast','ns-icon-power','ns-icon-wordpress','ns-icon-gift','ns-icon-github','ns-icon-microscope','ns-icon-scholar','ns-icon-plugin','ns-icon-book','ns-icon-photo','ns-icon-trees','ns-icon-shield','ns-icon-star-filled','ns-icon-star-empty','ns-icon-atom','ns-icon-responsive','ns-icon-facebook','ns-icon-twitter','ns-icon-linkedin','ns-icon-gplus','ns-icon-pinterest','ns-icon-tumblr','ns-icon-stumbleupon','ns-icon-ming','ns-icon-nanosupport');
+    return array('ns-icon-responses','ns-icon-search','ns-icon-trashcan','ns-icon-question','ns-icon-notification','ns-icon-no-notification','ns-icon-remove','ns-icon-edit','ns-icon-refresh','ns-icon-repeat','ns-icon-chevron-down','ns-icon-chevron-left','ns-icon-chevron-right','ns-icon-chevron-up','ns-icon-chevron-circle-down','ns-icon-chevron-circle-left','ns-icon-chevron-circle-right','ns-icon-chevron-circle-up','ns-icon-minus-circle','ns-icon-minus-square','ns-icon-plus-square','ns-icon-plus-circle','ns-icon-link','ns-icon-tags','ns-icon-tag','ns-icon-docs','ns-icon-attachment','ns-icon-lock','ns-icon-unlock','ns-icon-settings','ns-icon-wrench','ns-icon-gears','ns-icon-info-circled','ns-icon-info','ns-icon-help','ns-icon-help-circled','ns-icon-pie-chart','ns-icon-graph-bar','ns-icon-line-chart','ns-icon-bar-chart','ns-icon-user','ns-icon-user-outline','ns-icon-users','ns-icon-users-outline','ns-icon-favorite','ns-icon-favorite-outline','ns-icon-desktop','ns-icon-globe','ns-icon-hand','ns-icon-happy','ns-icon-laptop','ns-icon-locate','ns-icon-mail','ns-icon-microphone','ns-icon-microphone-off','ns-icon-options','ns-icon-phone-landscape','ns-icon-phone-portrait','ns-icon-pin','ns-icon-plane','ns-icon-stopwatch','ns-icon-sunny','ns-icon-android-time','ns-icon-bonfire','ns-icon-bluetooth','ns-icon-bug','ns-icon-clipboard','ns-icon-coffee','ns-icon-compass','ns-icon-cube','ns-icon-flask','ns-icon-flask-bubbles','ns-icon-female','ns-icon-flag','ns-icon-fork','ns-icon-hammer','ns-icon-help-buoy','ns-icon-alarm','ns-icon-americanfootball','ns-icon-flame','ns-icon-game-controller','ns-icon-infinite','ns-icon-lightbulb','ns-icon-nutrition','ns-icon-paw','ns-icon-pulse','ns-icon-toggle','ns-icon-wineglass','ns-icon-jet','ns-icon-leaf','ns-icon-mic','ns-icon-mouse','ns-icon-paper-airplane','ns-icon-planet','ns-icon-ribbon','ns-icon-thumbsdown','ns-icon-thumbsup','ns-icon-buffer','ns-icon-display-contrast','ns-icon-power','ns-icon-wordpress','ns-icon-gift','ns-icon-github','ns-icon-microscope','ns-icon-scholar','ns-icon-plugin','ns-icon-book','ns-icon-photo','ns-icon-trees','ns-icon-shield','ns-icon-star-filled','ns-icon-star-empty','ns-icon-atom','ns-icon-responsive','ns-icon-facebook','ns-icon-twitter','ns-icon-linkedin','ns-icon-gplus','ns-icon-pinterest','ns-icon-tumblr','ns-icon-stumbleupon','ns-icon-ming','ns-icon-nanosupport','ns-icon-cart','ns-icon-truck','ns-icon-wheelchair','ns-icon-radio-waves','ns-icon-paperclip','ns-icon-slack','ns-icon-screen');
 }
 
 

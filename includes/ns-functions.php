@@ -89,6 +89,62 @@ function ns_handle_registration_login_ticket_submission() {
     // Ticket Department
     $ticket_department      = ! empty($_POST['ns_ticket_department']) ? $_POST['ns_ticket_department'] : '';
 
+    // Ticket Product & Receipt
+    $NSECommerce = new NSECommerce();
+    if( $NSECommerce->ecommerce_enabled() ) {
+
+        /**
+         * -----------------------------------------------------------------------
+         * HOOK : FILTER HOOK
+         * ns_mandate_product_fields
+         * 
+         * Hook to moderate the permission for mandating product-specifc fields,
+         * or not.
+         *
+         * @since  1.0.0
+         * -----------------------------------------------------------------------
+         */
+        $mandate_product_fields = apply_filters( 'ns_mandate_product_fields', true );
+
+        if( $mandate_product_fields && empty($_POST['ns_ticket_product']) ) {
+            $ns_errors[]    = esc_html__( 'Adding Product relevent to the ticket is mandatory', 'nanosupport' );
+        } else {
+            $ticket_product = ! empty($_POST['ns_ticket_product']) ? $_POST['ns_ticket_product'] : '';
+        }
+
+        if( $mandate_product_fields && empty($_POST['ns_ticket_product_receipt']) ) {
+            $ns_errors[]    = esc_html__( 'Product Receipt must be mentioned for further enquiry', 'nanosupport' );
+        } else {
+
+        	/**
+        	 * -----------------------------------------------------------------------
+        	 * HOOK : FILTER HOOK
+        	 * ns_check_receipt_validity
+        	 *
+        	 * Enable/Disable receipt validity checking.
+        	 *
+        	 * @since  1.0.0
+        	 * -----------------------------------------------------------------------
+        	 */
+        	if( apply_filters( 'ns_check_receipt_validity', true ) ) {
+	        	$_product_info = $NSECommerce->get_product_info($ticket_product, $_POST['ns_ticket_product_receipt']);
+	        	if( empty($_product_info->purchase_date) ) {
+	        		$ns_errors[] = esc_html__( 'Your Product Receipt seems not valid', 'nanosupport' );
+	        	}
+	        } else {
+	        	$ticket_priority = 'low';
+	        }
+
+	        $ticket_receipt = ! empty($_POST['ns_ticket_product_receipt']) ? $_POST['ns_ticket_product_receipt'] : '';
+
+        }
+    }
+
+    //------------------ERROR: There are errors - don't go further
+    if( ! empty( $ns_errors ) ){
+        return;
+    }
+
 
     /**
      * Process the Submission
@@ -121,7 +177,7 @@ function ns_handle_registration_login_ticket_submission() {
 
         $creds = array();
 
-        $username = trim( $_POST['login_name'] );
+        $username = sanitize_user( $_POST['login_name'] );
         $password = $_POST['login_password'];
 
         if( empty( $username ) ) {
@@ -144,16 +200,16 @@ function ns_handle_registration_login_ticket_submission() {
          */
         $get_username_from_email = apply_filters( 'nanosupport_username_from_email', true );
 
-        if( is_email($username) && $get_username_from_email ) {
-            $user = get_user_by( 'email', $username );
+        $user = get_user_by( 'login', $username );
 
-            if( isset( $user->user_login ) ) {
-                $creds['user_login'] = $user->user_login;
-            } else {
-                $ns_errors[] = esc_html__( 'There is no user found with this email address', 'nanosupport' );
-            }
+        if ( ! $user && strpos( $user_name, '@' ) && $get_username_from_email ) {
+        	$user = get_user_by( 'email', $username );
+        }
+
+        if( isset( $user->user_login ) ) {
+            $creds['user_login'] = $user->user_login;
         } else {
-            $creds['user_login'] = $username;
+            $ns_errors[] = esc_html__( 'There is no user found with this email address', 'nanosupport' );
         }
 
         $creds['user_password'] = $password;
@@ -265,42 +321,79 @@ function ns_handle_registration_login_ticket_submission() {
 
     /**
      * Save Ticket Information.
-     * 
+     *
      * Finally save the ticket information into the database
      * using user credentials from above.
      */
     if( ! empty( $user_id ) && empty( $ns_errors ) ){
 
-        /**
-         * Sanitize ticket content
-         * @var string
-         */
-        $ticket_details = wp_kses( $ticket_details, ns_allowed_html() );
-        
-        $ticket_post_id = wp_insert_post( array(
-                            'post_status'       => wp_strip_all_tags( $post_status ),
-                            'post_type'         => 'nanosupport',
-                            'post_author'       => absint( $user_id ),
+        $ticket_data = array(
+			'post_status'     => $post_status,
+			'post_type'       => 'nanosupport',
+			'post_author'     => $user_id,
+			'post_title'      => $ticket_subject,
+			'post_content'    => $ticket_details,
+			'post_date'       => date( 'Y-m-d H:i:s', current_time('timestamp') ),
 
-                            'post_title'        => wp_strip_all_tags( $ticket_subject ),
-                            'post_content'      => $ticket_details,
-                            'post_date'         => date( 'Y-m-d H:i:s', current_time('timestamp') )
-                        ) );
+			'ticket_status'   => 'open',
+			'ticket_priority' => $ticket_priority,
+			'ticket_agent'    => '', //empty: no ticket agent's assigned
+        );
 
         /**
          * Assign department from user choice, if enabled.
          */
         $display_department = isset($ns_general_settings['is_department_visible']) ? absint($ns_general_settings['is_department_visible']) : false;
-        
-        //set the department if one is chosen (whatever the user role is...)
+
         if( $display_department && ! empty($ticket_department) ) {
-            wp_set_object_terms( $ticket_post_id, (int) $ticket_department, 'nanosupport_department' );
+        	$ticket_data = array_merge($ticket_data, array('department' => $ticket_department));
         }
 
-        //insert the meta information into postmeta
-        add_post_meta( $ticket_post_id, '_ns_ticket_status',   'open' );
-        add_post_meta( $ticket_post_id, '_ns_ticket_priority', wp_strip_all_tags( $ticket_priority ) );
-        add_post_meta( $ticket_post_id, '_ns_ticket_agent',    '' ); //empty: no ticket agent's assigned
+        if( $NSECommerce->ecommerce_enabled() ) {
+        	$ticket_data = array_merge($ticket_data,
+        		array(
+        			'ticket_product' => $ticket_product,
+					'ticket_receipt' => $ticket_receipt
+				));
+        }
+
+        /**
+         * -----------------------------------------------------------------------
+         * HOOK : FILTER HOOK
+         * ns_ticket_data
+         *
+         * Filter Ticket post data and meta data before saving.
+         *
+         * @since  1.0.0
+         * -----------------------------------------------------------------------
+         */
+		$ticket_data = apply_filters( 'ns_ticket_data', $ticket_data );
+
+        $ticket_post_id = wp_insert_post( array(
+							'post_status'  => wp_strip_all_tags( $ticket_data['post_status'] ),
+							'post_type'    => wp_strip_all_tags( $ticket_data['post_type'] ),
+							'post_author'  => absint( $ticket_data['post_author'] ),
+
+							'post_title'   => wp_strip_all_tags( $ticket_data['post_title'] ),
+							'post_content' => wp_kses( $ticket_data['post_content'], ns_allowed_html() ),
+							'post_date'    => wp_strip_all_tags( $ticket_data['post_date'] )
+                        ) );
+
+        //set the department if one is chosen (whatever the user role is...)
+        if( $display_department && ! empty($ticket_department) ) {
+            wp_set_object_terms( $ticket_post_id, (int) $ticket_data['department'], 'nanosupport_department' );
+        }
+
+        // Insert the meta information into postmeta.
+        add_post_meta( $ticket_post_id, '_ns_ticket_status',   wp_strip_all_tags( $ticket_data['ticket_status'] ) );
+        add_post_meta( $ticket_post_id, '_ns_ticket_priority', wp_strip_all_tags( $ticket_data['ticket_priority'] ) );
+        add_post_meta( $ticket_post_id, '_ns_ticket_agent',    wp_strip_all_tags( $ticket_data['ticket_agent'] ) );
+
+        // Save ticket product information.
+        if( $NSECommerce->ecommerce_enabled() ) {
+            add_post_meta( $ticket_post_id, '_ns_ticket_product', wp_strip_all_tags( $ticket_data['ticket_product'] ) );
+            add_post_meta( $ticket_post_id, '_ns_ticket_product_receipt', wp_strip_all_tags( $ticket_data['ticket_receipt'] ) );
+        }
 
     }
 
@@ -387,10 +480,10 @@ function ns_knowledgebase_navigation() {
             </div>
             <div class="ns-col-md-5 ns-col-sm-6 ns-well-right ns-text-right">
                 <a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="ns-btn ns-btn-sm ns-btn-primary">
-                    <i class="ns-icon-tag"></i> <?php echo ns_is_user('agent_and_manager') ? esc_html__( 'All the Tickets', 'nanosupport' ) : esc_html__( 'My Tickets', 'nanosupport' ); ?>
+                    <i class="ns-icon-tag" aria-hidden="true"></i> <?php echo ns_is_user('agent_and_manager') ? esc_html__( 'All the Tickets', 'nanosupport' ) : esc_html__( 'My Tickets', 'nanosupport' ); ?>
                 </a>
                 <a class="ns-btn ns-btn-sm ns-btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( $ns_general_settings['submit_page'] ) ); ?>">
-                    <i class="ns-icon-tag"></i> <?php esc_html_e( 'Submit Ticket', 'nanosupport' ); ?>
+                    <i class="ns-icon-tag" aria-hidden="true"></i> <?php esc_html_e( 'Submit Ticket', 'nanosupport' ); ?>
                 </a>
             </div>
         </div>
@@ -431,7 +524,7 @@ function ns_new_ticket_navigation() {
         <div class="ns-row">
             <div class="ns-col-md-5 ns-col-sm-6 ns-well-left">
                 <a href="<?php echo esc_url( get_permalink( $ns_general_settings['support_desk'] ) ); ?>" class="ns-btn ns-btn-sm ns-btn-primary">
-                    <i class="ns-icon-tag"></i> <?php echo ns_is_user('agent_and_manager') ? esc_html__( 'All the Tickets', 'nanosupport' ) : esc_html__( 'My Tickets', 'nanosupport' ); ?>
+                    <i class="ns-icon-tag" aria-hidden="true"></i> <?php echo ns_is_user('agent_and_manager') ? esc_html__( 'All the Tickets', 'nanosupport' ) : esc_html__( 'My Tickets', 'nanosupport' ); ?>
                 </a>
                 <?php
                 /**
@@ -440,7 +533,7 @@ function ns_new_ticket_navigation() {
                  */
                 if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) { ?>
                     <a class="ns-btn ns-btn-sm ns-btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
-                        <i class="ns-icon-docs"></i> <?php esc_html_e( 'Knowledgebase', 'nanosupport' ); ?>
+                        <i class="ns-icon-docs" aria-hidden="true"></i> <?php esc_html_e( 'Knowledgebase', 'nanosupport' ); ?>
                     </a>
                 <?php } ?>
             </div>
@@ -494,11 +587,11 @@ function ns_support_desk_navigation() {
                  */
                 if( $ns_knowledgebase_settings['isactive_kb'] === 1 ) { ?>
                     <a class="ns-btn ns-btn-sm ns-btn-info btn-knowledgebase" href="<?php echo esc_url( get_permalink( $ns_knowledgebase_settings['page'] ) ); ?>">
-                        <i class="ns-icon-docs"></i> <?php esc_html_e( 'Knowledgebase', 'nanosupport' ); ?>
+                        <i class="ns-icon-docs" aria-hidden="true"></i> <?php esc_html_e( 'Knowledgebase', 'nanosupport' ); ?>
                     </a>
                 <?php } ?>
                 <a class="ns-btn ns-btn-sm ns-btn-danger btn-submit-new-ticket" href="<?php echo esc_url( get_permalink( $ns_general_settings['submit_page'] ) ); ?>">
-                    <i class="ns-icon-tag"></i> <?php esc_html_e( 'Submit Ticket', 'nanosupport' ); ?>
+                    <i class="ns-icon-tag" aria-hidden="true"></i> <?php esc_html_e( 'Submit Ticket', 'nanosupport' ); ?>
                 </a>
             </div>
         </div>
@@ -561,7 +654,7 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
             $reopen_url = add_query_arg( 'reopen', '', get_the_permalink() );
             echo '<div class="ns-alert ns-alert-success" role="alert">';
                 echo esc_html__( 'This ticket is already solved.', 'nanosupport' );
-                echo '&nbsp;<a class="ns-btn ns-btn-sm ns-btn-warning" href="'. wp_nonce_url( $reopen_url, 'reopen-ticket' ) .'#write-message"><i class="ns-icon-repeat"></i>&nbsp;';
+                echo '&nbsp;<a class="ns-btn ns-btn-sm ns-btn-warning" href="'. wp_nonce_url( $reopen_url, 'reopen-ticket' ) .'#write-message"><i class="ns-icon-repeat" aria-hidden="true"></i>&nbsp;';
                     esc_html_e( 'Reopen Ticket', 'nanosupport' );
                 echo '</a>';
             echo '</div>';
@@ -589,7 +682,7 @@ if( ! function_exists( 'get_nanosupport_response_form' ) ) :
                             </div> <!-- /.response-head -->
                         </div>
                         <div class="ns-col-sm-3 response-dates ns-small">
-                            <?php echo date( 'd M Y h:iA', current_time('timestamp') ); ?>
+                            <?php echo ns_date_time( current_time('timestamp') ); ?>
                         </div>
                     </div> <!-- /.ns-row -->
                     <div class="ns-feedback-form">
