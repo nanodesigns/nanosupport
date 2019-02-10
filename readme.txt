@@ -23,6 +23,10 @@ It has built-in **Knowledgebase** that is integrated to put generalized informat
 
 The plugin is to provide support to your users - the users those are taking product or services from you. So the plugin provides a manageable communication privately in between you and your that specific user only. Visit the 'Installation' tab for more details on how to use the plugin.
 
+= Extend NanoSupport =
+
+* [**Knowledgebase Search**](https://creativemarket.com/nanodesigns/3461090-NanoSupport-Knowledgebase-Search) &mdash; Search the Knowledgebase documents separately and suggest users from the Knowledgebase documents while submitting a new ticket.
+
 = Features =
 
 * OnActivation setup
