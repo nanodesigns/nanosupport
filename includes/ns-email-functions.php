@@ -55,7 +55,7 @@ function ns_email( $to_email, $subject, $email_subhead, $message, $reply_to_emai
         return;
 
     ob_start();
-        ns_get_template_part( 'content', 'email' );
+        ns_get_template_part( 'content-email.php' );
     $email_content  = ob_get_clean();
     $email_content  = str_replace( "%%NS_MAIL_SUBHEAD%%",  $email_subhead, $email_content );
     $email_content  = str_replace( "%%NS_MAIL_CONTENT%%",  $message,       $email_content );

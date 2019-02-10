@@ -428,7 +428,7 @@ function ns_preview_email_template() {
 
         ob_start();
             //get the designated email template
-            ns_get_template_part( 'content', 'email' );
+            ns_get_template_part( 'content-email.php' );
         $email_content = ob_get_clean();
 
         ob_start();

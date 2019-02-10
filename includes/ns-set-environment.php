@@ -461,7 +461,7 @@ if ( ! function_exists( 'ns_content' ) ) {
 
             while ( have_posts() ) : the_post();
 
-                ns_get_template_part( 'content', 'single-nanosupport' );
+                ns_get_template_part( 'content-single-nanosupport.php' );
 
             endwhile;
 
@@ -473,7 +473,7 @@ if ( ! function_exists( 'ns_content' ) ) {
 
                     <?php while ( have_posts() ) : the_post(); ?>
 
-                        <?php ns_get_template_part( 'content', 'ticket' ); ?>
+                        <?php ns_get_template_part( 'content-ticket.php' ); ?>
 
                     <?php endwhile; // end of the loop. ?>
 
