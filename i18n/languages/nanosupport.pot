@@ -1,27 +1,27 @@
-# Copyright (c) 2019 NanoSupport
+# Copyright (c) 2019 nanodesigns
 msgid ""
 msgstr ""
-"Project-Id-Version: NanoSupport 0.5.1\n"
+"Project-Id-Version: NanoSupport 0.6.0\n"
 "Report-Msgid-Bugs-To: https://github.com/nanodesigns/nanosupport/issues\n"
-"POT-Creation-Date: 2019-01-19 17:49:59+00:00\n"
+"POT-Creation-Date: 2019-02-10 16:32:58+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: nanodesigns (http://nanodesignsbd.com/)\n"
+"Last-Translator: nanodesigns (https://nanodesignsbd.com/)\n"
 "Language-Team: nanodesigns <info@nanodesignsbd.com>\n"
+"X-Generator: grunt-wp-i18n 0.5.4\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
 "Language: en_US\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Country: United States\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: "
-"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
-"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
 "X-Poedit-Basepath: ../\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
-"X-Generator: grunt-wp-i18n 1.0.3\n"
 
 #. Plugin Name of the plugin/theme
 msgid "NanoSupport"
@@ -43,7 +43,7 @@ msgstr ""
 msgid "Support Desk"
 msgstr ""
 
-#: includes/admin/__nanodesigns.php:33 includes/admin/ns-settings.php:430
+#: includes/admin/__nanodesigns.php:33 includes/admin/ns-settings.php:428
 #: includes/ns-dashboard.php:109 includes/ns-functions.php:536
 #: includes/ns-functions.php:590
 msgid "Knowledgebase"
@@ -370,157 +370,157 @@ msgid ""
 "amount of 404 and can affect SEO, if not properly redirected."
 msgstr ""
 
-#: includes/admin/ns-settings.php:29 includes/admin/ns-settings.php:30
+#: includes/admin/ns-settings.php:27 includes/admin/ns-settings.php:28
 #: nanosupport.php:240
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:61
+#: includes/admin/ns-settings.php:59
 msgid "General Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:72
+#: includes/admin/ns-settings.php:70
 msgid "Support Desk Page"
 msgstr ""
 
-#: includes/admin/ns-settings.php:79
+#: includes/admin/ns-settings.php:77
 msgid "Ticket Submission Page"
 msgstr ""
 
-#: includes/admin/ns-settings.php:87
+#: includes/admin/ns-settings.php:85
 #. translators: context: ...limit to # characters
 msgid "Set ticket character limit to"
 msgstr ""
 
-#: includes/admin/ns-settings.php:94
+#: includes/admin/ns-settings.php:92
 msgid "Enable Notice?"
 msgstr ""
 
-#: includes/admin/ns-settings.php:101
+#: includes/admin/ns-settings.php:99
 msgid "Submit Ticket Notice"
 msgstr ""
 
-#: includes/admin/ns-settings.php:108
+#: includes/admin/ns-settings.php:106
 msgid "Support Desk Notice"
 msgstr ""
 
-#: includes/admin/ns-settings.php:115
+#: includes/admin/ns-settings.php:113
 msgid "Knowledgebase Notice"
 msgstr ""
 
-#: includes/admin/ns-settings.php:122
+#: includes/admin/ns-settings.php:120
 msgid "Highlight Ticket with"
 msgstr ""
 
-#: includes/admin/ns-settings.php:129
+#: includes/admin/ns-settings.php:127
 msgid "Is Priority Visible?"
 msgstr ""
 
-#: includes/admin/ns-settings.php:136
+#: includes/admin/ns-settings.php:134
 msgid "Is Departments Visible?"
 msgstr ""
 
-#: includes/admin/ns-settings.php:143
+#: includes/admin/ns-settings.php:141
 msgid "Enable Embedded Login?"
 msgstr ""
 
-#: includes/admin/ns-settings.php:159
+#: includes/admin/ns-settings.php:157
 msgid "Account Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:165
+#: includes/admin/ns-settings.php:163
 msgid "Account Creation"
 msgstr ""
 
-#: includes/admin/ns-settings.php:178
+#: includes/admin/ns-settings.php:176
 msgid "E-commerce Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:194
+#: includes/admin/ns-settings.php:192
 msgid "Enable E-commerce Support?"
 msgstr ""
 
-#: includes/admin/ns-settings.php:208
+#: includes/admin/ns-settings.php:206
 msgid "Exclude Products"
 msgstr ""
 
-#: includes/admin/ns-settings.php:222
+#: includes/admin/ns-settings.php:220
 msgid "Other Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:228
+#: includes/admin/ns-settings.php:226
 msgid "Delete Data?"
 msgstr ""
 
-#: includes/admin/ns-settings.php:247
+#: includes/admin/ns-settings.php:245
 msgid "Knowledgebase Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:263
+#: includes/admin/ns-settings.php:261
 msgid "Activate Knowledgebase?"
 msgstr ""
 
-#: includes/admin/ns-settings.php:276
+#: includes/admin/ns-settings.php:274
 msgid "Knowledgebase Page"
 msgstr ""
 
-#: includes/admin/ns-settings.php:288
+#: includes/admin/ns-settings.php:286
 msgid "Featured Categories"
 msgstr ""
 
-#: includes/admin/ns-settings.php:300
+#: includes/admin/ns-settings.php:298
 msgid "Items per category"
 msgstr ""
 
-#: includes/admin/ns-settings.php:312
+#: includes/admin/ns-settings.php:310
 msgid "Add Categories to the URL"
 msgstr ""
 
-#: includes/admin/ns-settings.php:327
+#: includes/admin/ns-settings.php:325
 msgid "Email Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:338
+#: includes/admin/ns-settings.php:336
 msgid "Notification Email"
 msgstr ""
 
-#: includes/admin/ns-settings.php:345
+#: includes/admin/ns-settings.php:343
 msgid "Email Choices"
 msgstr ""
 
-#: includes/admin/ns-settings.php:360
+#: includes/admin/ns-settings.php:358
 msgid "Email Template"
 msgstr ""
 
-#: includes/admin/ns-settings.php:366
+#: includes/admin/ns-settings.php:364
 msgid "Header Background Color"
 msgstr ""
 
-#: includes/admin/ns-settings.php:373
+#: includes/admin/ns-settings.php:371
 msgid "Header Text Color"
 msgstr ""
 
-#: includes/admin/ns-settings.php:380
+#: includes/admin/ns-settings.php:378
 msgid "Header Image"
 msgstr ""
 
-#: includes/admin/ns-settings.php:387
+#: includes/admin/ns-settings.php:385
 msgid "Header Text"
 msgstr ""
 
-#: includes/admin/ns-settings.php:394
+#: includes/admin/ns-settings.php:392
 msgid "Footer Text"
 msgstr ""
 
-#: includes/admin/ns-settings.php:424
+#: includes/admin/ns-settings.php:422
 msgid "NanoSupport Settings"
 msgstr ""
 
-#: includes/admin/ns-settings.php:429
+#: includes/admin/ns-settings.php:427
 msgid "General"
 msgstr ""
 
-#: includes/admin/ns-settings.php:431
+#: includes/admin/ns-settings.php:429
 msgid "Emails"
 msgstr ""
 
@@ -652,6 +652,10 @@ msgstr ""
 
 #: includes/class-system-status.php:49
 msgid "No"
+msgstr ""
+
+#: includes/ns-core-functions.php:89
+msgid "Template not found"
 msgstr ""
 
 #: includes/ns-cpt-knowledgebase.php:33
@@ -1466,19 +1470,19 @@ msgstr ""
 msgid "NanoSupport Agent"
 msgstr ""
 
-#: includes/ns-set-environment.php:480
+#: includes/ns-set-environment.php:478
 msgid "Ticket has no content"
 msgstr ""
 
-#: includes/ns-set-environment.php:604
+#: includes/ns-set-environment.php:602
 msgid "Visit Support Desk"
 msgstr ""
 
-#: includes/ns-set-environment.php:645
+#: includes/ns-set-environment.php:643
 msgid "My Open Tickets"
 msgstr ""
 
-#: includes/ns-set-environment.php:650
+#: includes/ns-set-environment.php:648
 msgid "Open tickets assigned to me"
 msgstr ""
 
@@ -1810,7 +1814,7 @@ msgid "Back to ticket index"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "http://nanosupport.nanodesignsbd.com/"
+msgid "https://nanosupport.nanodesignsbd.com/"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -1825,7 +1829,7 @@ msgid "nanodesigns"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "http://nanodesignsbd.com/"
+msgid "https://nanodesignsbd.com/"
 msgstr ""
 
 #: includes/ns-cpt-knowledgebase.php:30 includes/ns-cpt-knowledgebase.php:31
