@@ -9,6 +9,9 @@ module.exports = function(grunt) {
 
     'use strict';
 
+	var today = new Date();
+	var year  = today.getFullYear();
+
     // @Grunt: Get our configuration
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -114,9 +117,14 @@ module.exports = function(grunt) {
             target: {
                 options: {
                     domainPath: '/i18n/languages/',
-                    exclude: ['assets/.*', 'node_modules/.*', 'vendor/.*', 'tests/.*'],
+                    exclude: [
+                    	'assets/.*',
+                    	'node_modules/.*',
+                    	'vendor/.*',
+                    	'tests/.*'
+                    ],
                     mainFile: 'nanosupport.php',
-                    potComments: 'Copyright (c) 2019 NanoSupport',
+                    potComments: 'Copyright (c) '+ year +' nanodesigns',
                     potFilename: 'nanosupport.pot',
                     potHeaders: {
                         poedit: true,
@@ -271,13 +279,17 @@ module.exports = function(grunt) {
 
 
     // @Grunt: do the following when we will type 'grunt <command>'
-    grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin', 'watch']);
-    grunt.registerTask('development', ['jshint', 'sass', 'autoprefixer']);
-    grunt.registerTask('production', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
-    grunt.registerTask('translate', ['checktextdomain', 'makepot']);
-    grunt.registerTask('release', ['translate', 'production', 'clean', 'compress']);
-    grunt.registerTask('release_patch', ['version::patch', 'release']);
-    grunt.registerTask('release_minor', ['version::minor', 'release']);
-    grunt.registerTask('release_major', ['version::major', 'release']);
+	grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin', 'watch']);
+
+	grunt.registerTask('development', ['jshint', 'sass', 'autoprefixer']);
+	grunt.registerTask('dev', ['development']); //alias
+	grunt.registerTask('production', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
+
+	grunt.registerTask('translate', ['checktextdomain', 'makepot']);
+
+	grunt.registerTask('release', ['clean', 'translate', 'production', 'compress']);
+	grunt.registerTask('release_patch', ['version::patch', 'release']);
+	grunt.registerTask('release_minor', ['version::minor', 'release']);
+	grunt.registerTask('release_major', ['version::major', 'release']);
 
 };
