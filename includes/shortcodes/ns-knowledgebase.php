@@ -261,4 +261,9 @@ function ns_knowledgebase_page() {
 	return ob_get_clean();
 }
 
-add_shortcode( 'nanosupport_knowledgebase', 'ns_knowledgebase_page' );
+// Get Knowledgebase settings from db.
+$ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
+
+if( isset($ns_knowledgebase_settings['isactive_kb']) && $ns_knowledgebase_settings['isactive_kb'] === 1 ) {
+	add_shortcode( 'nanosupport_knowledgebase', 'ns_knowledgebase_page' );
+}
