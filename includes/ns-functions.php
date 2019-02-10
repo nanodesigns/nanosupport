@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Hide all the Responses in Comments queries (Admin Panel)
  *
  * @author gmazzap <https://twitter.com/gmazzap>
- * @link   http://wordpress.stackexchange.com/a/186281/22728
+ * @link   https://wordpress.stackexchange.com/a/186281/22728
  *
  * @since  1.0.0
  *
@@ -897,7 +897,7 @@ add_action( 'template_redirect', 'ns_handle_response_submit' );
  * Therefore we need to manually intervene and make them approved before saving.
  *
  * @author gmazzap
- * @link   http://wordpress.stackexchange.com/a/186281/22728
+ * @link   https://wordpress.stackexchange.com/a/186281/22728
  *
  * @since  1.0.0
  * 

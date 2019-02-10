@@ -37,7 +37,7 @@ function nanosupport_mail_content_type() {
 /**
  * NanoSupport Emailer
  *
- * @link    http://stackoverflow.com/a/14502884/1743124
+ * @link    https://stackoverflow.com/a/14502884/1743124
  *
  * @since   1.0.0
  * 

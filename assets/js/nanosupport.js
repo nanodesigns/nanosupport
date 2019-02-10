@@ -52,7 +52,7 @@ jQuery(document).ready(function($) {
      *
      * Bootstrap File Selection
      *
-     * @link http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
+     * @link https://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3
      *
      * @since  1.0.0
      * -----------------------------------------------------------

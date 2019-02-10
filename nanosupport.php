@@ -1,21 +1,21 @@
 <?php
 /**
  * @package           NanoSupport
- * @author    		  nanodesigns <info@nanodesignsbd.com>
- * @license   		  GPL-2.0+
- * @link              http://nanodesignsbd.com/
+ * @author            nanodesigns <info@nanodesignsbd.com>
+ * @license           GPL-2.0+
+ * @link              https://nanodesignsbd.com/
  *
  * @wordpress-plugin
  * Plugin Name:       NanoSupport
- * Plugin URI:        http://nanosupport.nanodesignsbd.com/
+ * Plugin URI:        https://nanosupport.nanodesignsbd.com/
  * Description:       Create a fully featured Support Center within your WordPress environment without any third party system dependency, completely FREE. The built-in Knowledgebase is to inform public with generalized queries.
  * Version:           0.5.1
  * Author:            nanodesigns
- * Author URI:        http://nanodesignsbd.com/
+ * Author URI:        https://nanodesignsbd.com/
  * Requires at least: 4.4.0
  * Tested up to:      4.9.9
  * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       nanosupport
  * Domain Path:       /i18n/languages
  */
@@ -186,8 +186,8 @@ function NS() {
  * has privilege to `activate_plugins`, so that notice
  * cannot be visible to any non-admin user.
  *
- * @link   http://10up.com/blog/2012/wordpress-plug-in-self-deactivation/
- * 
+ * @link   https://10up.com/blog/2012/wordpress-plug-in-self-deactivation/
+ *
  * @since  1.0.0
  * -----------------------------------------------------------------------
  */

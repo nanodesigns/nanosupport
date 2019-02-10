@@ -122,7 +122,7 @@ module.exports = function(grunt) {
                         poedit: true,
                         'x-poedit-keywordslist': true,
                         'report-msgid-bugs-to': 'https://github.com/nanodesigns/nanosupport/issues',
-                        'last-translator': 'nanodesigns (http://nanodesignsbd.com/)',
+                        'last-translator': 'nanodesigns (https://nanodesignsbd.com/)',
                         'language-team': 'nanodesigns <info@nanodesignsbd.com>',
                         'language': 'en_US'
                     },

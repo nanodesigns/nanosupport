@@ -53,12 +53,12 @@ if( ! empty($delete_data) ) :
 
 	/**
 	 * Delete all the Taxonomies and their terms
-	 * @link http://wpsmith.net/2014/plugin-uninstall-delete-terms-taxonomies-wordpress-database/
+	 * @link https://wpsmith.net/2014/plugin-uninstall-delete-terms-taxonomies-wordpress-database/
 	 */
 	foreach ( array( 'nanosupport_department', 'nanodoc_category' ) as $taxonomy ) :
 		// Prepare & excecute SQL, Delete Terms
 		$wpdb->get_results( $wpdb->prepare( "DELETE t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ('%s')", $taxonomy ) );
-		
+
 		// Delete Taxonomy
 		$wpdb->delete( $wpdb->term_taxonomy, array( 'taxonomy' => $taxonomy ), array( '%s' ) );
 	endforeach;

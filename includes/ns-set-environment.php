@@ -144,7 +144,7 @@ function ns_admin_scripts( $hook_suffix ) {
          * jQuery ColorPicker
          * WordPress 3.5+ | jQuery dependent.
          * @author  automattic
-         * @link    http://automattic.github.io/Iris/
+         * @link    https://automattic.github.io/Iris/
          * ...
          */
         wp_enqueue_style( 'wp-color-picker' );
@@ -392,10 +392,8 @@ add_action( 'manage_users_custom_column', 'ns_support_agent_user_column_content'
  * Force all the ticket post status default to 'Private' instead of 'Publish'.
  * As to make tickets outstand from Knowledgebase (public) docs domain.
  *
- * @link   http://wpsnipp.com/index.php/functions-php/force-custom-post-type-to-be-private/
+ * @link   https://www.isitwp.com/force-custom-post-type-to-be-private/
  *
- * @since  1.0.0
- * 
  * @param  object $post Post object.
  * @return object       Modified post object.
  * -----------------------------------------------------------------------
@@ -716,10 +714,8 @@ add_filter( 'posts_clauses', 'display_assigned_tickets_modifying_query', 10, 2 )
  * 
  * @link https://codex.wordpress.org/Function_Reference/wp_editor
  * @link https://codex.wordpress.org/TinyMCE
- * @link http://wordpress.stackexchange.com/a/29480
+ * @link https://wordpress.stackexchange.com/a/29480
  *
- * @since  1.0.0
- * 
  * @param  array $ed Default editor.
  * @return array     Modified buttons.
  * -----------------------------------------------------------------------

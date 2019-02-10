@@ -16,11 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Settings page using WP Settings API.
  *
- * @since  1.0.0
- *
  * @link   http://ottopress.com/2009/wordpress-settings-api-tutorial/
- * @link   http://www.chipbennett.net/2011/02/17/incorporating-the-settings-api-in-wordpress-themes/?all=1
- * @link   http://wordpress.stackexchange.com/a/127499/22728
+ * @link   https://www.chipbennett.net/2011/02/17/incorporating-the-settings-api-in-wordpress-themes/?all=1
+ * @link   https://wordpress.stackexchange.com/a/127499/22728
  * -----------------------------------------------------------------------
  */
 function ns_settings_page() {

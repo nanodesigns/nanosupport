@@ -526,7 +526,7 @@ function ns_get_ticket_meta( $ticket_id = null ) {
  *
  * @since  1.0.0
  *
- * @link   http://wordpress.stackexchange.com/a/97606/22728
+ * @link   https://wordpress.stackexchange.com/a/97606/22728
  *
  * @see    get_sample_permalink() Core function to have permalink using postname
  * 

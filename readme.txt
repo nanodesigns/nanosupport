@@ -7,7 +7,7 @@ Tested up to: 4.9.9
 Requires PHP: 5.4.0
 Stable tag: 0.5.1
 License: GPL-2.0+
-License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
 Create a fully featured Support Center in your WordPress setup without any third party dependency, completely FREE. Get a built-in Knowledgebase too.
 
@@ -26,7 +26,7 @@ The plugin is to provide support to your users - the users those are taking prod
 = Features =
 
 * OnActivation setup
-* Smart templating for nice theme support
+* Smart templating for nice theme and third party plugins support
 * Smartly designed Support Center
 * Completely Private ticketing
 * Ticket submission with registration
@@ -90,11 +90,10 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 = Connect with NanoSupport team =
 
-* [Website](http://nanodesignsbd.com?ref=nanosupport)
+* [Website](https://nanodesignsbd.com?ref=nanosupport)
 * [Twitter](https://twitter.com/nanodesigns/)
 * [Facebook](https://facebook.com/nanodesignsbd/)
-* [LinkedIn](http://www.linkedin.com/company/nanodesigns)
-* [Google+](https://google.com/+Nanodesignsbd)
+* [LinkedIn](https://www.linkedin.com/company/nanodesigns/)
 
 == Installation ==
 
@@ -109,7 +108,7 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 1. Visit the plugin page at: https://wordpress.org/plugins/nanosupport
 2. Hit the Download button to download the `.zip` file
-3. Unzip the archive and cut/paste the folder to `/wp-content/plugins/` directory
+3. Unzip the archive and cut/paste the folder to the `/wp-content/plugins/` directory
 4. From admin 'Plugins' page, activate NanoSupport plugin
 5. Get to the plugin's 'Settings' page, and set up the plugin as you like
 6. Wait for your first ticket :)

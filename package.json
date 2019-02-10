@@ -1,7 +1,7 @@
 {
     "name": "nanosupport",
     "title": "NanoSupport",
-    "homepage": "http://nanosupport.nanodesignsbd.com/",
+    "homepage": "https://nanosupport.nanodesignsbd.com/",
     "version": "0.5.1",
     "private": true,
     "devDependencies": {
