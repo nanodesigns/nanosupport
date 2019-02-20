@@ -819,13 +819,15 @@ function ns_is_character_limit() {
     $option = get_option( 'nanosupport_settings' );
 
     //default
-    if( ! isset($option['ticket_char_limit']) )
+    if( ! isset($option['ticket_char_limit']) ) {
         return 30;
+    }
 
-    if( 0 == $option['ticket_char_limit'] )
+    if( 0 == $option['ticket_char_limit'] ) {
         return false;
-    else
+    } else {
         return $option['ticket_char_limit'];
+    }
 }
 
 

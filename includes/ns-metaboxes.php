@@ -454,9 +454,7 @@ function ns_save_nanosupport_meta_data( $post_id ) {
      */
     $ns_ticket_status      = $_POST['ns_ticket_status'];
     $ns_ticket_priority    = $_POST['ns_ticket_priority'];
-    $ns_ticket_agent       = $_POST['ns_ticket_agent'];
-    $ns_ticket_product     = $_POST['ns_ticket_product'];
-    $ns_ticket_receipt     = $_POST['ns_ticket_product_receipt'];
+    $ns_ticket_agent       = filter_input(INPUT_POST, 'ns_ticket_agent', FILTER_SANITIZE_NUMBER_INT);
 
     update_post_meta( $post_id, '_ns_ticket_status',   sanitize_text_field( $ns_ticket_status ) );
     update_post_meta( $post_id, '_ns_ticket_priority', sanitize_text_field( $ns_ticket_priority ) );
@@ -490,6 +488,8 @@ function ns_save_nanosupport_meta_data( $post_id ) {
 
     $NSECommerce = new NSECommerce();
     if( $NSECommerce->ecommerce_enabled() ) {
+    	$ns_ticket_product     = $_POST['ns_ticket_product'];
+    	$ns_ticket_receipt     = $_POST['ns_ticket_product_receipt'];
         update_post_meta( $post_id, '_ns_ticket_product',           sanitize_text_field( $ns_ticket_product ) );
         update_post_meta( $post_id, '_ns_ticket_product_receipt',   sanitize_text_field( $ns_ticket_receipt ) );
     }

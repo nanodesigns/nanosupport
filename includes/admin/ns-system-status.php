@@ -62,6 +62,8 @@ function nanosupport_system_status_page_callback() {
 
             <div class="metabox-holder">
 
+            	<button type="button" id="ns-export-status" class="ns-btn button button-default" style="margin-bottom: 10px;"><i class="dashicons dashicons-clipboard" style="vertical-align: middle" aria-hidden="true"></i> <?php esc_html_e('Copy to Clipboard', 'nanosupport'); ?></button> <sub>(<?php esc_html_e('works on modern browsers only', 'nanosupport'); ?>)</sub>
+
                 <!-- NANOSUPPORT ENVIRONMENT -->
                 <div id="ns-environment" class="postbox">
                     <table class="widefat ns-status-table">
@@ -198,8 +200,6 @@ function nanosupport_system_status_page_callback() {
                     </table>
                 </div>
                 <!-- /#ns-active-plugins -->
-
-                <button type="button" id="ns-export-status" class="ns-btn button button-default"><i class="dashicons dashicons-clipboard" style="vertical-align: middle" aria-hidden="true"></i> <?php esc_html_e('Copy to Clipboard', 'nanosupport'); ?></button> <sub>(<?php esc_html_e('works on modern browsers only', 'nanosupport'); ?>)</sub>
 
             </div>
             <!-- /.metabox-holder -->
