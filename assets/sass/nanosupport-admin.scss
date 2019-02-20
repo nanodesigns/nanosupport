@@ -680,9 +680,17 @@ body.admin-bar{
 		.bar{
 			top: 32px;
 		}
-		
+
 		.spinner{
 			top: 35px;
 		}
 	}
 }
+
+
+/**
+ * ---------------------------------------------
+ * NanoSupport Ticket Log
+ * ---------------------------------------------
+ */
+@import '../sass/__ticket-log';

@@ -157,7 +157,8 @@
 		        'post_type' 	=> 'nanosupport',
 		        'status'    	=> 'approve',
 		        'orderby'   	=> 'comment_date',
-		        'order'     	=> 'ASC'
+		        'order'     	=> 'ASC',
+        		'type'          => array('nanosupport_response', 'nanosupport_change')
 		    );
 
 			/**
@@ -182,29 +183,38 @@
 
 
 		        foreach( $response_array as $response ) {
-					
-				//highlight the latest response on successful submission of new response
-	        	$fresh_response = (isset($_GET['ns_success']) || isset($_GET['ns_cm_success']) ) && $found_count == $counter ? 'new-response' : '';
-	        	?>
 
-					<div class="ticket-response-cards ns-cards <?php echo esc_attr($fresh_response); ?>">
-						<div class="ns-row">
-							<div class="ns-col-sm-9">
-								<div class="response-head">
-									<h3 class="ticket-head" id="response-<?php echo esc_attr($counter); ?>">
-										<?php echo $response->comment_author; ?>
-									</h3>
-								</div> <!-- /.response-head -->
+		        	if( 'nanosupport_response' === $response->comment_type ) {
+
+					//highlight the latest response on successful submission of new response
+		        	$fresh_response = (isset($_GET['ns_success']) || isset($_GET['ns_cm_success']) ) && $found_count == $counter ? 'new-response' : '';
+		        	?>
+
+						<div class="ticket-response-cards ns-cards <?php echo esc_attr($fresh_response); ?>">
+							<div class="ns-row">
+								<div class="ns-col-sm-9">
+									<div class="response-head">
+										<h3 class="ticket-head" id="response-<?php echo esc_attr($counter); ?>">
+											<?php echo $response->comment_author; ?>
+										</h3>
+									</div> <!-- /.response-head -->
+								</div>
+								<div class="ns-col-sm-3 response-dates">
+									<a href="#response-<?php echo esc_attr($counter); ?>" class="response-bookmark ns-small"><strong class="ns-hash">#</strong> <?php echo ns_date_time( $response->comment_date ); ?></a>
+								</div>
+							</div> <!-- /.ns-row -->
+							<div class="ticket-response">
+								<?php echo wpautop( $response->comment_content ); ?>
 							</div>
-							<div class="ns-col-sm-3 response-dates">
-								<a href="#response-<?php echo esc_attr($counter); ?>" class="response-bookmark ns-small"><strong class="ns-hash">#</strong> <?php echo ns_date_time( $response->comment_date ); ?></a>
-							</div>
-						</div> <!-- /.ns-row -->
-						<div class="ticket-response">
-							<?php echo wpautop( $response->comment_content ); ?>
-						</div>
-						
-					</div> <!-- /.ticket-response-cards -->
+
+						</div> <!-- /.ticket-response-cards -->
+
+					<?php } else if( 'nanosupport_change' === $response->comment_type ) { ?>
+
+						<?php $NS_Ticket_Changelog = new NS_Ticket_Changelog(); ?>
+						<div class="ticket-log ns-small ns-text-muted"><?php echo $NS_Ticket_Changelog::translate_changes($response); ?></div>
+
+					<?php } ?>
 
 					<?php
 		        $counter++;

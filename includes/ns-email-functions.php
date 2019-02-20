@@ -216,10 +216,8 @@ function nanosupport_handle_account_opening_email( $user_id = '', $generated_pas
  *
  * Send an email to the ticket agent notifying ticket modification.
  *
- * @since  1.0.0
- * 
- * @param  integer $comment_ID    The comment ID.
- * @param  object $comment_object The comment post object.
+ * @param  integer $comment_ID     The comment ID.
+ * @param  object  $comment_object The comment post object.
  * ------------------------------------------------------------------------------
  */
 function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
@@ -239,7 +237,7 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
     $last_response  = ns_get_last_response( $post_id );
 
     // Don't send email on self-response
-    if( $notify_support_seeker_on_responses && ( $last_response['user_id'] != $author_id ) && isset($author_email) && is_email($author_email) ) :
+    if( $notify_support_seeker_on_responses && ( $last_response['user_id'] != $author_id ) && isset($author_email) && is_email($author_email) && $comment_object->comment_type === 'nanosupport_response' ) :
         /* translators: Site title */
         $subject = sprintf ( esc_html__( 'Your ticket is replied — %s', 'nanosupport' ), get_bloginfo( 'name', 'display' ) );
 
@@ -269,7 +267,7 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
      * Email the agent, if any.
      * ...
      */
-    if( $notify_agents_on_responses ) {
+    if( $notify_agents_on_responses && $comment_object->comment_type === 'nanosupport_response' ) {
         $ticket_meta  = ns_get_ticket_meta( $post_id );
         $ticket_agent = isset($ticket_meta['agent']['ID']) ? $ticket_meta['agent']['ID'] : '';
         
@@ -312,10 +310,9 @@ function nanosupport_email_on_ticket_response( $comment_ID, $comment_object ) {
  * Disable default comment notification email
  *
  * Disable comment notification email to inform user with
- * custom notification email specific to 'nanosupport_response'
+ * custom notification email specific to all the comments
+ * in 'nanosupport' posts.
  *
- * @since  1.0.0
- * 
  * @param  array $emails       Array of emails.
  * @param  integer $comment_ID Comment ID.
  * @return array               Filled or empty array based on condition.

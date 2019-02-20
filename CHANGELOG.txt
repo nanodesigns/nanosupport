@@ -1,6 +1,8 @@
-= 0.6.0 - 2019-FEB-15 =
-* Major changes in the function `ns_get_template_part()` - the function is redefined.
-* New filter hook: `nanosupport_locate_template`
+= 0.6.0 - 2019-FEB-21 =
+* Major changes in the function `ns_get_template_part()` - the function is redefined
+* New feature: Log the changes to the tickets and display them on both front end and admin panel
+* New filter hooks: `nanosupport_locate_template`
+* Fixed: Knowledgebase was visible with absolute URL even was inactive
 
 = 0.5.1 - 2019-JAN-20 =
 * E-Commerce: Check Purchase Receipt's authenticity on the submission of a ticket

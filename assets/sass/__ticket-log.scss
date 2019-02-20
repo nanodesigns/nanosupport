@@ -1,0 +1,27 @@
+/**
+ * NanoSupport Helper classes.
+ *
+ * @package NanoSupport
+ */
+.ticket-log{
+	margin-bottom: 10px;
+}
+
+.ns-ticket-log-notation{
+	display: inline-block;
+	position: relative;
+	width: 27px;
+	height: 27px;
+	margin-left: 35px;
+	margin-right: 10px;
+	border: 1px dashed #999;
+	border-radius: 100%;
+	background-color: #ededed;
+	text-align: center;
+	font-size: 14px;
+	color: #333;
+
+	[class^="ns-icon-"]{
+		vertical-align: middle;
+	}
+}

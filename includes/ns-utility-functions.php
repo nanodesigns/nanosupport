@@ -382,6 +382,112 @@ function ns_tooltip( $id = '', $message = '', $position = 'top', $icon = 'ns-ico
 
 
 /**
+ * Ticket Status Information.
+ *
+ * @param  string $ticket_status_raw Ticket Status value.
+ * @return array                     Array with UI features.
+ * ------------------------------------------------------------------------------
+ */
+function ns_get_ticket_status_info($ticket_status_raw) {
+	switch ($ticket_status_raw) {
+		case 'pending':
+			$ticket_status = array(
+                'value' => 'pending',
+                'name'  => __( 'Pending', 'nanosupport' ),
+                'class' => 'status-pending',
+                'label' => '<span class="ns-label ns-label-normal">'. __( 'Pending', 'nanosupport' ) .'</span>',
+            );
+			break;
+
+		case 'solved':
+			$ticket_status = array(
+                'value' => 'solved',
+                'name'  => __( 'Solved', 'nanosupport' ),
+                'class' => 'status-solved',
+                'label' => '<span class="ns-label ns-label-success">'. __( 'Solved', 'nanosupport' ) .'</span>',
+            );
+			break;
+
+		case 'inspection':
+			$ticket_status = array(
+                'value' => 'inspection',
+                'name'  => __( 'Under Inspection', 'nanosupport' ),
+                'class' => 'status-inspection',
+                'label' => '<span class="ns-label ns-label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>',
+            );
+			break;
+
+		case 'open':
+		default:
+			$ticket_status = array(
+                'value' => 'open',
+                'name'  => __( 'Open', 'nanosupport' ),
+                'class' => 'status-open',
+                'label' => '<span class="ns-label ns-label-warning">'. __( 'Open', 'nanosupport' ) .'</span>',
+            );
+			break;
+	}
+
+	return $ticket_status;
+}
+
+/**
+ * Get Ticket Priority Information.
+ *
+ * @param  string $priority_raw Raw string for priority.
+ * @param  string $status_raw   Raw string for status (for blink class) (default: '').
+ * @return array                Array with UI features.
+ * ------------------------------------------------------------------------------
+ */
+function ns_get_ticket_priority_info($priority_raw, $status_raw = '') {
+
+	$blink_class = ('solved' !== $status_raw) ? ' blink' : '';
+
+	switch ($priority_raw) {
+
+		case 'critical':
+			$priority = array(
+                'value' => 'critical',
+                'name'  => esc_html__( 'Critical', 'nanosupport' ),
+                'class' => 'priority-critical',
+                'label' => '<span class="ns-text-danger"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. esc_html__( 'Critical', 'nanosupport' ) .'</span>',
+            );
+			break;
+
+		case 'high':
+			$priority = array(
+                'value' => 'high',
+                'name'  => esc_html__( 'High', 'nanosupport' ),
+                'class' => 'priority-high',
+                'label' => '<span class="ns-text-warning"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. esc_html__( 'High', 'nanosupport' ) .'</span>',
+            );
+			break;
+
+		case 'medium':
+			$priority = array(
+                'value' => 'medium',
+                'name'  => esc_html__( 'Medium', 'nanosupport' ),
+                'class' => 'priority-medium',
+                'label' => '<span class="ns-text-info"><i class="ns-dot"></i>'. esc_html__( 'Medium', 'nanosupport' ) .'</span>',
+            );
+			break;
+
+		case 'low':
+		default:
+			$priority = array(
+                'value' => 'low',
+                'name'  => esc_html__( 'Low', 'nanosupport' ),
+                'class' => 'priority-low',
+                'label' => '<span class="ns-text-dim"><i class="ns-dot"></i>'. esc_html__( 'Low', 'nanosupport' ) .'</span>',
+            );
+			break;
+	}
+
+	return $priority;
+}
+
+
+/**
  * Get all the ticket meta information
  *
  * Ticket status, combining NanoSupport ticket status along with the
@@ -415,77 +521,16 @@ function ns_get_ticket_meta( $ticket_id = null ) {
      * ...
      */
     if( 'pending' === get_post_status($post_id) ) {
-    
-        $ticket_status = array(
-                'value' => 'pending',
-                'name'  => __( 'Pending', 'nanosupport' ),
-                'class' => 'status-pending',
-                'label' => '<span class="ns-label ns-label-normal">'. __( 'Pending', 'nanosupport' ) .'</span>',
-            );
-    
+        $ticket_status = ns_get_ticket_status_info('pending');
     } else {
-        
-
-        if( 'solved' === $this_status ) {
-            $ticket_status = array(
-                'value' => 'solved',
-                'name'  => __( 'Solved', 'nanosupport' ),
-                'class' => 'status-solved',
-                'label' => '<span class="ns-label ns-label-success">'. __( 'Solved', 'nanosupport' ) .'</span>',
-            );
-        } elseif( 'inspection' === $this_status ) {
-            $ticket_status = array(
-                'value' => 'inspection',
-                'name'  => __( 'Under Inspection', 'nanosupport' ),
-                'class' => 'status-inspection',
-                'label' => '<span class="ns-label ns-label-primary">'. __( 'Under Inspection', 'nanosupport' ) .'</span>',
-            );
-        } elseif( 'open' === $this_status ) {
-            $ticket_status = array(
-                'value' => 'open',
-                'name'  => __( 'Open', 'nanosupport' ),
-                'class' => 'status-open',
-                'label' => '<span class="ns-label ns-label-warning">'. __( 'Open', 'nanosupport' ) .'</span>',
-            );
-        }
-
+    	$ticket_status = ns_get_ticket_status_info($this_status);
     }
 
     /**
      * Ticket priority
      * ...
      */
-    $blink_class    = 'solved' === $this_status ? '' : ' blink';
-
-    if( 'low' === $this_priority ) {
-        $priority = array(
-                'value' => 'low',
-                'name'  => esc_html__( 'Low', 'nanosupport' ),
-                'class' => 'priority-low',
-                'label' => '<span class="ns-text-dim"><i class="ns-dot"></i>'. esc_html__( 'Low', 'nanosupport' ) .'</span>',
-            );
-    } elseif( 'medium' === $this_priority ) {
-        $priority = array(
-                'value' => 'medium',
-                'name'  => esc_html__( 'Medium', 'nanosupport' ),
-                'class' => 'priority-medium',
-                'label' => '<span class="ns-text-info"><i class="ns-dot"></i>'. esc_html__( 'Medium', 'nanosupport' ) .'</span>',
-            );
-    } elseif( 'high' === $this_priority ) {
-        $priority = array(
-                'value' => 'high',
-                'name'  => esc_html__( 'High', 'nanosupport' ),
-                'class' => 'priority-high',
-                'label' => '<span class="ns-text-warning"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. esc_html__( 'High', 'nanosupport' ) .'</span>',
-            );
-    } elseif( 'critical' === $this_priority ) {
-        $priority = array(
-                'value' => 'critical',
-                'name'  => esc_html__( 'Critical', 'nanosupport' ),
-                'class' => 'priority-critical',
-                'label' => '<span class="ns-text-danger"><i class="ns-dot'. esc_attr($blink_class) .'"></i>'. esc_html__( 'Critical', 'nanosupport' ) .'</span>',
-            );
-    }
+    $priority =  ns_get_ticket_priority_info($this_priority);
 
     /**
      * Agent
@@ -501,15 +546,13 @@ function ns_get_ticket_meta( $ticket_id = null ) {
             );
     }
 
-    $ticket_meta = array();
-
-    $ticket_meta['status']      = $ticket_status;
-    $ticket_meta['priority']    = $priority;
-    $ticket_meta['agent']       = $agent;
-    $ticket_meta['product']     = $this_product;
-    $ticket_meta['receipt']     = $this_receipt;
-
-    return $ticket_meta;
+    return array(
+		'status'   => $ticket_status,
+		'priority' => $priority,
+		'agent'    => $agent,
+		'product'  => $this_product,
+		'receipt'  => $this_receipt
+    );
 
 }
 

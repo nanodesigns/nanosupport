@@ -59,7 +59,8 @@ function ns_reply_specifics() {
         'post_type' => 'nanosupport',
         'status'    => 'approve',
         'orderby'   => 'comment_date',
-        'order'     => 'ASC'
+        'order'     => 'ASC',
+        'type'      => array('nanosupport_response', 'nanosupport_change')
     );
 
     /**
@@ -80,33 +81,42 @@ function ns_reply_specifics() {
 
             $counter = 1;
 
-            foreach( $response_array as $response ) { ?>
-                
-                <div class="ns-cards ticket-response-cards">
-                    <div class="ns-row">
-                        <div class="response-user">
-                            <div class="response-head">
-                                <h3 class="ticket-head" id="response-<?php echo esc_attr($counter); ?>">
-                                    <?php echo $response->comment_author .' &mdash; <small>'. ns_date_time( strtotime($response->comment_date) ) .'</small>'; ?>
-                                </h3>
-                            </div> <!-- /.response-head -->
-                        </div> <!-- /.response-user -->
-                        <?php
-                        $del_response_link = add_query_arg( 'del_response', $response->comment_ID, $_SERVER['REQUEST_URI'] );
-                        $del_response_link = wp_nonce_url( $del_response_link, 'delete-ticket-response' );
-                        ?>
-                        <div class="response-handle">
-                            <?php
-                            /* translators: counting number of the response */
-                            printf( esc_html__( 'Response #%s', 'nanosupport' ), $counter ); ?>
-                            <a id="<?php echo $response->comment_ID; ?>" class="delete-response dashicons dashicons-dismiss" href="<?php echo esc_url($del_response_link); ?>" title="<?php esc_attr_e( 'Delete this Response', 'nanosupport' ); ?>"></a>
-                        </div> <!-- /.response-handle -->
-                    </div> <!-- /.ns-row -->
-                    <div class="ticket-response">
-                        <?php echo wpautop( $response->comment_content ); ?>
-                    </div>
-                </div>
-                
+            foreach( $response_array as $response ) {
+
+            	if( 'nanosupport_response' === $response->comment_type ) {  ?>
+
+	                <div class="ns-cards ticket-response-cards">
+	                    <div class="ns-row">
+	                        <div class="response-user">
+	                            <div class="response-head">
+	                                <h3 class="ticket-head" id="response-<?php echo esc_attr($counter); ?>">
+	                                    <?php echo $response->comment_author .' &mdash; <small>'. ns_date_time( strtotime($response->comment_date) ) .'</small>'; ?>
+	                                </h3>
+	                            </div> <!-- /.response-head -->
+	                        </div> <!-- /.response-user -->
+	                        <?php
+	                        $del_response_link = add_query_arg( 'del_response', $response->comment_ID, $_SERVER['REQUEST_URI'] );
+	                        $del_response_link = wp_nonce_url( $del_response_link, 'delete-ticket-response' );
+	                        ?>
+	                        <div class="response-handle ns-text-muted">
+	                            <?php
+	                            /* translators: counting number of the response */
+	                            printf( esc_html__( 'Response #%s', 'nanosupport' ), $counter ); ?>
+	                            <a id="<?php echo $response->comment_ID; ?>" class="delete-response dashicons dashicons-dismiss" href="<?php echo esc_url($del_response_link); ?>" title="<?php esc_attr_e( 'Delete this Response', 'nanosupport' ); ?>"></a>
+	                        </div> <!-- /.response-handle -->
+	                    </div> <!-- /.ns-row -->
+	                    <div class="ticket-response">
+	                        <?php echo wpautop( $response->comment_content ); ?>
+	                    </div>
+	                </div>
+
+	            <?php } else if( 'nanosupport_change' === $response->comment_type ) { ?>
+
+					<?php $NS_Ticket_Changelog = new NS_Ticket_Changelog(); ?>
+					<div class="ticket-log ns-small ns-text-muted"><?php echo $NS_Ticket_Changelog::translate_changes($response); ?></div>
+
+	            <?php } ?>
+
                 <?php
             $counter++;
             } //endforeach ?>
