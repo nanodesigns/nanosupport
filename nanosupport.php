@@ -36,8 +36,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Locales found in:
  *      - WP_LANG_DIR/nanosupport/nanosupport-LOCALE.mo
  *      - WP_LANG_DIR/plugins/nanosupport-LOCALE.mo
- *      
- * @since  1.0.0
  */
 function ns_load_textdomain() {
 
@@ -55,17 +53,17 @@ function ns_load_textdomain() {
 	 * -----------------------------------------------------------------------
 	 */
 	$locale = apply_filters( 'plugin_locale', get_locale(), 'nanosupport' );
-	
+
 	load_textdomain(
 		'nanosupport',
 		WP_LANG_DIR .'/nanosupport/nanosupport-'. $locale .'.mo'
 	);
 
-    load_plugin_textdomain(
-    	'nanosupport',
-    	false,
-    	dirname( plugin_basename( __FILE__ ) ) .'/i18n/languages'
-    );
+	load_plugin_textdomain(
+		'nanosupport',
+		false,
+		dirname( plugin_basename( __FILE__ ) ) .'/i18n/languages'
+	);
 }
 
 
@@ -109,7 +107,7 @@ final class NanoSupport {
 	 * Main NanoSupport Instance.
 	 *
 	 * Ensures only one instance of NanoSupport Ticket is loaded or can be loaded.
-	 * 
+	 *
 	 * @static
 	 * @see NS()
 	 * @return NanoSupport - Main instance
@@ -163,7 +161,7 @@ final class NanoSupport {
 		return apply_filters( 'ns_template_path', 'nanosupport/' );
 	}
 
-	
+
 }
 
 endif;
@@ -187,36 +185,34 @@ function NS() {
  * cannot be visible to any non-admin user.
  *
  * @link   https://10up.com/blog/2012/wordpress-plug-in-self-deactivation/
- *
- * @since  1.0.0
  * -----------------------------------------------------------------------
  */
 function ns_cross_check_on_activation() {
 	$unmet = false;
 
-    if ( current_user_can( 'activate_plugins' ) ) :
-		
+	if ( current_user_can( 'activate_plugins' ) ) :
+
 		if ( ! ns_is_version_supported() ) {
-	        $unmet = true;
-	        add_action( 'admin_notices', 'ns_fail_version_admin_notice' );
-	    }
+			$unmet = true;
+			add_action( 'admin_notices', 'ns_fail_version_admin_notice' );
+		}
 
-	    if ( ! ns_is_dependency_loaded() ) {
-	        $unmet = true;
-	        add_action( 'admin_notices', 'ns_fail_dependency_admin_notice' );
-	    }
-	    
-	    if( $unmet ) {
+		if ( ! ns_is_dependency_loaded() ) {
+			$unmet = true;
+			add_action( 'admin_notices', 'ns_fail_dependency_admin_notice' );
+		}
 
-	        add_action( 'admin_init', 'ns_force_deactivate' );
-	        
-	        if ( isset( $_GET['activate'] ) ) {
-	            unset( $_GET['activate'] );
-	        }
+		if( $unmet ) {
 
-	    }
+			add_action( 'admin_init', 'ns_force_deactivate' );
 
-    endif;
+			if ( isset( $_GET['activate'] ) ) {
+				unset( $_GET['activate'] );
+			}
+
+		}
+
+	endif;
 }
 
 add_action( 'plugins_loaded', 'ns_cross_check_on_activation' );
@@ -229,8 +225,6 @@ add_action( 'plugins_loaded', 'ns_cross_check_on_activation' );
  * of the plugin. So the user can easily get to the Settings page, and
  * can setup the plugin as necessary.
  *
- * @since  1.0.0
- * 
  * @param  array $links  Links on the plugin page per plugin.
  * @return array         Modified with our link.
  * -----------------------------------------------------------------------
@@ -249,11 +243,9 @@ add_filter( 'plugin_action_links_'. plugin_basename( __FILE__ ), 'ns_plugin_sett
 
 /**
  * Variables & Constants
- * 
+ *
  * Define necessary variables to not to DRY. The global variables
  * are declared global to make 'em available in plugin_activation.
- *
- * @since  1.0.0
  * -----------------------------------------------------------------------
  */
 global $ns_submit_ticket_notice, $ns_support_desk_notice, $ns_knowledgebase_notice;
@@ -266,7 +258,7 @@ $ns_knowledgebase_notice = __( 'Find your desired question in the knowledgebase.
 
 /**
  * Include all the dependencies and particles
- * 
+ *
  * Is to decentralize things to make things managable.
  */
 /** Install the plugin **/

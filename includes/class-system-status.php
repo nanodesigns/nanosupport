@@ -10,7 +10,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 class NSSystemStatus {
@@ -64,9 +64,9 @@ class NSSystemStatus {
 	public function active_theme() {
 		$theme_data = $this->theme_data();
 		return array(
-				'theme'   => $theme_data->get('Name'),
-				'version' => $theme_data->get('Version')
-			);
+			'theme'   => $theme_data->get('Name'),
+			'version' => $theme_data->get('Version')
+		);
 	}
 
 	/**
@@ -77,14 +77,14 @@ class NSSystemStatus {
 	public function active_theme_parent() {
 		$theme_data = $this->theme_data();
 		$parent     = $theme_data->parent();
-        if ( ! empty($parent) ) {
-            return array(
-					'theme'   => $theme_data->parent()->Name,
-					'version' => $theme_data->parent()->Version
-            	);
-        }
+		if ( ! empty($parent) ) {
+			return array(
+				'theme'   => $theme_data->parent()->Name,
+				'version' => $theme_data->parent()->Version
+			);
+		}
 
-        return false;
+		return false;
 	}
 
 	/**
@@ -125,12 +125,12 @@ class NSSystemStatus {
 	 * @return integer
 	 */
 	public function memory_limit() {
-        $wp_memory_limit = ns_transform_to_numeric( WP_MEMORY_LIMIT );
-        if ( function_exists( 'memory_get_usage' ) ) {
-            $wp_memory_limit = max( $wp_memory_limit, ns_transform_to_numeric( @ini_get( 'memory_limit' ) ) );
-        }
+		$wp_memory_limit = ns_transform_to_numeric( WP_MEMORY_LIMIT );
+		if ( function_exists( 'memory_get_usage' ) ) {
+			$wp_memory_limit = max( $wp_memory_limit, ns_transform_to_numeric( @ini_get( 'memory_limit' ) ) );
+		}
 
-        return $wp_memory_limit;
+		return $wp_memory_limit;
 	}
 
 	/**

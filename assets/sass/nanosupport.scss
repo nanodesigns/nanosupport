@@ -161,7 +161,7 @@ body{
 	padding: 0;
 	line-height: 1;
 	font-size: 25px;
-	
+
 	a:hover{
 		text-decoration: none;
 	}
@@ -566,7 +566,7 @@ article.ns-single.type-nanosupport.hentry{
 
 #nanosupport-knowledgebase{
 	line-height: 1.2;
-	
+
 	a{
 		text-decoration: none;
 		@include box-shadow( 0 0 0 transparent );
@@ -836,8 +836,6 @@ $tt_ease: ease;
  * Octicons, Foundation Icons, Steadysets etc.
  *
  * Built with Fontastic.me
- *
- * @since 1.0.0
  * ---------------------------------------------
  */
 @import "../css/nanosupport-icon-styles.css";

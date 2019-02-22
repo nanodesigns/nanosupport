@@ -5,8 +5,6 @@
  * Advertisement of nanodesigns on Free version.
  * Visible only on the right side of the NanoSupport Settings page.
  *
- * @since  		1.0.0
- *
  * @author  	nanodesigns
  * @category 	Advertisement
  * @package 	NanoSupport

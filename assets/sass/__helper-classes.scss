@@ -87,7 +87,7 @@ mark,
 @include bg-variant('.ns-bg-danger', $state-danger-bg);
 
 /**
- * Emulating <blink> using WebKit CSS3 animation        
+ * Emulating <blink> using WebKit CSS3 animation
  *   This code is part of John Smith's blog
  *
  * Copyright 2010 by John Smith, All Rights Reserved
@@ -103,13 +103,13 @@ mark,
 	 text-decoration: blink;
 
 	-webkit-animation-name: blinker;
-			animation-name: blinker;  
-	-webkit-animation-iteration-count: infinite;  
-			animation-iteration-count: infinite;  
+			animation-name: blinker;
+	-webkit-animation-iteration-count: infinite;
+			animation-iteration-count: infinite;
 	-webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
 			animation-timing-function: cubic-bezier(1.0,0,0,1.0);
-	-webkit-animation-duration: 1s; 
-			animation-duration: 1s; 
+	-webkit-animation-duration: 1s;
+			animation-duration: 1s;
 }
 
 

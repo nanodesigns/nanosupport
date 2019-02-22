@@ -27,7 +27,7 @@
 	<?php
 	//Get the NanoSupport Settings from Database
 	$ns_general_settings = get_option( 'nanosupport_settings' );
-	
+
 	global $post;
 	$author 			= get_user_by( 'id', $post->post_author );
 	$support_desk 		= $ns_general_settings['support_desk'];
@@ -114,52 +114,52 @@
 					<?php if( 'publish' !== $product_info->status ) { ?>
 
 						<div class="ns-text-muted ns-text-center">
-		                    &mdash; <?php esc_html_e('Product attached is not available', 'nanosupport' ); ?> &mdash;
-		                </div>
+							&mdash; <?php esc_html_e('Product attached is not available', 'nanosupport' ); ?> &mdash;
+						</div>
 
-            		<?php } else { ?>
-			
-				
+					<?php } else { ?>
+
+
 						<a href="<?php echo esc_url($product_info->link); ?>" target="_blank" rel="noopener">
-						    <i class="ns-icon-cart" aria-hidden="true"></i>
-						    <strong><?php
-						    /* translators: Product name */
-						    printf( esc_html__('Product: %s', 'nanosupport'), $product_info->name ); ?></strong>
+							<i class="ns-icon-cart" aria-hidden="true"></i>
+							<strong><?php
+							/* translators: Product name */
+							printf( esc_html__('Product: %s', 'nanosupport'), $product_info->name ); ?></strong>
 						</a>
 						<small>(<?php
-						/* translators: Receipt number */
-						printf( esc_html__('Receipt: %d', 'nanosupport'), $ticket_meta['receipt'] ); ?>)</small>
+							/* translators: Receipt number */
+							printf( esc_html__('Receipt: %d', 'nanosupport'), $ticket_meta['receipt'] ); ?>)</small>
 
-					<?php } // endif( 'publish' !== $product_info->status ) ?>
-					
-				</div> <!-- /.ns-clearfix -->
+						<?php } // endif( 'publish' !== $product_info->status ) ?>
 
-			<?php } //endif( $NSECommerce->ecommerce_enabled() )	?>
+					</div> <!-- /.ns-clearfix -->
 
-			<div class="ticket-question">
-				<?php the_content(); ?>
-			</div>
+				<?php } //endif( $NSECommerce->ecommerce_enabled() )	?>
 
-		</div> <!-- /.ticket-question-card -->
+				<div class="ticket-question">
+					<?php the_content(); ?>
+				</div>
 
-
-		<!-- RESPONSES -->
+			</div> <!-- /.ticket-question-card -->
 
 
-		<div class="ticket-responses">
-			<?php
+			<!-- RESPONSES -->
+
+
+			<div class="ticket-responses">
+				<?php
 			/**
 			 * Responses
 			 * Load all the responses that are denoted to the ticket.
 			 */
 			$args = array(
-		        'post_id'   	=> get_the_ID(),
-		        'post_type' 	=> 'nanosupport',
-		        'status'    	=> 'approve',
-		        'orderby'   	=> 'comment_date',
-		        'order'     	=> 'ASC',
-        		'type'          => array('nanosupport_response', 'nanosupport_change')
-		    );
+				'post_id'   	=> get_the_ID(),
+				'post_type' 	=> 'nanosupport',
+				'status'    	=> 'approve',
+				'orderby'   	=> 'comment_date',
+				'order'     	=> 'ASC',
+				'type'          => array('nanosupport_response', 'nanosupport_change')
+			);
 
 			/**
 			 * -----------------------------------------------------------------------
@@ -173,7 +173,7 @@
 			 */
 			$response_array = get_comments( apply_filters( 'ns_ticket_responses_arg', $args ) );
 
-		    $found_count = count($response_array);
+			$found_count = count($response_array);
 
 			if( $response_array ) {
 
@@ -182,13 +182,13 @@
 				$counter = 1;
 
 
-		        foreach( $response_array as $response ) {
+				foreach( $response_array as $response ) {
 
-		        	if( 'nanosupport_response' === $response->comment_type ) {
+					if( 'nanosupport_response' === $response->comment_type ) {
 
 					//highlight the latest response on successful submission of new response
-		        	$fresh_response = (isset($_GET['ns_success']) || isset($_GET['ns_cm_success']) ) && $found_count == $counter ? 'new-response' : '';
-		        	?>
+						$fresh_response = (isset($_GET['ns_success']) || isset($_GET['ns_cm_success']) ) && $found_count == $counter ? 'new-response' : '';
+						?>
 
 						<div class="ticket-response-cards ns-cards <?php echo esc_attr($fresh_response); ?>">
 							<div class="ns-row">
@@ -217,14 +217,14 @@
 					<?php } ?>
 
 					<?php
-		        $counter++;
-		        } //endforeach ?>
-		    <?php } //endif ?>
+					$counter++;
+				} //endforeach ?>
+			<?php } //endif ?>
 
 
-		    <!-- NEW RESPONSE FORM -->
+			<!-- NEW RESPONSE FORM -->
 
-		    <?php get_nanosupport_response_form(); ?>
+			<?php get_nanosupport_response_form(); ?>
 
 		</div> <!-- /.ticket-responses -->
 

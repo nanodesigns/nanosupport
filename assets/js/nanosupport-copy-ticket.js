@@ -5,18 +5,18 @@
  * @author  nanodesigns
  * @package NanoSupport
  */
-jQuery(document).ready(function($) {
+ jQuery(document).ready(function($) {
     // display the progress spinner
     NProgress.configure({ showSpinner: true });
 
     $('.ns-copy-post').on( 'click', function(e) {
-        e.preventDefault();
+    	e.preventDefault();
 
         // display the progress bar
         NProgress.start();
 
         var this_elem = $(this),
-            data = {
+        data = {
                 action:     'ns_copy_ticket', //passed to ajax handler
                 ticket_id:  this_elem.data('ticket'),
                 nonce:      this_elem.data('nonce')
@@ -25,7 +25,7 @@ jQuery(document).ready(function($) {
             // grab attention with the progress bar
             NProgress.inc(0.3);
 
-        $.post( ajaxurl, data, function( response ) {
+            $.post( ajaxurl, data, function( response ) {
             // clear out the progress bar
             NProgress.done();
         });
