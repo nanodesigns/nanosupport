@@ -250,13 +250,19 @@ add_action( 'nanodoc_category_edit_form_fields', 'ns_nanodoc_taxonomy_edit_meta_
  * -----------------------------------------------------------------------
  */
 function ns_nanodoc_taxonomy_icon_column( $columns ) {
-	unset( $columns['cb'] );
-	unset( $columns['name'] );
-
 	$new_columns = array();
-	$new_columns['cb']      = $columns['cb'];
-	$new_columns['name']    = $columns['name'];
-	$new_columns['icon']    = __( 'Icon', 'nanosupport' );
+
+	if( isset($columns['cb']) ) {
+		$new_columns['cb'] = $columns['cb'];
+		unset( $columns['cb'] );
+	}
+
+	if( isset($columns['name']) ) {
+		$new_columns['name'] = $columns['name'];
+		unset( $columns['name'] );
+	}
+
+	$new_columns['icon'] = __( 'Icon', 'nanosupport' );
 
 	return array_merge( $new_columns, $columns );
 }
