@@ -98,6 +98,53 @@ class NS_Ticket_Changelog {
 			$_changes['author_changed'] = sprintf( __('%s set <strong>%s</strong> as the author of the ticket', 'nanosupport'), '%%CHANGEAUTHOR%%', "%%AUTHOR%%" );
 		}
 
+		$NSECommerce = new NSECommerce();
+		if( $NSECommerce->ecommerce_enabled() ) {
+
+			// Ticket product. Extra care needs to be taken for optional field.
+			if( (!empty($ticket_meta['product']) && $ticket_meta['product'] == $ns_ticket_product)
+				|| (empty($ticket_meta['product']) && $ticket_meta['product'] == $ns_ticket_product)) {
+
+				// no change made. do nothing
+
+			} else {
+
+				if( is_admin() && empty($ticket_meta['product']) && !empty($ns_ticket_product) ) {
+					// translators: 1. User who made the change 2. New product
+					$_changes['product_set'] = sprintf( __('%s assigned the product <strong>%s</strong> to the ticket', 'nanosupport'), '%%CHANGEAUTHOR%%', "%%PRODUCT_{$ns_ticket_product}%%" );
+				} elseif( is_admin() && !empty($ticket_meta['product']) && empty($ns_ticket_product) ) {
+					// translators: 1. User who made the change 2. Product that was removed
+					$_changes['product_removed'] = sprintf( __('%s removed the product <strong>%s</strong> from the ticket', 'nanosupport'), '%%CHANGEAUTHOR%%', "%%PRODUCT_{$ticket_meta['product']}%%" );
+				} elseif( is_admin() && !empty($ticket_meta['product']) && !empty($ns_ticket_product) && $ticket_meta['product'] != $ns_ticket_product ) {
+					// translators: 1. User who made the change 2. Product that was newly assigned to the ticket
+					$_changes['product_changed'] = sprintf( __('%s changed the product to the ticket with <strong>%s</strong>', 'nanosupport'), '%%CHANGEAUTHOR%%', "%%PRODUCT_{$ns_ticket_product}%%" );
+				}
+
+			}
+
+			// Ticket product receipt. Extra care needs to be taken for optional field.
+			if( (!empty($ticket_meta['receipt']) && $ticket_meta['receipt'] == $ns_ticket_receipt)
+				|| (empty($ticket_meta['receipt']) && $ticket_meta['receipt'] == $ns_ticket_receipt)) {
+
+				// no change made. do nothing
+
+			} else {
+
+				if( is_admin() && empty($ticket_meta['receipt']) && !empty($ns_ticket_receipt) ) {
+					// translators: 1. User who made the change
+					$_changes['receipt_set'] = sprintf( __('%s added a product receipt to the ticket', 'nanosupport'), '%%CHANGEAUTHOR%%' );
+				} elseif( is_admin() && !empty($ticket_meta['receipt']) && empty($ns_ticket_receipt) ) {
+					// translators: 1. User who made the change
+					$_changes['receipt_removed'] = sprintf( __('%s removed the product receipt from the ticket', 'nanosupport'), '%%CHANGEAUTHOR%%' );
+				} elseif( is_admin() && !empty($ticket_meta['receipt']) && !empty($ns_ticket_receipt) && $ticket_meta['receipt'] != $ns_ticket_receipt ) {
+					// translators: 1. User who made the change
+					$_changes['receipt_changed'] = sprintf( __('%s modified the product receipt of the ticket', 'nanosupport'), '%%CHANGEAUTHOR%%' );
+				}
+
+			}
+
+		}
+
 		if( empty($_changes) ) return false;
 
 		return $_changes;
@@ -192,11 +239,13 @@ class NS_Ticket_Changelog {
 			$_content = preg_replace('/%%AGENT_(.*?)%%/', ns_user_nice_name( $_agent[1] ), $_content);
 		}
 
-		// Show the agent.
-		if( strpos($_content, '%%AGENT_') !== false ) {
-			$_icon_class = 'ns-icon-users';
-			preg_match('/%%AGENT_(.*?)%%/', $_content, $_agent);
-			$_content = preg_replace('/%%AGENT_(.*?)%%/', ns_user_nice_name( $_agent[1] ), $_content);
+		// Show the product.
+		if( strpos($_content, '%%PRODUCT_') !== false ) {
+			$_icon_class = 'ns-icon-cart';
+			preg_match('/%%PRODUCT_(.*?)%%/', $_content, $_product);
+			$NSECommerce = new NSECommerce();
+			$_product_info = $NSECommerce->get_product_info( $_product[1] );
+			$_content = preg_replace('/%%PRODUCT_(.*?)%%/', $_product_info->name, $_content);
 		}
 
 		// Show the ticket author.
