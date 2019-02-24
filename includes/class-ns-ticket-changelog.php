@@ -19,8 +19,23 @@ class NS_Ticket_Changelog {
 
 	public static function init()
 	{
-		add_action( 'save_post',        array( __CLASS__, 'log_changes' ), 9 ); //earlier hooking is important, prior to default 10
-		add_action( 'new_to_publish',   array( __CLASS__, 'log_changes' ), 9 ); //earlier hooking is important, prior to default 10
+		/**
+		 * -----------------------------------------------------------------------
+		 * HOOK : FILTER HOOK
+		 * nanosupport_log_ticket_changes
+		 *
+		 * @since  1.0.0
+		 *
+		 * @param boolean  True to log ticket changes.
+		 * -----------------------------------------------------------------------
+		 */
+		if( apply_filters( 'nanosupport_log_ticket_changes', true ) ) {
+
+			// Earlier hooking is important, prior to the default 10.
+			add_action( 'save_post',        array( __CLASS__, 'log_changes' ), 9 );
+			add_action( 'new_to_publish',   array( __CLASS__, 'log_changes' ), 9 );
+
+		}
 	}
 
 	/**
@@ -174,12 +189,12 @@ class NS_Ticket_Changelog {
 			foreach($changes as $key => $change) {
 	    		// Using wp_insert_comment() to bypass the duplicate check.
 				wp_insert_comment(array(
-					'comment_post_ID'       => absint( $post_id ),
-					'comment_author'        => wp_strip_all_tags( $current_user->display_name ),
-					'comment_content'       => wp_kses( $change, array('strong' => array()) ),
-					'comment_type'          => 'nanosupport_change',
-					'comment_parent'        => 0,
-					'user_id'               => absint( $current_user->ID ),
+					'comment_post_ID' => absint( $post_id ),
+					'comment_author'  => wp_strip_all_tags( $current_user->display_name ),
+					'comment_content' => wp_kses( $change, array('strong' => array()) ),
+					'comment_type'    => 'nanosupport_change',
+					'comment_parent'  => 0,
+					'user_id'         => absint( $current_user->ID ),
 				));
 			}
 
@@ -204,64 +219,78 @@ class NS_Ticket_Changelog {
 	 */
 	public static function translate_changes($response, $style = true)
 	{
-		if( !is_object($response) ) return;
+		/**
+		 * -----------------------------------------------------------------------
+		 * HOOK : FILTER HOOK
+		 * nanosupport_log_ticket_changes
+		 *
+		 * @since  1.0.0
+		 *
+		 * @param boolean  True to display ticket changelog.
+		 * -----------------------------------------------------------------------
+		 */
+		if( apply_filters( 'nanosupport_log_ticket_changes', true ) ) {
 
-		$_content = $response->comment_content;
-		$_user    = ns_user_nice_name($response->user_id);
-		$_date    = ns_date_time( $response->comment_date );
+			if( !is_object($response) ) return;
 
-		// Default changelog class.
-		$_icon_class = 'ns-icon-clipboard';
+			$_content = $response->comment_content;
+			$_user    = ns_user_nice_name($response->user_id);
+			$_date    = ns_date_time( $response->comment_date );
 
-		// Show the username.
-		$_content = str_replace('%%CHANGEAUTHOR%%', $_user, $_content);
+			// Default changelog class.
+			$_icon_class = 'ns-icon-clipboard';
 
-		// Show the status.
-		if( strpos($_content, '%%STATUS_') !== false ) {
-			$_icon_class = 'ns-icon-tag';
-			preg_match('/%%STATUS_(.*?)%%/', $_content, $_status);
-			$status_info = ns_get_ticket_status_info( $_status[1] );
-			$_content = preg_replace('/%%STATUS_(.*?)%%/', $status_info['label'], $_content);
+			// Show the username.
+			$_content = str_replace('%%CHANGEAUTHOR%%', $_user, $_content);
+
+			// Show the status.
+			if( strpos($_content, '%%STATUS_') !== false ) {
+				$_icon_class = 'ns-icon-tag';
+				preg_match('/%%STATUS_(.*?)%%/', $_content, $_status);
+				$status_info = ns_get_ticket_status_info( $_status[1] );
+				$_content    = preg_replace('/%%STATUS_(.*?)%%/', $status_info['label'], $_content);
+			}
+
+			// Show the priority.
+			if( strpos($_content, '%%PRIORITY_') !== false ) {
+				$_icon_class   = 'ns-icon-buffer';
+				preg_match('/%%PRIORITY_(.*?)%%/', $_content, $_priority);
+				$priority_info = ns_get_ticket_priority_info( $_priority[1] );
+				$_content      = preg_replace('/%%PRIORITY_(.*?)%%/', $priority_info['name'], $_content);
+			}
+
+			// Show the agent.
+			if( strpos($_content, '%%AGENT_') !== false ) {
+				$_icon_class = 'ns-icon-users';
+				preg_match('/%%AGENT_(.*?)%%/', $_content, $_agent);
+				$_content    = preg_replace('/%%AGENT_(.*?)%%/', ns_user_nice_name( $_agent[1] ), $_content);
+			}
+
+			// Show the product.
+			if( strpos($_content, '%%PRODUCT_') !== false ) {
+				$_icon_class   = 'ns-icon-cart';
+				preg_match('/%%PRODUCT_(.*?)%%/', $_content, $_product);
+				$NSECommerce   = new NSECommerce();
+				$_product_info = $NSECommerce->get_product_info( $_product[1] );
+				$_content      = preg_replace('/%%PRODUCT_(.*?)%%/', $_product_info->name, $_content);
+			}
+
+			// Show the ticket author.
+			if( strpos($_content, '%%AUTHOR%%') !== false ) {
+				$_icon_class = 'ns-icon-user';
+				$_content    = str_replace('%%AUTHOR%%', $_user, $_content);
+			}
+
+			// Append date, finally.
+			$_content = $_content .' &mdash; <time datetime="'. date('Y-m-d H:i:s', strtotime($response->comment_date)) .'">'. $_date .'</time>';
+
+			if( $style ) {
+				$_content = '<span class="ns-ticket-log-notation"><i class="'. esc_attr($_icon_class) .'" aria-hidden="true"></i></span>'. $_content;
+			}
+
+			return $_content;
+
 		}
-
-		// Show the priority.
-		if( strpos($_content, '%%PRIORITY_') !== false ) {
-			$_icon_class = 'ns-icon-buffer';
-			preg_match('/%%PRIORITY_(.*?)%%/', $_content, $_priority);
-			$priority_info = ns_get_ticket_priority_info( $_priority[1] );
-			$_content = preg_replace('/%%PRIORITY_(.*?)%%/', $priority_info['name'], $_content);
-		}
-
-		// Show the agent.
-		if( strpos($_content, '%%AGENT_') !== false ) {
-			$_icon_class = 'ns-icon-users';
-			preg_match('/%%AGENT_(.*?)%%/', $_content, $_agent);
-			$_content = preg_replace('/%%AGENT_(.*?)%%/', ns_user_nice_name( $_agent[1] ), $_content);
-		}
-
-		// Show the product.
-		if( strpos($_content, '%%PRODUCT_') !== false ) {
-			$_icon_class = 'ns-icon-cart';
-			preg_match('/%%PRODUCT_(.*?)%%/', $_content, $_product);
-			$NSECommerce = new NSECommerce();
-			$_product_info = $NSECommerce->get_product_info( $_product[1] );
-			$_content = preg_replace('/%%PRODUCT_(.*?)%%/', $_product_info->name, $_content);
-		}
-
-		// Show the ticket author.
-		if( strpos($_content, '%%AUTHOR%%') !== false ) {
-			$_icon_class = 'ns-icon-user';
-			$_content = str_replace('%%AUTHOR%%', $_user, $_content);
-		}
-
-		// Append date, finally.
-		$_content = $_content .' &mdash; <time datetime="'. date('Y-m-d H:i:s', strtotime($response->comment_date)) .'">'. $_date .'</time>';
-
-		if( $style ) {
-			$_content = '<span class="ns-ticket-log-notation"><i class="'. esc_attr($_icon_class) .'" aria-hidden="true"></i></span>'. $_content;
-		}
-
-		return $_content;
 	}
 
 }
