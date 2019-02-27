@@ -107,7 +107,7 @@ function ns_reply_specifics() {
     						<div class="response-user">
     							<div class="response-head">
     								<h3 class="ticket-head" id="response-<?php echo esc_attr($counter); ?>">
-    									<?php echo $response->comment_author .' &mdash; <small>'. ns_date_time( strtotime($response->comment_date) ) .'</small>'; ?>
+    									<?php echo ns_user_nice_name($response->user_id) .' &mdash; <small>'. ns_date_time( strtotime($response->comment_date) ) .'</small>'; ?>
     								</h3>
     							</div> <!-- /.response-head -->
     						</div> <!-- /.response-user -->
@@ -119,7 +119,7 @@ function ns_reply_specifics() {
     							<?php
     							/* translators: counting number of the response */
     							printf( esc_html__( 'Response #%s', 'nanosupport' ), $counter ); ?>
-    							<a id="<?php echo $response->comment_ID; ?>" class="delete-response dashicons dashicons-dismiss" href="<?php echo esc_url($del_response_link); ?>" title="<?php esc_attr_e( 'Delete this Response', 'nanosupport' ); ?>"></a>
+    							<a id="<?php echo $response->comment_ID; ?>" class="delete-response dashicons dashicons-dismiss ns-text-danger" href="<?php echo esc_url($del_response_link); ?>" title="<?php printf( __( 'Delete this Response number %s from %s', 'nanosupport' ), $counter, ns_user_nice_name($response->user_id)); ?>" role="button"></a>
     						</div> <!-- /.response-handle -->
     					</div> <!-- /.ns-row -->
     					<div class="ticket-response">

@@ -212,7 +212,7 @@
 								<div class="ns-col-sm-9">
 									<div class="response-head">
 										<h3 class="ticket-head" id="response-<?php echo esc_attr($counter); ?>">
-											<?php echo $response->comment_author; ?>
+											<?php echo ns_user_nice_name($response->user_id); ?>
 										</h3>
 									</div> <!-- /.response-head -->
 								</div>
