@@ -19,6 +19,21 @@ class NS_Ticket_Changelog {
 
 	public static function init()
 	{
+		if( self::is_active() ) {
+			// Earlier hooking is important, prior to the default 10.
+			add_action( 'save_post',        array( __CLASS__, 'log_changes' ), 9 );
+			add_action( 'new_to_publish',   array( __CLASS__, 'log_changes' ), 9 );
+		}
+	}
+
+	/**
+	 * Is Active?
+	 *
+	 * @return boolean True if active, false otherwise.
+ 	 * ------------------------------------------------------------------------------
+	 */
+	public static function is_active()
+	{
 		/**
 		 * -----------------------------------------------------------------------
 		 * HOOK : FILTER HOOK
@@ -29,13 +44,9 @@ class NS_Ticket_Changelog {
 		 * @param boolean  True to log ticket changes.
 		 * -----------------------------------------------------------------------
 		 */
-		if( apply_filters( 'nanosupport_log_ticket_changes', true ) ) {
+		$is_active = apply_filters( 'nanosupport_log_ticket_changes', true );
 
-			// Earlier hooking is important, prior to the default 10.
-			add_action( 'save_post',        array( __CLASS__, 'log_changes' ), 9 );
-			add_action( 'new_to_publish',   array( __CLASS__, 'log_changes' ), 9 );
-
-		}
+		return $is_active;
 	}
 
 	/**
@@ -219,17 +230,7 @@ class NS_Ticket_Changelog {
 	 */
 	public static function translate_changes($response, $style = true)
 	{
-		/**
-		 * -----------------------------------------------------------------------
-		 * HOOK : FILTER HOOK
-		 * nanosupport_log_ticket_changes
-		 *
-		 * @since  1.0.0
-		 *
-		 * @param boolean  True to display ticket changelog.
-		 * -----------------------------------------------------------------------
-		 */
-		if( apply_filters( 'nanosupport_log_ticket_changes', true ) ) {
+		if( self::is_active() ) {
 
 			if( !is_object($response) ) return;
 
