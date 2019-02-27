@@ -181,6 +181,23 @@
 
 				$counter = 1;
 
+				$NS_Ticket_Changelog = new NS_Ticket_Changelog();
+				if( $NS_Ticket_Changelog::is_active() ) : ?>
+					<nav class="ticket-separator ticket-separator-center reply-toggler" aria-label="<?php _e('NanoSupport Responses Toggler', 'nanosupport'); ?>">
+						<div class="ns-btn-group">
+							<button type="button" class="ns-btn ns-btn-default ns-btn-xs ns-btn-reply-toggler active" value="all" aria-selected="true" aria-label="<?php _ex('Click to Display both Replies and Changes', 'Responses Toggler', 'nanosupport'); ?>">
+								<?php _e('All', 'nanosupport'); ?>
+							</button>
+							<button type="button" class="ns-btn ns-btn-default ns-btn-xs ns-btn-reply-toggler" value="replies" aria-selected="false" aria-label="<?php _ex('Click to Display Replies Only', 'Responses Toggler', 'nanosupport'); ?>">
+								<?php _e('Replies Only', 'nanosupport'); ?>
+							</button>
+							<button type="button" class="ns-btn ns-btn-default ns-btn-xs ns-btn-reply-toggler" value="changelog" aria-selected="false" aria-label="<?php _ex('Click to Display Changelog Only', 'Responses Toggler', 'nanosupport'); ?>">
+								<?php _e('Changelog Only', 'nanosupport'); ?>
+							</button>
+						</div>
+					</nav>
+				<?php endif;
+
 
 				foreach( $response_array as $response ) {
 
@@ -211,7 +228,6 @@
 
 					<?php } else if( 'nanosupport_change' === $response->comment_type ) { ?>
 
-						<?php $NS_Ticket_Changelog = new NS_Ticket_Changelog(); ?>
 						<div class="ticket-log ns-small ns-text-muted"><?php echo $NS_Ticket_Changelog::translate_changes($response); ?></div>
 
 					<?php } ?>

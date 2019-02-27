@@ -11,6 +11,8 @@
 @import '../sass/__mixins';
 @import '../sass/__alert';
 @import '../sass/__label';
+@import '../sass/__button';
+@import '../sass/__button-group';
 @import '../sass/__helper-classes';
 
 /*
@@ -83,7 +85,8 @@ body.post-new-php{
 }
 
 /* response meta box title */
-#poststuff #nanosupport-responses .hndle{
+#poststuff #nanosupport-responses .hndle,
+.ticket-separator{
 	padding-left: 0;
 	padding-right: 0;
 	position: relative;
@@ -113,6 +116,10 @@ body.post-new-php{
 		vertical-align: middle;
 		width: 50%;
 	}
+}
+
+.ticket-separator{
+	margin-bottom: 20px;
 }
 
 .ns-row{
@@ -694,3 +701,14 @@ body.admin-bar{
  * ---------------------------------------------
  */
 @import '../sass/__ticket-log';
+
+.reply-toggler{
+	max-width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+
+	&:before,
+	&:after{
+		background-color: #ccc;
+	}
+}

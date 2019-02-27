@@ -1,0 +1,59 @@
+/**
+ * NanoSupport Button Group styles.
+ *
+ * @package NanoSupport
+ */
+
+ .ns-btn-group {
+ 	position: relative;
+ 	display: inline-block;
+ 	vertical-align: middle; // match .ns-btn alignment given font-size hack above
+
+ 	> .ns-btn {
+ 		position: relative;
+ 		float: left;
+
+	    // Bring the "active" button to the front
+	    &:hover,
+	    &:focus,
+	    &:active,
+	    &.active {
+	    	z-index: 2;
+	    }
+	}
+}
+
+// Prevent double borders when buttons are next to each other
+.ns-btn-group {
+	.ns-btn + .ns-btn,
+	.ns-btn + .ns-btn-group,
+	.ns-btn-group + .ns-btn,
+	.ns-btn-group + .ns-btn-group {
+		margin-left: -1px;
+	}
+}
+
+.ns-btn-group > .ns-btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+	border-radius: 0;
+}
+
+// Set corners individual because sometimes a single button can be in a .ns-btn-group and we need :first-child and :last-child to both match
+.ns-btn-group > .ns-btn:first-child {
+	margin-left: 0;
+
+	&:not(:last-child):not(.dropdown-toggle) {
+		@include border-right-radius(0);
+	}
+}
+
+.ns-btn-group > .ns-btn:last-child:not(:first-child) {
+	@include border-left-radius(0);
+}
+
+// Sizing
+//
+// Remix the default button sizing classes into new ones for easier manipulation.
+
+.ns-btn-group-xs > .ns-btn { @extend .ns-btn-xs; }
+.ns-btn-group-sm > .ns-btn { @extend .ns-btn-sm; }
+.ns-btn-group-lg > .ns-btn { @extend .ns-btn-lg; }

@@ -33,6 +33,7 @@
 @import '../sass/__grid';
 @import '../sass/__form';
 @import '../sass/__button';
+@import '../sass/__button-group';
 @import '../sass/__pagination';
 @import '../sass/__label';
 @import '../sass/__alert';
@@ -839,3 +840,14 @@ $tt_ease: ease;
  * ---------------------------------------------
  */
 @import "../css/nanosupport-icon-styles.css";
+
+.reply-toggler{
+	max-width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+
+	&:before,
+	&:after{
+		background-color: #ccc;
+	}
+}

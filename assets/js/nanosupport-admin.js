@@ -227,9 +227,44 @@
         });
      }
 
+    /**
+     * Show/Hide Product panels.
+     * -----------------------------------------------------------
+     */
      $('#ns-btn-edit-product').on('click', function() {
      	$('#ns-product-display-panel').hide();
      	$('#ns-product-edit-panel').show();
+     });
+
+    /**
+     * Reply Toggler.
+     *
+     * Load Replies and/or Changelog based on user choice.
+     * -----------------------------------------------------------
+     */
+     var reply_toggler        = $('.ns-btn-reply-toggler'),
+     	 ticket_log_card      = $('.ticket-log'),
+     	 ticket_response_card = $('.ticket-response-cards');
+
+     reply_toggler.on('click', function() {
+     	var this_btn = $(this);
+
+     	// Make clicked button active.
+     	reply_toggler.removeClass('active').attr('aria-selected', 'false');
+    	this_btn.addClass('active').attr('aria-selected', 'true');
+
+     	// Load proper element based on the choice.
+     	var selection = this_btn.val();
+     	if( 'replies' === selection ) {
+     		ticket_log_card.slideUp();
+     		ticket_response_card.slideDown();
+     	} else if( 'changelog' === selection ) {
+     		ticket_response_card.slideUp();
+     		ticket_log_card.slideDown();
+     	} else if( 'all' === selection ) {
+     		ticket_log_card.slideDown();
+     		ticket_response_card.slideDown();
+     	}
      });
 
  });
