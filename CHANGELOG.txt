@@ -1,9 +1,10 @@
-= 0.6.0 - 2019-FEB-25 =
+= 0.6.0 - 2019-FEB-28 =
 * Major changes in the function `ns_get_template_part()` - the function is redefined
 * New feature: Log the changes to the tickets and display them on both front end and admin panel
 * New filter hooks: `nanosupport_locate_template`, `nanosupport_log_ticket_changes`
 * Fixed: Knowledgebase was visible with absolute URL even was inactive
 * Fixed: Knowledgebase Category wasn't bulk selectable - an undefined index was there
+* Improvements: A11y (Accessibility) improvements
 
 = 0.5.1 - 2019-JAN-20 =
 * E-Commerce: Check Purchase Receipt's authenticity on the submission of a ticket

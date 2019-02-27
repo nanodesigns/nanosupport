@@ -75,7 +75,7 @@ The plugin is to provide support to your users - the users those are taking prod
 
 To get E-Commerce Support, you will need either:
 
-* WooCommerce (WC) v2.5+ - Tested up to v3.5.3, or
+* WooCommerce (WC) v2.5+ - Tested up to v3.5.5, or
 * Easy Digital Downloads (EDD) v2.2+ - Tested up to v2.9.11
 
 = Contribute =
