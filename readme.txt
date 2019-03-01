@@ -175,5 +175,5 @@ Or, you can use software like [POEdit](https://poedit.net/download) ('cross-plat
 
 == Upgrade Notice ==
 
-= 0.5.1 =
-Modified the 'content-single-ticket' template file to add new filter hook.
+= 0.6.0 =
+Major changes in the function `ns_get_template_part()` - the function is redefined.
