@@ -243,7 +243,6 @@ module.exports = function(grunt) {
                         '!CHANGELOG.txt',
                         '!*.sublime-workspace',
                         '!*.sublime-project',
-                        '!assets/images/**',
                         '!<%= pkg.name %>-<%= pkg.version %>.zip'
                     ],
                     dest: '<%= pkg.name %>/' // archive it in this directory
@@ -284,7 +283,6 @@ module.exports = function(grunt) {
 	        			'!CHANGELOG.txt',
 	        			'!*.sublime-workspace',
 	        			'!*.sublime-project',
-	        			'!assets/images/**',
 	        			'!<%= pkg.name %>-<%= pkg.version %>.zip'
         			],
         			dest: 'dist/<%= pkg.name %>-<%= pkg.version %>/',

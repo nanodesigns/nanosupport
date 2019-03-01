@@ -25,7 +25,7 @@ The plugin is to provide support to your users - the users those are taking prod
 
 = Extend NanoSupport =
 
-* [**Knowledgebase Search**](https://creativemarket.com/nanodesigns/3461090-NanoSupport-Knowledgebase-Search) &mdash; Search the Knowledgebase documents separately and suggest users from the Knowledgebase documents while submitting a new ticket.
+* [**Knowledgebase Search**](https://creativemarket.com/nanodesigns/3461090-NanoSupport-Knowledgebase-Search?ref=nswporg) &mdash; Search the Knowledgebase documents separately and suggest users from the Knowledgebase documents while submitting a new ticket.
 
 = Features =
 
