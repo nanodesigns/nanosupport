@@ -16,10 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Upgrade NanoSupport
- * 
- * Do ground things, make the environment updated during plugin update.
  *
- * @since  1.0.0
+ * Do ground things, make the environment updated during plugin update.
  * -----------------------------------------------------------------------
  */
 function ns_update() {
@@ -65,19 +63,19 @@ function ns_update_v020() {
 	global $ns_submit_ticket_notice, $ns_support_desk_notice, $ns_knowledgebase_notice;
 
 	$ns_general_settings = get_option( 'nanosupport_settings' );
-	if( $ns_general_settings !== false ) {	
+	if( $ns_general_settings !== false ) {
 		$ns_general_settings['submit_ticket_notice'] = esc_attr(strip_tags($ns_submit_ticket_notice));
 		$ns_general_settings['support_desk_notice']  = esc_attr(strip_tags($ns_support_desk_notice));
 		$ns_general_settings['knowledgebase_notice'] = esc_attr(strip_tags($ns_knowledgebase_notice));
 
-    	update_option( 'nanosupport_settings', $ns_general_settings );
+		update_option( 'nanosupport_settings', $ns_general_settings );
 	}
-	
+
 	$ns_knowledgebase_settings = get_option( 'nanosupport_knowledgebase_settings' );
 	if( $ns_knowledgebase_settings !== false ) {
 		$ns_knowledgebase_settings['isactive_kb'] = 1;
-    	
-    	update_option( 'nanosupport_knowledgebase_settings', $ns_knowledgebase_settings );
+
+		update_option( 'nanosupport_knowledgebase_settings', $ns_knowledgebase_settings );
 	}
 }
 
@@ -92,7 +90,7 @@ function ns_update_v022() {
 	if( $ns_general_settings !== false ) {
 		$ns_general_settings['ticket_char_limit'] = 30;
 
-    	update_option( 'nanosupport_settings', $ns_general_settings );
+		update_option( 'nanosupport_settings', $ns_general_settings );
 	}
 }
 
@@ -107,6 +105,6 @@ function ns_update_v031() {
 	if( $ns_general_settings !== false ) {
 		$ns_general_settings['is_priority_visible'] = 1;
 
-    	update_option( 'nanosupport_settings', $ns_general_settings );
+		update_option( 'nanosupport_settings', $ns_general_settings );
 	}
 }

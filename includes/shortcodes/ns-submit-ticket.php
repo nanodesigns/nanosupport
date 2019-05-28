@@ -18,49 +18,49 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ns_submit_support_ticket() {
 
 	//Get the NanoSupport Settings from Database
-    $ns_general_settings = get_option( 'nanosupport_settings' );
+	$ns_general_settings = get_option( 'nanosupport_settings' );
 
 	global $ns_errors;
-    
+
     //Display error message[s], if any
-    if( !empty( $ns_errors ) ){
-        foreach( $ns_errors as $error ){
-    		echo '<div class="ns-alert ns-alert-danger" role="alert">';
-    			/* translators: error message */
-            	printf( __( '<strong>Error:</strong> %s', 'nanosupport' ), $error );
-        	echo '</div>';
-        }
-    }
+	if( !empty( $ns_errors ) ){
+		foreach( $ns_errors as $error ){
+			echo '<div class="ns-alert ns-alert-danger" role="alert">';
+			/* translators: error message */
+				printf( __( '<strong>Error:</strong> %s', 'nanosupport' ), $error );
+			echo '</div>';
+		}
+	}
 
     /**
 	 * Show a Redirection Message
 	 * while redirected.
 	 */
-	if( isset($_GET['from']) && 'sd' === $_GET['from'] ) {
-		echo '<div class="ns-alert ns-alert-info" role="alert">';
-			esc_html_e( 'You are redirected from the Support Desk, because you are not logged in, and have no permission to view any ticket.', 'nanosupport' );
-		echo '</div>';
-	}
+    if( isset($_GET['from']) && 'sd' === $_GET['from'] ) {
+    	echo '<div class="ns-alert ns-alert-info" role="alert">';
+    		esc_html_e( 'You are redirected from the Support Desk, because you are not logged in, and have no permission to view any ticket.', 'nanosupport' );
+    	echo '</div>';
+    }
 
     //Display success message, if any
     if( isset($_GET['ns_success']) && $_GET['ns_success'] == 1 ) {
-		echo '<div class="ns-alert ns-alert-success" role="alert">';
-			echo wp_kses( __( '<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible.', 'nanosupport' ), array('strong' => array()) );
-			echo '&nbsp;<a href="'. get_permalink( $ns_general_settings['support_desk'] ) .'" class="link-to-desk"><i class="ns-icon-tag" aria-hidden="true"></i>&nbsp;';
-				esc_html_e( 'Check your tickets', 'nanosupport' );
-			echo '</a>';
-	    echo '</div>';
-	}
+    	echo '<div class="ns-alert ns-alert-success" role="alert">';
+	    	echo wp_kses( __( '<strong>Success!</strong> Your ticket is submitted successfully! It will be reviewed shortly and replied as early as possible.', 'nanosupport' ), array('strong' => array()) );
+	    	echo '&nbsp;<a href="'. get_permalink( $ns_general_settings['support_desk'] ) .'" class="link-to-desk"><i class="ns-icon-tag" aria-hidden="true"></i>&nbsp;';
+	    		esc_html_e( 'Check your tickets', 'nanosupport' );
+	    	echo '</a>';
+    	echo '</div>';
+    }
 
 	//Clean up request URI from temporary args for alert[s].
-	$_SERVER['REQUEST_URI'] = remove_query_arg( 'ns_success', $_SERVER['REQUEST_URI'] );
+    $_SERVER['REQUEST_URI'] = remove_query_arg( 'ns_success', $_SERVER['REQUEST_URI'] );
 
-	ob_start();
-	?>
+    ob_start();
+    ?>
 
-	<div id="nanosupport-add-ticket" class="nano-support-ticket nano-add-ticket ns-no-js">
+    <div id="nanosupport-add-ticket" class="nano-support-ticket nano-add-ticket ns-no-js">
 
-		<?php
+    	<?php
 		/**
 		 * -----------------------------------------------------------------------
 		 * HOOK : ACTION HOOK
@@ -104,7 +104,7 @@ function ns_submit_support_ticket() {
 							<?php echo ns_tooltip( 'ns-subject', esc_html__( 'Write down a self-descriptive brief subject to the ticket', 'nanosupport' ), 'bottom' ); ?>
 						</div>
 						<div class="ns-col-md-9 ns-col-sm-9 ns-col-xs-12">
-							<input type="text" class="ns-form-control" name="ns_ticket_subject" id="ns-ticket-subject" placeholder="<?php esc_attr_e( 'Subject in brief', 'nanosupport' ); ?>" value="<?php echo !empty($_POST['ns_ticket_subject']) ? stripslashes_deep( $_POST['ns_ticket_subject'] ) : ''; ?>" aria-describedby="ns-subject" required>
+							<input type="text" class="ns-form-control" name="ns_ticket_subject" id="ns-ticket-subject" placeholder="<?php esc_attr_e( 'Subject in brief', 'nanosupport' ); ?>" value="<?php echo !empty($_POST['ns_ticket_subject']) ? stripslashes_deep( $_POST['ns_ticket_subject'] ) : ''; ?>" aria-describedby="ns-subject" required autocomplete="off">
 						</div>
 					</div> <!-- /.ns-form-group -->
 
@@ -123,19 +123,19 @@ function ns_submit_support_ticket() {
 							 * ...
 							 */
 							$wp_editor_array = array(
-												'media_buttons'		=> false,
-												'textarea_name'		=> 'ns_ticket_details',
-												'textarea_rows'		=> 10,
-												'editor_class'		=> 'ns-form-control',
-												'quicktags'			=> false,
-												'tinymce'			=> true
-											);
+								'media_buttons'		=> false,
+								'textarea_name'		=> 'ns_ticket_details',
+								'textarea_rows'		=> 10,
+								'editor_class'		=> 'ns-form-control',
+								'quicktags'			=> false,
+								'tinymce'			=> true
+							);
 
 							/**
 						     * -----------------------------------------------------------------------
 						     * HOOK : FILTER HOOK
 						     * ns_wp_editor_specs
-						     * 
+						     *
 						     * Hook to moderate the specs of the wp_editor().
 						     *
 						     * @since  1.0.0
@@ -150,8 +150,8 @@ function ns_submit_support_ticket() {
 								// allowed HTML tags are not necessary if rich text editor is disabled.
 								if( $wp_editor_specs['tinymce'] != true ) {
 									$content_tooltip_msg .= '<br><small>';
-										/* translators: allowed HTML tags to the plugin */
-										$content_tooltip_msg .= sprintf( __( '<strong>Allowed HTML Tags:</strong><br> %s', 'nanosupport' ), ns_get_allowed_html_tags() );
+									/* translators: allowed HTML tags to the plugin */
+									$content_tooltip_msg .= sprintf( __( '<strong>Allowed HTML Tags:</strong><br> %s', 'nanosupport' ), ns_get_allowed_html_tags() );
 									$content_tooltip_msg .= '</small>';
 								}
 
@@ -161,8 +161,8 @@ function ns_submit_support_ticket() {
 								// allowed HTML tags are not necessary if rich text editor is disabled.
 								if( $wp_editor_specs['tinymce'] != true ) {
 									$content_tooltip_msg .= '<br><small>';
-										/* translators: allowed HTML tags to the plugin */
-										$content_tooltip_msg .= sprintf( __( '<strong>Allowed HTML Tags:</strong><br> %s', 'nanosupport' ), ns_get_allowed_html_tags() );
+									/* translators: allowed HTML tags to the plugin */
+									$content_tooltip_msg .= sprintf( __( '<strong>Allowed HTML Tags:</strong><br> %s', 'nanosupport' ), ns_get_allowed_html_tags() );
 									$content_tooltip_msg .= '</small>';
 								}
 
@@ -176,10 +176,10 @@ function ns_submit_support_ticket() {
 
 							// initiate the editor.
 							wp_editor(
-									$content   = $ticket_content,
-									$editor_id = 'ns-ticket-details',
-									$wp_editor_specs
-								);
+								$content   = $ticket_content,
+								$editor_id = 'ns-ticket-details',
+								$wp_editor_specs
+							);
 							?>
 						</div>
 					</div> <!-- /.ns-form-group -->
@@ -208,7 +208,7 @@ function ns_submit_support_ticket() {
 								</select>
 							</div>
 						</div> <!-- /.ns-form-group -->
-						
+
 					<?php } //endif( $display_priority  ) ?>
 
 					<?php
@@ -228,26 +228,26 @@ function ns_submit_support_ticket() {
 								<?php $submit_val = ! empty($_POST['ns_ticket_department']) ? $_POST['ns_ticket_department'] : ''; ?>
 								<?php
 								$ns_dept_args = array(
-											'show_option_all'    => '',
-											'show_option_none'   => esc_html__( 'Select a Department', 'nanosupport' ),
-											'option_none_value'	 => '',
-											'orderby'            => 'ID', 
-											'order'              => 'ASC',
-											'show_count'         => 0,
-											'hide_empty'         => 0,
-											'child_of'           => 0,
-											'exclude'            => '',
-											'echo'               => true,
-											'selected'           => $submit_val,
-											'hierarchical'       => 0, 
-											'name'               => 'ns_ticket_department',
-											'id'                 => 'ns-ticket-department',
-											'class'              => 'postform ns-form-control',
-											'depth'              => 0,
-											'tab_index'          => 0,
-											'taxonomy'           => 'nanosupport_department',
-											'hide_if_empty'      => false
-										);
+									'show_option_all'    => '',
+									'show_option_none'   => esc_html__( 'Select a Department', 'nanosupport' ),
+									'option_none_value'	 => '',
+									'orderby'            => 'ID',
+									'order'              => 'ASC',
+									'show_count'         => 0,
+									'hide_empty'         => 0,
+									'child_of'           => 0,
+									'exclude'            => '',
+									'echo'               => true,
+									'selected'           => $submit_val,
+									'hierarchical'       => 0,
+									'name'               => 'ns_ticket_department',
+									'id'                 => 'ns-ticket-department',
+									'class'              => 'postform ns-form-control',
+									'depth'              => 0,
+									'tab_index'          => 0,
+									'taxonomy'           => 'nanosupport_department',
+									'hide_if_empty'      => false
+								);
 								wp_dropdown_categories( $ns_dept_args );
 								?>
 							</div>
@@ -264,7 +264,7 @@ function ns_submit_support_ticket() {
 					     * -----------------------------------------------------------------------
 					     * HOOK : FILTER HOOK
 					     * ns_mandate_product_fields
-					     * 
+					     *
 					     * Hook to moderate the permission for mandating product-specifc fields,
 					     * or not.
 					     *
@@ -288,10 +288,10 @@ function ns_submit_support_ticket() {
 								<select class="ns-form-control" name="ns_ticket_product" id="ns-ticket-product" aria-describedby="ns-product" <?php if( $mandate_product_fields ) echo 'required'; ?>>
 									<option value="" <?php selected( $submit_val, '' ); ?>><?php esc_html_e( 'Select a product', 'nanosupport' ); ?></option>
 									<?php foreach($products as $id => $product_name) { ?>
-								        <option value="<?php echo $id; ?>" <?php selected( $submit_val, $id ); ?>>
-								        	<?php echo esc_html($product_name); ?>
-								        </option>
-								    <?php } ?>
+										<option value="<?php echo $id; ?>" <?php selected( $submit_val, $id ); ?>>
+											<?php echo esc_html($product_name); ?>
+										</option>
+									<?php } ?>
 								</select>
 							</div>
 						</div> <!-- /.ns-form-group -->
@@ -485,7 +485,7 @@ function ns_submit_support_ticket() {
 							 */
 
 							if( $embedded_login ) {
-							?>
+								?>
 
 								<div class="ns-form-group">
 									<label for="login-name" class="ns-col-md-2 ns-col-sm-2 ns-col-xs-10 ns-control-label">
@@ -518,19 +518,19 @@ function ns_submit_support_ticket() {
 								</div> <!-- /.ns-form-group -->
 
 								<div class="ns-form-group">
-								<?php if( 1 == get_option('users_can_register') ) { ?>
-									<p class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12">
-										<?php
-										/* translators: submit ticket with registration URL */
-										printf( wp_kses( __( 'Don&rsquo;t have an account? <a href="%1s">Create one</a>', 'nanosupport' ), array('a'=>array('href'=>true)) ), esc_url( get_the_permalink() ) ); ?>
-									</p>
-								<?php } else { ?>
-									<p class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12 ns-text-dim">
-										<?php
-										/* translators: submit ticket with registration URL */
-										printf( wp_kses( __( '<a href="%1s">Cancel Login</a>. But sorry, registration is closed now', 'nanosupport' ), array('a'=>array('href'=>true)) ), get_the_permalink() ); ?>
-									</p>
-								<?php } //endif ?>
+									<?php if( 1 == get_option('users_can_register') ) { ?>
+										<p class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12">
+											<?php
+											/* translators: submit ticket with registration URL */
+											printf( wp_kses( __( 'Don&rsquo;t have an account? <a href="%1s">Create one</a>', 'nanosupport' ), array('a'=>array('href'=>true)) ), esc_url( get_the_permalink() ) ); ?>
+										</p>
+									<?php } else { ?>
+										<p class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12 ns-text-dim">
+											<?php
+											/* translators: submit ticket with registration URL */
+											printf( wp_kses( __( '<a href="%1s">Cancel Login</a>. But sorry, registration is closed now', 'nanosupport' ), array('a'=>array('href'=>true)) ), get_the_permalink() ); ?>
+										</p>
+									<?php } //endif ?>
 								</div> <!-- /.ns-form-group -->
 
 								<!-- HIDDEN INPUT TO TREAT FORM SUBMIT APPROPRIATELY -->
@@ -543,7 +543,7 @@ function ns_submit_support_ticket() {
 						<?php } //endif( ! $login ) ?>
 
 					<?php } //endif( ! is_user_logged_in() ) ?>
-					
+
 					<div class="ns-form-group">
 						<div class="ns-col-sm-offset-3 ns-col-sm-9 ns-col-xs-12">
 							<button type="submit" name="ns_submit" class="ns-btn ns-btn-primary">
@@ -573,7 +573,7 @@ function ns_submit_support_ticket() {
 		 * -----------------------------------------------------------------------
 		 * HOOK : ACTION HOOK
 		 * nanosupport_after_new_ticket
-		 * 
+		 *
 		 * To Hook anything after the Add New Ticket Form.
 		 *
 		 * @since  1.0.0
@@ -583,7 +583,7 @@ function ns_submit_support_ticket() {
 		?>
 
 	</div> <!-- /.nano-support-ticket .nano-add-ticket -->
-	
+
 	<?php
 	return ob_get_clean();
 }

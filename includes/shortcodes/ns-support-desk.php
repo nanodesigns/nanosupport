@@ -15,12 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function ns_support_desk_page() {
-	
+
 	ob_start();
 
 	echo '<div id="nanosupport-desk" class="ns-no-js">';
 		if( is_user_logged_in() ) :
-			//User is Logged in
+				//User is Logged in
 
 			global $post, $current_user; ?>
 
@@ -39,7 +39,7 @@ function ns_support_desk_page() {
 			 */
 			do_action( 'nanosupport_before_support_desk' );
 			?>
-			
+
 			<?php
 			if( ns_is_user('manager') ) {
 				//Admin users
@@ -60,38 +60,38 @@ function ns_support_desk_page() {
 
 			if( ns_is_user('agent') ) {
 				$meta_query = array(
-				                    array(
-				                        'key'     => '_ns_ticket_agent',
-				                        'value'   => $current_user->ID,
-				                        'compare' => '=',
-				                    )
-				                );
+					array(
+						'key'     => '_ns_ticket_agent',
+						'value'   => $current_user->ID,
+						'compare' => '=',
+					)
+				);
 			} else {
 				$meta_query = array('');
 			}
 
 			$args = array(
-						'post_type'			=> 'nanosupport',
-						'post_status'		=> $ticket_status,
-						'posts_per_page'	=> $posts_per_page,
-						'author'			=> $author_id,
-						'paged'				=> $paged,
-						'meta_query'		=> $meta_query
-					);
+				'post_type'			=> 'nanosupport',
+				'post_status'		=> $ticket_status,
+				'posts_per_page'	=> $posts_per_page,
+				'author'			=> $author_id,
+				'paged'				=> $paged,
+				'meta_query'		=> $meta_query
+			);
 
 			add_filter( 'posts_clauses', 'ns_change_query_to_include_agents_tickets', 10, 2 );
 
-				/**
-				 * -----------------------------------------------------------------------
-				 * HOOK : FILTER HOOK
-				 * ns_filter_support_desk_query
-				 *
-				 * To alter the Support Desk query arguments.
-				 *
-				 * @since  1.0.0
-				 * -----------------------------------------------------------------------
-				 */
-				$support_ticket_query = new WP_Query( apply_filters( 'ns_filter_support_desk_query', $args ) );
+			/**
+			 * -----------------------------------------------------------------------
+			 * HOOK : FILTER HOOK
+			 * ns_filter_support_desk_query
+			 *
+			 * To alter the Support Desk query arguments.
+			 *
+			 * @since  1.0.0
+			 * -----------------------------------------------------------------------
+			 */
+			$support_ticket_query = new WP_Query( apply_filters( 'ns_filter_support_desk_query', $args ) );
 
 			remove_filter( 'posts_clauses', 'ns_change_query_to_include_agents_tickets', 10 );
 
@@ -124,22 +124,22 @@ function ns_support_desk_page() {
 											<a href="<?php the_permalink(); ?>">
 												<?php the_title(); echo $product_icon; ?>
 											</a>
+											<?php else : ?>
+												<?php the_title(); echo $product_icon; ?>
+											<?php endif; ?>
 										<?php else : ?>
-											<?php the_title(); echo $product_icon; ?>
-										<?php endif; ?>
-									<?php else : ?>
-										<a href="<?php the_permalink(); ?>">
-											<?php the_title(); echo $product_icon; ?>
-										</a>
-									<?php endif; ?>
-									
-									<?php if( ns_is_user('agent_and_manager') ) : ?>
-										<span class="ticket-tools">
-											<?php edit_post_link( 'Edit', '', '', get_the_ID() ); ?>
-											<a class="ticket-view-link" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e( 'Permanent link to the Ticket', 'nanosupport' ); ?>">
-												<?php esc_html_e( 'View', 'nanosupport' ); ?>
+											<a href="<?php the_permalink(); ?>">
+												<?php the_title(); echo $product_icon; ?>
 											</a>
-										</span> <!-- /.ticket-tools -->
+										<?php endif; ?>
+
+										<?php if( ns_is_user('agent_and_manager') ) : ?>
+											<span class="ticket-tools">
+												<?php edit_post_link( 'Edit', '', '', get_the_ID() ); ?>
+												<a class="ticket-view-link" href="<?php echo esc_url(get_the_permalink()); ?>" title="<?php esc_attr_e( 'Permanent link to the Ticket', 'nanosupport' ); ?>">
+													<?php esc_html_e( 'View', 'nanosupport' ); ?>
+												</a>
+											</span> <!-- /.ticket-tools -->
 									<?php endif; ?>
 								</h3>
 								<div class="ticket-author">
@@ -193,23 +193,23 @@ function ns_support_desk_page() {
 										<?php
 										$last_response  = ns_get_last_response();
 										$last_responder = get_userdata( $last_response['user_id'] );
-							            echo '<div class="ns-small">';
-							            if ( $last_responder ) {
-							                echo $last_responder->display_name, '<br>';
-						                	/* translators: time difference from current time. eg. 12 minutes ago */
-						                	printf( esc_html__( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
-							            } else {
-							                echo '&mdash;';
-							            }
-							            echo '</div>';
-							            ?>
+										echo '<div class="ns-small">';
+											if ( $last_responder ) {
+												echo $last_responder->display_name, '<br>';
+												/* translators: time difference from current time. eg. 12 minutes ago */
+												printf( esc_html__( '%s ago', 'nanosupport' ), human_time_diff( strtotime($last_response['comment_date']), current_time('timestamp') ) );
+											} else {
+												echo '&mdash;';
+											}
+										echo '</div>';
+										?>
 									</div>
 								</div>
 							</div> <!-- /.ticket-additional -->
 						</div> <!-- /.ns-row -->
 					</div> <!-- /.ticket-cards -->
 
-				<?php
+					<?php
 				endwhile;
 
 
@@ -245,16 +245,16 @@ function ns_support_desk_page() {
 		 * -----------------------------------------------------------------------
 		 * HOOK : ACTION HOOK
 		 * nanosupport_after_support_desk
-		 * 
+		 *
 		 * To Hook anything after the Support Desk.
 		 *
 		 * @since  1.0.0
 		 * -----------------------------------------------------------------------
 		 */
 		do_action( 'nanosupport_after_support_desk' );
-		
+
 	echo '</div> <!-- /#nanosupport-desk -->';
-	
+
 	return ob_get_clean();
 }
 

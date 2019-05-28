@@ -1,21 +1,21 @@
 <?php
 /**
  * @package           NanoSupport
- * @author    		  nanodesigns <info@nanodesignsbd.com>
- * @license   		  GPL-2.0+
- * @link              http://nanodesignsbd.com/
+ * @author            nanodesigns <info@nanodesignsbd.com>
+ * @license           GPL-2.0+
+ * @link              https://nanodesignsbd.com/
  *
  * @wordpress-plugin
  * Plugin Name:       NanoSupport
- * Plugin URI:        http://nanosupport.nanodesignsbd.com/
+ * Plugin URI:        https://nanosupport.nanodesignsbd.com/
  * Description:       Create a fully featured Support Center within your WordPress environment without any third party system dependency, completely FREE. The built-in Knowledgebase is to inform public with generalized queries.
- * Version:           0.5.1
+ * Version:           0.6.0
  * Author:            nanodesigns
- * Author URI:        http://nanodesignsbd.com/
+ * Author URI:        https://nanodesignsbd.com/
  * Requires at least: 4.4.0
- * Tested up to:      4.9.9
+ * Tested up to:      5.1
  * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       nanosupport
  * Domain Path:       /i18n/languages
  */
@@ -36,8 +36,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Locales found in:
  *      - WP_LANG_DIR/nanosupport/nanosupport-LOCALE.mo
  *      - WP_LANG_DIR/plugins/nanosupport-LOCALE.mo
- *      
- * @since  1.0.0
  */
 function ns_load_textdomain() {
 
@@ -55,17 +53,17 @@ function ns_load_textdomain() {
 	 * -----------------------------------------------------------------------
 	 */
 	$locale = apply_filters( 'plugin_locale', get_locale(), 'nanosupport' );
-	
+
 	load_textdomain(
 		'nanosupport',
 		WP_LANG_DIR .'/nanosupport/nanosupport-'. $locale .'.mo'
 	);
 
-    load_plugin_textdomain(
-    	'nanosupport',
-    	false,
-    	dirname( plugin_basename( __FILE__ ) ) .'/i18n/languages'
-    );
+	load_plugin_textdomain(
+		'nanosupport',
+		false,
+		dirname( plugin_basename( __FILE__ ) ) .'/i18n/languages'
+	);
 }
 
 
@@ -87,7 +85,7 @@ final class NanoSupport {
 	/**
 	 * @var string
 	 */
-	public $version = '0.5.1';
+	public $version = '0.6.0';
 
 	/**
 	 * Minimum WordPress version.
@@ -109,7 +107,7 @@ final class NanoSupport {
 	 * Main NanoSupport Instance.
 	 *
 	 * Ensures only one instance of NanoSupport Ticket is loaded or can be loaded.
-	 * 
+	 *
 	 * @static
 	 * @see NS()
 	 * @return NanoSupport - Main instance
@@ -163,7 +161,7 @@ final class NanoSupport {
 		return apply_filters( 'ns_template_path', 'nanosupport/' );
 	}
 
-	
+
 }
 
 endif;
@@ -186,37 +184,35 @@ function NS() {
  * has privilege to `activate_plugins`, so that notice
  * cannot be visible to any non-admin user.
  *
- * @link   http://10up.com/blog/2012/wordpress-plug-in-self-deactivation/
- * 
- * @since  1.0.0
+ * @link   https://10up.com/blog/2012/wordpress-plug-in-self-deactivation/
  * -----------------------------------------------------------------------
  */
 function ns_cross_check_on_activation() {
 	$unmet = false;
 
-    if ( current_user_can( 'activate_plugins' ) ) :
-		
+	if ( current_user_can( 'activate_plugins' ) ) :
+
 		if ( ! ns_is_version_supported() ) {
-	        $unmet = true;
-	        add_action( 'admin_notices', 'ns_fail_version_admin_notice' );
-	    }
+			$unmet = true;
+			add_action( 'admin_notices', 'ns_fail_version_admin_notice' );
+		}
 
-	    if ( ! ns_is_dependency_loaded() ) {
-	        $unmet = true;
-	        add_action( 'admin_notices', 'ns_fail_dependency_admin_notice' );
-	    }
-	    
-	    if( $unmet ) {
+		if ( ! ns_is_dependency_loaded() ) {
+			$unmet = true;
+			add_action( 'admin_notices', 'ns_fail_dependency_admin_notice' );
+		}
 
-	        add_action( 'admin_init', 'ns_force_deactivate' );
-	        
-	        if ( isset( $_GET['activate'] ) ) {
-	            unset( $_GET['activate'] );
-	        }
+		if( $unmet ) {
 
-	    }
+			add_action( 'admin_init', 'ns_force_deactivate' );
 
-    endif;
+			if ( isset( $_GET['activate'] ) ) {
+				unset( $_GET['activate'] );
+			}
+
+		}
+
+	endif;
 }
 
 add_action( 'plugins_loaded', 'ns_cross_check_on_activation' );
@@ -229,8 +225,6 @@ add_action( 'plugins_loaded', 'ns_cross_check_on_activation' );
  * of the plugin. So the user can easily get to the Settings page, and
  * can setup the plugin as necessary.
  *
- * @since  1.0.0
- * 
  * @param  array $links  Links on the plugin page per plugin.
  * @return array         Modified with our link.
  * -----------------------------------------------------------------------
@@ -249,11 +243,9 @@ add_filter( 'plugin_action_links_'. plugin_basename( __FILE__ ), 'ns_plugin_sett
 
 /**
  * Variables & Constants
- * 
+ *
  * Define necessary variables to not to DRY. The global variables
  * are declared global to make 'em available in plugin_activation.
- *
- * @since  1.0.0
  * -----------------------------------------------------------------------
  */
 global $ns_submit_ticket_notice, $ns_support_desk_notice, $ns_knowledgebase_notice;
@@ -266,7 +258,7 @@ $ns_knowledgebase_notice = __( 'Find your desired question in the knowledgebase.
 
 /**
  * Include all the dependencies and particles
- * 
+ *
  * Is to decentralize things to make things managable.
  */
 /** Install the plugin **/
@@ -301,6 +293,9 @@ include_once 'includes/shortcodes/ns-knowledgebase.php';
 
 /** Dashboard **/
 include_once 'includes/ns-dashboard.php';
+
+/** Changelog **/
+include_once 'includes/class-ns-ticket-changelog.php';
 
 /** Helper functions **/
 include_once 'includes/ns-utility-functions.php';

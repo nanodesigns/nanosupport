@@ -10,7 +10,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 class NSECommerce {
@@ -25,7 +25,7 @@ class NSECommerce {
 
 	/**
 	 * E-Commerce plugins active or not.
-	 * 
+	 *
 	 * @return boolean True if active, false otherwise.
 	 * -----------------------------------------------------------------------
 	 */
@@ -35,19 +35,19 @@ class NSECommerce {
 
 	/**
 	 * E-Commerce enabled?
-	 * 
+	 *
 	 * @return boolean
 	 * -----------------------------------------------------------------------
 	 */
 	public function ecommerce_enabled() {
 		// Get the NanoSupport Settings from Database
-	    $ns_general_settings = get_option( 'nanosupport_settings' );
+		$ns_general_settings = get_option( 'nanosupport_settings' );
 
-	    if( isset($ns_general_settings['enable_ecommerce']) && $ns_general_settings['enable_ecommerce'] === 1 && $this->is_plugins_active() ) {
-	    	return true;
-	    }
+		if( isset($ns_general_settings['enable_ecommerce']) && $ns_general_settings['enable_ecommerce'] === 1 && $this->is_plugins_active() ) {
+			return true;
+		}
 
-	    return false;
+		return false;
 	}
 
 
@@ -57,7 +57,7 @@ class NSECommerce {
 	 * Get all the products eligible for providing support.
 	 * Products are considered the items published from
 	 * Easy Digital Downloads and/or WooCommerce.
-	 * 
+	 *
 	 * @return array Array of products.
 	 * -----------------------------------------------------------------------
 	 */
@@ -83,8 +83,8 @@ class NSECommerce {
 			if( false === $result ) {
 
 				$query = "SELECT ID, post_title FROM $wpdb->posts
-							WHERE post_type IN ('$post_types')
-							AND post_status = 'publish'";
+				WHERE post_type IN ('$post_types')
+				AND post_status = 'publish'";
 
 				$result = $wpdb->get_results($query);
 
@@ -105,7 +105,7 @@ class NSECommerce {
 	 * Get Products.
 	 *
 	 * If there's any product to exclude, exclude 'em here.
-	 * 
+	 *
 	 * @return array Array of products.
 	 * -----------------------------------------------------------------------
 	 */
@@ -115,20 +115,20 @@ class NSECommerce {
 		$products = $this->get_all_products();
 
 		// Get the NanoSupport Settings from Database.
-	    $ns_general_settings = get_option( 'nanosupport_settings' );
+		$ns_general_settings = get_option( 'nanosupport_settings' );
 
-	    if(isset($ns_general_settings['excluded_products']) && !empty($ns_general_settings['excluded_products'])) {
+		if(isset($ns_general_settings['excluded_products']) && !empty($ns_general_settings['excluded_products'])) {
 			$excluded_ids = (array) $ns_general_settings['excluded_products'];
 			$products     = array_diff_key( $products, array_flip($excluded_ids) );
-	    }
+		}
 
-	    return $products;
+		return $products;
 	}
 
 
 	/**
 	 * Get Product Information.
-	 * 
+	 *
 	 * @param  integer $product_id Product ID.
 	 * @param  integer $receipt    Purchase Receipt.
 	 * @return object              Product information.
@@ -139,10 +139,10 @@ class NSECommerce {
 		if( empty($product_id) ) return false;
 
 		$product          = new stdClass();
-		
+
 		$product_id       = absint($product_id);
 		$post_type        = get_post_type($product_id);
-		
+
 		// Setting default to avoid undefined index warning.
 		$purchase_date    = '';
 		$purchase_by      = '';
@@ -154,7 +154,7 @@ class NSECommerce {
 
 
 		if( !empty($receipt) ) {
-			
+
 			$receipt_id = intval($receipt);
 
 			if( 'download' === $post_type && $this->edd_active ) {
@@ -194,14 +194,14 @@ class NSECommerce {
 	 * WooCommerce: Allow Agents to view Dashboard.
 	 *
 	 * @link   https://stackoverflow.com/a/48332889/1743124
-	 * 
+	 *
 	 * @param  boolean $prevent_access The default state.
 	 * @return boolean
 	 * -----------------------------------------------------------------------
 	 */
 	public static function wc_agent_admin_access( $prevent_access ) {
-    	$prevent_access = ns_is_user('agent') ? false : $prevent_access;
-        return $prevent_access;
+		$prevent_access = ns_is_user('agent') ? false : $prevent_access;
+		return $prevent_access;
 	}
 
 
@@ -209,13 +209,13 @@ class NSECommerce {
 	 * WooCommerce: Show Admin Bar to Agents.
 	 *
 	 * @link   https://stackoverflow.com/a/48332889/1743124
-	 * 
+	 *
 	 * @param  boolean $show The default state.
 	 * @return boolean
 	 * -----------------------------------------------------------------------
 	 */
 	public static function wc_agent_show_admin_bar( $show ) {
 		$show = ns_is_user('agent') ? true : $show;
-	    return $show;
+		return $show;
 	}
 }

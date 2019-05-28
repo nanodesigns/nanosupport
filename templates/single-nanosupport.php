@@ -31,7 +31,7 @@ get_header();
 
 	<?php while ( have_posts() ) : the_post(); ?>
 
-		<?php ns_get_template_part( 'content', 'single-ticket' ); ?>
+		<?php ns_get_template_part( 'content-single-ticket.php' ); ?>
 
 	<?php endwhile; // end of the loop. ?>
 

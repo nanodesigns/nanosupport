@@ -15,10 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Initiate the plugin
- * 
- * Register all the necessary things when the plugin get activated.
  *
- * @since   1.0.0
+ * Register all the necessary things when the plugin get activated.
  * -----------------------------------------------------------------------
  */
 function nanosupport_install() {
@@ -31,73 +29,70 @@ function nanosupport_install() {
                             );
 
     //create another page to show support ticket-taking form to get the support tickets
-    $submit_ticket_page_id = ns_create_page(
+	$submit_ticket_page_id = ns_create_page(
                                 'Submit Ticket',                //page title
                                 'submit-ticket',                //page slug
                                 '[nanosupport_submit_ticket]'   //content (shortcode)
                             );
 
     //create another page to show the knowledgebase
-    $knowledgebase_page_id = ns_create_page(
+	$knowledgebase_page_id = ns_create_page(
                                 'Knowledgebase',                //page title
                                 'knowledgebase',                //page slug
                                 '[nanosupport_knowledgebase]'   //content (shortcode)
                             );
 
     //get the default notice texts
-    global $ns_submit_ticket_notice, $ns_support_desk_notice, $ns_knowledgebase_notice;
+	global $ns_submit_ticket_notice, $ns_support_desk_notice, $ns_knowledgebase_notice;
 
     /**
      * Set up the default Settings
      * ...
      */
-    
+
     // General Settings
     $ns_gen_settings = array(
-            'support_desk'         => $support_desk_page_id,
-            'submit_page'          => $submit_ticket_page_id,
-            'enable_notice'        => absint(1),
-            'submit_ticket_notice' => esc_attr(strip_tags($ns_submit_ticket_notice)),
-            'support_desk_notice'  => esc_attr(strip_tags($ns_support_desk_notice)),
-            'knowledgebase_notice' => esc_attr(strip_tags($ns_knowledgebase_notice)),
-        );
+    	'support_desk'         => $support_desk_page_id,
+    	'submit_page'          => $submit_ticket_page_id,
+    	'enable_notice'        => absint(1),
+    	'submit_ticket_notice' => esc_attr(strip_tags($ns_submit_ticket_notice)),
+    	'support_desk_notice'  => esc_attr(strip_tags($ns_support_desk_notice)),
+    	'knowledgebase_notice' => esc_attr(strip_tags($ns_knowledgebase_notice)),
+    );
     add_option( 'nanosupport_settings', $ns_gen_settings );
 
     // Knowledgebase settings
     $ns_kb_settings = array(
-            'isactive_kb'   => 1,
-            'page'   		=> $knowledgebase_page_id,
-            'terms'			=> array(''),
-            'ppc'			=> get_option( 'posts_per_page' )
-        );
+    	'isactive_kb'   => 1,
+    	'page'   		=> $knowledgebase_page_id,
+    	'terms'			=> array(''),
+    	'ppc'			=> get_option( 'posts_per_page' )
+    );
     add_option( 'nanosupport_knowledgebase_settings', $ns_kb_settings );
 
     // Email settings
     $ns_email_settings = array(
-            'notification_email' => get_option( 'admin_email' ),
-            'email_choices'      => array(
-                    'new_ticket'        => 1,
-                    'response'          => 1,
-                    'agent_response'    => 1
-                )
-        );
+    	'notification_email' => get_option( 'admin_email' ),
+    	'email_choices'      => array(
+    		'new_ticket'        => 1,
+    		'response'          => 1,
+    		'agent_response'    => 1
+    	)
+    );
     add_option( 'nanosupport_email_settings', $ns_email_settings );
 
     /**
      * Update db version to current
-     * @since  1.0.0
      * ...
      */
     delete_option( 'nanosupport_version' );
-	add_option( 'nanosupport_version', NS()->version );
+    add_option( 'nanosupport_version', NS()->version );
 
     /**
      * Flush the rewrite rules, soft
-     * 
+     *
      * To activate custom post types' single templates, and
      * taxonomies, we are flushing the rewrite rules, once.
-     *
-     * @since  1.0.0
      * ...
      */
     ns_register_cpt_nanosupport();
@@ -120,14 +115,14 @@ function nanosupport_install() {
      * -----------------------------------------------------------------------
      * HOOK : ACTION HOOK
      * nanosupport_installed
-     * 
+     *
      * Hook fired just after the completion of installing NanoSupport
      *
      * @since  1.0.0
      * -----------------------------------------------------------------------
      */
     do_action( 'nanosupport_installed' );
-    
+
 }
 
 
@@ -135,39 +130,35 @@ function nanosupport_install() {
  * Create role and assign capabilities
  *
  * Create necessary roles for the plugin.
- * 
- * @since  1.0.0
  * -----------------------------------------------------------------------
  */
 function ns_create_role() {
-    global $wp_roles;
+	global $wp_roles;
 
-    if( ! class_exists( 'WP_Roles' ) ) {
-        return;
-    }
+	if( ! class_exists( 'WP_Roles' ) ) {
+		return;
+	}
 
-    if( ! isset($wp_roles) ) {
-        $wp_roles = new WP_Roles();
-    }
+	if( ! isset($wp_roles) ) {
+		$wp_roles = new WP_Roles();
+	}
 
     //Role: Support Seeker
-    add_role(
-        'support_seeker',
-        __( 'Support Seeker', 'nanosupport' ),
-        array(
-            'read'                      => true,
-            'read_nanosupport'          => true
-        )
-    );
+	add_role(
+		'support_seeker',
+		__( 'Support Seeker', 'nanosupport' ),
+		array(
+			'read'             => true,
+			'read_nanosupport' => true
+		)
+	);
 }
 
 
 /**
  * Get NanoSupport capabilities
- * 
- * These are assigned to nanosupport users during installation/reset.
  *
- * @since  1.0.0
+ * These are assigned to nanosupport users during installation/reset.
  *
  * @return array
  * -----------------------------------------------------------------------
@@ -190,16 +181,16 @@ function ns_get_caps() {
 			"read_{$capability_type}",
 			"read_private_{$capability_type}s",
 			"edit_private_{$capability_type}s",
-            "edit_{$capability_type}",
-            "edit_{$capability_type}s",
-            "edit_published_{$capability_type}s",
-            "edit_others_{$capability_type}s",
-            "publish_{$capability_type}s",
-            "delete_{$capability_type}",
-            "delete_{$capability_type}s",
-            "delete_private_{$capability_type}s",
-            "delete_published_{$capability_type}s",
-            "delete_others_{$capability_type}s",
+			"edit_{$capability_type}",
+			"edit_{$capability_type}s",
+			"edit_published_{$capability_type}s",
+			"edit_others_{$capability_type}s",
+			"publish_{$capability_type}s",
+			"delete_{$capability_type}",
+			"delete_{$capability_type}s",
+			"delete_private_{$capability_type}s",
+			"delete_published_{$capability_type}s",
+			"delete_others_{$capability_type}s",
 
 			// Terms
 			"manage_{$capability_type}_terms",
@@ -215,12 +206,10 @@ function ns_get_caps() {
 
 /**
  * Adding Custom Capabilities
- * 
+ *
  * Adding Custom Capabilities to:
  *     - 'editor', and
  *     - 'administrator'
- *
- * @since   1.0.0
  * -----------------------------------------------------------------------
  */
 function ns_add_caps() {
@@ -237,7 +226,7 @@ function ns_add_caps() {
 	foreach ( $ns_capabilities as $cap_group ) :
 		foreach ( $cap_group as $cap ) :
 			$wp_roles->add_cap( 'editor', $cap );
-            $wp_roles->add_cap( 'administrator', $cap );
+			$wp_roles->add_cap( 'administrator', $cap );
 		endforeach;
 	endforeach;
 }
@@ -245,15 +234,13 @@ function ns_add_caps() {
 
 /**
  * Removing Custom Capabilities
- * 
+ *
  * Removing Custom Capabilities from:
  *      - 'editor',
  *      - 'administrator',
  *      - 'support_seeker', and
  *      - Support Agents
  * on uninstallation of the plugin.
- *
- * @since   1.0.0
  * -----------------------------------------------------------------------
  */
 function ns_remove_caps() {
@@ -270,12 +257,12 @@ function ns_remove_caps() {
 	foreach( $ns_capabilities as $cap_group ) :
 		foreach( $cap_group as $cap ) :
 			$wp_roles->remove_cap( 'editor', $cap );
-            $wp_roles->remove_cap( 'administrator', $cap );
-            $wp_roles->remove_cap( 'support_seeker', $cap );
+			$wp_roles->remove_cap( 'administrator', $cap );
+			$wp_roles->remove_cap( 'support_seeker', $cap );
 		endforeach;
 	endforeach;
 
-    remove_role( 'support_seeker' );
+	remove_role( 'support_seeker' );
 
     /**
      * Remove Capacities from Agents
@@ -283,24 +270,24 @@ function ns_remove_caps() {
      */
 
     $agent_query = new WP_User_Query( array(
-                        'meta_key'      => 'ns_make_agent',
-                        'meta_value'    => 1,
-                    ) );
+		'meta_key'   => 'ns_make_agent',
+		'meta_value' => 1,
+    ) );
     if ( ! empty( $agent_query->results ) ) {
-        $capability_type = 'nanosupport';
-        foreach ( $agent_query->results as $user ) {
-            $ns_agent_user = new WP_User($user->ID);
+    	$capability_type = 'nanosupport';
+    	foreach ( $agent_query->results as $user ) {
+    		$ns_agent_user = new WP_User($user->ID);
 
-            $ns_agent_user->remove_cap( "read_{$capability_type}" );
-            $ns_agent_user->remove_cap( "edit_{$capability_type}" );
-            $ns_agent_user->remove_cap( "edit_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "edit_others_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "read_private_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "edit_private_{$capability_type}s" );
-            $ns_agent_user->remove_cap( "edit_published_{$capability_type}s" );
-            
-            $ns_agent_user->remove_cap( "assign_{$capability_type}_terms" );
-        }
+    		$ns_agent_user->remove_cap( "read_{$capability_type}" );
+    		$ns_agent_user->remove_cap( "edit_{$capability_type}" );
+    		$ns_agent_user->remove_cap( "edit_{$capability_type}s" );
+    		$ns_agent_user->remove_cap( "edit_others_{$capability_type}s" );
+    		$ns_agent_user->remove_cap( "read_private_{$capability_type}s" );
+    		$ns_agent_user->remove_cap( "edit_private_{$capability_type}s" );
+    		$ns_agent_user->remove_cap( "edit_published_{$capability_type}s" );
+
+    		$ns_agent_user->remove_cap( "assign_{$capability_type}_terms" );
+    	}
     }
 
 }
@@ -308,11 +295,9 @@ function ns_remove_caps() {
 
 /**
  * Create Pages
- * 
+ *
  * Create necessary pages for the plugin.
  *
- * @since  1.0.0
- * 
  * @param  string $title   Title of the page.
  * @param  string $slug    Hyphenated slug of the page.
  * @param  string $content Anything of a wide range of alphanumeric contents.
@@ -321,55 +306,55 @@ function ns_remove_caps() {
  */
 function ns_create_page( $title, $slug, $content, $post_parent = 0 ) {
 
-    global $wpdb;
+	global $wpdb;
 
     //set a default so that we can check nothing happened
-    $page_id = false;
+	$page_id = false;
 
-    if( strlen( $content ) > 0 ) {
+	if( strlen( $content ) > 0 ) {
         // Search for an existing page with the specified page content (typically a shortcode)
-        $active_page_found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' ) AND post_content LIKE %s LIMIT 1;", "%{$content}%" ) );
-    } else {
+		$active_page_found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' ) AND post_content LIKE %s LIMIT 1;", "%{$content}%" ) );
+	} else {
         // Search for an existing page with the specified page slug
-        $active_page_found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' )  AND post_name = %s LIMIT 1;", $slug ) );
-    }
+		$active_page_found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' )  AND post_name = %s LIMIT 1;", $slug ) );
+	}
 
-    if( $active_page_found )
-        return (int) $active_page_found;
+	if( $active_page_found )
+		return (int) $active_page_found;
 
     // Search for a matching valid trashed page
-    if( strlen( $content ) > 0 ) {
+	if( strlen( $content ) > 0 ) {
         // Search for an existing page with the specified page content (typically a shortcode)
-        $trashed_page_found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_content LIKE %s LIMIT 1;", "%{$content}%" ) );
-    } else {
+		$trashed_page_found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_content LIKE %s LIMIT 1;", "%{$content}%" ) );
+	} else {
         // Search for an existing page with the specified page slug
-        $trashed_page_found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_name = %s LIMIT 1;", $slug ) );
-    }
+		$trashed_page_found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_name = %s LIMIT 1;", $slug ) );
+	}
 
-    if ( $trashed_page_found ) :
+	if ( $trashed_page_found ) :
 
-        $page_id   = $trashed_page_found;
-        wp_update_post( array(
-                            'ID'             => $page_id,
-                            'post_status'    => 'publish',
-                        ) );
+		$page_id   = $trashed_page_found;
+		wp_update_post( array(
+			'ID'             => $page_id,
+			'post_status'    => 'publish',
+		) );
 
-    else :
+	else :
 
-        $page_id = wp_insert_post( array(
-                                    'post_status'    => 'publish',
-                                    'post_type'      => 'page',
-                                    'post_author'    => 1,
-                                    'post_name'      => $slug,
-                                    'post_title'     => $title,
-                                    'post_content'   => $content,
-                                    'post_parent'    => $post_parent,
-                                    'comment_status' => 'closed'
-                                ) );
+		$page_id = wp_insert_post( array(
+			'post_status'    => 'publish',
+			'post_type'      => 'page',
+			'post_author'    => 1,
+			'post_name'      => $slug,
+			'post_title'     => $title,
+			'post_content'   => $content,
+			'post_parent'    => $post_parent,
+			'comment_status' => 'closed'
+		) );
 
-    endif;
+	endif;
 
-    return (int) $page_id;
+	return (int) $page_id;
 
 }
 
@@ -380,8 +365,6 @@ function ns_create_page( $title, $slug, $content, $post_parent = 0 ) {
  * Create a Support Seeker user account on ticket submission
  * for non-logged in users only.
  *
- * @since  1.0.0
- * 
  * @param  string $email    Email provided by the user.
  * @param  string $username Username | null
  * @param  string $password Password | null
@@ -394,11 +377,11 @@ function ns_create_support_seeker( $email, $username = '', $password = '', $anti
      * Make the email address ready
      */
     if ( empty($email) || ! is_email($email) ) {
-        return new WP_Error( 'reg-error-email-invalid', __( 'Please provide a valid email address', 'nanosupport' ) );
+    	return new WP_Error( 'reg-error-email-invalid', __( 'Please provide a valid email address', 'nanosupport' ) );
     }
 
     if ( email_exists($email) ) {
-        return new WP_Error( 'reg-error-email-exists', __( 'An account is already registered with your email address. Please login', 'nanosupport' ) );
+    	return new WP_Error( 'reg-error-email-exists', __( 'An account is already registered with your email address. Please login', 'nanosupport' ) );
     }
 
     /**
@@ -408,29 +391,29 @@ function ns_create_support_seeker( $email, $username = '', $password = '', $anti
     if( (isset($options['account_creation']['generate_username']) && $options['account_creation']['generate_username'] !== 1) || ! empty($username) ) {
 
         //Get the username
-        $username = sanitize_user( $username );
+    	$username = sanitize_user( $username );
 
-        if( empty($username) || ! validate_username($username) ) {
-            return new WP_Error( 'reg-error-username-invalid', __( 'Please enter a valid username for creating an account', 'nanosupport' ) );
-        }
+    	if( empty($username) || ! validate_username($username) ) {
+    		return new WP_Error( 'reg-error-username-invalid', __( 'Please enter a valid username for creating an account', 'nanosupport' ) );
+    	}
 
-        if( username_exists($username) ) {
-            return new WP_Error( 'reg-error-username-exists', __( 'An account is already registered with that username. Please choose another', 'nanosupport' ) );
-        }
+    	if( username_exists($username) ) {
+    		return new WP_Error( 'reg-error-username-exists', __( 'An account is already registered with that username. Please choose another', 'nanosupport' ) );
+    	}
 
     } else {
 
         //Generate the username from email
-        $username = sanitize_user( current( explode( '@', $email ) ), true );
+    	$username = sanitize_user( current( explode( '@', $email ) ), true );
 
         //Ensure username is unique
-        $append         = 1;
-        $temp_username  = $username;
+    	$append         = 1;
+    	$temp_username  = $username;
 
-        while( username_exists($username) ) {
-            $username = $temp_username . $append;
-            $append++;
-        }
+    	while( username_exists($username) ) {
+    		$username = $temp_username . $append;
+    		$append++;
+    	}
 
     }
 
@@ -440,63 +423,63 @@ function ns_create_support_seeker( $email, $username = '', $password = '', $anti
     if( (isset($options['account_creation']['generate_password']) && $options['account_creation']['generate_password'] === 1) && empty($password) ) {
 
         //Generate the password automatically
-        $password = wp_generate_password();
-        $password_generated = true;
+    	$password = wp_generate_password();
+    	$password_generated = true;
 
     } elseif( empty($password) ) {
 
-        return new WP_Error( 'reg-error-password-missing', __( 'Please enter a password for your account', 'nanosupport' ) );
+    	return new WP_Error( 'reg-error-password-missing', __( 'Please enter a password for your account', 'nanosupport' ) );
 
-        $password_generated = false;
+    	$password_generated = false;
 
     } else {
 
-        if ( strlen($password) < 5 ) {
-            return new WP_Error( 'reg-error-password-short', __( 'Password length must be greater than 5 characters', 'nanosupport' ) );
-        }
+    	if ( strlen($password) < 5 ) {
+    		return new WP_Error( 'reg-error-password-short', __( 'Password length must be greater than 5 characters', 'nanosupport' ) );
+    	}
 
-        $password_generated = false;
+    	$password_generated = false;
 
     }
 
     //Anti-spam HoneyPot Trap Validation
     if ( ! empty( $antispam ) ) {
-        return new WP_Error( 'reg-error-spam-detected', __( 'Anti-spam field was filled in. Spam account cannot pass in', 'nanosupport' ) );
+    	return new WP_Error( 'reg-error-spam-detected', __( 'Anti-spam field was filled in. Spam account cannot pass in', 'nanosupport' ) );
     }
 
     //WP Validation
     $validation_errors = new WP_Error();
 
     if( $validation_errors->get_error_code() )
-        return $validation_errors;
+    	return $validation_errors;
 
     /**
      * -----------------------------------------------------------------------
      * HOOK : FILTER HOOK
      * nanosupport_new_support_seeker_data
-     * 
+     *
      * @since  1.0.0
      *
      * @param array  $text New user data to be enterred for creating account.
      * -----------------------------------------------------------------------
      */
     $new_support_seeker_data = apply_filters( 'nanosupport_new_support_seeker_data', array(
-        'user_login' => $username,
-        'user_email' => $email,
-        'user_pass'  => $password,
-        'role'       => 'support_seeker'
+    	'user_login' => $username,
+    	'user_email' => $email,
+    	'user_pass'  => $password,
+    	'role'       => 'support_seeker'
     ) );
 
     $user_id = wp_insert_user( $new_support_seeker_data );
 
     if( is_wp_error($user_id) ) {
-        return new WP_Error( 'reg-error', __( 'Couldn&rsquo;t register you', 'nanosupport' ) );
+    	return new WP_Error( 'reg-error', __( 'Couldn&rsquo;t register you', 'nanosupport' ) );
     }
 
     if( $password_generated )
-        $account_opening_email = nanosupport_handle_account_opening_email( $user_id, $password );
+    	$account_opening_email = nanosupport_handle_account_opening_email( $user_id, $password );
     else
-        $account_opening_email = nanosupport_handle_account_opening_email( $user_id );
+    	$account_opening_email = nanosupport_handle_account_opening_email( $user_id );
 
     return $user_id;
 
@@ -506,96 +489,88 @@ function ns_create_support_seeker( $email, $username = '', $password = '', $anti
 /**
  * Check if plugin dependencies are ready.
  *
- * @since  1.0.0
  * @return boolean True of dependencies are here, false otherwise.
  * --------------------------------------------------------------------------
  */
 function ns_is_dependency_loaded() {
-    if( ! file_exists( NS()->plugin_path() .'/assets/css/nanosupport.css' ) ) {
-        return false;
-    } else if( ! file_exists( NS()->plugin_path() .'/assets/css/nanosupport-admin.css' ) ) {
-        return false;
-    } else if( ! file_exists( NS()->plugin_path() .'/assets/js/nanosupport.min.js' ) ) {
-        return false;
-    } else if( ! file_exists( NS()->plugin_path() .'/assets/js/nanosupport-admin.min.js' ) ) {
-        return false;
-    } else if( ! file_exists( NS()->plugin_path() .'/assets/js/nanosupport-dashboard.min.js' ) ) {
-        return false;
-    }
+	if( ! file_exists( NS()->plugin_path() .'/assets/css/nanosupport.css' ) ) {
+		return false;
+	} else if( ! file_exists( NS()->plugin_path() .'/assets/css/nanosupport-admin.css' ) ) {
+		return false;
+	} else if( ! file_exists( NS()->plugin_path() .'/assets/js/nanosupport.min.js' ) ) {
+		return false;
+	} else if( ! file_exists( NS()->plugin_path() .'/assets/js/nanosupport-admin.min.js' ) ) {
+		return false;
+	} else if( ! file_exists( NS()->plugin_path() .'/assets/js/nanosupport-dashboard.min.js' ) ) {
+		return false;
+	}
 
-    return true;
+	return true;
 }
 
 
 /**
  * Check whether the plugin is compatible to WordPress version
  *
- * @since  1.0.0
  * @return boolean True of WordPress version supported, false otherwise.
  * --------------------------------------------------------------------------
  */
 function ns_is_version_supported() {
-    if ( version_compare( get_bloginfo( 'version' ), NS()->wp_version, '<=' ) ) {
-        return false;
-    }
+	if ( version_compare( get_bloginfo( 'version' ), NS()->wp_version, '<=' ) ) {
+		return false;
+	}
 
-    return true;
+	return true;
 }
 
 
 /**
- * Admin notices: Failed version dependency
- *
- * @since  1.0.0
+ * Admin notices: Failed version dependency.
  * --------------------------------------------------------------------------
  */
 function ns_fail_version_admin_notice() {
-    echo '<div class="updated"><p>';
-        printf(
-            /* translators: 1. minimum WordPress core version 2. WordPress update page URL */
-            wp_kses( __('NanoSupport requires WordPress core version <strong>%1$s</strong> or greater. The plugin has been deactivated. Consider <a href="%2$s">upgrading WordPress</a>.', 'nanosupport' ),
-                array( 'a' => array('href' => true), 'strong' => array() )
-            ),
-            NS()->wp_version,
-            admin_url('update-core.php')
-        );
-    echo '</p></div>';                
+	echo '<div class="updated"><p>';
+		printf(
+			/* translators: 1. minimum WordPress core version 2. WordPress update page URL */
+			wp_kses( __('NanoSupport requires WordPress core version <strong>%1$s</strong> or greater. The plugin has been deactivated. Consider <a href="%2$s">upgrading WordPress</a>.', 'nanosupport' ),
+				array( 'a' => array('href' => true), 'strong' => array() )
+			),
+			NS()->wp_version,
+			admin_url('update-core.php')
+		);
+	echo '</p></div>';
 }
 
 /**
- * Admin notices: Failed resouces dependency
- *
- * @since  1.0.0
+ * Admin notices: Failed resouces dependency.
  * --------------------------------------------------------------------------
  */
 function ns_fail_dependency_admin_notice() {
-    echo '<div class="updated"><p>';
-        printf(
-            /* translators: 1. first command 2. second command 3. plugin installation link with popup thickbox (modal) */
-            wp_kses( __( 'NanoSupport&rsquo;s required dependencies are not loaded - plugin cannot function properly. Open the command console and run %1$s and then %2$s before anything else. If you are unaware what this is, please <a href="%3$s" class="thickbox">install the production version</a> instead.', 'nanosupport' ),
-                array( 'a' => array('href' => true, 'class' => true) )
-            ),
-            '<code>npm install</code>',
-            '<code>grunt</code>',
-            esc_url( add_query_arg( array(
-                'tab'           => 'plugin-information',
-                'plugin'        => 'nanosupport',
-                'TB_iframe'     => 'true',
-                'width'         => '600',
-                'height'        => '800'
-            ), admin_url('plugin-install.php') ) )
-        );
-    echo '</p></div>';
+	echo '<div class="updated"><p>';
+		printf(
+			/* translators: 1. first command 2. second command 3. plugin installation link with popup thickbox (modal) */
+			wp_kses( __( 'NanoSupport&rsquo;s required dependencies are not loaded - plugin cannot function properly. Open the command console and run %1$s and then %2$s before anything else. If you are unaware what this is, please <a href="%3$s" class="thickbox">install the production version</a> instead.', 'nanosupport' ),
+				array( 'a' => array('href' => true, 'class' => true) )
+			),
+			'<code>npm install</code>',
+			'<code>grunt</code>',
+			esc_url( add_query_arg( array(
+				'tab'           => 'plugin-information',
+				'plugin'        => 'nanosupport',
+				'TB_iframe'     => 'true',
+				'width'         => '600',
+				'height'        => '800'
+			), admin_url('plugin-install.php') ) )
+		);
+	echo '</p></div>';
 }
 
 
 /**
  * Deactivate the plugin
  * Deactivate the plugin forcefully on unmet dependencies.
- *
- * @since  1.0.0
  * --------------------------------------------------------------------------
  */
 function ns_force_deactivate() {
-    deactivate_plugins( NS()->plugin_basename() );
+	deactivate_plugins( NS()->plugin_basename() );
 }

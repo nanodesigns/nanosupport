@@ -11,6 +11,8 @@
 @import '../sass/__mixins';
 @import '../sass/__alert';
 @import '../sass/__label';
+@import '../sass/__button';
+@import '../sass/__button-group';
 @import '../sass/__helper-classes';
 
 /*
@@ -83,7 +85,8 @@ body.post-new-php{
 }
 
 /* response meta box title */
-#poststuff #nanosupport-responses .hndle{
+#poststuff #nanosupport-responses .hndle,
+.ticket-separator{
 	padding-left: 0;
 	padding-right: 0;
 	position: relative;
@@ -113,6 +116,10 @@ body.post-new-php{
 		vertical-align: middle;
 		width: 50%;
 	}
+}
+
+.ticket-separator{
+	margin-bottom: 20px;
 }
 
 .ns-row{
@@ -178,7 +185,7 @@ body.post-new-php{
 		line-height: 1;
 		margin: 0;
 		padding: 0;
-		
+
 		small{
 			font-weight: normal;
 		}
@@ -610,7 +617,7 @@ $tt_ease: ease;
 	max-width: 100%;
 	height: auto !important;
 	max-height: 100%;
-	margin: auto !important; 
+	margin: auto !important;
 	position: absolute;
 	top: 0px;
 	bottom: 0px;
@@ -680,9 +687,28 @@ body.admin-bar{
 		.bar{
 			top: 32px;
 		}
-		
+
 		.spinner{
 			top: 35px;
 		}
+	}
+}
+
+
+/**
+ * ---------------------------------------------
+ * NanoSupport Ticket Log
+ * ---------------------------------------------
+ */
+@import '../sass/__ticket-log';
+
+.reply-toggler{
+	max-width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+
+	&:before,
+	&:after{
+		background-color: #ccc;
 	}
 }
