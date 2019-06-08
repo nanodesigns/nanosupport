@@ -173,10 +173,18 @@ function ns_support_desk_page() {
 										</div>
 									</div>
 									<div class="text-blocks">
-										<strong><?php esc_html_e( 'Created &amp; Updated:', 'nanosupport' ); ?></strong>
+										<?php if( 'pending' !== $ticket_meta['status']['value'] ) : ?>
+											<strong><?php esc_html_e( 'Created &amp; Updated:', 'nanosupport' ); ?></strong>
+										<?php else : ?>
+											<strong><?php esc_html_e( 'Created:', 'nanosupport' ); ?></strong>
+										<?php endif; ?>
 										<div class="ns-small">
 											<?php echo ns_date_time( $post->post_date ); ?><br>
-											<?php echo ns_date_time( ns_get_ticket_modified_date($post->ID) ); ?>
+											<?php
+											if( 'pending' !== $ticket_meta['status']['value'] ) :
+												echo ns_date_time( ns_get_ticket_modified_date($post->ID) );
+											endif;
+											?>
 										</div>
 									</div>
 								</div>
