@@ -99,19 +99,37 @@ add_action( 'admin_menu', 'ns_notification_bubble_in_nanosupport_menu' );
  *
  * Made custom columns specific to the Support Tickets.
  *
+ * Ordering columns:
+ * @author Debjit Saha
+ * @link   https://www.isitwp.com/change-wordpress-admin-post-columns-order/
+ *
  * @param  array $columns Default columns.
  * @return array          Merged with new columns.
  * -----------------------------------------------------------------------
  */
 function ns_set_custom_columns( $columns ) {
 	$new_columns = array(
+		'ticket_id'         => __( 'ID', 'nanosupport' ),
 		'ticket_status'     => __( 'Ticket Status', 'nanosupport' ),
 		'ticket_priority'   => __( 'Priority', 'nanosupport' ),
 		'ticket_agent'      => '<i class="dashicons dashicons-businessman" aria-label="'. esc_attr__( 'Agent', 'nanosupport' ) .'"></i>',
 		'ticket_responses'  => '<i class="dashicons dashicons-format-chat" aria-label="'. esc_attr__( 'Responses', 'nanosupport' ) .'"></i>',
 		'last_response'     => __( 'Last Response by', 'nanosupport' )
 	);
-	return array_merge( $columns, $new_columns );
+	$columns = array_merge( $columns, $new_columns );
+
+	$sorted_columns = array();
+	$move           = 'ticket_id'; // what to move
+	$before         = 'title'; // move before this
+
+	foreach($columns as $key => $value) {
+		if ( $key == $before ){
+			$sorted_columns[$move] = $move;
+		}
+		$sorted_columns[$key] = $value;
+	}
+
+	return $sorted_columns;
 }
 
 add_filter( 'manage_nanosupport_posts_columns', 'ns_set_custom_columns' );
@@ -132,6 +150,10 @@ function ns_populate_custom_columns( $column, $post_id ) {
 	$ticket_meta = ns_get_ticket_meta( get_the_ID() );
 
 	switch ( $column ) {
+		case 'ticket_id' :
+		echo '#'. $post_id;
+		break;
+
 		case 'ticket_status' :
 		echo $ticket_meta['status']['label'];
 		break;

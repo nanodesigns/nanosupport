@@ -118,6 +118,7 @@ function ns_support_desk_page() {
 					<div class="ticket-cards ns-cards <?php echo esc_attr($highlight_class); ?>">
 						<div class="ns-row">
 							<div class="ns-col-sm-4 ns-col-xs-12">
+								<span class="ns-small ns-text-muted" aria-label="<?php printf( esc_attr__('Ticket ID: %s'), get_the_ID() ); ?>">#<?php the_ID(); ?></span>
 								<h3 class="ticket-head">
 									<?php if( 'pending' === $ticket_meta['status']['value'] ) : ?>
 										<?php if( ns_is_user('agent_and_manager') ) : ?>
