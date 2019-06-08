@@ -118,6 +118,34 @@ add_filter( 'manage_nanosupport_posts_columns', 'ns_set_custom_columns' );
 
 
 /**
+ * Strip out 'Private' and 'Pending' from Admin Ticket Titles.
+ *
+ * @param  array $state  Array of states.
+ * @param  object $post  WP Post object.
+ * @return array         Modified array of states.
+ * -----------------------------------------------------------------------
+ */
+function ns_strip_unnecessary_ticket_states($state, $post)
+{
+	if ( 'nanosupport' !== $post->post_type ) {
+		return $state;
+	}
+
+	if( isset($state['private']) ) {
+		unset($state['private']);
+	}
+
+	if( isset($state['pending']) ) {
+		unset($state['pending']);
+	}
+
+	return $state;
+}
+
+add_filter( 'display_post_states', 'ns_strip_unnecessary_ticket_states', 10, 2 );
+
+
+/**
  * Populate columns with contents
  *
  * Populate support ticket columns with respective contents.
