@@ -526,3 +526,59 @@ function ns_help_text_to_post_author( $output )  {
 }
 
 add_filter( 'wp_dropdown_users', 'ns_help_text_to_post_author' );
+
+
+/**
+ * Keep the Submission Date while Publishing Ticket.
+ *
+ * The date of the primary submission as 'pending', was changed
+ * while publishing the ticket as 'private' with the date of
+ * publish. With this hook, the issue is resolved.
+ *
+ * @author Paul 'Sparrow Hawk' Biron
+ * @link   https://wordpress.stackexchange.com/a/262306/22728
+ *
+ * @param  array $data     Post Data array.
+ * @param  array $postarr  Post Array.
+ * @return array           Modified Post Data array.
+ * -----------------------------------------------------------------------
+ */
+function ns_keep_pending_date_on_publishing($data, $postarr)
+{
+	if( 'nanosupport' !== $data['post_type'] ) {
+		return $data;
+	}
+
+	// these checks are the same thing as transition_post_status(private, pending)
+	if( 'private' !== $data['post_status'] || 'pending' !== $postarr['original_post_status'] ) {
+		return $data;
+	}
+
+	$pending_datetime = get_post_field('post_date', $data['ID'], 'raw');
+
+	$data['post_date']     = $pending_datetime ;
+	$data['post_date_gmt'] = get_gmt_from_date($pending_datetime);
+
+	return $data;
+}
+
+add_filter( 'wp_insert_post_data', 'ns_keep_pending_date_on_publishing', 10, 2 );
+
+
+/**
+ * Remove Ticket Publishing Date filter.
+ * Making sure the post date filter trigger only once.
+ *
+ * @author kaiser
+ * @link   https://wordpress.stackexchange.com/a/262328/22728
+ *
+ * @see    ns_keep_pending_date_on_publishing()
+ *
+ * @return void.
+ */
+function ns_remove_onetime_filter()
+{
+    remove_filter( 'wp_insert_post_data', 'ns_keep_pending_date_on_publishing' );
+}
+
+add_action( 'transition_post_status', 'ns_remove_onetime_filter' );
