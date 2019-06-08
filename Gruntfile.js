@@ -12,6 +12,8 @@ module.exports = function(grunt) {
 	var today = new Date();
 	var year  = today.getFullYear();
 
+	var sass = require('node-sass');
+
     // @Grunt: Get our configuration
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -55,6 +57,7 @@ module.exports = function(grunt) {
         sass: {
             dist: {
                 options: {
+                    implementation: sass,
                     sourceMap: false
                 },
                 files: {
