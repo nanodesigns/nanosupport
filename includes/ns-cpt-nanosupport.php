@@ -63,7 +63,17 @@ function ns_register_cpt_nanosupport() {
     );
 
 	if( ! post_type_exists( 'nanosupport' ) ) {
-		register_post_type( 'nanosupport', $args );
+        /**
+         * -----------------------------------------------------------------------
+         * HOOK : FILTER HOOK
+         * ns_nanosupport_arguments
+         *
+         * To modify/push arguments that are passed to generate CPT 'nanosupport'.
+         *
+         * @since  1.0.0
+         * -----------------------------------------------------------------------
+         */
+        register_post_type('nanosupport', apply_filters('ns_nanosupport_arguments', $args));
 	}
 
 }
@@ -133,6 +143,34 @@ function ns_set_custom_columns( $columns ) {
 }
 
 add_filter( 'manage_nanosupport_posts_columns', 'ns_set_custom_columns' );
+
+
+/**
+ * Strip out 'Private' and 'Pending' from Admin Ticket Titles.
+ *
+ * @param  array $state  Array of states.
+ * @param  object $post  WP Post object.
+ * @return array         Modified array of states.
+ * -----------------------------------------------------------------------
+ */
+function ns_strip_unnecessary_ticket_states($state, $post)
+{
+	if ( 'nanosupport' !== $post->post_type ) {
+		return $state;
+	}
+
+	if( isset($state['private']) ) {
+		unset($state['private']);
+	}
+
+	if( isset($state['pending']) ) {
+		unset($state['pending']);
+	}
+
+	return $state;
+}
+
+add_filter( 'display_post_states', 'ns_strip_unnecessary_ticket_states', 10, 2 );
 
 
 /**
