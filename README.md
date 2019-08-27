@@ -24,30 +24,30 @@ The plugin is to provide support to your users - the users those are taking prod
 
 ### Available Automatic Translation
 * Bengali (_Bangla_) - Bangladesh - `bn_BD`
-* Danish - Denmark - `da_DK` (thanks to @nh123 and @ellegaarddk)
-* Español - Spain - `es_ES` (thanks to @wptech68 and @fernandot)
-* Russian - Russia - `ru_RU` (thanks to @chubuk)
+* Danish - Denmark - `da_DK` (thanks to `@nh123` and `@ellegaarddk`)
+* Español - Spain - `es_ES` (thanks to `@wptech68` and `@fernandot`)
+* Russian - Russia - `ru_RU` (thanks to `@chubuk`)
 
 ## Contribute
 NanoSupport is an Open Source and GPL licensed Free plugin. Feel free to contribute.
 
 We're managing things using:
 
-* `npm` ([Installing npm](https://docs.npmjs.com/getting-started/installing-node)), and
+* `yarn` ([Installing yarn](https://yarnpkg.com/lang/en/docs/install/)), and
 * `grunt` ([Installing grunt](https://gruntjs.com/getting-started))
 
 Open the command console and type the following to install dependencies:
 
-````
-git clone https://github.com/nanodesigns/nanosupport.git nanosupport && cd nanosupport && npm install
+````bash
+git clone https://github.com/nanodesigns/nanosupport.git nanosupport && cd nanosupport && yarn install && grunt
 ````
 
-Then run `grunt` to prepare necessary javascripts and styles.
+This code will download the plugin code, install node_modules and will build necessary javascripts and styles.
 
 * [:octocat: Fork on Github](https://github.com/nanodesigns/nanosupport) &mdash; <small>[:blue_book: Consult the Developer guide](https://github.com/nanodesigns/nanosupport/wiki/Developer-Guide)</small>
-* [:bug: Report Bug/Limitations or Suggest Feature/Enhancement](https://github.com/nanodesigns/nanosupport/issues/new)
-* [:flashlight: Get Support](https://github.com/nanodesigns/nanosupport/issues/new)
+* [:bug: Report Bug/Limitations or Suggest Feature/Enhancement](https://github.com/nanodesigns/nanosupport/issues/new/choose)
+* [:flashlight: Get Support](https://github.com/nanodesigns/nanosupport/issues/new/choose)
 * [:earth_asia: Translate NanoSupport](https://translate.wordpress.org/projects/wp-plugins/nanosupport)
 
 ---
-![nanosupport-icon](https://cloud.githubusercontent.com/assets/4551598/18225502/20899fb0-7215-11e6-89b2-77002df466d7.png) **NanoSupport**, by [**nano**designs](https://nanodesignsbd.com?ref=nanosupport) &mdash; [<kbd>Twitter</kbd>](https://twitter.com/nanodesigns/) [<kbd>Facebook</kbd>](https://facebook.com/nanodesignsbd/) [<kbd>LinkedIn</kbd>](https://www.linkedin.com/company/nanodesigns) [<kbd>Google+</kbd>](https://google.com/+Nanodesignsbd)
+![nanosupport-icon](https://cloud.githubusercontent.com/assets/4551598/18225502/20899fb0-7215-11e6-89b2-77002df466d7.png) **NanoSupport**, by [**nano**designs](https://nanodesignsbd.com?ref=nanosupport) &mdash; [<kbd>Twitter</kbd>](https://twitter.com/nanodesigns/) [<kbd>Facebook</kbd>](https://facebook.com/nanodesignsbd/) [<kbd>LinkedIn</kbd>](https://www.linkedin.com/company/nanodesigns)
