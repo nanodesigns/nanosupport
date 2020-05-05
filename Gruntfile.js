@@ -1,16 +1,18 @@
 /**
  * NanoSupport Grunt Directives
  *
- * @package     NanoSupport
- * @version     1.0.0
+ * @package NanoSupport
+ * @version 1.0.0
  */
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
     'use strict';
 
-	var today = new Date();
-	var year  = today.getFullYear();
+    var today = new Date();
+    var year = today.getFullYear();
+
+    var sass = require('node-sass');
 
     // @Grunt: Get our configuration
     grunt.initConfig({
@@ -41,9 +43,9 @@ module.exports = function(grunt) {
                     preserveComments: /^!/ // Preserve comments that start with a bang.
                 },
                 files: {
-                    'assets/js/nanosupport.min.js': [ 'assets/js/nanosupport.js' ],
-                    'assets/js/nanosupport-admin.min.js': [ 'assets/js/nanosupport-admin.js' ],
-                    'assets/js/nanosupport-dashboard.min.js': [ 'assets/js/nanosupport-dashboard.js' ]
+                    'assets/js/nanosupport.min.js': ['assets/js/nanosupport.js'],
+                    'assets/js/nanosupport-admin.min.js': ['assets/js/nanosupport-admin.js'],
+                    'assets/js/nanosupport-dashboard.min.js': ['assets/js/nanosupport-dashboard.js']
                 },
             }
         },
@@ -55,6 +57,7 @@ module.exports = function(grunt) {
         sass: {
             dist: {
                 options: {
+                    implementation: sass,
                     sourceMap: false
                 },
                 files: {
@@ -66,11 +69,14 @@ module.exports = function(grunt) {
 
         /**
          * Add vendor prefixes
-         * @url: https://github.com/nDmitry/grunt-autoprefixer
+         * @link: https://github.com/nDmitry/grunt-postcss
          */
-        autoprefixer: {
+        postcss: {
             options: {
-                cascade: false
+                map: false,
+                processors: [
+                    require('autoprefixer')
+                ]
             },
             nsCSS: {
                 src: 'assets/css/nanosupport.css'
@@ -118,14 +124,14 @@ module.exports = function(grunt) {
                 options: {
                     domainPath: '/i18n/languages/',
                     exclude: [
-                    	'assets/.*',
-                    	'node_modules/.*',
-                    	'vendor/.*',
-                    	'tests/.*',
-                    	'dist/.*'
+                        'assets/.*',
+                        'node_modules/.*',
+                        'vendor/.*',
+                        'tests/.*',
+                        'dist/.*'
                     ],
                     mainFile: 'nanosupport.php',
-                    potComments: 'Copyright (c) '+ year +' nanodesigns',
+                    potComments: 'Copyright (c) ' + year + ' nanodesigns',
                     potFilename: 'nanosupport.pot',
                     potHeaders: {
                         poedit: true,
@@ -148,7 +154,7 @@ module.exports = function(grunt) {
          * @url: https://github.com/stephenharris/grunt-checktextdomain
          */
         checktextdomain: {
-            options:{
+            options: {
                 text_domain: 'nanosupport',
                 keywords: [
                     '__:1,2d',
@@ -168,7 +174,7 @@ module.exports = function(grunt) {
                 ]
             },
             files: {
-                src:  [
+                src: [
                     '**/*.php',         // Include all files
                     '!node_modules/**', // Exclude node_modules/
                     '!vendor/**',       // Exclude vendor/
@@ -256,39 +262,39 @@ module.exports = function(grunt) {
          * @url: https://github.com/gruntjs/grunt-contrib-copy
          */
         copy: {
-        	release: {
-        		files: [{
-        			expand: true,
-        			src: [
-	        			'*',
-	        			'**',
-	        			'!node_modules/**',
-	        			'!vendor/**',
-	        			'!dist/**',
-	        			'!tests/**',
-	        			'!.gitignore',
-	        			'!.travis.yml',
-	        			'!composer.json',
-	        			'!composer.lock',
-	        			'!tmp/**',
-	        			'!logs/**',
-	        			'!readme.md',
-	        			'!contributing.md',
-	        			'!CODE_OF_CONDUCT.md',
-	        			'!*.sublime-grunt.cache',
-	        			'!Gruntfile.js',
-	        			'!package.json',
-	        			'!package-lock.json',
-	        			'!phpdoc.xml',
-	        			'!CHANGELOG.txt',
-	        			'!*.sublime-workspace',
-	        			'!*.sublime-project',
-	        			'!<%= pkg.name %>-<%= pkg.version %>.zip'
-        			],
-        			dest: 'dist/<%= pkg.name %>-<%= pkg.version %>/',
-        			flatten: false
-    			}]
-    		}
+            release: {
+                files: [{
+                    expand: true,
+                    src: [
+                        '*',
+                        '**',
+                        '!node_modules/**',
+                        '!vendor/**',
+                        '!dist/**',
+                        '!tests/**',
+                        '!.gitignore',
+                        '!.travis.yml',
+                        '!composer.json',
+                        '!composer.lock',
+                        '!tmp/**',
+                        '!logs/**',
+                        '!readme.md',
+                        '!contributing.md',
+                        '!CODE_OF_CONDUCT.md',
+                        '!*.sublime-grunt.cache',
+                        '!Gruntfile.js',
+                        '!package.json',
+                        '!package-lock.json',
+                        '!phpdoc.xml',
+                        '!CHANGELOG.txt',
+                        '!*.sublime-workspace',
+                        '!*.sublime-project',
+                        '!<%= pkg.name %>-<%= pkg.version %>.zip'
+                    ],
+                    dest: 'dist/<%= pkg.name %>-<%= pkg.version %>/',
+                    flatten: false
+                }]
+            }
         },
 
 
@@ -312,7 +318,7 @@ module.exports = function(grunt) {
             },
             css: {
                 files: ['assets/sass/*.scss'],
-                tasks: ['sass', 'autoprefixer']
+                tasks: ['sass', 'postcss']
             }
         }
 
@@ -324,17 +330,17 @@ module.exports = function(grunt) {
 
 
     // @Grunt: do the following when we will type 'grunt <command>'
-	grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin', 'watch']);
+    grunt.registerTask('default', ['jshint', 'uglify', 'sass', 'postcss', 'cssmin', 'watch']);
 
-	grunt.registerTask('development', ['jshint', 'sass', 'autoprefixer', 'uglify']);
-	grunt.registerTask('dev', ['development']); //alias
-	grunt.registerTask('production', ['jshint', 'uglify', 'sass', 'autoprefixer', 'cssmin']);
+    grunt.registerTask('development', ['jshint', 'sass', 'postcss', 'uglify']);
+    grunt.registerTask('dev', ['development']); //alias
+    grunt.registerTask('production', ['jshint', 'uglify', 'sass', 'postcss', 'cssmin']);
 
-	grunt.registerTask('translate', ['checktextdomain', 'makepot']);
+    grunt.registerTask('translate', ['checktextdomain', 'makepot']);
 
-	grunt.registerTask('release', ['clean', 'translate', 'production', 'copy', 'compress']);
-	grunt.registerTask('release_patch', ['version::patch', 'release']);
-	grunt.registerTask('release_minor', ['version::minor', 'release']);
-	grunt.registerTask('release_major', ['version::major', 'release']);
+    grunt.registerTask('release', ['clean', 'translate', 'production', 'copy', 'compress']);
+    grunt.registerTask('release_patch', ['version::patch', 'release']);
+    grunt.registerTask('release_minor', ['version::minor', 'release']);
+    grunt.registerTask('release_major', ['version::major', 'release']);
 
 };

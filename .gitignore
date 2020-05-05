@@ -31,8 +31,10 @@ $RECYCLE.BIN/
 .idea
 *.sublime-project
 *.sublime-workspace
+*.code-workspace
 .sublime-grunt.cache
 .vscode
+.history
 
 ## Composer files
 composer.phar

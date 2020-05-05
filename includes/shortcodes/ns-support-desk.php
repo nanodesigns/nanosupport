@@ -118,6 +118,7 @@ function ns_support_desk_page() {
 					<div class="ticket-cards ns-cards <?php echo esc_attr($highlight_class); ?>">
 						<div class="ns-row">
 							<div class="ns-col-sm-4 ns-col-xs-12">
+								<span class="ns-small ns-text-muted" aria-label="<?php printf( esc_attr__('Ticket ID: %s'), get_the_ID() ); ?>">#<?php the_ID(); ?></span>
 								<h3 class="ticket-head">
 									<?php if( 'pending' === $ticket_meta['status']['value'] ) : ?>
 										<?php if( ns_is_user('agent_and_manager') ) : ?>
@@ -173,10 +174,18 @@ function ns_support_desk_page() {
 										</div>
 									</div>
 									<div class="text-blocks">
-										<strong><?php esc_html_e( 'Created &amp; Updated:', 'nanosupport' ); ?></strong>
+										<?php if( 'pending' !== $ticket_meta['status']['value'] ) : ?>
+											<strong><?php esc_html_e( 'Created &amp; Updated:', 'nanosupport' ); ?></strong>
+										<?php else : ?>
+											<strong><?php esc_html_e( 'Created:', 'nanosupport' ); ?></strong>
+										<?php endif; ?>
 										<div class="ns-small">
 											<?php echo ns_date_time( $post->post_date ); ?><br>
-											<?php echo ns_date_time( ns_get_ticket_modified_date($post->ID) ); ?>
+											<?php
+											if( 'pending' !== $ticket_meta['status']['value'] ) :
+												echo ns_date_time( ns_get_ticket_modified_date($post->ID) );
+											endif;
+											?>
 										</div>
 									</div>
 								</div>

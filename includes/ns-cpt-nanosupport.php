@@ -63,7 +63,17 @@ function ns_register_cpt_nanosupport() {
     );
 
 	if( ! post_type_exists( 'nanosupport' ) ) {
-		register_post_type( 'nanosupport', $args );
+        /**
+         * -----------------------------------------------------------------------
+         * HOOK : FILTER HOOK
+         * ns_nanosupport_arguments
+         *
+         * To modify/push arguments that are passed to generate CPT 'nanosupport'.
+         *
+         * @since  1.0.0
+         * -----------------------------------------------------------------------
+         */
+        register_post_type('nanosupport', apply_filters('ns_nanosupport_arguments', $args));
 	}
 
 }
@@ -99,22 +109,68 @@ add_action( 'admin_menu', 'ns_notification_bubble_in_nanosupport_menu' );
  *
  * Made custom columns specific to the Support Tickets.
  *
+ * Ordering columns:
+ * @author Debjit Saha
+ * @link   https://www.isitwp.com/change-wordpress-admin-post-columns-order/
+ *
  * @param  array $columns Default columns.
  * @return array          Merged with new columns.
  * -----------------------------------------------------------------------
  */
 function ns_set_custom_columns( $columns ) {
 	$new_columns = array(
+		'ticket_id'         => __( 'ID', 'nanosupport' ),
 		'ticket_status'     => __( 'Ticket Status', 'nanosupport' ),
 		'ticket_priority'   => __( 'Priority', 'nanosupport' ),
 		'ticket_agent'      => '<i class="dashicons dashicons-businessman" aria-label="'. esc_attr__( 'Agent', 'nanosupport' ) .'"></i>',
 		'ticket_responses'  => '<i class="dashicons dashicons-format-chat" aria-label="'. esc_attr__( 'Responses', 'nanosupport' ) .'"></i>',
 		'last_response'     => __( 'Last Response by', 'nanosupport' )
 	);
-	return array_merge( $columns, $new_columns );
+	$columns = array_merge( $columns, $new_columns );
+
+	$sorted_columns = array();
+	$move           = 'ticket_id'; // what to move
+	$before         = 'title'; // move before this
+
+	foreach($columns as $key => $value) {
+		if ( $key == $before ){
+			$sorted_columns[$move] = $move;
+		}
+		$sorted_columns[$key] = $value;
+	}
+
+	return $sorted_columns;
 }
 
 add_filter( 'manage_nanosupport_posts_columns', 'ns_set_custom_columns' );
+
+
+/**
+ * Strip out 'Private' and 'Pending' from Admin Ticket Titles.
+ *
+ * @param  array $state  Array of states.
+ * @param  object $post  WP Post object.
+ * @return array         Modified array of states.
+ * -----------------------------------------------------------------------
+ */
+function ns_strip_unnecessary_ticket_states($state, $post)
+{
+	if ( 'nanosupport' !== $post->post_type ) {
+		return $state;
+	}
+
+	if( isset($state['private']) ) {
+		unset($state['private']);
+	}
+
+	if( isset($state['pending']) ) {
+		unset($state['pending']);
+	}
+
+	return $state;
+}
+
+add_filter( 'display_post_states', 'ns_strip_unnecessary_ticket_states', 10, 2 );
 
 
 /**
@@ -132,6 +188,10 @@ function ns_populate_custom_columns( $column, $post_id ) {
 	$ticket_meta = ns_get_ticket_meta( get_the_ID() );
 
 	switch ( $column ) {
+		case 'ticket_id' :
+		echo '#'. $post_id;
+		break;
+
 		case 'ticket_status' :
 		echo $ticket_meta['status']['label'];
 		break;
@@ -498,3 +558,59 @@ function ns_help_text_to_post_author( $output )  {
 }
 
 add_filter( 'wp_dropdown_users', 'ns_help_text_to_post_author' );
+
+
+/**
+ * Keep the Submission Date while Publishing Ticket.
+ *
+ * The date of the primary submission as 'pending', was changed
+ * while publishing the ticket as 'private' with the date of
+ * publish. With this hook, the issue is resolved.
+ *
+ * @author Paul 'Sparrow Hawk' Biron
+ * @link   https://wordpress.stackexchange.com/a/262306/22728
+ *
+ * @param  array $data     Post Data array.
+ * @param  array $postarr  Post Array.
+ * @return array           Modified Post Data array.
+ * -----------------------------------------------------------------------
+ */
+function ns_keep_pending_date_on_publishing($data, $postarr)
+{
+	if( 'nanosupport' !== $data['post_type'] ) {
+		return $data;
+	}
+
+	// these checks are the same thing as transition_post_status(private, pending)
+	if( 'private' !== $data['post_status'] || 'pending' !== $postarr['original_post_status'] ) {
+		return $data;
+	}
+
+	$pending_datetime = get_post_field('post_date', $data['ID'], 'raw');
+
+	$data['post_date']     = $pending_datetime ;
+	$data['post_date_gmt'] = get_gmt_from_date($pending_datetime);
+
+	return $data;
+}
+
+add_filter( 'wp_insert_post_data', 'ns_keep_pending_date_on_publishing', 10, 2 );
+
+
+/**
+ * Remove Ticket Publishing Date filter.
+ * Making sure the post date filter trigger only once.
+ *
+ * @author kaiser
+ * @link   https://wordpress.stackexchange.com/a/262328/22728
+ *
+ * @see    ns_keep_pending_date_on_publishing()
+ *
+ * @return void.
+ */
+function ns_remove_onetime_filter()
+{
+    remove_filter( 'wp_insert_post_data', 'ns_keep_pending_date_on_publishing' );
+}
+
+add_action( 'transition_post_status', 'ns_remove_onetime_filter' );
